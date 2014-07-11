@@ -135,8 +135,20 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+Route::set('session', '<action>',
+	array(
+		'action' => '(login|logout)'
+	))
+	->defaults(array(
+		'controller' => 'site'
+	));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-		'controller' => 'welcome',
+		'controller' => 'site',
 		'action'     => 'index',
 	));
+	
+/**
+ * Define a salt for the cookie class.
+ */
+Cookie::$salt = 'university of the philippines mindanao college of science and mathematics department of mathematics physics and computer science';
