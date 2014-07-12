@@ -142,6 +142,11 @@ Route::set('session', '<action>',
 	->defaults(array(
 		'controller' => 'site'
 	));
+Route::set('user', 'admin/user(/<function>(=?<id>))')
+	->defaults(array(
+		'controller' => 'admin',
+		'action'     => 'user',
+	));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'site',

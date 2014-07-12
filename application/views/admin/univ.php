@@ -3,107 +3,90 @@
   <li class="active">University Settings</li>
 </ol>
 
-<div class="container">
-<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#types">
-          Accomplishment Report Types
-        </a>
-      </h4>
-    </div>
-    <div id="types" class="panel-collapse collapse in">
-      <div class="panel-body">
-      	<!-- <a class="btn btn-default pull-right" href=<?php echo url::site('admin/univ/edit/type'); ?>>Edit</a> -->
-        <?php
-        foreach ($types as $type) {
-        	echo $type->type, "<br>";
-        }
-        ?>
-      </div>
-    </div>
+
+<div class="row">
+  <div class="col-md-9" role="main">
+    <h2 id="programs" class="page-header">Degree Programs</h2>
+    <?php
+    $count = count($programs);
+
+    foreach ($programs as $program) {
+      echo '<h4 id="', $program['short'], '">', $program['program'], '<a href="#" class="permalink">Update</a></h4>';
+      echo '<p><strong>Department</strong>: -- insert --</p>';
+      echo '<p><strong>College</strong>: -- insert --</p>';
+      echo '<p><strong>Date Instituted</strong>: ', $program['date_instituted'], '</p>';
+      echo '<p><strong>Type</strong>: ', $program['type'], '</p>';
+      echo '<p><strong>Vision</strong>:<br>', $program['vision'], '</p>';
+      echo '<p><strong>Goals</strong>:<br>', $program['goals'], '</p>';
+
+      if ($count > $program['program_ID']) echo '<br>';
+    }
+    ?>
+
+    <h2 id="departments" class="page-header">Departments</h2>
+    <?php
+    $count = count($departments);
+
+    foreach ($departments as $department) {
+      echo '<h4 id="', $department['short'], '">', $department['department'], '<a href="#" class="permalink">Update</a></h4>';
+      echo '<p><strong>Department</strong>: -- insert --</p>';
+      echo '<p><strong>Department Chair</strong>: -- insert --</p>';
+
+      if ($count > $department['department_ID']) echo '<br>';
+   }
+   ?>
+
+   <h2 id="colleges" class="page-header">Colleges</h2>
+   <?php
+    $count = count($colleges);
+
+    foreach ($colleges as $college) {
+      echo '<h4 id="', $college['short'], '">', $college['college'], '<a href="#" class="permalink">Update</a></h4>';
+      echo '<p><strong>College Dean</strong>: -- insert --</p>';
+
+      if ($count > $college['college_ID']) echo '<br>';
+    }
+    ?>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#category">
-          IPCR/OPCR Output Categories
-        </a>
-      </h4>
-    </div>
-    <div id="category" class="panel-collapse collapse">
-      <div class="panel-body">
-      	<a class="btn btn-default pull-right" href=<?php echo url::site('admin/univ/edit/category'); ?>>Edit</a>
-        <?php
-        foreach ($category as $c) {
-        	echo $c->category, "<br>";
-        }
-        ?>
-      </div>
-    </div>
+  <div data-spy="scroll" data-target="#affix-nav" class="col-md-3">
+    <nav id="affix-nav">
+      <ul class="nav sidenav" data-spy="affix" data-offset-top="1">
+        <!-- Sections -->
+        <li class>
+          <a href="#programs">Degree Programs</a>
+          <ul class="nav">
+            <?php
+            // foreach ($programs as $program) {
+            //   echo '<li><a href="#', $program['short'], '">', $program['program_short'], '</a></li>';
+            // }
+            ?>
+          </ul>
+        </li>
+
+        <li class>
+          <a href="#departments">Departments</a>
+          <ul class="nav">
+            <?php
+            // foreach ($departments as $department) {
+            //   echo '<li><a href="#', $department['short'], '">', $department['short'], '</a></li>';
+            // }
+            ?>
+          </ul>
+        </li>
+
+        <li class>
+          <a href="#colleges">Colleges</a>
+          <ul class="nav">
+            <?php
+            // foreach ($colleges as $college) {
+            //   echo '<li><a href="#', $college['short'], '">', $college['short'], '</a></li>';
+            // }
+            ?>
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#programs">
-          Degree Programs
-        </a>
-      </h4>
-    </div>
-    <div id="programs" class="panel-collapse collapse">
-      <div class="panel-body">
-      	<a class="btn btn-default pull-right" href=<?php echo url::site('admin/univ/edit/program'); ?>>Edit</a>
-        <?php
-        foreach ($programs as $program) {
-        	echo $program->program, "<br>";
-        }
-        ?>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#departments">
-          Departments
-        </a>
-      </h4>
-    </div>
-    <div id="departments" class="panel-collapse collapse">
-      <div class="panel-body">
-      	<a class="btn btn-default pull-right" href=<?php echo url::site('admin/univ/edit/department'); ?>>Edit</a>
-        <?php
-        foreach ($departments as $department) {
-        	echo $department->department, "<br>";
-        }
-        ?>
-      </div>
-    </div>
-  </div>
-
-    <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#colleges">
-          Colleges
-        </a>
-      </h4>
-    </div>
-    <div id="colleges" class="panel-collapse collapse">
-      <div class="panel-body">
-      	<a class="btn btn-default pull-right" href=<?php echo url::site('admin/univ/edit/college'); ?>>Edit</a>
-        <?php
-        foreach ($colleges as $college) {
-        	echo $college->college, "<br>";
-        }
-        ?>
-      </div>
-    </div>
-  </div>
-
-</div>
 </div>

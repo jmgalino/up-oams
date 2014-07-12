@@ -1,6 +1,5 @@
 $(document).ready(function()
 {
-
 	//type of user
 	$("input[name=type]").click(function()
 	{

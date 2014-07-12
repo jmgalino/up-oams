@@ -27,14 +27,16 @@ class Controller_Site extends Controller {
         }
         else
         {
-			if ($identifier == 'admin')
-				$this->response = Request::factory('admin/index')->execute();
-			else if ($identifier == 'faculty')
-				$this->response = Request::factory('faculty/index')->execute();
-			else if ($identifier == 'dept_chair')
-				$this->response = Request::factory('admin/index')->execute();
-			else
-				$this->response = Request::factory('admin/index')->execute();
+        	switch ($identifier) {
+        		case 'admin':
+        			$this->response = Request::factory('admin/index')->execute();
+        			break;
+        		case 'faculty':
+        		case 'dept_chair':
+        		case 'dean':
+        			$this->response = Request::factory('faculty/index')->execute();
+        			break;
+        	}
         }
 	}
 
@@ -50,13 +52,13 @@ class Controller_Site extends Controller {
 
 	public function action_contact()
 	{
-		$post = $this->request->post();
+		$details = $this->request->post();
 		$error = NULL;
 		$sucess = NULL;
 
-		if (isset($post))
+		if (isset($details))
 		{
-			$this->action_send($post);
+			$this->action_send($details);
 		}
 		else {
 			$this->view->content = View::factory('site/contact')
@@ -68,10 +70,10 @@ class Controller_Site extends Controller {
 	
 	public function action_login()
 	{
-		$post = $this->request->post();
+		$details = $this->request->post();
 
         $user = new Model_User;
-		$user = $user->check_user($post['employee_code'], $post['password']);
+		$user = $user->check_user($details['employee_code'], $details['password']);
 
 		// User exists
 		if (count($user) == 1)
@@ -87,7 +89,7 @@ class Controller_Site extends Controller {
 		}
 	}
 
-	private function action_send($post)
+	private function action_send($details)
 	{
 		// require_once('application/assets/lib/recaptchalib.php');
 		// $privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
@@ -101,9 +103,9 @@ class Controller_Site extends Controller {
 
 		// if ($resp->is_valid)
 		// {
-		// 	$session_details['sender'] = $post['name'].' - '.$post['email'];
-		// 	$session_details['subject'] = $post['subject'];
-		// 	$session_details['message'] = $post['message'];
+		// 	$session_details['sender'] = $details['name'].' - '.$details['email'];
+		// 	$session_details['subject'] = $details['subject'];
+		// 	$session_details['message'] = $details['message'];
 		// 	$sucess = $this->univ->send_message($session);
 		// }
 		
@@ -176,10 +178,10 @@ class Controller_Site extends Controller {
 			// $college = $this->univ->get_college($session_details['program_ID']);
 
 			$session->set('fcode', $session_details['fcode']);
-			// $session->set('program_ID', $session_details['program_ID']);
+			$session->set('program_ID', $session_details['program_ID']);
 			// $session->set('department', $dept[0]);
 			// $session->set('college', $college[0]);
-			// $session->set('rank', $session_details['rank']);
+			$session->set('rank', $session_details['rank']);
 			$session->set('position', $session_details['position']);
 
 			if ($session_details['position'] == 'none')

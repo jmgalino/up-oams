@@ -15,8 +15,8 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href=<?php echo URL::site('admin/users'); ?>>User Accounts</a></li>
-				<li><a href=<?php echo URL::site('admin/univ'); ?>>University Settings</a></li>
+				<li><a href=<?php echo URL::site('admin/user'); ?>>User Profiles</a></li>
+				<li><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
 				<li><a href=<?php echo URL::site('admin/oams'); ?>>OAMS Settings</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

@@ -19,5 +19,18 @@ class Model_Oams extends Model {
 		$result = $query->execute();
 		return $result[0]['content'];
 	}
+
+	public function get_categories()
+	{
+		$query = DB::select()
+			->from('oams_categorytbl');
+		$result = $query->execute()->as_array();
+
+		foreach ($result as $category) {
+			$categories[] = $category;
+		}
+
+		return $categories;
+	}
 	
 } // End Oams
