@@ -25,6 +25,13 @@
     <input type="text" class="form-control" id="last_name" name="last_name" required>
   </div>
 </div>
+
+<div class="form-group">
+  <label for="birthday" class="col-sm-4 control-label">Birthday</label>
+  <div class="col-sm-7">
+    <input type="date" class="form-control" id="birthday" name="birthday" required>
+  </div>
+</div>
 <br>
 
 <div class="form-group faculty-info" hidden>
@@ -44,7 +51,7 @@
 <div class="form-group faculty-info" hidden>
   <label for="program" class="col-sm-4 control-label">Degree Program</label>
   <div class="col-sm-7">
-    <select class="form-control" id= "program" name="program_id">
+    <select class="form-control" id="program" name="program_ID">
      <?php
       foreach ($programs as $program)
       {
@@ -56,9 +63,9 @@
 </div>
 
 <div class="form-group faculty-info" hidden>
-  <label for="position" class="col-sm-4 control-label">Position</label>
+  <label for="positio" class="col-sm-4 control-label">Position</label>
   <div class="col-sm-7">
-    <select class="form-control" id= "position" name="position">
+    <select class="form-control" id= "positio" name="position">
       <option value="none">Not Applicable</option>
       <option value="dept_chair">Department Chair</option>
       <option value="dean">College Dean</option>

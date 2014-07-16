@@ -1,7 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
-
-		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
 				<span class="sr-only">Toggle navigation</span>
@@ -9,21 +7,19 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href=<?php echo URL::site('site/index'); ?>>OAMS</a>
+			<a class="navbar-brand" href=<?php echo URL::site(); ?>>OAMS</a>
 		</div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li><a href=<?php echo url::site('faculty/accom'); ?>>Accomplishment Report</a></li>
 				<li><a href=<?php echo url::site('faculty/ipcr'); ?>>IPCR</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-
-				<li><a href=<?php echo URL::site('site/index'); ?>><span class="glyphicon glyphicon-home"></span></a></li>
-				<li><a href=''><span class="glyphicon glyphicon-bell"></span></a></li>
+				<li><a href=<?php echo URL::site(); ?>><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href=""><span class="glyphicon glyphicon-bell"></span></a></li>
 				<li class="dropdown">
-					<a href='' class="dropdown-toggle" data-toggle="dropdown"><?php echo $fcode; ?> <b class="caret"></b></a>
+					<a href="" class="dropdown-toggle" data-toggle="dropdown"><?php echo $fcode; ?> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href=<?php echo url::site('faculty/profile'); ?>><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
 						<li><a href=<?php echo url::site('faculty/password'); ?>><span class="glyphicon glyphicon-cog"></span> Change Password</a></li>
@@ -35,6 +31,6 @@
 					</ul>
 				</li>
 			</ul>
-		</div><!--/.navbar-collapse -->
+		</div>
 	</div>
-</nav><!-- navbar -->
+</nav>

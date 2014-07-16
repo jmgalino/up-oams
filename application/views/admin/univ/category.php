@@ -33,9 +33,9 @@ foreach ($category as $c)
   echo
   '<tr>',
     '<td>', $c->category, '</td>',
-    '<td><a class="owned" href="'.url::site('univ/edit/category/'.$c->category_ID).'">',
+    '<td><a class="owned" href='.URL::site('univ/edit/category/'.$c->category_ID).'>',
       '<span class="glyphicon glyphicon-pencil"></span></a></td>',
-    '<td><a class="owned" href="'.url::site('univ/edit/category/'.$c->category_ID).'">',
+    '<td><a class="owned" href='.URL::site('univ/edit/category/'.$c->category_ID).'>',
       '<span class="glyphicon glyphicon-trash"></span></a></td>';
   '</tr>';
 }

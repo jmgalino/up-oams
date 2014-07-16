@@ -10,7 +10,12 @@ class Controller_Admin extends Controller {
 
 	public function before()
     {
-        $this->oams = new Model_Oams;
+        $identifier = Session::instance()->get('identifier');
+		
+        if (is_null($identifier))
+        	$this->redirect();
+		
+    	$this->oams = new Model_Oams;
 		$this->user = new Model_User;
 		$this->univ = new Model_Univ;
     	$this->session = Session::instance();
@@ -23,6 +28,9 @@ class Controller_Admin extends Controller {
 			->bind('fname', $fname);
     }
 
+	/**
+	 * User Homepage
+	 */
 	public function action_index()
 	{
 		$title = $this->oams->get_title();
@@ -32,41 +40,61 @@ class Controller_Admin extends Controller {
 		$this->response->body($this->view->render());
 	}
 
-	// User Accounts
+	/**
+	 * User Profiles
+	 */
 	public function action_user()
 	{
 		$function = $this->request->param('function');
 		
 		if (is_null($function))
 		{
-			$reset = null;
 			$users = $this->user->get_users();
 			$programs = $this->univ->get_programs();
+			$departments = $this->univ->get_departments();
+			$colleges = $this->univ->get_colleges();
+			$emp_code = $this->session->get('emp_code');
+
+			$reset = $this->session->get('reset', null);
+			if (isset($reset)) $this->session->delete('reset');
+			$delete = $this->session->get('delete', null);
+			if (isset($delete)) $this->session->delete('delete');
 
 			$this->view->content = View::factory('admin/user')
-				->bind('reset', $reset)
 				->bind('users', $users)
-				->bind('programs', $programs);
+				->bind('programs', $programs)
+				->bind('departments', $departments)
+				->bind('colleges', $colleges)
+				->bind('emp_code', $emp_code)
+				->bind('reset', $reset)
+				->bind('delete', $delete);
 			$this->response->body($this->view->render());
 		}
 		else
 		{
 			$details = $this->request->post();
-			switch ($function) {
-				case 'add':
+			switch ($function)
+			{
+				case 'new':
 					$this->action_user_add($details);
 					break;
 				case 'view':
 					$this->action_user_view();
 					break;
-				default:
-					$this->action_user_update($details);
+				case 'edit':
+					$this->action_user_update();
+					break;
+				case 'reset':
+					$this->action_user_reset();
+					break;
+				case 'delete':
+					$this->action_user_delete();
 					break;
 			}
-			$function = 'add' ? $this->action_user_add($details) : $this->action_user_update($details);
 		}
 	}
 
+	// Add new user
 	private function action_user_add($details)
 	{
 		if ($details['user_type'] == 'admin')
@@ -75,18 +103,78 @@ class Controller_Admin extends Controller {
 			$details['rank'] = NULL;
 			$details['program_ID'] = NULL;
 		}
+
+		$this->user->add_user($details);
+		$this->redirect('admin/user/view/'.$details['employee_code']);
 	}
 
+	// View user profile
 	private function action_user_view()
 	{
+		$employee_code = $this->request->param('id');
+		$user = $this->user->get_details($employee_code);
+
+		$reset = $this->session->get('reset', null);
+		if (isset($reset)) $this->session->delete('reset');
+		$update = $this->session->get('update', null);
+		if (isset($update)) $this->session->delete('update');
+
+		if ($user[0]['user_type'] == 'Faculty')
+		{
+			$program = $this->univ->get_program_details($user[0]['program_ID']);
+			$user[0]['program_short'] = $program[0]['program_short'];
+		}
+		$ar_rows = null;
+		$ipcr_rows = null;
+		$opcr_rows = null;
+		$cuma_rows = null;
+		$pub_rows = null;
+		$rch_rows = null;
+
+		$this->view->content = View::factory('admin/user/template')
+			->bind('user', $user[0])
+			->bind('ar_rows', $ar_rows)
+			->bind('ipcr_rows', $ipcr_rows)
+			->bind('opcr_rows', $opcr_rows)
+			->bind('cuma_rows', $cuma_rows)
+			->bind('pub_rows', $pub_rows)
+			->bind('rch_rows', $rch_rows);
+		$this->response->body($this->view->render());
 	}
 
+	// Update user profile
 	private function action_user_update($details)
 	{
-		$id = $this->request->param('id');
+		$employee_code = $this->request->param('id');
+		$success = $this->user->update_profile($employee_code, $details);
+		$this->session->set('update', $success);
+
+		$this->redirect('admin/user/view'.$employee_code);
 	}
 
-	// University
+	// Reset user password
+	private function action_user_reset()
+	{
+		$employee_code = $this->request->param('id');
+		$success = $this->user->reset_password($employee_code); echo $success, gettype($success);
+		$this->session->set('reset', $success);
+
+		$this->redirect('admin/user');
+	}
+
+	// Delete user profile
+	private function action_user_delete()
+	{
+		$employee_code = $this->request->param('id');
+		$success = $this->user->delete_profile($employee_code);
+		$this->session->set('delete', $success);
+
+		$this->redirect('admin/user');
+	}
+
+	/**
+	 * University Settings
+	 */
 	public function action_university()
 	{
 		$programs = $this->univ->get_programs();
@@ -100,7 +188,9 @@ class Controller_Admin extends Controller {
 		$this->response->body($this->view->render());
 	}
 
-	// Oams
+	/**
+	 * OAMS Settings
+	 */
 	public function action_oams()
 	{
 		$title = $this->oams->get_title();
@@ -117,30 +207,35 @@ class Controller_Admin extends Controller {
 		$this->response->body($this->view->render());
 	}
 
-	// Profile
+	/**
+	 * Show Profile
+	 */
 	public function action_profile()
-	{
+	{}
 
-	}
-
+	// Change password
 	public function action_password()
+	{}
+
+	// Show messages
+	public function action_messages()
 	{
-		
+		$messages = $this->oams->get_messages();
+
+		$this->view->content = View::factory('admin/messages')
+			->bind('messages', $messages);
+		$this->response->body($this->view->render());
 	}
 
-	public function action_message()
-	{
-		
-	}
-
+	// Show "About"
 	public function action_about()
 	{
-		
+		$this->view->content = View::factory('profile/about');
+		$this->response->body($this->view->render());
 	}
 
+	// Show manual
 	public function action_manual()
-	{
-		
-	}
+	{} // Open PDF in new tab
 
 } // End Admin

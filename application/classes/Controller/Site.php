@@ -6,40 +6,37 @@ class Controller_Site extends Controller {
 
 	public function before()
     {
-    	$this->view = View::factory('templates/template');
+    	$identifier = Session::instance()->get('identifier');
+
+    	if ((isset($identifier)) AND $this->request->action() !== 'logout')
+        {
+	    	if ($identifier == 'admin')
+        		$this->redirect('admin');
+        	else
+        		$this->redirect('faculty');
+        }
+
+        $this->view = View::factory('templates/template');
 		$this->view->page_title = null;
-		$this->view->navbar = View::factory('templates/fragments/site');
+		$this->view->navbar = View::factory('templates/fragments/site');    	
     }
 
+	/**
+	 * Site Homepage
+	 */
 	public function action_index()
 	{
-    	$session = Session::instance();
-    	$identifier = $session->get('identifier');
-		
-        if (is_null($identifier))
-        {
-	        $oams = new Model_Oams;
-			$title = $oams->get_title();
+        $oams = new Model_Oams;
+		$title = $oams->get_title();
 
-			$this->view->content = View::factory('site/index')
-				->bind('title', $title);
-			$this->response->body($this->view->render());
-        }
-        else
-        {
-        	switch ($identifier) {
-        		case 'admin':
-        			$this->response = Request::factory('admin/index')->execute();
-        			break;
-        		case 'faculty':
-        		case 'dept_chair':
-        		case 'dean':
-        			$this->response = Request::factory('faculty/index')->execute();
-        			break;
-        	}
-        }
+		$this->view->content = View::factory('site/index')
+			->bind('title', $title);
+		$this->response->body($this->view->render());
 	}
 
+	/**
+	 * About Page
+	 */
 	public function action_about()
 	{
         $oams = new Model_Oams;
@@ -50,6 +47,9 @@ class Controller_Site extends Controller {
 		$this->response->body($this->view->render());
 	}
 
+	/**
+	 * Contact Page
+	 */
 	public function action_contact()
 	{
 		$details = $this->request->post();
@@ -60,7 +60,8 @@ class Controller_Site extends Controller {
 		{
 			$this->action_send($details);
 		}
-		else {
+		else
+		{
 			$this->view->content = View::factory('site/contact')
 				->bind('error', $error)
 				->bind('sucess', $sucess);
@@ -68,6 +69,9 @@ class Controller_Site extends Controller {
 		}
 	}
 	
+	/**
+	 * Login
+	 */
 	public function action_login()
 	{
 		$details = $this->request->post();
@@ -76,10 +80,9 @@ class Controller_Site extends Controller {
 		$user = $user->check_user($details['employee_code'], $details['password']);
 
 		// User exists
-		if (count($user) == 1)
+		if ($user)
 		{
-			$user_ID = $user[0]['user_ID'];
-			$this->action_start_session($user_ID);
+			$this->action_start_session($details['employee_code']);
 		}
 
 		// User doesn't exist
@@ -89,6 +92,7 @@ class Controller_Site extends Controller {
 		}
 	}
 
+	// Send message to admin
 	private function action_send($details)
 	{
 		// require_once('application/assets/lib/recaptchalib.php');
@@ -122,6 +126,7 @@ class Controller_Site extends Controller {
 		$this->response->body($this->view->render());
 	}
 
+	// Error login
 	private function action_error()
 	{
         $oams = new Model_Oams;
@@ -134,14 +139,14 @@ class Controller_Site extends Controller {
 		$this->response->body($this->view->render());
 	}
 
-	private function action_start_session($user_ID)
+	// Successful login
+	private function action_start_session($employee_code)
 	{
 		$user = new Model_User;
-		$user = $user->get_details($user_ID);
+		$user_details = $user->get_details($employee_code);
 
-		foreach ($user as $detail)
+		foreach ($user_details as $detail)
 		{
-			$session_details['emp_code']	= $detail['employee_code'];
 			$session_details['fname']		= $detail['first_name'];
 			$session_details['minit']		= $detail['middle_initial'];
 			$session_details['lname']		= $detail['last_name'];
@@ -153,8 +158,7 @@ class Controller_Site extends Controller {
 		}
 		
     	$session = Session::instance();
-		$session->set('user_ID', $user_ID);
-		$session->set('emp_code', $session_details['emp_code']);
+		$session->set('emp_code', $employee_code);
 		$session->set('fname', $session_details['fname']);
 		$session->set('fullname', $session_details['fname'].' '
 			.$session_details['minit'].'. '
@@ -165,14 +169,15 @@ class Controller_Site extends Controller {
 		// $session->set('user_type', $session_details['user_type']);
 
 		// Admin
-		if ($session_details['user_type'] == 'admin')
+		if ($session_details['user_type'] == 'Admin')
 		{
 			$session->set('identifier', 'admin');
 			$this->response = Request::factory('admin/index')->execute();
 		}
 
 		//	Faculty
-		else {
+		else
+		{
 			// $univ = new Model_Univ;
 			// $dept = $this->univ->get_department($session_details['program_ID']);
 			// $college = $this->univ->get_college($session_details['program_ID']);
@@ -185,19 +190,17 @@ class Controller_Site extends Controller {
 			$session->set('position', $session_details['position']);
 
 			if ($session_details['position'] == 'none')
-			{
 				$session->set('identifier', 'faculty');
-				$this->response = Request::factory('faculty/index')->execute();
-			}
-
 			else
-			{
 				$session->set('identifier', $session_details['position']);
-				$this->response = Request::factory('faculty/index')->execute();
-			}
+			
+			$this->response = Request::factory('faculty/index')->execute();
 		}
 	}
 
+	/**
+	 * Logout
+	 */
 	public function action_logout()
 	{
 		$session = Session::instance();

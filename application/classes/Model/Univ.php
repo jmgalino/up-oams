@@ -2,28 +2,40 @@
 
 class Model_Univ extends Model {
 
-	// College
+	/**
+	 * College
+	 */
 	public function get_colleges()
 	{
-		$query = DB::select()
-			->from('univ_collegetbl');
-		$result = $query->execute()->as_array();
+		$colleges = array();
 
-		foreach ($result as $college) {
+		$result = DB::select()
+			->from('univ_collegetbl')
+			->execute()
+			->as_array();
+
+		foreach ($result as $college)
+		{
 			$colleges[] = $college;
 		}
 
 		return $colleges;
 	}
 
-	// Department
+	/**
+	 * Department
+	 */
 	public function get_departments()
 	{
-		$query = DB::select()
-			->from('univ_departmenttbl');
-		$result = $query->execute()->as_array();
+		$departments = array();
 
-		foreach ($result as $department) {
+		$result = DB::select()
+			->from('univ_departmenttbl')
+			->execute()
+			->as_array();
+
+		foreach ($result as $department)
+		{
 			$departments[] = $department;
 		}
 
@@ -38,20 +50,29 @@ class Model_Univ extends Model {
  			$department_ID = $program[0]['department_ID'];
  		}
 		
-		$query = DB::select()
+		$result = DB::select()
 			->from('univ_departmenttbl')
-			->where('department_ID', '=', $department_ID);
- 		return $query->execute()->as_array();
+			->where('department_ID', '=', $department_ID)
+			->execute()
+			->as_array();
+
+ 		return $result;
  	}
  	
-	// Program
+	/**
+	 * Degree Program
+	 */
 	public function get_programs()
 	{
-		$query = DB::select()
-			->from('univ_programtbl');
-		$result = $query->execute()->as_array();
+		$programs = array();
 
-		foreach ($result as $program) {
+		$result = DB::select()
+			->from('univ_programtbl')
+			->execute()
+			->as_array();
+
+		foreach ($result as $program)
+		{
 			$programs[] = $program;
 		}
 
@@ -60,10 +81,13 @@ class Model_Univ extends Model {
 
 	public function get_program_details($program_ID)
  	{
- 		$query = DB::select()
+ 		$result = DB::select()
  			->from('univ_programtbl')
- 			->where('program_ID', '=', $program_ID);
-		return $query->execute()->as_array();
+ 			->where('program_ID', '=', $program_ID)
+			->execute()
+			->as_array();
+
+		return $result;
  	}
 	
 } // End Univ

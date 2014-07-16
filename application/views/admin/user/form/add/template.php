@@ -9,11 +9,11 @@
       <?php print form::open('admin/user/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="radio">
-          <input type="radio" name="user_type" value="admin" checked>
+          <input type="radio" name="user_type" value="Admin" checked>
           Administrator
         </div>
         <div class="radio">
-          <input type="radio" name="user_type" value="faculty">
+          <input type="radio" name="user_type" value="Faculty">
           Faculty
         </div>
         <hr>

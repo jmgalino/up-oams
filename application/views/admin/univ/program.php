@@ -34,9 +34,9 @@ foreach ($programs as $program)
   echo
   '<tr>',
     '<td>', $program->program, '</td>',
-    '<td><a class="owned" href="'.url::site('univ/edit/program/'.$program->program_ID).'">',
+    '<td><a class="owned" href='.URL::site('univ/edit/program/'.$program->program_ID).'>',
       '<span class="glyphicon glyphicon-pencil"></span></a></td>',
-    '<td><a class="owned" href="'.url::site('univ/edit/program/'.$program->program_ID).'">',
+    '<td><a class="owned" href='.URL::site('univ/edit/program/'.$program->program_ID).'>',
       '<span class="glyphicon glyphicon-trash"></span></a></td>';
   '</tr>';
 }

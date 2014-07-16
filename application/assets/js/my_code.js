@@ -1,10 +1,10 @@
 $(document).ready(function()
 {
 	//type of user
-	$("input[name=type]").click(function()
+	$("input[name=user_type]").click(function()
 	{
-		var type = jQuery('input[name=type]:checked').val();
-		if (type == "admin")
+		var type = jQuery('input[name=user_type]:checked').val();
+		if (type == "Admin")
 		{
 			$(".faculty-info").hide();
 		}

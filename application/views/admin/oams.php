@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  <li><a href=<?php echo url::site('admin/index'); ?>>Home</a></li>
+  <li><a href=<?php echo URL::site(); ?>>Home</a></li>
   <li class="active">OAMS Setting</li>
 </ol>
 

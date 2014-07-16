@@ -1,56 +1,56 @@
 <div class="row">
 	<div class="col-xs-6 col-md-4">
-		<img src="../../../<?php echo $user->pic; ?>" class="img-responsive">
+		<img src="<?php echo URL::base(), 'application/', $user['pic']; ?>" class="img-responsive">
 		<br>
 	</div>
 
 	<div class="col-xs-12 col-sm-6 col-md-8">
 		<div class="row details">
 			<div class="col-xs-6"><strong>Employee Code</strong></div>
-			<div class="col-xs-6"><?php echo $user->employee_code; ?></div>
+			<div class="col-xs-6"><?php echo $user['employee_code']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>User Type</strong></div>
-			<?php if ($user->user_type == 'admin'): ?>
-			<div class="col-xs-6">Admin</div>
-			<?php else: ?>
-			<div class="col-xs-6">Faculty</div>
-			<?php endif; ?>
+			<div class="col-xs-6"><?php echo $user['user_type']; ?></div>
 		</div>
 		<br>
 
 		<div class="row details">
 			<div class="col-xs-6"><strong>First Name</strong></div>
-			<div class="col-xs-6"><?php echo $user->first_name; ?></div>
+			<div class="col-xs-6"><?php echo $user['first_name']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Middle Initial</strong></div>
-			<div class="col-xs-6"><?php echo $user->middle_initial; ?></div>
+			<div class="col-xs-6"><?php echo $user['middle_initial']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Last Name</strong></div>
-			<div class="col-xs-6"><?php echo $user->last_name; ?></div>
+			<div class="col-xs-6"><?php echo $user['last_name']; ?></div>
+		</div>
+		<div class="row details">
+			<div class="col-xs-6"><strong>Birthday</strong></div>
+			<div class="col-xs-6"><?php echo date_format(date_create($user['birthday']), 'F d, Y'); ?></div>
 		</div>
 		<br>
 
-		<?php if ($user->user_type == 'faculty'): ?>
+		<?php if ($user['user_type'] == 'Faculty'): ?>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Faculty Code</strong></div>
-			<div class="col-xs-6"><?php echo $user->faculty_code; ?></div>
+			<div class="col-xs-6"><?php echo $user['faculty_code']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Rank</strong></div>
-			<div class="col-xs-6"><?php echo $user->rank; ?></div>
+			<div class="col-xs-6"><?php echo $user['rank']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Degree Program</strong></div>
-			<div class="col-xs-6"><?php echo $user->program_short; ?></div>
+			<div class="col-xs-6"><?php echo $user['program_short']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Position</strong></div>
 			<?php
-			if ($user->position == 'none') echo '<div class="col-xs-6">Not Applicable</div>';
-			elseif ($user->position == 'dept_chair') echo '<div class="col-xs-6">Department Chair</div>';
+			if ($user['position'] == 'none') echo '<div class="col-xs-6">Not Applicable</div>';
+			elseif ($user['position'] == 'dept_chair') echo '<div class="col-xs-6">Department Chair</div>';
 			else echo '<div class="col-xs-6">College Dean</div>';
 			?>
 		</div>
@@ -58,7 +58,7 @@
 	</div>
 </div>
 
-<?php if ($user->user_type == 'faculty'): ?>
+<?php if ($user['user_type'] == 'Faculty'): ?>
 <hr>
 <div class="row">
 	<div class="col-md-4">
@@ -155,7 +155,7 @@
 	</div>
 </div>
 
-<?php if ($user->position == 'dept_chair'): ?>
+<?php if ($user['position'] == 'dept_chair'): ?>
 <br>
 <div class="row">
 	<div class="col-md-4">
@@ -208,8 +208,8 @@
 		foreach ($pub_rows as $pub)
 		{
 			echo '<tr>
-				<td>', $pub->title, '</td>
-				<td title="Delete Publication"><a class="pull-right" href='.url::site('user/delete/'.$user->user_ID.'/pub/'.$pub->publication_ID).'>
+				<td>', $pub['title'], '</td>
+				<td title="Delete Publication"><a class="pull-right" href='.url::site('user/delete/'.$user['user_ID'].'/pub/'.$pub->publication_ID).'>
 				<span class="glyphicon glyphicon-trash"></span></a></td>';
 			echo '</tr>';
 		}
@@ -237,7 +237,7 @@
 		{
 			echo '<tr>
 				<td>', $rch->title, '</td>
-				<td title="Research"><a class="pull-right" href='.url::site('user/delete/'.$user->user_ID.'/rch/'.$rch->research_ID).'>
+				<td title="Research"><a class="pull-right" href='.url::site('user/delete/'.$user['user_ID'].'/rch/'.$rch->research_ID).'>
 				<span class="glyphicon glyphicon-trash"></span></a></td>
 			</tr>';
 		}
@@ -256,12 +256,12 @@
 <?php 
 endif;
 
-$pub = new View('admin/profile/accom/publication');
-$pub->bind('user', $user);
-$pub->render(TRUE);
+// $pub = new View('admin/profile/accom/publication');
+// $pub->bind('user', $user);
+// $pub->render(TRUE);
 
-$rch = new View('admin/profile/accom/research');
-$rch->bind('user', $user);
-$rch->render(TRUE);
+// $rch = new View('admin/profile/accom/research');
+// $rch->bind('user', $user);
+// $rch->render(TRUE);
 ?>
 

@@ -4,29 +4,51 @@ class Model_Oams extends Model {
 
 	public function get_title()
 	{
-		$query = DB::select('content')
+		$result = DB::select('content')
 			->from('oamstbl')
-			->where('name', '=', 'title');
-		$result = $query->execute();
+			->where('name', '=', 'title')
+			->execute();
+
 		return $result[0]['content'];
 	}
 
 	public function get_about()
 	{
-		$query = DB::select('content')
+		$result = DB::select('content')
 			->from('oamstbl')
-			->where('name', '=', 'about');
-		$result = $query->execute();
+			->where('name', '=', 'about')
+			->execute();
+			
 		return $result[0]['content'];
+	}
+
+	public function get_messages()
+	{
+		$messages = array();
+
+		$result = DB::select()
+			->from('oams_messagetbl')
+			->execute()
+			->as_array();
+
+		foreach ($result as $message) {
+			$messages[] = $message;
+		}
+
+		return $messages;
 	}
 
 	public function get_categories()
 	{
-		$query = DB::select()
-			->from('oams_categorytbl');
-		$result = $query->execute()->as_array();
+		$categories = array();
 
-		foreach ($result as $category) {
+		$result = DB::select()
+			->from('oams_categorytbl')
+			->execute()
+			->as_array();
+
+		foreach ($result as $category)
+		{
 			$categories[] = $category;
 		}
 
