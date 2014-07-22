@@ -1,13 +1,13 @@
 <ol class="breadcrumb">
   <li><a href=<?php echo url::site('admin/index'); ?>>Home</a></li>
-  <li><a href=<?php echo url::site('admin/univ'); ?>>University Settings</a></li>
+  <li><a href=<?php echo url::site('admin/university'); ?>>University Settings</a></li>
 </ol>
 
 <h3>
   IPCR/OPCR Output Categories
   <div class="btn-toolbar pull-right" role="toolbar">
     <div class="btn-group">
-      <a class="btn btn-default" href=<?php echo url::site('admin/univ'); ?> role="button">Back</a>
+      <a class="btn btn-default" href=<?php echo url::site('admin/university'); ?> role="button">Back</a>
     </div>
     <div class="btn-group">
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_add">Add</button>
@@ -43,5 +43,5 @@ foreach ($category as $c)
 echo '</tbody></table></div><br>';
 
 // New Category
-echo View::factory('admin/univ/form/_add/category')->render();
+echo View::factory('admin/university/form/_add/category')->render();
 ?>

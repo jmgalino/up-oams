@@ -12,7 +12,7 @@
 
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href=<?php echo URL::site('admin/user'); ?>>User Profiles</a></li>
+				<li><a href=<?php echo URL::site('admin/profile'); ?>>User Profiles</a></li>
 				<li><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
 				<li><a href=<?php echo URL::site('admin/oams'); ?>>OAMS Settings</a></li>
 			</ul>
@@ -22,7 +22,7 @@
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown"><?php echo $fname;?> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href=<?php echo URL::site('admin/profile'); ?>><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
+						<li><a href=<?php echo URL::site('admin/myprofile'); ?>><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
 						<li><a href=<?php echo URL::site('admin/password'); ?>><span class="glyphicon glyphicon-cog"></span> Change Password</a></li>
 						<li><a href=<?php echo URL::site('admin/messages'); ?>><span class="glyphicon glyphicon-envelope"></span> View Messages</a></li>
 						<li><a href=<?php echo URL::site('logout'); ?>><span class="glyphicon glyphicon-off"></span> Sign out</a></li>

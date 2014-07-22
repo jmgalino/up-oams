@@ -22,7 +22,7 @@ class Controller_Site extends Controller {
     }
 
 	/**
-	 * Site Homepage
+	 * Home Page
 	 */
 	public function action_index()
 	{

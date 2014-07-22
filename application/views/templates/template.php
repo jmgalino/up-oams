@@ -12,15 +12,15 @@
 <body>
 	<div id="wrap">
 		<div class="container">
-			<!-- Master Navigation -->
+			<!-- MASTER NAVIGATION -->
 			<?php echo $navbar; ?>
 
-			<!-- Page Layout -->
+			<!-- PAGE LAYOUT -->
 			<?php echo $content; ?>
 		</div>
 	</div>
 
-	<!-- Footer -->
+	<!-- FOOTER -->
 	<div id="footer">
 		<div class="container">
 			Copyright &copy; <?php echo date('Y'); ?>.<br>

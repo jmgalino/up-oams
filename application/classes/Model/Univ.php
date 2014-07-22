@@ -22,6 +22,33 @@ class Model_Univ extends Model {
 		return $colleges;
 	}
 
+	public function get_college_details($college_ID, $program_ID)
+ 	{
+ 		if (is_null($college_ID))
+ 		{
+ 			$program = $this->get_program_details($program_ID);
+ 			$college_ID = $program[0]['college_ID'];
+ 		}
+		
+		$result = DB::select()
+			->from('univ_collegetbl')
+			->where('college_ID', '=', $college_ID)
+			->execute()
+			->as_array();
+
+ 		return $result;
+ 	}
+
+	public function update_college_details($college_ID, $details)
+ 	{
+ 		$rows_updated = DB::update('univ_collegetbl')
+ 			->set($details)
+ 			->where('college_ID', '=', $college_ID)
+ 			->execute();
+
+ 		return $rows_updated;
+ 	}
+
 	/**
 	 * Department
 	 */
@@ -57,6 +84,16 @@ class Model_Univ extends Model {
 			->as_array();
 
  		return $result;
+ 	}
+
+	public function update_department_details($department_ID, $details)
+ 	{
+ 		$rows_updated = DB::update('univ_departmenttbl')
+ 			->set($details)
+ 			->where('department_ID', '=', $department_ID)
+ 			->execute();
+
+ 		return $rows_updated;
  	}
  	
 	/**

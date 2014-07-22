@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Faculty extends Controller {
+class Controller_Faculty extends Controller_User {
 
-	private $view;
+	protected $view;
 
 	public function before()
     {
@@ -45,14 +45,14 @@ class Controller_Faculty extends Controller {
 		$this->response->body($this->view->render());
 	}
 
-	public function action_accom_college()
-	{echo "action_accom_college";
-        $oams = new Model_Oams;
-		$title = $oams->get_title();
-
-		$this->view->content = View::factory('profile/index')
-			->bind('title', $title);
-		$this->response->body($this->view->render());
+	public function action_accom()
+	{
 	}
+
+	/**
+	 * Contact admin
+	 */
+	public function action_contact()
+	{}
 
 } // End Faculty

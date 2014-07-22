@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
   <li><a href=<?php echo url::site('admin/index'); ?>>Home</a></li>
-  <li><a href=<?php echo url::site('admin/univ'); ?>>University Settings</a></li>
+  <li><a href=<?php echo url::site('admin/university'); ?>>University Settings</a></li>
   <li class="active">Modify University Settings</li>
 </ol>
 
@@ -9,7 +9,7 @@
 <br>
 
 <?php
-  // print form::open('admin/univ/update/type', array('class'=>'form-horizontal', 'role'=>'form'));
+  // print form::open('admin/university/update/type', array('class'=>'form-horizontal', 'role'=>'form'));
   
   // foreach ($types as $type)
   // {

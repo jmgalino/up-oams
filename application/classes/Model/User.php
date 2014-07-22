@@ -40,25 +40,31 @@ class Model_User extends Model {
  		return $details;
  	}
 
- 	public function update_details($user_ID, $details)
+ 	public function update_details($employee_code, $details)
  	{}
 
- 	public function change_password($user_ID, $password)
+ 	public function change_password($employee_code, $password)
  	{}
 
  	/**
 	 * Used by Contoller_Admin
 	 */
-	public function get_users()
+	public function get_users($filter)
  	{
     	$users = array();
 
-		$result = DB::select()
+    	if (count($filter) > 0)
+    	{}
+		else
+		{
+			$result = DB::select()
 			->from('user_profiletbl')
 			->where('deleted', '=', '0')
 			->order_by('employee_code', 'ASC')
+			// ->limit(10)
 	 		->execute()
 	 		->as_array();
+	 	}
 
 		foreach ($result as $user)
 		{
@@ -102,6 +108,28 @@ class Model_User extends Model {
  				->columns(array('user_ID', 'employee_code', 'password'))
  				->values(array($insert_profile[0], $details['employee_code'], password_hash('upmin', PASSWORD_DEFAULT)))
  				->execute();
+
+ 			if ($details['position'] == 'dean')
+ 			{
+ 				$college_details = array("user_ID" => $insert_profile[0]);
+
+ 				$univ = new Model_Univ;
+ 				$college = $univ->get_college_details(null, $details['program_ID']);
+ 				$success = $univ->update_college_details($college[0]['college_ID'], $college_details);
+ 			}
+ 			elseif ($details['position'] == 'dept_chair')
+ 			{
+ 				$department_details = array("user_ID" => $insert_profile[0]);
+
+ 				$univ = new Model_Univ;
+ 				$department = $univ->get_department_details(null, $details['program_ID']);
+ 				$success = $univ->update_department_details($department[0]['department_ID'], $department_details);	
+ 			}
+
+ 			// if ($sucess)
+ 			// 	// yay
+ 			// else
+ 			// 	// nay
  		}
  		else
  		{

@@ -35,7 +35,7 @@
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown"><?php echo $fcode;?> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href=<?php echo url::site('faculty/profile'); ?>><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
+						<li><a href=<?php echo url::site('faculty/myprofile'); ?>><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
 						<li><a href=<?php echo url::site('faculty/password'); ?>><span class="glyphicon glyphicon-cog"></span> Change Password</a></li>
 						<li><a href=<?php echo url::site('faculty/contact'); ?>><span class="glyphicon glyphicon-envelope"></span> Contact Admin</a></li>
 						<li><a href=<?php echo url::site('logout'); ?>><span class="glyphicon glyphicon-off"></span> Sign out</a></li>
