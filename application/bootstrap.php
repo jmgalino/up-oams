@@ -142,6 +142,14 @@ Route::set('session', '<action>',
 	->defaults(array(
 		'controller'=> 'site'
 	));
+Route::set('user-functions', '<controller>/<action>',
+	array(
+		'controller'=> '(user|admin|faculty)',
+		'action'	=> '(index|myprofile|password|about|manual)'
+	))
+	->defaults(array(
+		'action'	=> 'index'
+	));
 Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'admin',
@@ -150,6 +158,15 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
 	))
 	->defaults(array(
 		'directory' => 'admin'
+	));
+Route::set('faculty-functions', '<directory>/<controller>(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'controller'=> '(accom|ipcr|opcr|cuma)',
+		// 'action'	=> '(add|view|update|reset|delete)'
+	))
+	->defaults(array(
+		'directory' => 'faculty'
 	));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(

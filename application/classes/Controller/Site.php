@@ -56,9 +56,9 @@ class Controller_Site extends Controller {
 		$error = NULL;
 		$sucess = NULL;
 
-		if (isset($details))
+		if ($_POST)
 		{
-			$this->action_send($details);
+			$this->action_send($details); echo "hello";
 		}
 		else
 		{
@@ -147,6 +147,7 @@ class Controller_Site extends Controller {
 
 		foreach ($user_details as $detail)
 		{
+			$session_details['user_ID']		= $detail['user_ID'];
 			$session_details['fname']		= $detail['first_name'];
 			$session_details['minit']		= $detail['middle_initial'];
 			$session_details['lname']		= $detail['last_name'];
@@ -159,6 +160,7 @@ class Controller_Site extends Controller {
 		
     	$session = Session::instance();
 		$session->set('emp_code', $employee_code);
+    	$session->set('user_ID', $detail['user_ID']);
 		$session->set('fname', $session_details['fname']);
 		$session->set('fullname', $session_details['fname'].' '
 			.$session_details['minit'].'. '
@@ -194,7 +196,7 @@ class Controller_Site extends Controller {
 			else
 				$session->set('identifier', $session_details['position']);
 			
-			$this->response = Request::factory('faculty/index')->execute();
+			$this->response = Request::factory('faculty')->execute();
 		}
 	}
 

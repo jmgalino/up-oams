@@ -2,57 +2,35 @@
 
 class Controller_Faculty extends Controller_User {
 
-	protected $view;
+	/**
+	 * Contact admin form
+	 */
+	public function action_contact()
+	{
+		$details = $this->request->post();
+		$error = NULL;
+		$sucess = NULL;
 
-	public function before()
-    {
-    	$identifier = Session::instance()->get('identifier');
-		
-        if (is_null($identifier))
-        	$this->redirect();
-		else {
-			$session = Session::instance();
-			$fcode = $session->get('fcode');
-
-			$this->view = View::factory('templates/template');
-			$this->view->page_title = null;
-				
-    		if ($identifier == 'dean')
-		    {
-		    	$this->view->navbar = View::factory('templates/fragments/dean')
-					->bind('fcode', $fcode);
-			}
-			elseif ($identifier == 'dept_chair')
-		    {
-		    	$this->view->navbar = View::factory('templates/fragments/dept_chair')
-					->bind('fcode', $fcode);
-			}
-			else
-			{
-				$this->view->navbar = View::factory('templates/fragments/faculty')
-					->bind('fcode', $fcode);
-			}
+		if ((isset($details)) AND (count($details) > 0))
+		{
+			$this->action_send($details);
 		}
-    }
+		else
+		{
+			$fullname_2 = $this->session->get('fullname_2');
 
-	public function action_index()
-	{
-        $oams = new Model_Oams;
-		$title = $oams->get_title();
-
-		$this->view->content = View::factory('profile/index')
-			->bind('title', $title);
-		$this->response->body($this->view->render());
-	}
-
-	public function action_accom()
-	{
+			$this->view->content = View::factory('profile/contact')
+				->bind('fullname', $fullname_2)
+				->bind('error', $error)
+				->bind('sucess', $sucess);
+			$this->response->body($this->view->render());
+		}
 	}
 
 	/**
-	 * Contact admin
+	 * Send the message
 	 */
-	public function action_contact()
+	private function action_send()
 	{}
 
 } // End Faculty

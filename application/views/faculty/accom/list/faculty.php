@@ -1,16 +1,16 @@
 <ol class="breadcrumb">
-	<li><a href=<?php echo url::site('faculty/index'); ?>>Home</a></li>
+	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
 	<li class="active">My Accomplishment Report</li>
 </ol>
 
 <h3>
 	My Accomplishment Reports
 	<div class="btn-toolbar pull-right" role="toolbar">
-		<?php if ($filtered): ?>
+		<?php if ($filter): ?>
 		<div class="btn-group">
 			<a class="btn btn-default" href=<?php echo url::site('faculty/accom/unfilter'); ?> role="button">Remove Filter</a>
 		</div>
-		<?php elseif (count($ar_rows)>0) : ?>
+		<?php elseif (count($accom_reports)>0) : ?>
 		<div class="btn-group">
 			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_filter">Filter Reports</button>
 		</div>
@@ -20,10 +20,10 @@
 		</div>
 	</div>
 </h3>
-<br>
+<br><br>
 
 <?php
-if (count($ar_rows)>0)
+if (count($accom_reports)>0)
 {
 	echo '<div class="table-responsive">
 	<table class="table table-hover">
@@ -38,40 +38,40 @@ if (count($ar_rows)>0)
 	</thead>
 	<tbody>';
 
-	foreach ($ar_rows as $accom)
+	foreach ($accom_reports as $accom)
 	{
-		$date = DateTime::createFromFormat('Y-m-d', $accom->date);
-		$month = DateTime::createFromFormat('n', $accom->month);
-		$month_year = $month->format('F').' '.$accom->year;
+		$date = DateTime::createFromFormat('Y-m-d', $report['date']);
+		$month = DateTime::createFromFormat('n', $report['month']);
+		$month_year = $month->format('F').' '.$report['year'];
 
 		echo '<tr>';
-		echo '<td><a href='.url::site('accom/view/'.$accom->accom_ID).'>', $month_year, '</a></td>';
+		echo '<td><a href='.url::site('accom/view/'.$report['accom_ID']).'>', $month_year, '</a></td>';
 
 		// Date Submitted
-		if (isset($accom->date))
+		if (isset($report['date']))
 			echo '<td>', $date->format('F d, Y'), '</td>';
 		else
 			echo '<td>Not submitted</td>';
 
-		echo '<td>', $accom->status, '</td>';
+		echo '<td>', $report['status'], '</td>';
 
-		if (isset($accom->remarks))
-			echo '<td>', $accom->remarks, '</td>';
+		if (isset($report['remarks']))
+			echo '<td>', $report['remarks'], '</td>';
 		else
 			echo '<td>None</td>';
 
-		if (($accom->status == 'Draft') OR ($accom->status == 'Rejected') OR (is_null($accom->date)) OR ($identifier == 'dean'))
+		if (($report['status'] == 'Draft') OR ($report['status'] == 'Rejected') OR (is_null($report['date'])) OR ($identifier == 'dean'))
 		{
 			echo '<td title="Download Report">
-			<a href='.url::site('accom/download/'.$accom->accom_ID).'>
+			<a href='.url::site('accom/download/'.$report['accom_ID']).'>
 			<span class="glyphicon glyphicon-download"></span></a>
 			</td>';
 			echo '<td title="Edit Report">
-			<a href='.url::site('accom/edit/'.$accom->accom_ID).'>
+			<a href='.url::site('accom/edit/'.$report['accom_ID']).'>
 			<span class="glyphicon glyphicon-pencil"></span></a>
 			</td>';
 			echo '<td title="Delete Report">
-			<a onclick="return confirm(\'Are you sure you want to delete this report?\');" href='.url::site('accom/delete/'.$accom->accom_ID).'>
+			<a onclick="return confirm(\'Are you sure you want to delete this report?\');" href='.url::site('accom/delete/'.$report['accom_ID']).'>
 			<span class="glyphicon glyphicon-trash"></span></a>
 			</td>';
 		}
@@ -79,7 +79,7 @@ if (count($ar_rows)>0)
 		else
 		{
 			echo '<td title="Download Report">
-			<a href='.url::site('accom/download/'.$accom->accom_ID).'>
+			<a href='.url::site('accom/download/'.$report['accom_ID']).'>
 			<span class="glyphicon glyphicon-download"></span></a>
 			</td>';
 			echo '<td title="Not allowed">
@@ -102,10 +102,5 @@ else
 
 
 // Init Modal
-$view = new View('faculty/ar/form/init');
-$view->bind('ar_rows', $ar_rows);
-$view->render(TRUE);
-
-// Filter Modal
-echo View::factory('faculty/ar/form/filter')->render();
+echo View::factory('faculty/accom/form/init')->bind('accom_reports', $accom_reports);
 ?>

@@ -10,7 +10,7 @@
         <div class="form-group">
           <div class="col-sm-4">
               <input type="radio" name="report" value="new" checked> New
-              <?php if (count($ar_rows)>0) : ?>
+              <?php if (count($accom_reports)>0) : ?>
               <br><input type="radio" name="report" value="consolidated"> Consolidated
               <?php endif; ?>
           </div>
@@ -47,7 +47,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Generate')); ?>
+        <?php print form::submit(NULL, 'New Report', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
       <?php print form::close();?><!-- form -->
     </div>

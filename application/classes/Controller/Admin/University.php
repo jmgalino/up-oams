@@ -7,17 +7,17 @@ class Controller_Admin_University extends Controller_Admin {
 	 */
 	public function action_index()
 	{
-		$programs = $this->univ->get_programs();
-		$departments = $this->univ->get_departments();
-		$colleges = $this->univ->get_colleges();
+		$univ = new Model_Univ;
+		
+		$programs = $univ->get_programs();
+		$departments = $univ->get_departments();
+		$colleges = $univ->get_colleges();
 
 		$this->view->content = View::factory('admin/university')
 			->bind('programs', $programs)
 			->bind('departments', $departments)
 			->bind('colleges', $colleges);
 		$this->response->body($this->view->render());
-	}
-
-	
+	}	
 
 } // End University

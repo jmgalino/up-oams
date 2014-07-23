@@ -2,32 +2,6 @@
 
 class Controller_Admin extends Controller_User {
 
-	protected $oams;
-	protected $univ;
-	protected $user;
-	protected $session;
-	protected $view;
-
-	public function before()
-    {
-        $identifier = Session::instance()->get('identifier');
-		
-        if (is_null($identifier))
-        	$this->redirect();
-		
-    	$this->oams = new Model_Oams;
-		$this->user = new Model_User;
-		$this->univ = new Model_Univ;
-    	$this->session = Session::instance();
-
-		$fname = $this->session->get('fname');
-
-		$this->view = View::factory('templates/template');
-		$this->view->page_title = null;
-		$this->view->navbar = View::factory('templates/fragments/admin')
-			->bind('fname', $fname);
-    }
-
 	/**
 	 * List messages
 	 */
