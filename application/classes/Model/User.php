@@ -53,7 +53,7 @@ class Model_User extends Model {
  	{
     	$users = array();
 
-    	if (count($filter) > 0)
+    	if ($filter)
     	{}
 		else
 		{
@@ -86,11 +86,16 @@ class Model_User extends Model {
  		// Check User
  		$result = $this->get_details($details['employee_code']);
 
- 		if (count($result) == 0)
+ 		if ($result)
+ 		{
+ 			// Existing User
+ 			// Deleted User
+ 		}
+ 		else
  		{
  			$columns = array('employee_code', 'first_name', 'middle_initial', 'last_name', 'user_type', 'faculty_code', 'program_ID', 'rank', 'position', 'birthday');
  			
- 			for ($i=0; $i < count($columns); $i++)
+ 			for ($i = 0; $i < count($columns); $i++)
  			{ 
  				foreach ($details as $key => $value)
  				{
@@ -130,11 +135,6 @@ class Model_User extends Model {
  			// 	// yay
  			// else
  			// 	// nay
- 		}
- 		else
- 		{
- 			// Existing User
- 			// Deleted User
  		}
  	}
 

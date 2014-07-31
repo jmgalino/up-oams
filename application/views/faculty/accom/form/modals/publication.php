@@ -1,3 +1,4 @@
+<!-- "pub" Form -->
 <div class="modal fade" id="modal_publication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -5,7 +6,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>        
         <h4 class="modal-title" id="myModalLabel">Journal Publication/Book/Chapter in a Book</h4>
       </div>
-      <?php print form::open('accom/add/pub', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/accom/add/pub', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="radio">
           <input type="radio" name="pub" value="book" checked>
@@ -20,11 +21,12 @@
           Journal
         </div>
         <hr>
-        <?php echo View::factory('faculty/ar/form/_modals/publication_')->render(); ?>
+        <?php echo View::factory('faculty/accom/form/modals/publication_fragment')->bind('session', $session); ?>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
+        <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
       <?php print form::close();?>
     </div>

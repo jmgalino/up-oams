@@ -1,106 +1,128 @@
+<!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
 	<li class="active">My Accomplishment Report</li>
 </ol>
 
+<?php if ((isset($delete) AND $delete == 1)): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Accomplishment Report was successfully deleted.
+	</p>
+</div>
+<?php endif; ?>
+
 <h3>
 	My Accomplishment Reports
 	<div class="btn-toolbar pull-right" role="toolbar">
-		<?php if ($filter): ?>
-		<div class="btn-group">
-			<a class="btn btn-default" href=<?php echo url::site('faculty/accom/unfilter'); ?> role="button">Remove Filter</a>
-		</div>
-		<?php elseif (count($accom_reports)>0) : ?>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_filter">Filter Reports</button>
-		</div>
+		<?php if (count($accom_reports) > 0) : ?>
+		<button type="button" class="btn btn-default" id="filter">Filter</button>
 		<?php endif; ?>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_ar">New Report</button>
-		</div>
+		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_accom">New Report</button>
 	</div>
 </h3>
 <br><br>
 
+<?php if (count($accom_reports)>0): ?>
+<div class="row">
+
+	<!-- Filter -->
+	<div class="col-sm-3" id="filter_form" role="complementary" style="display: none;">
+		<div class="panel-group" id="accordion">
+			<div class="panel panel-default">
+
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#accom_filter">Filter</a>
+					</h4>
+				</div>
+
+				<div id="accom_filter" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<?php print form::open('faculty/accom', array('class'=>'form-horizontal', 'role'=>'form'));?>
+						Comming soon.<br><br>
+						<?php print form::submit(NULL, 'Apply Filter', array('type'=>'submit', 'class'=>'btn btn-default pull-right', 'disabled' => 'disabled'));
+						print form::close();?>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Table -->
+	<div class="col-md-12" id="display_table" role="main">
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Month & Year</th>
+						<th>Date Submitted</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+		<?php //<a href='.url::site('accom/view/'..'>'
+		foreach ($accom_reports as $accom)
+		{
+			$yearmonth = DateTime::createFromFormat('Y-m-d', $accom['yearmonth']);
+
+			echo '<tr>';
+			echo '<td>', $yearmonth->format('F Y'), '</td>';
+
+			// Date Submitted
+			if (isset($accom['date']))
+			{
+				$date = DateTime::createFromFormat('Y-m-d', $accom['date']);
+				echo '<td>', $date->format('F d, Y'), '</td>';
+			}
+			else
+				echo '<td>Not submitted</td>';
+
+			echo '<td>', $accom['status'], '</td>';
+
+			echo '<td class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href='.URL::site('faculty/accom/view/'.$accom['accom_ID']).'>
+							<span class="glyphicon glyphicon-download"></span> Download Report</a>
+						</li>';
+
+			if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Rejected') OR (is_null($accom['date'])) OR ($identifier == 'dean'))
+			{
+				echo 	'<li>
+							<a href='.URL::site('faculty/accom/edit/'.$accom['accom_ID']).'>
+							<span class="glyphicon glyphicon-pencil"></span> Edit Report</a>
+						</li>
+						<li>
+							<a onclick="return confirm(\'Are you sure you want to delete this report?\');" href='.URL::site('faculty/accom/delete/'.$accom['accom_ID']).'>
+							<span class="glyphicon glyphicon-trash"></span> Delete Report</a>
+						</li>';
+			}
+
+			echo '	</ul>
+				</td>
+				</tr>';
+		}
+		?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
+
+<?php else: ?>
+<div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>
+<?php endif; ?>
+
+
+
 <?php
-if (count($accom_reports)>0)
-{
-	echo '<div class="table-responsive">
-	<table class="table table-hover">
-	<thead>
-	<tr>
-	<th>Month & Year</th>
-	<th>Date Submitted</th>
-	<th>Status</th>
-	<th>Remarks</th>
-	<th colspan="3">Action</th>
-	</tr>
-	</thead>
-	<tbody>';
-
-	foreach ($accom_reports as $accom)
-	{
-		$date = DateTime::createFromFormat('Y-m-d', $report['date']);
-		$month = DateTime::createFromFormat('n', $report['month']);
-		$month_year = $month->format('F').' '.$report['year'];
-
-		echo '<tr>';
-		echo '<td><a href='.url::site('accom/view/'.$report['accom_ID']).'>', $month_year, '</a></td>';
-
-		// Date Submitted
-		if (isset($report['date']))
-			echo '<td>', $date->format('F d, Y'), '</td>';
-		else
-			echo '<td>Not submitted</td>';
-
-		echo '<td>', $report['status'], '</td>';
-
-		if (isset($report['remarks']))
-			echo '<td>', $report['remarks'], '</td>';
-		else
-			echo '<td>None</td>';
-
-		if (($report['status'] == 'Draft') OR ($report['status'] == 'Rejected') OR (is_null($report['date'])) OR ($identifier == 'dean'))
-		{
-			echo '<td title="Download Report">
-			<a href='.url::site('accom/download/'.$report['accom_ID']).'>
-			<span class="glyphicon glyphicon-download"></span></a>
-			</td>';
-			echo '<td title="Edit Report">
-			<a href='.url::site('accom/edit/'.$report['accom_ID']).'>
-			<span class="glyphicon glyphicon-pencil"></span></a>
-			</td>';
-			echo '<td title="Delete Report">
-			<a onclick="return confirm(\'Are you sure you want to delete this report?\');" href='.url::site('accom/delete/'.$report['accom_ID']).'>
-			<span class="glyphicon glyphicon-trash"></span></a>
-			</td>';
-		}
-
-		else
-		{
-			echo '<td title="Download Report">
-			<a href='.url::site('accom/download/'.$report['accom_ID']).'>
-			<span class="glyphicon glyphicon-download"></span></a>
-			</td>';
-			echo '<td title="Not allowed">
-			<span class="glyphicon glyphicon-pencil"></span>
-			</td>
-			<td title="Not allowed">
-			<span class="glyphicon glyphicon-trash"></span>
-			</td>';
-		}
-
-		echo '</tr>';
-	}
-
-	echo '</tbody></table></div>';
-}
-else
-{
-	echo '<div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>';
-}
-
-
-// Init Modal
-echo View::factory('faculty/accom/form/init')->bind('accom_reports', $accom_reports);
+// Add Form (Initialize)
+echo View::factory('faculty/accom/form/initialize')
+	->bind('accom_reports', $accom_reports);
 ?>

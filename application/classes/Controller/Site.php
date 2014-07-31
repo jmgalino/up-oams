@@ -52,13 +52,12 @@ class Controller_Site extends Controller {
 	 */
 	public function action_contact()
 	{
-		$details = $this->request->post();
 		$error = NULL;
 		$sucess = NULL;
 
-		if ($_POST)
+		if ($this->request->post())
 		{
-			$this->action_send($details); echo "hello";
+			$this->action_send(); echo "hello";
 		}
 		else
 		{
@@ -74,15 +73,13 @@ class Controller_Site extends Controller {
 	 */
 	public function action_login()
 	{
-		$details = $this->request->post();
-
-        $user = new Model_User;
-		$user = $user->check_user($details['employee_code'], $details['password']);
+		$user = new Model_User;
+		$user = $user->check_user($this->request->post('employee_code'), $this->request->post('password'));
 
 		// User exists
 		if ($user)
 		{
-			$this->action_start_session($details['employee_code']);
+			$this->action_start_session($this->request->post('employee_code'));
 		}
 
 		// User doesn't exist
@@ -93,7 +90,7 @@ class Controller_Site extends Controller {
 	}
 
 	// Send message to admin
-	private function action_send($details)
+	private function action_send()
 	{
 		// require_once('application/assets/lib/recaptchalib.php');
 		// $privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
@@ -165,7 +162,7 @@ class Controller_Site extends Controller {
 		$session->set('fullname', $session_details['fname'].' '
 			.$session_details['minit'].'. '
 			.$session_details['lname']);
-		$session->set('fullname_2', $session_details['lname'].', '
+		$session->set('fullname2', $session_details['lname'].', '
 			.$session_details['fname'].' '
 			.$session_details['minit'].'.');
 		// $session->set('user_type', $session_details['user_type']);
@@ -174,7 +171,7 @@ class Controller_Site extends Controller {
 		if ($session_details['user_type'] == 'Admin')
 		{
 			$session->set('identifier', 'admin');
-			$this->response = Request::factory('admin/index')->execute();
+			$this->response = Request::factory('admin')->execute();
 		}
 
 		//	Faculty

@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="author" class="col-sm-4 control-label">Author</label>
   <div class="col-sm-7">
-    <input class="form-control" id="author" name="author" value="<?php echo $this->site->session->get('namefull');?>" readonly>
+    <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
     <!-- <br><a class="btn btn-primary btn-xs" role="button" href="">
     <span class="glyphicon glyphicon-plus"></span> Add
   </a> -->
@@ -23,7 +23,6 @@
 </div>
 
 <!-- Book -->
-
 <div class="form-group pub_book">
   <label for="publisher" class="col-sm-4 control-label">Publisher</label>
   <div class="col-sm-7">
@@ -45,8 +44,7 @@
   </div>
 </div>
 
-<!-- Chapter -->
-
+<!-- Chapter in a Book-->
 <div class="form-group pub_chapter" hidden>
   <label for="publisher" class="col-sm-4 control-label">Publisher</label>
   <div class="col-sm-7">
@@ -69,7 +67,6 @@
 </div>
 
 <!-- Journal -->
-
 <div class="form-group pub_journal" hidden>
   <label for="volume" class="col-sm-4 control-label">Volume No.</label>
   <div class="col-sm-7">

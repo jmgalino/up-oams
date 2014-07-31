@@ -1,3 +1,4 @@
+<!-- "ppr" Form -->
 <div class="modal fade" id="modal_paper" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -5,12 +6,12 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Oral Paper/Poster Presentation</h4>
       </div>
-      <?php print form::open('accom/add/ppr', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/accom/add/ppr', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="author" class="col-sm-3 control-label">Author</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="author" name="author" value="<?php echo $this->site->session->get('namefull');?>" readonly>
+            <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
             <!-- <br><a class="btn btn-primary btn-xs" role="button" href="">
             <span class="glyphicon glyphicon-plus"></span> Add -->
           </a>
@@ -27,10 +28,12 @@
       <div class="form-group">
         <label for="activity" class="col-sm-3 control-label">Activity</label>
         <div class="col-sm-8">
-          <input type="radio" name="activity" value="Conference" checked> Conference
-          <br><input type="radio" name="activity" value="Forum"> Forum
-          <br><input type="radio" name="activity" value="Seminar"> Seminar
-          <br><input type="radio" name="activity" value="Workshop"> Workshop
+          <select class="form-control">
+            <option name="activity" value="Conference">Conference</option>
+            <option name="activity" value="Forum">Forum</option>
+            <option name="activity" value="Seminar">Seminar</option>
+            <option name="activity" value="Workshop">Workshop</option>
+          </select>
         </div>
       </div>
 
@@ -42,23 +45,20 @@
       </div>
 
       <div class="form-group">
-        <label for="date" class="col-sm-3 control-label">Inclusive dates</label>
-        <div class="col-sm-4" id="date">
-          <div class="input-group">
-            <input type="date" class="form-control" id="date" name="dfrom" required>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-          </div>
-          to 
-          <div class="input-group">
-            <input type="date" class="form-control" id="date" name="dto" required>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        <label for="dates" class="col-sm-3 control-label">Inclusive dates</label>
+        <div class="col-sm-8">
+          <div class="input-daterange input-group" id="datepicker">
+            <input type="text" class="form-control" id="dates" name="start" required>
+            <span class="input-group-addon">-</span>
+            <input type="text" class="form-control" id="dates" name="end" required>
           </div>
         </div>
       </div>   
     </div>
     <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</a>
       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
+      <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
     </div>
     <?php print form::close();?> <!-- form -->     
   </div>

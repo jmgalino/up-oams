@@ -1,6 +1,14 @@
 $(document).ready(function()
 {
-	//type of user
+
+	// Filter users
+	$("#filter").click(function()
+	{
+		$("#filter_form").toggle();
+		$("#display_table").toggleClass("col-md-9");		
+	});
+
+	// type of user
 	$("input[name=user_type]").click(function()
 	{
 		var type = jQuery('input[name=user_type]:checked').val();
@@ -15,10 +23,10 @@ $(document).ready(function()
 	});
 
 	// type of report
-	$("input[name=report]").click(function()
+	$('#report_type').change(function()
 	{
-		var report = jQuery('input[name=report]:checked').val();
-		if (report == "new")
+		var type = $(this).val();
+		if (type == "new")
 		{
 			$(".new-report").show();
 			$(".consolidated-report").hide();
@@ -26,7 +34,7 @@ $(document).ready(function()
 			$(".n-report").attr("required", "");
 			$(".c-report").removeAttr("required");
 		}
-		else if (report == "consolidated")
+		else if (type == "consolidated")
 		{
 			$(".new-report").hide();
 			$(".consolidated-report").show();
@@ -34,9 +42,21 @@ $(document).ready(function()
 			$(".n-report").removeAttr("required");
 			$(".c-report").attr("required", "");
 		}
+    });
+	
+	// date
+	$('#monthpicker input').datepicker({
+		format: "MM yyyy",
+	    viewMode: "months", 
+	    minViewMode: "months",
+		autoclose: true
+	});
+	$('.input-daterange').datepicker({
+		todayHighlight: true
 	});
 
-	//type of ar
+
+	//type of accomplishment
 	$("input[name=choice]").click(function()
 	{
 		$(".next_choice").attr("data-target","#modal_"+jQuery('input[name=choice]:checked').val());
@@ -119,19 +139,15 @@ $(document).ready(function()
 
 	// change category+outputs
 	$('#category').ready(function()
-	{
-		$()
-	});
+	{});
 
 	// Modify Categories
 	$("input[name=category]").click(function ()
 	{
-			$(this).hide();
+		$(this).hide();
 		var change = $(this).val();
 		if ($(this).prop('checked') === true)
-		{
-
-  		}
+		{}
 		else
 		{
 		    $('#mytextfield').hide();
@@ -140,6 +156,5 @@ $(document).ready(function()
 		    $('input[name="mynumberfield"]').prop('required',false);        
 		}
 	});
-
 
 });

@@ -20,94 +20,94 @@
 </div>
 <?php endif; ?>
 
-<a class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_profile" role="button" href="">Create</a>
+<!-- Actions -->
+<div class="btn-toolbar pull-right" role="toolbar">
+	<button type="button" class="btn btn-default" id="filter">Filter</button>
+	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_profile">Create</button>
+</div>
 <br><br>
 
 <div class="row">
-	<div class="col-sm-3" role="complementary">
+
+	<!-- Filter -->
+	<div class="col-sm-3" id="filter_form" role="complementary" style="display: none;">
 		<div class="panel-group" id="accordion">
 			<div class="panel panel-default">
+
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#faculty_group">
-							Filter
-						</a>
+						<a data-toggle="collapse" data-parent="#accordion" href="#faculty_filter">Filter</a>
 					</h4>
 				</div>
-				<div id="faculty_group" class="panel-collapse collapse in">
-					<div class="panel-body">
 
+				<div class="panel-collapse collapse in" id="faculty_filter">
+					<div class="panel-body">
 						<?php print form::open('admin/profile', array('class'=>'form-horizontal', 'role'=>'form'));?>
 						Comming soon.<br><br>
 						<?php print form::submit(NULL, 'Apply Filter', array('type'=>'submit', 'class'=>'btn btn-default pull-right', 'disabled' => 'disabled'));
 						print form::close();?>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
 
-	<div class="col-sm-9" role="main">
+	<!-- Table -->
+	<div class="col-md-12" id="display_table" role="main">
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Employee Code</th>
+						<th>Name</th>
+						<th>User Type</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
 		<?php
-			if (count($users)>0)
+		foreach ($users as $user)
+		{
+			echo '<tr>';
+			echo '<td>', $user['employee_code'], '</td>';
+			echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_initial'], '.</td>';
+			echo '<td>', $user['user_type'], '</td>';
+			
+			if ($user['employee_code'] !== $emp_code)
 			{
-				echo '<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Employee Code</th>
-								<th>Name</th>
-								<th>User Type</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>';
-
-				foreach ($users as $user)
-				{
-					echo '<tr>';
-					echo '<td>'.$user['employee_code'].'</a></td>';
-					echo '<td>'.$user['last_name'].', '.$user['first_name'].' '.$user['middle_initial'].'.</td>';
-					echo '<td>', $user['user_type'], '</td>';
-					
-					if ($user['employee_code'] !== $emp_code)
-					{
-						echo '<td class="dropdown">
-							<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href='.URL::site('admin/profile/view/'.$user['employee_code']).'>
-									<span class="glyphicon glyphicon-user"></span> Show Profile</a>
-								</li>
-								<li>
-									<a onclick="return confirm(\'Are you sure you want to reset the password?\');" href='.URL::site('admin/profile/reset/'.$user['employee_code']).'>
-									<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
-								</li>
-								<li>
-									<a onclick="return confirm(\'Are you sure you want to delete this account?\');" href='.URL::site('admin/profile/delete/'.$user['employee_code']).'>
-									<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
-								</li>
-							</ul>
-						</td>';
-					}
-					else
-						echo '<td>Disabled</td>';
-
-					echo '</tr>';
-				}
-				echo '</tbody></table></div>';
+				echo '<td class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href='.URL::site('admin/profile/view/'.$user['employee_code']).'>
+							<span class="glyphicon glyphicon-user"></span> Show Profile</a>
+						</li>
+						<li>
+							<a onclick="return confirm(\'Are you sure you want to reset the password?\');" href='.URL::site('admin/profile/reset/'.$user['employee_code']).'>
+							<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
+						</li>
+						<li>
+							<a onclick="return confirm(\'Are you sure you want to delete this account?\');" href='.URL::site('admin/profile/delete/'.$user['employee_code']).'>
+							<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
+						</li>
+					</ul>
+				</td>';
 			}
-			else {
-				echo '<div class="alert alert-danger">
-				<p class="text-center">
-				The list is empty.
-				</p>
-				</div>';
-			}
-			?>
+			else
+				echo '<td>Disabled</td>';
 
-
+			echo '</tr>';
+		}?>
+				</tbody>
+			</table>
+		</div>
 	</div>
+
 </div>
 
-<?php echo View::factory('admin/profile/form/template')->bind('programs', $programs); ?>
+<?php
+// Add/Edit Form
+echo View::factory('admin/profile/form/template')
+	->bind('programs', $programs);
+?>

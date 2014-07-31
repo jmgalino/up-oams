@@ -16,24 +16,24 @@
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">Accomplishment Report <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href=<?php echo url::site('faculty/accom'); ?>>View Own</a></li>
-						<li><a href=<?php echo url::site('faculty/accom_college'); ?>>View College</a></li>
+						<li><a href=<?php echo url::site('faculty/accom_coll'); ?>>View College</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">IPCR <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href=<?php echo url::site('faculty/ipcr'); ?>>View Own</a></li>
-						<li><a href=<?php echo url::site('faculty/ipcr_college'); ?>>View College</a></li>
+						<li><a href=<?php echo url::site('faculty/ipcr_coll'); ?>>View College</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">OPCR <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href=<?php echo url::site('faculty/opcr'); ?>>View Own</a></li>
-						<li><a href=<?php echo url::site('faculty/opcr_college'); ?>>View College</a></li>
+						<li><a href=<?php echo url::site('faculty/opcr_coll'); ?>>View College</a></li>
 					</ul>
 				</li>
-				<li><a href=<?php echo url::site('faculty/cuma_college'); ?>>CUMA</a></li>
+				<li><a href=<?php echo url::site('faculty/cuma_coll'); ?>>CUMA</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href=<?php echo URL::site(); ?>><span class="glyphicon glyphicon-home"></span></a></li>

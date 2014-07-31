@@ -17,9 +17,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$colleges = $univ->get_colleges();
 		$emp_code = $this->session->get('emp_code');
 
-		$reset = $this->session->get('reset', null);
+		$reset = $this->session->get('reset', NULL);
 		if (isset($reset)) $this->session->delete('reset');
-		$delete = $this->session->get('delete', null);
+		$delete = $this->session->get('delete', NULL);
 		if (isset($delete)) $this->session->delete('delete');
 
 		$this->view->content = View::factory('admin/profile')
@@ -37,7 +37,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	/**
 	 * Create new user profile
 	 */
-	public function action_add()
+	public function action_new()
 	{
 		$details = $this->request->post();
 
@@ -61,14 +61,12 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$employee_code = $this->request->param('id');
-		$user = $user->get_details($employee_code);
-
+		$user = $user->get_details($this->request->param('id'));
 		$programs = $univ->get_programs();
 
-		$reset = $this->session->get('reset', null);
+		$reset = $this->session->get('reset', NULL);
 		if (isset($reset)) $this->session->delete('reset');
-		$update = $this->session->get('update', null);
+		$update = $this->session->get('update', NULL);
 		if (isset($update)) $this->session->delete('update');
 
 		if ($user[0]['user_type'] == 'Faculty')
@@ -76,12 +74,12 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$program = $univ->get_program_details($user[0]['program_ID']);
 			$user[0]['program_short'] = $program[0]['program_short'];
 		}
-		$ar_rows = null;
-		$ipcr_rows = null;
-		$opcr_rows = null;
-		$cuma_rows = null;
-		$pub_rows = null;
-		$rch_rows = null;
+		$ar_rows = NULL;
+		$ipcr_rows = NULL;
+		$opcr_rows = NULL;
+		$cuma_rows = NULL;
+		$pub_rows = NULL;
+		$rch_rows = NULL;
 
 		$this->view->content = View::factory('admin/profile/template')
 			->bind('user', $user[0])
@@ -102,10 +100,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$employee_code = $this->request->param('id');
-		$details = $this->request->post();
-		
-		$success = $user->update_details($employee_code, $details);
+		$success = $user->update_details($this->request->param('id'), $this->request->post());
 		$this->session->set('update', $success);
 
 		$this->redirect('admin/profile/view/'.$employee_code);
@@ -118,8 +113,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$employee_code = $this->request->param('id');
-		$success = $user->reset_password($employee_code); echo $success, gettype($success);
+		$success = $user->reset_password($this->request->param('id')); echo $success, gettype($success);
 		$this->session->set('reset', $success);
 
 		$this->redirect('admin/profile');
@@ -132,8 +126,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 		
-		$employee_code = $this->request->param('id');
-		$success = $user->delete_profile($employee_code);
+		$success = $user->delete_profile($this->request->param('id'));
 		$this->session->set('delete', $success);
 
 		$this->redirect('admin/profile');

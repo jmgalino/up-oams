@@ -7,20 +7,19 @@ class Controller_Faculty extends Controller_User {
 	 */
 	public function action_contact()
 	{
-		$details = $this->request->post();
 		$error = NULL;
 		$sucess = NULL;
 
-		if ((isset($details)) AND (count($details) > 0))
+		if ($this->request->post())
 		{
-			$this->action_send($details);
+			$this->action_send($this->request->post()); echo "hello";
 		}
 		else
 		{
-			$fullname_2 = $this->session->get('fullname_2');
+			$fullname2 = $this->session->get('fullname2');
 
 			$this->view->content = View::factory('profile/contact')
-				->bind('fullname', $fullname_2)
+				->bind('fullname', $fullname2)
 				->bind('error', $error)
 				->bind('sucess', $sucess);
 			$this->response->body($this->view->render());
@@ -30,7 +29,7 @@ class Controller_Faculty extends Controller_User {
 	/**
 	 * Send the message
 	 */
-	private function action_send()
+	private function action_send($details)
 	{}
 
 } // End Faculty

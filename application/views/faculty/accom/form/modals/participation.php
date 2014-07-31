@@ -1,3 +1,4 @@
+<!-- "par" Form -->
 <div class="modal fade" id="modal_participation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -5,12 +6,12 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Participation in Seminars/Conferences/Workshops/Training Courses/Fora</h4>
       </div>
-      <?php print form::open('accom/add/par', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'role'=>'form'));?>
         <div class="modal-body">
         <div class="form-group">
           <label for="name" class="col-sm-3 control-label">Name of Faculty</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="name" name="name" value="<?php echo $this->site->session->get('namefull');?>" readonly>
+            <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
           </div>
         </div>
 
@@ -24,13 +25,13 @@
         <div class="form-group">
           <label for="participation" class="col-sm-3 control-label">Participation</label>
           <div class="col-sm-8">
-              <input type="radio" name="participation" value="Coordinator" checked> Coordinator
-              <br><input type="radio" name="participation" value="Facilitator"> Facilitator
-              <br><input type="radio" name="participation" value="Moderator"> Moderator
-              <br><input type="radio" name="participation" value="Participant"> Participant
-              <br><input type="radio" name="participation" value="Trainer"> Trainer
-              <br><input type="radio" name="participation" value="Other"> Other
-            <!-- <input type="text" class="form-control" id="participation" readonly> -->
+            <select class="form-control">
+              <option name="participation" value="Coordinator">Coordinator</option>
+              <option name="participation" value="Facilitator">Facilitator</option>
+              <option name="participation" value="Participant">Participant</option>
+              <option name="participation" value="Trainer">Trainer</option>
+              <option name="participation" value="Other">Other</option> <!-- add field -->
+            </select>
           </div>
         </div>
 
@@ -42,25 +43,22 @@
         </div>
 
       <div class="form-group">
-        <label for="date" class="col-sm-3 control-label">Inclusive dates</label>
-        <div class="col-sm-4" id="date">
-          <div class="input-group">
-            <input type="date" class="form-control" id="date" name="dfrom" required>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-          </div>
-          to 
-          <div class="input-group">
-            <input type="date" class="form-control" id="date" name="dto" required>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        <label for="dates" class="col-sm-3 control-label">Inclusive dates</label>
+        <div class="col-sm-8">
+          <div class="input-daterange input-group" id="datepicker">
+            <input type="text" class="form-control" id="dates" name="start" required>
+            <span class="input-group-addon">-</span>
+            <input type="text" class="form-control" id="dates" name="end" required>
           </div>
         </div>
       </div>    
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
+        <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
-        <?php print form::close();?> <!-- form -->    
+        <?php print form::close();?>
     </div>
   </div>
 </div>
