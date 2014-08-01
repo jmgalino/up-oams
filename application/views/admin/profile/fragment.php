@@ -63,36 +63,34 @@
 <div class="row">
 	<div class="col-md-4">
 		<h4>Accomplishment Reports</h4>
+	<?php if ($accom_rows): ?>
+			<div class="table-responsive mini-table">
+				<table class="table table-striped">
+					<tbody>
 	<?php
-	if (count($ar_rows)>0)
-	{
-		echo '<div class="table-responsive"><table class="table table-striped">';
-
-		foreach ($ar_rows as $accom)
+		foreach ($accom_rows as $accom)
 		{
-			$month = DateTime::createFromFormat('n', $accom->month);
-			$month_year = $month->format('F').' '.$accom->year;
+			$yearmonth = DateTime::createFromFormat('Y-m-d', $accom['yearmonth']);
 
-			echo '<tr>
+			echo "<tr>
 					<td>
-						<a href='.url::site('accom/view_admin/'.$accom->accom_ID).'>', $month_year, '</a>
+						<a href='#'>", $yearmonth->format("F Y"), "</a>
 					</td>
-				<tr>';
+				<tr>";
 		}
-		
-		echo '</tbody></table></div>';
-	}
-	else
-	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
-	}	
 	?>
+					</tbody>
+				</table>
+			</div>
+	<?php else: ?>
+			<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>
+	<?php endif; ?>
 	</div>
 
 	<div class="col-md-4">
 	<h4>IPCR Forms</h4>
 	<?php
-	if (count($ipcr_rows)>0)
+	if ($ipcr_rows)
 	{
 		echo '<div class="table-responsive"><table class="table table-striped">';
 

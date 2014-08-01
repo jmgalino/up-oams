@@ -60,7 +60,7 @@ class Model_User extends Model {
 			$result = DB::select()
 			->from('user_profiletbl')
 			->where('deleted', '=', '0')
-			->order_by('employee_code', 'ASC')
+			->order_by('employee_code', 'ASC') //->order_by('last_name', 'ASC')
 			// ->limit(10)
 	 		->execute()
 	 		->as_array();
@@ -73,6 +73,37 @@ class Model_User extends Model {
 
  		return $users;
  	}
+
+ 	// public function get_program_users($program_ID)
+ 	// {}
+
+ 	// public function get_department_users($program_IDs)
+ 	// {
+ 	// 	$users = array();
+
+  //   	if ($filter)
+  //   	{}
+		// else
+		// {
+		// 	$result = DB::select()
+		// 	->from('user_profiletbl')
+		// 	->where('deleted', '=', '0')
+		// 	->order_by('employee_code', 'ASC') //->order_by('last_name', 'ASC')
+		// 	// ->limit(10)
+	 // 		->execute()
+	 // 		->as_array();
+	 // 	}
+
+		// foreach ($result as $user)
+		// {
+		// 	$users[] = $user;
+		// }
+
+ 	// 	return $users;
+ 	// }
+
+ 	// public function get_college_users($program_IDs)
+ 	// {}
 
  	public function get_old_publications($user_ID)
  	{}

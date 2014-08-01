@@ -16,7 +16,7 @@
 <h3>
 	My Accomplishment Reports
 	<div class="btn-toolbar pull-right" role="toolbar">
-		<?php if (count($accom_reports) > 0) : ?>
+		<?php if ($accom_reports) : ?>
 		<button type="button" class="btn btn-default" id="filter">Filter</button>
 		<?php endif; ?>
 		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_accom">New Report</button>
@@ -24,7 +24,7 @@
 </h3>
 <br><br>
 
-<?php if (count($accom_reports)>0): ?>
+<?php if ($accom_reports): ?>
 <div class="row">
 
 	<!-- Filter -->
@@ -64,8 +64,7 @@
 					</tr>
 				</thead>
 				<tbody>
-		<?php //<a href='.url::site('accom/view/'..'>'
-		foreach ($accom_reports as $accom)
+		<?php foreach ($accom_reports as $accom)
 		{
 			$yearmonth = DateTime::createFromFormat('Y-m-d', $accom['yearmonth']);
 
@@ -87,11 +86,17 @@
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href='.URL::site('faculty/accom/view/'.$accom['accom_ID']).'>
+							<a href='.URL::site('faculty/accom/download/'.$accom['accom_ID']).'>
 							<span class="glyphicon glyphicon-download"></span> Download Report</a>
 						</li>';
-
-			if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Rejected') OR (is_null($accom['date'])) OR ($identifier == 'dean'))
+			// if ($accom['document'])
+			// {
+			// 	echo	'<li>
+			// 				<a href='.URL::site('faculty/accom/view/'.$accom['accom_ID']).'>
+			// 				<span class="glyphicon glyphicon-download"></span> View Report</a>
+			// 			</li>';
+			// else
+			if (($accom['status'] == 'Draft') OR (is_null($accom['date'])) OR ($identifier == 'dean'))
 			{
 				echo 	'<li>
 							<a href='.URL::site('faculty/accom/edit/'.$accom['accom_ID']).'>
@@ -106,8 +111,7 @@
 			echo '	</ul>
 				</td>
 				</tr>';
-		}
-		?>
+		}?>
 				</tbody>
 			</table>
 		</div>
@@ -119,10 +123,7 @@
 <div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>
 <?php endif; ?>
 
-
-
 <?php
 // Add Form (Initialize)
-echo View::factory('faculty/accom/form/initialize')
-	->bind('accom_reports', $accom_reports);
+echo View::factory('faculty/accom/form/initialize');
 ?>

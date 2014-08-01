@@ -95,6 +95,36 @@ class Model_Univ extends Model {
 
  		return $rows_updated;
  	}
+
+	public function get_department_programIDs($department_ID)
+	{
+		$result = DB::select('program_ID')
+			->from('univ_programtbl')
+			->where('department_ID', '=', $department_ID)
+			->execute()
+			->as_array();
+
+		// print_r($result);
+		return $result;
+	}
+
+	public function get_department_programs($department_ID)
+	{
+		$programs = array();
+
+		$result = DB::select()
+			->from('univ_programtbl')
+			->where('department_ID', '=', $department_ID)
+			->execute()
+			->as_array();
+
+		foreach ($result as $program)
+		{
+			$programs[] = $program;
+		}
+
+		return $programs;
+	}
  	
 	/**
 	 * Degree Program

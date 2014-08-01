@@ -51,6 +51,12 @@ $(document).ready(function()
 	    minViewMode: "months",
 		autoclose: true
 	});
+	$('#datepickerer input').datepicker({
+		format: "MM dd, yyyy",
+		update: new Date($(this).val()),
+		todayHighlight: true,
+		autoclose: true
+	});
 	$('.input-daterange').datepicker({
 		todayHighlight: true
 	});

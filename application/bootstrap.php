@@ -132,8 +132,7 @@ Kohana::modules(array(
 	));
 
 /**
- * Set the routes. Each route must have a minimum of a name, a URI and a set of
- * defaults for the URI.
+ * Routes for login/logout functions
  */
 Route::set('session', '<action>',
 	array(
@@ -142,6 +141,10 @@ Route::set('session', '<action>',
 	->defaults(array(
 		'controller'=> 'site'
 	));
+
+/**
+ * Routes for common functions for all registered users
+ */
 Route::set('user-functions', '<controller>/<action>',
 	array(
 		'controller'=> '(user|admin|faculty)',
@@ -150,6 +153,10 @@ Route::set('user-functions', '<controller>/<action>',
 	->defaults(array(
 		'action'	=> 'index'
 	));
+
+/**
+ * Routes for Admin Users
+ */
 Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'admin',
@@ -157,20 +164,69 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
 		'action'	=> '(add|view|update|reset|delete)'
 	))
 	->defaults(array(
-		'directory' => 'admin'
+		'action'	=> 'index'
 	));
-Route::set('faculty-functions', '<directory>/<controller>(/<action>(/<id>))',
+
+/**
+ * Routes for Faculty Users
+ */
+
+// accom
+Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		'controller'=> '(accom|ipcr|opcr|cuma)',
+		'controller'=> 'accom',
 		// 'action'	=> '(add|view|update|reset|delete)'
 	))
 	->defaults(array(
-		'directory' => 'faculty'
+	    'action'     => 'index'
+	));
+
+// accom_spec
+Route::set('accom_spec-functions', '<directory>/accom/<action>/<key>(/<id>)',
+	array(
+		'directory' => 'faculty',
+		'action'	=> '(add|edit|delete)'
+	))
+	->defaults(array(
+		'controller'=> 'accomspec'
+	));
+
+// accom_dept
+Route::set('accom_dept-functions', '<directory>/accom_dept(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'action'	=> '(dept|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'accomext',
+		'action'	=> 'dept'
+	));
+
+// accom_coll
+Route::set('accom_coll-functions', '<directory>/accom_coll(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'action'	=> '(coll|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'accomext',
+		'action'	=> 'coll'
+	));
+
+Route::set('faculty-functions2', '<directory>/<controller>(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'controller'=> '(ipcr|opcr|cuma)',
+		// 'action'	=> '(add|view|update|reset|delete)'
+	))
+	->defaults(array(
+		'action'	=> 'index'
 	));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-		'controller'=> 'site'
+		'controller'=> 'site',
+		'action'	=> 'index'
 	));
 	
 /**

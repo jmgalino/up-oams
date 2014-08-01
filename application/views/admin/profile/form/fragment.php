@@ -29,7 +29,10 @@
 <div class="form-group">
   <label for="birthday" class="col-sm-4 control-label">Birthday</label>
   <div class="col-sm-7">
-    <input type="date" class="form-control" id="birthday" name="birthday" value="<?php echo date_format(date_create($user['birthday']), 'Y-m-d'); ?>" required>
+    <div class="input-group" id="datepickerer">
+      <input type="text" class="form-control" id="birthday" name="birthday" value="<?php echo date_format(date_create($user['birthday']), 'F d, Y'); ?>" required>
+      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    </div>
   </div>
 </div>
 <br>

@@ -16,22 +16,20 @@
       else
         print form::open('admin/profile/new', array('class'=>'form-horizontal', 'role'=>'form'));
       ?>
-      <div class="modal-body">
-        <div class="radio">
-          <input type="radio" name="user_type" value="Admin" checked>
-          Administrator
+        <div class="modal-body">
+          <div class="radio">
+            <label><input type="radio" name="user_type" value="Admin" checked>Administrator</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="user_type" value="Faculty">Faculty</label>
+          </div>
+          <hr>
+          <?php
+          echo View::factory('admin/profile/form/fragment')
+            ->bind('user', $user)
+            ->bind('programs', $programs);
+          ?>
         </div>
-        <div class="radio">
-          <input type="radio" name="user_type" value="Faculty">
-          Faculty
-        </div>
-        <hr>
-        <?php
-        echo View::factory('admin/profile/form/fragment')
-          ->bind('user', $user)
-          ->bind('programs', $programs);
-        ?>
-      </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

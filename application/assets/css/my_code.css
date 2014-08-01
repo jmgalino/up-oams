@@ -1,84 +1,151 @@
+/* BODY -- lighter bacgkround and offset to avoid overlap with navbar */
 body {
   background-color: #fafafa;
 	padding-top: 65px;
 }
 
+/* NAVBAR -- bigger fonts */
+.navbar {
+    font-size: 16px;
+}
 .navbar-brand {
   font-size: 25px;
 }
 
+/* NAVBAR -- changed hover font color from gray to white */
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #ffffff;
 }
 
+/* NAVBAR -- add hover background color */
 .navbar li:hover {
-	background-color: #003619;
-}
-
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #f2f2f2;
   background-color: #003619;
 }
 
+/* NAVBAR -- change toggle (collapse button) color from gray to white */
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+
+/* NAVBAR -- remove toggle border color */
+.navbar-default .navbar-toggle {
+  border-color: #014421;
+}
+
+/* NAVBAR -- change toggle hover color */
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
   background-color: #001c0d;
   border-color: #000000;
 }
 
+/* NAVBAR -- change background and hover background color for dropdown at collapse */
+.navbar-nav .open .dropdown-menu {
+  background-color: #014421;
+}
+
+/* NAVBAR -- change hover color from maroon to green */
+.navbar-nav .dropdown-menu > li > a:hover {
+  background-color: #003619;
+}
+
+/* NAVBAR -- change divider hover color from green to #e5e to remove flickering look */
+.dropdown-menu .divider:hover {
+  background-color: #e5e5e5;
+}
+
+/*
+"active" not working
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #f2f2f2;
+  background-color: #003619;
+}*/
+
+/*
+???
+.navbar .wform {
+  max-height: 50px;
+}*/
+
+/* JUMBOTRON -- change font color from black to white */
 .jumbotron {
-	color: #efefef;
+  color: #ffffff;
 }
 
-.jumbotron h1 {
-	color: #fff;
-}
-
+/* JUMBOTRON -- reverse primary button colors */
 .jumbotron .btn-primary {
-	background-color: #014421;
+  background-color: #014421;
 }
-
 .jumbotron .btn-primary:hover,
 .jumbotron .btn-primary:focus {
   background-color: #003619;
 }
 
-.navbar {
-    font-size: 16px;
-}
-
-.navbar .wform {
-  max-height: 50px;
-}
-
-/* No flickering bar */
-.dropdown-menu .divider:hover {
-  background-color: #fff;
-}
-
-/* during navbar collapse, dropdown will highlight one row at a time */
-.navbar-nav .open .dropdown-menu {
-	background-color: #014421;
-}
-
-/* change hover color from maroon to green */
-.navbar-nav .open .dropdown-menu > li > a:hover{
-	background-color: #003619;
-}
-
+/* BREADCRUMB -- remove background color and padding on the left (align with body) */
 .breadcrumb {
   padding: 8px 8px 8px 0px;
   background-color: rgba(0,0,0,0.0);
 }
 
+/* DATEPICKER -- keep on top */
+#datepickerer,
+#monthpicker {
+  z-index:1151;
+}
+
+/*** ADMIN ***/
+
+/* -- set max height for tables in profile view */
+.mini-table {
+  max-height: 200px;
+  overflow: auto;
+}
+
+/*** FACULTY ***/
+
+/* SIDEBAR -- avoid overlap with footer and auto-size depending on screen size*/
+.affix-top,
+.affix {
+    position: static;
+}
+@media screen and (min-width: 992px) {
+
+  .bs-sidebar .nav > .active > ul {
+    display: block;
+  }
+  .bs-sidebar.affix-top {
+    position: static;
+    margin-top:30px;
+    width:228px;
+  }
+
+  .bs-sidebar.affix,
+  .bs-sidebar.affix-bottom {
+    width: 228px;
+  }
+  .bs-sidebar.affix {
+    position: fixed;
+    top: 220px;
+  }
+  .bs-sidebar.affix-bottom {
+    position: absolute;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .bs-sidebar.affix-bottom,
+  .bs-sidebar.affix {
+    width: 235px;
+  }
+}
+
 pre {
   padding: 30px;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: inherit;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 .pre-scrollable {
@@ -105,18 +172,6 @@ h6,
 .h6 {
   font-size: 16px;
   font-weight: 450;
-}
-
-.navbar-default .navbar-toggle {
-  border-color: #014421;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #fff;
-}
-
-.bs-sidebar.affix-bottom, .bs-sidebar.affix {
-  width: 263px;
 }
 
 .pdf-viewer {
@@ -147,10 +202,23 @@ font-weight: normal;
 position: inherit;
 }
 
-ul .filter_checkbox{
-  list-style: none;
-  margin: 5px 5px 5px -40px;
+.rightMenu {
+    position:relative;
+    float:right;
 }
-li .filter_checkbox{
-  margin: 0 0 5px 0;
+.right-caret {
+    
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-left: 4px solid #000000;
+    display: inline-block;
+    height: 0;
+    opacity: 1;
+    vertical-align: top;
+    width: 0;
+    
+}
+.right
+{
+    float:right;
 }

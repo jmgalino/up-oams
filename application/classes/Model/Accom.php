@@ -1,8 +1,11 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 class Model_Accom extends Model {
-
-	public function get_all_accom($user_ID, $filter)
+	
+	/**
+	 * Faculty
+	 */
+	public function get_faculty_accom($user_ID, $filter)
 	{
 		$accom_reports = array();
 
@@ -13,6 +16,7 @@ class Model_Accom extends Model {
 			$result = DB::select()
 				->from('accomtbl')
 				->where('user_ID', '=', $user_ID)
+				->order_by('yearmonth', 'ASC')
 				->execute()
 				->as_array();
 		}
@@ -23,6 +27,34 @@ class Model_Accom extends Model {
 		}
 
 		return $accom_reports;
+	}
+
+	// /**
+	//  * Department
+	//  */
+	// public function get_department_accom($user_ID, $filter)
+	// {}
+	
+	// /**
+	//  * College
+	//  */
+	// public function get_college_accom($user_ID, $filter)
+	// {}
+
+	public function get_details($accom_ID)
+	{
+		$result = DB::select()
+			->from('accomtbl')
+			->where('accom_ID', '=', $accom_ID)
+	 		->execute()
+	 		->as_array();
+
+		foreach ($result as $detail)
+		{
+			$details[] = $detail;
+		}
+
+ 		return $details;
 	}
 
 	public function initialize($details)
@@ -48,17 +80,10 @@ class Model_Accom extends Model {
  		}
  		else
  		{
- 			$columns = array('user_ID', 'yearmonth');
-
- 			for ($i = 0; $i < count($columns); $i++)
- 			{ 
- 				foreach ($details as $key => $value)
- 				{
-	 				
-	 				if ($columns[$i] == $key)
-	 					$values[] = $value;
-	 			}	
- 			} print_r($values);
+ 			foreach ($details as $column_name => $value) {
+ 				$columns[] = $column_name;
+				$values[] = $value;
+			}// print_r($values);
 
  			$insert_accom = DB::insert('accomtbl')
 	 			->columns($columns)
@@ -69,21 +94,11 @@ class Model_Accom extends Model {
  		}
 	}
 
-	public function get_details($accom_ID)
-	{
-		$result = DB::select()
-			->from('accomtbl')
-			->where('accom_ID', '=', $accom_ID)
-	 		->execute()
-	 		->as_array();
+	public function submit($details) //$accom_ID, $path, $date, $identifier)
+	{}
 
-		foreach ($result as $detail)
-		{
-			$details[] = $detail;
-		}
-
- 		return $details;
-	}
+	public function evaluate($accom_ID, $details, $identifier)
+	{}
 
 	public function delete($accom_ID)
 	{
@@ -93,5 +108,20 @@ class Model_Accom extends Model {
 
 	 	return $row_deleted;	
 	}
+
+	public function find_accom($user_ID, $accom_ID, $type)
+	{}
+
+	public function add_accom($user_ID, $accom_ID, $details, $type)
+	{}
+
+	public function edit_accom($user_ID, $accom_ID, $details, $type)
+	{}
+
+	public function delete_accom($user_ID, $accom_ID, $details, $type)
+	{}
+
+	private function unlink_accom($user_ID, $accom_ID, $details, $type)
+	{}
 
 } // End Accom

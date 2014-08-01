@@ -36,7 +36,7 @@
 	<?php 
 	echo View::factory('admin/profile/fragment')
 		->bind('user', $user)
-		->bind('ar_rows', $ar_rows)
+		->bind('accom_rows', $accom_rows)
 		->bind('ipcr_rows', $ipcr_rows)
 		->bind('opcr_rows', $opcr_rows)
 		->bind('cuma_rows', $cuma_rows)

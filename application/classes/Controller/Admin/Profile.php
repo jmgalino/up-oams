@@ -58,6 +58,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_view()
 	{
+		$accom = new Model_Accom;
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
@@ -74,7 +75,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$program = $univ->get_program_details($user[0]['program_ID']);
 			$user[0]['program_short'] = $program[0]['program_short'];
 		}
-		$ar_rows = NULL;
+		$accom_rows = $accom->get_faculty_accom($user[0]['user_ID'], NULL);
 		$ipcr_rows = NULL;
 		$opcr_rows = NULL;
 		$cuma_rows = NULL;
@@ -83,7 +84,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 		$this->view->content = View::factory('admin/profile/template')
 			->bind('user', $user[0])
-			->bind('ar_rows', $ar_rows)
+			->bind('accom_rows', $accom_rows)
 			->bind('ipcr_rows', $ipcr_rows)
 			->bind('opcr_rows', $opcr_rows)
 			->bind('cuma_rows', $cuma_rows)

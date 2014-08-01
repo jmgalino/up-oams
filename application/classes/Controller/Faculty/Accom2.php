@@ -11,10 +11,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 		$filter = $this->request->post();
 		$this->session->set('filter', $filter);
-
 		$user_ID = $this->session->get('user_ID');
 		$employee_code = $this->session->get('employee_code');
-		$accom_reports = $accom->get_faculty_accom($user_ID, $filter);
+		$accom_reports = $accom->get_all_accom($user_ID, $filter);
 
 		$delete = $this->session->get('delete', NULL);
 		if (isset($delete)) $this->session->delete('delete');
@@ -24,6 +23,24 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			->bind('accom_reports', $accom_reports)
 			->bind('delete', $delete)
 			->bind('filter', $filter);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Department's Accomplishment Report
+	 */
+	public function action_dept()
+	{
+		$this->view->content = "dept";
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * College's Accomplishment Report
+	 */
+	public function action_coll()
+	{
+		$this->view->content = "coll";
 		$this->response->body($this->view->render());
 	}
 
@@ -59,28 +76,36 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID);
 
-		if ($accom_details[0]['document'])
+		if ($accom_details[0]['user_ID'] == $this->session->get('user_ID'))
 		{
-			// Show PDF
-			$this->action_pdf($accom_details[0]['document']);
+			if (($accom_details['status'] == 'Approved') OR ($accom_details['status'] == 'Pending'))
+			{
+				// Show PDF
+				$this->action_pdf($accom_details[0]['document']);
+			}
+			else
+			{
+				// Show draft
+				$this->session->set('accom_details', $accom_details[0]);
+				$this->action_preview(NULL);
+			}
 		}
 		else
 		{
-			// Show draft
-			$this->action_edit();
+			// View for dept chair/dean
 		}
 	}
 
 	/**
-	 * View Accomplishment Report (Draft)
+	 * Edit Accomplishment Report
 	 */
 	public function action_edit()
 	{
 		$accom = new Model_Accom;
 		
 		$accom_ID = $this->request->param('id');
-		$details = $accom->get_details($accom_ID)[0];
-		$this->session->set('accom_details', $details);
+		$accom_details = $accom->get_details($accom_ID);
+		$this->session->set('accom_details', $accom_details[0]);
 		$this->action_preview(NULL);
 	}
 
@@ -97,7 +122,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$filter = $this->session->get('filter', NULL);
 		$user_ID = $this->session->get('user_ID');
 		$employee_code = $this->session->get('employee_code');
-		$accom_reports = $accom->get_faculty_accom($user_ID, $filter);
+		$accom_reports = $accom->get_all_accom($user_ID, $filter);
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
 			->bind('employee_code', $employee_code)
@@ -111,6 +136,12 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 * Submit Accomplishment Report
 	 */
 	public function action_submit()
+	{}
+
+	/**
+	 * Evaluate Accomplishment Report - for department chair or dean
+	 */
+	public function action_evaluate()
 	{}
 
 	/**
