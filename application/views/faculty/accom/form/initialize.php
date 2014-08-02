@@ -9,9 +9,9 @@
 
       <?php print form::open('faculty/accom/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
-        <?php if (count($accom_reports) > 1) : ?>
+        <?php if (count($accom_reports) > 1): ?>
         <div class="form-group">
-          <label for="month_year" class="col-sm-4 control-label">Report Type</label>
+          <label for="report_type" class="col-sm-4 control-label">Report Type</label>
           <div class="col-sm-6">
             <select class="form-control" name="report_type" id="report_type">
               <option value="new">New</option>

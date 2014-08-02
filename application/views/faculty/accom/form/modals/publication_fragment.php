@@ -45,21 +45,21 @@
 </div>
 
 <!-- Chapter in a Book-->
-<div class="form-group pub_chapter" hidden>
+<div class="form-group pub_chapter" style="display:none;">
   <label for="publisher" class="col-sm-4 control-label">Publisher</label>
   <div class="col-sm-7">
     <input type="text" class="form-control pub_c" id="publisher" name="cpublisher">
   </div>
 </div>
 
-<div class="form-group pub_chapter" hidden>
+<div class="form-group pub_chapter" style="display:none;">
   <label for="place" class="col-sm-4 control-label">Place of Publication</label>
   <div class="col-sm-7">
     <input type="text" class="form-control pub_c" id="place" name="cplace">
   </div>
 </div>
 
-<div class="form-group pub_chapter" hidden>
+<div class="form-group pub_chapter" style="display:none;">
   <label for="pages_chapter" class="col-sm-4 control-label">Inclusive Pages</label>
   <div class="col-sm-7">
     <input type="text" class="form-control pub_c" id="pages_chapter" name="pages_chapter">
@@ -67,21 +67,21 @@
 </div>
 
 <!-- Journal -->
-<div class="form-group pub_journal" hidden>
+<div class="form-group pub_journal" style="display:none;">
   <label for="volume" class="col-sm-4 control-label">Volume No.</label>
   <div class="col-sm-7">
     <input type="text" class="form-control pub_j" id="volume" name="volume" placeholder="III">
   </div>
 </div>
 
-<div class="form-group pub_journal" hidden>
+<div class="form-group pub_journal" style="display:none;">
   <label for="issue" class="col-sm-4 control-label">Issue No.</label>
   <div class="col-sm-7">
     <input type="text" class="form-control pub_j" id="issue" name="issue" placeholder="2">
   </div>
 </div>
 
-<div class="form-group pub_journal" hidden>
+<div class="form-group pub_journal" style="display:none;">
   <label for="pages_journal" class="col-sm-4 control-label">Incusive Pages</label>
   <div class="col-sm-7">
     <input type="text" class="form-control pub_j" id="pages" name="pages_journal" placeholder="62-68">

@@ -20,7 +20,7 @@
 <div class="row">
 
 	<!-- Filter -->
-	<div class="col-sm-3" id="filter_form" role="complementary" style="display: none;">
+	<div class="col-sm-3" id="filter_form" role="complementary" style="display:none;">
 		<div class="panel-group" id="accordion">
 			<div class="panel panel-default">
 

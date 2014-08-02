@@ -1,12 +1,40 @@
 $(document).ready(function()
 {
+	// Initialise DataTable
+	// var table = $('#user_table').DataTable();
+	// new $.fn.dataTable.FixedHeader(table);
+	$('#user_table').DataTable({
+		scrollY: 500,
+		scrollCollapse: false,
+		"pageLength": 25,
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [{
+        	"searchable": false,
+        	"orderable": false,
+        	"targets": 3
+        }]
+    });
+	$('#accom_table').DataTable();
 
-	// Filter users
-	$("#filter").click(function()
-	{
-		$("#filter_form").toggle();
-		$("#display_table").toggleClass("col-md-9");		
-	});
+	// Rest Password Button
+	// $( "#reset_password" ).click(function() {
+	// 	location.reload();
+	// });
+
+	// // Refine - filter, sort
+	// $("#refine_list").click(function()
+	// {
+	// 	$("#refine_form").toggle();
+	// 	$("#display_table").toggleClass("col-md-9");		
+	// });
+
+	// // No auto close
+	// $('#user_filter').collapse({
+	//   toggle: false
+	// })
+	// $('#user_sort').collapse({
+	//   toggle: false
+	// })
 
 	// type of user
 	$("input[name=user_type]").click(function()
@@ -21,6 +49,7 @@ $(document).ready(function()
 			$(".faculty-info").show();
 		}
 	});
+	// var usertype = document.getElementById("user_type");
 
 	// type of report
 	$('#report_type').change(function()
@@ -51,15 +80,19 @@ $(document).ready(function()
 	    minViewMode: "months",
 		autoclose: true
 	});
-	$('#datepickerer input').datepicker({
-		format: "MM dd, yyyy",
-		update: new Date($(this).val()),
-		todayHighlight: true,
-		autoclose: true
-	});
 	$('.input-daterange').datepicker({
 		todayHighlight: true
 	});
+	$('#datepickerer input').datepicker({
+		format: "MM dd, yyyy",
+		todayHighlight: true,
+		autoclose: true
+	});
+	var birthdate = document.getElementById("birthday");
+	$('#datepickerer input').datepicker(
+		'update',
+		new Date(birthdate.getAttribute("value"))
+	);
 
 
 	//type of accomplishment

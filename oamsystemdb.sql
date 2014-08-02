@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.2.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 11, 2014 at 07:14 AM
+-- Generation Time: Aug 02, 2014 at 06:08 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -27,17 +27,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `accomtbl` (
-  `accom_ID` int(11) NOT NULL AUTO_INCREMENT,
+`accom_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
-  `year` int(4) NOT NULL,
-  `month` int(2) NOT NULL,
+  `yearmonth` date NOT NULL,
+  `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `document` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
-  `remarks` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`accom_ID`),
-  KEY `user_ID` (`user_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `remarks` varchar(255) DEFAULT 'None'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `accomtbl`
+--
+
+INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `status`, `document`, `date`, `remarks`) VALUES
+(2, 17, '2014-07-29', 'Draft', NULL, NULL, 'None'),
+(3, 17, '2014-03-03', 'Draft', NULL, NULL, 'None'),
+(4, 17, '2014-01-31', 'Draft', NULL, NULL, 'None'),
+(5, 17, '2014-05-01', 'Draft', NULL, NULL, 'None'),
+(6, 17, '2014-02-01', 'Draft', NULL, NULL, 'None'),
+(7, 17, '2014-04-01', 'Draft', NULL, NULL, 'None');
 
 -- --------------------------------------------------------
 
@@ -46,15 +55,13 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_awdtbl` (
-  `award_ID` int(11) NOT NULL AUTO_INCREMENT,
+`award_ID` int(11) NOT NULL,
   `award` varchar(50) NOT NULL,
   `duration_from` date NOT NULL,
   `duration_to` date NOT NULL,
   `source` varchar(50) NOT NULL DEFAULT 'University of the Philppines',
   `type` enum('Academe','National','International') NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`award_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -64,15 +71,13 @@ CREATE TABLE IF NOT EXISTS `accom_awdtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_ctvtbl` (
-  `creative_ID` int(11) NOT NULL AUTO_INCREMENT,
+`creative_ID` int(11) NOT NULL,
   `author` varchar(50) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `venue` varchar(50) NOT NULL,
   `date_from` date NOT NULL,
   `date_to` date NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`creative_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -82,12 +87,10 @@ CREATE TABLE IF NOT EXISTS `accom_ctvtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_mattbl` (
-  `material_ID` int(11) NOT NULL AUTO_INCREMENT,
+`material_ID` int(11) NOT NULL,
   `year` int(4) NOT NULL,
   `title` varchar(50) NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`material_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -97,11 +100,9 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_othtbl` (
-  `other_ID` int(11) NOT NULL AUTO_INCREMENT,
+`other_ID` int(11) NOT NULL,
   `details` varchar(50) NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`other_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -111,15 +112,13 @@ CREATE TABLE IF NOT EXISTS `accom_othtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_partbl` (
-  `participation_ID` int(11) NOT NULL AUTO_INCREMENT,
+`participation_ID` int(11) NOT NULL,
   `participation` enum('Coordinator','Facilitator','Moderator','Participant','Trainer','Other') NOT NULL,
   `title` varchar(50) NOT NULL,
   `venue` varchar(50) NOT NULL,
   `date_from` date NOT NULL,
   `date_to` date NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`participation_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -129,16 +128,14 @@ CREATE TABLE IF NOT EXISTS `accom_partbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_pprtbl` (
-  `paper_ID` int(11) NOT NULL AUTO_INCREMENT,
+`paper_ID` int(11) NOT NULL,
   `author` varchar(50) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `activity` enum('Conference','Forum','Seminar','Workshop') NOT NULL,
   `venue` varchar(50) NOT NULL,
   `date_from` date NOT NULL,
   `date_to` date NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`paper_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -148,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `accom_pprtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
-  `publication_ID` int(11) NOT NULL AUTO_INCREMENT,
+`publication_ID` int(11) NOT NULL,
   `author` varchar(50) DEFAULT NULL,
   `year` int(4) NOT NULL,
   `title` varchar(50) NOT NULL,
@@ -162,9 +159,7 @@ CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
   `peer_reviewed` int(1) NOT NULL DEFAULT '0',
   `refereed` int(1) NOT NULL DEFAULT '0',
   `popular` int(1) NOT NULL DEFAULT '0',
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`publication_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -174,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
-  `research_ID` int(11) NOT NULL AUTO_INCREMENT,
+`research_ID` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `nature` enum('Basic','Applied','Policy','Other') NOT NULL,
   `fund_up` int(10) NOT NULL DEFAULT '0',
@@ -182,9 +177,7 @@ CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
   `fund_amount` int(10) NOT NULL DEFAULT '0',
   `duration_from` date NOT NULL,
   `duration_to` date NOT NULL,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`research_ID`),
-  KEY `user` (`user`)
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -194,13 +187,10 @@ CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `connect_accom-reporttbl` (
-  `connect_ID` int(11) NOT NULL AUTO_INCREMENT,
+`connect_ID` int(11) NOT NULL,
   `accom_ID` int(11) NOT NULL,
   `accom_specID` int(11) NOT NULL,
-  `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
-  PRIMARY KEY (`connect_ID`),
-  KEY `accom_ID` (`accom_ID`,`accom_specID`),
-  KEY `accom_specID` (`accom_specID`)
+  `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -210,14 +200,12 @@ CREATE TABLE IF NOT EXISTS `connect_accom-reporttbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `cumatbl` (
-  `cuma_ID` int(11) NOT NULL AUTO_INCREMENT,
+`cuma_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `period_from` date NOT NULL,
   `period_to` date NOT NULL,
   `date_assessed` date DEFAULT NULL,
-  `document` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`cuma_ID`),
-  KEY `user_ID` (`user_ID`)
+  `document` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -227,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `ipcrtbl` (
-  `ipcr_ID` int(11) NOT NULL AUTO_INCREMENT,
+`ipcr_ID` int(11) NOT NULL,
   `opcr_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `evaluator_ID` int(11) DEFAULT NULL,
@@ -235,11 +223,7 @@ CREATE TABLE IF NOT EXISTS `ipcrtbl` (
   `date_evaluated` date DEFAULT NULL,
   `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `comment` text,
-  `document` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ipcr_ID`),
-  KEY `user_ID` (`user_ID`),
-  KEY `evaluator_ID` (`evaluator_ID`),
-  KEY `opcr_ID` (`opcr_ID`)
+  `document` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -249,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `ipcrtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `ipcr_targettbl` (
-  `itarget_ID` int(11) NOT NULL AUTO_INCREMENT,
+`itarget_ID` int(11) NOT NULL,
   `otarget_ID` int(11) NOT NULL,
   `ipcr_ID` int(11) NOT NULL,
   `indicator` text NOT NULL,
@@ -258,9 +242,7 @@ CREATE TABLE IF NOT EXISTS `ipcr_targettbl` (
   `r_efficiency` enum('Outstanding','Very Satisfactory','Satisfactory','Unsatisfactory','Poor') DEFAULT NULL,
   `r_timeliness` enum('Outstanding','Very Satisfactory','Satisfactory','Unsatisfactory','Poor') DEFAULT NULL,
   `r_average` enum('Outstanding','Very Satisfactory','Satisfactory','Unsatisfactory','Poor') DEFAULT NULL,
-  `remarks` text,
-  PRIMARY KEY (`itarget_ID`),
-  KEY `ipcr_ID` (`ipcr_ID`)
+  `remarks` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -271,8 +253,7 @@ CREATE TABLE IF NOT EXISTS `ipcr_targettbl` (
 
 CREATE TABLE IF NOT EXISTS `oamstbl` (
   `name` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  PRIMARY KEY (`name`)
+  `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -286,11 +267,46 @@ INSERT INTO `oamstbl` (`name`, `content`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `oams_categorytbl`
+--
+
+CREATE TABLE IF NOT EXISTS `oams_categorytbl` (
+`category_ID` int(11) NOT NULL,
+  `category` varchar(50) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `oams_categorytbl`
+--
+
+INSERT INTO `oams_categorytbl` (`category_ID`, `category`) VALUES
+(1, 'Strategic Priority'),
+(2, 'Core Functions'),
+(3, 'Support Functions');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oams_messagetbl`
+--
+
+CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
+`message_ID` int(11) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `sender` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `seen` int(1) NOT NULL DEFAULT '0',
+  `deleted` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `opcrtbl`
 --
 
 CREATE TABLE IF NOT EXISTS `opcrtbl` (
-  `opcr_ID` int(11) NOT NULL AUTO_INCREMENT,
+`opcr_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `evaluator_ID` int(11) DEFAULT NULL,
   `period_from` date NOT NULL,
@@ -302,10 +318,7 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
   `r_adjectival` varchar(20) DEFAULT NULL,
   `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `comment` text,
-  `document` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`opcr_ID`),
-  KEY `user_ID` (`user_ID`,`evaluator_ID`),
-  KEY `evaluator_ID` (`evaluator_ID`)
+  `document` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -315,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `opcr_targettbl` (
-  `otarget_ID` int(11) NOT NULL AUTO_INCREMENT,
+`otarget_ID` int(11) NOT NULL,
   `category_ID` int(11) NOT NULL,
   `opcr_ID` int(11) NOT NULL,
   `output` text NOT NULL,
@@ -325,10 +338,7 @@ CREATE TABLE IF NOT EXISTS `opcr_targettbl` (
   `r_timeliness` enum('Outstanding','Very Satisfactory','Satisfactory','Unsatisfactory','Poor') DEFAULT NULL,
   `r_average` enum('Outstanding','Very Satisfactory','Satisfactory','Unsatisfactory','Poor') DEFAULT NULL,
   `remarks` text,
-  `_indicator` text,
-  PRIMARY KEY (`otarget_ID`),
-  KEY `category_ID` (`category_ID`),
-  KEY `opcr_ID` (`opcr_ID`)
+  `_indicator` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -356,37 +366,14 @@ CREATE TABLE IF NOT EXISTS `univtbl` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `univ_categorytbl`
---
-
-CREATE TABLE IF NOT EXISTS `univ_categorytbl` (
-  `category_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `category` varchar(50) NOT NULL,
-  PRIMARY KEY (`category_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `univ_categorytbl`
---
-
-INSERT INTO `univ_categorytbl` (`category_ID`, `category`) VALUES
-(1, 'Strategic Priority'),
-(2, 'Core Functions'),
-(3, 'Support Functions');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `univ_collegetbl`
 --
 
 CREATE TABLE IF NOT EXISTS `univ_collegetbl` (
-  `college_ID` int(11) NOT NULL AUTO_INCREMENT,
+`college_ID` int(11) NOT NULL,
   `user_ID` int(11) DEFAULT NULL,
   `college` varchar(100) NOT NULL,
-  `short` varchar(10) NOT NULL,
-  PRIMARY KEY (`college_ID`),
-  KEY `user_ID` (`user_ID`)
+  `short` varchar(10) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
@@ -394,9 +381,9 @@ CREATE TABLE IF NOT EXISTS `univ_collegetbl` (
 --
 
 INSERT INTO `univ_collegetbl` (`college_ID`, `user_ID`, `college`, `short`) VALUES
-(1, NULL, ' College of Humanities and Social Sciences', 'CHSS'),
-(2, NULL, 'College of Science and Mathematics', 'CSM'),
-(3, NULL, 'School of Management', 'SOM');
+(1, 4, ' College of Humanities and Social Sciences', 'CHSS'),
+(2, 5, 'College of Science and Mathematics', 'CSM'),
+(3, 6, 'School of Management', 'SOM');
 
 -- --------------------------------------------------------
 
@@ -405,14 +392,11 @@ INSERT INTO `univ_collegetbl` (`college_ID`, `user_ID`, `college`, `short`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `univ_departmenttbl` (
-  `department_ID` int(11) NOT NULL AUTO_INCREMENT,
+`department_ID` int(11) NOT NULL,
   `college_ID` int(11) NOT NULL,
   `user_ID` int(11) DEFAULT NULL,
   `department` varchar(100) NOT NULL,
-  `short` varchar(10) NOT NULL,
-  PRIMARY KEY (`department_ID`),
-  KEY `user_ID` (`user_ID`),
-  KEY `college_ID` (`college_ID`)
+  `short` varchar(10) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
@@ -420,29 +404,13 @@ CREATE TABLE IF NOT EXISTS `univ_departmenttbl` (
 --
 
 INSERT INTO `univ_departmenttbl` (`department_ID`, `college_ID`, `user_ID`, `department`, `short`) VALUES
-(1, 1, NULL, 'Department of Architecture', 'DA'),
-(2, 1, NULL, 'Department of Humanities', 'DH'),
-(3, 1, NULL, 'Department of Human Kinetics', 'DHK'),
-(4, 1, NULL, 'Department of Social Sciences', 'DSS'),
-(5, 2, NULL, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
-(6, 2, NULL, 'Department of Food Science and Chemistry', 'DFSC'),
-(7, 2, NULL, 'Department of Mathematics, Physics and Computer Science', 'DMPCS');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `univ_messagetbl`
---
-
-CREATE TABLE IF NOT EXISTS `univ_messagetbl` (
-  `message_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `subject` varchar(255) NOT NULL,
-  `sender` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `seen` int(1) NOT NULL DEFAULT '0',
-  `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`message_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+(1, 1, 7, 'Department of Architecture', 'DA'),
+(2, 1, 8, 'Department of Humanities', 'DH'),
+(3, 1, 9, 'Department of Human Kinetics', 'DHK'),
+(4, 1, 10, 'Department of Social Sciences', 'DSS'),
+(5, 2, 11, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
+(6, 2, 12, 'Department of Food Science and Chemistry', 'DFSC'),
+(7, 2, 13, 'Department of Mathematics, Physics and Computer Science', 'DMPCS');
 
 -- --------------------------------------------------------
 
@@ -451,7 +419,7 @@ CREATE TABLE IF NOT EXISTS `univ_messagetbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `univ_programtbl` (
-  `program_ID` int(11) NOT NULL AUTO_INCREMENT,
+`program_ID` int(11) NOT NULL,
   `college_ID` int(11) NOT NULL,
   `department_ID` int(11) DEFAULT NULL,
   `program` varchar(100) NOT NULL,
@@ -460,10 +428,7 @@ CREATE TABLE IF NOT EXISTS `univ_programtbl` (
   `date_instituted` date NOT NULL,
   `type` enum('Undergraduate','Graduate','Certificate','Diploma') NOT NULL,
   `vision` text NOT NULL,
-  `goals` text NOT NULL,
-  PRIMARY KEY (`program_ID`),
-  KEY `department_ID` (`department_ID`),
-  KEY `college_ID` (`college_ID`)
+  `goals` text NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
@@ -489,13 +454,10 @@ INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `pro
 --
 
 CREATE TABLE IF NOT EXISTS `univ_review-facultytbl` (
-  `review_ID` int(11) NOT NULL AUTO_INCREMENT,
+`review_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `cuma_ID` int(11) NOT NULL,
-  `no_mentored` int(11) NOT NULL,
-  PRIMARY KEY (`review_ID`),
-  KEY `cuma_ID` (`cuma_ID`),
-  KEY `user_ID` (`user_ID`)
+  `no_mentored` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -505,14 +467,12 @@ CREATE TABLE IF NOT EXISTS `univ_review-facultytbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `univ_review-programtbl` (
-  `review_ID` int(11) NOT NULL AUTO_INCREMENT,
+`review_ID` int(11) NOT NULL,
   `program_ID` int(11) NOT NULL,
   `date_reviewed` date NOT NULL,
   `passing_rate` int(11) DEFAULT NULL,
   `revisions` text NOT NULL,
-  `desription_instituions` text NOT NULL,
-  PRIMARY KEY (`review_ID`),
-  KEY `program_ID` (`program_ID`)
+  `desription_instituions` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -522,7 +482,7 @@ CREATE TABLE IF NOT EXISTS `univ_review-programtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `univ_review-studentstbl` (
-  `review_ID` int(11) NOT NULL AUTO_INCREMENT,
+`review_ID` int(11) NOT NULL,
   `cuma_ID` int(11) NOT NULL,
   `program_ID` int(11) NOT NULL,
   `no_freshmen` int(11) NOT NULL,
@@ -537,10 +497,7 @@ CREATE TABLE IF NOT EXISTS `univ_review-studentstbl` (
   `employed_industry` int(11) NOT NULL,
   `employed_research` int(11) NOT NULL,
   `employed_kpo` int(11) NOT NULL,
-  `employed_cc` int(11) NOT NULL,
-  PRIMARY KEY (`review_ID`),
-  KEY `program_ID` (`program_ID`),
-  KEY `cuma_ID` (`cuma_ID`)
+  `employed_cc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -556,9 +513,7 @@ CREATE TABLE IF NOT EXISTS `user_educbgtbl` (
   `date_obtained` date NOT NULL,
   `where_obtained` varchar(50) NOT NULL,
   `continuing` int(1) NOT NULL DEFAULT '0',
-  `average_set` int(11) NOT NULL,
-  PRIMARY KEY (`educ_ID`),
-  KEY `user_ID` (`user_ID`)
+  `average_set` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -568,20 +523,34 @@ CREATE TABLE IF NOT EXISTS `user_educbgtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_logintbl` (
-  `user_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `user_ID` int(11) NOT NULL,
   `employee_code` varchar(9) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_ID`),
-  KEY `user_ID` (`user_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `deleted` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_logintbl`
 --
 
 INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) VALUES
-(1, '000012345', 'upmin', 0);
+(1, '000012345', '$2y$10$yvAleeO0N5N8ihZ89hCB1OWMMSTMmkgUfk4pDUUFHt3UYnBntsLLu', 0),
+(2, '000112345', '$2y$10$hN0N3F9epEd0ptWjoBXh4eg8KEBsdufplLvRCECEUl88WIhkZs1yi', 0),
+(3, '000212345', '$2y$10$bLmvx7vkID.oXMFiiwoNVu12Y/eovcHirNIQT42em0Z9YWAHpoDx2', 0),
+(4, '123400000', '$2y$10$B7erv/a9j5OHPli8T7ESle7WpF9pm12NrgHXHJEijO/jfz7ZYf4ym', 0),
+(5, '123400001', '$2y$10$w95iTC2Il6aXytapnKqf0OjrphH2jtl.owySAXBOwPhs6ty8ZIU/6', 0),
+(6, '123400002', '$2y$10$TBODwFR1rFW/RFnSGyAtduqks7xjnyP8oEWNrCfkYVLwHZjgJvSFm', 0),
+(7, '123400003', '$2y$10$cSza7WOFYdzf8OvJv/w39O.1EeTfaJELWq0A7GUS2GF9szSMPHqnm', 0),
+(8, '123400004', '$2y$10$rppi4l9hw14tFK9Qvm0n0.Ld0xPQ/ozVREYZV0dBLI9QpVOG6vYtO', 0),
+(9, '123400005', 'upmin', 0),
+(10, '123400006', '$2y$10$FFKYIUjtiaYCG6aUL3WLyuIODWeYvQeSriXfVBZLjAPycUY4QVJYS', 0),
+(11, '123400007', '$2y$10$EkQJPig07h41Q3xewEjhmeO8x80MbFfLbTri71WO1AszIM7j2qr9C', 0),
+(12, '123400008', '$2y$10$dzFnMXjJ8PZrW4eFbuEVMOhqNyZNb9N.BzExgzq/4c5QYLhsmzAbe', 0),
+(13, '123400009', '$2y$10$Gt4MxWmHI5nkFy05q6lmlOiMsq/yVHoKgGR8E5VheCw081BDVEr7O', 0),
+(14, '123400010', '$2y$10$oIfulC3H9QiS5dtl2enK8uLeq6tN8CpG03rcrszYgKkPgMnsNB6ZG', 0),
+(15, '123400011', 'upmin', 0),
+(16, '123400012', 'upmin', 0),
+(17, '123400013', '$2y$10$U/e/7E0LVi9PPQM0OGoAN./rw4w9aP2T/YO.KzuhBHqAeS.pVM3Dq', 0);
 
 -- --------------------------------------------------------
 
@@ -590,30 +559,44 @@ INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) 
 --
 
 CREATE TABLE IF NOT EXISTS `user_profiletbl` (
-  `user_ID` int(11) NOT NULL,
+`user_ID` int(11) NOT NULL,
   `employee_code` varchar(9) NOT NULL,
   `first_name` varchar(50) NOT NULL,
-  `middle_initial` varchar(1) NOT NULL,
+  `middle_initial` varchar(5) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `user_type` enum('faculty','admin') NOT NULL,
+  `user_type` enum('Faculty','Admin') NOT NULL,
   `faculty_code` varchar(30) DEFAULT NULL,
   `program_ID` int(11) DEFAULT NULL,
+  `department_ID` int(11) DEFAULT NULL,
   `rank` varchar(50) DEFAULT NULL,
   `position` enum('dean','dept_chair','none') DEFAULT NULL,
   `birthday` date NOT NULL,
-  `pic` varchar(255) NOT NULL DEFAULT 'assets/files/pic/default.jpg',
-  `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_ID`),
-  KEY `program` (`program_ID`),
-  KEY `employee_code` (`employee_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `pic` varchar(255) NOT NULL DEFAULT 'assets/images/default.jpg',
+  `deleted` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `user_profiletbl`
 --
 
-INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle_initial`, `last_name`, `user_type`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
-(1, '000012345', 'Jenny', 'M', 'Galino', 'admin', NULL, NULL, NULL, NULL, '1994-07-08', 'assets/files/pic/default.jpg', 0);
+INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle_initial`, `last_name`, `user_type`, `faculty_code`, `program_ID`, `department_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
+(1, '000012345', 'Jenny', 'M', 'Galino', 'Admin', NULL, NULL, NULL, NULL, NULL, '1994-07-08', 'assets/img/default.jpg', 0),
+(2, '000112345', 'Catherine', 'K', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'assets/img/default.jpg', 0),
+(3, '000212345', 'John', 'E', 'Parsons', 'Admin', NULL, NULL, NULL, NULL, NULL, '1968-02-18', 'assets/img/default.jpg', 0),
+(4, '123400000', 'Kiyoko', 'B', 'Blanton', 'Faculty', 'KBBlanton', 1, 1, '-', 'dean', '1982-01-06', 'assets/img/default.jpg', 0),
+(5, '123400001', 'Troy', 'E', 'Keller', 'Faculty', 'TEKeller', 5, 5, '-', 'dean', '1962-02-24', 'assets/img/default.jpg', 0),
+(6, '123400002', 'Martha', 'K', 'Stutts', 'Faculty', 'MKStutts', 9, NULL, '-', 'dean', '1991-02-01', 'assets/img/default.jpg', 0),
+(7, '123400003', 'Evan', 'L', 'Woodrow', 'Faculty', 'ELWoodrow', 2, 2, '-', 'dept_chair', '1964-02-18', 'assets/img/default.jpg', 0),
+(8, '123400004', 'Karen', 'T', 'Brickey', 'Faculty', 'KTBrickey', 2, 2, '-', 'dept_chair', '1967-08-10', 'assets/img/default.jpg', 0),
+(9, '123400005', 'Jacqueline', 'A', 'Morales', 'Faculty', 'JAMorales', NULL, 3, '-', 'dept_chair', '1987-03-22', 'assets/img/default.jpg', 0),
+(10, '123400006', 'Sharon', 'D', 'Call', 'Faculty', 'SDCall', 4, 4, '-', 'dept_chair', '1970-12-07', 'assets/img/default.jpg', 0),
+(11, '123400007', 'Pedro', 'R', 'Morales', 'Faculty', 'PRMorales', 5, 5, '-', 'dept_chair', '1971-01-01', 'assets/img/default.jpg', 0),
+(12, '123400008', 'Thomas', 'W', 'Seay', 'Faculty', 'TWSeay', 6, 6, '-', 'dept_chair', '1974-03-03', 'assets/img/default.jpg', 0),
+(13, '123400009', 'Albert', 'A', 'Russell', 'Faculty', 'AARussell', 7, 7, '-', 'dept_chair', '1977-08-10', 'assets/img/default.jpg', 0),
+(14, '123400010', 'Dianne', 'A', 'Farias', 'Faculty', 'DAFarias', 1, 1, '-', 'none', '1993-04-15', 'assets/img/default.jpg', 0),
+(15, '123400011', 'Daniel', 'C', 'Daly', 'Faculty', 'DCDaly', 1, 1, '-', 'none', '1975-12-31', 'assets/img/default.jpg', 0),
+(16, '123400012', 'Kristin', 'B', 'Morford', 'Faculty', 'KBMorford', 1, 1, '-', 'none', '1983-10-16', 'assets/img/default.jpg', 0),
+(17, '123400013', 'Gloria', 'V', 'Hubbard', 'Faculty', 'GVHubbard', 2, 2, '-', 'none', '1991-03-04', 'assets/img/default.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -622,7 +605,7 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 --
 
 CREATE TABLE IF NOT EXISTS `user_pubtbl` (
-  `publication_ID` int(11) NOT NULL AUTO_INCREMENT,
+`publication_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `author` varchar(50) DEFAULT NULL,
   `year` int(4) NOT NULL,
@@ -636,9 +619,7 @@ CREATE TABLE IF NOT EXISTS `user_pubtbl` (
   `isi` int(1) NOT NULL DEFAULT '0',
   `peer_reviewed` int(1) NOT NULL DEFAULT '0',
   `refereed` int(1) NOT NULL DEFAULT '0',
-  `popular` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`publication_ID`),
-  KEY `user` (`user_ID`)
+  `popular` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -648,7 +629,7 @@ CREATE TABLE IF NOT EXISTS `user_pubtbl` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_rchtbl` (
-  `research_ID` int(11) NOT NULL AUTO_INCREMENT,
+`research_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `nature` enum('Basic','Applied','Policy','Other') NOT NULL,
@@ -656,176 +637,380 @@ CREATE TABLE IF NOT EXISTS `user_rchtbl` (
   `fund_external` varchar(50) NOT NULL DEFAULT 'External',
   `fund_amount` int(10) NOT NULL DEFAULT '0',
   `duration_from` date NOT NULL,
-  `duration_to` date NOT NULL,
-  PRIMARY KEY (`research_ID`),
-  KEY `user` (`user_ID`)
+  `duration_to` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `accomtbl`
+--
+ALTER TABLE `accomtbl`
+ ADD PRIMARY KEY (`accom_ID`), ADD KEY `user_ID` (`user_ID`);
+
+--
+-- Indexes for table `accom_awdtbl`
+--
+ALTER TABLE `accom_awdtbl`
+ ADD PRIMARY KEY (`award_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_ctvtbl`
+--
+ALTER TABLE `accom_ctvtbl`
+ ADD PRIMARY KEY (`creative_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_mattbl`
+--
+ALTER TABLE `accom_mattbl`
+ ADD PRIMARY KEY (`material_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_othtbl`
+--
+ALTER TABLE `accom_othtbl`
+ ADD PRIMARY KEY (`other_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_partbl`
+--
+ALTER TABLE `accom_partbl`
+ ADD PRIMARY KEY (`participation_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_pprtbl`
+--
+ALTER TABLE `accom_pprtbl`
+ ADD PRIMARY KEY (`paper_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_pubtbl`
+--
+ALTER TABLE `accom_pubtbl`
+ ADD PRIMARY KEY (`publication_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `accom_rchtbl`
+--
+ALTER TABLE `accom_rchtbl`
+ ADD PRIMARY KEY (`research_ID`), ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `connect_accom-reporttbl`
+--
+ALTER TABLE `connect_accom-reporttbl`
+ ADD PRIMARY KEY (`connect_ID`), ADD KEY `accom_ID` (`accom_ID`,`accom_specID`), ADD KEY `accom_specID` (`accom_specID`);
+
+--
+-- Indexes for table `cumatbl`
+--
+ALTER TABLE `cumatbl`
+ ADD PRIMARY KEY (`cuma_ID`), ADD KEY `user_ID` (`user_ID`);
+
+--
+-- Indexes for table `ipcrtbl`
+--
+ALTER TABLE `ipcrtbl`
+ ADD PRIMARY KEY (`ipcr_ID`), ADD KEY `user_ID` (`user_ID`), ADD KEY `evaluator_ID` (`evaluator_ID`), ADD KEY `opcr_ID` (`opcr_ID`);
+
+--
+-- Indexes for table `ipcr_targettbl`
+--
+ALTER TABLE `ipcr_targettbl`
+ ADD PRIMARY KEY (`itarget_ID`), ADD KEY `ipcr_ID` (`ipcr_ID`);
+
+--
+-- Indexes for table `oamstbl`
+--
+ALTER TABLE `oamstbl`
+ ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `oams_categorytbl`
+--
+ALTER TABLE `oams_categorytbl`
+ ADD PRIMARY KEY (`category_ID`);
+
+--
+-- Indexes for table `oams_messagetbl`
+--
+ALTER TABLE `oams_messagetbl`
+ ADD PRIMARY KEY (`message_ID`);
+
+--
+-- Indexes for table `opcrtbl`
+--
+ALTER TABLE `opcrtbl`
+ ADD PRIMARY KEY (`opcr_ID`), ADD KEY `user_ID` (`user_ID`,`evaluator_ID`), ADD KEY `evaluator_ID` (`evaluator_ID`);
+
+--
+-- Indexes for table `opcr_targettbl`
+--
+ALTER TABLE `opcr_targettbl`
+ ADD PRIMARY KEY (`otarget_ID`), ADD KEY `category_ID` (`category_ID`), ADD KEY `opcr_ID` (`opcr_ID`);
+
+--
+-- Indexes for table `univ_collegetbl`
+--
+ALTER TABLE `univ_collegetbl`
+ ADD PRIMARY KEY (`college_ID`), ADD KEY `user_ID` (`user_ID`);
+
+--
+-- Indexes for table `univ_departmenttbl`
+--
+ALTER TABLE `univ_departmenttbl`
+ ADD PRIMARY KEY (`department_ID`), ADD KEY `user_ID` (`user_ID`), ADD KEY `college_ID` (`college_ID`);
+
+--
+-- Indexes for table `univ_programtbl`
+--
+ALTER TABLE `univ_programtbl`
+ ADD PRIMARY KEY (`program_ID`), ADD KEY `department_ID` (`department_ID`), ADD KEY `college_ID` (`college_ID`);
+
+--
+-- Indexes for table `univ_review-facultytbl`
+--
+ALTER TABLE `univ_review-facultytbl`
+ ADD PRIMARY KEY (`review_ID`), ADD KEY `cuma_ID` (`cuma_ID`), ADD KEY `user_ID` (`user_ID`);
+
+--
+-- Indexes for table `univ_review-programtbl`
+--
+ALTER TABLE `univ_review-programtbl`
+ ADD PRIMARY KEY (`review_ID`), ADD KEY `program_ID` (`program_ID`);
+
+--
+-- Indexes for table `univ_review-studentstbl`
+--
+ALTER TABLE `univ_review-studentstbl`
+ ADD PRIMARY KEY (`review_ID`), ADD KEY `program_ID` (`program_ID`), ADD KEY `cuma_ID` (`cuma_ID`);
+
+--
+-- Indexes for table `user_educbgtbl`
+--
+ALTER TABLE `user_educbgtbl`
+ ADD PRIMARY KEY (`educ_ID`), ADD KEY `user_ID` (`user_ID`);
+
+--
+-- Indexes for table `user_logintbl`
+--
+ALTER TABLE `user_logintbl`
+ ADD PRIMARY KEY (`user_ID`), ADD KEY `user_ID` (`user_ID`), ADD KEY `employee_code` (`employee_code`);
+
+--
+-- Indexes for table `user_profiletbl`
+--
+ALTER TABLE `user_profiletbl`
+ ADD PRIMARY KEY (`user_ID`), ADD KEY `program` (`program_ID`), ADD KEY `department_ID` (`department_ID`);
+
+--
+-- Indexes for table `user_pubtbl`
+--
+ALTER TABLE `user_pubtbl`
+ ADD PRIMARY KEY (`publication_ID`), ADD KEY `user` (`user_ID`);
+
+--
+-- Indexes for table `user_rchtbl`
+--
+ALTER TABLE `user_rchtbl`
+ ADD PRIMARY KEY (`research_ID`), ADD KEY `user` (`user_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `accomtbl`
+--
+ALTER TABLE `accomtbl`
+MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `accom_awdtbl`
+--
+ALTER TABLE `accom_awdtbl`
+MODIFY `award_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_ctvtbl`
+--
+ALTER TABLE `accom_ctvtbl`
+MODIFY `creative_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_mattbl`
+--
+ALTER TABLE `accom_mattbl`
+MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_othtbl`
+--
+ALTER TABLE `accom_othtbl`
+MODIFY `other_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_partbl`
+--
+ALTER TABLE `accom_partbl`
+MODIFY `participation_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_pprtbl`
+--
+ALTER TABLE `accom_pprtbl`
+MODIFY `paper_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_pubtbl`
+--
+ALTER TABLE `accom_pubtbl`
+MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `accom_rchtbl`
+--
+ALTER TABLE `accom_rchtbl`
+MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `connect_accom-reporttbl`
+--
+ALTER TABLE `connect_accom-reporttbl`
+MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cumatbl`
+--
+ALTER TABLE `cumatbl`
+MODIFY `cuma_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ipcrtbl`
+--
+ALTER TABLE `ipcrtbl`
+MODIFY `ipcr_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ipcr_targettbl`
+--
+ALTER TABLE `ipcr_targettbl`
+MODIFY `itarget_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oams_categorytbl`
+--
+ALTER TABLE `oams_categorytbl`
+MODIFY `category_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oams_messagetbl`
+--
+ALTER TABLE `oams_messagetbl`
+MODIFY `message_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `opcrtbl`
+--
+ALTER TABLE `opcrtbl`
+MODIFY `opcr_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `opcr_targettbl`
+--
+ALTER TABLE `opcr_targettbl`
+MODIFY `otarget_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `univ_collegetbl`
+--
+ALTER TABLE `univ_collegetbl`
+MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `univ_departmenttbl`
+--
+ALTER TABLE `univ_departmenttbl`
+MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `univ_programtbl`
+--
+ALTER TABLE `univ_programtbl`
+MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `univ_review-facultytbl`
+--
+ALTER TABLE `univ_review-facultytbl`
+MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `univ_review-programtbl`
+--
+ALTER TABLE `univ_review-programtbl`
+MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `univ_review-studentstbl`
+--
+ALTER TABLE `univ_review-studentstbl`
+MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user_profiletbl`
+--
+ALTER TABLE `user_profiletbl`
+MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `user_pubtbl`
+--
+ALTER TABLE `user_pubtbl`
+MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user_rchtbl`
+--
+ALTER TABLE `user_rchtbl`
+MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `accomtbl`
---
-ALTER TABLE `accomtbl`
-  ADD CONSTRAINT `accomtbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_awdtbl`
---
-ALTER TABLE `accom_awdtbl`
-  ADD CONSTRAINT `accom_awdtbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_ctvtbl`
---
-ALTER TABLE `accom_ctvtbl`
-  ADD CONSTRAINT `accom_ctvtbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_mattbl`
---
-ALTER TABLE `accom_mattbl`
-  ADD CONSTRAINT `accom_mattbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_othtbl`
---
-ALTER TABLE `accom_othtbl`
-  ADD CONSTRAINT `accom_othtbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_partbl`
---
-ALTER TABLE `accom_partbl`
-  ADD CONSTRAINT `accom_partbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_pprtbl`
---
-ALTER TABLE `accom_pprtbl`
-  ADD CONSTRAINT `accom_pprtbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_pubtbl`
---
-ALTER TABLE `accom_pubtbl`
-  ADD CONSTRAINT `accom_pubtbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `accom_rchtbl`
---
-ALTER TABLE `accom_rchtbl`
-  ADD CONSTRAINT `accom_rchtbl_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
 -- Constraints for table `connect_accom-reporttbl`
 --
 ALTER TABLE `connect_accom-reporttbl`
-  ADD CONSTRAINT `connect_accom-reporttbl_ibfk_1` FOREIGN KEY (`accom_ID`) REFERENCES `accomtbl` (`accom_ID`);
-
---
--- Constraints for table `cumatbl`
---
-ALTER TABLE `cumatbl`
-  ADD CONSTRAINT `cumatbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `connect_accom-reporttbl_ibfk_1` FOREIGN KEY (`accom_ID`) REFERENCES `accomtbl` (`accom_ID`);
 
 --
 -- Constraints for table `ipcrtbl`
 --
 ALTER TABLE `ipcrtbl`
-  ADD CONSTRAINT `ipcrtbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`),
-  ADD CONSTRAINT `ipcrtbl_ibfk_2` FOREIGN KEY (`evaluator_ID`) REFERENCES `user_profiletbl` (`user_ID`),
-  ADD CONSTRAINT `ipcrtbl_ibfk_3` FOREIGN KEY (`opcr_ID`) REFERENCES `opcrtbl` (`opcr_ID`);
+ADD CONSTRAINT `ipcrtbl_ibfk_3` FOREIGN KEY (`opcr_ID`) REFERENCES `opcrtbl` (`opcr_ID`);
 
 --
 -- Constraints for table `ipcr_targettbl`
 --
 ALTER TABLE `ipcr_targettbl`
-  ADD CONSTRAINT `ipcr_targettbl_ibfk_2` FOREIGN KEY (`ipcr_ID`) REFERENCES `ipcrtbl` (`ipcr_ID`);
-
---
--- Constraints for table `opcrtbl`
---
-ALTER TABLE `opcrtbl`
-  ADD CONSTRAINT `opcrtbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`),
-  ADD CONSTRAINT `opcrtbl_ibfk_2` FOREIGN KEY (`evaluator_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `ipcr_targettbl_ibfk_2` FOREIGN KEY (`ipcr_ID`) REFERENCES `ipcrtbl` (`ipcr_ID`);
 
 --
 -- Constraints for table `opcr_targettbl`
 --
 ALTER TABLE `opcr_targettbl`
-  ADD CONSTRAINT `opcr_targettbl_ibfk_1` FOREIGN KEY (`opcr_ID`) REFERENCES `opcrtbl` (`opcr_ID`),
-  ADD CONSTRAINT `opcr_targettbl_ibfk_2` FOREIGN KEY (`category_ID`) REFERENCES `univ_categorytbl` (`category_ID`);
-
---
--- Constraints for table `univ_collegetbl`
---
-ALTER TABLE `univ_collegetbl`
-  ADD CONSTRAINT `univ_collegetbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `opcr_targettbl_ibfk_1` FOREIGN KEY (`opcr_ID`) REFERENCES `opcrtbl` (`opcr_ID`),
+ADD CONSTRAINT `opcr_targettbl_ibfk_2` FOREIGN KEY (`category_ID`) REFERENCES `oams_categorytbl` (`category_ID`);
 
 --
 -- Constraints for table `univ_departmenttbl`
 --
 ALTER TABLE `univ_departmenttbl`
-  ADD CONSTRAINT `univ_departmenttbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`),
-  ADD CONSTRAINT `univ_departmenttbl_ibfk_2` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `univ_departmenttbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`);
 
 --
 -- Constraints for table `univ_programtbl`
 --
 ALTER TABLE `univ_programtbl`
-  ADD CONSTRAINT `univ_programtbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`);
+ADD CONSTRAINT `univ_programtbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`);
 
 --
 -- Constraints for table `univ_review-facultytbl`
 --
 ALTER TABLE `univ_review-facultytbl`
-  ADD CONSTRAINT `univ_review-facultytbl_ibfk_2` FOREIGN KEY (`cuma_ID`) REFERENCES `cumatbl` (`cuma_ID`),
-  ADD CONSTRAINT `univ_review-facultytbl_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `univ_review-facultytbl_ibfk_2` FOREIGN KEY (`cuma_ID`) REFERENCES `cumatbl` (`cuma_ID`);
 
 --
 -- Constraints for table `univ_review-programtbl`
 --
 ALTER TABLE `univ_review-programtbl`
-  ADD CONSTRAINT `univ_review-programtbl_ibfk_2` FOREIGN KEY (`program_ID`) REFERENCES `univ_programtbl` (`program_ID`);
-
---
--- Constraints for table `univ_review-studentstbl`
---
-ALTER TABLE `univ_review-studentstbl`
-  ADD CONSTRAINT `univ_review-studentstbl_ibfk_1` FOREIGN KEY (`cuma_ID`) REFERENCES `cumatbl` (`cuma_ID`);
-
---
--- Constraints for table `user_educbgtbl`
---
-ALTER TABLE `user_educbgtbl`
-  ADD CONSTRAINT `user_educbgtbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `user_logintbl`
---
-ALTER TABLE `user_logintbl`
-  ADD CONSTRAINT `user_logintbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `univ_review-programtbl_ibfk_2` FOREIGN KEY (`program_ID`) REFERENCES `univ_programtbl` (`program_ID`);
 
 --
 -- Constraints for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-  ADD CONSTRAINT `user_profiletbl_ibfk_2` FOREIGN KEY (`program_ID`) REFERENCES `univ_programtbl` (`program_ID`);
-
---
--- Constraints for table `user_pubtbl`
---
-ALTER TABLE `user_pubtbl`
-  ADD CONSTRAINT `user_pubtbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
-
---
--- Constraints for table `user_rchtbl`
---
-ALTER TABLE `user_rchtbl`
-  ADD CONSTRAINT `user_rchtbl_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `user_profiletbl` (`user_ID`);
+ADD CONSTRAINT `user_profiletbl_ibfk_2` FOREIGN KEY (`program_ID`) REFERENCES `univ_programtbl` (`program_ID`),
+ADD CONSTRAINT `user_profiletbl_ibfk_3` FOREIGN KEY (`department_ID`) REFERENCES `univ_departmenttbl` (`department_ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

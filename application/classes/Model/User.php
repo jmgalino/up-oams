@@ -41,7 +41,15 @@ class Model_User extends Model {
  	}
 
  	public function update_details($employee_code, $details)
- 	{}
+ 	{
+ 		$rows_updated = DB::update('user_profiletbl')
+ 			->set($details)
+ 			->where('employee_code', '=', $employee_code)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+ 	}
 
  	public function change_password($employee_code, $password)
  	{}
@@ -49,23 +57,16 @@ class Model_User extends Model {
  	/**
 	 * Used by Contoller_Admin
 	 */
-	public function get_users($filter)
+	public function get_users()
  	{
     	$users = array();
 
-    	if ($filter)
-    	{}
-		else
-		{
-			$result = DB::select()
-			->from('user_profiletbl')
-			->where('deleted', '=', '0')
-			->order_by('employee_code', 'ASC') //->order_by('last_name', 'ASC')
-			// ->limit(10)
-	 		->execute()
-	 		->as_array();
-	 	}
-
+    	$result = DB::select()
+		->from('user_profiletbl')
+		->where('deleted', '=', '0')
+ 		->execute()
+ 		->as_array();
+	 	
 		foreach ($result as $user)
 		{
 			$users[] = $user;
@@ -124,17 +125,11 @@ class Model_User extends Model {
  		}
  		else
  		{
- 			$columns = array('employee_code', 'first_name', 'middle_initial', 'last_name', 'user_type', 'faculty_code', 'program_ID', 'rank', 'position', 'birthday');
- 			
- 			for ($i = 0; $i < count($columns); $i++)
- 			{ 
- 				foreach ($details as $key => $value)
- 				{
-	 				
-	 				if ($columns[$i] == $key)
-	 					$values[] = $value;
-	 			}	
- 			}
+ 			foreach ($details as $column => $value)
+ 			{
+				$columns[] = $column;
+				$values[] = $value;
+			}
  			
  			$insert_profile = DB::insert('user_profiletbl')
 	 			->columns($columns)
@@ -175,8 +170,8 @@ class Model_User extends Model {
  	public function delete_old_accom($key, $accom_ID)
  	{}
 
- 	public function update_profile($employee_code, $details)
- 	{}
+ 	// public function update_profile($employee_code, $details)
+ 	// {}
 
  	public function reset_password($employee_code)
  	{
@@ -185,7 +180,8 @@ class Model_User extends Model {
  			->where('employee_code', '=', $employee_code)
  			->execute();
 
- 		return $rows_updated;
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
  	}
 
  	public function delete_profile($employee_code)
@@ -195,7 +191,8 @@ class Model_User extends Model {
  			->where('employee_code', '=', $employee_code)
  			->execute();
 
- 		return $rows_deleted;
+ 		if ($rows_deleted == 1) return TRUE;
+ 		else return FALSE; //do something
  	}
 
  	private function update_session()

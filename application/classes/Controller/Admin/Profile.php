@@ -10,12 +10,11 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$filter = $this->request->post();
-		$users = $user->get_users($filter);
+		$users = $user->get_users();
 		$programs = $univ->get_programs();
 		$departments = $univ->get_departments();
 		$colleges = $univ->get_colleges();
-		$emp_code = $this->session->get('emp_code');
+		$employee_code = $this->session->get('employee_code');
 
 		$reset = $this->session->get('reset', NULL);
 		if (isset($reset)) $this->session->delete('reset');
@@ -23,14 +22,11 @@ class Controller_Admin_Profile extends Controller_Admin {
 		if (isset($delete)) $this->session->delete('delete');
 
 		$this->view->content = View::factory('admin/profile')
-			->bind('users', $users)
-			->bind('programs', $programs)
-			->bind('departments', $departments)
-			->bind('colleges', $colleges)
-			->bind('emp_code', $emp_code)
-			// ->bind('filter', $filter)
 			->bind('reset', $reset)
-			->bind('delete', $delete);
+			->bind('delete', $delete)
+			->bind('users', $users)
+			->bind('employee_code', $employee_code)
+			->bind('programs', $programs);
 		$this->response->body($this->view->render());
 	}
 
@@ -41,11 +37,20 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$details = $this->request->post();
 
-		if ($details['user_type'] == 'admin')
+		if ($details['user_type'] == 'Admin')
 		{
-			$details['position'] = NULL;
+			$details['faculty_code'] = NULL;
 			$details['rank'] = NULL;
 			$details['program_ID'] = NULL;
+			$details['department_ID'] = NULL;
+			$details['position'] = NULL;
+		}
+		else
+		{
+			if (!isset($details['program_ID']) AND !isset($details['department_ID']))
+				$details['program_ID'] = '1';
+			elseif (!isset($details['position']))
+				$details['position'] = 'none';
 		}
 
 		$user = new Model_User;
@@ -54,7 +59,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	}
 
 	/**
-	 * Preview user profile
+	 * View user profile
 	 */
 	public function action_view()
 	{
@@ -82,6 +87,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$pub_rows = NULL;
 		$rch_rows = NULL;
 
+		$this->view->page_title = ' - '.$user[0]['first_name'].'\'s Profile';
 		$this->view->content = View::factory('admin/profile/template')
 			->bind('user', $user[0])
 			->bind('accom_rows', $accom_rows)
@@ -90,7 +96,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 			->bind('cuma_rows', $cuma_rows)
 			->bind('pub_rows', $pub_rows)
 			->bind('rch_rows', $rch_rows)
-			->bind('programs', $programs);
+			->bind('programs', $programs)
+			->bind('reset', $reset)
+			->bind('update', $update);
 		$this->response->body($this->view->render());
 	}
 
@@ -101,10 +109,31 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$success = $user->update_details($this->request->param('id'), $this->request->post());
+		$details = $this->request->post();
+		$birthday = DateTime::createFromFormat('F d, Y', $details['birthday']);
+		$details['birthday'] = $birthday->format('Y-m-d');
+
+		if ($details['user_type'] == 'Admin')
+		{
+			$details['faculty_code'] = NULL;
+			$details['rank'] = NULL;
+			$details['program_ID'] = NULL;
+			$details['department_ID'] = NULL;
+			$details['position'] = NULL;
+		}
+		else
+		{
+			if (!isset($details['program_ID']) AND !isset($details['department_ID']))
+				$details['program_ID'] = '1';
+			elseif (!isset($details['position']))
+				$details['position'] = 'none';
+		}
+ 
+		$employee_code = $this->request->param('id');
+		$success = $user->update_details($employee_code, $details);
 		$this->session->set('update', $success);
 
-		$this->redirect('admin/profile/view/'.$employee_code);
+		$this->redirect('admin/profile/view/'.$details['employee_code']);
 	}
 
 	/**
@@ -114,10 +143,15 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$success = $user->reset_password($this->request->param('id')); echo $success, gettype($success);
+		$success = $user->reset_password($this->request->param('id'));
 		$this->session->set('reset', $success);
 
-		$this->redirect('admin/profile');
+		$referrer = $this->request->referrer();
+		$view = strstr($referrer, 'view');
+		if ($view) 
+			$this->redirect('admin/profile/view/'.$this->request->param('id'));
+		else
+			$this->redirect('admin/profile');
 	}
 
 	/**

@@ -1,3 +1,4 @@
+<!-- New/Update Profile Form -->
 <div class="modal fade" id="modal_profile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -18,10 +19,10 @@
       ?>
         <div class="modal-body">
           <div class="radio">
-            <label><input type="radio" name="user_type" value="Admin" checked>Administrator</label>
+            <label><input type="radio" name="user_type" id="user_type" value="Admin" <?php if ((isset($user)) AND ($user['user_type'] == 'Admin')) echo 'checked'?>>Administrator</label>
           </div>
           <div class="radio">
-            <label><input type="radio" name="user_type" value="Faculty">Faculty</label>
+            <label><input type="radio" name="user_type" id="user_type" value="Faculty" <?php if ((isset($user)) AND ($user['user_type'] == 'Faculty')) echo 'checked'?>>Faculty</label>
           </div>
           <hr>
           <?php

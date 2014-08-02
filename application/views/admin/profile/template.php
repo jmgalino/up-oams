@@ -4,6 +4,22 @@
   <li class="active">View <?php echo $user['first_name']; ?>'s Profile</li>
 </ol>
 
+<?php if ($reset): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Password was successfully reset.
+	</p>
+</div>
+<?php elseif ($update): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Profile was successfully updated.
+	</p>
+</div>
+<?php endif; ?>
+
 <div class="btn-group pull-right">
 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 		Action <span class="caret"></span>
@@ -21,13 +37,11 @@
 		</li>
 		<li>
 			<a onclick="return confirm(\'Are you sure you want to reset the password?\');" href=<?php echo URL::site('admin/profile/reset/'.$user['employee_code']); ?>>
-			<span class="glyphicon glyphicon-repeat"></span> Reset Password
-			</a>
+			<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
 		</li>
 		<li>
 			<a onclick="return confirm(\'Are you sure you want to delete this account?\');" href=<?php echo URL::site('admin/profile/delete/'.$user['employee_code']); ?>>
-			<span class="glyphicon glyphicon-trash"></span> Delete Profile
-			</a>
+			<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
 		</li>
 	</ul>
 </div>

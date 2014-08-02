@@ -123,8 +123,8 @@ Kohana::modules(array(
 	// 'auth'       => MODPATH.'auth',       // Basic authentication
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	'database'   => MODPATH.'database',   // Database access
-	'image'      => MODPATH.'image',      // Image manipulation
+	'database'	=> MODPATH.'database',   // Database access
+	'image'		=> MODPATH.'image',      // Image manipulation
 	// 'minion'     => MODPATH.'minion',     // CLI Tasks
 	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
@@ -161,7 +161,7 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'admin',
 		'controller'=> '(profile|university|oams)',
-		'action'	=> '(add|view|update|reset|delete)'
+		'action'	=> '(new|view|update|reset|delete)'
 	))
 	->defaults(array(
 		'action'	=> 'index'

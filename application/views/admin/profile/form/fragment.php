@@ -37,43 +37,50 @@
 </div>
 <br>
 
-<div class="form-group faculty-info" hidden>
+<div class="form-group faculty-info" style="display:none;">
   <label for="rank" class="col-sm-4 control-label">Faculty Code</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="faculty_code" name="faculty_code" value=<?php echo $user['faculty_code']; ?>>
+    <input type="text" class="form-control f_info" id="faculty_code" name="faculty_code" value=<?php echo $user['faculty_code']; ?>>
   </div>
 </div>
 
-<div class="form-group faculty-info" hidden>
+<div class="form-group faculty-info" style="display:none;">
   <label for="rank" class="col-sm-4 control-label">Rank</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="rank" name="rank" value=<?php echo $user['rank']; ?>>
+    <input type="text" class="form-control f_info" id="rank" name="rank" value=<?php echo $user['rank']; ?>>
   </div>
 </div>
 
-<div class="form-group faculty-info" hidden>
-  <label for="program" class="col-sm-4 control-label">Degree Program</label>
+<div class="form-group faculty-info" style="display:none;">
+  <label for="program" class="col-sm-4 control-label">Program</label>
   <div class="col-sm-7">
-    <select class="form-control" id="program" name="program_ID">
+    <select class="form-control" id="program">
      <?php
       foreach ($programs as $program)
       {
-          echo '<option value="'.$program['program_ID'].'"';
+          echo '<option name="program_ID" value="'.$program['program_ID'].'"';
 
-          if ($user['program_ID'] == $program['program_ID'])
+          if (($user) AND ($user['program_ID'] == $program['program_ID']))
             echo 'selected="selected"';
 
           echo '>'.$program['program_short'].'</option>';
       }
+
+        echo '<option name="department_ID" value="3"';
+
+        if (($user) AND ($user['department_ID'] == '3'))
+          echo 'selected="selected"';
+
+        echo '>Other: Department of Human Kinetics</option>';
       ?>
     </select>
   </div>
 </div>
 
-<div class="form-group faculty-info" hidden>
+<div class="form-group faculty-info" style="display:none;">
   <label for="position" class="col-sm-4 control-label">Position</label>
   <div class="col-sm-7">
-    <select class="form-control" id= "position" name="position">
+    <select class="form-control" id="position" name="position">
       <option value="none" <?php if ($user['position'] == 'none') echo 'selected="selected"'?>>Not Applicable</option>
       <option value="dept_chair" <?php if ($user['position'] == 'dept_chair') echo 'selected="selected"'?>>Department Chair</option>
       <option value="dean" <?php if ($user['position'] == 'dean') echo 'selected="selected"'?>>College Dean</option>
