@@ -10,16 +10,11 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$users = $user->get_users();
-		$programs = $univ->get_programs();
-		$departments = $univ->get_departments();
-		$colleges = $univ->get_colleges();
+		$reset = $this->session->get_once('reset');
+		$delete = $this->session->get_once('delete');
+		$users = $user->get_users();	
 		$employee_code = $this->session->get('employee_code');
-
-		$reset = $this->session->get('reset', NULL);
-		if (isset($reset)) $this->session->delete('reset');
-		$delete = $this->session->get('delete', NULL);
-		if (isset($delete)) $this->session->delete('delete');
+		$programs = $univ->get_programs();
 
 		$this->view->content = View::factory('admin/profile')
 			->bind('reset', $reset)
@@ -67,29 +62,27 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$user = $user->get_details($this->request->param('id'));
+		$reset = $this->session->get_once('reset');
+		$update = $this->session->get_once('update');
+
+		$user = $user->get_details($this->request->param('id'))[0];
 		$programs = $univ->get_programs();
 
-		$reset = $this->session->get('reset', NULL);
-		if (isset($reset)) $this->session->delete('reset');
-		$update = $this->session->get('update', NULL);
-		if (isset($update)) $this->session->delete('update');
-
-		if ($user[0]['user_type'] == 'Faculty')
+		if ($user['user_type'] == 'Faculty')
 		{
-			$program = $univ->get_program_details($user[0]['program_ID']);
-			$user[0]['program_short'] = $program[0]['program_short'];
+			$program = $univ->get_program_details($user['program_ID'])[0];
+			$user['program_short'] = $program['program_short'];
 		}
-		$accom_rows = $accom->get_faculty_accom($user[0]['user_ID'], NULL);
+		$accom_rows = $accom->get_faculty_accom($user['user_ID']);
 		$ipcr_rows = NULL;
 		$opcr_rows = NULL;
 		$cuma_rows = NULL;
 		$pub_rows = NULL;
 		$rch_rows = NULL;
 
-		$this->view->page_title = ' - '.$user[0]['first_name'].'\'s Profile';
+		$this->view->page_title = ' - '.$user['first_name'].'\'s Profile';
 		$this->view->content = View::factory('admin/profile/template')
-			->bind('user', $user[0])
+			->bind('user', $user)
 			->bind('accom_rows', $accom_rows)
 			->bind('ipcr_rows', $ipcr_rows)
 			->bind('opcr_rows', $opcr_rows)
@@ -130,8 +123,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
  
 		$employee_code = $this->request->param('id');
-		$success = $user->update_details($employee_code, $details);
-		$this->session->set('update', $success);
+		$update_success = $user->update_details($employee_code, $details);
+		$this->session->set('update', $update_success);
 
 		$this->redirect('admin/profile/view/'.$details['employee_code']);
 	}
@@ -143,8 +136,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$success = $user->reset_password($this->request->param('id'));
-		$this->session->set('reset', $success);
+		$reset_success = $user->reset_password($this->request->param('id'));
+		$this->session->set('reset', $reset_success);
 
 		$referrer = $this->request->referrer();
 		$view = strstr($referrer, 'view');
@@ -161,8 +154,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 		
-		$success = $user->delete_profile($this->request->param('id'));
-		$this->session->set('delete', $success);
+		$delete_success = $user->delete_profile($this->request->param('id'));
+		$this->session->set('delete', $delete_success);
 
 		$this->redirect('admin/profile');
 	}

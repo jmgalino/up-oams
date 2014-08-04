@@ -20,6 +20,14 @@
 </div>
 <?php endif; ?>
 
+<?php
+// Add user form
+$user = NULL;
+echo View::factory('admin/profile/form/template')
+	->bind('user', $user)
+	->bind('programs', $programs);
+?>
+
 <!-- Actions -->
 <h3>
 	List of User Profiles
@@ -75,9 +83,3 @@
 		</tbody>
 	</table>
 </div>
-
-<?php
-// Add/Edit Form
-echo View::factory('admin/profile/form/template')
-	->bind('programs', $programs);
-?>

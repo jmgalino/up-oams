@@ -1,44 +1,37 @@
 <?php 
-echo '<h5>I. Journal Publication/Book/Chapter in a Book</h5>';
+echo '<h3>I. Journal Publication/Book/Chapter in a Book</h3>';
 
-if($this->site->session->get('pub_rows')) {
-	$pub_rows = $this->site->session->get('pub_rows');
-	foreach ($pub_rows as $pub) {
+if ($session->get('accom_pub'))
+{
+	$accom_pub = $session->get('accom_pub');
+
+	foreach ($accom_pub as $pub)
+	{
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo '- ';
+		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo $pub->year, '. ';
-		echo $pub->title, '. ';
 
-		if($pub->type==='book') {
-			echo 'Book. ';
-			echo $pub->book_publisher, '. ';
-			echo $pub->book_place, '. ';
-		}
-		elseif($pub->type==='chapter') {
-			echo 'Chapter. ';
-			echo $pub->book_publisher, '. ';
-			echo $pub->book_place, '. ';
-		}
-		else {
-			echo 'Journal. ';
-			echo $pub->journal_volume, '(';
-			echo $pub->journal_issue, '): ';
-		}
+		if ($pub['author']) echo $pub['author'], '. ';
+		
+		echo $pub['year'], '. ';
+		echo $pub['title'], '. ';
+		echo $pub['type'], '. ';
 
-		echo $pub->page, '.';
+		echo ($pub['type'] === 'Journal'
+			? $pub['journal_volume'].'('.$pub['journal_issue'].'): '
+			: $pub['book_publisher'].'. '.$pub['book_place'].'. ');
+		
+		echo $pub['page'], '.';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		
-		if($pub->user==$this->site->session->get('user_ID')) {
-			// echo ' ', '<a class="owned" data-toggle="modal" data-target="#modal_publication" role="button" href="">',
-			// '<span class="glyphicon glyphicon-pencil"></span></a>';
-			echo ' ', '<a class="owned" href="'.url::site('accom/delete_/pub/'.$pub->publication_ID).'">',
-			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
+		if ($pub['user_ID'] == $session->get('user_ID'))
+		{
+			echo '<a data-toggle="modal" data-target="#modal_publication" role="button" href="">',
+				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		}
-		else {
-			echo ' ', '<a class="user" href="'.url::site('accom/remove/pub/'.$pub->publication_ID).'">',
+		
+		echo '<a href='.URL::site('faculty/accom/remove/pub/'.$pub['publication_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		}
 		echo '<br>';
 	}
 }

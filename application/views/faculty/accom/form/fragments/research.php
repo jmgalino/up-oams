@@ -1,36 +1,37 @@
 <?php
-echo '<h5>III. Research Grants/Fellowships Received</h5>';
+echo '<h3>III. Research Grants/Fellowships Received</h3>';
 	
-if ($this->site->session->get('rch_rows'))
+if ($session->get('accom_rch'))
 {
-	$rch_rows = $this->site->session->get('rch_rows');
+	$accom_rch = $session->get('accom_rch');
 	
-	foreach ($rch_rows as $rch)
+	foreach ($accom_rch as $rch)
 	{
-		$dfrom = new DateTime($rch->duration_from);
-		$dto = new DateTime($rch->duration_to);
+		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '-';
+		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo $rch['title'], '. ';
+		echo ($rch['fund_source'] ? $rch['fund_source'].'. ' : 'UP System Research Grant. ');
+		echo date_format(date_create($rch['start']), 'F d, Y'), ' to ';
+		echo date_format(date_create($rch['end']), 'F d, Y');
+		
+		echo ($rch['fund_amount'] 
+			? $rch['fund_up'] 
+				? intval($rch['fund_amount']) + intval($rch['fund_up'])
+				: $rch['fund_amount'].'.'
+			: $rch['fund_up'].'.');
+
 
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo '- ';
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo $rch->title, '. ';
-		echo $rch->fund_source, '. ';
-		echo date_format($dfrom, 'F d, Y'), ' to ';
-		echo date_format($dto, 'F d, Y'), '.';
-		echo $rch->fund_amount, '.';
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		if ($rch->user == $this->site->session->get('user_ID'))
+		if ($rch['user_ID'] == $session->get('user_ID'))
 		{
-			// echo ' ', '<a class="owned" data-toggle="modal" data-target="#modal_research" role="button" href="">',
-			// '<span class="glyphicon glyphicon-pencil"></span></a>';
-			echo ' ', '<a class="owned" href="'.url::site('accom/delete_/rch/'.$rch->research_ID).'">',
-			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
+			echo '<a data-toggle="modal" data-target="#modal_research" role="button" href="">',
+				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		}
-		else {
-			echo ' ', '<a class="user" href="'.url::site('accom/remove/rch/'.$rch->research_ID).'">',
+		
+		echo '<a href='.URL::site('faculty/accom/remove/rch/'.$rch['research_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		}
 		echo '<br>';
 	}
 }

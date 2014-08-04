@@ -156,7 +156,7 @@ class Controller_Site extends Controller {
 		}
 		
     	$session = Session::instance();
-		$session->set('emp_code', $employee_code);
+		$session->set('employee_code', $employee_code);
     	$session->set('user_ID', $detail['user_ID']);
 		$session->set('fname', $session_details['fname']);
 		$session->set('fullname', $session_details['fname'].' '

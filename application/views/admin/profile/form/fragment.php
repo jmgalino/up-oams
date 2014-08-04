@@ -1,5 +1,5 @@
 <div class="form-group">
-  <label for="emp_code" class="col-sm-4 control-label">Employee Code</label>
+  <label for="employee_code" class="col-sm-4 control-label">Employee Code</label>
   <div class="col-sm-7">
     <input type="number" class="form-control" id="employee_code" name="employee_code" value="<?php echo $user['employee_code']; ?>" required>
   </div>
@@ -30,7 +30,7 @@
   <label for="birthday" class="col-sm-4 control-label">Birthday</label>
   <div class="col-sm-7">
     <div class="input-group" id="datepickerer">
-      <input type="text" class="form-control" id="birthday" name="birthday" value="<?php echo date_format(date_create($user['birthday']), 'F d, Y'); ?>" required>
+      <input type="text" class="form-control" id="birthday" name="birthday" value="<?php if ($user) echo date_format(date_create($user['birthday']), 'F d, Y'); ?>" required>
       <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
     </div>
   </div>

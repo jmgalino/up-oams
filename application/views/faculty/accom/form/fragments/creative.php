@@ -1,35 +1,29 @@
 <?php
-echo '<h5>V. Presentation of Creative Work Output</h5>';
+echo '<h3>V. Presentation of Creative Work Output</h3>';
 
-if ($this->site->session->get('ctv_rows'))
+if ($session->get('accom_ctv'))
 {
-	$ctv_rows = $this->site->session->get('ctv_rows');
+	$accom_ctv = $session->get('accom_ctv');
 
-	foreach ($ctv_rows as $ctv)
+	foreach ($accom_ctv as $ctv)
 	{
-		$dfrom = new DateTime($ctv->date_from);
-		$dto = new DateTime($ctv->date_to);
-
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo '- ';
+		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo $ctv->title, '. ';
-		echo $ctv->venue, '. ';
-		echo date_format($dfrom, 'F d, Y'), ' to ';
-		echo date_format($dto, 'F d, Y'), '.';
+		echo $ctv['title'], '. ';
+		echo $ctv['venue'], '. ';
+		echo date_format(date_create($ctv['start']), 'F d, Y'), ' to ';
+		echo date_format(date_create($ctv['end']), 'F d, Y');
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		if ($ctv->user == $this->site->session->get('user_ID'))
+		if ($ctv['user_ID'] == $session->get('user_ID'))
 		{
-			// echo ' ', '<a class="owned" data-toggle="modal" data-target="#modal_creative" role="button" href="">',
-			// '<span class="glyphicon glyphicon-pencil"></span></a>';
-			echo ' ', '<a class="owned" href="'.url::site('accom/delete_/ctv/'.$ctv->creative_ID).'">',
-			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
+			echo '<a data-toggle="modal" data-target="#modal_creative" role="button" href="">',
+				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		}
-		else {
-			echo ' ', '<a class="user" href="'.url::site('accom/remove/ctv/'.$ctv->creative_ID).'">',
+		
+		echo '<a href='.URL::site('faculty/accom/remove/ctv/'.$ctv['creative_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		}
 		echo '<br>';
 	}
 }

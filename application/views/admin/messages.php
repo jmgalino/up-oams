@@ -1,3 +1,4 @@
+<!-- Site Navigation -->
 <ol class="breadcrumb">
   <li><a href=<?php echo URL::site(); ?>>Home</a></li>
   <li class="active">Messages</li>
@@ -33,6 +34,6 @@ if (count($messages) > 0)
 	echo '</tbody></table></div>';}
 else
 {
-	echo '<div class="alert alert-danger alert-profile"><p class="text-center">No messages.</p></div>';
+	echo '<div class="alert alert-danger"><p class="text-center">No messages.</p></div>';
 }
 ?>

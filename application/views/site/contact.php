@@ -1,7 +1,7 @@
 <script type="text/javascript">
- var RecaptchaOptions = {
-    theme : 'white'
- };
+var RecaptchaOptions = {
+	theme : 'white'
+};
  </script>
 
 <h1>Contact Us</h1>
@@ -70,4 +70,4 @@
 	</div>
 </div>
 
-<?php print form::close();?>
+<?php print form::close(); ?>

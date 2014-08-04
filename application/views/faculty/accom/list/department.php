@@ -6,15 +6,15 @@
 
 <h3>
 	Accomplishment Reports <small><?php echo $department; ?></small>
-	<div class="btn-toolbar pull-right" role="toolbar">
-		<?php if ($accom_reports) : ?>
-		<button type="button" class="btn btn-default" id="filter">Filter</button>
-		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_accom">Consolidate Reports</button>
-		</div>
-		<?php endif; ?>
-	</div>
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">Consolidate Reports</button>
 </h3>
 <br><br>
+
+<?php
+// Consolidate Form
+echo View::factory('faculty/accom/form/consolidate')
+	->bind('consolidate_url', $consolidate_url);
+?>
 
 <?php if ($accom_reports): ?>
 <div class="row">
@@ -112,9 +112,3 @@
 <?php else: ?>
 <div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>
 <?php endif; ?>
-
-<?php
-// Consolidate Form
-echo View::factory('faculty/accom/form/consolidate')
-	->bind('consolidate_url', $consolidate_url);
-?>

@@ -19,6 +19,12 @@
 </h3>
 <br><br>
 
+<?php
+// Add Form (Initialize)
+echo View::factory('faculty/accom/form/initialize')
+	->bind('accom_reports', $accom_reports);
+?>
+
 <?php if ($accom_reports): ?>
 <!-- Table -->
 <div class="table-responsive">
@@ -34,37 +40,34 @@
 		<tbody>
 		<?php foreach ($accom_reports as $accom)
 		{
-			$yearmonth = DateTime::createFromFormat('Y-m-d', $accom['yearmonth']);
-
 			echo '<tr>';
-			echo '<td>', $yearmonth->format('F Y'), '</td>';
-
-			// Date Submitted
-			if (isset($accom['date']))
-			{
-				$date = DateTime::createFromFormat('Y-m-d', $accom['date']);
-				echo '<td>', $date->format('F d, Y'), '</td>';
-			}
-			else
-				echo '<td>Not submitted</td>';
+			echo '<td>', date_format(date_create($accom['yearmonth']), 'F Y'), '</td>';
+			
+			echo ($accom['date']
+				? '<td>'.date_format(date_create($accom['date']).'F d, Y').'</td>'
+				: '<td>Not submitted</td>';
 
 			echo '<td>', $accom['status'], '</td>';
-
 			echo '<td class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li>
+					<ul class="dropdown-menu">';
+
+			if ($accom['document'])
+			{
+					echo '<li>
 							<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).'>
 							<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
-						</li>
-						<li>
+						</li>';
+			}
+
+					echo '<li>
 							<a href='.URL::site('faculty/accom/download/'.$accom['accom_ID']).'>
 							<span class="glyphicon glyphicon-download"></span> Download Report</a>
 						</li>';
-			if (($accom['status'] == 'Draft') OR ($identifier == 'dean'))
+			if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Saved') OR ($accom['status'] == 'Rejected'))
 			{
 				echo 	'<li>
-							<a href='.URL::site('faculty/accom/edit/'.$accom['accom_ID']).'>
+							<a href='.URL::site('faculty/accom/update/'.$accom['accom_ID']).'>
 							<span class="glyphicon glyphicon-pencil"></span> Edit Report</a>
 						</li>
 						<li>
@@ -84,9 +87,3 @@
 <?php else: ?>
 <div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>
 <?php endif; ?>
-
-<?php
-// Add Form (Initialize)
-echo View::factory('faculty/accom/form/initialize')
-	->bind('accom_reports', $accom_reports);
-?>

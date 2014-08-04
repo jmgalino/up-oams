@@ -2,9 +2,7 @@
   <label for="author" class="col-sm-4 control-label">Author</label>
   <div class="col-sm-7">
     <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
-    <!-- <br><a class="btn btn-primary btn-xs" role="button" href="">
-    <span class="glyphicon glyphicon-plus"></span> Add
-  </a> -->
+    <!-- <input type="text" class="form-control" id="author" name="author" required> -->
 </div>
 </div>
 
@@ -18,51 +16,22 @@
 <div class="form-group">
   <label for="year" class="col-sm-4 control-label">Year</label>
   <div class="col-sm-7">
-    <input type="int" class="form-control" id="year" name="year" min="1900" max="2050" required>
+    <input type="int" class="form-control" id="year" name="year" pattern="([0-9][0-9][0-9][0-9])" required>
   </div>
 </div>
 
-<!-- Book -->
+<!-- Book/Chapter in a Book -->
 <div class="form-group pub_book">
   <label for="publisher" class="col-sm-4 control-label">Publisher</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control pub_b" id="publisher" name="bpublisher" required>
+    <input type="text" class="form-control" id="publisher" name="book_publisher" required>
   </div>
 </div>
 
 <div class="form-group pub_book">
   <label for="place" class="col-sm-4 control-label">Place of Publication</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control pub_b" id="place" name="bplace" required>
-  </div>
-</div>
-
-<div class="form-group pub_book">
-  <label for="pagination_book" class="col-sm-4 control-label">Total Number of Pages</label>
-  <div class="col-sm-7">
-    <input type="text" class="form-control pub_b" id="pagination_book" name="pagination_book" required>
-  </div>
-</div>
-
-<!-- Chapter in a Book-->
-<div class="form-group pub_chapter" style="display:none;">
-  <label for="publisher" class="col-sm-4 control-label">Publisher</label>
-  <div class="col-sm-7">
-    <input type="text" class="form-control pub_c" id="publisher" name="cpublisher">
-  </div>
-</div>
-
-<div class="form-group pub_chapter" style="display:none;">
-  <label for="place" class="col-sm-4 control-label">Place of Publication</label>
-  <div class="col-sm-7">
-    <input type="text" class="form-control pub_c" id="place" name="cplace">
-  </div>
-</div>
-
-<div class="form-group pub_chapter" style="display:none;">
-  <label for="pages_chapter" class="col-sm-4 control-label">Inclusive Pages</label>
-  <div class="col-sm-7">
-    <input type="text" class="form-control pub_c" id="pages_chapter" name="pages_chapter">
+    <input type="text" class="form-control" id="place" name="book_place" required>
   </div>
 </div>
 
@@ -81,9 +50,12 @@
   </div>
 </div>
 
-<div class="form-group pub_journal" style="display:none;">
-  <label for="pages_journal" class="col-sm-4 control-label">Incusive Pages</label>
+<!-- <div class="form-group pub_book">
+  <label for="page" class="col-sm-4 control-label pub_book">Total Number of Pages</label>
+  <label for="page" class="col-sm-4 control-label pub_chapter">Inclusive Pages</label>
+  <label for="page" class="col-sm-4 control-label pub_journal">Incusive Pages</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control pub_j" id="pages" name="pages_journal" placeholder="62-68">
+    <input type="text" class="form-control" id="pagination_book" name="page" required>
+    <input type="text" class="form-control" id="pages" name="pages_journal" placeholder="62-68">
   </div>
-</div>
+</div> -->

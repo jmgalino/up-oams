@@ -171,25 +171,27 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
  * Routes for Faculty Users
  */
 
-// accom
-Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
-	array(
-		'directory' => 'faculty',
-		'controller'=> 'accom',
-		// 'action'	=> '(add|view|update|reset|delete)'
-	))
-	->defaults(array(
-	    'action'     => 'index'
-	));
 
 // accom_spec
 Route::set('accom_spec-functions', '<directory>/accom/<action>/<key>(/<id>)',
 	array(
 		'directory' => 'faculty',
-		'action'	=> '(add|edit|delete)'
+		'action'	=> '(add|edit|remove)',
+		'key'		=> '(pub|awd|rch|ppr|ctv|par|mat|oth)'
 	))
 	->defaults(array(
 		'controller'=> 'accomspec'
+	));
+
+// accom
+Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'controller'=> 'accom',
+		'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
+	))
+	->defaults(array(
+	    'action'     => 'index'
 	));
 
 // accom_dept

@@ -23,13 +23,13 @@
         </div>
 
         <div class="form-group">
-          <label for="duration" class="col-sm-5 control-label">Duration of the Award/Grant</label>
+          <label for="type" class="col-sm-5 control-label">Type</label>
           <div class="col-sm-6">
-            <div class="input-daterange input-group" id="datepicker">
-              <input type="text" class="form-control" id="duration" name="start" required>
-              <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" id="duration" name="end" required>
-            </div>
+            <select class="form-control" name="type">
+              <option value="Academe">Academe</option>
+              <option value="National">National</option>
+              <option value="International">International</option>
+            </select>
           </div>
         </div>
 
@@ -41,18 +41,18 @@
         </div>
 
         <div class="form-group">
-          <label for="type" class="col-sm-5 control-label">Type</label>
+          <label for="duration" class="col-sm-5 control-label">Duration of the Award/Grant</label>
           <div class="col-sm-6">
-            <select class="form-control">
-              <option name="type" value="Academe">Academe</option>
-              <option name="type" value="National">National</option>
-              <option name="type" value="International">International</option>
-            </select>
+            <div class="input-daterange input-group" id="datepicker">
+              <input type="text" class="form-control" id="duration" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" id="duration" name="end" required>
+            </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>

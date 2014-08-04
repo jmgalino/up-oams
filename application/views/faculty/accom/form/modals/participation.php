@@ -2,11 +2,13 @@
 <div class="modal fade" id="modal_participation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Participation in Seminars/Conferences/Workshops/Training Courses/Fora</h4>
       </div>
-      <?php print form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'role'=>'form'));?>
+
+      <?php print form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'role'=>'form')); ?>
         <div class="modal-body">
         <div class="form-group">
           <label for="name" class="col-sm-3 control-label">Name of Faculty</label>
@@ -16,22 +18,17 @@
         </div>
 
         <div class="form-group">
-          <label for="title" class="col-sm-3 control-label">Name of Event</label>
+          <label for="participation" class="col-sm-3 control-label">Participation</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="title" name="title" required>
+            <input type="text" class="form-control" id="participation" name="participation" required>
+            </select>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="participation" class="col-sm-3 control-label">Participation</label>
+          <label for="title" class="col-sm-3 control-label">Title</label>
           <div class="col-sm-8">
-            <select class="form-control">
-              <option name="participation" value="Coordinator">Coordinator</option>
-              <option name="participation" value="Facilitator">Facilitator</option>
-              <option name="participation" value="Participant">Participant</option>
-              <option name="participation" value="Trainer">Trainer</option>
-              <option name="participation" value="Other">Other</option> <!-- add field -->
-            </select>
+            <input type="text" class="form-control" id="title" name="title" required>
           </div>
         </div>
 
@@ -53,11 +50,13 @@
         </div>
       </div>    
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
+
         <?php print form::close();?>
     </div>
   </div>

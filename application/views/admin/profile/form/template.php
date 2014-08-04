@@ -4,41 +4,39 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <?php if (isset($user)): ?>
-        <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
-        <?php else: ?>
-        <h4 class="modal-title" id="myModalLabel">New Profile</h4>
-        <?php endif;?>
+        <h4 class="modal-title" id="myModalLabel"><?php echo ($user ? 'Edit' : 'New'); ?> Profile</h4>
       </div>
 
       <?php
-      if (isset($user))
-        print form::open('admin/profile/update/'.$user['employee_code'], array('class'=>'form-horizontal', 'role'=>'form'));
-      else
-        print form::open('admin/profile/new', array('class'=>'form-horizontal', 'role'=>'form'));
+      $url = ($user ? 'admin/profile/update/'.$user['employee_code'] : 'admin/profile/new');
+      print form::open($url, array('class'=>'form-horizontal', 'role'=>'form'));
       ?>
-        <div class="modal-body">
-          <div class="radio">
-            <label><input type="radio" name="user_type" id="user_type" value="Admin" <?php if ((isset($user)) AND ($user['user_type'] == 'Admin')) echo 'checked'?>>Administrator</label>
-          </div>
-          <div class="radio">
-            <label><input type="radio" name="user_type" id="user_type" value="Faculty" <?php if ((isset($user)) AND ($user['user_type'] == 'Faculty')) echo 'checked'?>>Faculty</label>
-          </div>
-          <hr>
-          <?php
-          echo View::factory('admin/profile/form/fragment')
-            ->bind('user', $user)
-            ->bind('programs', $programs);
-          ?>
+      <div class="modal-body">
+        <div class="radio">
+          <label>
+            <input type="radio" name="user_type" id="user_type" value="Admin" <?php if (($user) AND ($user['user_type'] == 'Admin')) echo 'checked'; ?>>
+            Administrator
+          </label>
         </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="user_type" id="user_type" value="Faculty" <?php if (($user) AND ($user['user_type'] == 'Faculty')) echo 'checked'; ?>>
+            Faculty
+          </label>
+        </div>
+        <hr>
+        <?php
+        echo View::factory('admin/profile/form/fragment')
+          ->bind('user', $user)
+          ->bind('programs', $programs);
+        ?>
+      </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php
-        if (isset($user))
-          print form::submit(NULL, 'Save', array('type'=>'submit', 'class'=>'btn btn-primary'));
-        else
-          print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary'));
+        $button = ($user ? 'Save' : 'Add');
+        print form::submit(NULL, $button, array('type'=>'submit', 'class'=>'btn btn-primary'));
         ?>
       </div>
       <?php print form::close();?>

@@ -1,29 +1,30 @@
 <?php
-echo '<h5>VIII. Other Accomplishments</h5>';
+echo '<h3>VIII. Other Accomplishments</h3>';
 
-if ($this->site->session->get('oth_rows'))
+if ($session->get('accom_oth'))
 {
-	$oth_rows = $this->site->session->get('oth_rows');
+	$accom_oth = $session->get('accom_oth');
 
-	foreach ($oth_rows as $oth)
+	foreach ($accom_oth as $oth)
 	{
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo '- ';
+		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo $oth->details, '.';
+		echo $oth['participation'], '. ';
+		echo $oth['activity'], '. ';
+		echo $oth['venue'], '. ';
+		echo date_format(date_create($oth['start']), 'F d, Y'), ' to ';
+		echo date_format(date_create($oth['end']), 'F d, Y');
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		
-		if ($oth->user == $this->site->session->get('user_ID'))
+		if ($oth['user_ID'] == $session->get('user_ID'))
 		{
-			// echo ' ', '<a class="owned" data-toggle="modal" data-target="#modal_other" role="button" href="">',
-			// '<span class="glyphicon glyphicon-pencil"></span></a>';
-			echo ' ', '<a class="owned" href="'.url::site('accom/delete_/oth/'.$oth->other_ID).'">',
-			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
+			echo '<a data-toggle="modal" data-target="#modal_other" role="button" href="">',
+				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		}
-		else {
-			echo ' ', '<a class="user" href="'.url::site('accom/remove/oth/'.$oth->other_ID).'">',
+		
+		echo '<a href='.URL::site('faculty/accom/remove/oth/'.$oth['other_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		}
 		echo '<br>';
 	}
 }

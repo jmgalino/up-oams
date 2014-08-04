@@ -1,35 +1,30 @@
 <?php
-echo '<h5>IV. Oral Paper/Poster Presentation</h5>';
+echo '<h3>IV. Oral Paper/Poster Presentation</h3>';
 
-if ($this->site->session->get('ppr_rows'))
+if ($session->get('accom_ppr'))
 {
-	$ppr_rows = $this->site->session->get('ppr_rows');
-	foreach ($ppr_rows as $ppr)
+	$accom_ppr = $session->get('accom_ppr');
+	
+	foreach ($accom_ppr as $ppr)
 	{
-		$dfrom = new DateTime($ppr->date_from);
-		$dto = new DateTime($ppr->date_to);
-
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo '- ';
+		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $ppr->title, '. ';
 		echo $ppr->activity, '. ';
 		echo $ppr->venue, '. ';
-		echo date_format($dfrom, 'F d, Y'), ' to ';
-		echo date_format($dto, 'F d, Y'), '.';
+		echo date_format(date_create($ppr['start']), 'F d, Y'), ' to ';
+		echo date_format(date_create($ppr['end']), 'F d, Y');
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-
-		if ($ppr->user == $this->site->session->get('user_ID'))
+		
+		if ($ppr['user_ID'] == $session->get('user_ID'))
 		{
-			// echo ' ', '<a class="owned" data-toggle="modal" data-target="#modal_paper" role="button" href="">',
-			// '<span class="glyphicon glyphicon-pencil"></span></a>';
-			echo ' ', '<a class="owned" href="'.url::site('accom/delete_/ppr/'.$ppr->paper_ID).'">',
-			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
+			echo '<a data-toggle="modal" data-target="#modal_paper" role="button" href="">',
+				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		}
-		else {
-			echo ' ', '<a class="user" href="'.url::site('accom/remove/ppr/'.$ppr->paper_ID).'">',
+		
+		echo '<a href='.URL::site('faculty/accom/remove/ppr/'.$ppr['paper_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		}
 		echo '<br>';
 	}
 }

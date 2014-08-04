@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 02, 2014 at 06:08 AM
+-- Generation Time: Aug 04, 2014 at 06:17 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
   `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `document` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `remarks` varchar(255) DEFAULT 'None'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+  `remarks` varchar(255) NOT NULL DEFAULT 'None'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `accomtbl`
@@ -42,11 +42,11 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
 
 INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `status`, `document`, `date`, `remarks`) VALUES
 (2, 17, '2014-07-29', 'Draft', NULL, NULL, 'None'),
-(3, 17, '2014-03-03', 'Draft', NULL, NULL, 'None'),
-(4, 17, '2014-01-31', 'Draft', NULL, NULL, 'None'),
+(3, 17, '2014-03-03', 'Pending', NULL, '2014-08-03', 'None'),
 (5, 17, '2014-05-01', 'Draft', NULL, NULL, 'None'),
-(6, 17, '2014-02-01', 'Draft', NULL, NULL, 'None'),
-(7, 17, '2014-04-01', 'Draft', NULL, NULL, 'None');
+(6, 17, '2014-02-01', 'Pending', NULL, '2014-08-02', 'None'),
+(7, 17, '2014-04-01', 'Draft', NULL, NULL, 'None'),
+(8, 5, '2014-02-01', 'Draft', NULL, NULL, 'None');
 
 -- --------------------------------------------------------
 
@@ -57,11 +57,11 @@ INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `status`, `document`
 CREATE TABLE IF NOT EXISTS `accom_awdtbl` (
 `award_ID` int(11) NOT NULL,
   `award` varchar(50) NOT NULL,
-  `duration_from` date NOT NULL,
-  `duration_to` date NOT NULL,
-  `source` varchar(50) NOT NULL DEFAULT 'University of the Philppines',
   `type` enum('Academe','National','International') NOT NULL,
-  `user` int(11) NOT NULL
+  `source` varchar(50) NOT NULL DEFAULT 'University of the Philppines',
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -72,12 +72,11 @@ CREATE TABLE IF NOT EXISTS `accom_awdtbl` (
 
 CREATE TABLE IF NOT EXISTS `accom_ctvtbl` (
 `creative_ID` int(11) NOT NULL,
-  `author` varchar(50) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `venue` varchar(50) NOT NULL,
-  `date_from` date NOT NULL,
-  `date_to` date NOT NULL,
-  `user` int(11) NOT NULL
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -90,8 +89,8 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
 `material_ID` int(11) NOT NULL,
   `year` int(4) NOT NULL,
   `title` varchar(50) NOT NULL,
-  `user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `user_ID` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -101,8 +100,12 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
 
 CREATE TABLE IF NOT EXISTS `accom_othtbl` (
 `other_ID` int(11) NOT NULL,
-  `details` varchar(50) NOT NULL,
-  `user` int(11) NOT NULL
+  `participation` varchar(50) NOT NULL,
+  `activity` varchar(50) NOT NULL,
+  `venue` varchar(50) NOT NULL,
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -113,12 +116,12 @@ CREATE TABLE IF NOT EXISTS `accom_othtbl` (
 
 CREATE TABLE IF NOT EXISTS `accom_partbl` (
 `participation_ID` int(11) NOT NULL,
-  `participation` enum('Coordinator','Facilitator','Moderator','Participant','Trainer','Other') NOT NULL,
+  `participation` varchar(50) NOT NULL,
   `title` varchar(50) NOT NULL,
   `venue` varchar(50) NOT NULL,
-  `date_from` date NOT NULL,
-  `date_to` date NOT NULL,
-  `user` int(11) NOT NULL
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -129,13 +132,12 @@ CREATE TABLE IF NOT EXISTS `accom_partbl` (
 
 CREATE TABLE IF NOT EXISTS `accom_pprtbl` (
 `paper_ID` int(11) NOT NULL,
-  `author` varchar(50) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `activity` enum('Conference','Forum','Seminar','Workshop') NOT NULL,
   `venue` varchar(50) NOT NULL,
-  `date_from` date NOT NULL,
-  `date_to` date NOT NULL,
-  `user` int(11) NOT NULL
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -147,8 +149,8 @@ CREATE TABLE IF NOT EXISTS `accom_pprtbl` (
 CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
 `publication_ID` int(11) NOT NULL,
   `author` varchar(50) DEFAULT NULL,
-  `year` int(4) NOT NULL,
   `title` varchar(50) NOT NULL,
+  `year` int(4) NOT NULL,
   `type` enum('book','chapter','journal') NOT NULL,
   `book_publisher` varchar(50) DEFAULT NULL,
   `book_place` varchar(50) DEFAULT NULL,
@@ -159,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
   `peer_reviewed` int(1) NOT NULL DEFAULT '0',
   `refereed` int(1) NOT NULL DEFAULT '0',
   `popular` int(1) NOT NULL DEFAULT '0',
-  `user` int(11) NOT NULL
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -172,26 +174,26 @@ CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
 `research_ID` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `nature` enum('Basic','Applied','Policy','Other') NOT NULL,
-  `fund_up` int(10) NOT NULL DEFAULT '0',
-  `fund_external` varchar(50) NOT NULL DEFAULT 'External',
-  `fund_amount` int(10) NOT NULL DEFAULT '0',
-  `duration_from` date NOT NULL,
-  `duration_to` date NOT NULL,
-  `user` int(11) NOT NULL
+  `fund_up` int(10) DEFAULT NULL,
+  `fund_external` varchar(50) DEFAULT NULL,
+  `fund_amount` int(10) DEFAULT NULL,
+  `start` date NOT NULL,
+  `end` date NOT NULL,
+  `user_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `connect_accom-reporttbl`
+-- Table structure for table `connect_accomtbl`
 --
 
-CREATE TABLE IF NOT EXISTS `connect_accom-reporttbl` (
+CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
 `connect_ID` int(11) NOT NULL,
   `accom_ID` int(11) NOT NULL,
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -596,7 +598,7 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 (14, '123400010', 'Dianne', 'A', 'Farias', 'Faculty', 'DAFarias', 1, 1, '-', 'none', '1993-04-15', 'assets/img/default.jpg', 0),
 (15, '123400011', 'Daniel', 'C', 'Daly', 'Faculty', 'DCDaly', 1, 1, '-', 'none', '1975-12-31', 'assets/img/default.jpg', 0),
 (16, '123400012', 'Kristin', 'B', 'Morford', 'Faculty', 'KBMorford', 1, 1, '-', 'none', '1983-10-16', 'assets/img/default.jpg', 0),
-(17, '123400013', 'Gloria', 'V', 'Hubbard', 'Faculty', 'GVHubbard', 2, 2, '-', 'none', '1991-03-04', 'assets/img/default.jpg', 0);
+(17, '123400013', 'Gloria', 'V', 'Hubbard', 'Faculty', 'GVHubbard', 2, 2, 'Some rank', 'none', '1991-03-04', 'assets/img/default.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -654,54 +656,54 @@ ALTER TABLE `accomtbl`
 -- Indexes for table `accom_awdtbl`
 --
 ALTER TABLE `accom_awdtbl`
- ADD PRIMARY KEY (`award_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`award_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_ctvtbl`
 --
 ALTER TABLE `accom_ctvtbl`
- ADD PRIMARY KEY (`creative_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`creative_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
- ADD PRIMARY KEY (`material_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`material_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_othtbl`
 --
 ALTER TABLE `accom_othtbl`
- ADD PRIMARY KEY (`other_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`other_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_partbl`
 --
 ALTER TABLE `accom_partbl`
- ADD PRIMARY KEY (`participation_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`participation_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_pprtbl`
 --
 ALTER TABLE `accom_pprtbl`
- ADD PRIMARY KEY (`paper_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`paper_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_pubtbl`
 --
 ALTER TABLE `accom_pubtbl`
- ADD PRIMARY KEY (`publication_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`publication_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- Indexes for table `accom_rchtbl`
 --
 ALTER TABLE `accom_rchtbl`
- ADD PRIMARY KEY (`research_ID`), ADD KEY `user` (`user`);
+ ADD PRIMARY KEY (`research_ID`), ADD KEY `user` (`user_ID`);
 
 --
--- Indexes for table `connect_accom-reporttbl`
+-- Indexes for table `connect_accomtbl`
 --
-ALTER TABLE `connect_accom-reporttbl`
+ALTER TABLE `connect_accomtbl`
  ADD PRIMARY KEY (`connect_ID`), ADD KEY `accom_ID` (`accom_ID`,`accom_specID`), ADD KEY `accom_specID` (`accom_specID`);
 
 --
@@ -826,7 +828,7 @@ ALTER TABLE `user_rchtbl`
 -- AUTO_INCREMENT for table `accomtbl`
 --
 ALTER TABLE `accomtbl`
-MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `accom_awdtbl`
 --
@@ -841,7 +843,7 @@ MODIFY `creative_ID` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
@@ -868,10 +870,10 @@ MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `accom_rchtbl`
 MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `connect_accom-reporttbl`
+-- AUTO_INCREMENT for table `connect_accomtbl`
 --
-ALTER TABLE `connect_accom-reporttbl`
-MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `connect_accomtbl`
+MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -957,10 +959,10 @@ MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 
 --
--- Constraints for table `connect_accom-reporttbl`
+-- Constraints for table `connect_accomtbl`
 --
-ALTER TABLE `connect_accom-reporttbl`
-ADD CONSTRAINT `connect_accom-reporttbl_ibfk_1` FOREIGN KEY (`accom_ID`) REFERENCES `accomtbl` (`accom_ID`);
+ALTER TABLE `connect_accomtbl`
+ADD CONSTRAINT `connect_accomtbl_ibfk_1` FOREIGN KEY (`accom_ID`) REFERENCES `accomtbl` (`accom_ID`);
 
 --
 -- Constraints for table `ipcrtbl`

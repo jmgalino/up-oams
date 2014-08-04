@@ -1,35 +1,29 @@
 <?php
-echo '<h5>II. Award/Grants Received</h5>';
+echo '<h3>II. Award/Grants Received</h3>';
 
-if ($this->site->session->get('awd_rows'))
+if ($session->get('accom_awd'))
 {
-	$awd_rows = $this->site->session->get('awd_rows');
+	$accom_awd = $session->get('accom_awd');
 	
-	foreach ($awd_rows as $awd)
+	foreach ($accom_awd as $awd)
 	{
-		$dfrom = new DateTime($awd->duration_from);
-		$dto = new DateTime($awd->duration_to);
-
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo '- ';
+		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $awd->award, '. ';
-		echo date_format($dfrom, 'F d, Y'), ' to ';
-		echo date_format($dto, 'F d, Y'), '. ';
 		echo $awd->source, '.';
+		echo date_format(date_create($awd['start']), 'F d, Y'), ' to ';
+		echo date_format(date_create($awd['end']), 'F d, Y');
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-
-		if ($awd->user == $this->site->session->get('user_ID'))
+		
+		if ($awd['user_ID'] == $session->get('user_ID'))
 		{
-			// echo ' ', '<a class="owned" data-toggle="modal" data-target="#modal_award" role="button" href="">',
-			// '<span class="glyphicon glyphicon-pencil"></span></a>';
-			echo ' ', '<a class="owned" href="'.url::site('accom/delete_/awd/'.$awd->award_ID).'">',
-			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
+			echo '<a data-toggle="modal" data-target="#modal_award" role="button" href="">',
+				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		}
-		else {
-			echo ' ', '<a class="user" href="'.url::site('accom/remove/awd/'.$awd->award_ID).'">',
+		
+		echo '<a href='.URL::site('faculty/accom/remove/awd/'.$awd['award_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		}
 		echo '<br>';
 	}
 }

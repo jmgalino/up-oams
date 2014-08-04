@@ -71,6 +71,30 @@ body {
   max-height: 50px;
 }*/
 
+/* Sticky footer styles */
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down fotter */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 70px;/* added 10 for padding */
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  text-align: center;
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
 /* JUMBOTRON -- change font color from black to white */
 .jumbotron {
   color: #ffffff;
@@ -92,8 +116,9 @@ body {
 }
 
 /* DATEPICKER -- keep on top */
-#datepickerer,
-#monthpicker {
+#datepicker,
+#monthpicker,
+#datepickerer {
   z-index:1151;
 }
 
@@ -103,6 +128,10 @@ body {
 .mini-table {
   max-height: 200px;
   overflow: auto;
+}
+
+.alert-profile {
+  padding: 3px;
 }
 
 /*** FACULTY ***/
@@ -128,7 +157,7 @@ body {
     width: 228px;
   }
   .bs-sidebar.affix {
-    position: fixed;
+    position: static; /* fixed - scrollable */
     top: 220px;
   }
   .bs-sidebar.affix-bottom {
@@ -142,6 +171,7 @@ body {
   }
 }
 
+/* --- FIX --- */
 pre {
   padding: 30px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -149,30 +179,33 @@ pre {
   background-color: #ffffff;
 }
 
+pre h1 {
+  margin-top: -20px;
+  font-size: 28px;
+}
+
+pre h2 {
+  margin-top: 0px;
+  font-size: 21px;
+}
+
+pre h3 {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+pre p {
+  text-align: justify;
+}
+
 .pre-scrollable {
   max-height: 500px;
   padding: 30px;
 }
 
-pre .p,
-pre p {
-  text-align: justify;
-}
-
 .pcr {
   font-size: 12px;
   text-align: justify;
-}
-
-pre h2,
-pre .h2 {
-  margin-top: 10px;
-}
-
-h6,
-.h6 {
-  font-size: 16px;
-  font-weight: 450;
 }
 
 .pdf-viewer {
@@ -184,11 +217,7 @@ h6,
   padding: 2px;
 }
 
-.alert-profile {
-  padding: 3px;
-}
-
-h1 a.permalink, 
+/*h1 a.permalink, 
 h2 a.permalink, 
 h3 a.permalink, 
 h4 a.permalink, 
@@ -201,7 +230,7 @@ margin-left: 1em;
 padding: 0;
 font-weight: normal;
 position: inherit;
-}
+}*/
 
 .rightMenu {
     position:relative;
@@ -222,32 +251,6 @@ position: inherit;
 .right
 {
     float:right;
-}
-
-
-
-/* Sticky footer styles */
-html,
-body {
-  height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
-}
-
-/* Wrapper for page content to push down fotter */
-#wrap {
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 70px;/* added 10 for padding */
-}
-
-/* Set the fixed height of the footer here */
-#footer {
-  text-align: center;
-  height: 60px;
-  background-color: #f5f5f5;
 }
 
 /*.affix-anchor{
