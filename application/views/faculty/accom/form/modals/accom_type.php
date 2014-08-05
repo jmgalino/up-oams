@@ -11,49 +11,49 @@
         <div class="modal-body">
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_publication');" type="radio" name="accom_type" value="publication" checked>
+              <input type="radio" name="accom_type" value="publication" checked>
               Journal Publication/Book/Chapter in a Book
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_award');" type="radio" name="accom_type" value="award">
+              <input type="radio" name="accom_type" value="award">
               Award/Grant Received
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_research');" type="radio" name="accom_type" value="research">
+              <input type="radio" name="accom_type" value="research">
               Research Grants/Fellowships Received
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_paper');" type="radio" name="accom_type" value="paper">
+              <input type="radio" name="accom_type" value="paper">
               Oral Paper/Poster Presentation
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_creative');" type="radio" name="accom_type" value="creative">
+              <input type="radio" name="accom_type" value="creative">
               Presentation of Creative Work Output
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_participation');" type="radio" name="accom_type" value="participation">
+              <input type="radio" name="accom_type" value="participation">
               Participation in Seminars/Conferences/Workshops/Training Courses/Fora
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_material');" type="radio" name="accom_type" value="material">
+              <input type="radio" name="accom_type" value="material">
               Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals
             </label>
           </div>
           <div class="radio">
             <label>
-              <input onclick="$('.next_choice').attr('data-target','#modal_other');" type="radio" name="accom_type" value="other">
+              <input type="radio" name="accom_type" value="other">
               Other Accomplishments
             </label>
           </div>

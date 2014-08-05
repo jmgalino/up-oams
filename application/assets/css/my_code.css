@@ -253,6 +253,16 @@ position: inherit;
     float:right;
 }
 
+pre>a>span.glyphicon
+{
+  border-color: transparent;
+  color: #7B1113;
+}
+
+.popover
+{
+max-width: 500px;
+}
 /*.affix-anchor{
     padding-top:60px;
     margin-top:-60px;

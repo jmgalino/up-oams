@@ -148,19 +148,21 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 		$label = date_format(date_create($this->session->get('accom_details')['yearmonth']), 'F Y');
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
-		
-		$this->session->set('accom_pub', $accom->find_accom($accom_ID, 'pub'));
-		$this->session->set('accom_awd', $accom->find_accom($accom_ID, 'awd'));
-		$this->session->set('accom_rch', $accom->find_accom($accom_ID, 'rch'));
-		$this->session->set('accom_ppr', $accom->find_accom($accom_ID, 'ppr'));
-		$this->session->set('accom_ctv', $accom->find_accom($accom_ID, 'ctv'));
-		$this->session->set('accom_par', $accom->find_accom($accom_ID, 'par'));
-		$this->session->set('accom_mat', $accom->find_accom($accom_ID, 'mat'));
-		$this->session->set('accom_oth', $accom->find_accom($accom_ID, 'oth'));
+
+		$pub = $accom->find_accom($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
+		$awd = $accom->find_accom($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
+		$rch = $accom->find_accom($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
+		$ppr = $accom->find_accom($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
+		$ctv = $accom->find_accom($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
+		$par = $accom->find_accom($accom_ID, 'par'); $this->session->set('accom_par', $par);
+		$mat = $accom->find_accom($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
+		$oth = $accom->find_accom($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
+		$accoms = array_merge($pub, $awd, $rch, $ctv, $par, $mat, $oth);
 
 		$this->view->content = View::factory('faculty/accom/form/template')
 			->bind('label', $label)
-			->bind('session', $this->session);
+			->bind('session', $this->session)
+			->bind('accoms', $accoms);
 		$this->response->body($this->view->render());	
 	}
 

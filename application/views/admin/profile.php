@@ -28,7 +28,6 @@ echo View::factory('admin/profile/form/template')
 	->bind('programs', $programs);
 ?>
 
-<!-- Actions -->
 <h3>
 	List of User Profiles
 	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_profile">Create</button>

@@ -49,6 +49,27 @@ class Model_Univ extends Model {
  		return $rows_updated;
  	}
 
+	public function get_college_programIDs($college_ID)
+	{
+		$programIDs = array();
+
+		$result = DB::select('program_ID')
+			->from('univ_programtbl')
+			->where('college_ID', '=', $college_ID)
+			->execute()
+			->as_array();
+
+		foreach ($result as $program)
+		{
+			foreach ($program as $program_ID)
+			{
+				$programIDs[] = $program_ID;
+			}
+		}
+
+		return $programIDs;
+	}
+
 	/**
 	 * Department
 	 */
@@ -98,21 +119,9 @@ class Model_Univ extends Model {
 
 	public function get_department_programIDs($department_ID)
 	{
+		$programIDs = array();
+
 		$result = DB::select('program_ID')
-			->from('univ_programtbl')
-			->where('department_ID', '=', $department_ID)
-			->execute()
-			->as_array();
-
-		// print_r($result);
-		return $result;
-	}
-
-	public function get_department_programs($department_ID)
-	{
-		$programs = array();
-
-		$result = DB::select()
 			->from('univ_programtbl')
 			->where('department_ID', '=', $department_ID)
 			->execute()
@@ -120,10 +129,13 @@ class Model_Univ extends Model {
 
 		foreach ($result as $program)
 		{
-			$programs[] = $program;
+			foreach ($program as $program_ID)
+			{
+				$programIDs[] = $program_ID;
+			}
 		}
 
-		return $programs;
+		return $programIDs;
 	}
  	
 	/**

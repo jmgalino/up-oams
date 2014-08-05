@@ -10,20 +10,20 @@ if ($session->get('accom_ppr'))
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		echo $ppr->title, '. ';
-		echo $ppr->activity, '. ';
-		echo $ppr->venue, '. ';
+		echo $ppr['title'], '. ';
+		echo $ppr['activity'], '. ';
+		echo $ppr['venue'], '. ';
 		echo date_format(date_create($ppr['start']), 'F d, Y'), ' to ';
 		echo date_format(date_create($ppr['end']), 'F d, Y');
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		
-		if ($ppr['user_ID'] == $session->get('user_ID'))
-		{
-			echo '<a data-toggle="modal" data-target="#modal_paper" role="button" href="">',
-				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		}
+		// if ($ppr['user_ID'] == $session->get('user_ID'))
+		// {
+		// 	echo '<a data-toggle="modal" data-target="#modal_paper" role="button" href="">',
+		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		// }
 		
-		echo '<a href='.URL::site('faculty/accom/remove/ppr/'.$ppr['paper_ID']).'>',
+		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/ppr/'.$ppr['paper_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '<br>';
 	}

@@ -11,7 +11,7 @@ if ($session->get('accom_rch'))
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $rch['title'], '. ';
-		echo ($rch['fund_source'] ? $rch['fund_source'].'. ' : 'UP System Research Grant. ');
+		echo ($rch['fund_external'] ? $rch['fund_external'].'. ' : 'UP System Research Grant. ');
 		echo date_format(date_create($rch['start']), 'F d, Y'), ' to ';
 		echo date_format(date_create($rch['end']), 'F d, Y');
 		
@@ -24,13 +24,13 @@ if ($session->get('accom_rch'))
 
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		if ($rch['user_ID'] == $session->get('user_ID'))
-		{
-			echo '<a data-toggle="modal" data-target="#modal_research" role="button" href="">',
-				'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		}
+		// if ($rch['user_ID'] == $session->get('user_ID'))
+		// {
+		// 	echo '<a data-toggle="modal" data-target="#modal_research" role="button" href="">',
+		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		// }
 		
-		echo '<a href='.URL::site('faculty/accom/remove/rch/'.$rch['research_ID']).'>',
+		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/rch/'.$rch['research_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '<br>';
 	}

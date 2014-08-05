@@ -23,8 +23,38 @@ $(document).ready(function()
         	"searchable": false,
         	"orderable": false,
         	"targets": 3
+        }],
+        // "dom": '<"toolbar">frtip'
+   //      "sDom": 'T<"clear">lfrtip',
+   //      "oTableTools": {
+   //          "aButtons": [{
+   //              "sExtends":    "text",
+   //              "sButtonText": "Hello world"
+			// }]
+   //      }
+    });
+    // $("div.toolbar").html('<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">New Report</button>');
+	$('#accom_group_table').DataTable({
+		// scrollY: 500,
+		// scrollCollapse: false,
+		"pageLength": 10,
+        "order": [[ 3, "asc" ]],
+        "columnDefs": [{
+        	"searchable": false,
+        	"orderable": false,
+        	"targets": 6
         }]
     });
+
+	// type of user
+	$("input[name=user_type]").click(function()
+	{
+		var type = jQuery('input[name=user_type]:checked').val();
+		if (type == "Admin")
+			$(".faculty-info").hide();
+		else
+			$(".faculty-info").show();
+	});
 
 	// type of report
 	$('#report_type').change(function(){
@@ -52,14 +82,6 @@ $(document).ready(function()
 	});
 
 	// date
-	var birthdate = document.getElementById("birthday");
-	if (!birthdate)
-	{
-		$('#datepickerer input').datepicker(
-			'update',
-			new Date(birthdate.getAttribute("value"))
-		);
-	}
 	$('#datepickerer input').datepicker({
 		format: "MM dd, yyyy",
 		todayHighlight: true,
@@ -72,49 +94,66 @@ $(document).ready(function()
 		autoclose: true
 	});
 	$('.input-daterange').datepicker({
+		format: "d MM yyyy",
 		todayHighlight: true
 	});
 	
 	$("input[name=accom_type]").click(function()
-	{alert('hey');
-		// var type = jQuery('input[name=accom_type]:checked').val();
-		// $('.next_choice').attr('data-target','#modal_'+type);
+	{
+		var type = jQuery('input[name=accom_type]:checked').val();
+		$('.next_choice').attr('data-target','#modal_'+type);
 	});
 
 	//type of pub
-	function myFunc()
-	{alert('hey');
-		// var pub = jQuery('input[name=pub]:checked').val();
-		// if (pub == "book")
-		// {
-		// 	$(".pub_book").show();
-		// 	$(".pub_chapter").hide();
-		// 	$(".pub_journal").hide();
+	$("input[name=type]").click(function()
+	{
+		var pub = jQuery('input[name=type]:checked').val();
+		if (pub == "Journal")
+		{
+			$(".pub_book").hide();
+			$(".pub_bookk").hide();
+			$(".pub_chapter").hide();
+			$(".pub_journal").show();
 
-		// 	$(".pub_b").attr("required", "");
-		// 	$(".pub_c").removeAttr("required");
-		// 	$(".pub_j").removeAttr("required");
-		// }
-		// else if (pub == "chapter")
-		// {
-		// 	$(".pub_chapter").show();
-		// 	$(".pub_journal").hide();
+			$(".pub_b").removeAttr("required");
+			$(".pub_j").attr("required", "");
+		}
+		else
+		{
+			$(".pub_journal").hide();
+			$(".pub_book").show();
 
-		// 	$(".pub_b").removeAttr("required");
-		// 	$(".pub_c").attr("required", "");
-		// 	$(".pub_j").removeAttr("required");
-		// }
-		// else
-		// {
-		// 	$(".pub_book").hide();
-		// 	$(".pub_chapter").hide();
-		// 	$(".pub_journal").show();
+			if (pub == "Book")
+			{
+				$(".pub_bookk").show();
+				$(".pub_chapter").hide();
+			}
+			else
+			{
+				$(".pub_bookk").hide();
+				$(".pub_chapter").show();
+			}
+			
+			$(".pub_j").removeAttr("required");
+			$("input[name=page]").removeAttr("placeholder");
+			$(".pub_b").attr("required", "");
+		}
+	});
 
-		// 	$(".pub_b").removeAttr("required");
-		// 	$(".pub_c").removeAttr("required");
-		// 	$(".pub_j").attr("required", "");
-		// }
-	}
+	// Tooltip for author field
+	$('#author').tooltip();
+	$('a#editAccom').popover();
+	$('body').on('click', function (e) {
+	    //only buttons
+	    if ($(e.target).data('toggle') !== 'popover'
+	        && $(e.target).parents('.popover.in').length === 0) { 
+	        $('[data-toggle="popover"]').popover('hide');
+	    }
+	});
+	$("a#deleteAccom").click(function()
+	{
+		return confirm('Are you sure you want to remove this accomplishment?');
+	});
 
 	//reject reason
 	$("input[name=status]").click(function()
@@ -152,22 +191,16 @@ $(document).ready(function()
 	// 	}
 	});
 
-	// type of user
-	$("input[name=user_type]").click(function()
+	var birthdate = document.getElementById("birthday");
+	if (!birthdate)
 	{
-		var type = jQuery('input[name=user_type]:checked').val();
-		if (type == "Admin")
-			$(".faculty-info").hide();
-		else
-			$(".faculty-info").show();
-	});
+		$('#datepickerer input').datepicker(
+			'update',
+			new Date(birthdate.getAttribute("value"))
+		);
+	}
+
 });
-
-	// Rest Password Button
-	// $( "#reset_password" ).click(function() {
-	// 	location.reload();
-	// });
-
 	// // Refine - filter, sort
 	// $("#refine_list").click(function()
 	// {
@@ -179,16 +212,3 @@ $(document).ready(function()
 	// $('#user_filter').collapse({
 	//   toggle: false
 	// })
-	// $('#user_sort').collapse({
-	//   toggle: false
-	// })
-
-	// type of user
-	// $("input[name=user_type]").click(function()
-	// {
-	// 	var type = jQuery('input[name=user_type]:checked').val();
-	// 	if (type == "Admin")
-	// 		$(".faculty-info").hide();
-	// 	else
-	// 		$(".faculty-info").show();
-	// });

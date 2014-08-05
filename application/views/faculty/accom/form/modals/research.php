@@ -43,18 +43,14 @@
         <div class="form-group">
           <label for="fund_amount" class="col-sm-4 control-label">Amount of Grant (External)</label>
           <div class="col-sm-7">
-            <span class="input-group-addon">₱</span>
             <input type="text" class="form-control" id="fund_amount" name="fund_amount">
-            <span class="input-group-addon">.00</span>
           </div>
         </div>
 
         <div class="form-group">
           <label for="fund_up" class="col-sm-4 control-label">Amount of Grant (UP)</label>
           <div class="col-sm-7">
-            <span class="input-group-addon">₱</span>
             <input type="text" class="form-control" id="fund_amount" name="fund_up">
-            <span class="input-group-addon">.00</span>
           </div>
         </div>
 

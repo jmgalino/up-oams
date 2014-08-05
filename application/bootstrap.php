@@ -171,7 +171,6 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
  * Routes for Faculty Users
  */
 
-
 // accom_spec
 Route::set('accom_spec-functions', '<directory>/accom/<action>/<key>(/<id>)',
 	array(

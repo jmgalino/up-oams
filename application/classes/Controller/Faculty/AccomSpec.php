@@ -8,90 +8,54 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	public function action_add()
 	{
 		$accom = new Model_Accom;
+		
+		$accom_ID = $this->session->get('accom_details')['accom_ID'];
+		$details = $this->request->post();
+		$type = $this->request->param('key');
+		
+		if (($type !== 'pub') AND ($type !== 'mat'))
+		{
+			$details = $this->request->post();
+			$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
+			$details['end'] = date_format(date_create($details['end']), 'Y-m-d');
+		}
 
-		switch ($this->request->param('key'))
+		switch ($type)
 		{
 			case 'pub':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'pub',
-					'publication_ID'
-				);
+				$name_ID = 'publication_ID';
 				break;
 			
 			case 'awd':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'awd',
-					'award_ID'
-				);
+				$name_ID = 'award_ID';
 				break;
 			
 			case 'rch':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'rch',
-					'research_ID'
-				);
+				$name_ID = 'research_ID';
 				break;
 			
 			case 'ppr':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'ppr',
-					'paper_ID'
-				);
+				$name_ID = 'paper_ID';
 				break;
 			
 			case 'ctv':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'ctv',
-					'creative_ID'
-				);
+				$name_ID = 'creative_ID';
 				break;
 			
 			case 'par':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'par',
-					'participation_ID'
-				);
+				$name_ID = 'participation_ID';
 				break;
 			
 			case 'mat':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'mat',
-					'material_ID'
-				);
+				$name_ID = 'material_ID';
 				break;
 			
 			case 'oth':
-				$accom->add_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->post(),
-					'oth',
-					'other_ID'
-				);
+				$name_ID = 'other_ID';
 				break;
 		}
 
+		$accom->add_accom($accom_ID, $details, $type, $name_ID);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID']);
 	}
 
@@ -100,40 +64,57 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	 */
 	public function action_edit()
 	{
-		switch ($this->request->param('key'))
+		$accom = new Model_Accom;
+
+		$accom_ID = $this->session->get('accom_details')['accom_ID'];
+		$accom_specID = $this->request->param('id');
+		$details = $this->request->post();
+		$type = $this->request->param('key');
+		
+		if (($type !== 'pub') AND ($type !== 'mat'))
+		{
+			$details = $this->request->post();
+			$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
+			$details['end'] = date_format(date_create($details['end']), 'Y-m-d');
+		}
+
+		switch ($type)
 		{
 			case 'pub':
-				# code...
+				$name_ID = 'publication_ID';
 				break;
 			
 			case 'awd':
-				# code...
+				$name_ID = 'award_ID';
 				break;
 			
 			case 'rch':
-				# code...
+				$name_ID = 'research_ID';
 				break;
 			
 			case 'ppr':
-				# code...
+				$name_ID = 'paper_ID';
 				break;
 			
 			case 'ctv':
-				# code...
+				$name_ID = 'creative_ID';
 				break;
 			
 			case 'par':
-				# code...
+				$name_ID = 'participation_ID';
 				break;
 			
 			case 'mat':
-				# code...
+				$name_ID = 'material_ID';
 				break;
 			
 			case 'oth':
-				# code...
+				$name_ID = 'other_ID';
 				break;
 		}
+
+		$accom->edit_accom($accom_ID, $accom_specID, $details, $type, $name_ID);
+		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID']);
 	}
 
 	/**
@@ -142,89 +123,48 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	public function action_remove()
 	{
 		$accom = new Model_Accom;
-		switch ($this->request->param('key'))
+
+		$user_ID = $this->session->get('user_ID');
+		$accom_ID = $this->session->get('accom_details')['accom_ID'];
+		$accom_specID = $this->request->param('id');
+		$type = $this->request->param('key');
+
+		switch ($type)
 		{
 			case 'pub':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'pub',
-					'publication_ID'
-				);
+				$name_ID = 'publication_ID';
 				break;
 			
 			case 'awd':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'awd',
-					'award_ID'
-				);
+				$name_ID = 'award_ID';
 				break;
 			
 			case 'rch':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'rch',
-					'research_ID'
-				);
+				$name_ID = 'research_ID';
 				break;
 			
 			case 'ppr':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'ppr',
-					'paper_ID'
-				);
+				$name_ID = 'paper_ID';
 				break;
 			
 			case 'ctv':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'ctv',
-					'creative_ID'
-				);
+				$name_ID = 'creative_ID';
 				break;
 			
 			case 'par':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'par',
-					'participation_ID'
-				);
+				$name_ID = 'participation_ID';
 				break;
 			
 			case 'mat':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'mat',
-					'material_ID'
-				);
+				$name_ID = 'material_ID';
 				break;
 			
 			case 'oth':
-				$accom->delete_accom(
-					$this->session->get('user_ID'),
-					$this->session->get('accom_details')['accom_ID'],
-					$this->request->param('id'),
-					'oth',
-					'other_ID'
-				);
+				$name_ID = 'other_ID';
 				break;
 		}
 
+		$accom->delete_accom($user_ID, $accom_ID, $accom_specID, $type, $name_ID);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID']);
 	}
 

@@ -45,13 +45,14 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				<li>
 					<a data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
 				</li>
+				<?php if ($accoms): ?>
 				<hr>
-
 				<li> 
-					<a onclick="return confirm('Are you sure you want to submit this report?');" href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>
+					<a href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>
 					<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Submit'); ?>
 					</a>
 				</li>
+				<?php endif; ?>
 			</ul>
 		</div>
 	</div>

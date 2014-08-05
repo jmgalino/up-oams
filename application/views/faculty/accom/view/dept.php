@@ -4,6 +4,15 @@
 	<li class="active">View Accomplishment Report</li>
 </ol>
 
+<?php if ($evaluate): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Accomplishment Report was successfully evaluated.
+	</p>
+</div>
+<?php endif; ?>
+
 <h3>
 	<?php echo $label; ?>
 	<div class="btn-toolbar pull-right" role="toolbar">

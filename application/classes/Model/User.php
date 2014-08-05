@@ -75,36 +75,37 @@ class Model_User extends Model {
  		return $users;
  	}
 
- 	// public function get_program_users($program_ID)
- 	// {}
+ 	public function get_user_group($programIDs, $exclude)
+ 	{
+ 		$users = array();
 
- 	// public function get_department_users($program_IDs)
- 	// {
- 	// 	$users = array();
+    	if ($exclude)
+    	{
+			$result = DB::select()
+			->from('user_profiletbl')
+			->where('program_ID', 'IN', $programIDs)
+			->where('position', '!=', $exclude)
+			->where('deleted', '=', '0')
+	 		->execute()
+	 		->as_array();
+    	}
+		else
+		{
+			$result = DB::select()
+			->from('user_profiletbl')
+			->where('program_ID', 'IN', $programIDs)
+			->where('deleted', '=', '0')
+	 		->execute()
+	 		->as_array();
+	 	}
 
-  //   	if ($filter)
-  //   	{}
-		// else
-		// {
-		// 	$result = DB::select()
-		// 	->from('user_profiletbl')
-		// 	->where('deleted', '=', '0')
-		// 	->order_by('employee_code', 'ASC') //->order_by('last_name', 'ASC')
-		// 	// ->limit(10)
-	 // 		->execute()
-	 // 		->as_array();
-	 // 	}
+		foreach ($result as $user)
+		{
+			$users[] = $user;
+		}
 
-		// foreach ($result as $user)
-		// {
-		// 	$users[] = $user;
-		// }
-
- 	// 	return $users;
- 	// }
-
- 	// public function get_college_users($program_IDs)
- 	// {}
+ 		return $users;
+ 	}
 
  	public function get_old_publications($user_ID)
  	{}

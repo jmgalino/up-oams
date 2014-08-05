@@ -12,19 +12,19 @@
       <div class="modal-body">
         <div class="radio">
           <label>
-            <input type="radio" name="pub" value="Book" checked>
+            <input type="radio" name="type" value="Book" checked>
             Book
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="pub" value="Chapter">
+            <input type="radio" name="type" value="Chapter in a Book">
             Chapter in a Book
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="pub" value="Journal">
+            <input type="radio" name="type" value="Journal">
             Journal
           </label>
         </div>

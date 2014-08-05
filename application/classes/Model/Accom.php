@@ -23,17 +23,27 @@ class Model_Accom extends Model {
 		return $accom_reports;
 	}
 
-	// /**
-	//  * Department
-	//  */
-	// public function get_department_accom($user_ID, $filter)
-	// {}
-	
-	// /**
-	//  * College
-	//  */
-	// public function get_college_accom($user_ID, $filter)
-	// {}
+	/**
+	 * Department/College
+	 */
+	public function get_accom_group($userIDs)
+	{
+		$accoms = array();
+
+		$result = DB::select()
+			->from('accomtbl')
+			->where('user_ID', 'IN', $userIDs)
+			->where('status', 'IN', array('Approved', 'Pending'))
+	 		->execute()
+	 		->as_array();
+
+	 	foreach ($result as $accom)
+	 	{
+	 		$accoms[] = $accom;
+	 	}
+
+	 	return $accoms;
+	}
 
 	/**
 	 * Get report details
@@ -175,30 +185,20 @@ class Model_Accom extends Model {
 	/**
 	 * Add report accomplishments
 	 */
-	public function add_accom($user_ID, $accom_ID, $details, $type, $name_ID)
+	public function add_accom($accom_ID, $details, $type, $name_ID)
 	{
- 		// Prepare column names and values
- 		foreach ($details as $column_name => $value)
- 		{
-			$columns[] = $column_name;
-			$values[] = $value;
-		}
+ 		// Check -- unless live search & js submit to link
+		$accom_specID = $this->check_accom_exist($type, $name_ID, $details);
 
-		// Check -- unless live search & js submit to link
-		$result = DB::select()
-			->from('accom_'.$type.'tbl')
-			->where($columns[0], '=', $values[0])
-			->execute()
-			->as_array();
-
-		// Existing
-		if ($result)
-			$accom_specID = $result[0][$name_ID];
- 		//New
- 		else
+		// New
+		if (!$accom_specID)
  		{
- 			$columns[] = 'user_ID';
- 			$values[] = $user_ID;
+	 		// Prepare column names and values
+	 		foreach ($details as $column_name => $value)
+	 		{
+				$columns[] = $column_name;
+				$values[] = $value;
+			}
 
 			$insert_accom = DB::insert('accom_'.$type.'tbl')
 				->columns($columns)
@@ -211,50 +211,97 @@ class Model_Accom extends Model {
 		$this->link_accom($accom_ID, $accom_specID, $type);
 	}
 
-	public function edit_accom($user_ID, $accom_ID, $details, $type)
-	{}
+	/**
+	 * Edit report accomplishments
+	 */
+	public function edit_accom($accom_ID, $accom_specID, $details, $type, $name_ID)
+	{
+		// Check for other users
+		$users = $this->check_accom_users($accom_specID, $type);	
+
+		// No other users
+		if ($users == 1)
+		{
+			$rows_updated = DB::update('accom_'.$type.'tbl')
+	 			->set($details)
+	 			->where($name_ID, '=', $accom_specID)
+	 			->execute();
+
+	 		if ($rows_updated == 1) return TRUE;
+	 		else return FALSE; //do something
+		}
+		// Used by others
+		else
+		{
+			$this->unlink_accom($accom_ID, $accom_specID, $type);
+			$this->add_accom($accom_ID, $details, $type, $name_ID);
+		}
+	}
 
 	public function delete_accom($user_ID, $accom_ID, $accom_specID, $type, $name_ID)
 	{
-		// Check for ownership
+		// Check for other users
+		$users = $this->check_accom_users($accom_specID, $type);	
+
+		// No other users
+		if ($users == 1)
+		{
+			$this->unlink_accom($accom_ID, $accom_specID, $type);
+
+			$rows_deleted = DB::delete('accom_'.$type.'tbl')
+				->where($name_ID, '=', $accom_specID)
+		 		->execute();
+
+	 		if ($rows_deleted == 1) return TRUE;
+	 		else return FALSE; //do something
+		}
+
+		// Used by others
+		else
+			$this->unlink_accom($accom_ID, $accom_specID, $type);
+	}
+
+	/**
+	 * Check if accomplishment exist
+	 */
+	public function check_accom_exist($type, $name_ID, $details)
+	{
+		$count = 0;
+
+		foreach ($details as $column_name => $value)
+		{
+			$result = DB::select()
+				->from('accom_'.$type.'tbl')
+				->where($column_name, '=', $value)
+				->execute()
+				->as_array();
+
+			if ($result)
+				$count++;
+		}
+
+		if ($count == count($details))
+		{
+			$result = DB::select($name_ID)
+				->from('accom_'.$type.'tbl')
+				->where($column_name, '=', $value)
+				->execute()
+				->as_array();
+
+			return $result[0];	
+		}
+	}
+
+	public function check_accom_users($accom_specID, $type)
+	{
 		$result = DB::select()
-			->from('accom_'.$type.'tbl')
-			->where($name_ID, '=', $accom_specID)
+			->from('connect_accomtbl')
+			->where('accom_specID', '=', $accom_specID)
+			->where('type', '=', $type)
 			->execute()
 			->as_array();
 
-		// Affirmative
-		if ($result[0]['user_ID'] == $user_ID)
-		{
-			// Check for other users
-			$result = DB::select()
-				->from('connect_accomtbl')
-				->where('accom_specID', '=', $accom_specID)
-				->where('type', '=', $type)
-				->execute()
-				->as_array();
-				echo count($result);
-			// No other users
-			if (count($result) == 1)
-			{
-				$this->unlink_accom($accom_ID, $accom_specID, $type);
-
-				$rows_deleted = DB::delete('accom_'.$type.'tbl')
-					->where($name_ID, '=', $accom_specID)
-			 		->execute();
-
-		 		if ($rows_deleted == 1) return TRUE;
-		 		else return FALSE; //do something
-			}
-
-			// Used by others
-			else
-				$this->unlink_accom($accom_ID, $accom_specID, $type);
-		}
-
-		// Negative
-		else
-			$this->unlink_accom($accom_ID, $accom_specID, $type);
+		return count($result);
 	}
 
 	/**
@@ -288,9 +335,10 @@ class Model_Accom extends Model {
 						$pub['journal_volume']	= $detail['journal_volume'];
 						$pub['journal_issue']	= $detail['journal_issue'];
 						$pub['page']			= $detail['page'];
+						$pub['isi']				= $detail['isi'];
+						$pub['peer_reviewed']	= $detail['peer_reviewed'];
 						$pub['refereed']		= $detail['refereed'];
 						$pub['popular']			= $detail['popular'];
-						$pub['user_ID']			= $detail['user_ID'];
 					}
 
 					$accoms[] = $pub;
@@ -315,7 +363,6 @@ class Model_Accom extends Model {
 						$awd['source']		= $detail['source'];
 						$awd['start']		= $detail['start'];
 						$awd['end']			= $detail['end'];
-						$awd['user_ID']		= $detail['user_ID'];
 					}
 
 					$accoms[] = $awd;
@@ -342,7 +389,6 @@ class Model_Accom extends Model {
 						$rch['fund_amount']		= $detail['fund_amount'];
 						$rch['start']			= $detail['start'];
 						$rch['end']				= $detail['end'];
-						$rch['user_ID']			= $detail['user_ID'];
 					}
 
 					$accoms[] = $rch;
@@ -362,13 +408,11 @@ class Model_Accom extends Model {
 					foreach ($result as $detail)
 					{
 						$ppr['paper_ID']	= $detail['paper_ID'];
-						$ppr['author']		= $detail['author'];
 						$ppr['title']		= $detail['title'];
 						$ppr['activity']	= $detail['activity'];
 						$ppr['venue']		= $detail['venue'];
 						$ppr['start']		= $detail['start'];
 						$ppr['end']			= $detail['end'];
-						$ppr['user_ID']		= $detail['user_ID'];
 					}
 
 					$accoms[] = $ppr;
@@ -392,7 +436,6 @@ class Model_Accom extends Model {
 						$ctv['venue']		= $detail['venue'];
 						$ctv['start']		= $detail['start'];
 						$ctv['end']			= $detail['end'];
-						$ctv['user_ID']		= $detail['user_ID'];
 					}
 
 					$accoms[] = $ctv;
@@ -417,7 +460,6 @@ class Model_Accom extends Model {
 						$par['venue']				= $detail['venue'];
 						$par['start']				= $detail['start'];
 						$par['end']					= $detail['end'];
-						$par['user_ID']				= $detail['user_ID'];
 					}
 
 					$accoms[] = $par;
@@ -439,7 +481,6 @@ class Model_Accom extends Model {
 						$mat['material_ID']	= $detail['material_ID'];
 						$mat['year']		= $detail['year'];
 						$mat['title']		= $detail['title'];
-						$mat['user_ID']		= $detail['user_ID'];
 					}
 
 					$accoms[] = $mat;
@@ -464,7 +505,6 @@ class Model_Accom extends Model {
 						$oth['venue']			= $detail['venue'];
 						$oth['start']			= $detail['start'];
 						$oth['end']				= $detail['end'];
-						$oth['user_ID']			= $detail['user_ID'];
 					}
 
 					$accoms[] = $oth;
