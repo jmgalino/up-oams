@@ -1,4 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
 class Controller_Faculty_Accom extends Controller_Faculty {
 
@@ -10,13 +11,15 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom = new Model_Accom;
 
 		$delete = $this->session->get_once('delete');
+		$submit = $this->session->get_once('submit');
 		$employee_code = $this->session->get('employee_code');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
-			->bind('employee_code', $employee_code)
+			->bind('submit', $submit)
+			->bind('delete', $delete)
 			->bind('accom_reports', $accom_reports)
-			->bind('delete', $delete);
+			->bind('employee_code', $employee_code);
 		$this->response->body($this->view->render());
 	}
 
@@ -48,6 +51,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	public function action_preview()
 	{
 		$accom = new Model_Accom;
+
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID)[0];
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
@@ -55,7 +59,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		if ($accom_details['document'])
 		{
 			// Show PDF
-			$this->action_pdf($accom_details['document']);
+			$label = date_format(date_create($accom_details['yearmonth']), 'F Y');
+			$this->action_pdf($label, $accom_details['document']);
 		}
 		else
 		{
@@ -100,18 +105,11 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	public function action_submit()
 	{
 		$accom = new Model_Accom;
+
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID)[0];
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
-		
-		$details['status'] = 'Pending';
-		$details['document'] = NULL;
-		$details['date'] = date_format(date_create(), 'Y-m-d');
-
-		$submit_success = $accom->submit($accom_ID, $details);
-		$this->session->set('submit', $submit_success);
-
-		$this->redirect('faculty/accom');
+		$this->redirect('mpdf/accom');
 	}
 
 	/**
@@ -134,9 +132,12 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	/**
 	 * View Accomplishment Report (PDF)
 	 */
-	private function action_pdf($filename)
+	private function action_pdf($label, $filepath)
 	{
-		// open with viewer
+		$this->view->content = View::factory('faculty/accom/view/faculty')
+			->bind('label', $label)
+			->bind('filepath', $filepath);
+		$this->response->body($this->view->render());
 	}
 
 	/**
@@ -166,6 +167,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$this->response->body($this->view->render());	
 	}
 
+	/**
+	 * Check ownership
+	 */
 	private function action_check($user_ID)
 	{
 		if ($this->session->get('user_ID') !== $user_ID)

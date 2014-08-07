@@ -140,7 +140,7 @@ class Controller_Site extends Controller {
 	private function action_start_session($employee_code)
 	{
 		$user = new Model_User;
-		$user_details = $user->get_details($employee_code);
+		$user_details = $user->get_details(NULL, $employee_code);
 
 		foreach ($user_details as $detail)
 		{
@@ -159,14 +159,9 @@ class Controller_Site extends Controller {
 		$session->set('employee_code', $employee_code);
     	$session->set('user_ID', $detail['user_ID']);
 		$session->set('fname', $session_details['fname']);
-		$session->set('fullname', $session_details['fname'].' '
-			.$session_details['minit'].'. '
-			.$session_details['lname']);
-		$session->set('fullname2', $session_details['lname'].', '
-			.$session_details['fname'].' '
-			.$session_details['minit'].'.');
-		// $session->set('user_type', $session_details['user_type']);
-
+		$session->set('fullname', $session_details['fname'].' '.$session_details['minit'].'. '.$session_details['lname']);
+		$session->set('fullname2', $session_details['lname'].', '.$session_details['fname'].' '.$session_details['minit'].'.');
+		
 		// Admin
 		if ($session_details['user_type'] == 'Admin')
 		{
@@ -177,14 +172,8 @@ class Controller_Site extends Controller {
 		//	Faculty
 		else
 		{
-			// $univ = new Model_Univ;
-			// $dept = $this->univ->get_department($session_details['program_ID']);
-			// $college = $this->univ->get_college($session_details['program_ID']);
-
 			$session->set('fcode', $session_details['fcode']);
 			$session->set('program_ID', $session_details['program_ID']);
-			// $session->set('department', $dept[0]);
-			// $session->set('college', $college[0]);
 			$session->set('rank', $session_details['rank']);
 			$session->set('position', $session_details['position']);
 

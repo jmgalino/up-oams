@@ -3,6 +3,23 @@
 class Controller_Faculty extends Controller_User {
 
 	/**
+	 * Preview documents
+	 */
+	public function action_preview()
+	{
+		$accom = new Model_Accom;
+
+		$accom_ID = $this->request->param('id');
+		$accom_details = $accom->get_details($accom_ID)[0];
+		$label = 'Accomplishment Report - '.date_format(date_create($accom_details['yearmonth']), 'F \'y');
+
+		$this->view->content = View::factory('profile/myprofile/pdfviewer')
+			->bind('label', $label)
+			->bind('filename', $accom_details['document']);
+		$this->response->body($this->view->render());
+	}
+
+	/**
 	 * Contact admin form
 	 */
 	public function action_contact()

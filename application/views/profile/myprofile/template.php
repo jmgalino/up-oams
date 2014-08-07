@@ -4,6 +4,9 @@
   <li class="active">My Profile</li>
 </ol>
 
+<h3>My Profile</h3>
+<br>
+
 <?php if ($reset): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -19,9 +22,6 @@
 	</p>
 </div>
 <?php endif; ?>
-
-<h3>My Profile</h3>
-<br>
 
 <div class="row">
 	<div class="col-xs-6 col-md-4">

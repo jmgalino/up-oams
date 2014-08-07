@@ -817,3 +817,192 @@
 2014-08-05 18:25:05 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected '$end' (T_VARIABLE) ~ APPPATH/views/faculty/accom/form/fragments/other.php [ 11 ] in file:line
 2014-08-05 18:25:05 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
 #1 {main} in file:line
+2014-08-05 20:01:01 --- EMERGENCY: ErrorException [ 1 ]: Class 'Controller_Mpdf' not found ~ APPPATH/classes/Controller/Faculty/Accom.php [ 103 ] in file:line
+2014-08-05 20:01:01 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 20:01:26 --- EMERGENCY: ErrorException [ 1 ]: Class 'Controller_Mpdf' not found ~ APPPATH/classes/Controller/Faculty/Accom.php [ 103 ] in file:line
+2014-08-05 20:01:26 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 20:02:32 --- EMERGENCY: ErrorException [ 4096 ]: Argument 1 passed to Kohana_Controller::__construct() must be an instance of Request, none given, called in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accom.php on line 103 and defined ~ SYSPATH/classes/Kohana/Controller.php [ 43 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php:43
+2014-08-05 20:02:32 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(43): Kohana_Core::error_handler(4096, 'Argument 1 pass...', '/Applications/X...', 43, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accom.php(103): Kohana_Controller->__construct()
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_Accom->action_submit()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_Accom))
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#8 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php:43
+2014-08-05 20:08:45 --- EMERGENCY: ErrorException [ 2 ]: fopen(files/document_accom/test.pdf): failed to open stream: No such file or directory ~ APPPATH/assets/lib/mpdf/mpdf.php [ 7501 ] in file:line
+2014-08-05 20:08:45 --- DEBUG: #0 [internal function]: Kohana_Core::error_handler(2, 'fopen(files/doc...', '/Applications/X...', 7501, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/assets/lib/mpdf/mpdf.php(7501): fopen('files/document_...', 'wb')
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php(30): mPDF->Output('files/document_...', 'F')
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Mpdf->action_accom()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Mpdf))
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accom.php(109): Kohana_Request->execute()
+#9 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_Accom->action_submit()
+#10 [internal function]: Kohana_Controller->execute()
+#11 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_Accom))
+#12 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#13 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#14 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#15 {main} in file:line
+2014-08-05 20:45:38 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: group ~ APPPATH/views/faculty/accom/list/group.php [ 8 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php:8
+2014-08-05 20:45:38 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php(8): Kohana_Core::error_handler(8, 'Undefined varia...', '/Applications/X...', 8, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(228): Kohana_View->render()
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/templates/template.php(21): Kohana_View->__toString()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php(92): Kohana_View->render()
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomExt->action_view()
+#9 [internal function]: Kohana_Controller->execute()
+#10 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomExt))
+#11 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#12 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#13 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#14 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php:8
+2014-08-05 20:45:56 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: group ~ APPPATH/views/faculty/accom/list/group.php [ 8 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php:8
+2014-08-05 20:45:56 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php(8): Kohana_Core::error_handler(8, 'Undefined varia...', '/Applications/X...', 8, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(228): Kohana_View->render()
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/templates/template.php(21): Kohana_View->__toString()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php(92): Kohana_View->render()
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomExt->action_view()
+#9 [internal function]: Kohana_Controller->execute()
+#10 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomExt))
+#11 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#12 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#13 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#14 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php:8
+2014-08-05 20:54:32 --- EMERGENCY: ErrorException [ 2 ]: Missing argument 2 for Kohana_Form::submit(), called in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/form/evaluate.php on line 29 and defined ~ SYSPATH/classes/Kohana/Form.php [ 354 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Form.php:354
+2014-08-05 20:54:32 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Form.php(354): Kohana_Core::error_handler(2, 'Missing argumen...', '/Applications/X...', 354, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/form/evaluate.php(29): Kohana_Form::submit(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(228): Kohana_View->render()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/view/dept.php(26): Kohana_View->__toString()
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(228): Kohana_View->render()
+#9 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/templates/template.php(21): Kohana_View->__toString()
+#10 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#11 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#12 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php(92): Kohana_View->render()
+#13 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomExt->action_view()
+#14 [internal function]: Kohana_Controller->execute()
+#15 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomExt))
+#16 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#17 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#19 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Form.php:354
+2014-08-05 21:04:39 --- EMERGENCY: ErrorException [ 2048 ]: Only variables should be passed by reference ~ APPPATH/classes/Controller/Faculty/Accomext.php [ 90 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php:90
+2014-08-05 21:04:39 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php(90): Kohana_Core::error_handler(2048, 'Only variables ...', '/Applications/X...', 90, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomExt->action_view()
+#2 [internal function]: Kohana_Controller->execute()
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomExt))
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#7 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php:90
+2014-08-05 21:08:03 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: identifier ~ APPPATH/views/faculty/accom/list/group.php [ 5 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php:5
+2014-08-05 21:08:03 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php(5): Kohana_Core::error_handler(8, 'Undefined varia...', '/Applications/X...', 5, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(228): Kohana_View->render()
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/templates/template.php(21): Kohana_View->__toString()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php(39): Kohana_View->render()
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomExt->action_dept()
+#9 [internal function]: Kohana_Controller->execute()
+#10 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomExt))
+#11 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#12 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#13 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#14 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/list/group.php:5
+2014-08-05 21:23:10 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: label ~ APPPATH/views/faculty/accom/view/group.php [ 10 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/view/group.php:10
+2014-08-05 21:23:10 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/view/group.php(10): Kohana_Core::error_handler(8, 'Undefined varia...', '/Applications/X...', 10, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(228): Kohana_View->render()
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/templates/template.php(21): Kohana_View->__toString()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(61): include('/Applications/X...')
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(348): Kohana_View::capture('/Applications/X...', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accomext.php(102): Kohana_View->render()
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomExt->action_view()
+#9 [internal function]: Kohana_Controller->execute()
+#10 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomExt))
+#11 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#12 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#13 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#14 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/faculty/accom/view/group.php:10
+2014-08-05 21:32:29 --- EMERGENCY: ErrorException [ 1 ]: Class 'View_MPDF' not found ~ APPPATH/classes/Controller/Faculty/Accom.php [ 103 ] in file:line
+2014-08-05 21:32:29 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 21:33:15 --- EMERGENCY: View_Exception [ 0 ]: The requested view pdf/example could not be found ~ SYSPATH/classes/Kohana/View.php [ 257 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php:137
+2014-08-05 21:33:15 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php(137): Kohana_View->set_filename('pdf/example')
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/modules/mpdf/classes/View/MPDF/Core.php(19): Kohana_View->__construct('pdf/example', NULL)
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/modules/mpdf/classes/View/MPDF/Core.php(25): View_MPDF_Core->__construct('pdf/example', NULL)
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accom.php(103): View_MPDF_Core::factory('pdf/example')
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_Accom->action_submit()
+#5 [internal function]: Kohana_Controller->execute()
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_Accom))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#9 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#10 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/View.php:137
+2014-08-05 21:33:22 --- EMERGENCY: ErrorException [ 1 ]: Cannot pass parameter 2 by reference ~ APPPATH/classes/Controller/Faculty/Accom.php [ 103 ] in file:line
+2014-08-05 21:33:22 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 21:33:42 --- EMERGENCY: ErrorException [ 1 ]: Method View_MPDF::__toString() must not throw an exception ~ SYSPATH/classes/Kohana/Response.php [ 0 ] in file:line
+2014-08-05 21:33:42 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 21:34:23 --- EMERGENCY: ErrorException [ 1 ]: Method View_MPDF::__toString() must not throw an exception ~ SYSPATH/classes/Kohana/Response.php [ 0 ] in file:line
+2014-08-05 21:34:23 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 21:37:45 --- EMERGENCY: ErrorException [ 2 ]: include(/oamsystem/application/assets/lib/mpdf/mpdf.php): failed to open stream: No such file or directory ~ APPPATH/classes/Controller/Mpdf.php [ 2 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php:2
+2014-08-05 21:37:45 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php(2): Kohana_Core::error_handler(2, 'include(/oamsys...', '/Applications/X...', 2, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php(2): include()
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Core.php(511): require('/Applications/X...')
+#3 [internal function]: Kohana_Core::auto_load('Controller_Mpdf')
+#4 [internal function]: spl_autoload_call('Controller_Mpdf')
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(74): class_exists('Controller_Mpdf')
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#9 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php:2
+2014-08-05 21:41:27 --- EMERGENCY: ErrorException [ 2 ]: include(/oamsystem/application/assets/lib/mpdf/mpdf.php): failed to open stream: No such file or directory ~ APPPATH/classes/Controller/Mpdf.php [ 2 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php:2
+2014-08-05 21:41:27 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php(2): Kohana_Core::error_handler(2, 'include(/oamsys...', '/Applications/X...', 2, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php(2): include()
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Core.php(511): require('/Applications/X...')
+#3 [internal function]: Kohana_Core::auto_load('Controller_Mpdf')
+#4 [internal function]: spl_autoload_call('Controller_Mpdf')
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(74): class_exists('Controller_Mpdf')
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#9 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Mpdf.php:2
+2014-08-05 22:10:23 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function get_details() on a non-object ~ APPPATH/classes/Controller/Faculty/Accom.php [ 104 ] in file:line
+2014-08-05 22:10:23 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 22:10:44 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function get_details() on a non-object ~ APPPATH/classes/Controller/Faculty/Accom.php [ 104 ] in file:line
+2014-08-05 22:10:44 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-05 22:12:28 --- EMERGENCY: ErrorException [ 4096 ]: Argument 1 passed to Kohana_Controller::__construct() must be an instance of Request, none given, called in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accom.php on line 104 and defined ~ SYSPATH/classes/Kohana/Controller.php [ 43 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php:43
+2014-08-05 22:12:28 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(43): Kohana_Core::error_handler(4096, 'Argument 1 pass...', '/Applications/X...', 43, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Accom.php(104): Kohana_Controller->__construct()
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_Accom->action_submit()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_Accom))
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#8 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php:43

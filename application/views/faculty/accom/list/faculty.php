@@ -1,10 +1,23 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li class="active">My Accomplishment Report</li>
+	<li class="active">Accomplishment Reports</li>
 </ol>
 
-<?php if ($delete): ?>
+<h3>
+	My Accomplishment Reports
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">New Report</button>
+</h3>
+<br>
+
+<?php if ($submit): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Accomplishment Report was successfully submitted.
+	</p>
+</div>
+<?php elseif ($delete): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -12,12 +25,6 @@
 	</p>
 </div>
 <?php endif; ?>
-
-<h3>
-	My Accomplishment Reports
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">New Report</button>
-</h3>
-<br>
 
 <?php
 // Add Form (Initialize)
@@ -54,13 +61,13 @@ echo View::factory('faculty/accom/form/initialize')
 		if ($accom['document'])
 		{
 				echo '<li>
-						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).'>
+						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).' download>
 						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
 					</li>';
 		}
 
 				echo '<li>
-						<a href='.URL::site('faculty/accom/download/'.$accom['accom_ID']).'>
+						<a href='.URL::base().'application/'.$accom['document'].'>
 						<span class="glyphicon glyphicon-download"></span> Download Report</a>
 					</li>';
 		if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Saved') OR ($accom['status'] == 'Rejected'))

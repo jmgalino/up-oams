@@ -118,17 +118,28 @@ class Model_Accom extends Model {
  		else return FALSE; //do something
 	}
 
-	public function evaluate($accom_ID, $details, $identifier)
+	public function evaluate($accom_ID, $details)
 	{
-		$session = Session::instance();
-		$identifier = $session->get('identifier');
+		$accom = $this->get_details($accom_ID)[0];
 
-		if ($identifier == 'dept_chair') {
-			# code...
+		if($accom['remarks'] == 'None')
+		{
+			$rows_updated = DB::update('accomtbl')
+	 			->set($details)
+	 			->where('accom_ID', '=', $accom_ID)
+	 			->execute();
 		}
-		elseif ($identifier == 'dean') {
-			# code...
+		else
+		{
+			$details['remarks'] = $details['remarks'].'<br>'.$accom['remarks'];
+			$rows_updated = DB::update('accomtbl')
+	 			->set($details)
+	 			->where('accom_ID', '=', $accom_ID)
+	 			->execute();
 		}
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
 	}
 
 	/**

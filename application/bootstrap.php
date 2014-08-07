@@ -157,7 +157,7 @@ Route::set('user-functions', '<controller>/<action>',
 /**
  * Routes for Admin Users
  */
-Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
+Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<document>/<document_ID>)))',
 	array(
 		'directory' => 'admin',
 		'controller'=> '(profile|university|oams)',
@@ -170,6 +170,14 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
 /**
  * Routes for Faculty Users
  */
+Route::set('faculty-functions', '<controller>/myprofile/<action>/<id>',
+	array(
+		'controller'=> 'faculty',
+		// 'action'	=> ''
+	))
+	->defaults(array(
+		'action'	=> 'index'
+	));
 
 // accom_spec
 Route::set('accom_spec-functions', '<directory>/accom/<action>/<key>(/<id>)',
@@ -214,6 +222,7 @@ Route::set('accom_coll-functions', '<directory>/accom_coll(/<action>(/<id>))',
 		'controller'=> 'accomext',
 		'action'	=> 'coll'
 	));
+
 
 Route::set('faculty-functions2', '<directory>/<controller>(/<action>(/<id>))',
 	array(

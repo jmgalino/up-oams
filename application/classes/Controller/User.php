@@ -94,7 +94,7 @@ class Controller_User extends Controller {
 		$reset = $this->session->get_once('reset');
 		$update = $this->session->get_once('update');
 
-		$user = $user->get_details($this->session->get('employee_code'))[0];
+		$user = $user->get_details($this->session->get('user_ID'), NULL)[0];
 		if ($user['user_type'] == 'Faculty')
 		{
 			$univ = new Model_Univ;

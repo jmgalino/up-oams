@@ -10,13 +10,13 @@
 	<?php
 		foreach ($accom_rows as $accom)
 		{
-			$yearmonth = DateTime::createFromFormat('Y-m-d', $accom['yearmonth']);
-
-			echo "<tr>
+			echo '<tr>
 					<td>
-						<a href='#'>", $yearmonth->format("F Y"), "</a>
+						<a href='.URL::site('faculty/myprofile/preview/'.$accom['accom_ID']).'>',
+						date_format(date_create($accom['yearmonth']), 'F Y'),
+						'</a>
 					</td>
-				<tr>";
+				<tr>';
 		}
 	?>
 					</tbody>
@@ -45,7 +45,7 @@
 
 					echo '<tr>
 						<td>
-							<a href='.url::site('ipcr/view_admin/'.$ipcr->ipcr_ID).'>',
+							<a href='.URL::site('ipcr/view_admin/'.$ipcr->ipcr_ID).'>',
 							$pfrom->format('F Y'), ' - ', $pto->format('F Y'),
 							'</a>
 						</td>
@@ -134,10 +134,7 @@
 <br><br><hr>
 <div class="row">
 	<div class="col-md-4">
-	<h4>
-		Publications
-		<a class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_publication" role="button" href="">Add</a>
-	</h4><br>
+	<h4>Publications</h4><br>
 	<?php
 	if (count($pub_rows)>0)
 	{
@@ -162,10 +159,7 @@
 	</div>
 
 	<div class="col-md-4">
-	<h4>
-		Research
-		<a class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_research" role="button" href="">Add</a>
-	</h4><br>
+	<h4>Research</h4><br>
 	<?php
 	if (count($rch_rows)>0)
 	{

@@ -70,13 +70,13 @@
 	<?php
 		foreach ($accom_rows as $accom)
 		{
-			$yearmonth = DateTime::createFromFormat('Y-m-d', $accom['yearmonth']);
-
-			echo "<tr>
+			echo '<tr>
 					<td>
-						<a href='#'>", $yearmonth->format("F Y"), "</a>
+						<a href='.URL::site('admin/profile/view/'.$user['employee_code'].'/accom/'.$accom['accom_ID']).'>',
+						date_format(date_create($accom['yearmonth']), 'F Y'),
+						'</a>
 					</td>
-				<tr>";
+				<tr>';
 		}
 	?>
 					</tbody>

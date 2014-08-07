@@ -4,6 +4,12 @@
 	<li class="active">User Profiles</li>
 </ol>
 
+<h3>
+	List of User Profiles
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_profile">Create</button>
+</h3>
+<br>
+
 <?php if ($reset): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -27,12 +33,6 @@ echo View::factory('admin/profile/form/template')
 	->bind('user', $user)
 	->bind('programs', $programs);
 ?>
-
-<h3>
-	List of User Profiles
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_profile">Create</button>
-</h3>
-<br>
 
 <!-- Table -->
 <div class="table-responsive">

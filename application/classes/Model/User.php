@@ -22,15 +22,26 @@ class Model_User extends Model {
 	/**
 	 * Used by Everyone
 	 */
-	public function get_details($employee_code)
+	public function get_details($user_ID, $employee_code)
  	{
  		$details = array();
 
- 		$result = DB::select()
-			->from('user_profiletbl')
-			->where('employee_code', '=', $employee_code)
-	 		->execute()
-	 		->as_array();
+ 		if ($user_ID)
+ 		{
+ 			$result = DB::select()
+				->from('user_profiletbl')
+				->where('user_ID', '=', $user_ID)
+		 		->execute()
+		 		->as_array();
+		 }
+ 		else
+ 		{
+ 			$result = DB::select()
+				->from('user_profiletbl')
+				->where('employee_code', '=', $employee_code)
+		 		->execute()
+		 		->as_array();
+ 		}
 
 		foreach ($result as $detail)
 		{

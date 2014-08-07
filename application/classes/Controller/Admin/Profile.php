@@ -58,41 +58,47 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_view()
 	{
-		$accom = new Model_Accom;
-		$univ = new Model_Univ;
-		$user = new Model_User;
+		if ($this->request->param('document'))
+			$this->action_pdfviewer();
 
-		$reset = $this->session->get_once('reset');
-		$update = $this->session->get_once('update');
-
-		$user = $user->get_details($this->request->param('id'))[0];
-		$programs = $univ->get_programs();
-
-		if ($user['user_type'] == 'Faculty')
+		else
 		{
-			$program = $univ->get_program_details($user['program_ID'])[0];
-			$user['program_short'] = $program['program_short'];
-		}
-		$accom_rows = $accom->get_faculty_accom($user['user_ID']);
-		$ipcr_rows = NULL;
-		$opcr_rows = NULL;
-		$cuma_rows = NULL;
-		$pub_rows = NULL;
-		$rch_rows = NULL;
+			$accom = new Model_Accom;
+			$univ = new Model_Univ;
+			$user = new Model_User;
 
-		$this->view->page_title = ' - '.$user['first_name'].'\'s Profile';
-		$this->view->content = View::factory('admin/profile/template')
-			->bind('user', $user)
-			->bind('accom_rows', $accom_rows)
-			->bind('ipcr_rows', $ipcr_rows)
-			->bind('opcr_rows', $opcr_rows)
-			->bind('cuma_rows', $cuma_rows)
-			->bind('pub_rows', $pub_rows)
-			->bind('rch_rows', $rch_rows)
-			->bind('programs', $programs)
-			->bind('reset', $reset)
-			->bind('update', $update);
-		$this->response->body($this->view->render());
+			$reset = $this->session->get_once('reset');
+			$update = $this->session->get_once('update');
+
+			$user = $user->get_details(NULL, $this->request->param('id'))[0];
+			$programs = $univ->get_programs();
+
+			if ($user['user_type'] == 'Faculty')
+			{
+				$program = $univ->get_program_details($user['program_ID'])[0];
+				$user['program_short'] = $program['program_short'];
+			}
+			$accom_rows = $accom->get_faculty_accom($user['user_ID']);
+			$ipcr_rows = NULL;
+			$opcr_rows = NULL;
+			$cuma_rows = NULL;
+			$pub_rows = NULL;
+			$rch_rows = NULL;
+
+			$this->view->page_title = ' - '.$user['first_name'].'\'s Profile';
+			$this->view->content = View::factory('admin/profile/template')
+				->bind('user', $user)
+				->bind('accom_rows', $accom_rows)
+				->bind('ipcr_rows', $ipcr_rows)
+				->bind('opcr_rows', $opcr_rows)
+				->bind('cuma_rows', $cuma_rows)
+				->bind('pub_rows', $pub_rows)
+				->bind('rch_rows', $rch_rows)
+				->bind('programs', $programs)
+				->bind('reset', $reset)
+				->bind('update', $update);
+			$this->response->body($this->view->render());
+		}
 	}
 
 	/**
@@ -160,4 +166,40 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$this->redirect('admin/profile');
 	}
 
+	private function action_pdfviewer()
+	{
+		$user = new Model_User;
+
+		$document = $this->request->param('document');
+		$document_ID = $this->request->param('document_ID');
+		$user = $user->get_details(NULL, $this->request->param('id'))[0];
+
+		switch ($document)
+		{
+			case 'accom':
+				$accom = new Model_Accom;
+				$accom_details = $accom->get_details($document_ID)[0];
+				$label = 'Accomplishment Report - '.date_format(date_create($accom_details['yearmonth']), 'F \'y');
+				$filename = $accom_details['document'];
+				break;
+
+			case 'ipcr':
+				# code...
+				break;
+
+			case 'opcr':
+				# code...
+				break;
+
+			case 'value':
+				# code...
+				break;
+		}
+		
+		$this->view->content = View::factory('admin/profile/pdfviewer')
+			->bind('first_name', $user['first_name'])
+			->bind('label', $label)
+			->bind('filename', $filename);
+		$this->response->body($this->view->render());
+	}
 } // End User
