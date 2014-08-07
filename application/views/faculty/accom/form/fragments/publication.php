@@ -1,5 +1,5 @@
 <?php 
-echo '<h3>I. Journal Publication/Book/Chapter in a Book</h3>';
+echo '<h4>I. Journal Publication/Book/Chapter in a Book</h4>';
 
 if ($session->get('accom_pub'))
 {

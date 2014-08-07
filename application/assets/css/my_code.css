@@ -117,8 +117,8 @@ body {
 
 /* DATEPICKER -- keep on top */
 #datepicker,
-#monthpicker,
-#datepickerer {
+#monthpicker, 
+#birthdaypicker {
   z-index:1151;
 }
 
@@ -173,7 +173,7 @@ body {
 
 /* --- FIX --- */
 pre {
-  padding: 30px;
+  padding: 100px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: inherit;
   background-color: #ffffff;
@@ -181,17 +181,22 @@ pre {
 
 pre h1 {
   margin-top: -20px;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 pre h2 {
   margin-top: 0px;
-  font-size: 21px;
+  font-size: 18px;
 }
 
 pre h3 {
   margin-top: 10px;
   font-size: 16px;
+}
+
+pre h4 {
+  margin-top: 10px;
+  font-size: 15px;
 }
 
 pre p {
@@ -200,12 +205,18 @@ pre p {
 
 .pre-scrollable {
   max-height: 500px;
-  padding: 30px;
+  padding: 50px;
 }
 
-.pcr {
-  font-size: 12px;
-  text-align: justify;
+.category {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.output {
+  font-size: 14px;
+  /*text-align: justify;*/
+  word-wrap: break-word;
 }
 
 .pdf-viewer {

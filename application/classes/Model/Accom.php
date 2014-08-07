@@ -26,7 +26,7 @@ class Model_Accom extends Model {
 	/**
 	 * Department/College
 	 */
-	public function get_accom_group($userIDs)
+	public function get_group_accom($userIDs)
 	{
 		$accoms = array();
 
@@ -158,7 +158,7 @@ class Model_Accom extends Model {
 	/**
 	 * Find report accomplishments
 	 */
-	public function find_accom($accom_ID, $type)
+	public function get_accoms($accom_ID, $type)
 	{
 		// Find accomplishments for one report
 		if (count($accom_ID) == 1)
@@ -182,7 +182,7 @@ class Model_Accom extends Model {
 			// Retrieve keyIDs
 			if ($accom_specIDs)
 			{
-				$accoms = $this->find_accom_key($accom_specIDs, $type);
+				$accoms = $this->get_accom_specs($accom_specIDs, $type);
 			}
 			
 			return $accoms;
@@ -238,8 +238,8 @@ class Model_Accom extends Model {
 	 			->where($name_ID, '=', $accom_specID)
 	 			->execute();
 
-	 		if ($rows_updated == 1) return TRUE;
-	 		else return FALSE; //do something
+	 		// if ($rows_updated == 1) return TRUE;
+	 		// else return FALSE; //do something
 		}
 		// Used by others
 		else
@@ -249,7 +249,7 @@ class Model_Accom extends Model {
 		}
 	}
 
-	public function delete_accom($user_ID, $accom_ID, $accom_specID, $type, $name_ID)
+	public function delete_accom($accom_ID, $accom_specID, $type, $name_ID)
 	{
 		// Check for other users
 		$users = $this->check_accom_users($accom_specID, $type);	
@@ -263,8 +263,8 @@ class Model_Accom extends Model {
 				->where($name_ID, '=', $accom_specID)
 		 		->execute();
 
-	 		if ($rows_deleted == 1) return TRUE;
-	 		else return FALSE; //do something
+	 		// if ($rows_deleted == 1) return TRUE;
+	 		// else return FALSE; //do something
 		}
 
 		// Used by others
@@ -303,7 +303,10 @@ class Model_Accom extends Model {
 		}
 	}
 
-	public function check_accom_users($accom_specID, $type)
+	/**
+	 * Check if accomplishment is linked to other reports
+	 */
+	private function check_accom_users($accom_specID, $type)
 	{
 		$result = DB::select()
 			->from('connect_accomtbl')
@@ -318,7 +321,7 @@ class Model_Accom extends Model {
 	/**
 	 * Get accomplishment details
 	 */
-	private function find_accom_key($accom_specIDs, $type)
+	private function get_accom_specs($accom_specIDs, $type)
 	{
 		$accoms = array();
 
@@ -548,8 +551,8 @@ class Model_Accom extends Model {
 			->where('type', '=', $type)
 	 		->execute();
 
- 		if ($rows_deleted == 1) return TRUE;
- 		else return FALSE; //do something
+ 		// if ($rows_deleted == 1) return TRUE;
+ 		// else return FALSE; //do something
 	}
 
 } // End Accom

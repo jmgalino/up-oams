@@ -40,11 +40,11 @@
 
         <div class="form-group">
           <label for="dates" class="col-sm-3 control-label">Inclusive dates</label>
-          <div class="col-sm-8">
-            <div class="input-daterange input-group" id="datepicker">
-              <input type="text" class="form-control" id="dates" name="start" required>
+          <div class="col-sm-8" id="datepicker">
+            <div class="input-daterange input-group" id="dates">
+              <input type="text" class="form-control" name="start" required>
               <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" id="dates" name="end" required>
+              <input type="text" class="form-control" name="end" required>
             </div>
           </div>
         </div>    

@@ -30,5 +30,5 @@ echo View::factory('faculty/accom/form/evaluate')
 ?>
 
 <div class="pdf-viewer text-center">
-<embed src="<?php echo URL::base(); ?>application/files/document_accom/2014041935.pdf" width="850" height="500">
+<embed src=<?php echo URL::base().'application/'.$accom['document']; ?> width="850" height="500">
 </div>

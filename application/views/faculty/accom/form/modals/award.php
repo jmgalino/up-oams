@@ -42,11 +42,11 @@
 
         <div class="form-group">
           <label for="duration" class="col-sm-5 control-label">Duration of the Award/Grant</label>
-          <div class="col-sm-6">
-            <div class="input-daterange input-group" id="datepicker">
-              <input type="text" class="form-control" id="duration" name="start" required>
+          <div class="col-sm-6" id="datepicker">
+            <div class="input-daterange input-group" id="duration">
+              <input type="text" class="form-control" name="start" required>
               <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" id="duration" name="end" required>
+              <input type="text" class="form-control" name="end" required>
             </div>
           </div>
         </div>

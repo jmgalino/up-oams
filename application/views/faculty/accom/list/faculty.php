@@ -27,7 +27,7 @@
 <?php endif; ?>
 
 <?php
-// Add Form (Initialize)
+// New Form (Initialize)
 echo View::factory('faculty/accom/form/initialize')
 	->bind('accom_reports', $accom_reports);
 ?>
@@ -49,8 +49,8 @@ echo View::factory('faculty/accom/form/initialize')
 		echo '<tr>';
 		echo '<td>', date_format(date_create($accom['yearmonth']), 'F Y'), '</td>';
 		
-		echo ($accom['date']
-			? '<td>'.date_format(date_create($accom['date']), 'F d, Y').'</td>'
+		echo ($accom['date_submitted']
+			? '<td>'.date_format(date_create($accom['date_submitted']), 'F d, Y').'</td>'
 			: '<td>Not submitted</td>');
 
 		echo '<td>', $accom['status'], '</td>';
@@ -61,15 +61,22 @@ echo View::factory('faculty/accom/form/initialize')
 		if ($accom['document'])
 		{
 				echo '<li>
-						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).' download>
+						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).'>
 						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
-					</li>';
-		}
-
-				echo '<li>
-						<a href='.URL::base().'application/'.$accom['document'].'>
+					</li>
+					<li>
+						<a href='.URL::base().'application/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
 						<span class="glyphicon glyphicon-download"></span> Download Report</a>
 					</li>';
+		}
+		else
+		{
+				echo '<li>
+						<a href='.URL::site('faculty/accom/download/'.$accom['accom_ID']).'>
+						<span class="glyphicon glyphicon-download"></span> Download Report</a>
+					</li>';
+		}
+				
 		if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Saved') OR ($accom['status'] == 'Rejected'))
 		{
 			echo 	'<li>

@@ -1,5 +1,5 @@
 <?php
-echo '<h3>VI. Participation in Seminars/Conferences/Workshops/Training Courses/Fora</h3>';
+echo '<h4>VI. Participation in Seminars/Conferences/Workshops/Training Courses/Fora</h4>';
 
 if ($session->get('accom_par'))
 {

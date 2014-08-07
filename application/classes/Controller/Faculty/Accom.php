@@ -10,8 +10,11 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		$delete = $this->session->get_once('delete');
+		$this->session->delete('accom_details');
+		$this->session->delete('ipcr_details');
+		$this->session->delete('opcr_details');
 		$submit = $this->session->get_once('submit');
+		$delete = $this->session->get_once('delete');
 		$employee_code = $this->session->get('employee_code');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
 
@@ -28,16 +31,15 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
-		if ($this->request->post('month_year'))
+		if (($this->request->post('document_type') == 'new') OR ($this->request->post('yearmonth')))
 		{
-			$date = DateTime::createFromFormat('F Y d', $this->request->post('month_year')."01");
 			$accom = new Model_Accom;
 
 			$details['user_ID'] = $this->session->get('user_ID');
-			$details['yearmonth'] = $date->format('Y-m-d');
+			$details['yearmonth'] = date_format(date_create('01 '.$this->request->post('yearmonth')), 'Y-m-d');
 			$details['accom_ID'] = $accom->initialize($details);
 			$this->session->set('accom_details', $details);
-			$this->action_draft(NULL);
+			$this->action_draft();
 		}
 		else
 		{
@@ -46,7 +48,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * View Accomplishment Report
+	 * View Accomplishment Report (PDF)
 	 */
 	public function action_preview()
 	{
@@ -80,7 +82,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
 		$this->session->set('accom_details', $accom_details);
-		$this->action_draft(NULL);
+		$this->action_draft();
 	}
 
 	/**
@@ -117,7 +119,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 */
 	public function action_download()
 	{
-		// force save pdf
+		$this->redirect('mpdf/download_accom');
 	}
 
 	/**
@@ -130,7 +132,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * View Accomplishment Report (PDF)
+	 * Accomplishment Report - PDF
 	 */
 	private function action_pdf($label, $filepath)
 	{
@@ -141,29 +143,29 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * View Accomplishment Report (Draft)
+	 * Accomplishment Report - Draft
 	 */
-	private function action_draft($label)
+	private function action_draft()
 	{
 		$accom = new Model_Accom;
 
 		$label = date_format(date_create($this->session->get('accom_details')['yearmonth']), 'F Y');
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
 
-		$pub = $accom->find_accom($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
-		$awd = $accom->find_accom($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
-		$rch = $accom->find_accom($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
-		$ppr = $accom->find_accom($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
-		$ctv = $accom->find_accom($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
-		$par = $accom->find_accom($accom_ID, 'par'); $this->session->set('accom_par', $par);
-		$mat = $accom->find_accom($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
-		$oth = $accom->find_accom($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
+		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
+		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
+		$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
+		$ppr = $accom->get_accoms($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
+		$ctv = $accom->get_accoms($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
+		$par = $accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
+		$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
+		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 		$accoms = array_merge($pub, $awd, $rch, $ctv, $par, $mat, $oth);
 
 		$this->view->content = View::factory('faculty/accom/form/template')
 			->bind('label', $label)
 			->bind('session', $this->session)
-			->bind('accoms', $accoms);
+			->bind('accom', $accoms);
 		$this->response->body($this->view->render());	
 	}
 

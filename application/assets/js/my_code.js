@@ -4,9 +4,6 @@ $(document).ready(function()
 	// var table = $('#user_table').DataTable();
 	// new $.fn.dataTable.FixedHeader(table);
 	$('#user_table').DataTable({
-		scrollY: 500,
-		scrollCollapse: false,
-		"pageLength": 25,
         "order": [[ 0, "asc" ]],
         "columnDefs": [{
         	"searchable": false,
@@ -15,9 +12,6 @@ $(document).ready(function()
         }]
     });
 	$('#accom_table').DataTable({
-		scrollY: 500,
-		scrollCollapse: false,
-		"pageLength": 25,
         "order": [[ 0, "asc" ]],
         "columnDefs": [{
         	"searchable": false,
@@ -35,14 +29,19 @@ $(document).ready(function()
     });
     // $("div.toolbar").html('<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">New Report</button>');
 	$('#accom_group_table').DataTable({
-		// scrollY: 500,
-		// scrollCollapse: false,
-		"pageLength": 10,
         "order": [[ 3, "asc" ]],
         "columnDefs": [{
         	"searchable": false,
         	"orderable": false,
         	"targets": 6
+        }]
+    });
+    $('#opcr_table').DataTable({
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [{
+        	"searchable": false,
+        	"orderable": false,
+        	"targets": 5
         }]
     });
 
@@ -57,23 +56,23 @@ $(document).ready(function()
 	});
 
 	// type of report
-	$('#report_type').change(function(){
+	$('#document_type').change(function(){
 		var type = $(this).val();
 		if (type == "new")
 		{
-			$(".new-report").show();
-			$(".consolidated-report").hide();
+			$(".new-document").show();
+			$(".consolidated-document").hide();
 
-			$(".n-report").attr("required", "");
-			$(".c-report").removeAttr("required");
+			$(".n-document").attr("required", "");
+			$(".c-document").removeAttr("required");
 		}
 		else if (type == "consolidated")
 		{
-			$(".new-report").hide();
-			$(".consolidated-report").show();
+			$(".new-document").hide();
+			$(".consolidated-document").show();
 
-			$(".n-report").removeAttr("required");
-			$(".c-report").attr("required", "");
+			$(".n-document").removeAttr("required");
+			$(".c-document").attr("required", "");
 		}
     });
 
@@ -82,20 +81,25 @@ $(document).ready(function()
 	});
 
 	// date
-	$('#datepickerer input').datepicker({
+	$('#birthdaypicker input').datepicker({
 		format: "MM dd, yyyy",
 		todayHighlight: true,
 		autoclose: true
 	});
-	$('#monthpicker input').datepicker({
-		format: "MM yyyy",
-	    viewMode: "months", 
-	    minViewMode: "months",
-		autoclose: true
-	});
-	$('.input-daterange').datepicker({
+	$('#datepicker .input-daterange').datepicker({
 		format: "d MM yyyy",
 		todayHighlight: true
+	});
+	$('#monthpicker .input-daterange').datepicker({
+		format: "MM yyyy",
+	    viewMode: 1, 
+	    minViewMode: 1,
+	});
+	$('#monthpicker input').datepicker({
+		format: "MM yyyy",
+	    viewMode: 1, 
+	    minViewMode: 1,
+		autoclose: true
 	});
 	
 	$("input[name=accom_type]").click(function()
@@ -154,22 +158,10 @@ $(document).ready(function()
 	{
 		return confirm('Are you sure you want to remove this accomplishment?');
 	});
-
-	//reject reason
-	$("input[name=status]").click(function()
+	$("a#deleteOutput").click(function()
 	{
-	// 	var status = jQuery('input[name=status]:checked').val();
-	// 	if (status == "Approved")
-	// 	{
-	// 		$(".reject-remarks").hide();
-	// 		$(".reject-comment").hide();
-	// 	}
-	// 	else
-	// 	{
-	// 		$(".reject-remarks").show();
-	// 		$(".reject-comment").show();
-	// 	}
-	// });
+		return confirm('Are you sure you want to remove this?');
+	});
 
 	// change category+outputs
 	// $('#category').ready(function()
@@ -189,12 +181,12 @@ $(document).ready(function()
 	// 	    $('input[name="mytextfield"]').prop('required',false);
 	// 	    $('input[name="mynumberfield"]').prop('required',false);        
 	// 	}
-	});
+	// });
 
 	var birthdate = document.getElementById("birthday");
-	if (!birthdate)
+	if (birthdate)
 	{
-		$('#datepickerer input').datepicker(
+		$('#birthdaypicker input').datepicker(
 			'update',
 			new Date(birthdate.getAttribute("value"))
 		);

@@ -1,5 +1,5 @@
 <?php
-echo '<h3>III. Research Grants/Fellowships Received</h3>';
+echo '<h4>III. Research Grants/Fellowships Received</h4>';
 	
 if ($session->get('accom_rch'))
 {

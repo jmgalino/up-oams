@@ -1,5 +1,5 @@
 <?php
-echo '<h3>II. Award/Grants Received</h3>';
+echo '<h4>II. Award/Grants Received</h4>';
 
 if ($session->get('accom_awd'))
 {

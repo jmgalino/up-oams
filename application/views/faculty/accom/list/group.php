@@ -50,7 +50,7 @@ echo View::factory('faculty/accom/form/consolidate')
 						echo '<td>', $program['short'], '</td>';	
 				}
 
-				echo '<td>', date_format(date_create($accom['date']), 'F d, Y'), '</td>';
+				echo '<td>', date_format(date_create($accom['date_submitted']), 'F d, Y'), '</td>';
 				echo '<td>', $accom['status'], '</td>';
 				echo '<td>', $accom['remarks'], '</td>';
 

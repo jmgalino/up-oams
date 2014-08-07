@@ -10,21 +10,12 @@
       <?php print form::open($consolidate_url, array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="start" class="col-sm-4 control-label">Start (Month & Year)</label>
-          <div class="col-sm-6">
-            <div class="input-group" id="monthpicker">
+          <label for="period" class="col-sm-4 control-label">Period</label>
+          <div class="col-sm-6" id="monthpicker">
+            <div class="input-daterange input-group" id="period">
               <input type="text" class="form-control" name="start">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="end" class="col-sm-4 control-label">End (Month & Year)</label>
-          <div class="col-sm-6">
-            <div class="input-group" id="monthpicker">
+              <span class="input-group-addon">-</span>
               <input type="text" class="form-control" name="end">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
             </div>
           </div>
         </div>

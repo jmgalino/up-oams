@@ -92,6 +92,9 @@ class Controller_Faculty_AccomExt extends Controller_Faculty {
 		// Open PDF in new tab
 	}
 
+	/**
+	 * Accomplishment Reports (Department/College)
+	 */
 	private function action_view_group($group, $programIDs, $users, $consolidate_url)
 	{
 		$accom = new Model_Accom;
@@ -108,7 +111,7 @@ class Controller_Faculty_AccomExt extends Controller_Faculty {
 			$userIDs[] = $user['user_ID'];
 		}
 
-		$accom_reports = $accom->get_accom_group($userIDs);
+		$accom_reports = $accom->get_group_accom($userIDs);
 		
 		$this->view->content = View::factory('faculty/accom/list/group')
 			->bind('identifier', $identifier)

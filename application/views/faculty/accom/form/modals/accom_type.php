@@ -69,35 +69,35 @@
 </div>
 
 <?php 
-// I. Modal
+// Publication Form
 echo View::factory('faculty/accom/form/modals/publication')
   ->bind('session', $session);
 
-// II. Modal
+// Award Form
 echo View::factory('faculty/accom/form/modals/award')
   ->bind('session', $session);
 
-// III. Modal
+// Research Form
 echo View::factory('faculty/accom/form/modals/research')
   ->bind('session', $session);
 
-// IV. Modal
+// Paper Form
 echo View::factory('faculty/accom/form/modals/paper')
   ->bind('session', $session);
 
-// V. Modal
+// Creative Form
 echo View::factory('faculty/accom/form/modals/creative')
   ->bind('session', $session);
 
-// VI. Modal
+// Participation Form
 echo View::factory('faculty/accom/form/modals/participation')
   ->bind('session', $session);
 
-// VII. Modal
+// Material Form
 echo View::factory('faculty/accom/form/modals/material')
   ->bind('session', $session);
 
-// VIII. Modal
+// Other Form
 echo View::factory('faculty/accom/form/modals/other')
   ->bind('session', $session);
 ?>

@@ -223,16 +223,17 @@ Route::set('accom_coll-functions', '<directory>/accom_coll(/<action>(/<id>))',
 		'action'	=> 'coll'
 	));
 
-
-Route::set('faculty-functions2', '<directory>/<controller>(/<action>(/<id>))',
+// opcr
+Route::set('opcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		'controller'=> '(ipcr|opcr|cuma)',
-		// 'action'	=> '(add|view|update|reset|delete)'
+		'controller'=> 'opcr',
+		// 'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
 	))
 	->defaults(array(
-		'action'	=> 'index'
+	    'action'     => 'index'
 	));
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller'=> 'site',

@@ -1,5 +1,5 @@
 <?php
-echo '<h3>VIII. Other Accomplishments</h3>';
+echo '<h4>VIII. Other Accomplishments</h4>';
 
 if ($session->get('accom_oth'))
 {

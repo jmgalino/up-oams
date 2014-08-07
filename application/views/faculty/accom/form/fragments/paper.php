@@ -1,5 +1,5 @@
 <?php
-echo '<h3>IV. Oral Paper/Poster Presentation</h3>';
+echo '<h4>IV. Oral Paper/Poster Presentation</h4>';
 
 if ($session->get('accom_ppr'))
 {

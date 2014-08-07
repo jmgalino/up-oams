@@ -8,7 +8,7 @@
 <div class="alert alert-warning alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <?php echo (($session->get('position') == 'dean') ? 'save' : 'submit'); ?> before leaving the page.
+		Don't forget to <?php echo (($session->get('position') == 'dean') ? 'save' : 'submit'); ?>.
 	</p>
 </div>
 
@@ -45,7 +45,7 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				<li>
 					<a data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
 				</li>
-				<?php if ($accoms): ?>
+				<?php if ($accom): ?>
 				<hr>
 				<li> 
 					<a href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>

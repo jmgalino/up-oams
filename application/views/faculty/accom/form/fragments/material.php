@@ -1,5 +1,5 @@
 <?php
-echo'<h3>VII. Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals</h3>';
+echo'<h4>VII. Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals</h4>';
 
 if ($session->get('accom_mat'))
 {

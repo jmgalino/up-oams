@@ -1,15 +1,15 @@
-<!-- Accomplishment Report Form -->
-<div class="modal fade" id="modal_accom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- OPCR Form -->
+<div class="modal fade" id="modal_opcr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">New Accomplishment Report</h4>
+        <h4 class="modal-title" id="myModalLabel">New Office Performance Commitment and Review Form</h4>
       </div>
 
-      <?php print form::open('faculty/accom/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
-        <?php if (count($accom_reports) > 1): ?>
+        <?php if ($opcr_forms): ?>
         <div class="form-group">
           <label for="document_type" class="col-sm-4 control-label">Report Type</label>
           <div class="col-sm-6">
@@ -22,24 +22,29 @@
         <?php endif; ?>
 
         <div class="form-group new-document">
-          <label for="yearmonth" class="col-sm-4 control-label">Month & Year</label>
-          <div class="col-sm-6">
-            <div class="input-group" id="monthpicker">
-              <input type="text" class="form-control n-document" name="yearmonth" required>
-              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+          <label for="period" class="col-sm-4 control-label">Period</label>
+          <div class="col-sm-6" id="monthpicker">
+            <div class="input-daterange input-group" id="period">
+              <input type="text" class="form-control n-document" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control n-document" name="end" required>
             </div>
           </div>
         </div>
 
-        <?php if (count($accom_reports) > 1): ?>
+        <?php if ($opcr_forms): ?>
         <div class="form-group consolidated-document" style="display:none">
           <label for="period" class="col-sm-4 control-label">Period</label>
-          <div class="col-sm-6" id="monthpicker">
-            <div class="input-daterange input-group" id="period">
-              <input type="text" class="form-control c-document" name="start">
-              <span class="input-group-addon">-</span>
-              <input type="text" class="form-control c-document" name="end">
-            </div>
+          <div class="col-sm-6">
+            <select class="form-control c-document" name="period" id="period">
+              <?php 
+              foreach ($opcr_forms as $opcr) {
+                echo '<option value=',$opcr['opcr_ID'],'>',
+                   date_format(date_create($opcr['period_from']), 'F Y'), ' - ', date_format(date_create($opcr['period_to']), 'F Y'),
+                  '</option>';
+              }
+              ?>
+            </select>
           </div>
         </div>
         <?php endif; ?>

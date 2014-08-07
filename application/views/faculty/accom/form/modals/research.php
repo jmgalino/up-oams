@@ -56,11 +56,11 @@
 
         <div class="form-group">
           <label for="duration" class="col-sm-4 control-label">Duration of Grant</label>
-          <div class="col-sm-7">
-            <div class="input-daterange input-group" id="datepicker">
-              <input type="text" class="form-control" id="duration" name="start" required>
+          <div class="col-sm-7" id="datepicker">
+            <div class="input-daterange input-group" id="duration">
+              <input type="text" class="form-control" name="start" required>
               <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" id="duration" name="end" required>
+              <input type="text" class="form-control" name="end" required>
             </div>
           </div>
         </div>       
@@ -70,6 +70,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
+      
       <?php print form::close();?>
     </div>
   </div>
