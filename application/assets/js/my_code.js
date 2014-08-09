@@ -16,7 +16,7 @@ $(document).ready(function()
         "columnDefs": [{
         	"searchable": false,
         	"orderable": false,
-        	"targets": 3
+        	"targets": 4
         }],
         // "dom": '<"toolbar">frtip'
    //      "sDom": 'T<"clear">lfrtip',
@@ -146,6 +146,7 @@ $(document).ready(function()
 
 	// Tooltip for author field
 	$('#author').tooltip();
+	$('#ipcrInit').tooltip();
 	$('a#editAccom').popover();
 	$('body').on('click', function (e) {
 	    //only buttons
@@ -154,18 +155,81 @@ $(document).ready(function()
 	        $('[data-toggle="popover"]').popover('hide');
 	    }
 	});
+
+	$("a#deleteReport").click(function()
+	{
+		return confirm('Are you sure you want to delete this report?');
+	});
 	$("a#deleteAccom").click(function()
 	{
 		return confirm('Are you sure you want to remove this accomplishment?');
+	});
+	$("a#deleteForm").click(function()
+	{
+		return confirm('Are you sure you want to delete this form?');
 	});
 	$("a#deleteOutput").click(function()
 	{
 		return confirm('Are you sure you want to remove this?');
 	});
+	$("a#resetPassword").click(function()
+	{
+		return confirm('Are you sure you want to reset the password?');
+	});
+	$("a#deleteAccount").click(function()
+	{
+		return confirm('Are you sure you want to delete this account?');
+	});
+
+	// Success indicator style
+	$("#style a").click(function()
+	{
+		var style = $(this).attr("href");
+		if (style == "#style2")
+		{
+			$(".style_2").attr("required", "");
+			$(".style_1").removeAttr("required");
+			$(".style_1").val("");
+		}
+		else
+		{
+			$(".style_1").attr("required", "");
+			$(".style_2").removeAttr("required");
+			$(".style_2").val("");
+		}
+	});
+	
+	$('td.editOutput').editable('/oamsystem/index.php/faculty/opcr/edit/output',
+	{
+		name		: 'output',
+		id			: 'output_ID',
+		type		: 'textarea',
+		submit		: 'Save',
+		event		: 'dblclick',
+		onblur		: 'ignore',
+		// style   	: 'width: '+($(this).width()-40),
+		cssclass	: 'edit_output',
+		tooltip		: 'Double click to edit',
+     });
+
+	$('td.editIndicator').editable('/oamsystem/index.php/faculty/opcr/edit/indicator',
+	{
+		name		: 'indicators',
+		id			: 'output_ID',
+		type		: 'textarea',
+		submit		: 'Save',
+		event		: 'dblclick',
+		onblur		: 'ignore',
+		// style   	: 'width: '+($(this).width()-40),
+		cssclass	: 'edit_output',
+		tooltip		: 'Double click to edit',
+     });
 
 	// change category+outputs
-	// $('#category').ready(function()
-	// {});
+	$('#category').change(function()
+	{
+		
+	});
 
 	// Modify Categories
 	// $("input[name=category]").click(function ()

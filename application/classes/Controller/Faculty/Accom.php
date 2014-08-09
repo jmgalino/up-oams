@@ -15,14 +15,12 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$this->session->delete('opcr_details');
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
-		$employee_code = $this->session->get('employee_code');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
 			->bind('submit', $submit)
 			->bind('delete', $delete)
-			->bind('accom_reports', $accom_reports)
-			->bind('employee_code', $employee_code);
+			->bind('accom_reports', $accom_reports);
 		$this->response->body($this->view->render());
 	}
 
@@ -97,7 +95,6 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		
 		$delete_success = $accom->delete($accom_ID);
 		$this->session->set('delete', $delete_success);
-
 		$this->redirect('faculty/accom');
 	}
 
@@ -167,18 +164,6 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			->bind('session', $this->session)
 			->bind('accom', $accoms);
 		$this->response->body($this->view->render());	
-	}
-
-	/**
-	 * Check ownership
-	 */
-	private function action_check($user_ID)
-	{
-		if ($this->session->get('user_ID') !== $user_ID)
-		{
-			$this->session->set('error', 'This report is not available.');
-			$this->redirect('faculty/error');
-		}
 	}
 
 } // End Accom

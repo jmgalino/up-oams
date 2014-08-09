@@ -64,11 +64,11 @@ echo View::factory('admin/profile/form/template')
 						<span class="glyphicon glyphicon-user"></span> Show Profile</a>
 					</li>
 					<li>
-						<a onclick="return confirm(\'Are you sure you want to reset the password?\');" href='.URL::site('admin/profile/reset/'.$user['employee_code']).'>
+						<a id="resetPassword" href='.URL::site('admin/profile/reset/'.$user['employee_code']).'>
 						<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
 					</li>
 					<li>
-						<a onclick="return confirm(\'Are you sure you want to delete this account?\');" href='.URL::site('admin/profile/delete/'.$user['employee_code']).'>
+						<a id="deleteAccount" href='.URL::site('admin/profile/delete/'.$user['employee_code']).'>
 						<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
 					</li>
 				</ul>

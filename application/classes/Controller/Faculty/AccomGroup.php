@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Faculty_AccomExt extends Controller_Faculty {
+class Controller_Faculty_AccomGroup extends Controller_Faculty {
 
 	/**
 	 * Department's Accomplishment Report
@@ -124,4 +124,4 @@ class Controller_Faculty_AccomExt extends Controller_Faculty {
 		$this->response->body($this->view->render());
 	}
 
-} // End AccomExt
+} // End AccomGroup

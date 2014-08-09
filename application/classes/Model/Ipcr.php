@@ -51,8 +51,43 @@ class Model_Ipcr extends Model {
 	/**
 	 * Create new form
 	 */
-	// public function initialize($details)
-	// {}
+	public function initialize($details)
+	{
+		// Check
+		$result = DB::select()
+			->from('ipcrtbl')
+			->where('opcr_ID', '=', $details['opcr_ID'])
+			->where('user_ID', '=', $details['user_ID'])
+		    ->execute()
+			->as_array();
+
+		// Existing
+		if ($result)
+ 		{
+ 			if (($result[0]['status'] == 'Approved') OR ($result[0]['status'] == 'Pending'))
+ 			{
+ 				return FALSE;
+ 			}
+ 			else
+ 			{
+ 				return $result[0]['ipcr_ID'];
+ 			}
+ 		}
+ 		else
+ 		{
+ 			foreach ($details as $column_name => $value) {
+ 				$columns[] = $column_name;
+				$values[] = $value;
+			}
+
+ 			$insert_ipcr = DB::insert('ipcrtbl')
+	 			->columns($columns)
+	 			->values($values)
+	 			->execute();
+
+	 		return $insert_ipcr[0];
+ 		}
+	}
 
 	/**
 	 * Publish form

@@ -208,15 +208,20 @@ pre p {
   padding: 50px;
 }
 
-.category {
+pre .category {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
-.output {
+pre .output {
   font-size: 14px;
-  /*text-align: justify;*/
-  word-wrap: break-word;
+  /*text-indent: 20px;*/
+  /*word-wrap: break-word;*/
+}
+
+pre .indicator {
+  font-size:  14px;
+  text-align: justify;
 }
 
 .pdf-viewer {
@@ -226,6 +231,48 @@ pre p {
 .details {
   font-size: medium;
   padding: 2px;
+}
+
+.edit_output textarea
+{
+  text-align: justify;
+  border-color: gray;
+  border-radius: 10px;
+  min-height: 50px;
+}
+.edit_output textarea:focus
+{
+    outline: 0;
+}
+.edit_output button
+{
+  margin-top: 5px;
+  margin-left: auto;
+  display: block;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #ffffff;
+  background-color: #7b1113;
+  border-color: #650e10;
+}
+.edit_output button:hover,
+.edit_output button:focus {
+  color: #ffffff;
+  background-color: #4e0b0c;
+  border-color: #2f0607;
 }
 
 /*h1 a.permalink, 
@@ -274,6 +321,16 @@ pre>a>span.glyphicon
 {
 max-width: 500px;
 }
+
+.btn.disabled {
+    pointer-events: auto;
+}
+
+pre .table>thead>tr>th
+{
+  vertical-align: middle;
+}
+
 /*.affix-anchor{
     padding-top:60px;
     margin-top:-60px;

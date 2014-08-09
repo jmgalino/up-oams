@@ -4,10 +4,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add MFO/PAP</h4>
+        <h4 class="modal-title" id="myModalLabel">Add Output</h4>
       </div>
 
-      <?php print form::open('faculty/opcr/add', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/ipcr/add', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="category" class="col-sm-4 control-label">Category</label>
@@ -24,13 +24,23 @@
         </div>
 
         <div class="form-group">
-          <label for="output" class="col-sm-4 control-label">MFO/PAP</label>
+          <label for="output" class="col-sm-4 control-label">Output</label>
           <div class="col-sm-7">
-            <textarea class="form-control" id="output" name="output" rows="3" required></textarea>
+            <select class="form-control" id="output" name="output_ID">
+              <?php
+              foreach ($categories as $category => $category_ID)
+              {
+                foreach ($outputs as $output)
+                {
+                  echo '<option id="'.$category.'" value="'.$output['output_ID'].'" style="display:none;">'.$output['output'].'</option>';
+                }
+              }
+              ?>
+            </select>
           </div>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="indicators" class="col-sm-4 control-label">Success Indicators (Targets + Measures)</label>
           
           <div class="col-sm-7" id="indicators">
@@ -48,13 +58,6 @@
                 <textarea class="form-control style_2" name="indicators" rows="3" placeholder="Example: 10% done = 3; 20% done = 4; 30% done = 5"></textarea>
               </div>
             </div>
-          </div>
-        </div>
-        
-        <!-- <div class="form-group">
-          <label for="accountable" class="col-sm-4 control-label">Accountable</label>
-          <div class="col-sm-7">
-            <textarea class="form-control" id="accountable" name="accountable" rows="3" required></textarea>
           </div>
         </div> -->
       </div>

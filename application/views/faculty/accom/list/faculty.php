@@ -40,6 +40,7 @@ echo View::factory('faculty/accom/form/initialize')
 			<th>Month & Year</th>
 			<th>Date Submitted</th>
 			<th>Status</th>
+			<th>Remarks</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -54,6 +55,7 @@ echo View::factory('faculty/accom/form/initialize')
 			: '<td>Not submitted</td>');
 
 		echo '<td>', $accom['status'], '</td>';
+		echo '<td>', $accom['remarks'], '</td>';
 		echo '<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 				<ul class="dropdown-menu">';
@@ -84,7 +86,7 @@ echo View::factory('faculty/accom/form/initialize')
 						<span class="glyphicon glyphicon-pencil"></span> Edit Report</a>
 					</li>
 					<li>
-						<a onclick="return confirm(\'Are you sure you want to delete this report?\');" href='.URL::site('faculty/accom/delete/'.$accom['accom_ID']).'>
+						<a id="deleteReport" href='.URL::site('faculty/accom/delete/'.$accom['accom_ID']).'>
 						<span class="glyphicon glyphicon-trash"></span> Delete Report</a>
 					</li>';
 		}

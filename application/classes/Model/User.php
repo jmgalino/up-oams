@@ -62,8 +62,8 @@ class Model_User extends Model {
  		else return FALSE; //do something
  	}
 
- 	public function change_password($employee_code, $password)
- 	{}
+ 	// public function change_password($employee_code, $password)
+ 	// {}
 
  	/**
 	 * Used by Contoller_Admin
@@ -118,11 +118,11 @@ class Model_User extends Model {
  		return $users;
  	}
 
- 	public function get_old_publications($user_ID)
- 	{}
+ 	// public function get_old_publications($user_ID)
+ 	// {}
 
- 	public function get_old_researches($user_ID)
- 	{}
+ 	// public function get_old_researches($user_ID)
+ 	// {}
 
 
  	public function add_user($details)
@@ -176,11 +176,11 @@ class Model_User extends Model {
  		}
  	}
 
- 	public function add_old_accom($key, $details)
- 	{}
+ 	// public function add_old_accom($key, $details)
+ 	// {}
 
- 	public function delete_old_accom($key, $accom_ID)
- 	{}
+ 	// public function delete_old_accom($key, $accom_ID)
+ 	// {}
 
  	// public function update_profile($employee_code, $details)
  	// {}
@@ -207,7 +207,7 @@ class Model_User extends Model {
  		else return FALSE; //do something
  	}
 
- 	private function update_session()
- 	{}
+ 	// private function update_session()
+ 	// {}
 	
 } // End User

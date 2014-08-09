@@ -56,6 +56,7 @@ class Model_Accom extends Model {
 	 		->execute()
 	 		->as_array();
 
+		$details = array();
 		foreach ($result as $detail)
 		{
 			$details[] = $detail;
@@ -74,7 +75,7 @@ class Model_Accom extends Model {
 			->bind(':user_ID', $details['user_ID'])
 		    ->bind(':yearmonth', $details['yearmonth'])
 		    ->execute()
-			->as_array();
+	 		->as_array();
 
 		// Existing
 		if ($result)
@@ -192,6 +193,26 @@ class Model_Accom extends Model {
 		else
 		{}
 	}
+
+	/**
+	 * Get accom details
+	 */
+	// public function get_accom_details($accom_spec_ID, $name_ID, $type)
+	// {
+	// 	$result = DB::select()
+	// 		->from('accom_'.$type.'tbl')
+	// 		->where($name_ID, '=', $accom_spec_ID)
+	//  		->execute()
+	//  		->as_array();
+
+	// 	$details = array();
+	// 	foreach ($result as $detail)
+	// 	{
+	// 		$details[] = $detail;
+	// 	}
+
+ // 		return $details;
+	// }
 
 	/**
 	 * Add report accomplishments

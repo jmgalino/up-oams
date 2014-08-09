@@ -24,6 +24,33 @@ class Model_Opcr extends Model {
 	}
 
 	/**
+	 * Department
+	 */
+	public function get_department_opcr($user_ID)
+	{
+		$user = new Model_User;
+		$univ = new Model_Univ;
+
+		$program = $user->get_details($user_ID, NULL)[0];
+		$department = $univ->get_department_details(NULL, $program['program_ID'])[0];
+
+		$result = DB::select()
+			->from('opcrtbl')
+			->where('user_ID', '=', $department['user_ID'])
+			->where('status', '=', 'Published')
+			->execute()
+			->as_array();
+	
+		$opcr_forms = array();
+		foreach ($result as $form)
+		{
+			$opcr_forms[] = $form;
+		}
+
+		return $opcr_forms;
+	}
+
+	/**
 	 * College
 	 */
 	// public function get_group_opcr($userIDs)
@@ -94,8 +121,16 @@ class Model_Opcr extends Model {
 	/**
 	 * Publish form
 	 */
-	// public function publish($opcr_ID, $details)
-	// {}
+	public function publish($opcr_ID)
+	{
+		$rows_updated = DB::update('opcrtbl')
+ 			->set(array('status' => 'Published', 'date_published' => date('Y-m-d')))
+ 			->where('opcr_ID', '=', $opcr_ID)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+	}
 
 	/**
 	 * Submit form
@@ -108,18 +143,45 @@ class Model_Opcr extends Model {
 	 */
 	public function delete($opcr_ID)
 	{
-		$rows_deleted = DB::delete('opcrtbl')
+		// Check for linked IPCR
+		$ipcr = DB::select()
+			->from('ipcrtbl')
 			->where('opcr_ID', '=', $opcr_ID)
-	 		->execute();
+			->execute()
+	 		->as_array();
 
- 		if ($rows_deleted == 1) return TRUE;
- 		else return FALSE; //do something
+		if ($ipcr) return "One or more IPCR is using this OPCR.";
+		else
+		{
+			// Check for linked IPCR
+			$output = DB::select()
+				->from('opcr_outputtbl')
+				->where('opcr_ID', '=', $opcr_ID)
+				->execute()
+		 		->as_array();
+
+			if ($output)
+			{
+				$rows_deleted = DB::delete('opcr_outputtbl')
+					->where('opcr_ID', '=', $opcr_ID)
+			 		->execute();
+
+				$this->delete($opcr_ID);
+			}
+
+			$rows_deleted = DB::delete('opcrtbl')
+				->where('opcr_ID', '=', $opcr_ID)
+		 		->execute();
+
+	 		if ($rows_deleted == 1) return TRUE;
+	 		else return "OPCR is not existing."; //do something
+		}
 	}
 
 	/**
 	 * Find form outputs
 	 */
-	public function find_outputs($opcr_ID)
+	public function get_outputs($opcr_ID)
 	{
 		$outputs = array();
 
@@ -135,6 +197,26 @@ class Model_Opcr extends Model {
 		}
 
  		return $outputs;
+	}
+
+	/**
+	 * Get output details
+	 */
+	public function get_output_details($output_ID)
+	{
+		$result = DB::select()
+			->from('opcr_outputtbl')
+			->where('output_ID', '=', $output_ID)
+	 		->execute()
+	 		->as_array();
+
+		$details = array();
+		foreach ($result as $detail)
+		{
+			$details[] = $detail;
+		}
+
+ 		return $details;
 	}
 
 	/**
@@ -158,8 +240,16 @@ class Model_Opcr extends Model {
 	/**
 	 * Edit form output
 	 */
-	// public function edit_output($opcr_ID, $output_ID, $details)
-	// {}
+	public function edit_output($details)
+	{
+		$rows_updated = DB::update('opcr_outputtbl')
+ 			->set($details)
+ 			->where('output_ID', '=', $details['output_ID'])
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+	}
 
 	/**
 	 * Delete form output

@@ -3,6 +3,18 @@
 class Controller_Faculty extends Controller_User {
 
 	/**
+	 * Check ownership
+	 */
+	protected function action_check($user_ID)
+	{
+		if ($this->session->get('user_ID') !== $user_ID)
+		{
+			$this->session->set('error', 'Error 401: Unauthorized access.');
+			$this->redirect('faculty/error');
+		}
+	}
+
+	/**
 	 * Preview documents
 	 */
 	public function action_preview()

@@ -1,122 +1,117 @@
+<!-- Site Navigation -->
 <ol class="breadcrumb">
-	<li><a href=<?php echo url::site('faculty/index'); ?>>Home</a></li>
+	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
 	<li class="active">Individual Performance Commitment and Review</li>
 </ol>
 
 <h3>
 	My IPCR Forms
-	<div class="btn-toolbar pull-right" role="toolbar">
-		<?php if ($filtered): ?>
-		<div class="btn-group">
-			<a class="btn btn-default" href=<?php echo url::site('faculty/ipcr/unfilter'); ?> role="button">Remove Filter</a>
-		</div>
-		<?php elseif (count($ipcr_rows)>0): ?>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_filter">Filter Forms</button>
-		</div>
-		<?php endif; ?>
-		<?php if (count($opcrs) > 0): ?>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_ipcr">New Form</button>
-		</div>
-		<?php endif; ?>
-	</div>
+	<button id="ipcrInit" type="button"
+	<?php echo ($opcr_forms
+		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_ipcr"'
+		: 'class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="top" title="No OPCR available"');
+	?>>New Form</button>
 </h3>
 <br>
 
+<?php if ($submit): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		IPCR was successfully submitted.
+	</p>
+</div>
+<?php elseif ($delete): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		IPCR was successfully deleted.
+	</p>
+</div>
+<?php endif; ?>
+
 <?php
-if (count($ipcr_rows)>0)
-{
-	echo '<div class="table-responsive">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Period</th>
-					<th>Status</th>
-					<th>Comment</th>
-					<th colspan="3">Actions</th>
-				</tr>
-			</thead>
-			<tbody>';
+// Init Modal
+echo View::factory('faculty/ipcr/form/initialize')
+	->bind('opcr_forms', $opcr_forms);
+?>
 
-	foreach ($ipcr_rows as $ipcr)
+<?php if ($ipcr_forms): ?>
+<!-- Table -->
+<table class="table table-hover" id="ipcr_table" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Period</th>
+			<th>Date Submitted</td>
+			<th>Status</th>
+			<th>Comment</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($ipcr_forms as $ipcr)
 	{
-		echo '<tr>';
-
-		foreach ($opcrs as $opcr) {
-
-			if ($ipcr->opcr_ID == $opcr->opcr_ID)
+		foreach ($opcr_forms as $opcr)
+		{
+			if ($ipcr['opcr_ID'] == $opcr['opcr_ID'])
 			{
-				$pfrom = DateTime::createFromFormat('Y-m-d', $opcr->period_from);
-				$pto = DateTime::createFromFormat('Y-m-d', $opcr->period_to);
+				$period_from = DateTime::createFromFormat('Y-m-d', $opcr['period_from']);
+				$period_to = DateTime::createFromFormat('Y-m-d', $opcr['period_to']);
+				$period = $period_from->format('F Y').' - '.$period_to->format('F Y');
 
-				echo '<td>
-				<a href='.url::site('ipcr/view/'.$ipcr->ipcr_ID).'>
-				'.$pfrom->format('F Y').' - '.$pto->format('F Y').'
-				</a></td>';
+				echo '<tr>';
+				echo '<td>', $period, '</a></td>';
+
+				echo ($ipcr['date_submitted']
+					? '<td>'.date_format(date_create($ipcr['date_submitted']), 'F d, Y').'</td>'
+					: '<td>Not submitted</td>');
+
+				echo '<td>', $ipcr['status'], '</td>';
+				echo '<td>', $ipcr['comment'], '</td>';
+				echo '<td class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+						<ul class="dropdown-menu">';
+
+				if ($ipcr['document'])
+				{
+						echo '<li>
+								<a href='.URL::site('faculty/ipcr/preview/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
+							</li>
+							<li>
+								<a href='.URL::base().'application/'.$ipcr['document'].' download=', $period, '>
+								<span class="glyphicon glyphicon-download"></span> Download Form</a>
+							</li>';
+				}
+				else
+				{
+						echo '<li>
+								<a href='.URL::site('faculty/ipcr/download/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-download"></span> Download PDF</a>
+							</li>';
+				}
+
+				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Rejected'))
+				{
+					echo 	'<li>
+								<a href='.URL::site('faculty/ipcr/update/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-pencil"></span> Edit Form</a>
+							</li>
+							<li>
+								<a id="deleteForm" href='.URL::site('faculty/ipcr/delete/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
+							</li>';
+				}
+
+				echo '	</ul>
+					</td>
+					</tr>';
 			}
 		}
+	}?>
+	</tbody>
+</table>
 
-		// Date Submitted
-		$date = DateTime::createFromFormat('Y-m-d', $ipcr->date_submitted);
-		if ($ipcr->date_submitted !== NULL)
-			echo '<td>', $date->format('F d, Y'), '</td>';
-		else
-			echo '<td>Not submitted</td>';
-
-		echo '<td>', $ipcr->status, '</td>';
-
-		// Comment
-		if ($ipcr->comment !== NULL)
-			echo '<td>', $ipcr->comment, '</td>';
-		else
-			echo '<td>None</td>';
-
-		if (($ipcr->status == 'Draft') OR ($ipcr->status == 'Rejected') OR (is_null($ipcr->date_submitted)) OR ($this->site->session->get('identifier') == 'dean'))
-		{
-			echo '<td title="Download Form">
-			<a href='.url::site('ipcr/download/'.$ipcr->ipcr_ID).'>
-			<span class="glyphicon glyphicon-download"></span></a>
-			</td>';
-			echo '<td title="Edit Form">
-			<a href='.url::site('ipcr/edit/'.$ipcr->ipcr_ID).'>
-			<span class="glyphicon glyphicon-pencil"></span></a>
-			</td>';
-			echo '<td title="Delete Form">
-			<a onclick="return confirm(\'Are you sure you want to delete this form?\');" href='.url::site('ipcr/delete/'.$ipcr->ipcr_ID).'>
-			<span class="glyphicon glyphicon-trash"></span></a>
-			</td>';
-		}
-
-		else
-		{
-			echo '<td title="Download Form">
-			<a href='.url::site('ipcr/download/'.$ipcr->ipcr_ID).'>
-			<span class="glyphicon glyphicon-download"></span></a>
-			</td>';
-			echo '<td title="Not allowed">
-			<span class="glyphicon glyphicon-pencil"></span>
-			</td>
-			<td title="Not allowed">
-			<span class="glyphicon glyphicon-trash"></span>
-			</td>';
-		}
-
-		echo '</tr>';
-	}
-
-	echo '</table></div>';
-}
-else
-{
-	echo '<div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>';
-}
-
-// Init Modal
-$view = new View('faculty/ipcr/form/_create/init');
-$view->bind('opcrs', $opcrs);
-$view->render(TRUE);
-
-// Filter Modal
-// echo View::factory('faculty/ipcr/form/filter')->render();
-?>
+<?php else: ?>
+<div class="alert alert-danger"><p class="text-center">The list is empty.</p></div>
+<?php endif; ?>

@@ -36,7 +36,7 @@
         <div class="form-group consolidated-document" style="display:none">
           <label for="period" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6">
-            <select class="form-control c-document" name="period" id="period">
+            <select class="form-control c-document" name="period_ID" id="period">
               <?php 
               foreach ($opcr_forms as $opcr) {
                 echo '<option value=',$opcr['opcr_ID'],'>',

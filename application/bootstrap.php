@@ -183,7 +183,7 @@ Route::set('faculty-functions', '<controller>/myprofile/<action>/<id>',
 Route::set('accom_spec-functions', '<directory>/accom/<action>/<key>(/<id>)',
 	array(
 		'directory' => 'faculty',
-		'action'	=> '(add|edit|remove)',
+		'action'	=> '(add|set|edit|remove)',
 		'key'		=> '(pub|awd|rch|ppr|ctv|par|mat|oth)'
 	))
 	->defaults(array(
@@ -208,7 +208,7 @@ Route::set('accom_dept-functions', '<directory>/accom_dept(/<action>(/<id>))',
 		'action'	=> '(dept|view|evaluate|consolidate)'
 	))
 	->defaults(array(
-		'controller'=> 'accomext',
+		'controller'=> 'accomgroup',
 		'action'	=> 'dept'
 	));
 
@@ -219,7 +219,40 @@ Route::set('accom_coll-functions', '<directory>/accom_coll(/<action>(/<id>))',
 		'action'	=> '(coll|view|evaluate|consolidate)'
 	))
 	->defaults(array(
-		'controller'=> 'accomext',
+		'controller'=> 'accomgroup',
+		'action'	=> 'coll'
+	));
+
+// ipcr
+Route::set('ipcr-functions', '<directory>/<controller>(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'controller'=> 'ipcr',
+		// 'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
+	))
+	->defaults(array(
+	    'action'     => 'index'
+	));
+
+// ipcr_dept
+Route::set('icpr_dept-functions', '<directory>/ipcr_dept(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		// 'action'	=> '(dept|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'ipcrgroup',
+		'action'	=> 'dept'
+	));
+
+// ipcr_coll
+Route::set('icpr_coll-functions', '<directory>/ipcr_coll(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		// 'action'	=> '(coll|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'ipcrgroup',
 		'action'	=> 'coll'
 	));
 

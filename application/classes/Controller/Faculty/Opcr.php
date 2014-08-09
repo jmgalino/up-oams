@@ -7,6 +7,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_index()
 	{
+		// print_r($this->request->post());
 		$opcr = new Model_Opcr;
 
 		$this->session->delete('accom_details');
@@ -22,8 +23,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			->bind('publish', $publish)
 			->bind('submit', $submit)
 			->bind('delete', $delete)
-			->bind('opcr_forms', $opcr_forms)
-			->bind('employee_code', $employee_code);
+			->bind('opcr_forms', $opcr_forms);
 		$this->response->body($this->view->render());
 	}
 
@@ -40,7 +40,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			$details['period_from'] = date_format(date_create('01 '.$this->request->post('start')), 'Y-m-d');
 			$details['period_to'] = date_format(date_create('01 '.$this->request->post('end')), 'Y-m-d');
 			$details['opcr_ID'] = $opcr->initialize($details);
-			$this->session->set('opcr_details', $details);print_r($details);
+			$this->session->set('opcr_details', $details);
 			$this->action_draft();
 		}
 		else
@@ -52,8 +52,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * View OPCR Form (PDF)
 	 */
-	public function action_preview()
-	{}
+	// public function action_preview()
+	// {}
 
 	/**
 	 * View OPCR Form (Draft)
@@ -72,15 +72,33 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * Delete OPCR Form
 	 */
-	// public function action_delete()
-	// {}
+	public function action_delete()
+	{
+		$opcr = new Model_Opcr;
+		
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$this->action_check($opcr_details['user_ID']);
+
+		$delete = $opcr->delete($opcr_ID);
+		$this->session->set('delete', $delete);
+		$this->redirect('faculty/opcr');
+	}
 
 	/**
 	 * Publish OPCR Form
 	 */
 	public function action_publish()
 	{
-		// generate PDF from draft
+		$opcr = new Model_Opcr;
+		
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$this->action_check($opcr_details['user_ID']);
+
+		$publish_success = $opcr->publish($opcr_ID);
+		$this->session->set('publish', $publish_success);
+		$this->redirect('faculty/opcr');
 	}
 
 	/**
@@ -119,40 +137,28 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$period_to = date_format(date_create($this->session->get('opcr_details')['period_to']), 'F Y');
 		$label = $period_from.' - '.$period_to;
 		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
-		$outputs = $opcr->find_outputs($opcr_ID);
+		$outputs = $opcr->get_outputs($opcr_ID);
 		$categories = $opcr->get_categories();
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
 
-		if ($this->session->get('identifier') == 'dept_chair')
-		{
-			$title = $department['short'];
-		}
-		elseif ($this->session->get('identifier') == 'dean')
-		{
-			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
-			$title = $college['short'];
-		}
+		// if ($this->session->get('identifier') == 'dept_chair')
+		// {
+		// 	$title = $department['short'];
+		// }
+		// elseif ($this->session->get('identifier') == 'dean')
+		// {
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+		// 	$title = $college['short'];
+		// }
 
 		$this->view->content = View::factory('faculty/opcr/form/template')
 			->bind('label', $label)
 			->bind('session', $this->session)
 			->bind('categories', $categories)
-			->bind('department', $department['short'])
-			->bind('title', $title)
+			// ->bind('department', $department['short'])
+			// ->bind('title', $title)
 			->bind('outputs', $outputs);
 		$this->response->body($this->view->render());
-	}
-
-	/**
-	 * Check ownership
-	 */
-	private function action_check($user_ID)
-	{
-		if ($this->session->get('user_ID') !== $user_ID)
-		{
-			$this->session->set('error', 'This form is not available.');
-			$this->redirect('faculty/error');
-		}
 	}
 
 	/**
@@ -162,8 +168,14 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	{
 		$opcr = new Model_Opcr;
 
-		$details = $this->request->post();
+		$post = $this->request->post();
+		$details['category_ID'] = $post['category_ID'];
 		$details['opcr_ID'] = $this->session->get('opcr_details')['opcr_ID'];
+		$details['output'] = $post['output'];
+		$details['indicators'] = ($post['indicators']
+			? $post['indicators']
+			: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
+		
 		$opcr->add_output($details);
 		$this->redirect('faculty/opcr/update/'.$details['opcr_ID']);
 	}
@@ -171,8 +183,30 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * Edit output
 	 */
-	// public function action_edit()
-	// {}
+	public function action_edit()
+	{
+		$opcr = new Model_Opcr;
+
+		$post = $this->request->post();
+		$output_details = $opcr->get_output_details($post['output_ID'])[0];
+		
+		if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
+		{
+			$edit_success = $opcr->edit_output($post);
+
+			if ($edit_success)
+			{
+				if (isset($post['output'])) echo $post['output'];
+				elseif (isset($post['indicators'])) echo $post['indicators'];
+			}
+		}	
+
+// 		if ($edit_success)
+// 		{	
+// 			if ($post['output']) echo $post['output'];
+// 			else echo 'h';
+// 		}
+	}
 
 	/**
 	 * Delete output

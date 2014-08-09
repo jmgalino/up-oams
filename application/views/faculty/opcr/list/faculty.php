@@ -25,10 +25,10 @@
 	</p>
 </div>
 <?php elseif ($delete): ?>
-<div class="alert alert-success alert-dismissable">
+<div class="alert <?php echo (is_bool($delete) ? 'alert-success' : 'alert-danger' ); ?> alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		OPCR was successfully deleted.
+		<?php echo (is_bool($delete) ? 'OPCR was successfully deleted.' : $delete ); ?>
 	</p>
 </div>
 <?php endif; ?>
@@ -45,7 +45,7 @@ echo View::factory('faculty/opcr/form/initialize')
 	<thead>
 		<tr>
 			<th>Period</th>
-			<th>Date Posted</td>
+			<th>Date Published</td>
 			<th>Date Submitted</td>
 			<th>Status</th>
 			<th>Comment</th>
@@ -62,9 +62,9 @@ echo View::factory('faculty/opcr/form/initialize')
 		echo '<tr>';
 		echo '<td>', $period, '</a></td>';
 
-		echo ($opcr['date_posted']
-			? '<td>'.date_format(date_create($opcr['date_posted']), 'F d, Y').'</td>'
-			: '<td>Not posted</td>');
+		echo ($opcr['date_published']
+			? '<td>'.date_format(date_create($opcr['date_published']), 'F d, Y').'</td>'
+			: '<td>Not published</td>');
 
 		echo ($opcr['date_submitted']
 			? '<td>'.date_format(date_create($opcr['date_submitted']), 'F d, Y').'</td>'
@@ -91,19 +91,19 @@ echo View::factory('faculty/opcr/form/initialize')
 		{
 				echo '<li>
 						<a href='.URL::site('faculty/opcr/download/'.$opcr['opcr_ID']).'>
-						<span class="glyphicon glyphicon-download"></span> Download Form</a>
+						<span class="glyphicon glyphicon-download"></span> Download PDF</a>
 					</li>';
 		}
 
-		if (($opcr['status'] == 'Draft') OR ($opcr['status'] == 'Published') OR ($opcr['status'] == 'Rejected'))
+		if ($opcr['status'] == 'Draft')
 		{
 			echo 	'<li>
 						<a href='.URL::site('faculty/opcr/update/'.$opcr['opcr_ID']).'>
-						<span class="glyphicon glyphicon-pencil"></span> Edit Report</a>
+						<span class="glyphicon glyphicon-pencil"></span> Edit Form</a>
 					</li>
 					<li>
-						<a onclick="return confirm(\'Are you sure you want to delete this report?\');" href='.URL::site('faculty/opcr/delete/'.$opcr['opcr_ID']).'>
-						<span class="glyphicon glyphicon-trash"></span> Delete Report</a>
+						<a id="deleteForm" href='.URL::site('faculty/opcr/delete/'.$opcr['opcr_ID']).'>
+						<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
 					</li>';
 		}
 
