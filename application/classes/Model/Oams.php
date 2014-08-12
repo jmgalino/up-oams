@@ -24,13 +24,12 @@ class Model_Oams extends Model {
 
 	public function get_messages()
 	{
-		$messages = array();
-
 		$result = DB::select()
 			->from('oams_messagetbl')
 			->execute()
 			->as_array();
 
+		$messages = array();
 		foreach ($result as $message) {
 			$messages[] = $message;
 		}
@@ -40,13 +39,12 @@ class Model_Oams extends Model {
 
 	public function get_categories()
 	{
-		$categories = array();
-
 		$result = DB::select()
-			->from('oams_categorytbl')
+			->from('output_categorytbl')
 			->execute()
 			->as_array();
 
+		$categories = array();
 		foreach ($result as $category)
 		{
 			$categories[] = $category;

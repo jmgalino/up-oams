@@ -5,10 +5,10 @@
 	<li class="active"><?php echo $label; ?></li>
 </ol>
 
-<div class="alert alert-warning alert-dismissable">
+<div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <?php echo (($session->get('position') == 'dean') ? 'save' : 'submit'); ?>.
+		Don't forget to <strong><?php echo (($session->get('position') == 'dean') ? 'save' : 'submit'); ?></strong>.
 	</p>
 </div>
 
@@ -22,7 +22,7 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 		<pre class="center-block">
 			<?php
 				echo '<h1 class="text-center">Accomplishment Report</h1>';
-				echo '<h2 class="text-center">', $label, '</h2>';
+				echo '<h2 class="text-center">', $label, '</h2><br>';
 				echo '<h2>', $session->get('fullname'), '</h2>';
 				echo '<h3>', $session->get('rank'), '</h3>';
 				echo '<br>';
@@ -35,6 +35,14 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				echo View::factory('faculty/accom/form/fragments/participation')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/material')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/other')->bind('session', $session);
+
+				echo '<br><br><br>
+				<table width="200" align="right">
+					<tbody>
+						<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
+						<tr><td class="text-center">', $session->get('fullname'), '</td></tr>
+					</tbody>
+				</table>';
 			?>
 		</pre>
 	</div>

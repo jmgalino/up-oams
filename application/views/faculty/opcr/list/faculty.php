@@ -10,18 +10,11 @@
 </h3>
 <br>
 
-<?php if ($publish): ?>
+<?php if ($submit): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		OPCR was successfully published.
-	</p>
-</div>
-<?php elseif ($submit): ?>
-<div class="alert alert-success alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		OPCR was successfully submitted.
+		<?php echo $submit; ?>
 	</p>
 </div>
 <?php elseif ($delete): ?>
@@ -35,7 +28,7 @@
 
 <?php
 // Init Modal
-echo View::factory('faculty/opcr/form/initialize')
+echo View::factory('faculty/opcr/form/modals/initialize')
 	->bind('opcr_forms', $opcr_forms);
 ?>
 
@@ -48,7 +41,7 @@ echo View::factory('faculty/opcr/form/initialize')
 			<th>Date Published</td>
 			<th>Date Submitted</td>
 			<th>Status</th>
-			<th>Comment</th>
+			<th>Remarks</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -71,7 +64,7 @@ echo View::factory('faculty/opcr/form/initialize')
 			: '<td>Not submitted</td>');
 
 		echo '<td>', $opcr['status'], '</td>';
-		echo '<td>', $opcr['comment'], '</td>';
+		echo '<td>', $opcr['remarks'], '</td>';
 		echo '<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 				<ul class="dropdown-menu">';

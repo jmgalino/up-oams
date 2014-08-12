@@ -24,8 +24,6 @@ class Model_User extends Model {
 	 */
 	public function get_details($user_ID, $employee_code)
  	{
- 		$details = array();
-
  		if ($user_ID)
  		{
  			$result = DB::select()
@@ -43,6 +41,7 @@ class Model_User extends Model {
 		 		->as_array();
  		}
 
+ 		$details = array();
 		foreach ($result as $detail)
 		{
 			$details[] = $detail;
@@ -70,14 +69,13 @@ class Model_User extends Model {
 	 */
 	public function get_users()
  	{
-    	$users = array();
-
     	$result = DB::select()
 		->from('user_profiletbl')
 		->where('deleted', '=', '0')
  		->execute()
  		->as_array();
 	 	
+    	$users = array();
 		foreach ($result as $user)
 		{
 			$users[] = $user;
@@ -88,8 +86,6 @@ class Model_User extends Model {
 
  	public function get_user_group($programIDs, $exclude)
  	{
- 		$users = array();
-
     	if ($exclude)
     	{
 			$result = DB::select()
@@ -110,6 +106,7 @@ class Model_User extends Model {
 	 		->as_array();
 	 	}
 
+ 		$users = array();
 		foreach ($result as $user)
 		{
 			$users[] = $user;
@@ -128,7 +125,7 @@ class Model_User extends Model {
  	public function add_user($details)
  	{
  		// Check User
- 		$result = $this->get_details($details['employee_code']);
+ 		$result = $this->get_details(NULL, $details['employee_code']);
 
  		if ($result)
  		{

@@ -7,14 +7,13 @@ class Model_Opcr extends Model {
 	 */
 	public function get_faculty_opcr($user_ID)
 	{
-		$opcr_forms = array();
-
 		$result = DB::select()
 			->from('opcrtbl')
 			->where('user_ID', '=', $user_ID)
 			->execute()
 			->as_array();
 	
+		$opcr_forms = array();
 		foreach ($result as $form)
 		{
 			$opcr_forms[] = $form;
@@ -119,24 +118,27 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Publish form
+	 * Submit form
 	 */
-	public function publish($opcr_ID)
+	public function submit($opcr_ID, $details)
 	{
 		$rows_updated = DB::update('opcrtbl')
- 			->set(array('status' => 'Published', 'date_published' => date('Y-m-d')))
+ 			->set($details)
  			->where('opcr_ID', '=', $opcr_ID)
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
+ 		if ($rows_updated == 1)
+ 		{
+ 			$message = ($details['status'] == 'Saved'
+ 				? 'OPCR was successfully saved.'
+ 				: $details['status'] == 'Published'
+ 					? 'OPCR was successfully published.'
+ 					: 'OPCR was successfully submitted.');
+
+ 			return $message;
+ 		}
  		else return FALSE; //do something
 	}
-
-	/**
-	 * Submit form
-	 */
-	// public function submit($opcr_ID, $details)
-	// {}
 
 	/**
 	 * Delete form
@@ -183,14 +185,13 @@ class Model_Opcr extends Model {
 	 */
 	public function get_outputs($opcr_ID)
 	{
-		$outputs = array();
-
     	$result = DB::select()
 			->from('opcr_outputtbl')
 			->where('opcr_ID', '=', $opcr_ID)
 			->execute()
 			->as_array();
 	 	
+		$outputs = array();
 		foreach ($result as $output)
 		{
 			$outputs[] = $output;
@@ -275,13 +276,12 @@ class Model_Opcr extends Model {
 	 */
 	public function get_categories()
 	{
-		$categories = array();
-
     	$result = DB::select()
 			->from('opcr_categorytbl')
 	 		->execute()
 	 		->as_array();
 	 	
+		$categories = array();
 		foreach ($result as $category)
 		{
 			$categories[] = $category;

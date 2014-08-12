@@ -31,6 +31,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 	public function action_new()
 	{
 		$details = $this->request->post();
+		// $birthday = DateTime::createFromFormat('F d, Y', $details['birthday']);
+		$birthday = DateTime::createFromFormat('m/d/Y', $details['birthday']);
+		$details['birthday'] = $birthday->format('Y-m-d');
 
 		if ($details['user_type'] == 'Admin')
 		{
@@ -42,10 +45,17 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
 		else
 		{
-			if (!isset($details['program_ID']) AND !isset($details['department_ID']))
-				$details['program_ID'] = '1';
-			elseif (!isset($details['position']))
-				$details['position'] = 'none';
+			if (is_numeric($details['program_ID']))
+			{
+				$univ = new Model_Univ;
+				$department = $univ->get_program_details($details['program_ID'])[0];
+				$details['department_ID'] = $department['department_ID'];
+			}
+			else
+			{
+				$details['program_ID'] = NULL;
+				$details['department_ID'] = 3;
+			}
 		}
 
 		$user = new Model_User;
@@ -75,8 +85,16 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 			if ($user['user_type'] == 'Faculty')
 			{
-				$program = $univ->get_program_details($user['program_ID'])[0];
-				$user['program_short'] = $program['program_short'];
+				if (isset($user['program_ID']))
+				{
+					$program = $univ->get_program_details($user['program_ID'])[0];
+					$user['program_short'] = $program['program_short'];
+				}
+				else
+				{
+					$department = $univ->get_department_details($user['department_ID'], NULL)[0];
+					$user['program_short'] = 'Other: '.$department['department'];
+				}	
 			}
 			$accom_rows = $accom->get_faculty_accom($user['user_ID']);
 			$ipcr_rows = NULL;
@@ -109,7 +127,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user = new Model_User;
 
 		$details = $this->request->post();
-		$birthday = DateTime::createFromFormat('F d, Y', $details['birthday']);
+		// $birthday = DateTime::createFromFormat('F d, Y', $details['birthday']);
+		$birthday = DateTime::createFromFormat('m/d/Y', $details['birthday']);
 		$details['birthday'] = $birthday->format('Y-m-d');
 
 		if ($details['user_type'] == 'Admin')
@@ -122,10 +141,17 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
 		else
 		{
-			if (!isset($details['program_ID']) AND !isset($details['department_ID']))
-				$details['program_ID'] = '1';
-			elseif (!isset($details['position']))
-				$details['position'] = 'none';
+			if (is_numeric($details['program_ID']))
+			{
+				$univ = new Model_Univ;
+				$department = $univ->get_program_details($details['program_ID'])[0];
+				$details['department_ID'] = $department['department_ID'];
+			}
+			else
+			{
+				$details['program_ID'] = NULL;
+				$details['department_ID'] = 3;
+			}
 		}
  
 		$employee_code = $this->request->param('id');

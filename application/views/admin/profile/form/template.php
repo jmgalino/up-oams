@@ -14,13 +14,13 @@
       <div class="modal-body">
         <div class="radio">
           <label>
-            <input type="radio" name="user_type" id="user_type" value="Admin" <?php if (($user) AND ($user['user_type'] == 'Admin')) echo 'checked'; ?>>
+            <input type="radio" name="user_type" id="user_type" value="Admin" <?php if (($user) AND ($user['user_type'] == 'Admin')) echo 'checked'; ?> required>
             Administrator
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="user_type" id="user_type" value="Faculty" <?php if (($user) AND ($user['user_type'] == 'Faculty')) echo 'checked'; ?>>
+            <input type="radio" name="user_type" id="user_type" value="Faculty" <?php if (($user) AND ($user['user_type'] == 'Faculty')) echo 'checked'; ?> required>
             Faculty
           </label>
         </div>

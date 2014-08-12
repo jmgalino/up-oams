@@ -4,6 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/bootstrap-datatables.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/bootstrap-datepicker.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" type="text/css" href="<?php //echo URL::base(); ?>application/assets/css/bootstrap-select.min.css" rel="stylesheet"> -->
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/my_code.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo url::base(); ?>assets/less/variables.less" rel="stylesheet">
 
@@ -38,6 +39,7 @@
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datatables.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datepicker.js"></script>
+	<!-- <scrip type="text/javascript" src="<?php //echo URL::base(); ?>application/assets/js/bootstrap-select.min.js"></script> -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/my_code.js"></script>
 </body>
 </html>

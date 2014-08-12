@@ -2,7 +2,7 @@
 $session = Session::instance();
 
 echo '<h1 class="text-center">Accomplishment Report</h1>';
-echo '<h3 class="text-center">', date_format(date_create($session->get('accom_details')['yearmonth']), 'F Y'), '</h3>';
+echo '<h2 class="text-center">', date_format(date_create($accom_details['yearmonth']), 'F Y'), '</h2><br>';
 echo '<h2>', $session->get('fullname'), '</h2>';
 echo '<h3>', $session->get('rank'), '</h3>';
 echo '<br>';
@@ -22,5 +22,5 @@ echo '<br><br><br>
 		<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
 		<tr><td class="text-center">', $session->get('fullname'), '</td></tr>
 	</tbody>
-</table><br>';
+</table>';
 ?>

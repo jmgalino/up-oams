@@ -7,6 +7,14 @@ class Controller_User extends Controller {
 	protected $view;
 	
 	public function before()
+	{
+		$this->action_before();
+	}
+
+	/**
+	 * Check if logged in; sets appropriate navigation
+	 */
+	private function action_before()
     {
 		$this->oams = new Model_Oams;
     	$this->session = Session::instance();
@@ -61,7 +69,7 @@ class Controller_User extends Controller {
 	/**
 	 * Homepage
 	 */
-	public function action_index()
+	protected function action_index()
 	{
 		$title = $this->oams->get_title();
 
@@ -73,7 +81,7 @@ class Controller_User extends Controller {
 	/**
 	 * Error Page
 	 */
-	public function action_error()
+	protected function action_error()
 	{
 		$error = $this->session->get_once('error');
 		if (is_null($error)) $error = 'Error.';
@@ -86,7 +94,7 @@ class Controller_User extends Controller {
 	/**
 	 * Show profile
 	 */
-	public function action_myprofile()
+	protected function action_myprofile()
 	{
 		$accom = new Model_Accom;
 		$user = new Model_User;
@@ -126,7 +134,7 @@ class Controller_User extends Controller {
 	/**
 	 * Change password
 	 */
-	public function action_password()
+	protected function action_password()
 	{
 		if ($this->request->post()) echo "change password";
 		
@@ -140,7 +148,7 @@ class Controller_User extends Controller {
 	/**
 	 * Show "About"
 	 */
-	public function action_about()
+	protected function action_about()
 	{
 		$about = $this->oams->get_about();
 
@@ -152,11 +160,31 @@ class Controller_User extends Controller {
 	/**
 	 * Show OAMS Manual
 	 */
-	public function action_manual()
+	protected function action_manual()
 	{
 		// Open PDF in new tab
 		$this->view->content = null;
 		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Delete previously set details
+	 */
+	protected function action_delete_session()
+	{
+		$this->session->delete('accom_pub');
+		$this->session->delete('accom_awd');
+		$this->session->delete('accom_rch');
+		$this->session->delete('accom_ppr');
+		$this->session->delete('accom_ctv');
+		$this->session->delete('accom_par');
+		$this->session->delete('accom_mat');
+		$this->session->delete('accom_oth');
+		$this->session->delete('accom_details');
+		$this->session->delete('ipcr_details');
+		$this->session->delete('department');
+		$this->session->delete('title');
+		$this->session->delete('opcr_details');
 	}
 
 } // End User

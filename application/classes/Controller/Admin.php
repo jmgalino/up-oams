@@ -5,7 +5,7 @@ class Controller_Admin extends Controller_User {
 	/**
 	 * List messages
 	 */
-	public function action_messages()
+	protected function action_messages()
 	{
 		$messages = $this->oams->get_messages();
 

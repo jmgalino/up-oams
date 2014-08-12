@@ -7,14 +7,13 @@ class Model_Accom extends Model {
 	 */
 	public function get_faculty_accom($user_ID)
 	{
-		$accom_reports = array();
-
 		$result = DB::select()
 			->from('accomtbl')
 			->where('user_ID', '=', $user_ID)
 			->execute()
 			->as_array();
-	
+
+		$accom_reports = array();
 		foreach ($result as $report)
 		{
 			$accom_reports[] = $report;
@@ -28,8 +27,6 @@ class Model_Accom extends Model {
 	 */
 	public function get_group_accom($userIDs)
 	{
-		$accoms = array();
-
 		$result = DB::select()
 			->from('accomtbl')
 			->where('user_ID', 'IN', $userIDs)
@@ -37,6 +34,7 @@ class Model_Accom extends Model {
 	 		->execute()
 	 		->as_array();
 
+		$accoms = array();
 	 	foreach ($result as $accom)
 	 	{
 	 		$accoms[] = $accom;
@@ -345,7 +343,6 @@ class Model_Accom extends Model {
 	private function get_accom_specs($accom_specIDs, $type)
 	{
 		$accoms = array();
-
 		switch ($type) {
 
 			// Journal Publication/Book/Chapter in a Book

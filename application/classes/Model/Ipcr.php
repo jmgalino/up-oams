@@ -7,14 +7,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_faculty_ipcr($user_ID)
 	{
-		$ipcr_forms = array();
-
 		$result = DB::select()
 			->from('ipcrtbl')
 			->where('user_ID', '=', $user_ID)
 			->execute()
 			->as_array();
 	
+		$ipcr_forms = array();
 		foreach ($result as $form)
 		{
 			$ipcr_forms[] = $form;
@@ -24,10 +23,25 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * College
+	 * Department/College
 	 */
-	// public function get_group_ipcr($userIDs)
-	// {}
+	public function get_group_ipcr($userIDs)
+	{
+		$result = DB::select()
+			->from('ipcrtbl')
+			->where('user_ID', 'IN', $userIDs)
+			->where('status', 'IN', array('Checked', 'Approved', 'Pending', 'Saved'))
+	 		->execute()
+	 		->as_array();
+
+		$accoms = array();
+	 	foreach ($result as $accom)
+	 	{
+	 		$accoms[] = $accom;
+	 	}
+
+	 	return $accoms;
+	}
 
 	/**
 	 * Get form details
@@ -40,6 +54,7 @@ class Model_Ipcr extends Model {
 	 		->execute()
 	 		->as_array();
 
+		$details = array();
 		foreach ($result as $detail)
 		{
 			$details[] = $detail;
@@ -64,13 +79,13 @@ class Model_Ipcr extends Model {
 		// Existing
 		if ($result)
  		{
- 			if (($result[0]['status'] == 'Approved') OR ($result[0]['status'] == 'Pending'))
+ 			if (($result[0]['status'] == 'Checked') OR ($result[0]['status'] == 'Approved') OR ($result[0]['status'] == 'Pending'))
  			{
- 				return FALSE;
+ 				return 'This form has been locked.';
  			}
  			else
  			{
- 				return $result[0]['ipcr_ID'];
+ 				return array('ipcr_ID' => $result[0]['ipcr_ID'], 'message' => 'This form has been generated.');
  			}
  		}
  		else
@@ -98,8 +113,16 @@ class Model_Ipcr extends Model {
 	/**
 	 * Submit form
 	 */
-	// public function submit($ipcr_ID, $details)
-	// {}
+	public function submit($ipcr_ID, $details)
+	{
+		$rows_updated = DB::update('ipcrtbl')
+ 			->set($details)
+ 			->where('ipcr_ID', '=', $ipcr_ID)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+	}
 
 	/**
 	 * Delete form
@@ -117,16 +140,15 @@ class Model_Ipcr extends Model {
 	/**
 	 * Find form targets
 	 */
-	public function find_targets($ipcr_ID)
+	public function get_targets($ipcr_ID)
 	{
-		$targets = array();
-
     	$result = DB::select()
 			->from('ipcr_targettbl')
 			->where('ipcr_ID', '=', $ipcr_ID)
 			->execute()
 			->as_array();
-	 	
+	 
+		$targets = array();	
 		foreach ($result as $target)
 		{
 			$targets[] = $target;
@@ -136,20 +158,56 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
+	 * Get target details
+	 */
+	public function get_target_details($target_ID)
+	{
+    	$result = DB::select()
+			->from('ipcr_targettbl')
+			->where('target_ID', '=', $target_ID)
+			->execute()
+			->as_array();
+	 
+		$details = array();	
+		foreach ($result as $target)
+		{
+			$details[] = $target;
+		}
+
+ 		return $details;
+	}
+
+	/**
 	 * Add form target
 	 */
 	public function add_target($details)
 	{
-		foreach ($details as $column_name => $value) {
-			$columns[] = $column_name;
-			$values[] = $value;
+		// Check if target is existing
+		$result = DB::select()
+			->from('ipcr_targettbl')
+			->where('output_ID', '=', $details['output_ID'])
+			->where('ipcr_ID', '=', $details['ipcr_ID'])
+			->execute()
+			->as_array();
+
+		if(!$result)
+		{
+			// Prepare column names and values
+	 		foreach ($details as $column_name => $value) {
+				$columns[] = $column_name;
+				$values[] = $value;
+			}
+
+			$insert_target = DB::insert('ipcr_targettbl')
+				->columns($columns)
+				->values($values)
+				->execute();
 		}
-
-		$insert_target = DB::insert('ipcr_targettbl')
-			->columns($columns)
-			->values($values)
-			->execute();
-
+		else
+		{
+			$session = Session::instance();
+			$session->set('error', 'Error: Output is already included.');
+		}
 		// return $insert_target[0]; -- target_ID
 	}
 

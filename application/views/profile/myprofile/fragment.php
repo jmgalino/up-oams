@@ -23,7 +23,7 @@
 				</table>
 			</div>
 	<?php else: ?>
-			<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>
+			<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>
 	<?php endif; ?>
 	</div>
 
@@ -57,7 +57,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -87,7 +87,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -121,7 +121,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -134,7 +134,7 @@
 <br><br><hr>
 <div class="row">
 	<div class="col-md-4">
-	<h4>Publications</h4><br>
+	<h4>Publications</h4>
 	<?php
 	if (count($pub_rows)>0)
 	{
@@ -153,13 +153,13 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
 
 	<div class="col-md-4">
-	<h4>Research</h4><br>
+	<h4>Research</h4>
 	<?php
 	if (count($rch_rows)>0)
 	{
@@ -178,7 +178,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>

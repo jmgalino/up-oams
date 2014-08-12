@@ -1,4 +1,4 @@
-<!-- IPCR Form -->
+<!-- IPCR Template Form -->
 <div class="modal fade" id="modal_ipcr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

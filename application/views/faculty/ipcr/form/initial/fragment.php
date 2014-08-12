@@ -3,13 +3,14 @@
 		<tr>
 			<th class="active text-center" style="font-size:17px;font-weight:500;">Output</th>
 			<th class="active text-center" style="font-size:17px;font-weight:500;">Success Indicator<br>(Targets + Measures)</th>
+			<th class="active text-center" style="width: 25px"></th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php
 	foreach ($categories as $category)
 	{
-		echo '<tr><td class="category" colspan="2">', $category['category'], '</td></tr>';
+		echo '<tr><td class="category text-uppercase" colspan="3">', $category['category'], '</td></tr>';
 			
 		if ($targets)
 		{
@@ -19,13 +20,14 @@
 				{
 					foreach ($targets as $target)
 					{
-						if ($output['ouput_ID'] == $target['ouput_ID'])
+						if ($output['output_ID'] == $target['output_ID'])
 						{
-							echo '<tr><td class="output">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $output['output'], '</td>
-								<td>', $output['indicators'] ,'&nbsp;&nbsp;
-								<a id="deleteOutput" href='.URL::site('faculty/ipcr/remove/'.$output['output_ID']).'>
-								<span class="glyphicon glyphicon-remove-circle"></span></a></td></tr>';
+							echo '<tr>
+								<td class="template-output">', $output['output'], '</td>
+								<td class="template-output">', $output['indicators'] ,'</td>
+								<td><a id="deleteOutput" href='.URL::site('faculty/ipcr/remove/'.$target['target_ID']).'>
+									<span class="glyphicon glyphicon-remove-circle"></span></a></td>
+								</tr>';
 						}
 					}
 				}

@@ -8,7 +8,7 @@
 
 <h3>
 	Accomplishment Reports <small><?php echo $group; ?></small>
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">Consolidate Reports</button>
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button>
 </h3>
 <br>
 

@@ -17,7 +17,7 @@ class Controller_Faculty extends Controller_User {
 	/**
 	 * Preview documents
 	 */
-	public function action_preview()
+	protected function action_preview()
 	{
 		$accom = new Model_Accom;
 
@@ -34,7 +34,7 @@ class Controller_Faculty extends Controller_User {
 	/**
 	 * Contact admin form
 	 */
-	public function action_contact()
+	protected function action_contact()
 	{
 		$error = NULL;
 		$sucess = NULL;
@@ -58,7 +58,7 @@ class Controller_Faculty extends Controller_User {
 	/**
 	 * Send the message
 	 */
-	private function action_send($details)
+	protected function action_send($details)
 	{}
 
 } // End Faculty

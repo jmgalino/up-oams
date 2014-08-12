@@ -10,9 +10,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		$this->session->delete('accom_details');
-		$this->session->delete('ipcr_details');
-		$this->session->delete('opcr_details');
+		$this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
@@ -64,8 +62,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		}
 		else
 		{
-			// Show draft
-			$this->action_edit();
+			// Create from draft
 		}
 	}
 
@@ -108,7 +105,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID)[0];
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
-		$this->redirect('mpdf/accom');
+		$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
 	}
 
 	/**
@@ -116,7 +113,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 */
 	public function action_download()
 	{
-		$this->redirect('mpdf/download_accom');
+		// generate pdf from draft and force download
+		// $this->redirect('faculty/mpdf/download/accom/'.$accom_ID);
 	}
 
 	/**

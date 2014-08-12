@@ -1,0 +1,48 @@
+body {
+	background-color:#ffffff;
+	font-size:14px;
+} 
+
+/* Accomplishment Report */
+h1 {
+	margin-top: -20px;
+	font-size: 20px;
+}
+
+h2 {
+	margin-top: 0px;
+	font-size: 18px;
+}
+
+h3 {
+	margin-top: 10px;
+	font-size: 16px;
+}
+
+/* OPCR Form */
+/*.active{
+  background-color: #f5f5f5;
+}*/
+
+.template-header {
+	text-align: center;
+	font-weight: 500;
+	padding: 2;
+	background-color: magenta;
+	/*color: #f5f5f5;*/
+}
+
+.category,
+.form-rows {
+	padding: 2;
+	vertical-align: top;
+}
+
+.category {
+  font-weight: 400;
+}
+
+.form-rows {
+  font-size:  11px;
+  /*word-wrap: break-word;*/
+}

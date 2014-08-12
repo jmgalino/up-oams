@@ -19,8 +19,8 @@
 				if ($category['category_ID'] == $output['category_ID'])
 				{
 					echo '<tr>
-						<td class="output editOutput" id="'.$output['output_ID'].'">', $output['output'], '</td>
-						<td class="indicator editIndicator" id="'.$output['output_ID'].'">', $output['indicators'] , '</td>
+						<td class="template-output editOutput" id="'.$output['output_ID'].'">', $output['output'], '</td>
+						<td class="template-output editIndicator" id="'.$output['output_ID'].'">', $output['indicators'] , '</td>
 						<td><a id="deleteOutput" href='.URL::site('faculty/opcr/remove/'.$output['output_ID']).'>
 							<span class="glyphicon glyphicon-remove-circle"></span></a></td>
 						</tr>';

@@ -238,7 +238,7 @@ Route::set('ipcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 Route::set('icpr_dept-functions', '<directory>/ipcr_dept(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		// 'action'	=> '(dept|view|evaluate|consolidate)'
+		'action'	=> '(dept|view|evaluate|consolidate)'
 	))
 	->defaults(array(
 		'controller'=> 'ipcrgroup',
@@ -265,6 +265,18 @@ Route::set('opcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 	))
 	->defaults(array(
 	    'action'     => 'index'
+	));
+
+// mpdf
+Route::set('mpdf', '<directory>/<controller>/<purpose>/<type>/<id>',
+	array(
+		'directory' => 'faculty',
+		'controller'=> 'mpdf',
+		'purpose'	=> '(preview|download|submit)'
+		// 'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
+	))
+	->defaults(array(
+		'action'	=> 'index'
 	));
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')

@@ -42,17 +42,18 @@ body {
 }
 
 /* NAVBAR -- change background and hover background color for dropdown at collapse */
-.navbar-default .navbar-nav .open .dropdown-menu {
+.navbar-nav .open .dropdown-menu {
   background-color: #014421;
 }
 
 /* NAVBAR -- change hover color from maroon to green */
-.navbar-default .navbar-nav .dropdown-menu > li > a:hover {
+.navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar-nav .open .dropdown-menu > li > a:focus {
   background-color: #003619;
 }
 
 /* NAVBAR -- change divider hover color from green to #e5e to remove flickering look */
-.navbar-nav .dropdown-menu .divider:hover {
+.navbar-nav .open .dropdown-menu .divider:hover {
   background-color: #e5e5e5;
 }
 
@@ -115,6 +116,28 @@ body {
   background-color: rgba(0,0,0,0.0);
 }
 
+/* PROFILE -- fragment */
+.details {
+  font-size: medium;
+  padding: 2px;
+}
+
+/* PROFILE -- set max height for tables in profile view */
+.mini-table {
+  max-height: 200px;
+  overflow: auto;
+}
+
+/* PROFILE -- mini-alert for mini-table */
+.mini-alert {
+  padding: 3px;
+}
+
+/* PROFILE -- view documents */
+.pdf-viewer {
+  margin-bottom: 30px;
+}
+
 /* DATEPICKER -- keep on top */
 #datepicker,
 #monthpicker, 
@@ -123,18 +146,15 @@ body {
 }
 
 /*** ADMIN ***/
-
-/* -- set max height for tables in profile view */
-.mini-table {
-  max-height: 200px;
-  overflow: auto;
-}
-
-.alert-profile {
-  padding: 3px;
-}
+/*** ADMIN ***/
+/*** ADMIN ***/
 
 /*** FACULTY ***/
+
+.btn.disabled.button-tip
+{
+  pointer-events: inherit;
+}
 
 /* SIDEBAR -- avoid overlap with footer and auto-size depending on screen size*/
 .affix-top,
@@ -179,6 +199,11 @@ pre {
   background-color: #ffffff;
 }
 
+.pre-scrollable {
+  max-height: 500px;
+  padding: 50px;
+}
+
 pre h1 {
   margin-top: -20px;
   font-size: 20px;
@@ -203,34 +228,21 @@ pre p {
   text-align: justify;
 }
 
-.pre-scrollable {
-  max-height: 500px;
-  padding: 50px;
-}
-
 pre .category {
   font-size: 16px;
   font-weight: 400;
 }
 
-pre .output {
-  font-size: 14px;
+pre .template-output {
+  font-size:  14px;
+  text-align: justify;
   /*text-indent: 20px;*/
   /*word-wrap: break-word;*/
 }
 
-pre .indicator {
-  font-size:  14px;
-  text-align: justify;
-}
-
-.pdf-viewer {
-  margin-bottom: 30px;
-}
-
-.details {
-  font-size: medium;
-  padding: 2px;
+pre table > thead > tr > th
+{
+  vertical-align: middle;
 }
 
 .edit_output textarea
@@ -275,66 +287,51 @@ pre .indicator {
   border-color: #2f0607;
 }
 
-/*h1 a.permalink, 
-h2 a.permalink, 
-h3 a.permalink, 
-h4 a.permalink, 
-h5 a.permalink, 
-h6 a.permalink {
-font-size: 15px;
-line-height: 1.42857143;
-vertical-align: middle;
-margin-left: 1em;
-padding: 0;
-font-weight: normal;
-position: inherit;
-}*/
-
-.rightMenu {
-    position:relative;
-    float:right;
-}
-.right-caret {
-    
-    border-bottom: 4px solid transparent;
-    border-top: 4px solid transparent;
-    border-left: 4px solid #000000;
-    display: inline-block;
-    height: 0;
-    opacity: 1;
-    vertical-align: top;
-    width: 0;
-    
-}
-.right
+/* Set dropdown background color to white */
+td .dropdown-menu
+/*td .dropdown-menu*/
+/*div .bootstrap-select > .dropdown-menu,
+div .bootstrap-select > div .dropdown-menu*/
 {
-    float:right;
+  background-color: #ffffff;
 }
-
-pre>a>span.glyphicon
+/* Set dropdown font color to grey */
+td .dropdown-menu > li > a
+/*td .dropdown-menu > li > a*/
+/*div .bootstrap-select > .dropdown-menu > li > a,
+div .bootstrap-select > div .dropdown-menu > li > a*/
 {
-  border-color: transparent;
-  color: #7B1113;
+  color: #000000;
 }
-
-.popover
+td .dropdown-menu > li > a:hover,
+/*td .dropdown-menu > li > a:hover,*/
+td .dropdown-menu > li > a:focus
+/*td .dropdown-menu > li > a:focus*/
+/*div .bootstrap-select > .dropdown-menu > li > a:hover,
+div .bootstrap-select > .dropdown-menu > li > a:focus,
+div .bootstrap-select > div .dropdown-menu > li > a:hover,
+div .bootstrap-select > div .dropdown-menu > li > a:focus */
 {
-max-width: 500px;
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  outline: 0;
 }
-
-.btn.disabled {
-    pointer-events: auto;
-}
-
-pre .table>thead>tr>th
+td .dropdown-menu > .active > a
+/*td .dropdown-menu > .active > a*/
+/*div .bootstrap-select > .dropdown-menu > .active > a,
+div .bootstrap-select > div .dropdown-menu > .active > a,*/
 {
-  vertical-align: middle;
+  background-color: #428bca;
 }
 
-/*.affix-anchor{
-    padding-top:60px;
-    margin-top:-60px;
+.alert-warning {
+  background-color: #fcece3;
+  border-color: #fad4cc;
+  color: #8a463b;
 }
-.affix-anchor:first-of-type{
-    margin-top:0px;
-}*/
+.alert-reminder {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+}

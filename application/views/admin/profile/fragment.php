@@ -83,7 +83,7 @@
 				</table>
 			</div>
 	<?php else: ?>
-			<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>
+			<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>
 	<?php endif; ?>
 	</div>
 
@@ -117,7 +117,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -147,7 +147,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -181,7 +181,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -216,7 +216,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>
@@ -244,7 +244,7 @@
 	}
 	else
 	{
-		echo '<div class="alert alert-danger alert-profile"><p class="text-center">The list is empty.</p></div>';
+		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
 	}
 	?>
 	</div>

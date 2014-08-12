@@ -1,4 +1,4 @@
-<!-- Output Form -->
+<!-- IPCR - Output Form -->
 <div class="modal fade" id="modal_output" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">Add Output</h4>
       </div>
 
-      <?php print form::open('faculty/ipcr/add', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/ipcr/add/'.$ipcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="category" class="col-sm-4 control-label">Category</label>
@@ -26,14 +26,23 @@
         <div class="form-group">
           <label for="output" class="col-sm-4 control-label">Output</label>
           <div class="col-sm-7">
-            <select class="form-control" id="output" name="output_ID">
+            <select class="form-control change-output required" name="output_ID">
               <?php
-              foreach ($categories as $category => $category_ID)
+              $i = $categories[0]['category_ID'];
+              foreach ($categories as $category)
               {
                 foreach ($outputs as $output)
                 {
-                  echo '<option id="'.$category.'" value="'.$output['output_ID'].'" style="display:none;">'.$output['output'].'</option>';
+                  if ($category['category_ID'] == $output['category_ID'])
+                  {
+                    echo '<option category="'.$category['category_ID'].'" value="'.$output['output_ID'].'"';
+
+                    if ($i > 1) echo ' disabled="disabled"';
+
+                    echo '>'.$output['output'].'</option>';
+                  }
                 }
+                $i++;
               }
               ?>
             </select>

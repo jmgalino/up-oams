@@ -7,13 +7,12 @@ class Model_Univ extends Model {
 	 */
 	public function get_colleges()
 	{
-		$colleges = array();
-
 		$result = DB::select()
 			->from('univ_collegetbl')
 			->execute()
 			->as_array();
 
+		$colleges = array();
 		foreach ($result as $college)
 		{
 			$colleges[] = $college;
@@ -51,14 +50,13 @@ class Model_Univ extends Model {
 
 	public function get_college_programIDs($college_ID)
 	{
-		$programIDs = array();
-
 		$result = DB::select('program_ID')
 			->from('univ_programtbl')
 			->where('college_ID', '=', $college_ID)
 			->execute()
 			->as_array();
 
+		$programIDs = array();
 		foreach ($result as $program)
 		{
 			foreach ($program as $program_ID)
@@ -75,13 +73,12 @@ class Model_Univ extends Model {
 	 */
 	public function get_departments()
 	{
-		$departments = array();
-
 		$result = DB::select()
 			->from('univ_departmenttbl')
 			->execute()
 			->as_array();
 
+		$departments = array();
 		foreach ($result as $department)
 		{
 			$departments[] = $department;
@@ -119,14 +116,13 @@ class Model_Univ extends Model {
 
 	public function get_department_programIDs($department_ID)
 	{
-		$programIDs = array();
-
 		$result = DB::select('program_ID')
 			->from('univ_programtbl')
 			->where('department_ID', '=', $department_ID)
 			->execute()
 			->as_array();
 
+		$programIDs = array();
 		foreach ($result as $program)
 		{
 			foreach ($program as $program_ID)
@@ -143,13 +139,12 @@ class Model_Univ extends Model {
 	 */
 	public function get_programs()
 	{
-		$programs = array();
-
 		$result = DB::select()
 			->from('univ_programtbl')
 			->execute()
 			->as_array();
 
+		$programs = array();
 		foreach ($result as $program)
 		{
 			$programs[] = $program;

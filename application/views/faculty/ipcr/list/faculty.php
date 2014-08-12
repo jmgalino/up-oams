@@ -6,10 +6,10 @@
 
 <h3>
 	My IPCR Forms
-	<button id="ipcrInit" type="button"
+	<button type="button"
 	<?php echo ($opcr_forms
 		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_ipcr"'
-		: 'class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="top" title="No OPCR available"');
+		: 'class="btn btn-default pull-right disabled button-tip" data-toggle="tooltip" data-placement="bottom" title="No OPCR available"');
 	?>>New Form</button>
 </h3>
 <br>
@@ -18,7 +18,7 @@
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		IPCR was successfully submitted.
+		IPCR was successfully <?php echo (($session->get('identifier') == 'faculty') ? 'submitted' : 'saved'); ?>.
 	</p>
 </div>
 <?php elseif ($delete): ?>
@@ -28,11 +28,18 @@
 		IPCR was successfully deleted.
 	</p>
 </div>
+<?php elseif ($error): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $error; ?>
+	</p>
+</div>
 <?php endif; ?>
 
 <?php
 // Init Modal
-echo View::factory('faculty/ipcr/form/initialize')
+echo View::factory('faculty/ipcr/form/modals/initialize')
 	->bind('opcr_forms', $opcr_forms);
 ?>
 
@@ -44,7 +51,7 @@ echo View::factory('faculty/ipcr/form/initialize')
 			<th>Period</th>
 			<th>Date Submitted</td>
 			<th>Status</th>
-			<th>Comment</th>
+			<th>Remarks</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -67,7 +74,7 @@ echo View::factory('faculty/ipcr/form/initialize')
 					: '<td>Not submitted</td>');
 
 				echo '<td>', $ipcr['status'], '</td>';
-				echo '<td>', $ipcr['comment'], '</td>';
+				echo '<td>', $ipcr['remarks'], '</td>';
 				echo '<td class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 						<ul class="dropdown-menu">';
@@ -91,7 +98,7 @@ echo View::factory('faculty/ipcr/form/initialize')
 							</li>';
 				}
 
-				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Rejected'))
+				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Rejected'))
 				{
 					echo 	'<li>
 								<a href='.URL::site('faculty/ipcr/update/'.$ipcr['ipcr_ID']).'>
@@ -100,6 +107,14 @@ echo View::factory('faculty/ipcr/form/initialize')
 							<li>
 								<a id="deleteForm" href='.URL::site('faculty/ipcr/delete/'.$ipcr['ipcr_ID']).'>
 								<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
+							</li>';
+				}
+
+				elseif ($ipcr['status'] == 'Approved')
+				{
+					echo 	'<li>
+								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-star"></span> Rate Outputs</a>
 							</li>';
 				}
 

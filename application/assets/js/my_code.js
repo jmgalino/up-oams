@@ -17,19 +17,26 @@ $(document).ready(function()
         	"searchable": false,
         	"orderable": false,
         	"targets": 4
-        }],
-        // "dom": '<"toolbar">frtip'
-   //      "sDom": 'T<"clear">lfrtip',
-   //      "oTableTools": {
-   //          "aButtons": [{
-   //              "sExtends":    "text",
-   //              "sButtonText": "Hello world"
-			// }]
-   //      }
+        }]
     });
-    // $("div.toolbar").html('<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">New Report</button>');
-	$('#accom_group_table').DataTable({
+    $('#accom_group_table').DataTable({
         "order": [[ 3, "asc" ]],
+        "columnDefs": [{
+        	"searchable": false,
+        	"orderable": false,
+        	"targets": 6
+        }]
+    });
+    $('#ipcr_table').DataTable({
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [{
+        	"searchable": false,
+        	"orderable": false,
+        	"targets": 4
+        }]
+    });
+    $('#ipcr_group_table').DataTable({
+        "order": [[ 0, "asc" ]],
         "columnDefs": [{
         	"searchable": false,
         	"orderable": false,
@@ -82,7 +89,8 @@ $(document).ready(function()
 
 	// date
 	$('#birthdaypicker input').datepicker({
-		format: "MM dd, yyyy",
+		format: "mm/dd/yyyy",
+		// format: "MM dd, yyyy",
 		todayHighlight: true,
 		autoclose: true
 	});
@@ -146,15 +154,15 @@ $(document).ready(function()
 
 	// Tooltip for author field
 	$('#author').tooltip();
-	$('#ipcrInit').tooltip();
-	$('a#editAccom').popover();
-	$('body').on('click', function (e) {
-	    //only buttons
-	    if ($(e.target).data('toggle') !== 'popover'
-	        && $(e.target).parents('.popover.in').length === 0) { 
-	        $('[data-toggle="popover"]').popover('hide');
-	    }
-	});
+	$('.button-tip').tooltip();
+	// $('a#editAccom').popover();
+	// $('body').on('click', function (e) {
+	//     //only buttons
+	//     if ($(e.target).data('toggle') !== 'popover'
+	//         && $(e.target).parents('.popover.in').length === 0) { 
+	//         $('[data-toggle="popover"]').popover('hide');
+	//     }
+	// });
 
 	$("a#deleteReport").click(function()
 	{
@@ -198,7 +206,7 @@ $(document).ready(function()
 			$(".style_2").val("");
 		}
 	});
-	
+
 	$('td.editOutput').editable('/oamsystem/index.php/faculty/opcr/edit/output',
 	{
 		name		: 'output',
@@ -225,27 +233,18 @@ $(document).ready(function()
 		tooltip		: 'Double click to edit',
      });
 
-	// change category+outputs
 	$('#category').change(function()
 	{
-		
-	});
+		var categoryId = $(this).val();
+		var len = document.getElementById("category").length;
 
-	// Modify Categories
-	// $("input[name=category]").click(function ()
-	// {
-	// 	$(this).hide();
-	// 	var change = $(this).val();
-	// 	if ($(this).prop('checked') === true)
-	// 	{}
-	// 	else
-	// 	{
-	// 	    $('#mytextfield').hide();
-	// 	    $('#mynumberfield').hide();
-	// 	    $('input[name="mytextfield"]').prop('required',false);
-	// 	    $('input[name="mynumberfield"]').prop('required',false);        
-	// 	}
-	// });
+		for (i = 1; i <= len; i++) { 
+			if (i == categoryId)
+				$('.change-output').find('[category="' + i + '"]').prop('disabled', false);
+			else
+				$('.change-output').find('[category="' + i + '"]').prop('disabled', true);
+		}
+    });
 
 	var birthdate = document.getElementById("birthday");
 	if (birthdate)

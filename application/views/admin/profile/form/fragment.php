@@ -30,7 +30,7 @@
   <label for="birthday" class="col-sm-4 control-label">Birthday</label>
   <div class="col-sm-7">
     <div class="input-group" id="birthdaypicker">
-      <input type="text" class="form-control" id="birthday" name="birthday" value="<?php if ($user) echo date_format(date_create($user['birthday']), 'F d, Y'); ?>" required>
+      <input type="text" class="form-control" id="birthday" name="birthday" value="<?php if ($user) echo date_format(date_create($user['birthday']), 'm/d/Y'); ?>" required>
       <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
     </div>
   </div>
@@ -54,11 +54,11 @@
 <div class="form-group faculty-info" style="display:none;">
   <label for="program" class="col-sm-4 control-label">Program</label>
   <div class="col-sm-7">
-    <select class="form-control" id="program">
+    <select class="form-control" id="program" name="program_ID">
      <?php
       foreach ($programs as $program)
       {
-          echo '<option name="program_ID" value="'.$program['program_ID'].'"';
+          echo '<option value="'.$program['program_ID'].'"';
 
           if (($user) AND ($user['program_ID'] == $program['program_ID']))
             echo 'selected="selected"';
@@ -66,7 +66,7 @@
           echo '>'.$program['program_short'].'</option>';
       }
 
-        echo '<option name="department_ID" value="3"';
+        echo '<option value="department"';
 
         if (($user) AND ($user['department_ID'] == '3'))
           echo 'selected="selected"';
