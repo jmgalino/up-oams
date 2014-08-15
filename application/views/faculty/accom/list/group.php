@@ -8,14 +8,14 @@
 
 <h3>
 	Accomplishment Reports <small><?php echo $group; ?></small>
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button>
+	<!-- <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button> -->
 </h3>
 <br>
 
 <?php
 // Consolidate Form
-echo View::factory('faculty/accom/form/consolidate')
-	->bind('consolidate_url', $consolidate_url);
+// echo View::factory('faculty/accom/form/consolidate')
+// 	->bind('consolidate_url', $consolidate_url);
 ?>
 
 <?php if ($accom_reports): ?>
@@ -23,13 +23,13 @@ echo View::factory('faculty/accom/form/consolidate')
 <table class="table table-hover" id="accom_group_table">
 	<thead>
 		<tr>
-			<th>Month & Year</th>
+			<th>Period</th>
 			<th>Faculty</th>
 			<th>Degree Program</th>
 			<th>Date Submitted</th>
 			<th>Status</th>
 			<th>Remarks</th>
-			<th>Action</th>
+			<th class="action">Action</th>
 		</tr>
 	</thead>
 	<tbody>

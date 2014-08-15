@@ -63,8 +63,29 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	/**
 	 * View IPCR Form (PDF)
 	 */
-	// public function action_preview()
-	// {}
+	public function action_preview()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		
+		$ipcr_ID = $this->request->param('id');
+		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
+
+		if ($ipcr_details['document'])
+		{
+			// Show PDF
+			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID'])[0];
+			$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
+			$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+			$label = $period_from.' - '.$period_to;
+			$this->action_pdf($label, $ipcr_details);
+		}
+		else
+		{
+			// Create from draft
+		}
+	}
 
 	/**
 	 * View IPCR Form (Draft)
@@ -104,23 +125,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_ID = $this->request->param('id');
 		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
-
-		// with evaluation
-		// if ($ipcr_details['date_submitted'])
-		// {}
-
-		// without evaluation
-		// else
-		// {
-
-			$details['date_submitted'] = date('Y-m-d');
-			$details['status'] = ($this->session->get('identifier') == 'faculty'
-				? 'Pending' : 'Saved');
-
-			$submit_success = $ipcr->submit($ipcr_ID, $details);
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/ipcr');
-		// }
+		$this->redirect('faculty/mpdf/submit/ipcr/'.$ipcr_ID);
 	}
 
 	/**
@@ -132,8 +137,14 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	/**
 	 * IPCR Form - PDF
 	 */
-	// private function action_pdf($label, $filepath)
-	// {}
+	private function action_pdf($label, $ipcr_details)
+	{
+		$this->view->content = View::factory('faculty/ipcr/view/faculty')
+			->bind('label', $label)
+			->bind('ipcr_details', $ipcr_details)
+			->bind('session', $this->session);
+		$this->response->body($this->view->render());
+	}
 
 	/**
 	 * IPCR Form - Draft

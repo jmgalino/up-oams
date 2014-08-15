@@ -52,7 +52,7 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 			<th>Date Submitted</td>
 			<th>Status</th>
 			<th>Remarks</th>
-			<th>Action</th>
+			<th class="action">Action</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -98,6 +98,14 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 							</li>';
 				}
 
+				if (($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Accepted'))
+				{
+					echo 	'<li>
+								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-star"></span> Rate Outputs</a>
+							</li>';
+				}
+
 				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Rejected'))
 				{
 					echo 	'<li>
@@ -107,14 +115,6 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 							<li>
 								<a id="deleteForm" href='.URL::site('faculty/ipcr/delete/'.$ipcr['ipcr_ID']).'>
 								<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
-							</li>';
-				}
-
-				elseif ($ipcr['status'] == 'Approved')
-				{
-					echo 	'<li>
-								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
-								<span class="glyphicon glyphicon-star"></span> Rate Outputs</a>
 							</li>';
 				}
 

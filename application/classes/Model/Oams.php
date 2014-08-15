@@ -40,7 +40,7 @@ class Model_Oams extends Model {
 	public function get_categories()
 	{
 		$result = DB::select()
-			->from('output_categorytbl')
+			->from('opcr_categorytbl')
 			->execute()
 			->as_array();
 

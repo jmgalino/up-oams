@@ -1,27 +1,37 @@
+<!-- Site Navigation -->
 <ol class="breadcrumb">
-	<li><a href=<?php echo url::site('faculty/index'); ?>>Home</a></li>
-	<li><a href=<?php echo url::site('faculty/ipcr'); ?>>Individual Performance Commitment and Review</a></li>
-	<li class="active">View <?php echo $label; ?></li>
+	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
+	<li><a href=<?php echo URL::site('faculty/ipcr'); ?>>Individual Performance Commitment and Review</a></li>
+	<li class="active">View IPCR Form</li>
 </ol>
 
-<?php if(isset($filepath)): ?>
-<div class="pdf-viewer text-center">
-	<embed src="../../../<?php echo $filepath; ?>" width="850" height="500">
-</div>
+<div class="row">
+	<div class="col-sm-9">
+		<div class="pdf-viewer text-center">
+			<embed src="<?php echo URL::base().'application/'.$ipcr_details['document']; ?>" width="850" height="500">
+		</div>
+	</div>
 
-<?php else: ?>
-	<?php if ($identifier == 'dean'): ?>
-	<div class="alert alert-danger">
-		<p class="text-center">
-			You didn't save this report, ergo this report is not available.
-		</p>
+	<div class="col-md-3">
+		<div class="bs-sidebar hidden-print affix" role="complementary">
+			<ul class="nav nav-pills nav-stacked">
+				<li style="padding:10 15">
+					<form role="form">
+						<div class="form-group">
+							<label style="font-weight: 500;">Period</label>
+							<p class="form-control-static"><?php echo $label; ?></p>
+						</div>
+						<div class="form-group">
+							<label style="font-weight: 500;">Status</label>
+							<p class="form-control-static"><?php echo $ipcr_details['status']; ?></p>
+						</div>
+						<div class="form-group">
+							<label style="font-weight: 500;">Remarks</label>
+							<p class="form-control-static"><?php echo $ipcr_details['remarks']; ?></p>
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
 	</div>
-	<?php else: ?>
-		<div class="alert alert-danger">
-		<p class="text-center">
-			You didn't submit this report, ergo this report is not available.
-		</p>
-	</div>
-	<?php endif; ?>
-	
-<?php endif; ?>
+</div>

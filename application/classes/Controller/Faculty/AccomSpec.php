@@ -164,7 +164,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				break;
 		}
 
-		$accom->delete_accom($user_ID, $accom_ID, $accom_specID, $type, $name_ID);
+		$accom->delete_accom($accom_ID, $accom_specID, $type, $name_ID);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID']);
 	}
 

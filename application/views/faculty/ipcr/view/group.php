@@ -4,14 +4,8 @@
 	<li><a href=<?php echo ($identifier == 'dean'
 		? URL::site('faculty/ipcr_coll').'>IPCR Forms - College'
 		: URL::site('faculty/ipcr_dept').'>IPCR Forms - Department'); ?></a></li>
-	<li class="active">View <?php echo $user; ?>'s IPCR Form</li>
+	<li class="active">View IPCR Form</li>
 </ol>
-
-<h3>
-	<?php echo $period; ?>
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_evaluate">Evaluate Report</button>
-</h3>
-<br>
 
 <?php if ($evaluation): ?>
 <div class="alert alert-success alert-dismissable">
@@ -24,11 +18,48 @@
 
 <?php
 // Evaluate Form
-// $url = $evaluate_url.$accom['accom_ID'];
-// echo View::factory('faculty/ipcr/form/evaluate')
-// 	->bind('evaluate_url', $url);
+echo View::factory('faculty/ipcr/form/modals/evaluate')
+	->bind('evaluate_url', $evaluate_url);
 ?>
 
-<div class="pdf-viewer text-center">
-<embed src=<?php echo URL::base().'application/'.$ipcr['document']; ?> width="850" height="500">
+<div class="row">
+	<div class="col-sm-9">
+		<div class="pdf-viewer text-center">
+			<embed src="<?php echo URL::base().'application/'.$ipcr_details['document']; ?>" width="850" height="500">
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		<div class="bs-sidebar hidden-print affix" role="complementary">
+			<ul class="nav nav-pills nav-stacked">
+				<li> 
+					<?php echo (($ipcr_details['status'] == 'Pending' AND $ipcr_details['remarks'] != 'None')
+							? '<a href="">Mark as Checked'
+							: '<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate (Initial)') ?>
+					</a>
+				</li>
+				<hr style="border-top: dotted 1px;">
+				<li style="padding:10 15">
+					<form role="form">
+						<div class="form-group">
+							<label style="font-weight: 500;">Faculty</label>
+							<p class="form-control-static"><?php echo $user; ?></p>
+						</div>
+						<div class="form-group">
+							<label style="font-weight: 500;">Period</label>
+							<p class="form-control-static"><?php echo $period; ?></p>
+						</div>
+						<div class="form-group">
+							<label style="font-weight: 500;">Status</label>
+							<p class="form-control-static"><?php echo $ipcr_details['status']; ?></p>
+						</div>
+						<div class="form-group">
+							<label style="font-weight: 500;">Remarks</label>
+							<p class="form-control-static"><?php echo $ipcr_details['remarks']; ?></p>
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>

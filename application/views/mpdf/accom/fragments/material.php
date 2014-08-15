@@ -4,7 +4,7 @@ echo'<h3>VII. Authorship of Audio-Visual Materials/Learning Objects/Laboratory o
 if ($session->get('accom_mat'))
 {
 	$accom_mat = $session->get('accom_mat');
-
+	
 	foreach ($accom_mat as $mat)
 	{
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

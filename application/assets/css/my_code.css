@@ -231,6 +231,7 @@ pre p {
 pre .category {
   font-size: 16px;
   font-weight: 400;
+  text-transform: uppercase;
 }
 
 pre .template-output {
@@ -334,4 +335,9 @@ div .bootstrap-select > div .dropdown-menu > .active > a,*/
   background-color: #fcf8e3;
   border-color: #faebcc;
   color: #8a6d3b;
+}
+tr.group,
+tr.group:hover {
+    background-color: #ddd !important;
+    pointer-events: none;
 }

@@ -63,3 +63,17 @@
 #8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #9 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
 #10 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/assets/lib/mpdf/mpdf.php:12847
+2014-08-12 23:50:08 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected 'elseif' (T_ELSEIF) ~ APPPATH/classes/Controller/Faculty/Mpdf.php [ 175 ] in file:line
+2014-08-12 23:50:08 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2014-08-12 23:51:38 --- EMERGENCY: ErrorException [ 2 ]: include_once(/Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/views/mpdf/ipcr/basic.php): failed to open stream: No such file or directory ~ APPPATH/classes/Controller/Faculty/Mpdf.php [ 160 ] in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Mpdf.php:160
+2014-08-12 23:51:38 --- DEBUG: #0 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Mpdf.php(160): Kohana_Core::error_handler(2, 'include_once(/A...', '/Applications/X...', 160, Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Mpdf.php(160): Controller_Faculty_Mpdf::action_ipcr()
+#2 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Mpdf.php(20): Controller_Faculty_Mpdf->action_ipcr('6', 'ipcr', 'submit')
+#3 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Controller.php(84): Controller_Faculty_Mpdf->action_index()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_Mpdf))
+#6 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Applications/XAMPP/xamppfiles/htdocs/oamsystem/index.php(118): Kohana_Request->execute()
+#9 {main} in /Applications/XAMPP/xamppfiles/htdocs/oamsystem/application/classes/Controller/Faculty/Mpdf.php:160

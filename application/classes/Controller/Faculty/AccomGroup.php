@@ -13,9 +13,10 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
 		$programIDs = $univ->get_department_programIDs($department['department_ID']);
 		$users = $user->get_user_group($programIDs, 'dean');
-		$consolidate_url = 'faculty/accom_dept/consolidate';
+		// $consolidate_url = 'faculty/accom_dept/consolidate';
 
-		$this->action_view_group($department['department'], $programIDs, $users, $consolidate_url);
+		// $this->action_view_group($department['department'], $programIDs, $users, $consolidate_url);
+		$this->action_view_group($department['department'], $programIDs, $users);
 	}
 
 	/**
@@ -29,9 +30,10 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
 		$programIDs = $univ->get_college_programIDs($college['college_ID']);
 		$users = $user->get_user_group($programIDs, NULL);
-		$consolidate_url = 'faculty/accom_coll/consolidate';
+		// $consolidate_url = 'faculty/accom_coll/consolidate';
 
-		$this->action_view_group($college['college'], $programIDs, $users, $consolidate_url);
+		// $this->action_view_group($college['college'], $programIDs, $users, $consolidate_url);
+		$this->action_view_group($college['college'], $programIDs, $users);
 	}
 
 	/**
@@ -42,19 +44,21 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$accom = new Model_Accom;
 		$user = new Model_User;
 
-		$evaluate = $this->session->get_once('evaluate');
 		$accom_ID = $this->request->param('id');
-		$accom = $accom->get_details($accom_ID)[0];
-		$user = $user->get_details($accom['user_ID'], NULL)[0];
+		$accom_details = $accom->get_details($accom_ID)[0];
+		$user_details = $user->get_details($accom_details['user_ID'], NULL)[0];
+		
+		$evaluate = $this->session->get_once('evaluate');
 		$identifier = $this->session->get('identifier');
-		$evaluate_url = ($identifier == 'dean' ? 'faculty/accom_coll/evaluate/' : 'faculty/accom_dept/evaluate/');
+		$fullname = $user_details['first_name'].' '.$user_details['middle_initial'].'. '.$user_details['last_name'];
+		$evaluate_url = ($identifier == 'dean' ? 'faculty/accom_coll/evaluate/'.$accom_ID : 'faculty/accom_dept/evaluate/'.$accom_ID);
 
 		$this->view->content = View::factory('faculty/accom/view/group')
 			->bind('identifier', $identifier)
-			->bind('user', $user['first_name'])
-			->bind('accom', $accom)
 			->bind('evaluate', $evaluate)
-			->bind('evaluate_url', $evaluate_url);
+			->bind('evaluate_url', $evaluate_url)
+			->bind('accom_details', $accom_details)
+			->bind('user', $fullname);
 		$this->response->body($this->view->render());
 	}
 
@@ -71,12 +75,12 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$details['remarks'] = ($details['remarks']
 			? $details['remarks'].' - '.$assessor
 			: 'Checked by '.$assessor);
-		print_r($details);
+		
 		$evaluate_success = $accom->evaluate($accom_ID, $details);
 		$this->session->set('evaluate', $evaluate_success);
 
 		$referrer = $this->request->referrer();
-		$coll = strstr($referrer, 'accom_coll');
+		$coll = strpos($referrer, 'accom_coll');
 
 		if ($coll) 
 			$this->redirect('faculty/accom_coll/view/'.$accom_ID);
@@ -95,7 +99,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	/**
 	 * Accomplishment Reports (Department/College)
 	 */
-	private function action_view_group($group, $programIDs, $users, $consolidate_url)
+	// private function action_view_group($group, $programIDs, $users, $consolidate_url)
+	private function action_view_group($group, $programIDs, $users)
 	{
 		$accom = new Model_Accom;
 		$univ = new Model_Univ;
@@ -116,7 +121,6 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$this->view->content = View::factory('faculty/accom/list/group')
 			->bind('identifier', $identifier)
 			->bind('group', $group)
-			->bind('consolidate_url', $consolidate_url)
 			->bind('accom_reports', $accom_reports)
 			->bind('users', $users)
 			->bind('programs', $programs)

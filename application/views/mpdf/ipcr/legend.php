@@ -1,4 +1,4 @@
-<p style="font-size:12px">
+<p>
 	Legend: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	1 - <em>Quantity</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	2 - <em>Efficiency</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -6,38 +6,38 @@
 	4 - <em>Average</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
-<table class="table table-bordered" width="300">
+<table class="table table-bordered padded" width="300">
 	<thead>
 		<tr>
-			<td style="font-size:12px" class="text-center" colspan="2">Adjectival Rating (Proposed)</td>
-			<td style="font-size:12px" class="text-center" width="80">Numerical Rating</td>
+			<th class="text-center" colspan="2" style="font-weight:400">Adjectival Rating (Proposed)</th>
+			<th class="text-center" width="80" style="font-weight:400">Numerical Rating</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td style="font-size:12px">Outstanding</td>
-			<td style="font-size:12px">96% and above</td>
-			<td style="font-size:12px" class="text-center">5</td>
+			<td>Outstanding</td>
+			<td>96% and above</td>
+			<td class="text-center">5</td>
 		</tr>
 		<tr>
-			<td style="font-size:12px">Very Satisfactory</td>
-			<td style="font-size:12px">86% - 95%</td>
-			<td style="font-size:12px" class="text-center">4</td>
+			<td>Very Satisfactory</td>
+			<td>86% - 95%</td>
+			<td class="text-center">4</td>
 		</tr>
 		<tr>
-			<td style="font-size:12px">Satisfactory</td>
-			<td style="font-size:12px">76% - 85%</td>
-			<td style="font-size:12px" class="text-center">3</td>
+			<td>Satisfactory</td>
+			<td>76% - 85%</td>
+			<td class="text-center">3</td>
 		</tr>
 		<tr>
-			<td style="font-size:12px">Unsatisfactory</td>
-			<td style="font-size:12px">66% - 75%</td>
-			<td style="font-size:12px" class="text-center">2</td>
+			<td>Unsatisfactory</td>
+			<td>66% - 75%</td>
+			<td class="text-center">2</td>
 		</tr>
 		<tr>
-			<td style="font-size:12px">Poor</td>
-			<td style="font-size:12px">65% and below</td>
-			<td style="font-size:12px" class="text-center">1</td>
+			<td>Poor</td>
+			<td>65% and below</td>
+			<td class="text-center">1</td>
 		</tr>
 	</tbody>
 </table>

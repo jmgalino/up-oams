@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<th class="active text-center" style="font-size:17px;font-weight:500;">MFO/PAP</th>
-			<th class="active text-center" style="font-size:17px;font-weight:500;">Success Indicator<br>(Targets + Measures)</th>
+			<th class="active text-center" style="font-size:17px;font-weight:500;">Success Indicators<br>(Targets + Measures)</th>
 			<th class="active text-center" style="width: 25px"></th>
 		</tr>
 	</thead>
@@ -10,7 +10,7 @@
 	<?php
 	foreach ($categories as $category)
 	{
-		echo '<tr><td class="category text-uppercase" colspan="3">', $category['category'], '</td></tr>';
+		echo '<tr><td class="category" colspan="3">', $category['category'], '</td></tr>';
 			
 		if ($outputs)
 		{

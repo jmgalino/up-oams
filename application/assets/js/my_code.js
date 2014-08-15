@@ -8,48 +8,107 @@ $(document).ready(function()
         "columnDefs": [{
         	"searchable": false,
         	"orderable": false,
-        	"targets": 3
+        	"targets": "action"
         }]
     });
 	$('#accom_table').DataTable({
         "order": [[ 0, "asc" ]],
-        "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": 4
-        }]
+         "columns": [
+		    null,
+		    null,
+		    null,
+		    { "visible": false },
+		    { "searchable": false, "orderable": false }
+		]
     });
     $('#accom_group_table').DataTable({
         "order": [[ 3, "asc" ]],
-        "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": 6
-        }]
+        "columns": [
+		    { "visible": false },
+		    null,
+		    null,
+		    null,
+		    null,
+		    { "visible": false },
+		    { "searchable": false, "orderable": false }
+		],
+        // WALA KO KASABOT ANI
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({page:'current'}).nodes();
+            var last=null;
+ 
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
+                    );
+ 
+                    last = group;
+                }
+            } );
+        }
     });
     $('#ipcr_table').DataTable({
         "order": [[ 0, "asc" ]],
-        "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": 4
-        }]
+        "columns": [
+		    null,
+		    null,
+		    null,
+		    { "visible": false },
+		    { "searchable": false, "orderable": false }
+		]
     });
-    $('#ipcr_group_table').DataTable({
+    var ipcr_group_table = $('#ipcr_group_table').DataTable({
         "order": [[ 0, "asc" ]],
-        "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": 6
-        }]
+        "columns": [
+		    { "visible": false },
+		    null,
+		    null,
+		    null,
+		    null,
+		    { "visible": false },
+		    { "searchable": false, "orderable": false }
+		],
+        // WALA KO KASABOT ANI
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({page:'current'}).nodes();
+            var last=null;
+ 
+            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
+                    );
+ 
+                    last = group;
+                }
+            } );
+        }
     });
+ 
+    // Order by the period -- WALA PUD KO KASABOT ANI
+    // $('#ipcr_group_table tbody').on( 'click', 'tr.group', function () {
+    //     var currentOrder = table.order()[0];
+    //     if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
+    //         table.order( [ 2, 'desc' ] ).draw();
+    //     }
+    //     else {
+    //         table.order( [ 2, 'asc' ] ).draw();
+    //     }
+    // } );
+
     $('#opcr_table').DataTable({
         "order": [[ 0, "asc" ]],
-        "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": 5
-        }]
+        "columns": [
+		    null,
+		    null,
+		    null,
+		    null,
+		    { "visible": false },
+		    { "searchable": false, "orderable": false }
+		]
     });
 
 	// type of user
@@ -247,7 +306,7 @@ $(document).ready(function()
     });
 
 	var birthdate = document.getElementById("birthday");
-	if (birthdate)
+	if (!birthdate)
 	{
 		$('#birthdaypicker input').datepicker(
 			'update',

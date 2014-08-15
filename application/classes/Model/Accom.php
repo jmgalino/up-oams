@@ -117,25 +117,20 @@ class Model_Accom extends Model {
  		else return FALSE; //do something
 	}
 
+	/**
+	 * Evaluate report
+	 */
 	public function evaluate($accom_ID, $details)
 	{
 		$accom = $this->get_details($accom_ID)[0];
 
-		if($accom['remarks'] == 'None')
-		{
-			$rows_updated = DB::update('accomtbl')
-	 			->set($details)
-	 			->where('accom_ID', '=', $accom_ID)
-	 			->execute();
-		}
-		else
-		{
-			$details['remarks'] = $details['remarks'].'<br>'.$accom['remarks'];
-			$rows_updated = DB::update('accomtbl')
-	 			->set($details)
-	 			->where('accom_ID', '=', $accom_ID)
-	 			->execute();
-		}
+		if($accom['remarks'] !== 'None')
+			$details['remarks'] += '<br>'.$accom['remarks'];
+
+		$rows_updated = DB::update('accomtbl')
+ 			->set($details)
+ 			->where('accom_ID', '=', $accom_ID)
+ 			->execute();
 
  		if ($rows_updated == 1) return TRUE;
  		else return FALSE; //do something
@@ -349,10 +344,10 @@ class Model_Accom extends Model {
 			case 'pub':
 				foreach ($accom_specIDs as $publication_ID) {
 					$result = DB::select()
-					->from('accom_pubtbl')
-					->where('publication_ID', '=', $publication_ID)
-					->execute()
-					->as_array();
+						->from('accom_pubtbl')
+						->where('publication_ID', '=', $publication_ID)
+						->execute()
+						->as_array();
 
 					$pub = array();
 					foreach ($result as $detail)
@@ -381,10 +376,10 @@ class Model_Accom extends Model {
 			case 'awd':
 				foreach ($accom_specIDs as $award_ID) {
 					$result = DB::select()
-					->from('accom_awdtbl')
-					->where('award_ID', '=', $award_ID)
-					->execute()
-					->as_array();
+						->from('accom_awdtbl')
+						->where('award_ID', '=', $award_ID)
+						->execute()
+						->as_array();
 
 					$awd = array();
 					foreach ($result as $detail)
@@ -405,10 +400,10 @@ class Model_Accom extends Model {
 			case 'rch':
 				foreach ($accom_specIDs as $research_ID) {
 					$result = DB::select()
-					->from('accom_rchtbl')
-					->where('research_ID', '=', $research_ID)
-					->execute()
-					->as_array();
+						->from('accom_rchtbl')
+						->where('research_ID', '=', $research_ID)
+						->execute()
+						->as_array();
 
 					$rch = array();
 					foreach ($result as $detail)
@@ -431,10 +426,10 @@ class Model_Accom extends Model {
 			case 'ppr':
 				foreach ($accom_specIDs as $paper_ID) {
 					$result = DB::select()
-					->from('accom_pprtbl')
-					->where('paper_ID', '=', $paper_ID)
-					->execute()
-					->as_array();
+						->from('accom_pprtbl')
+						->where('paper_ID', '=', $paper_ID)
+						->execute()
+						->as_array();
 
 					$ppr = array();
 					foreach ($result as $detail)
@@ -455,10 +450,10 @@ class Model_Accom extends Model {
 			case 'ctv':
 				foreach ($accom_specIDs as $creative_ID) {
 					$result = DB::select()
-					->from('accom_ctvtbl')
-					->where('creative_ID', '=', $creative_ID)
-					->execute()
-					->as_array();
+						->from('accom_ctvtbl')
+						->where('creative_ID', '=', $creative_ID)
+						->execute()
+						->as_array();
 
 					$ctv = array();
 					foreach ($result as $detail)
@@ -478,10 +473,10 @@ class Model_Accom extends Model {
 			case 'par':
 				foreach ($accom_specIDs as $participation_ID) {
 					$result = DB::select()
-					->from('accom_partbl')
-					->where('participation_ID', '=', $participation_ID)
-					->execute()
-					->as_array();
+						->from('accom_partbl')
+						->where('participation_ID', '=', $participation_ID)
+						->execute()
+						->as_array();
 
 					$par = array();
 					foreach ($result as $detail)
@@ -502,10 +497,10 @@ class Model_Accom extends Model {
 			case 'mat':
 				foreach ($accom_specIDs as $material_ID) {
 					$result = DB::select()
-					->from('accom_mattbl')
-					->where('material_ID', '=', $material_ID)
-					->execute()
-					->as_array();
+						->from('accom_mattbl')
+						->where('material_ID', '=', $material_ID)
+						->execute()
+						->as_array();
 
 					$mat = array();
 					foreach ($result as $detail)
@@ -523,10 +518,10 @@ class Model_Accom extends Model {
 			case 'oth':
 				foreach ($accom_specIDs as $other_ID) {
 					$result = DB::select()
-					->from('accom_othtbl')
-					->where('other_ID', '=', $other_ID)
-					->execute()
-					->as_array();
+						->from('accom_othtbl')
+						->where('other_ID', '=', $other_ID)
+						->execute()
+						->as_array();
 
 					$oth = array();
 					foreach ($result as $detail)
@@ -552,10 +547,22 @@ class Model_Accom extends Model {
 	 */
 	private function link_accom($accom_ID, $accom_specID, $type)
 	{
-		$insert_accom = DB::insert('connect_accomtbl')
-			->columns(array('accom_ID', 'accom_specID', 'type'))
-			->values(array($accom_ID, $accom_specID, $type))
-			->execute();
+		$check = DB::select()
+			->from('connect_accomtbl')
+			->where('accom_ID', '=', $accom_ID)
+			->where('accom_specID', '=', $accom_specID)
+			->execute()
+			->as_array();
+
+		if($check)
+			return FALSE;
+		else
+		{
+			$insert_accom = DB::insert('connect_accomtbl')
+				->columns(array('accom_ID', 'accom_specID', 'type'))
+				->values(array($accom_ID, $accom_specID, $type))
+				->execute();
+		}
 	}
 
 	/**
@@ -569,8 +576,8 @@ class Model_Accom extends Model {
 			->where('type', '=', $type)
 	 		->execute();
 
- 		// if ($rows_deleted == 1) return TRUE;
- 		// else return FALSE; //do something
+ 		if ($rows_deleted == 1) return TRUE;
+ 		else return FALSE; //do something
 	}
 
 } // End Accom

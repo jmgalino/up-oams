@@ -172,7 +172,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$this->session->set('reset', $reset_success);
 
 		$referrer = $this->request->referrer();
-		$view = strstr($referrer, 'view');
+		$view = strpos($referrer, 'view');
 		if ($view) 
 			$this->redirect('admin/profile/view/'.$this->request->param('id'));
 		else

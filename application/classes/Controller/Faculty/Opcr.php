@@ -58,10 +58,10 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		if ($opcr_details['document'])
 		{
 			// Show PDF
-			$period_from = date_format(date_create($this->session->get('opcr_details')['period_from']), 'F Y');
-			$period_to = date_format(date_create($this->session->get('opcr_details')['period_to']), 'F Y');
-			$label = $period_from.' - '.$period_to;
-			$this->action_pdf($label, $opcr_details['document']);
+			$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
+			$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+			$period = $period_from.' - '.$period_to;
+			$this->action_pdf($period, $opcr_details);
 		}
 		else
 		{
@@ -133,11 +133,19 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * OPCR Form - PDF
 	 */
-	private function action_pdf($label, $filepath)
+	private function action_pdf($period, $opcr_details)
 	{
+		$ipcr = new Model_Ipcr;
+		$univ = new Model_Univ;
+
+		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_details['opcr_ID']);
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+
 		$this->view->content = View::factory('faculty/opcr/view/faculty')
-			->bind('label', $label)
-			->bind('filepath', $filepath);
+			->bind('opcr_details', $opcr_details)
+			->bind('ipcr_forms', $ipcr_forms)
+			->bind('department', $department['department'])
+			->bind('period', $period);
 		$this->response->body($this->view->render());
 	}
 
@@ -214,6 +222,12 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			{
 				if (isset($post['output'])) echo $post['output'];
 				elseif (isset($post['indicators'])) echo $post['indicators'];
+			}
+			else
+			{
+				echo "<script>
+					alert('There seems to be an error. Please refresh the page.');
+					</script>";
 			}
 		}
 	}

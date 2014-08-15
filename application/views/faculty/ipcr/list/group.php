@@ -75,11 +75,11 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 									<ul class="dropdown-menu">
 										<li>
 											<a href='.URL::site('faculty/ipcr/download/'.$ipcr['ipcr_ID']).'>
-											<span class="glyphicon glyphicon-download"></span> Download Report</a>
+											<span class="glyphicon glyphicon-download"></span> Download Form</a>
 										</li>
 										<li>
 							 				<a href='.URL::site('faculty/ipcr_dept/view/'.$ipcr['ipcr_ID']).'>
-											<span class="glyphicon glyphicon-file"></span> View Report</a>
+											<span class="glyphicon glyphicon-file"></span> View Form</a>
 										</li>
 									</ul>
 								</td>';

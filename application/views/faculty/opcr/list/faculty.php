@@ -42,7 +42,7 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 			<th>Date Submitted</td>
 			<th>Status</th>
 			<th>Remarks</th>
-			<th>Action</th>
+			<th class="action">Action</th>
 		</tr>
 	</thead>
 	<tbody>

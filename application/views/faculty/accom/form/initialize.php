@@ -22,7 +22,7 @@
         <?php endif; ?>
 
         <div class="form-group new-document">
-          <label for="yearmonth" class="col-sm-4 control-label">Month & Year</label>
+          <label for="yearmonth" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6">
             <div class="input-group" id="monthpicker">
               <input type="text" class="form-control n-document" name="yearmonth" required>

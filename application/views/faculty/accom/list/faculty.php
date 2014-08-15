@@ -37,7 +37,7 @@ echo View::factory('faculty/accom/form/initialize')
 <table class="table table-hover" id="accom_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th>Month & Year</th>
+			<th>Period</th>
 			<th>Date Submitted</th>
 			<th>Status</th>
 			<th>Remarks</th>

@@ -78,9 +78,6 @@ echo View::factory('faculty/ipcr/form/modals/output')
 					<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
 					<?php echo (($session->get('identifier') == 'faculty') ? 'Submit' : 'Save'); ?>
 					</a>
-					<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
-					Preview PDF
-					</a>
 				</li>
 				<?php endif; ?>
 			</ul>

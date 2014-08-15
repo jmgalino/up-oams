@@ -58,7 +58,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		{
 			// Show PDF
 			$label = date_format(date_create($accom_details['yearmonth']), 'F Y');
-			$this->action_pdf($label, $accom_details['document']);
+			$this->action_pdf($label, $accom_details);
 		}
 		else
 		{
@@ -129,11 +129,11 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	/**
 	 * Accomplishment Report - PDF
 	 */
-	private function action_pdf($label, $filepath)
+	private function action_pdf($label, $accom_details)
 	{
 		$this->view->content = View::factory('faculty/accom/view/faculty')
 			->bind('label', $label)
-			->bind('filepath', $filepath);
+			->bind('accom_details', $accom_details);
 		$this->response->body($this->view->render());
 	}
 

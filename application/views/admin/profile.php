@@ -42,7 +42,7 @@ echo View::factory('admin/profile/form/template')
 				<th>Employee Code</th>
 				<th>Name</th>
 				<th>User Type</th>
-				<th>Action</th>
+				<th class="action">Action</th>
 			</tr>
 		</thead>
 		<tbody>
