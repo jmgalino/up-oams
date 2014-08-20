@@ -86,10 +86,10 @@
 <?php 
 echo View::factory('profile/myprofile/fragment')
 	->bind('user', $user)
-	->bind('accom_rows', $accom_rows)
-	->bind('ipcr_rows', $ipcr_rows)
-	->bind('opcr_rows', $opcr_rows)
-	->bind('cuma_rows', $cuma_rows)
+	// ->bind('accom_rows', $accom_rows)
+	// ->bind('ipcr_rows', $ipcr_rows)
+	// ->bind('opcr_rows', $opcr_rows)
+	// ->bind('cuma_rows', $cuma_rows)
 	->bind('pub_rows', $pub_rows)
 	->bind('rch_rows', $rch_rows);
 ?>

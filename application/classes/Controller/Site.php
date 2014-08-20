@@ -52,18 +52,22 @@ class Controller_Site extends Controller {
 	 */
 	public function action_contact()
 	{
-		$error = NULL;
-		$sucess = NULL;
+		$session = Session::instance();
 
 		if ($this->request->post())
 		{
-			$this->action_send(); echo "hello";
+			$this->action_send($this->request->post());
 		}
 		else
 		{
+			$error = $session->get_once('error');
+			$success = $session->get_once('success');
+			$details = NULL;
+
 			$this->view->content = View::factory('site/contact')
 				->bind('error', $error)
-				->bind('sucess', $sucess);
+				->bind('success', $success)
+				->bind('details', $details);
 			$this->response->body($this->view->render());
 		}
 	}
@@ -90,36 +94,35 @@ class Controller_Site extends Controller {
 	}
 
 	// Send message to admin
-	private function action_send()
+	private function action_send($details)
 	{
-		// require_once('application/assets/lib/recaptchalib.php');
-		// $privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
-		// $resp = recaptcha_check_answer ($privatekey,
-		// 	$_SERVER['REMOTE_ADDR'],
-		// 	$_POST['recaptcha_challenge_field'],
-		// 	$_POST['recaptcha_response_field']);
+		require_once(APPPATH.'assets/lib/recaptchalib.php');
+		$privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
+		$resp = recaptcha_check_answer ($privatekey,
+			$_SERVER['REMOTE_ADDR'],
+			$details['recaptcha_challenge_field'],
+			$details['recaptcha_response_field']);
 
-		$error = NULL;
-		$sucess = NULL;
+		if (!$resp->is_valid)
+		{
+		    $error = $resp->error;
+		}
+		else
+		{
+			$oams = new Model_Oams;
 
-		// if ($resp->is_valid)
-		// {
-		// 	$session_details['sender'] = $details['name'].' - '.$details['email'];
-		// 	$session_details['subject'] = $details['subject'];
-		// 	$session_details['message'] = $details['message'];
-		// 	$sucess = $this->univ->send_message($session);
-		// }
-		
-		// else
-		// {
-		// 	die ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.' .
-		// 		 '(reCAPTCHA said: ' . $resp->error . ')');
-		// }
+			$message_details['name'] = $details['name'];
+		    $message_details['contact'] = $details['email'];
+			$message_details['subject'] = $details['subject'];
+			$message_details['message'] = $details['message'];
+			$insert_success = $oams->send_message($message_details);
+			$details = NULL;
+		}
 
 		$this->view->content = View::factory('site/contact')
-			->bind('captcha', $captcha)
 			->bind('error', $error)
-			->bind('sucess', $sucess);
+			->bind('success', $insert_success)
+			->bind('details', $details);
 		$this->response->body($this->view->render());
 	}
 

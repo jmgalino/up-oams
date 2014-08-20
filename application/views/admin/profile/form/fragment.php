@@ -31,7 +31,7 @@
   <div class="col-sm-7">
     <div class="input-group" id="birthdaypicker">
       <input type="text" class="form-control" id="birthday" name="birthday" value="<?php if ($user) echo date_format(date_create($user['birthday']), 'm/d/Y'); ?>" required>
-      <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
     </div>
   </div>
 </div>

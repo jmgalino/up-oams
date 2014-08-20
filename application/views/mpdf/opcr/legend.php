@@ -9,8 +9,8 @@
 <table class="table table-bordered padded" width="300">
 	<thead>
 		<tr>
-			<th class="text-center" colspan="2" style="font-weight:400">Adjectival Rating (Proposed)</th>
-			<th class="text-center" width="80" style="font-weight:400">Numerical Rating</th>
+			<th class="text-center" colspan="2">Adjectival Rating (Proposed)</th>
+			<th class="text-center" width="80">Numerical Rating</th>
 		</tr>
 	</thead>
 	<tbody>

@@ -1,13 +1,6 @@
-/* BODY -- lighter bacgkround and offset to avoid overlap with navbar */
-body {
-  background-color: #fafafa;
-	padding-top: 65px;
-  font-size: 140%;
-}
-
 /* NAVBAR -- bigger fonts */
 .navbar {
-    font-size: 16px;
+  font-size: 16px;
 }
 .navbar-brand {
   font-size: 25px;
@@ -20,7 +13,7 @@ body {
 }
 
 /* NAVBAR -- add hover background color */
-.navbar li:hover {
+.navbar-default .navbar-nav li:hover {
   background-color: #003619;
 }
 
@@ -58,19 +51,29 @@ body {
 }
 
 /*
-"active" not working
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #f2f2f2;
-  background-color: #003619;
-}*/
-
-/*
 ???
 .navbar .wform {
   max-height: 50px;
 }*/
+
+/* BODY -- lighter bacgkround and offset to prevent overlap with navbar */
+body {
+  background-color: #fafafa;
+  padding-top: 60px;
+}
+
+table {
+  font-size: 115%;
+}
+
+input {
+  text-transform: capitalize;
+}
+
+input[type="email"],
+input[name="recaptcha_response_field"] {
+  text-transform: none;
+}
 
 /* Sticky footer styles */
 html,
@@ -113,7 +116,7 @@ body {
 /* BREADCRUMB -- remove background color and padding on the left (align with body) */
 .breadcrumb {
   padding: 8px 8px 8px 0px;
-  background-color: rgba(0,0,0,0.0);
+  background-color: transparent;
 }
 
 /* PROFILE -- fragment */
@@ -146,8 +149,54 @@ body {
 }
 
 /*** ADMIN ***/
-/*** ADMIN ***/
-/*** ADMIN ***/
+
+/* Page Headers -- prevent headbutt with navbar */
+.page-header:before { 
+  display: block; 
+  content: " "; 
+  margin-top: -80px; 
+  height: 80px; 
+  visibility: hidden; 
+}
+/* Page Headers -- no margin on top (FIRST CHILD ONLY) */
+.page-header:first-child
+{
+   margin: 0 0 20px;
+}
+/* Page Headers -- prevent line break after h2 */
+.page-header h2
+{
+  font-size: 28px;
+  display: inline;
+}
+.page-header .show-hover
+{
+  font-size: 16px;
+  color: transparent;
+}
+.page-header .show-hover:hover
+{
+  color: #7b1113;
+  text-decoration: none;
+}
+.dl-horizontal dt
+{
+  width: 120px;
+}
+.dl-horizontal dd {
+  margin-left: 140px;
+}
+
+/* hide sidebar sub menus by default */
+#affix.nav .nav {
+  display: none;
+  font-size:12px;
+}
+
+/* show sub menu when parent is active */
+#affix.nav > .active li {
+  display: block;
+}
 
 /*** FACULTY ***/
 
@@ -157,39 +206,39 @@ body {
 }
 
 /* SIDEBAR -- avoid overlap with footer and auto-size depending on screen size*/
-.affix-top,
+/*.affix-top,
 .affix {
     position: static;
 }
 @media screen and (min-width: 992px) {
 
-  .bs-sidebar .nav > .active > ul {
+  .nav > .active > ul {
     display: block;
   }
-  .bs-sidebar.affix-top {
+  .affix-top {
     position: static;
     margin-top:30px;
     width:228px;
   }
 
-  .bs-sidebar.affix,
-  .bs-sidebar.affix-bottom {
+  .affix,
+  .affix-bottom {
     width: 228px;
   }
-  .bs-sidebar.affix {
-    position: static; /* fixed - scrollable */
+  .affix {
+    position: static; /* fixed - scrollable
     top: 220px;
   }
-  .bs-sidebar.affix-bottom {
+  .affix-bottom {
     position: absolute;
   }
 }
 @media screen and (min-width: 1200px) {
-  .bs-sidebar.affix-bottom,
-  .bs-sidebar.affix {
+  .affix-bottom,
+  .affix {
     width: 235px;
   }
-}
+}*/
 
 /* --- FIX --- */
 pre {
@@ -230,7 +279,7 @@ pre p {
 
 pre .category {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: bold;
   text-transform: uppercase;
 }
 
@@ -289,41 +338,30 @@ pre table > thead > tr > th
 }
 
 /* Set dropdown background color to white */
-td .dropdown-menu
-/*td .dropdown-menu*/
-/*div .bootstrap-select > .dropdown-menu,
-div .bootstrap-select > div .dropdown-menu*/
+div.btn-group ul.dropdown-menu,
+td.dropdown ul.dropdown-menu
+/*div .bootstrap-select > .dropdown-menu*/
 {
   background-color: #ffffff;
 }
 /* Set dropdown font color to grey */
-td .dropdown-menu > li > a
-/*td .dropdown-menu > li > a*/
-/*div .bootstrap-select > .dropdown-menu > li > a,
-div .bootstrap-select > div .dropdown-menu > li > a*/
+div.btn-group ul.dropdown-menu > li > a,
+td.dropdown ul.dropdown-menu > li > a
+/*div .bootstrap-select > .dropdown-menu > li > a*/
 {
   color: #000000;
 }
-td .dropdown-menu > li > a:hover,
-/*td .dropdown-menu > li > a:hover,*/
-td .dropdown-menu > li > a:focus
-/*td .dropdown-menu > li > a:focus*/
+div.btn-group ul.dropdown-menu > li > a:hover,
+div.btn-group ul.dropdown-menu > li > a:focus,
+td.dropdown ul.dropdown-menu > li > a:hover,
+td.dropdown ul.dropdown-menu > li > a:focus
 /*div .bootstrap-select > .dropdown-menu > li > a:hover,
-div .bootstrap-select > .dropdown-menu > li > a:focus,
-div .bootstrap-select > div .dropdown-menu > li > a:hover,
-div .bootstrap-select > div .dropdown-menu > li > a:focus */
+div .bootstrap-select > .dropdown-menu > li > a:focus*/
 {
   color: #333333;
   background-color: #e6e6e6;
   border-color: #adadad;
   outline: 0;
-}
-td .dropdown-menu > .active > a
-/*td .dropdown-menu > .active > a*/
-/*div .bootstrap-select > .dropdown-menu > .active > a,
-div .bootstrap-select > div .dropdown-menu > .active > a,*/
-{
-  background-color: #428bca;
 }
 
 .alert-warning {
@@ -337,7 +375,6 @@ div .bootstrap-select > div .dropdown-menu > .active > a,*/
   color: #8a6d3b;
 }
 tr.group,
-tr.group:hover {
+.table-hover > tbody > tr.group:hover > td {
     background-color: #ddd !important;
-    pointer-events: none;
 }

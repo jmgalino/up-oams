@@ -1,8 +1,8 @@
 <table class="table" style="table-layout:fixed; width:100%;">
 	<thead>
 		<tr>
-			<th class="active text-center" style="font-size:17px;font-weight:500;">Output</th>
-			<th class="active text-center" style="font-size:17px;font-weight:500;">Success Indicators<br>(Targets + Measures)</th>
+			<th class="active text-center" style="font-size:17px;"><strong>Output</strong></th>
+			<th class="active text-center" style="font-size:17px;"><strong>Success Indicators<br>(Targets + Measures)</strong></th>
 			<th class="active text-center" style="width: 25px"></th>
 		</tr>
 	</thead>

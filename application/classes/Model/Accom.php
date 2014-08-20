@@ -125,7 +125,7 @@ class Model_Accom extends Model {
 		$accom = $this->get_details($accom_ID)[0];
 
 		if($accom['remarks'] !== 'None')
-			$details['remarks'] += '<br>'.$accom['remarks'];
+			$details['remarks'] .= '<br>'.$accom['remarks'];
 
 		$rows_updated = DB::update('accomtbl')
  			->set($details)
@@ -503,7 +503,7 @@ class Model_Accom extends Model {
 						->as_array();
 
 					$mat = array();
-					foreach ($result as $detail)
+					foreach ($result as $column => $value)
 					{
 						$mat['material_ID']	= $detail['material_ID'];
 						$mat['year']		= $detail['year'];

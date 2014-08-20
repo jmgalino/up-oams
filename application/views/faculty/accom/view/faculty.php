@@ -12,26 +12,22 @@
 		</div>
 	</div>
 
-	<div class="col-md-3">
-		<div class="bs-sidebar hidden-print affix" role="complementary">
-			<ul class="nav nav-pills nav-stacked">
-				<li style="padding:10 15">
-					<form role="form">
-						<div class="form-group">
-							<label style="font-weight: 500;">Period</label>
-							<p class="form-control-static"><?php echo date_format(date_create($accom_details['yearmonth']), 'F Y'); ?></p>
-						</div>
-						<div class="form-group">
-							<label style="font-weight: 500;">Status</label>
-							<p class="form-control-static"><?php echo $accom_details['status']; ?></p>
-						</div>
-						<div class="form-group">
-							<label style="font-weight: 500;">Remarks</label>
-							<p class="form-control-static"><?php echo $accom_details['remarks']; ?></p>
-						</div>
-					</form>
-				</li>
-			</ul>
-		</div>
+	<div class="col-md-3" role="complementary">
+		<ul class="nav nav-pills nav-stacked">
+			<li style="padding:10 15">
+				<dl>
+					<dt>Period</dt>
+					<dd><?php echo date_format(date_create($accom_details['yearmonth']), 'F Y'); ?></dd>
+				</dl>
+				<dl>
+					<dt>Status</dt>
+					<dd><?php echo $accom_details['status']; ?></dd>
+				</dl>
+				<dl>
+					<dt>Remarks</dt>
+					<dd><?php echo $accom_details['remarks']; ?></dd>
+				</dl>
+			</li>
+		</ul>
 	</div>
 </div>

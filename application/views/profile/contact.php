@@ -6,14 +6,14 @@
 <h3>Contact Admin</h3>
 <br>
 
-<?php if (isset($error)): ?>
+<?php if ($error): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Error.
+		Something went wrong. Please try it again.
 	</p>
 </div>
-<?php elseif ((isset($sucess)) AND ($sucess == 1)): ?>
+<?php elseif ($success): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -33,21 +33,27 @@
 <div class="form-group">
 	<label for="subject" class="col-sm-1 control-label">Subject</label>
 	<div class="col-sm-3">
-		<input type="text" class="form-control" id="subject" name="subject" required>
+		<input type="text" class="form-control" id="subject" name="subject" value="<?php echo $details['subject']?>" required>
 	</div>
 </div>
 
 <div class="form-group">
 	<label for="message" class="col-sm-1 control-label">Message</label>
 	<div class="col-sm-4">
-		<textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+		<textarea class="form-control" id="message" name="message" rows="5" onkeyup="countChar(this)" required><?php echo $details['message']?></textarea>
+		<span class="help-block" id="charRemaining">You have <strong>255</strong> characters left</span>
 	</div>
 </div>
 
 <div class="form-group">
 	<label class="col-sm-1 control-label"></label>
 	<div class="col-sm-3">
-		<?php print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+		<?php
+		if ($details['message'])
+			print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary'));
+		else
+			print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary', 'disabled'=>'disabled'));
+		?>
 	</div>
 </div>
 

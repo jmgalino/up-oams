@@ -11,8 +11,9 @@ $(document).ready(function()
         	"targets": "action"
         }]
     });
+
 	$('#accom_table').DataTable({
-        "order": [[ 0, "asc" ]],
+        "order": [[ 0, "desc" ]],
          "columns": [
 		    null,
 		    null,
@@ -21,8 +22,8 @@ $(document).ready(function()
 		    { "searchable": false, "orderable": false }
 		]
     });
-    $('#accom_group_table').DataTable({
-        "order": [[ 3, "asc" ]],
+    var accom_group_table = $('#accom_group_table').DataTable({
+        "order": [[ 0, "desc" ]],
         "columns": [
 		    { "visible": false },
 		    null,
@@ -38,19 +39,32 @@ $(document).ready(function()
             var rows = api.rows({page:'current'}).nodes();
             var last=null;
  
-            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
-                    $(rows).eq( i ).before(
+            api.column(0, {page:'current'}).data().each(function (group, i) {
+                if (last !== group)
+                {
+                    $(rows).eq(i).before(
                         '<tr class="group"><td colspan="6">'+group+'</td></tr>'
                     );
- 
                     last = group;
                 }
-            } );
+            });
         }
     });
+    // Order by the period
+	$('#accom_group_table tbody').on('click', 'tr.group', function(){
+		var currentOrder = accom_group_table.order()[0];
+		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
+		{
+			accom_group_table.order([0, 'desc']).draw();
+		}
+		else
+		{
+			accom_group_table.order([0, 'asc']).draw();
+		}
+    });
+
     $('#ipcr_table').DataTable({
-        "order": [[ 0, "asc" ]],
+        "order": [[ 0, "desc" ]],
         "columns": [
 		    null,
 		    null,
@@ -60,7 +74,7 @@ $(document).ready(function()
 		]
     });
     var ipcr_group_table = $('#ipcr_group_table').DataTable({
-        "order": [[ 0, "asc" ]],
+        "order": [[ 0, "desc" ]],
         "columns": [
 		    { "visible": false },
 		    null,
@@ -76,28 +90,30 @@ $(document).ready(function()
             var rows = api.rows({page:'current'}).nodes();
             var last=null;
  
-            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
-                    $(rows).eq( i ).before(
+            api.column(0, {page:'current'}).data().each(function (group, i) {
+                if (last !== group)
+                {
+                    $(rows).eq(i).before(
                         '<tr class="group"><td colspan="6">'+group+'</td></tr>'
                     );
- 
                     last = group;
                 }
-            } );
+            });
         }
     });
  
-    // Order by the period -- WALA PUD KO KASABOT ANI
-    // $('#ipcr_group_table tbody').on( 'click', 'tr.group', function () {
-    //     var currentOrder = table.order()[0];
-    //     if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
-    //         table.order( [ 2, 'desc' ] ).draw();
-    //     }
-    //     else {
-    //         table.order( [ 2, 'asc' ] ).draw();
-    //     }
-    // } );
+    // Order by the period
+    $('#ipcr_group_table tbody').on('click', 'tr.group', function(){
+		var currentOrder = ipcr_group_table.order()[0];
+		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
+		{
+			ipcr_group_table.order([0, 'desc']).draw();
+		}
+		else
+		{
+			ipcr_group_table.order([0, 'asc']).draw();
+		}
+    });
 
     $('#opcr_table').DataTable({
         "order": [[ 0, "asc" ]],
@@ -303,6 +319,33 @@ $(document).ready(function()
 			else
 				$('.change-output').find('[category="' + i + '"]').prop('disabled', true);
 		}
+    });
+
+	$('#message').keyup(function () {
+		var max = 255;
+		var len = $(this).val().length;
+		var remaining = max - len;
+
+		if (len == max)
+		{
+			$('#charRemaining').html('You have reached the limit.');
+			$('input[type="submit"]').prop('disabled', false);
+		}
+		else if (len > max)
+		{
+			$('#charRemaining').html('You have reached the limit (<strong>' + remaining + '</strong>).');
+			$('input[type="submit"]').prop('disabled', true);
+		}
+		else
+		{
+			$('#charRemaining').html('You have <strong>' + remaining + '</strong> characters left');
+			$('input[type="submit"]').prop('disabled', false);
+		}
+
+		if(remaining <= 10)
+			$("#charRemaining").css("color","red");
+		else
+			$("#charRemaining").css("color","black");
     });
 
 	var birthdate = document.getElementById("birthday");

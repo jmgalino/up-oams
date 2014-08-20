@@ -28,7 +28,7 @@ echo '<table width="200" align="right">
       <td></td>
     </tr>
     <tr>
-      <td class="text-center semi-bold" colspan="2">Name and Signature of Head of Agency</td>
+      <td class="text-center" colspan="2"><strong>Name and Signature of Head of Agency</<strong></td>
     </tr>
   </tbody>
 </table>

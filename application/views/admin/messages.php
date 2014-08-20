@@ -25,9 +25,9 @@ if (count($messages) > 0)
 		{
 			echo
 			'<tr>
-				<td>', $message->sender, '</td>
-				<td>', $message->subject, '</td>
-				<td>', $message->message, '</td>
+				<td>', $message['name'], '(', $message['contact'], ')</td>
+				<td>', $message['subject'], '</td>
+				<td>', $message['message'], '</td>
 			</tr>';
 		}
 

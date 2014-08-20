@@ -8,15 +8,18 @@ class Controller_Admin_University extends Controller_Admin {
 	public function action_index()
 	{
 		$univ = new Model_Univ;
+		$user = new Model_User;
 		
+		$colleges = $univ->get_colleges();
 		$programs = $univ->get_programs();
 		$departments = $univ->get_departments();
-		$colleges = $univ->get_colleges();
+		$users = $user->get_users();
 
 		$this->view->content = View::factory('admin/university')
-			->bind('programs', $programs)
+			->bind('colleges', $colleges)
 			->bind('departments', $departments)
-			->bind('colleges', $colleges);
+			->bind('programs', $programs)
+			->bind('users', $users);
 		$this->response->body($this->view->render());
 	}	
 

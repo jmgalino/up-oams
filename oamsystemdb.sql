@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 15, 2014 at 05:57 AM
+-- Generation Time: Aug 20, 2014 at 08:55 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
   `year` int(4) NOT NULL,
   `title` varchar(50) NOT NULL,
   `user_ID` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `accom_mattbl`
@@ -124,7 +124,8 @@ INSERT INTO `accom_mattbl` (`material_ID`, `year`, `title`, `user_ID`) VALUES
 (5, 1234, 'a', 4),
 (6, 1234, 'asdd', 0),
 (8, 1234, 'p', 0),
-(9, 2122, 'Title', 0);
+(9, 2122, 'Title', 0),
+(10, 2012, 'title', 0);
 
 -- --------------------------------------------------------
 
@@ -269,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_ID` int(11) NOT NULL,
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -295,7 +296,8 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (41, 3, 3, 'pub'),
 (42, 3, 5, 'pub'),
 (43, 20, 6, 'pub'),
-(44, 20, 7, 'pub');
+(44, 20, 7, 'pub'),
+(45, 21, 10, 'mat');
 
 -- --------------------------------------------------------
 
@@ -414,12 +416,23 @@ INSERT INTO `oamstbl` (`name`, `content`) VALUES
 
 CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
 `message_ID` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `contact` varchar(255) NOT NULL,
   `subject` varchar(255) NOT NULL,
-  `sender` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `seen` int(1) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `oams_messagetbl`
+--
+
+INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `seen`, `deleted`) VALUES
+(1, 'Jenny', 'jmgalino@up.edu.ph', 's', 'm', 0, 0),
+(2, 'Jamaica', 'jmg@up.edu.ph', 's', 'message', 0, 0),
+(3, 'Karen T. Brickey', '123400004', 'Test', 'message', 0, 0),
+(4, 'Karen T. Brickey', '123400004', 'test2', 'message', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -612,16 +625,16 @@ CREATE TABLE IF NOT EXISTS `univ_programtbl` (
 --
 
 INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `program`, `program_short`, `short`, `date_instituted`, `type`, `vision`, `goals`) VALUES
-(1, 1, 1, 'Bachelor of Science in Architecture', 'BS Architecture', 'BSA', '0000-00-00', 'Undergraduate', '', ''),
-(2, 1, 2, 'Bachelor of Arts in Communication Arts', 'BA Communication Arts', 'BACA', '0000-00-00', 'Undergraduate', '', ''),
-(3, 1, 2, 'Bachelor of Arts in English', 'BA English', 'BAE', '0000-00-00', 'Undergraduate', '', ''),
-(4, 1, 4, 'Bachelor of Arts in Anthropology', 'BA Anthropology', 'BAA', '0000-00-00', 'Undergraduate', '', ''),
-(5, 2, 5, 'Bachelor of Science in Biology', 'BS Biology', 'BSB', '0000-00-00', 'Undergraduate', '', ''),
-(6, 2, 6, 'Bachelor of Science in Food Technology', 'BS Food Technology', 'BSFT', '0000-00-00', 'Undergraduate', 'An active partner of different stakeholders in the food industry not only as a source of technologically and scientifically equipped human resource but also as a source of new developments thru our R and D efforts.', 'An active partner of different stakeholders in the food industry not only as a source of technologically and scientifically equipped human resource but also as a source of new developments thru our R and D efforts.'),
-(7, 2, 7, 'Bachelor of Science in Applied Mathematics', 'BS Applied Mathematics', 'BSAM', '0000-00-00', 'Undergraduate', '', ''),
-(8, 2, 7, 'Bachelor of Science in Computer Science', 'BS Computer Science', 'BSCS', '0000-00-00', 'Undergraduate', '', ''),
-(9, 3, NULL, 'Bachelor of Science in Agribusiness Economics', 'BS Agribusiness Economics', 'BSABE', '0000-00-00', 'Undergraduate', '', ''),
-(10, 3, NULL, 'Master in Management', 'Master in Management', 'MM', '0000-00-00', 'Graduate', '', '');
+(1, 1, 1, 'Bachelor of Science in Architecture', 'BS Architecture', 'BSA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(2, 1, 2, 'Bachelor of Arts in Communication Arts', 'BA Communication Arts', 'BACA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(3, 1, 2, 'Bachelor of Arts in English', 'BA English', 'BAE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(4, 1, 4, 'Bachelor of Arts in Anthropology', 'BA Anthropology', 'BAA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(5, 2, 5, 'Bachelor of Science in Biology', 'BS Biology', 'BSB', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(6, 2, 6, 'Bachelor of Science in Food Technology', 'BS Food Technology', 'BSFT', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(7, 2, 7, 'Bachelor of Science in Applied Mathematics', 'BS Applied Mathematics', 'BSAM', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(8, 2, 7, 'Bachelor of Science in Computer Science', 'BS Computer Science', 'BSCS', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(9, 3, NULL, 'Bachelor of Science in Agribusiness Economics', 'BS Agribusiness Economics', 'BSABE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(10, 3, NULL, 'Master in Management', 'Master in Management', 'MM', '1995-02-20', 'Graduate', 'Sample vision', 'Sample goals');
 
 -- --------------------------------------------------------
 
@@ -1037,7 +1050,7 @@ MODIFY `creative_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
@@ -1067,7 +1080,7 @@ MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -1087,7 +1100,7 @@ MODIFY `target_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 -- AUTO_INCREMENT for table `oams_messagetbl`
 --
 ALTER TABLE `oams_messagetbl`
-MODIFY `message_ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `message_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `opcrtbl`
 --

@@ -36,21 +36,22 @@ class Controller_Faculty extends Controller_User {
 	 */
 	protected function action_contact()
 	{
-		$error = NULL;
-		$sucess = NULL;
-
 		if ($this->request->post())
 		{
-			$this->action_send($this->request->post()); echo "hello";
+			$this->action_send($this->request->post());
 		}
 		else
 		{
-			$fullname2 = $this->session->get('fullname2');
+			$error = $this->session->get_once('error');
+			$success = $this->session->get_once('success');
+			$fullname = $this->session->get('fullname');
+			$details = NULL;
 
 			$this->view->content = View::factory('profile/contact')
-				->bind('fullname', $fullname2)
 				->bind('error', $error)
-				->bind('sucess', $sucess);
+				->bind('success', $success)
+				->bind('fullname', $fullname)
+				->bind('details', $details);
 			$this->response->body($this->view->render());
 		}
 	}
@@ -58,7 +59,22 @@ class Controller_Faculty extends Controller_User {
 	/**
 	 * Send the message
 	 */
-	protected function action_send($details)
-	{}
+	private function action_send($details)
+	{
+		$message_details['name'] = $this->session->get('fullname');
+	    $message_details['contact'] = $this->session->get('employee_code');
+		$message_details['subject'] = $details['subject'];
+		$message_details['message'] = $details['message'];
+		$insert_success = $this->oams->send_message($message_details);
+		$details = NULL;
+
+		$fullname = $this->session->get('fullname');
+		$this->view->content = View::factory('profile/contact')
+			->bind('error', $error)
+			->bind('success', $insert_success)
+			->bind('fullname', $fullname)
+			->bind('details', $details);
+		$this->response->body($this->view->render());
+	}
 
 } // End Faculty

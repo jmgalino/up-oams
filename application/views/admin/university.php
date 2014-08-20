@@ -6,77 +6,123 @@
 
 
 <div class="row">
-  <div class="col-md-9" role="main">
-    <h2 id="programs" class="page-header">Degree Programs</h2>
+  <div class="col-md-9" id="content" role="main">
+
+    <div class="page-header" id="colleges">
+      <h2>Colleges</h2> &nbsp
+      <a class="show-hover" href="#">Edit</a>
+    </div>
     <?php
-    $count = count($programs);
+    foreach ($colleges as $college) {
+      echo '<h4 id="', $college['short'], '">', $college['college'], '</h4>
+        <dl class="dl-horizontal">
+          <dt>Initials</dt>
+          <dd>', $college['short'], '</dd>
 
-    foreach ($programs as $program) {
-      echo '<h4 id="', $program['short'], '">', $program['program'], '<a href="#" class="permalink">Update</a></h4>';
-      echo '<p><strong>Department</strong>: -- insert --</p>';
-      echo '<p><strong>College</strong>: -- insert --</p>';
-      echo '<p><strong>Date Instituted</strong>: ', $program['date_instituted'], '</p>';
-      echo '<p><strong>Type</strong>: ', $program['type'], '</p>';
-      echo '<p><strong>Vision</strong>:<br>', $program['vision'], '</p>';
-      echo '<p><strong>Goals</strong>:<br>', $program['goals'], '</p>';
+          <dt>College Dean</dt>';
+          foreach ($users as $user) {
+            if ($college['user_ID'] == $user['user_ID'])
+            {
+              echo '<dd>', $user['first_name'], ' ', $user['middle_initial'], '. ', $user['last_name'], '</dd>';
+              break;
+            }
+          }
 
-      if ($count > $program['program_ID']) echo '<br>';
+      echo '</dl>';
     }
     ?>
 
-    <h2 id="departments" class="page-header">Departments</h2>
+    <div class="page-header" id="departments">
+      <h2>Departments</h2> &nbsp
+      <a class="show-hover" href="#">Edit</a>
+    </div>
     <?php
-    $count = count($departments);
-
     foreach ($departments as $department) {
-      echo '<h4 id="', $department['short'], '">', $department['department'], '<a href="#" class="permalink">Update</a></h4>';
-      echo '<p><strong>Department</strong>: -- insert --</p>';
-      echo '<p><strong>Department Chair</strong>: -- insert --</p>';
+      echo '<h4 id="', $department['short'], '">', $department['department'], '</h4>
+        <dl class="dl-horizontal">
+          <dt>Initials</dt>
+          <dd>', $department['short'], '</dd>
 
-      if ($count > $department['department_ID']) echo '<br>';
+          <dt>College</dt>';
+          foreach ($colleges as $college) {
+            if ($department['college_ID'] == $college['college_ID'])
+            {
+              echo '<dd>', $college['short'], '</dd>';
+              break;
+            }
+          }
+
+      echo '<dt>Department Chair</dt>';
+          foreach ($users as $user) {
+            if ($department['user_ID'] == $user['user_ID'])
+            {
+              echo '<dd>', $user['first_name'], ' ', $user['middle_initial'], '. ', $user['last_name'], '</dd>';
+              break;
+            }
+          }
+
+      echo '</dl>';
    }
    ?>
 
-   <h2 id="colleges" class="page-header">Colleges</h2>
-   <?php
-    $count = count($colleges);
+    <div class="page-header" id="programs">
+      <h2>Degree Programs</h2> &nbsp
+      <a class="show-hover" href="#">Edit</a>
+    </div>
+    <?php
+    foreach ($programs as $program) {
+      echo '<h4 id="', $program['short'], '">', $program['program_short'], '</h4>
+        <dl class="dl-horizontal">
+          <dt>Full</dt>
+          <dd>', $program['program'], '</dd>
 
-    foreach ($colleges as $college) {
-      echo '<h4 id="', $college['short'], '">', $college['college'], '<a href="#" class="permalink">Update</a></h4>';
-      echo '<p><strong>College Dean</strong>: -- insert --</p>';
+          <dt>Initials</dt>
+          <dd>', $program['short'], '</dd>
 
-      if ($count > $college['college_ID']) echo '<br>';
+          <dt>College</dt>';
+          foreach ($colleges as $college) {
+            if ($program['college_ID'] == $college['college_ID'])
+            {
+              echo '<dd>', $college['short'], '</dd>';
+              break;
+            }
+          }
+
+      echo '<dt>Department</dt>';
+          if (!$program['department_ID'])
+            echo '<dd> Not Applicable</dd>';
+          else
+          {
+            foreach ($departments as $department) {
+              if ($program['department_ID'] == $department['department_ID'])
+              {
+                echo '<dd>', $department['short'], '</dd>';
+                break;
+              }
+            }
+          }
+
+      echo '<dt>Date Instituted</dt>
+          <dd>', $program['date_instituted'], '</dd>
+
+          <dt>Type</dt>
+          <dd>', $program['type'], '</dd>
+
+          <dt>Vision</dt>
+          <dd>', $program['vision'], '</dd>
+
+          <dt>Goals</dt>
+          <dd>', $program['goals'], '</dd>
+        </dl>';
     }
     ?>
   </div>
 
-  <div data-spy="scroll" data-target="#affix-nav" class="col-md-3">
-    <nav id="affix-nav">
-      <ul class="nav sidenav" data-spy="affix" data-offset-top="1">
+  <div class="col-md-3" id="secondary-nav">
+    <div class="hidden-xs hidden-sm affix" data-spy="affix" role="complementary"><!-- style="padding-top: 65px;" -->
+      <ul class="nav nav-stacked affix-top" data-spy="affix" data-offset-top="200" id="affix">
         <!-- Sections -->
-        <li class>
-          <a href="#programs">Degree Programs</a>
-          <ul class="nav">
-            <?php
-            // foreach ($programs as $program) {
-            //   echo '<li><a href="#', $program['short'], '">', $program['program_short'], '</a></li>';
-            // }
-            ?>
-          </ul>
-        </li>
-
-        <li class>
-          <a href="#departments">Departments</a>
-          <ul class="nav">
-            <?php
-            // foreach ($departments as $department) {
-            //   echo '<li><a href="#', $department['short'], '">', $department['short'], '</a></li>';
-            // }
-            ?>
-          </ul>
-        </li>
-
-        <li class>
+        <li>
           <a href="#colleges">Colleges</a>
           <ul class="nav">
             <?php
@@ -86,8 +132,27 @@
             ?>
           </ul>
         </li>
+        <li class="active">
+          <a href="#departments">Departments</a>
+          <ul class="nav">
+            <?php
+            foreach ($departments as $department) {
+              echo '<li><a href="#', $department['short'], '">', $department['short'], '</a></li>';
+            }
+            ?>
+          </ul>
+        </li>
+        <li>
+          <a href="#programs">Degree Programs</a>
+          <ul class="nav">
+            <?php
+            foreach ($programs as $program) {
+              echo '<li><a href="#', $program['short'], '">', $program['program_short'], '</a></li>';
+            }
+            ?>
+          </ul>
+        </li>
       </ul>
-    </nav>
+    </div>
   </div>
-
 </div>

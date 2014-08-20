@@ -66,21 +66,19 @@ echo View::factory('faculty/ipcr/form/modals/output')
 		</pre>
 	</div>
 
-	<div class="col-sm-3">
-		<div class="bs-sidebar hidden-print affix" role="complementary">
-			<ul class="nav nav-pills nav-stacked">
-				<li>
-					<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
-				</li>
-				<?php if ($targets): ?>
-				<hr>
-				<li>
-					<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
-					<?php echo (($session->get('identifier') == 'faculty') ? 'Submit' : 'Save'); ?>
-					</a>
-				</li>
-				<?php endif; ?>
-			</ul>
-		</div>
+	<div class="col-sm-3" role="complementary">
+		<ul class="nav nav-pills nav-stacked">
+			<li>
+				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
+			</li>
+			<?php if ($targets): ?>
+			<hr>
+			<li>
+				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
+				<?php echo (($session->get('identifier') == 'faculty') ? 'Submit' : 'Save'); ?>
+				</a>
+			</li>
+			<?php endif; ?>
+		</ul>
 	</div>
 </div>

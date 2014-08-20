@@ -29,14 +29,12 @@ h3 {
 	padding: 2;
 }
 
-.semi-bold,
 .template-header {
 	text-align: center;
-	font-weight: 500;
+	font-weight: bold;
 }
 
 .category {
-	font-weight: 400;
 	text-transform: uppercase;
 }
 

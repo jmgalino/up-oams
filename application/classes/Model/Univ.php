@@ -9,6 +9,7 @@ class Model_Univ extends Model {
 	{
 		$result = DB::select()
 			->from('univ_collegetbl')
+			->order_by('college')
 			->execute()
 			->as_array();
 
@@ -75,6 +76,7 @@ class Model_Univ extends Model {
 	{
 		$result = DB::select()
 			->from('univ_departmenttbl')
+			->order_by('department')
 			->execute()
 			->as_array();
 
@@ -141,6 +143,7 @@ class Model_Univ extends Model {
 	{
 		$result = DB::select()
 			->from('univ_programtbl')
+			->order_by('program_short')
 			->execute()
 			->as_array();
 

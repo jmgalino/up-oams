@@ -5,12 +5,14 @@
 	<li class="active"><?php echo $label; ?></li>
 </ol>
 
+<?php if ($accom): ?>
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
 		Don't forget to <strong><?php echo (($session->get('position') == 'dean') ? 'save' : 'submit'); ?></strong>.
 	</p>
 </div>
+<?php endif; ?>
 
 <?php
 // Choose accomplishment type
@@ -47,21 +49,19 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 		</pre>
 	</div>
 
-	<div class="col-sm-3">
-		<div class="bs-sidebar hidden-print affix" role="complementary">
-			<ul class="nav nav-pills nav-stacked">
-				<li>
-					<a data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
-				</li>
-				<?php if ($accom): ?>
-				<hr>
-				<li> 
-					<a href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>
-					<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Submit'); ?>
-					</a>
-				</li>
-				<?php endif; ?>
-			</ul>
-		</div>
+	<div class="col-sm-3" role="complementary">
+		<ul class="nav nav-pills nav-stacked">
+			<li>
+				<a data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
+			</li>
+			<?php if ($accom): ?>
+			<hr>
+			<li> 
+				<a href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>
+				<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Submit'); ?>
+				</a>
+			</li>
+			<?php endif; ?>
+		</ul>
 	</div>
 </div>

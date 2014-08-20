@@ -26,7 +26,7 @@
           <div class="col-sm-6">
             <div class="input-group" id="monthpicker">
               <input type="text" class="form-control n-document" name="yearmonth" required>
-              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
           </div>
         </div>

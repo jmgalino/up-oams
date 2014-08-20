@@ -41,24 +41,22 @@
 		</pre>
 	</div>
 
-	<div class="col-sm-3">
-		<div class="bs-sidebar hidden-print affix" role="complementary">
-			<ul class="nav nav-pills nav-stacked">
-				<li>
-					<a data-toggle="modal" data-target="#" role="button" href="">Submit</a>
-				</li>
-				<?php if ($outputs): ?>
-				<hr>
-				<li> 
-					<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>
-					<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Publish'); ?>
-					</a>
-				</li>
-				<li>
-					<span class="help-block" style="padding: 10px 15px;">Note: Double click values to edit; press save to keep the changes; and pres the esc button to cancel.</span>
-				</li>
-				<?php endif; ?>
-			</ul>
-		</div>
+	<div class="col-sm-3" role="complementary">
+		<ul class="nav nav-pills nav-stacked">
+			<li>
+				<a data-toggle="modal" data-target="#" role="button" href="">Submit</a>
+			</li>
+			<?php if ($outputs): ?>
+			<hr>
+			<li> 
+				<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>
+				<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Publish'); ?>
+				</a>
+			</li>
+			<li>
+				<span class="help-block" style="padding: 10px 15px;">Note: Double click values to edit; press save to keep the changes; and pres the esc button to cancel.</span>
+			</li>
+			<?php endif; ?>
+		</ul>
 	</div>
 </div>

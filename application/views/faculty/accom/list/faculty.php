@@ -5,8 +5,18 @@
 </ol>
 
 <h3>
-	My Accomplishment Reports
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom">New Report</button>
+	<div class="row">
+		<div class="col-md-6">My Accomplishment Reports</div>
+		<div class="col-md-6">
+			<div class="btn-group pull-right">
+		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_accom">New Report</button>
+		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+		        <ul class="dropdown-menu">
+					<li><a href="#">Display All Accomplishments</a></li>
+		        </ul>
+			</div>
+	  </div>
+	</div>
 </h3>
 <br>
 

@@ -24,7 +24,7 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 		<pre class="center-block pre-scrollable">
 		<?php
 			echo '<h1 class="text-center">Office Performance Commitment and Review (OPCR)</h1>';
-			echo '<h4 class="text-center" style="font-weight:500;">(Template for Faculty)</h4>';
+			echo '<h4 class="text-center">(Template for Faculty)</h4>';
 			echo '<br>';
 
 			echo View::factory('faculty/opcr/form/initial/fragment')
@@ -34,24 +34,22 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 		</pre>
 	</div>
 
-	<div class="col-sm-3">
-		<div class="bs-sidebar hidden-print affix" role="complementary">
-			<ul class="nav nav-pills nav-stacked">
-				<li>
-					<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
-				</li>
-				<?php if ($outputs): ?>
-				<hr>
-				<li> 
-					<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>
-					<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Publish'); ?>
-					</a>
-				</li>
-				<li>
-					<span class="help-block" style="padding: 10px 15px;">Note: Double click values to edit; press save to keep the changes; and pres the esc button to cancel.</span>
-				</li>
-				<?php endif; ?>
-			</ul>
-		</div>
+	<div class="col-sm-3" role="complementary">
+		<ul class="nav nav-pills nav-stacked">
+			<li>
+				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
+			</li>
+			<?php if ($outputs): ?>
+			<hr>
+			<li> 
+				<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>
+				<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Publish'); ?>
+				</a>
+			</li>
+			<li>
+				<span class="help-block" style="padding: 10px 15px;">Note: Double click values to edit; press save to keep the changes; and pres the esc button to cancel.</span>
+			</li>
+			<?php endif; ?>
+		</ul>
 	</div>
 </div>

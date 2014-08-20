@@ -29,37 +29,33 @@ echo View::factory('faculty/ipcr/form/modals/evaluate')
 		</div>
 	</div>
 
-	<div class="col-md-3">
-		<div class="bs-sidebar hidden-print affix" role="complementary">
-			<ul class="nav nav-pills nav-stacked">
-				<li> 
-					<?php echo (($ipcr_details['status'] == 'Pending' AND $ipcr_details['remarks'] != 'None')
-							? '<a href="">Mark as Checked'
-							: '<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate (Initial)') ?>
-					</a>
-				</li>
-				<hr style="border-top: dotted 1px;">
-				<li style="padding:10 15">
-					<form role="form">
-						<div class="form-group">
-							<label style="font-weight: 500;">Faculty</label>
-							<p class="form-control-static"><?php echo $user; ?></p>
-						</div>
-						<div class="form-group">
-							<label style="font-weight: 500;">Period</label>
-							<p class="form-control-static"><?php echo $period; ?></p>
-						</div>
-						<div class="form-group">
-							<label style="font-weight: 500;">Status</label>
-							<p class="form-control-static"><?php echo $ipcr_details['status']; ?></p>
-						</div>
-						<div class="form-group">
-							<label style="font-weight: 500;">Remarks</label>
-							<p class="form-control-static"><?php echo $ipcr_details['remarks']; ?></p>
-						</div>
-					</form>
-				</li>
-			</ul>
-		</div>
+	<div class="col-md-3" role="complementary">
+		<ul class="nav nav-pills nav-stacked">
+			<li> 
+				<?php echo (($ipcr_details['status'] == 'Pending' AND $ipcr_details['remarks'] != 'None')
+						? '<a href="">Mark as Checked'
+						: '<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate (Initial)') ?>
+				</a>
+			</li>
+			<hr style="border-top: dotted 1px;">
+			<li style="padding:10 15">
+				<dl>
+					<dt>Faculty</dt>
+					<dd><?php echo $user; ?></dd>
+				</dl>
+				<dl>
+					<dt>Period</dt>
+					<dd><?php echo $label; ?></dd>
+				</dl>
+				<dl>
+					<dt>Status</dt>
+					<dd><?php echo $ipcr_details['status']; ?></dd>
+				</dl>
+				<dl>
+					<dt>Remarks</dt>
+					<dd><?php echo $ipcr_details['remarks']; ?></dd>
+				</dl>
+			</li>
+		</ul>
 	</div>
 </div>

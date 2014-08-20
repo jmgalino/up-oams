@@ -33,7 +33,6 @@
 						<li><a href=<?php echo url::site('faculty/opcr_coll'); ?>>View College</a></li>
 					</ul>
 				</li>
-				<li><a href=<?php echo url::site('faculty/cuma_coll'); ?>>CUMA</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href=<?php echo URL::site(); ?>><span class="glyphicon glyphicon-home"></span></a></li>
