@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-xs-6 col-md-4">
-		<img src="<?php echo URL::base(), 'application/', $user['pic']; ?>" class="img-responsive">
+		<img src="<?php echo ($user['pic'] ? URL::base().'files/upload_photos/'.$user['pic'] : URL::base().'application/assets/img/default.jpg'); ?>" class="img-responsive">
 		<br>
 	</div>
 

@@ -71,7 +71,10 @@ input {
 }
 
 input[type="email"],
-input[name="recaptcha_response_field"] {
+input[type="file"],
+input[type="text-file"],
+input[name="recaptcha_response_field"]
+{
   text-transform: none;
 }
 
@@ -164,9 +167,9 @@ body {
    margin: 0 0 20px;
 }
 /* Page Headers -- prevent line break after h2 */
-.page-header h2
+.page-header h2,
+.col-md-11 input
 {
-  font-size: 28px;
   display: inline;
 }
 .page-header .show-hover
@@ -377,4 +380,7 @@ div .bootstrap-select > .dropdown-menu > li > a:focus*/
 tr.group,
 .table-hover > tbody > tr.group:hover > td {
     background-color: #ddd !important;
+}
+.file-preview-status {
+    color: #003619;
 }

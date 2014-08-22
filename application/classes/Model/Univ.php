@@ -3,7 +3,7 @@
 class Model_Univ extends Model {
 
 	/**
-	 * College
+	 * Get colleges
 	 */
 	public function get_colleges()
 	{
@@ -22,6 +22,9 @@ class Model_Univ extends Model {
 		return $colleges;
 	}
 
+	/**
+	 * Get college details
+	 */
 	public function get_college_details($college_ID, $program_ID)
  	{
  		if (is_null($college_ID))
@@ -39,6 +42,9 @@ class Model_Univ extends Model {
  		return $result;
  	}
 
+	/**
+	 * Update college details
+	 */
 	public function update_college_details($college_ID, $details)
  	{
  		$rows_updated = DB::update('univ_collegetbl')
@@ -49,6 +55,9 @@ class Model_Univ extends Model {
  		return $rows_updated;
  	}
 
+	/**
+	 * Get programs (by college)
+	 */
 	public function get_college_programIDs($college_ID)
 	{
 		$result = DB::select('program_ID')
@@ -70,7 +79,7 @@ class Model_Univ extends Model {
 	}
 
 	/**
-	 * Department
+	 * Get departments
 	 */
 	public function get_departments()
 	{
@@ -89,6 +98,9 @@ class Model_Univ extends Model {
 		return $departments;
 	}
 
+	/**
+	 * Get department details
+	 */
 	public function get_department_details($department_ID, $program_ID)
  	{
  		if (is_null($department_ID))
@@ -106,6 +118,9 @@ class Model_Univ extends Model {
  		return $result;
  	}
 
+	/**
+	 * Update department details
+	 */
 	public function update_department_details($department_ID, $details)
  	{
  		$rows_updated = DB::update('univ_departmenttbl')
@@ -116,6 +131,9 @@ class Model_Univ extends Model {
  		return $rows_updated;
  	}
 
+	/**
+	 * Get programs (by department)
+	 */
 	public function get_department_programIDs($department_ID)
 	{
 		$result = DB::select('program_ID')
@@ -137,7 +155,7 @@ class Model_Univ extends Model {
 	}
  	
 	/**
-	 * Degree Program
+	 * Get programs
 	 */
 	public function get_programs()
 	{
@@ -156,6 +174,9 @@ class Model_Univ extends Model {
 		return $programs;
 	}
 
+	/**
+	 * Get program details
+	 */
 	public function get_program_details($program_ID)
  	{
  		$result = DB::select()

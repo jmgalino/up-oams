@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 20, 2014 at 08:55 PM
+-- Generation Time: Aug 22, 2014 at 07:13 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -269,35 +269,36 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
 `connect_ID` int(11) NOT NULL,
   `accom_ID` int(11) NOT NULL,
   `accom_specID` int(11) NOT NULL,
-  `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL
+  `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
+  `attachment` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `connect_accomtbl`
 --
 
-INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`) VALUES
-(1, 7, 1, 'pub'),
-(16, 7, 3, 'awd'),
-(17, 7, 2, 'rch'),
-(18, 7, 2, 'ppr'),
-(19, 7, 2, 'ctv'),
-(20, 7, 3, 'par'),
-(22, 7, 3, 'oth'),
-(23, 5, 4, 'mat'),
-(30, 7, 8, 'mat'),
-(31, 10, 5, 'mat'),
-(32, 16, 3, 'ctv'),
-(33, 17, 2, 'pub'),
-(34, 18, 4, 'oth'),
-(35, 17, 9, 'mat'),
-(36, 5, 5, 'oth'),
-(37, 17, 4, 'oth'),
-(41, 3, 3, 'pub'),
-(42, 3, 5, 'pub'),
-(43, 20, 6, 'pub'),
-(44, 20, 7, 'pub'),
-(45, 21, 10, 'mat');
+INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`, `attachment`) VALUES
+(1, 7, 1, 'pub', NULL),
+(16, 7, 3, 'awd', NULL),
+(17, 7, 2, 'rch', NULL),
+(18, 7, 2, 'ppr', NULL),
+(19, 7, 2, 'ctv', NULL),
+(20, 7, 3, 'par', NULL),
+(22, 7, 3, 'oth', NULL),
+(23, 5, 4, 'mat', NULL),
+(30, 7, 8, 'mat', NULL),
+(31, 10, 5, 'mat', NULL),
+(32, 16, 3, 'ctv', NULL),
+(33, 17, 2, 'pub', NULL),
+(34, 18, 4, 'oth', NULL),
+(35, 17, 9, 'mat', NULL),
+(36, 5, 5, 'oth', NULL),
+(37, 17, 4, 'oth', NULL),
+(41, 3, 3, 'pub', NULL),
+(42, 3, 5, 'pub', NULL),
+(43, 20, 6, 'pub', NULL),
+(44, 20, 7, 'pub', NULL),
+(45, 21, 10, 'mat', NULL);
 
 -- --------------------------------------------------------
 
@@ -397,15 +398,17 @@ INSERT INTO `ipcr_targettbl` (`target_ID`, `output_ID`, `ipcr_ID`, `_indicators`
 
 CREATE TABLE IF NOT EXISTS `oamstbl` (
   `name` varchar(255) NOT NULL,
-  `content` text NOT NULL
+  `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oamstbl`
 --
 
-INSERT INTO `oamstbl` (`name`, `content`) VALUES
-('about', 'OAMS is an online document management system that will facilitate automated report generation, submission and evaluation.\r\n	As of the moment, OAMS can generate Accomplishment Reports, Individual Performance Commitment and Review (IPCR),\r\n	Office Performance Commitment and Review (OPCR) and Constituent Unit (CU) Management Assessment Forms.'),
+INSERT INTO `oamstbl` (`name`, `value`) VALUES
+('about', 'UP Mindanao Online Accomplishment Management System (OAMS) is an online document management system that will facilitate automated report generation, submission and evaluation. At the moment, OAMS can generate Accomplishment Reports, Individual Performance Commitment and Review (IPCR), and Office Performance Commitment and Review (OPCR) Forms.'),
+('initials', 'OAMS'),
+('page_title', 'UP Mindanao OAMS'),
 ('title', 'Online Accomplishment Management System');
 
 -- --------------------------------------------------------
@@ -420,6 +423,7 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
   `contact` varchar(255) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
+  `date` date NOT NULL,
   `seen` int(1) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
@@ -428,11 +432,11 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
 -- Dumping data for table `oams_messagetbl`
 --
 
-INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `seen`, `deleted`) VALUES
-(1, 'Jenny', 'jmgalino@up.edu.ph', 's', 'm', 0, 0),
-(2, 'Jamaica', 'jmg@up.edu.ph', 's', 'message', 0, 0),
-(3, 'Karen T. Brickey', '123400004', 'Test', 'message', 0, 0),
-(4, 'Karen T. Brickey', '123400004', 'test2', 'message', 0, 0);
+INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `date`, `seen`, `deleted`) VALUES
+(1, 'Jenny', 'jmgalino@up.edu.ph', 's', 'm', '0000-00-00', 0, 0),
+(2, 'Jamaica', 'jmg@up.edu.ph', 's', 'message', '0000-00-00', 0, 0),
+(3, 'Karen T. Brickey', '123400004', 'Test', 'message', '0000-00-00', 0, 0),
+(4, 'Karen T. Brickey', '123400004', 'test2', 'message', '0000-00-00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -770,7 +774,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `rank` varchar(50) DEFAULT NULL,
   `position` enum('dean','dept_chair','none') DEFAULT NULL,
   `birthday` date NOT NULL,
-  `pic` varchar(255) NOT NULL DEFAULT 'assets/img/default.jpg',
+  `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
@@ -779,33 +783,33 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 --
 
 INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle_initial`, `last_name`, `user_type`, `faculty_code`, `program_ID`, `department_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
-(1, '000012345', 'Jenny', 'M', 'Galino', 'Admin', NULL, NULL, NULL, NULL, NULL, '1994-07-08', 'assets/img/default.jpg', 0),
-(2, '000112345', 'Catherine', 'K', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'assets/img/default.jpg', 0),
-(3, '000212345', 'John', 'E', 'Parsons', 'Admin', NULL, NULL, NULL, NULL, NULL, '1968-02-18', 'assets/img/default.jpg', 0),
-(4, '123400000', 'Kiyoko', 'B', 'Blanton', 'Faculty', 'KBBlanton', 2, 2, '-', 'dean', '1982-01-06', 'assets/img/default.jpg', 0),
-(5, '123400001', 'Troy', 'E', 'Keller', 'Faculty', 'TEKeller', 5, 5, '-', 'dean', '1962-02-24', 'assets/img/default.jpg', 0),
-(6, '123400002', 'Martha', 'K', 'Stutts', 'Faculty', 'MKStutts', 9, NULL, '-', 'dean', '1991-02-01', 'assets/img/default.jpg', 0),
-(7, '123400003', 'Evan', 'L', 'Woodrow', 'Faculty', 'ELWoodrow', 1, 1, '-', 'dept_chair', '1964-02-18', 'assets/img/default.jpg', 0),
-(8, '123400004', 'Karen', 'T', 'Brickey', 'Faculty', 'KTBrickey', 2, 2, '-', 'dept_chair', '1967-08-10', 'assets/img/default.jpg', 0),
-(9, '123400005', 'Jacqueline', 'A', 'Morales', 'Faculty', 'JAMorales', NULL, 3, '-', 'dept_chair', '1987-03-22', 'assets/img/default.jpg', 0),
-(10, '123400006', 'Sharon', 'D', 'Call', 'Faculty', 'SDCall', 4, 4, '-', 'dept_chair', '1970-12-07', 'assets/img/default.jpg', 0),
-(11, '123400007', 'Pedro', 'R', 'Morales', 'Faculty', 'PRMorales', 5, 5, '-', 'dept_chair', '1971-01-01', 'assets/img/default.jpg', 0),
-(12, '123400008', 'Thomas', 'W', 'Seay', 'Faculty', 'TWSeay', 6, 6, '-', 'dept_chair', '1974-03-03', 'assets/img/default.jpg', 0),
-(13, '123400009', 'Albert', 'A', 'Russell', 'Faculty', 'AARussell', 7, 7, '-', 'dept_chair', '1977-08-10', 'assets/img/default.jpg', 0),
-(14, '123400010', 'Dianne', 'A', 'Farias', 'Faculty', 'DAFarias', 1, 1, '-', 'none', '1993-04-15', 'assets/img/default.jpg', 0),
-(15, '123400011', 'Daniel', 'C', 'Daly', 'Faculty', 'DCDaly', 1, 1, '-', 'none', '1975-12-31', 'assets/img/default.jpg', 0),
-(16, '123400012', 'Kristin', 'B', 'Morford', 'Faculty', 'KBMorford', 1, 1, '-', 'none', '1983-10-16', 'assets/img/default.jpg', 0),
-(17, '123400013', 'Gloria', 'V', 'Hubbard', 'Faculty', 'GVHubbard', 2, 2, 'Some rank', 'none', '1991-03-04', 'assets/img/default.jpg', 0),
-(18, '123400014', 'Anthony', 'C', 'Whitehill', 'Faculty', 'ACWhitehill', 2, 2, '-', 'none', '1967-02-11', 'assets/img/default.jpg', 0),
-(19, '123400015', 'Richard', 'A', 'Savage', 'Faculty', 'RASavage', 2, 2, '-', 'none', '1994-07-26', 'assets/img/default.jpg', 0),
-(20, '123400016', 'Dominic', 'R', 'Martinez', 'Faculty', 'DRMartinez', 3, 2, '-', 'none', '1982-01-31', 'assets/img/default.jpg', 0),
-(21, '123400017', 'Lillian', 'R', 'Laberge', 'Faculty', 'LRLaberge', 3, 2, '-', 'none', '1968-07-03', 'assets/img/default.jpg', 0),
-(22, '123400018', 'Jack', 'A', 'Hansen', 'Faculty', 'JAHansen', 3, 2, '-', 'none', '1984-01-29', 'assets/img/default.jpg', 0),
-(23, '123400019', 'Peggy', 'L', 'Benedetto', 'Faculty', 'PLBenedetto', 4, 4, '-', 'none', '2014-07-22', 'assets/img/default.jpg', 0),
-(24, '123400020', 'Jeffrey', 'K', 'Barraza', 'Faculty', 'JKBarraza', 4, 4, '-', 'none', '1992-10-29', 'assets/img/default.jpg', 0),
-(25, '123400021', 'Carole', 'C', 'Brown', 'Faculty', 'CCBrown', 4, 4, '-', 'none', '1966-08-12', 'assets/img/default.jpg', 0),
-(26, '123400023', 'Ben', 'P', 'Banks', 'Faculty', 'BPBanks', 5, 5, '-', 'none', '1959-01-09', 'assets/img/default.jpg', 0),
-(27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 5, 5, '-', 'none', '1986-12-25', 'assets/img/default.jpg', 0);
+(1, '000012345', 'Jenny', 'M', 'Galino', 'Admin', NULL, NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
+(2, '000112345', 'Catherine', 'K', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'cd4hwhskhpnbbcyttnkd.jpg', 0),
+(3, '000212345', 'John', 'E', 'Parsons', 'Admin', NULL, NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),
+(4, '123400000', 'Kiyoko', 'B', 'Blanton', 'Faculty', 'KBBlanton', 2, 2, '-', 'dean', '1982-01-06', NULL, 0),
+(5, '123400001', 'Troy', 'E', 'Keller', 'Faculty', 'TEKeller', 5, 5, '-', 'dean', '1962-02-24', NULL, 0),
+(6, '123400002', 'Martha', 'K', 'Stutts', 'Faculty', 'MKStutts', 9, NULL, '-', 'dean', '1991-02-01', NULL, 0),
+(7, '123400003', 'Evan', 'L', 'Woodrow', 'Faculty', 'ELWoodrow', 1, 1, '-', 'dept_chair', '1964-02-18', NULL, 0),
+(8, '123400004', 'Karen', 'T', 'Brickey', 'Faculty', 'KTBrickey', 2, 2, '-', 'dept_chair', '1967-08-10', NULL, 0),
+(9, '123400005', 'Jacqueline', 'A', 'Morales', 'Faculty', 'JAMorales', NULL, 3, '-', 'dept_chair', '1987-03-22', NULL, 0),
+(10, '123400006', 'Sharon', 'D', 'Call', 'Faculty', 'SDCall', 4, 4, '-', 'dept_chair', '1970-12-07', NULL, 0),
+(11, '123400007', 'Pedro', 'R', 'Morales', 'Faculty', 'PRMorales', 5, 5, '-', 'dept_chair', '1971-01-01', NULL, 0),
+(12, '123400008', 'Thomas', 'W', 'Seay', 'Faculty', 'TWSeay', 6, 6, '-', 'dept_chair', '1974-03-03', NULL, 0),
+(13, '123400009', 'Albert', 'A', 'Russell', 'Faculty', 'AARussell', 7, 7, '-', 'dept_chair', '1977-08-10', NULL, 0),
+(14, '123400010', 'Dianne', 'A', 'Farias', 'Faculty', 'DAFarias', 1, 1, '-', 'none', '1993-04-15', NULL, 0),
+(15, '123400011', 'Daniel', 'C', 'Daly', 'Faculty', 'DCDaly', 1, 1, '-', 'none', '1975-12-31', NULL, 0),
+(16, '123400012', 'Kristin', 'B', 'Morford', 'Faculty', 'KBMorford', 1, 1, '-', 'none', '1983-10-16', NULL, 0),
+(17, '123400013', 'Gloria', 'V', 'Hubbard', 'Faculty', 'GVHubbard', 2, 2, 'Some rank', 'none', '1991-03-04', NULL, 0),
+(18, '123400014', 'Anthony', 'C', 'Whitehill', 'Faculty', 'ACWhitehill', 2, 2, '-', 'none', '1967-02-11', NULL, 0),
+(19, '123400015', 'Richard', 'A', 'Savage', 'Faculty', 'RASavage', 2, 2, '-', 'none', '1994-07-26', NULL, 0),
+(20, '123400016', 'Dominic', 'R', 'Martinez', 'Faculty', 'DRMartinez', 3, 2, '-', 'none', '1982-01-31', NULL, 0),
+(21, '123400017', 'Lillian', 'R', 'Laberge', 'Faculty', 'LRLaberge', 3, 2, '-', 'none', '1968-07-03', NULL, 0),
+(22, '123400018', 'Jack', 'A', 'Hansen', 'Faculty', 'JAHansen', 3, 2, '-', 'none', '1984-01-29', NULL, 0),
+(23, '123400019', 'Peggy', 'L', 'Benedetto', 'Faculty', 'PLBenedetto', 4, 4, '-', 'none', '2014-07-22', NULL, 0),
+(24, '123400020', 'Jeffrey', 'K', 'Barraza', 'Faculty', 'JKBarraza', 4, 4, '-', 'none', '1992-10-29', NULL, 0),
+(25, '123400021', 'Carole', 'C', 'Brown', 'Faculty', 'CCBrown', 4, 4, '-', 'none', '1966-08-12', NULL, 0),
+(26, '123400023', 'Ben', 'P', 'Banks', 'Faculty', 'BPBanks', 5, 5, '-', 'none', '1959-01-09', NULL, 0),
+(27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 5, 5, '-', 'none', '1986-12-25', NULL, 0);
 
 -- --------------------------------------------------------
 

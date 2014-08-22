@@ -4,7 +4,7 @@ var RecaptchaOptions = {
 };
  </script>
 
-<h1>Contact Us</h1>
+<h2>Contact Us</h2>
 <p>Fill out this form and send us your inquiries, comments and suggestions. Thank you.</p><br>
 
 <?php if ($error): ?>

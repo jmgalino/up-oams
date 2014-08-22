@@ -161,7 +161,7 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<docume
 	array(
 		'directory' => 'admin',
 		'controller'=> '(profile|university|oams)',
-		'action'	=> '(new|view|update|reset|delete)'
+		// 'action'	=> '(new|view|update|reset|delete)'
 	))
 	->defaults(array(
 		'action'	=> 'index'

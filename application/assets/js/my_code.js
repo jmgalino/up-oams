@@ -11,6 +11,14 @@ $(document).ready(function()
         	"targets": "action"
         }]
     });
+	$('#message_table').DataTable({
+        "order": [[ 2, "asc" ]],
+        "dom": 'ftipr',
+        "columnDefs": [{
+        	"visible": false,
+        	"targets": 2
+        }]
+    });
 
 	$('#accom_table').DataTable({
         "order": [[ 0, "desc" ]],
@@ -230,6 +238,14 @@ $(document).ready(function()
 	// Tooltip for author field
 	$('#author').tooltip();
 	$('.button-tip').tooltip();
+	$("#photo").fileinput({
+		previewFileType: "image",
+		browseClass: "btn btn-primary",
+		browseLabel: " Browse",
+		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
+		showRemove: false,
+		showUpload: false,
+	});
 	// $('a#editAccom').popover();
 	// $('body').on('click', function (e) {
 	//     //only buttons
@@ -321,6 +337,7 @@ $(document).ready(function()
 		}
     });
 
+	// Character counter for message
 	$('#message').keyup(function () {
 		var max = 255;
 		var len = $(this).val().length;
@@ -347,6 +364,28 @@ $(document).ready(function()
 		else
 			$("#charRemaining").css("color","black");
     });
+
+	// var last_ID = $("#category").val();//attr('name')
+	$('#addCategory').click(function(e)  //on add input button click
+	{
+		var last_ID = $("input[id='category']:last-child").val();//attr('name')
+		alert('Coming soon!');
+		// $('#inputWrapper').append(
+		// 	'<div class="form-group">'+
+		// 		'<div class="col-md-10 col-md-offset-1">'+
+		// 			'<nobr>'+
+		// 				'<input type="text" class="form-control" style="display:inline" required>'+
+		// 				'<a href="#" class="btn removeCategory" role="button"><span class="glyphicon glyphicon-remove "></span></a>'+
+		// 			'</nobr>'+
+		// 		'</div>'+
+		// 	'</div>');
+	});
+
+	$("body").on("click", ".removeCategory", function(e) //user click on remove text
+	{
+		$(this).parent().parent().parent().remove(); //remove input field
+	});
+
 
 	var birthdate = document.getElementById("birthday");
 	if (!birthdate)

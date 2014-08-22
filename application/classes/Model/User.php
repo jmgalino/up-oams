@@ -3,7 +3,7 @@
 class Model_User extends Model {
 
 	/**
-	 * Used by Contoller_Site
+	 * Check login details
 	 */
 	public function check_user($employee_code, $password)
 	{
@@ -20,7 +20,7 @@ class Model_User extends Model {
 	}
 
 	/**
-	 * Used by Everyone
+	 * Get user details
 	 */
 	public function get_details($user_ID, $employee_code)
  	{
@@ -50,22 +50,8 @@ class Model_User extends Model {
  		return $details;
  	}
 
- 	public function update_details($employee_code, $details)
- 	{
- 		$rows_updated = DB::update('user_profiletbl')
- 			->set($details)
- 			->where('employee_code', '=', $employee_code)
- 			->execute();
-
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
- 	}
-
- 	// public function change_password($employee_code, $password)
- 	// {}
-
  	/**
-	 * Used by Contoller_Admin
+	 * Get users
 	 */
 	public function get_users()
  	{
@@ -84,7 +70,10 @@ class Model_User extends Model {
  		return $users;
  	}
 
- 	public function get_user_group($programIDs, $exclude)
+ 	/**
+	 * Get users (by department/college)
+	 */
+	public function get_user_group($programIDs, $exclude)
  	{
     	if ($exclude)
     	{
@@ -115,14 +104,10 @@ class Model_User extends Model {
  		return $users;
  	}
 
- 	// public function get_old_publications($user_ID)
- 	// {}
-
- 	// public function get_old_researches($user_ID)
- 	// {}
-
-
- 	public function add_user($details)
+ 	/**
+	 * New user
+	 */
+	public function add_user($details)
  	{
  		// Check User
  		$result = $this->get_details(NULL, $details['employee_code']);
@@ -173,16 +158,30 @@ class Model_User extends Model {
  		}
  	}
 
- 	// public function add_old_accom($key, $details)
+ 	/**
+	 * Update user details
+	 */
+	public function update_details($employee_code, $details)
+ 	{
+ 		$rows_updated = DB::update('user_profiletbl')
+ 			->set($details)
+ 			->where('employee_code', '=', $employee_code)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+ 	}
+
+ 	/**
+	 * Update user login details
+	 */
+	// public function change_password($employee_code, $password)
  	// {}
 
- 	// public function delete_old_accom($key, $accom_ID)
- 	// {}
-
- 	// public function update_profile($employee_code, $details)
- 	// {}
-
- 	public function reset_password($employee_code)
+ 	/**
+	 * Reset user password
+	 */
+	public function reset_password($employee_code)
  	{
  		$rows_updated = DB::update('user_logintbl')
  			->set(array('password' => password_hash('upmin', PASSWORD_DEFAULT)))
@@ -193,18 +192,53 @@ class Model_User extends Model {
  		else return FALSE; //do something
  	}
 
- 	public function delete_profile($employee_code)
+ 	/**
+	 * Archive/Delete user
+	 */
+	public function delete_profile($employee_code)
  	{
- 		$rows_deleted = DB::update('user_profiletbl')
- 			->set(array('deleted' => '1'))
- 			->where('employee_code', '=', $employee_code)
- 			->execute();
+ 		$user_details = $this->get_details(NULL, $employee_code)[0];
+
+ 		// Archive
+ 		if ($user_details['deleted'] == 0)
+ 		{
+ 			$rows_deleted = DB::update('user_profiletbl')
+	 			->set(array('deleted' => '1'))
+	 			->where('employee_code', '=', $employee_code)
+	 			->execute();
+ 		}
+ 		// Delete
+ 		else
+ 		{
+
+ 		}
 
  		if ($rows_deleted == 1) return TRUE;
  		else return FALSE; //do something
  	}
 
- 	// private function update_session()
+ 	/**
+	 * Get publications (pre-)OAMS
+	 */
+	// public function get_publications($user_ID)
+ 	// {}
+
+ 	/**
+	 * Get research (pre-)OAMS
+	 */
+	// public function get_research($user_ID)
+ 	// {}
+
+ 	/**
+	 * New (pre-)OAMS publication 
+	 */
+	// public function add_accom($key, $details)
+ 	// {}
+
+ 	/**
+	 * New (pre-)OAMS research 
+	 */
+	// public function delete_accom($key, $accom_ID)
  	// {}
 	
 } // End User

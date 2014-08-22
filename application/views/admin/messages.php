@@ -6,34 +6,34 @@
 
 <h3>Messages</h3>
 
-<?php
-if (count($messages) > 0)
-{
-	echo '<div class="table-responsive">
-	<table class="table table-hover">
+<?php if ($messages): ?>
+<div class="table-responsive">
+	<table class="table table-hover" id="message_table">
 		<thead>
 			<tr>
-				<th>Sender</th>
+				<th width="400px">Sender</th>
 				<th>Subject</th>
-				<th>Message</th>
+				<th>Date</th>
 			</tr>
 		</thead>
-		<tbody>';
-
+		<tbody>
 	
+		<?php
 		foreach ($messages as $message)
 		{
 			echo
 			'<tr>
-				<td>', $message['name'], '(', $message['contact'], ')</td>
+				<td>', $message['name'], ' (', $message['contact'], ')</td>
 				<td>', $message['subject'], '</td>
-				<td>', $message['message'], '</td>
+				<td>', $message['date'], '</td>
 			</tr>';
 		}
+		?>
 
-	echo '</tbody></table></div>';}
-else
-{
-	echo '<div class="alert alert-danger"><p class="text-center">No messages.</p></div>';
-}
-?>
+		</tbody>
+	</table>
+</div>
+
+<?php else: ?>
+<div class="alert alert-danger"><p class="text-center">No messages.</p></div>
+<?php endif; ?>

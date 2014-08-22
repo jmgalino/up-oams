@@ -65,7 +65,7 @@ class Controller_Faculty extends Controller_User {
 	    $message_details['contact'] = $this->session->get('employee_code');
 		$message_details['subject'] = $details['subject'];
 		$message_details['message'] = $details['message'];
-		$insert_success = $this->oams->send_message($message_details);
+		$insert_success = $this->oams->new_message($message_details);
 		$details = NULL;
 
 		$fullname = $this->session->get('fullname');

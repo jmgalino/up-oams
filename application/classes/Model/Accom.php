@@ -3,7 +3,7 @@
 class Model_Accom extends Model {
 	
 	/**
-	 * Faculty
+	 * Get reports (by faculty)
 	 */
 	public function get_faculty_accom($user_ID)
 	{
@@ -23,7 +23,7 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Department/College
+	 * Get reports (by department/college)
 	 */
 	public function get_group_accom($userIDs)
 	{
@@ -150,7 +150,7 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Find report accomplishments
+	 * Get report accomplishments
 	 */
 	public function get_accoms($accom_ID, $type)
 	{
@@ -208,7 +208,7 @@ class Model_Accom extends Model {
 	// }
 
 	/**
-	 * Add report accomplishments
+	 * Add accomplishment
 	 */
 	public function add_accom($accom_ID, $details, $type, $name_ID)
 	{
@@ -237,9 +237,9 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Edit report accomplishments
+	 * Update accomplishment
 	 */
-	public function edit_accom($accom_ID, $accom_specID, $details, $type, $name_ID)
+	public function update_accom($accom_ID, $accom_specID, $details, $type, $name_ID)
 	{
 		// Check for other users
 		$users = $this->check_accom_users($accom_specID, $type);	
@@ -263,6 +263,9 @@ class Model_Accom extends Model {
 		}
 	}
 
+	/**
+	 * Delete accomplishments
+	 */
 	public function delete_accom($accom_ID, $accom_specID, $type, $name_ID)
 	{
 		// Check for other users
@@ -318,7 +321,7 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Check if accomplishment is linked to other reports
+	 * Check if accomplishment is linked to multiple reports
 	 */
 	private function check_accom_users($accom_specID, $type)
 	{
@@ -543,7 +546,7 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Link existing accomplishment to report
+	 * Link accomplishment to report
 	 */
 	private function link_accom($accom_ID, $accom_specID, $type)
 	{

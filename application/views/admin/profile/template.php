@@ -30,7 +30,14 @@
 </div>
 <br><br>
 
-<?php if ($reset): ?>
+<?php if ($upload): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Photo was successfully uploaded.
+	</p>
+</div>
+<?php elseif ($reset): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -44,11 +51,18 @@
 		Profile was successfully updated.
 	</p>
 </div>
+<?php elseif ($error): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $error; ?>
+	</p>
+</div>
 <?php endif; ?>
 
 <?php
 echo View::factory('admin/profile/form/photo')
-	->bind('user', $user);
+	->bind('employee_code', $user['employee_code']);
 
 // Edit user form
 echo View::factory('admin/profile/form/template')

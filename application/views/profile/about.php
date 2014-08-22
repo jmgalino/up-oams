@@ -3,6 +3,5 @@
   <li class="active">About</li>
 </ol>
 
-<h3>About</h3>
-
+<h2>About</h2>
 <p><?php echo $about; ?></p>

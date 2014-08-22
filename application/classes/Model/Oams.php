@@ -3,33 +3,95 @@
 class Model_Oams extends Model {
 
 	/**
-	 * Get OAMS Title
+	 * Get title
 	 */
 	public function get_title()
 	{
-		$result = DB::select('content')
+		$result = DB::select('value')
 			->from('oamstbl')
 			->where('name', '=', 'title')
 			->execute();
 
-		return $result[0]['content'];
+		return $result[0]['value'];
 	}
 
 	/**
-	 * Get OAMS About
+	 * Get initials
+	 */
+	public function get_initials()
+	{
+		$result = DB::select('value')
+			->from('oamstbl')
+			->where('name', '=', 'initials')
+			->execute();
+
+		return $result[0]['value'];
+	}
+
+	/**
+	 * Get page title
+	 */
+	public function get_page_title()
+	{
+		$result = DB::select('value')
+			->from('oamstbl')
+			->where('name', '=', 'page_title')
+			->execute();
+
+		return $result[0]['value'];
+	}
+
+	/**
+	 * Update titles
+	 */
+	public function update_titles($details)
+	{
+		$rows_updated = 0;
+
+		$query = DB::query(Database::UPDATE, 'UPDATE oamstbl SET value = :value WHERE name = :name')
+		    ->bind(':name', $name)
+		    ->bind(':value', $value);
+		 
+		foreach ($details as $name => $value)
+		{
+		    $result = $query->execute();
+		    if ($result == 1) $rows_updated++;
+		}
+
+ 		if ($rows_updated == 1) return 'The title was successfully updated.';
+ 		elseif ($rows_updated > 1) return 'The titles were successfully updated.';
+ 		else return FALSE; //do something
+	}
+
+	/**
+	 * Get About
 	 */
 	public function get_about()
 	{
-		$result = DB::select('content')
+		$result = DB::select('value')
 			->from('oamstbl')
 			->where('name', '=', 'about')
 			->execute();
 			
-		return $result[0]['content'];
+		return $result[0]['value'];
 	}
 
 	/**
-	 * Get IPCR/OPCR Categories
+	 * Update About
+	 */
+	public function update_about($about)
+	{
+		$rows_updated = DB::update('oamstbl')
+ 			->set(array('value' => $about))
+			->where('name', '=', 'about')
+ 			->execute();
+
+ 		if ($rows_updated == 1) return '"About" was successfully updated.';
+ 		else return FALSE; //do something
+	}
+
+	/**
+	 * Get IPCR/OPCR categories
 	 */
 	public function get_categories()
 	{
@@ -66,9 +128,9 @@ class Model_Oams extends Model {
 	}
 
 	/**
-	 *
+	 * New message
 	 */
-	public function send_message($details)
+	public function new_message($details)
 	{
 		$result = DB::select()
 			->from('oams_messagetbl')

@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href=<?php echo URL::site(); ?>>OAMS</a>
+			<a class="navbar-brand" href=<?php echo URL::site(); ?>><?php echo $label; ?></a>
 		</div>
 
 		<div class="navbar-collapse collapse" id="navbar-collapse">

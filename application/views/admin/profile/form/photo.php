@@ -7,16 +7,21 @@
        <h4 class="modal-title" id="myModalLabel">Upload Photo</h4>
       </div>
 
-      <?php print form::open('admin/profile/update/'.$user['employee_code'], array('class'=>'form-horizontal', 'role'=>'form')); ?>
+      <form action="<?php echo URL::site("uploader/photo/$employee_code") ?>" class="form-horizontal" method="post" enctype="multipart/form-data" role="form">
       <div class="modal-body">
-        
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-1">
+            <input type="file" id="photo" name="photo" accept="image/*" required>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <button type="submit" class="btn btn-primary">Upload</button>
       </div>
-      <?php print form::close();?>
+      </form>
+      
     </div>
   </div>
 </div>

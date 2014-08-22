@@ -20,7 +20,9 @@ class Controller_User extends Controller {
     	$this->session = Session::instance();
 
     	$identifier = Session::instance()->get('identifier');
-		
+    	$page_title = $this->oams->get_page_title();
+		$label = $this->oams->get_initials();
+
         // Not logged in
         if ((is_null($identifier)) AND ($this->request->action() !== 'login'))
         	$this->redirect();
@@ -29,13 +31,14 @@ class Controller_User extends Controller {
 		else
 		{
 			$this->view = View::factory('templates/template');
-			$this->view->page_title = null;
+			$this->view->page_title = $page_title;
 			
 			// Admin
 			if ($identifier == 'admin')
 			{
 				$fname = $this->session->get('fname');
 				$this->view->navbar = View::factory('templates/fragments/admin')
+					->bind('label', $label)
 					->bind('fname', $fname);
 			}
 			else
@@ -47,18 +50,21 @@ class Controller_User extends Controller {
 					// Faculte
 					case 'faculty':
 						$this->view->navbar = View::factory('templates/fragments/faculty')
+							->bind('label', $label)
 							->bind('fcode', $fcode);
 						break;
 					
 					// Dept. Chair
 					case 'dept_chair':
 						$this->view->navbar = View::factory('templates/fragments/dept_chair')
+							->bind('label', $label)
 							->bind('fcode', $fcode);
 						break;
 					
 					// Dean
 					case 'dean':
 						$this->view->navbar = View::factory('templates/fragments/dean')
+							->bind('label', $label)
 							->bind('fcode', $fcode);
 						break;
 				}
@@ -111,19 +117,19 @@ class Controller_User extends Controller {
 			$program = $univ->get_program_details($user['program_ID'])[0];
 			$user['program_short'] = $program['program_short'];
 		}
-		$accom_rows = $accom->get_faculty_accom($this->session->get('user_ID'));
-		$ipcr_rows = NULL;
-		$opcr_rows = NULL;
-		$cuma_rows = NULL;
+		// $accom_rows = $accom->get_faculty_accom($this->session->get('user_ID'));
+		// $ipcr_rows = NULL;
+		// $opcr_rows = NULL;
+		// $cuma_rows = NULL;
 		$pub_rows = NULL;
 		$rch_rows = NULL;
 		
 		$this->view->content = View::factory('profile/myprofile/template')
 			->bind('user', $user)
-			->bind('accom_rows', $accom_rows)
-			->bind('ipcr_rows', $ipcr_rows)
-			->bind('opcr_rows', $opcr_rows)
-			->bind('cuma_rows', $cuma_rows)
+			// ->bind('accom_rows', $accom_rows)
+			// ->bind('ipcr_rows', $ipcr_rows)
+			// ->bind('opcr_rows', $opcr_rows)
+			// ->bind('cuma_rows', $cuma_rows)
 			->bind('pub_rows', $pub_rows)
 			->bind('rch_rows', $rch_rows)
 			->bind('reset', $reset)
@@ -163,7 +169,7 @@ class Controller_User extends Controller {
 	protected function action_manual()
 	{
 		// Open PDF in new tab
-		$this->view->content = null;
+		$this->view->content = View::factory('profile/manual');
 		$this->response->body($this->view->render());
 	}
 

@@ -3,7 +3,7 @@
 class Model_Opcr extends Model {
 
 	/**
-	 * Faculty
+	 * Get forms (by faculty)
 	 */
 	public function get_faculty_opcr($user_ID)
 	{
@@ -23,7 +23,7 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Department
+	 * Get forms (foreach department - as template for faculty)
 	 */
 	public function get_department_opcr($user_ID)
 	{
@@ -50,7 +50,7 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * College
+	 * Get forms (by college)
 	 */
 	// public function get_group_opcr($userIDs)
 	// {}
@@ -181,7 +181,7 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Find form outputs
+	 * Get form outputs
 	 */
 	public function get_outputs($opcr_ID)
 	{
@@ -221,7 +221,7 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Add form output
+	 * Add output
 	 */
 	public function add_output($details)
 	{
@@ -239,9 +239,9 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Edit form output
+	 * Update output
 	 */
-	public function edit_output($details)
+	public function update_output($details)
 	{
 		$rows_updated = DB::update('opcr_outputtbl')
  			->set($details)
@@ -253,7 +253,7 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Delete form output
+	 * Delete output
 	 */
 	public function delete_output($output_ID)
 	{

@@ -9,8 +9,8 @@
   <div class="col-md-9" id="content" role="main">
 
     <div class="page-header" id="colleges">
-      <h2>Colleges</h2> &nbsp
-      <a class="show-hover" href="#">Edit</a>
+      <h2>Colleges</h2>&nbsp
+      <a class="show-hover" onclick="alert('Coming soon!')" href="#">Edit</a>
     </div>
     <?php
     foreach ($colleges as $college) {
@@ -33,8 +33,8 @@
     ?>
 
     <div class="page-header" id="departments">
-      <h2>Departments</h2> &nbsp
-      <a class="show-hover" href="#">Edit</a>
+      <h2>Departments</h2>&nbsp
+      <a class="show-hover" onclick="alert('Coming soon!')" href="#">Edit</a>
     </div>
     <?php
     foreach ($departments as $department) {
@@ -66,8 +66,8 @@
    ?>
 
     <div class="page-header" id="programs">
-      <h2>Degree Programs</h2> &nbsp
-      <a class="show-hover" href="#">Edit</a>
+      <h2>Degree Programs</h2>&nbsp
+      <a class="show-hover" onclick="alert('Coming soon!')" href="#">Edit</a>
     </div>
     <?php
     foreach ($programs as $program) {
@@ -121,14 +121,13 @@
   <div class="col-md-3" id="secondary-nav">
     <div class="hidden-xs hidden-sm affix" data-spy="affix" role="complementary"><!-- style="padding-top: 65px;" -->
       <ul class="nav nav-stacked affix-top" data-spy="affix" data-offset-top="200" id="affix">
-        <!-- Sections -->
         <li>
           <a href="#colleges">Colleges</a>
           <ul class="nav">
             <?php
-            // foreach ($colleges as $college) {
-            //   echo '<li><a href="#', $college['short'], '">', $college['short'], '</a></li>';
-            // }
+            foreach ($colleges as $college) {
+              echo '<li><a href="#', $college['short'], '">', $college['short'], '</a></li>';
+            }
             ?>
           </ul>
         </li>

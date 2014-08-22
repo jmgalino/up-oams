@@ -69,7 +69,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$accom_details = $accom->get_details($accom_ID)[0];
 		$date = date_format(date_create($accom_details['yearmonth']), 'my');
 		$filename = $this->session->get('employee_code').$date.'.pdf';
-		$filepath = APPPATH.'files/document_accom/'.$filename;
+		$filepath = DOCROOT.'files/document_accom/'.$filename;
 		
 		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
 		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
@@ -131,7 +131,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
 		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
 		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
-		$filepath = APPPATH.'files/document_ipcr/'.$filename;
+		$filepath = DOCROOT.'files/document_ipcr/'.$filename;
 		
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
@@ -195,7 +195,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
 		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
 		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
-		$filepath = APPPATH.'files/document_opcr/'.$filename;
+		$filepath = DOCROOT.'files/document_opcr/'.$filename;
 		
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];

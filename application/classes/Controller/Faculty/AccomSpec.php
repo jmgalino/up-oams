@@ -113,7 +113,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				break;
 		}
 
-		$accom->edit_accom($accom_ID, $accom_specID, $details, $type, $name_ID);
+		$accom->update_accom($accom_ID, $accom_specID, $details, $type, $name_ID);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID']);
 	}
 

@@ -216,7 +216,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		
 		if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
 		{
-			$edit_success = $opcr->edit_output($post);
+			$edit_success = $opcr->update_output($post);
 
 			if ($edit_success)
 			{

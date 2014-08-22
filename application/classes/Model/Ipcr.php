@@ -3,7 +3,7 @@
 class Model_Ipcr extends Model {
 
 	/**
-	 * Faculty
+	 * Get forms (by faculty)
 	 */
 	public function get_faculty_ipcr($user_ID)
 	{
@@ -23,7 +23,7 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Department/College
+	 * Get forms (by department/college)
 	 */
 	public function get_group_ipcr($userIDs)
 	{
@@ -44,7 +44,7 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * OPCR
+	 * Get forms (by OPCR - department)
 	 */
 	public function get_opcr_ipcr($opcr_ID)
 	{
@@ -125,12 +125,6 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Publish form
-	 */
-	// public function publish($ipcr_ID, $details)
-	// {}
-
-	/**
 	 * Submit form
 	 */
 	public function submit($ipcr_ID, $details)
@@ -177,7 +171,7 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Find form targets
+	 * Get targets (by ipcr - faculty)
 	 */
 	public function get_targets($ipcr_ID)
 	{
@@ -197,7 +191,7 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Output target
+	 * Get targets (by output - department)
 	 */
 	public function get_output_targets($outputs)
 	{
@@ -205,7 +199,6 @@ class Model_Ipcr extends Model {
 		foreach ($outputs as $output) {
 			$outputIDs[] = $output['output_ID'];
 		}
-
 
 		$result = DB::select()
 			->from('ipcr_targettbl')
@@ -243,7 +236,7 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Add form target
+	 * Add target
 	 */
 	public function add_target($details)
 	{
@@ -277,13 +270,13 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Edit form target
+	 * Update target
 	 */
-	// public function edit_target($ipcr_ID, $target_ID, $details)
+	// public function update_target($ipcr_ID, $target_ID, $details)
 	// {}
 
 	/**
-	 * Delete form target
+	 * Delete target
 	 */
 	public function delete_target($target_ID)
 	{

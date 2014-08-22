@@ -6,6 +6,9 @@ class Controller_Site extends Controller {
 
 	public function before()
     {
+    	$oams = new Model_Oams;
+    	$page_title = $oams->get_page_title();
+    	$label = $oams->get_initials();
     	$identifier = Session::instance()->get('identifier');
 
     	if ((isset($identifier)) AND $this->request->action() !== 'logout')
@@ -17,8 +20,9 @@ class Controller_Site extends Controller {
         }
 
         $this->view = View::factory('templates/template');
-		$this->view->page_title = null;
+		$this->view->page_title = $page_title;
 		$this->view->navbar = View::factory('templates/fragments/site');    	
+		$this->view->navbar->label = $label;
     }
 
 	/**
@@ -115,7 +119,7 @@ class Controller_Site extends Controller {
 		    $message_details['contact'] = $details['email'];
 			$message_details['subject'] = $details['subject'];
 			$message_details['message'] = $details['message'];
-			$insert_success = $oams->send_message($message_details);
+			$insert_success = $oams->new_message($message_details);
 			$details = NULL;
 		}
 
