@@ -70,9 +70,9 @@ input {
   text-transform: capitalize;
 }
 
-input[type="email"],
 input[type="file"],
-input[type="text-file"],
+input[type="email"],
+input[type="password"],
 input[name="recaptcha_response_field"]
 {
   text-transform: none;

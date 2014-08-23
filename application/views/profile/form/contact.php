@@ -22,39 +22,32 @@
 </div>
 <?php endif; ?>
 
-<?php print form::open('faculty/contact', array('class'=>'form-horizontal', 'role'=>'form'));?>
+<form action="<?php echo URL::site("faculty/contact") ?>" class="form-horizontal" method="post" role="form">
 <div class="form-group">
-	<label for="name" class="col-sm-1 control-label">Name</label>
-	<div class="col-sm-3">
+	<label for="name" class="col-md-3 control-label">Name</label>
+	<div class="col-md-6">
 		<p class="form-control-static"><?php echo $fullname; ?></p>
 	</div>
 </div>
 
 <div class="form-group">
-	<label for="subject" class="col-sm-1 control-label">Subject</label>
-	<div class="col-sm-3">
+	<label for="subject" class="col-md-3 control-label">Subject</label>
+	<div class="col-md-6">
 		<input type="text" class="form-control" id="subject" name="subject" value="<?php echo $details['subject']; ?>" required>
 	</div>
 </div>
 
 <div class="form-group">
-	<label for="message" class="col-sm-1 control-label">Message</label>
-	<div class="col-sm-4">
+	<label for="message" class="col-md-3 control-label">Message</label>
+	<div class="col-md-6">
 		<textarea class="form-control" id="message" name="message" rows="5" onkeyup="countChar(this)" required><?php echo $details['message']; ?></textarea>
 		<span class="help-block" id="charRemaining">You have <strong>255</strong> characters left</span>
 	</div>
 </div>
 
 <div class="form-group">
-	<label class="col-sm-1 control-label"></label>
-	<div class="col-sm-3">
-		<?php
-		if ($details['message'])
-			print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary'));
-		else
-			print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary', 'disabled'=>'disabled'));
-		?>
+	<div class="col-md-6 col-md-offset-3">
+		<button type="submit" class="btn btn-primary pull-right" <?php if (!$details['message']) echo 'disabled="disabled"'; ?>>Send Message</button>
 	</div>
 </div>
-
-<?php print form::close();?>
+</form>

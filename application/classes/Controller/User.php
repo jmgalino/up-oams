@@ -142,12 +142,17 @@ class Controller_User extends Controller {
 	 */
 	protected function action_password()
 	{
-		if ($this->request->post()) echo "change password";
+		if ($this->request->post())
+			$this->action_change($this->request->post());
 		
-		$change = $this->session->get_once('change');
+		$success = $this->session->get_once('success');
+		$error = $this->session->get_once('error');
+		$identifier = $this->session->get('identifier');
 
-		$this->view->content = View::factory('profile/myprofile/form/password')
-			->bind('change', $change);
+		$this->view->content = View::factory('profile/form/password')
+			->bind('success', $success)
+			->bind('error', $error)
+			->bind('identifier', $identifier);
 		$this->response->body($this->view->render());
 	}
 
@@ -191,6 +196,30 @@ class Controller_User extends Controller {
 		$this->session->delete('department');
 		$this->session->delete('title');
 		$this->session->delete('opcr_details');
+	}
+
+	/**
+	 * Save new password
+	 */
+	private function action_change($details)
+	{
+		$user = new Model_User;
+
+		$employee_code = $this->session->get('employee_code');
+		$current = $user->check_user($employee_code, $details['current_password']);
+
+		if ($current)
+		{
+			$change_success = $user->change_password($employee_code, $details['new_password']);
+			$this->session->set('success', $change_success);
+		}
+		else
+		{
+			$this->session->set('error', 'Incorrect password.');
+		}
+
+		$identifier = $this->session->get('identifier');
+		$this->redirect($identifier.'/password', 303);
 	}
 
 } // End User

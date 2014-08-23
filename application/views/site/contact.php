@@ -7,24 +7,24 @@ var RecaptchaOptions = {
 <h2>Contact Us</h2>
 <p>Fill out this form and send us your inquiries, comments and suggestions. Thank you.</p><br>
 
-<?php if ($error): ?>
-<div class="alert alert-danger alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		The reCAPTCHA wasn't entered correctly. Try it again.
-	</p>
-</div>
-<?php elseif ($success): ?>
+<?php if ($success): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
 		Got it. We'll get back to you ASAP!
 	</p>
 </div>
+<?php elseif ($error): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		The reCAPTCHA wasn't entered correctly. Try it again.
+	</p>
+</div>
 <?php endif; ?>
 
-<?php print form::open('site/contact', array('class'=>'form-horizontal', 'role'=>'form', 'autocomplete'=>'off')); ?>
-<div class="form-group">
+<form action="<?php echo URL::site("site/contact") ?>" class="form-horizontal" autocomplete="off" method="post" role="form">
+	<div class="form-group">
 	<label for="name" class="col-sm-1 control-label">Name</label>
 	<div class="col-sm-3">
 		<input type="text" class="form-control" id="name" name="name" value="<?php echo $details['name']?>" required>
@@ -65,15 +65,8 @@ var RecaptchaOptions = {
 </div>
 
 <div class="form-group">
-	<label class="col-sm-1 control-label"></label>
-	<div class="col-sm-3">
-		<?php
-		if ($details['message'])
-			print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary'));
-		else
-			print form::submit(NULL, 'Send', array('type'=>'submit', 'class'=>'btn btn-primary', 'disabled'=>'disabled'));
-		?>
+	<div class="col-md-6 col-md-offset-3">
+		<button type="submit" class="btn btn-primary pull-right" <?php if (!$details['message']) echo 'disabled="disabled"'; ?>>Send Message</button>
 	</div>
 </div>
-
-<?php print form::close(); ?>
+</form>

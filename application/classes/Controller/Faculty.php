@@ -37,9 +37,7 @@ class Controller_Faculty extends Controller_User {
 	protected function action_contact()
 	{
 		if ($this->request->post())
-		{
 			$this->action_send($this->request->post());
-		}
 		else
 		{
 			$error = $this->session->get_once('error');
@@ -47,7 +45,7 @@ class Controller_Faculty extends Controller_User {
 			$fullname = $this->session->get('fullname');
 			$details = NULL;
 
-			$this->view->content = View::factory('profile/contact')
+			$this->view->content = View::factory('profile/form/contact')
 				->bind('error', $error)
 				->bind('success', $success)
 				->bind('fullname', $fullname)
@@ -69,7 +67,7 @@ class Controller_Faculty extends Controller_User {
 		$details = NULL;
 
 		$fullname = $this->session->get('fullname');
-		$this->view->content = View::factory('profile/contact')
+		$this->view->content = View::factory('profile/form/contact')
 			->bind('error', $error)
 			->bind('success', $insert_success)
 			->bind('fullname', $fullname)

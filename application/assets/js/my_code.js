@@ -356,13 +356,50 @@ $(document).ready(function()
 		else
 		{
 			$('#charRemaining').html('You have <strong>' + remaining + '</strong> characters left');
-			$('input[type="submit"]').prop('disabled', false);
+			$('button[type="submit"]').prop('disabled', false);
 		}
 
 		if(remaining <= 10)
 			$("#charRemaining").css("color","red");
 		else
 			$("#charRemaining").css("color","black");
+    });
+
+	$("#new_password").keyup(function()
+	{
+		var passwordLen = $("#new_password").val().length;
+
+		if (passwordLen < 5)
+	    {
+	    	$("div.new_password").removeClass("has-success has-feedback").addClass("has-warning has-feedback");
+	    	$("#checkIcon").removeClass("glyphicon glyphicon-ok form-control-feedback").addClass("glyphicon glyphicon-warning-sign form-control-feedback");
+	    	$("#passwordCheck").html("Minimum of 5 characters.");
+	    }
+	    else
+	    {
+	    	$("div.new_password").removeClass("has-warning has-feedback").addClass("has-success has-feedback");
+	    	$("#checkIcon").removeClass("glyphicon glyphicon-warning-sign form-control-feedback").addClass("glyphicon glyphicon-ok form-control-feedback");
+	    	$("#passwordCheck").html("");	
+	    }
+	});
+
+    $("#confirm_password").keyup(function()
+    {
+	    var password = $("#new_password").val();
+	    var confirmPassword = $("#confirm_password").val();
+
+	    if (password != confirmPassword)
+	    {
+	    	$("div.confirm_password").removeClass("has-success has-feedback").addClass("has-error has-feedback");
+	    	$("#matchIcon").removeClass("glyphicon glyphicon-ok form-control-feedback").addClass("glyphicon glyphicon-remove form-control-feedback");
+	    	$("#passwordMatch").html("Passwords do not match!");
+	    }
+	    else
+	    {
+	    	$("div.confirm_password").removeClass("has-error has-feedback").addClass("has-success has-feedback");
+	    	$("#matchIcon").removeClass("glyphicon glyphicon-remove form-control-feedback").addClass("glyphicon glyphicon-ok form-control-feedback");
+	    	$("#passwordMatch").html("Passwords match.");	
+	    }
     });
 
 	// var last_ID = $("#category").val();//attr('name')

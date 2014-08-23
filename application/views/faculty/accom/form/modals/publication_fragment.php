@@ -16,7 +16,7 @@
 <div class="form-group">
   <label for="year" class="col-sm-4 control-label">Year</label>
   <div class="col-sm-7">
-    <input type="int" class="form-control" id="year" name="year" pattern="([0-9][0-9][0-9][0-9])" required>
+    <input type="text" class="form-control" id="year" name="year" pattern="([0-9]{4})" title="Format is YYYY" required>
   </div>
 </div>
 

@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="employee_code" class="col-sm-4 control-label">Employee Code</label>
   <div class="col-sm-7">
-    <input type="number" class="form-control" id="employee_code" name="employee_code" value="<?php echo $user['employee_code']; ?>" required>
+    <input type="text" class="form-control" id="employee_code" name="employee_code" pattern="([0-9]{9})" title="Input a 9 digit code." value="<?php echo $user['employee_code']; ?>" required>
   </div>
 </div>
 

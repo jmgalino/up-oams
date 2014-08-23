@@ -175,8 +175,16 @@ class Model_User extends Model {
  	/**
 	 * Update user login details
 	 */
-	// public function change_password($employee_code, $password)
- 	// {}
+	public function change_password($employee_code, $password)
+ 	{
+ 		$rows_updated = DB::update('user_logintbl')
+ 			->set(array('password' => password_hash($password, PASSWORD_DEFAULT)))
+ 			->where('employee_code', '=', $employee_code)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something	
+ 	}
 
  	/**
 	 * Reset user password
