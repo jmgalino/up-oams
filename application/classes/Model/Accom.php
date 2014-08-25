@@ -150,7 +150,7 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Get report accomplishments
+	 * Get report accomplishments (by type)
 	 */
 	public function get_accoms($accom_ID, $type)
 	{
@@ -158,27 +158,29 @@ class Model_Accom extends Model {
 		if (count($accom_ID) == 1)
 		{
 			$accoms = array();
-			$accom_specIDs = array();
+			$accom_specs = array();
 
-			// Retrive accom_specIDs
-			$result = DB::select('accom_specID')
+			// Retrive accom_specIDs and attachments if any
+			$result = DB::select('accom_specID', 'attachment')
 				->from('connect_accomtbl')
 				->where('accom_ID', '=', $accom_ID)
 				->where('type', '=', $type)
 				->execute()
 				->as_array();
 		
-			foreach ($result as $accom_specID)
+			foreach ($result as $accom_spec)
 			{
-				$accom_specIDs[] = $accom_specID;
+				$detail['accom_specID'] = $accom_spec['accom_specID'];
+				$detail['attachment'] = $accom_spec['attachment'];
+				$accom_specs[] = $detail;
 			}
 
-			// Retrieve keyIDs
-			if ($accom_specIDs)
+			// Retrieve accom details
+			if ($accom_specs)
 			{
-				$accoms = $this->get_accom_specs($accom_specIDs, $type);
+				$accoms = $this->get_accom_specs($accom_specs, $type);
 			}
-			
+
 			return $accoms;
 		}
 
@@ -186,26 +188,6 @@ class Model_Accom extends Model {
 		else
 		{}
 	}
-
-	/**
-	 * Get accom details
-	 */
-	// public function get_accom_details($accom_spec_ID, $name_ID, $type)
-	// {
-	// 	$result = DB::select()
-	// 		->from('accom_'.$type.'tbl')
-	// 		->where($name_ID, '=', $accom_spec_ID)
-	//  		->execute()
-	//  		->as_array();
-
-	// 	$details = array();
-	// 	foreach ($result as $detail)
-	// 	{
-	// 		$details[] = $detail;
-	// 	}
-
- // 		return $details;
-	// }
 
 	/**
 	 * Add accomplishment
@@ -338,208 +320,71 @@ class Model_Accom extends Model {
 	/**
 	 * Get accomplishment details
 	 */
-	private function get_accom_specs($accom_specIDs, $type)
+	private function get_accom_specs($accom_specs, $type)
 	{
 		$accoms = array();
-		switch ($type) {
 
-			// Journal Publication/Book/Chapter in a Book
+		switch ($type)
+		{
 			case 'pub':
-				foreach ($accom_specIDs as $publication_ID) {
-					$result = DB::select()
-						->from('accom_pubtbl')
-						->where('publication_ID', '=', $publication_ID)
-						->execute()
-						->as_array();
-
-					$pub = array();
-					foreach ($result as $detail)
-					{
-						$pub['publication_ID']	= $detail['publication_ID'];
-						$pub['author'] 			= $detail['author'];
-						$pub['title']			= $detail['title'];
-						$pub['year'] 			= $detail['year'];
-						$pub['type'] 			= $detail['type'];
-						$pub['book_publisher']	= $detail['book_publisher'];
-						$pub['book_place']		= $detail['book_place'];
-						$pub['journal_volume']	= $detail['journal_volume'];
-						$pub['journal_issue']	= $detail['journal_issue'];
-						$pub['page']			= $detail['page'];
-						$pub['isi']				= $detail['isi'];
-						$pub['peer_reviewed']	= $detail['peer_reviewed'];
-						$pub['refereed']		= $detail['refereed'];
-						$pub['popular']			= $detail['popular'];
-					}
-
-					$accoms[] = $pub;
-				}
+				$table = 'accom_pubtbl';
+				$name_ID = 'publication_ID';
 				break;
-
-			// Award/Grants Received
+			
 			case 'awd':
-				foreach ($accom_specIDs as $award_ID) {
-					$result = DB::select()
-						->from('accom_awdtbl')
-						->where('award_ID', '=', $award_ID)
-						->execute()
-						->as_array();
-
-					$awd = array();
-					foreach ($result as $detail)
-					{
-						$awd['award_ID']	= $detail['award_ID'];
-						$awd['award']		= $detail['award'];
-						$awd['type']		= $detail['type'];
-						$awd['source']		= $detail['source'];
-						$awd['start']		= $detail['start'];
-						$awd['end']			= $detail['end'];
-					}
-
-					$accoms[] = $awd;
-				}
+				$table = 'accom_awdtbl';
+				$name_ID = 'award_ID';
 				break;
-
-			// Research Grants/Fellowships Received
+			
 			case 'rch':
-				foreach ($accom_specIDs as $research_ID) {
-					$result = DB::select()
-						->from('accom_rchtbl')
-						->where('research_ID', '=', $research_ID)
-						->execute()
-						->as_array();
-
-					$rch = array();
-					foreach ($result as $detail)
-					{
-						$rch['research_ID']		= $detail['research_ID'];
-						$rch['title']			= $detail['title'];
-						$rch['nature']			= $detail['nature'];
-						$rch['fund_up']			= $detail['fund_up'];
-						$rch['fund_external']	= $detail['fund_external'];
-						$rch['fund_amount']		= $detail['fund_amount'];
-						$rch['start']			= $detail['start'];
-						$rch['end']				= $detail['end'];
-					}
-
-					$accoms[] = $rch;
-				}
+				$table = 'accom_rchtbl';
+				$name_ID = 'research_ID';
 				break;
-
-			// Oral Paper/Poster Presentation
+			
 			case 'ppr':
-				foreach ($accom_specIDs as $paper_ID) {
-					$result = DB::select()
-						->from('accom_pprtbl')
-						->where('paper_ID', '=', $paper_ID)
-						->execute()
-						->as_array();
-
-					$ppr = array();
-					foreach ($result as $detail)
-					{
-						$ppr['paper_ID']	= $detail['paper_ID'];
-						$ppr['title']		= $detail['title'];
-						$ppr['activity']	= $detail['activity'];
-						$ppr['venue']		= $detail['venue'];
-						$ppr['start']		= $detail['start'];
-						$ppr['end']			= $detail['end'];
-					}
-
-					$accoms[] = $ppr;
-				}
+				$table = 'accom_pprtbl';
+				$name_ID = 'paper_ID';
 				break;
-
-			// Presentation of Creative Work Output
+			
 			case 'ctv':
-				foreach ($accom_specIDs as $creative_ID) {
-					$result = DB::select()
-						->from('accom_ctvtbl')
-						->where('creative_ID', '=', $creative_ID)
-						->execute()
-						->as_array();
-
-					$ctv = array();
-					foreach ($result as $detail)
-					{
-						$ctv['creative_ID']	= $detail['creative_ID'];
-						$ctv['title']		= $detail['title'];
-						$ctv['venue']		= $detail['venue'];
-						$ctv['start']		= $detail['start'];
-						$ctv['end']			= $detail['end'];
-					}
-
-					$accoms[] = $ctv;
-				}
+				$table = 'accom_ctvtbl';
+				$name_ID = 'creative_ID';
 				break;
-
-			// Participation in Seminars/Conferences/Workshops/Training Courses/Fora
+			
 			case 'par':
-				foreach ($accom_specIDs as $participation_ID) {
-					$result = DB::select()
-						->from('accom_partbl')
-						->where('participation_ID', '=', $participation_ID)
-						->execute()
-						->as_array();
-
-					$par = array();
-					foreach ($result as $detail)
-					{
-						$par['participation_ID']	= $detail['participation_ID'];
-						$par['participation']		= $detail['participation'];
-						$par['title']				= $detail['title'];
-						$par['venue']				= $detail['venue'];
-						$par['start']				= $detail['start'];
-						$par['end']					= $detail['end'];
-					}
-
-					$accoms[] = $par;
-				}
+				$table = 'accom_partbl';
+				$name_ID = 'participation_ID';
 				break;
-
-			// Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals
+			
 			case 'mat':
-				foreach ($accom_specIDs as $material_ID) {
-					$result = DB::select()
-						->from('accom_mattbl')
-						->where('material_ID', '=', $material_ID)
-						->execute()
-						->as_array();
-
-					$mat = array();
-					foreach ($result as $column => $value)
-					{
-						$mat['material_ID']	= $detail['material_ID'];
-						$mat['year']		= $detail['year'];
-						$mat['title']		= $detail['title'];
-					}
-
-					$accoms[] = $mat;
-				}
+				$table = 'accom_mattbl';
+				$name_ID = 'material_ID';
 				break;
-
-			// Other Accomplishments
+			
 			case 'oth':
-				foreach ($accom_specIDs as $other_ID) {
-					$result = DB::select()
-						->from('accom_othtbl')
-						->where('other_ID', '=', $other_ID)
-						->execute()
-						->as_array();
-
-					$oth = array();
-					foreach ($result as $detail)
-					{
-						$oth['other_ID']		= $detail['other_ID'];
-						$oth['participation']	= $detail['participation'];
-						$oth['activity']		= $detail['activity'];
-						$oth['venue']			= $detail['venue'];
-						$oth['start']			= $detail['start'];
-						$oth['end']				= $detail['end'];
-					}
-
-					$accoms[] = $oth;
-				}
+				$table = 'accom_othtbl';
+				$name_ID = 'other_ID';
 				break;
+		}
+
+		foreach ($accom_specs as $accom_spec) {
+			$result = DB::select()
+				->from($table)
+				->where($name_ID, '=', $accom_spec['accom_specID'])
+				->execute()
+				->as_array();
+
+			$details = array();
+			foreach ($result as $detail)
+			{
+				foreach ($detail as $column => $value)
+				{
+					$details[$column]	= $value;
+				}
+			}
+
+			$details['attachment'] = $accom_spec['attachment'];
+			$accoms[] = $details;
 		}
 
 		return $accoms;

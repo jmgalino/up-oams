@@ -12,12 +12,16 @@ if ($session->get('accom_mat'))
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';	
 		echo $mat['year'], '. ';
 		echo $mat['title'], '.';
+		echo '&nbsp;&nbsp;';
+
+		if ($mat['attachment'])
+		echo '<span class="glyphicon glyphicon-paperclip"></span>';
+	
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		echo '<a class="btn btn-default" id="setAccom" data-toggle="modal" data-target="#modal_material" role="button" href='.URL::site('faculty/accom/set/mat/'.$mat['material_ID']).'>
-			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		echo '<a class="btn btn-default" id="deleteAccom" href='.URL::site('faculty/accom/remove/mat/'.$mat['material_ID']).'>
-			<span class="glyphicon glyphicon-remove-circle"></span></a>';
+		echo '<a class="show-hover" href="'.URL::site('faculty/accom/edit/mat/'.$mat['material_ID']).'"><span class="glyphicon glyphicon-edit"></span> Edit</a>', '  ';
+		// echo '<a class="btn btn-default show hover" id="deleteAccom" href='.URL::site('faculty/accom/remove/mat/'.$mat['material_ID']).'>
+		// 	<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '<br>';
 	}
 }

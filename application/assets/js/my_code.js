@@ -1,8 +1,6 @@
 $(document).ready(function()
 {
-	// Initialise DataTable
-	// var table = $('#user_table').DataTable();
-	// new $.fn.dataTable.FixedHeader(table);
+	/* DATATABLE -- Initialize user table */
 	$('#user_table').DataTable({
         "order": [[ 0, "asc" ]],
         "columnDefs": [{
@@ -11,6 +9,7 @@ $(document).ready(function()
         	"targets": "action"
         }]
     });
+	/* DATATABLE -- Initialize message table */
 	$('#message_table').DataTable({
         "order": [[ 2, "asc" ]],
         "dom": 'ftipr',
@@ -20,6 +19,7 @@ $(document).ready(function()
         }]
     });
 
+	/* DATATABLE -- Initialize faculty accom table */
 	$('#accom_table').DataTable({
         "order": [[ 0, "desc" ]],
          "columns": [
@@ -30,7 +30,9 @@ $(document).ready(function()
 		    { "searchable": false, "orderable": false }
 		]
     });
-    var accom_group_table = $('#accom_group_table').DataTable({
+    
+    /* DATATABLE -- Initialize group accom table */
+	var accom_group_table = $('#accom_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
 		    { "visible": false },
@@ -71,6 +73,7 @@ $(document).ready(function()
 		}
     });
 
+    /* DATATABLE -- Initialize faculty ipcr table */
     $('#ipcr_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -81,7 +84,9 @@ $(document).ready(function()
 		    { "searchable": false, "orderable": false }
 		]
     });
-    var ipcr_group_table = $('#ipcr_group_table').DataTable({
+    
+    /* DATATABLE -- Initialize group ipcr table */
+	var ipcr_group_table = $('#ipcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
 		    { "visible": false },
@@ -123,6 +128,7 @@ $(document).ready(function()
 		}
     });
 
+    /* DATATABLE -- Initialize faculty opcr table */
     $('#opcr_table').DataTable({
         "order": [[ 0, "asc" ]],
         "columns": [
@@ -240,6 +246,14 @@ $(document).ready(function()
 	$('.button-tip').tooltip();
 	$("#photo").fileinput({
 		previewFileType: "image",
+		browseClass: "btn btn-primary",
+		browseLabel: " Browse",
+		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
+		showRemove: false,
+		showUpload: false,
+	});
+	$("#attachment").fileinput({
+		// previewFileType: "file",
 		browseClass: "btn btn-primary",
 		browseLabel: " Browse",
 		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
@@ -402,8 +416,47 @@ $(document).ready(function()
 	    }
     });
 
+    // var last_ID = $("#category").val();//attr('name')
+    var max = 5;
+    var attachment = 0;
+	$('#addAttachment').click(function(e)  //on add input button click
+	{
+		var remaining = max-attachment;
+
+		if (remaining >= 1)
+		{
+			$('#attachmentWrapper').append(
+				'<div>' +
+				'<input type="file" id="attachment" name="attachment_1" style="display:inline">' +
+				'<a href="#" class="btn removeAttachment" role="button"><span class="glyphicon glyphicon-remove "></span></a>' +
+				'</div>');
+			attachment--;
+			var remaining = max-attachment;
+			
+			if (remaining == 1)
+				$("#attachmentCounter").html('You can still add <strong>1</strong> attachment.');
+			else if (remaining != 0)
+				$("#attachmentCounter").html('You can still add <strong>' +  remaining + '</strong> attachments.');
+		}
+		else
+		{
+			$("#attachmentCounter").html('You have already have <strong>5</strong> attachments.')
+		}
+
+		if (attachment == 4)
+			$('#break').html('<br>');
+		
+	});
+
+	$("body").on("click", ".removeAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		attachment++;
+		$("#attachmentCounter").html('You can still add <strong>' +  remaining + '</strong> attachments.');
+	});
+
 	// var last_ID = $("#category").val();//attr('name')
-	$('#addCategory').click(function(e)  //on add input button click
+	$('#addCategory').click(function()  //on add input button click
 	{
 		var last_ID = $("input[id='category']:last-child").val();//attr('name')
 		alert('Coming soon!');
@@ -418,7 +471,7 @@ $(document).ready(function()
 		// 	'</div>');
 	});
 
-	$("body").on("click", ".removeCategory", function(e) //user click on remove text
+	$("body").on("click", ".removeCategory", function() //user click on remove text
 	{
 		$(this).parent().parent().parent().remove(); //remove input field
 	});

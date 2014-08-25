@@ -12,42 +12,45 @@
   color: #ffffff;
 }
 
-/* NAVBAR -- add hover background color */
-.navbar-default .navbar-nav li:hover {
+/* NAVBAR -- add hover background color, change active backgroud color */
+.navbar-default .navbar-nav li:hover,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
   background-color: #003619;
 }
 
-/* NAVBAR -- change toggle (collapse button) color from gray to white */
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #fff;
-}
-
-/* NAVBAR -- remove toggle border color */
-.navbar-default .navbar-toggle {
-  border-color: #014421;
-}
-
-/* NAVBAR -- change toggle hover color */
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-  background-color: #001c0d;
-  border-color: #000000;
-}
-
-/* NAVBAR -- change background and hover background color for dropdown at collapse */
+/* NAVBAR DROPDOWN -- change background and hover background color for dropdown at collapse */
 .navbar-nav .open .dropdown-menu {
   background-color: #014421;
 }
 
-/* NAVBAR -- change hover color from maroon to green */
+/* NAVBAR DROPDOWN -- change hover color from maroon to green */
 .navbar-nav .open .dropdown-menu > li > a:hover,
 .navbar-nav .open .dropdown-menu > li > a:focus {
   background-color: #003619;
 }
 
-/* NAVBAR -- change divider hover color from green to #e5e to remove flickering look */
+/* NAVBAR DROPDOWN -- change divider hover color from green to #e5e to remove flickering look */
 .navbar-nav .open .dropdown-menu .divider:hover {
   background-color: #e5e5e5;
+}
+
+/* NAVBAR TOGGLE -- change color from gray to white */
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+
+/* NAVBAR TOGGLE -- remove border color */
+.navbar-default .navbar-toggle {
+  border-color: #014421;
+}
+
+/* NAVBAR TODGLE -- change hover color */
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #001c0d;
+  border-color: #000000;
 }
 
 /*
@@ -278,6 +281,17 @@ pre h4 {
 
 pre p {
   text-align: justify;
+}
+
+a.show-hover
+{
+  color: transparent;
+  border-color: transparent;
+}
+a.show-hover:hover
+{
+  text-decoration: none;
+  color: #7b1113;
 }
 
 pre .category {

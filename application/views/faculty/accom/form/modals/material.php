@@ -32,6 +32,16 @@
             <input type="text" class="form-control" id="title" name="title" value="<?php echo $session->get('spec_details')['title']; ?>" required>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
+          <div class="col-sm-8">
+            <div id="attachmentWrapper"></div>
+            <span class="help-block" id="attachmentCounter"></span>
+            <div id="break"></div>
+            <button type="button" class="btn btn-primary" id="addAttachment">Add attachment</button>
+          </div>
+        </div>
       </div>
     
       <div class="modal-footer">
