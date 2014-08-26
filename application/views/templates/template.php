@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/bootstrap.min.css" rel="stylesheet"> <!-- //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css -->
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/bootstrap-datatables.css" rel="stylesheet"> <!-- //cdn.datatables.net/1.10.2/css/jquery.dataTables.css -->
@@ -39,6 +41,7 @@
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery.min.js"></script> <!-- //code.jquery.com/jquery-1.11.1.min.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-datatables.min.js"></script> <!-- //cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-jeditable.min.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-number.min.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap.min.js"></script> <!-- //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datatables.js"></script> <!-- //cdn.datatables.net/1.10.2/js/jquery.dataTables.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datepicker.js"></script>

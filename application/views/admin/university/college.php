@@ -9,7 +9,7 @@
 <br>
 
 <?php
-  print form::open('admin/university/edit/college', array('class'=>'form-horizontal', 'role'=>'form'));
+  print Form::open('admin/university/edit/college', array('class'=>'form-horizontal', 'role'=>'form'));
   
   foreach ($colleges as $college)
   {
@@ -21,6 +21,6 @@
   }
 
   echo '<br>';
-  print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save'));
-  print form::close();
+  print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save'));
+  print Form::close();
 ?>

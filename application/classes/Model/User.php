@@ -173,6 +173,16 @@ class Model_User extends Model {
  	}
 
  	/**
+	 * Check if password match
+	 */
+	public function check_password($password)
+ 	{
+ 		// $session = Session::instance();
+ 		$employee_code = Session::instance()->get('employee_code');
+ 		return $this->check_user($employee_code, $password);
+ 	}
+
+ 	/**
 	 * Update user login details
 	 */
 	public function change_password($employee_code, $password)

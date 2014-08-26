@@ -375,8 +375,11 @@ pre .template-output {
   border-color: #2f0607;
 }
 
+a.glyphicon-paperclip
+{
+  color: inherit;
+}
 a.glyphicon-paperclip:hover
 {
   text-decoration: none;
 }
-

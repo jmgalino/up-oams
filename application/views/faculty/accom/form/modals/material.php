@@ -9,7 +9,7 @@
 
       <?php
       $url = ($session->get('spec_details') ? 'faculty/accom/edit/mat/'.$session->get('spec_details')['material_ID'] : 'faculty/accom/add/mat');
-      print form::open($url, array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));
+      print Form::open($url, array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));
       ?>
       <div class="modal-body">
         <div class="form-group">
@@ -48,7 +48,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php
         $button = ($session->get('spec_details') ? 'Save' : 'Add');
-        print form::submit(NULL, $button, array('type'=>'submit', 'class'=>'btn btn-primary'));
+        print Form::submit(NULL, $button, array('type'=>'submit', 'class'=>'btn btn-primary'));
         ?>
       </div>
       

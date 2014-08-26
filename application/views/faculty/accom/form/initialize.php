@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">New Accomplishment Report</h4>
       </div>
 
-      <?php print form::open('faculty/accom/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/accom/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <?php if (count($accom_reports) > 1): ?>
         <div class="form-group">
@@ -47,9 +47,9 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(NULL, 'Generate', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Generate', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
-      <?php print form::close();?>
+      <?php print Form::close();?>
     </div>
   </div>
 </div>

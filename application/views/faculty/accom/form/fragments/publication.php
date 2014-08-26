@@ -7,7 +7,7 @@ if ($session->get('accom_pub'))
 
 	foreach ($accom_pub as $pub)
 	{
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
@@ -22,7 +22,7 @@ if ($session->get('accom_pub'))
 			: $pub['book_publisher'].'. '.$pub['book_place'].'. ');
 		
 		echo $pub['page'], '.';
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '&nbsp;&nbsp;&nbsp;';
 		
 		// if ($pub['user_ID'] == $session->get('user_ID'))
 		// {
@@ -32,7 +32,7 @@ if ($session->get('accom_pub'))
 		
 		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/pub/'.$pub['publication_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		echo '<br>';
+		echo '</p>';
 	}
 }
 ?>

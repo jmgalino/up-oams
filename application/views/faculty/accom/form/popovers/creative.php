@@ -7,7 +7,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Presentation of Creative Work Output</h4>
       </div>
-      <?php print form::open('faculty/accom/add/ctv', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/accom/add/ctv', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="author" class="col-sm-4 control-label">Author</label>

@@ -191,6 +191,7 @@ class Controller_User extends Controller {
 		$this->session->delete('accom_par');
 		$this->session->delete('accom_mat');
 		$this->session->delete('accom_oth');
+		$this->session->delete('attachment');
 		$this->session->delete('accom_details');
 		$this->session->delete('ipcr_details');
 		$this->session->delete('department');
@@ -205,11 +206,13 @@ class Controller_User extends Controller {
 	{
 		$user = new Model_User;
 
-		$employee_code = $this->session->get('employee_code');
-		$current = $user->check_user($employee_code, $details['current_password']);
-
-		if ($current)
+		$validation = Validation::factory($details)
+            ->rule('current_password', array($user, 'check_password'))
+            ->rule('confirm_password',  'matches', array(':validation', ':field', 'new_password'));
+ 
+        if ($validation->check())
 		{
+			$employee_code = $this->session->get('employee_code');
 			$change_success = $user->change_password($employee_code, $details['new_password']);
 			$this->session->set('success', $change_success);
 		}

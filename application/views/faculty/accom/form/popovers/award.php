@@ -6,7 +6,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Award/Grant Received</h4>
       </div>
-      <?php print form::open('faculty/accom/add/awd', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/accom/add/awd', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="name" class="col-sm-5 control-label">Name</label>
@@ -54,9 +54,9 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
-      <?php print form::close();?>
+      <?php print Form::close();?>
     </div>
   </div>
 </div>

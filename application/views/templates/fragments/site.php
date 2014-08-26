@@ -16,7 +16,7 @@
 				<li><a href=<?php echo URL::site('site/about'); ?>>About</a></li>
 				<li><a href=<?php echo URL::site('site/contact'); ?>>Contact</a></li>
 			</ul>
-			<?php print form::open('login', array('class'=>'navbar-form navbar-right', 'role'=>'form'));?>
+			<?php print Form::open('login', array('class'=>'navbar-form navbar-right', 'role'=>'form'));?>
 			<div class="form-group">
 				<input type="text" class="form-control" name="employee_code" placeholder="Employee Code">
 			</div>
@@ -24,9 +24,9 @@
 				<input type="password" class="form-control" name="password" placeholder="Password">
 			</div>
 			<div class="form-group">
-				<?php print form::submit(NULL, 'Sign in', array('type'=>'submit', 'class'=>'btn btn-success')); ?>
+				<?php print Form::submit(NULL, 'Sign in', array('type'=>'submit', 'class'=>'btn btn-success')); ?>
 			</div>
-			<?php print form::close();?>
+			<?php print Form::close();?>
 		</div>
 	</div>
 </nav>

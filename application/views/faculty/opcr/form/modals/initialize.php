@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">New Office Performance Commitment and Review Form</h4>
       </div>
 
-      <?php print form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <?php if ($opcr_forms): ?>
         <div class="form-group">
@@ -52,9 +52,9 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(NULL, 'Generate', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Generate', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
-      <?php print form::close();?>
+      <?php print Form::close();?>
     </div>
   </div>
 </div>

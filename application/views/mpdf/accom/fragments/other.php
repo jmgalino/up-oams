@@ -7,7 +7,7 @@ if ($session->get('accom_oth'))
 	
 	foreach ($accom_oth as $oth)
 	{
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $oth['participation'], '. ';
@@ -15,7 +15,7 @@ if ($session->get('accom_oth'))
 		echo $oth['venue'], '. ';
 		echo date_format(date_create($oth['start']), 'd F Y'), ' to ';
 		echo date_format(date_create($oth['end']), 'd F Y');
-		echo '<br>';
+		echo '</p>';
 	}
 }
 ?>

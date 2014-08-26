@@ -7,11 +7,11 @@ if ($session->get('accom_awd'))
 	
 	foreach ($accom_awd as $awd)
 	{
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $awd['award'], '. ';
-		echo $awd['source'], '.';
+		echo $awd['source'], '. ';
 		echo date_format(date_create($awd['start']), 'F d, Y'), ' to ';
 		echo date_format(date_create($awd['end']), 'F d, Y');
 		echo '&nbsp;&nbsp;';
@@ -20,23 +20,19 @@ if ($session->get('accom_awd'))
 		{
 			$attachment = explode(' ', $awd['attachment']);
 			
-			for ($i = 1; $i <= count($attachment); $i++)
+			for ($i = 0; $i < count($attachment); $i++)
 			{
-				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i-1].'" target="_blank"><sup style="padding-left:1px;">', $i, '</sup></a> ';	
+				$session->set('attachment', $session->get_once('attachment')+1);
+				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i].'" target="_blank">',
+					'<sup style="padding-left:1px;">', $session->get('attachment'), '</sup></a> ';	
 			}
 		}
 
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		
-		// if ($awd['user_ID'] == $session->get('user_ID'))
-		// {
-		// 	echo '<a data-toggle="modal" data-target="#modal_award" role="button" href="">',
-		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		// }
+		echo '&nbsp;&nbsp;&nbsp;';
 		
 		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/awd/'.$awd['award_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		echo '<br>';
+		echo '</p>';
 	}
 }
 ?>

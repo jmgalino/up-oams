@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>        
         <h4 class="modal-title" id="myModalLabel">Journal Publication/Book/Chapter in a Book</h4>
       </div>
-      <?php print form::open('user/add/'.$user->user_ID.'/pub', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('user/add/'.$user->user_ID.'/pub', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="radio">
           <input type="radio" name="pub" value="book" checked>
@@ -28,9 +28,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
+        <?php print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
       </div>
-      <?php print form::close();?>
+      <?php print Form::close();?>
     </div>
   </div>
 </div>

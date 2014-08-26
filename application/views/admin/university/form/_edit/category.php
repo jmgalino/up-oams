@@ -7,7 +7,7 @@
 <h3>IPCR/OPCR Output Categories</h3>
 <br>
 
-<?php print form::open('univ/save/category/'.$category[0]->category_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
+<?php print Form::open('univ/save/category/'.$category[0]->category_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
 <div class="form-group">
 	<label for="category" class="col-sm-3 control-label">Category</label>
 	<div class="col-sm-5">
@@ -16,7 +16,7 @@
 </div>
 <div class="form-group">
 	<div class="col-sm-5 col-sm-offset-3">
-		<?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save')); ?>
+		<?php print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save')); ?>
 	</div>
 </div>
-<?php print form::close();?>
+<?php print Form::close();?>

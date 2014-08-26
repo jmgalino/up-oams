@@ -7,7 +7,7 @@ if ($session->get('accom_par'))
 	
 	foreach ($accom_par as $par)
 	{
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $par['participation'], '. ';
@@ -15,7 +15,7 @@ if ($session->get('accom_par'))
 		echo $par['venue'], '. ';
 		echo date_format(date_create($par['start']), 'F d, Y'), ' to ';
 		echo date_format(date_create($par['end']), 'F d, Y');
-		echo '<br>';
+		echo '</p>';
 	}
 }
 ?>

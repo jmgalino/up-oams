@@ -6,7 +6,7 @@
   <li class="active">Evaluate Target</li>
 </ol>
 
-<?php print form::open('opcr/save_evaluation/'.$opcr_ID.'/'.$itarget_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
+<?php print Form::open('opcr/save_evaluation/'.$opcr_ID.'/'.$itarget_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
 <div class="form-group">
   <label for="output" class="col-sm-2 control-label">Output</label>
   <div class="col-sm-5">
@@ -99,8 +99,8 @@
 <?php endif; ?>
 <div class="form-group">
   <div class="col-sm-5 col-sm-offset-2">
-    <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save Evaluation')); ?>
+    <?php print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save Evaluation')); ?>
   </div>
 </div>
 
-<?php print form::close();?><!-- form -->
+<?php print Form::close();?><!-- form -->

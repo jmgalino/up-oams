@@ -6,7 +6,7 @@
         <h4 class="modal-title" id="myModalLabel">New Individual Performance Commitment and Review</h4>
       </div>
 
-      <?php print form::open('cuma/init', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('cuma/init', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="pfrom" class="col-sm-4 control-label">Period (From)</label>
@@ -29,9 +29,9 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Create')); ?>
+        <?php print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Create')); ?>
       </div>
-      <?php print form::close();?><!-- form -->
+      <?php print Form::close();?><!-- form -->
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+define("_MPDF_TEMP_PATH", DOCROOT.'files/tmp/');
 include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
 class Controller_Faculty_Mpdf extends Controller_User {

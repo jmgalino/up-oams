@@ -7,7 +7,7 @@ if ($session->get('accom_pub'))
 
 	foreach ($accom_pub as $pub)
 	{
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
@@ -22,7 +22,7 @@ if ($session->get('accom_pub'))
 			: $pub['book_publisher'].'. '.$pub['book_place'].'. ');
 		
 		echo $pub['page'], '.';
-		echo '<br>';
+		echo '</p>';
 	}
 }
 ?>

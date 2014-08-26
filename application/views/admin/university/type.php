@@ -9,7 +9,7 @@
 <br>
 
 <?php
-  // print form::open('admin/university/update/type', array('class'=>'form-horizontal', 'role'=>'form'));
+  // print Form::open('admin/university/update/type', array('class'=>'form-horizontal', 'role'=>'form'));
   
   // foreach ($types as $type)
   // {
@@ -24,6 +24,6 @@
   // }
 
   // echo '<br>';
-  // print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save'));
-  // print form::close();
+  // print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Save'));
+  // print Form::close();
 ?>

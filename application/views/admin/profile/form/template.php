@@ -9,7 +9,7 @@
 
       <?php
       $url = ($user ? 'admin/profile/update/'.$user['employee_code'] : 'admin/profile/new');
-      print form::open($url, array('class'=>'form-horizontal', 'role'=>'form'));
+      print Form::open($url, array('class'=>'form-horizontal', 'role'=>'form'));
       ?>
       <div class="modal-body">
         <div class="radio">
@@ -36,10 +36,10 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php
         $button = ($user ? 'Save' : 'Add');
-        print form::submit(NULL, $button, array('type'=>'submit', 'class'=>'btn btn-primary'));
+        print Form::submit(NULL, $button, array('type'=>'submit', 'class'=>'btn btn-primary'));
         ?>
       </div>
-      <?php print form::close();?>
+      <?php print Form::close();?>
     </div>
   </div>
 </div>

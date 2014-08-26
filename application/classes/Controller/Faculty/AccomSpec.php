@@ -12,6 +12,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
 		$details = $this->request->post();
 		$type = $this->request->param('key');
+		$attachment = NULL;
 		
 		if (isset($_FILES['attachment']))
         {
@@ -37,6 +38,22 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 			
 			case 'rch':
 				$name_ID = 'research_ID';
+				if ($details['fund_amount'])
+				{
+					$tmp = str_replace(',', '', $details['fund_amount']);
+
+					if(is_numeric($tmp)) {
+					    $details['fund_amount'] = $tmp;
+					}
+				}
+				if ($details['fund_up'])
+				{
+					$tmp = str_replace(',', '', $details['fund_up']);
+
+					if(is_numeric($tmp)) {
+					    $details['fund_up'] = $tmp;
+					}
+				}
 				break;
 			
 			case 'ppr':

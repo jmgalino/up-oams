@@ -144,7 +144,7 @@ $(document).ready(function()
 	// type of user
 	$("input[name=user_type]").click(function()
 	{
-		var type = jQuery('input[name=user_type]:checked').val();
+		var type = jQuery('input[name=user_type]:checked').val(); // try $
 		if (type == "Admin")
 			$(".faculty-info").hide();
 		else
@@ -335,6 +335,43 @@ $(document).ready(function()
 		}
     });
 
+	$("#fund_amount").number( true, 2 );
+	$("#fund_up").number( true, 2 )
+    $('#fund_external').keyup(function()
+    {
+    	var external = $(this).val();
+    	
+    	if (external)
+    	{
+    		$("#fund_amount").attr("required", "");
+    		$("#fund_amount").removeAttr("placeholder");
+    		$("#fund_up").removeAttr("required");
+    	}
+    	else
+    	{
+    		$("#fund_amount").attr("placeholder", "(Optional)");
+    		$("#fund_amount").removeAttr("required");
+    		$("#fund_up").attr("required", "");
+    	}
+    });
+    $('#fund_amount').keyup(function()
+    {
+    	var external = $(this).val();
+    	
+    	if (external)
+    	{
+    		$("#fund_external").attr("required", "");
+    		$("#fund_external").removeAttr("placeholder");
+    		$("#fund_up").removeAttr("required");
+    	}
+    	else
+    	{
+    		$("#fund_external").attr("placeholder", "(Optional)");
+    		$("#fund_external").removeAttr("required");
+    		$("#fund_up").attr("required", "");
+    	}
+    });
+
 	// Character counter for message
 	$('#message').keyup(function () {
 		var max = 255;
@@ -444,6 +481,7 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		matAttachments--;
+		return false;
 	});
 
 	var maxAwdAttachments = 5;
@@ -469,6 +507,7 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		awdAttachments--;
+		return false;
 	});
 	
 	var maxCtvAttachments = 5;
@@ -494,6 +533,7 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		ctvAttachments--;
+		return false;
 	});
 	
 	var maxOthAttachments = 5;
@@ -519,6 +559,7 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		othAttachments--;
+		return false;
 	});
 	
 	var maxPprAttachments = 5;
@@ -544,6 +585,7 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		pprAttachments--;
+		return false;
 	});
 	
 	var maxParAttachments = 5;
@@ -569,6 +611,7 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		parAttachments--;
+		return false;
 	});
 	
 	var maxRchAttachments = 5;
@@ -594,8 +637,8 @@ $(document).ready(function()
 	{
 		$(this).parent().remove(); //remove input field
 		rchAttachments--;
+		return false;
 	});
-
 
 	var birthdate = document.getElementById("birthday");
 	if (!birthdate)

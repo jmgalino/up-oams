@@ -7,30 +7,32 @@ if ($session->get('accom_mat'))
 	
 	foreach ($accom_mat as $mat)
 	{
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '<p style="padding-left:20px;">';
 		echo '-';
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';	
+		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $mat['year'], '. ';
-		echo $mat['title'], '.';
+		echo $mat['title'], '. ';
 		echo '&nbsp;&nbsp;';
 
 		if ($mat['attachment'])
 		{
 			$attachment = explode(' ', $mat['attachment']);
 			
-			for ($i = 1; $i <= count($attachment); $i++)
+			for ($i = 0; $i < count($attachment); $i++)
 			{
-				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i-1].'" target="_blank"><sup style="padding-left:1px;">', $i, '</sup></a> ';	
+				$session->set('attachment', $session->get_once('attachment')+1);
+				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i].'" target="_blank">',
+					'<sup style="padding-left:1px;">', $session->get('attachment'), '</sup></a> ';	
 			}
 		}
 		
-		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		echo '&nbsp;&nbsp;&nbsp;';
 
 		echo '<a class="btn btn-default" id="setAccom" data-toggle="modal" data-target="#modal_material" role="button" href='.URL::site('faculty/accom/set/mat/'.$mat['material_ID']).'>
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" href='.URL::site('faculty/accom/remove/mat/'.$mat['material_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
-		echo '<br>';
+		echo '</p>';
 	}
 }
 ?>

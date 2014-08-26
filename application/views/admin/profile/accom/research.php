@@ -7,7 +7,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Research Grant/Fellowship Received</h4>
       </div>
-      <?php print form::open('user/add/'.$user->user_ID.'/rch', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('user/add/'.$user->user_ID.'/rch', array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="name" class="col-sm-4 control-label">Name</label>
@@ -64,9 +64,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
+        <?php print Form::submit(array('type'=>'submit', 'class'=>'btn btn-primary', 'value'=>'Add')); ?>
       </div>
-      <?php print form::close();?><!-- form -->      
+      <?php print Form::close();?><!-- form -->      
     </div>
   </div>
 </div>

@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">Evaluate Report</h4>
       </div>
 
-      <?php print form::open($evaluate_url, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open($evaluate_url, array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="status" class="col-sm-3 control-label">Evaluation</label>
@@ -28,10 +28,10 @@
       </div>
 
       <div class="modal-footer">
-        <?php print form::submit(NULL, 'Confirm', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Confirm', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
 
-      <?php print form::close();?>
+      <?php print Form::close();?>
     </div>
   </div>
 </div>

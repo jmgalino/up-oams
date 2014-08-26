@@ -23,6 +23,25 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
+	 * Faculty's Accomplishments
+	 */
+	public function action_all()
+	{
+		$accom = new Model_Accom;
+
+		$this->action_delete_session();
+		$submit = $this->session->get_once('submit');
+		$delete = $this->session->get_once('delete');
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
+
+		$this->view->content = View::factory('faculty/accom/list/faculty')
+			->bind('submit', $submit)
+			->bind('delete', $delete)
+			->bind('accom_reports', $accom_reports);
+		$this->response->body($this->view->render());
+	}
+
+	/**
 	 * New Accomplishment Report
 	 */
 	public function action_new()

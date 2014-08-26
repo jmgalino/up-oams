@@ -28,6 +28,7 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				echo '<h2>', $session->get('fullname'), '</h2>';
 				echo '<h3>', $session->get('rank'), '</h3>';
 				echo '<br>';
+				$session->set('attachment', 0);
 
 				echo View::factory('faculty/accom/form/fragments/publication')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/award')->bind('session', $session);
@@ -60,6 +61,9 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				<a href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>
 				<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Submit'); ?>
 				</a>
+				<?php if ($session->get('attachment') != 0)
+					echo '<span class="help-block" style="padding: 10px 15px;">Tip: Click on the paper clips to view attachments.</span>';
+				?>
 			</li>
 			<?php endif; ?>
 		</ul>
