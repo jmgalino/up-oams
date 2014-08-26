@@ -33,11 +33,14 @@ class Controller_Uploader extends Controller {
 
             $update_success = $user->update_details($employee_code, array('pic' => $filename));
             $session->set('upload', $update_success);
-            $this->redirect('admin/profile/view/'.$employee_code);
+            $this->redirect('admin/profile/view/'.$employee_code, 303);
         }
         
     }
  
+    /**
+     * Save photo in local disk
+     */
     private function save_image($image)
     {
         if (

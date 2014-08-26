@@ -8,7 +8,7 @@
         <h4 class="modal-title" id="myModalLabel">Oral Paper/Poster Presentation</h4>
       </div>
 
-      <?php print form::open('faculty/accom/add/ppr', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/accom/add/ppr', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="author" class="col-sm-3 control-label">Author</label>
@@ -52,7 +52,16 @@
               <input type="text" class="form-control" name="end" required>
             </div>
           </div>
-        </div>   
+        </div>
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
+          <div class="col-sm-8">
+            <div id="pprAttachmentWrapper"></div>
+            <span class="help-block">You can add up to 5 attachments.</span>
+            <button type="button" class="btn btn-default" id="addPprAttachment">Add attachment</button>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">

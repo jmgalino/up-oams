@@ -8,8 +8,8 @@
         <h4 class="modal-title" id="myModalLabel">Participation in Seminars/Conferences/Workshops/Training Courses/Fora</h4>
       </div>
 
-      <?php print form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'role'=>'form')); ?>
-        <div class="modal-body">
+      <?php print form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
+      <div class="modal-body">
         <div class="form-group">
           <label for="name" class="col-sm-3 control-label">Name of Faculty</label>
           <div class="col-sm-8">
@@ -39,16 +39,25 @@
           </div>
         </div>
 
-      <div class="form-group">
-        <label for="dates" class="col-sm-3 control-label">Inclusive dates</label>
-        <div class="col-sm-8" id="datepicker">
-          <div class="input-daterange input-group" id="dates">
-            <input type="text" class="form-control" name="start" required>
-            <span class="input-group-addon">-</span>
-            <input type="text" class="form-control" name="end" required>
+        <div class="form-group">
+          <label for="dates" class="col-sm-3 control-label">Inclusive dates</label>
+          <div class="col-sm-8" id="datepicker">
+            <div class="input-daterange input-group" id="dates">
+              <input type="text" class="form-control" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="end" required>
+            </div>
           </div>
         </div>
-      </div>    
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
+          <div class="col-sm-8">
+            <div id="parAttachmentWrapper"></div>
+            <span class="help-block">You can add up to 5 attachments.</span>
+            <button type="button" class="btn btn-default" id="addParAttachment">Add attachment</button>
+          </div>
+        </div> 
       </div>
 
       <div class="modal-footer">

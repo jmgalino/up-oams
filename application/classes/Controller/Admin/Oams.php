@@ -53,7 +53,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	{
 		$update_success = $this->oams->update_titles($this->request->post());
 		$this->session->set('success', $update_success);
-		$this->redirect('admin/oams');
+		$this->redirect('admin/oams', 303);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	{
 		$update_success = $this->oams->update_about($this->request->post('about'));
 		$this->session->set('success', $update_success);
-		$this->redirect('admin/oams');
+		$this->redirect('admin/oams', 303);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	private function action_update_categories()
 	{
 		print_r($this->request->post());
-		$this->redirect('admin/oams');
+		$this->redirect('admin/oams', 303);
 	}
 
 } // End Oams

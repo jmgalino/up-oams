@@ -15,6 +15,18 @@ if ($session->get('accom_ppr'))
 		echo $ppr['venue'], '. ';
 		echo date_format(date_create($ppr['start']), 'F d, Y'), ' to ';
 		echo date_format(date_create($ppr['end']), 'F d, Y');
+		echo '&nbsp;&nbsp;';
+		
+		if ($ppr['attachment'])
+		{
+			$attachment = explode(' ', $ppr['attachment']);
+			
+			for ($i = 1; $i <= count($attachment); $i++)
+			{
+				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i-1].'" target="_blank"><sup style="padding-left:1px;">', $i, '</sup></a> ';	
+			}
+		}
+
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		
 		// if ($ppr['user_ID'] == $session->get('user_ID'))

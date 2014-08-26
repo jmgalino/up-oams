@@ -192,10 +192,10 @@ class Model_Accom extends Model {
 	/**
 	 * Add accomplishment
 	 */
-	public function add_accom($accom_ID, $details, $type, $name_ID)
+	public function add_accom($accom_ID, $name_ID, $type, $details, $attachment)
 	{
  		// Check -- unless live search & js submit to link
-		$accom_specID = $this->check_accom_exist($type, $name_ID, $details);
+		$accom_specID = $this->check_accom_exist($name_ID, $type, $details);
 
 		// New
 		if (!$accom_specID)
@@ -215,7 +215,7 @@ class Model_Accom extends Model {
 			$accom_specID = $insert_accom[0];
 		}	
 
-		$this->link_accom($accom_ID, $accom_specID, $type);
+		$this->link_accom($accom_ID, $accom_specID, $type, $attachment);
 	}
 
 	/**
@@ -274,7 +274,7 @@ class Model_Accom extends Model {
 	/**
 	 * Check if accomplishment exist
 	 */
-	public function check_accom_exist($type, $name_ID, $details)
+	public function check_accom_exist($name_ID, $type, $details)
 	{
 		$count = 0;
 
@@ -393,12 +393,13 @@ class Model_Accom extends Model {
 	/**
 	 * Link accomplishment to report
 	 */
-	private function link_accom($accom_ID, $accom_specID, $type)
+	private function link_accom($accom_ID, $accom_specID, $type, $attachment)
 	{
 		$check = DB::select()
 			->from('connect_accomtbl')
 			->where('accom_ID', '=', $accom_ID)
 			->where('accom_specID', '=', $accom_specID)
+			->where('type', '=', $type)
 			->execute()
 			->as_array();
 
@@ -407,8 +408,8 @@ class Model_Accom extends Model {
 		else
 		{
 			$insert_accom = DB::insert('connect_accomtbl')
-				->columns(array('accom_ID', 'accom_specID', 'type'))
-				->values(array($accom_ID, $accom_specID, $type))
+				->columns(array('accom_ID', 'accom_specID', 'type', 'attachment'))
+				->values(array($accom_ID, $accom_specID, $type, $attachment))
 				->execute();
 		}
 	}

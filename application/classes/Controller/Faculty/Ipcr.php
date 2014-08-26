@@ -56,7 +56,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		else // Error
 		{
 			$this->session->set('error', $insert_success);
-			$this->redirect('faculty/ipcr');
+			$this->redirect('faculty/ipcr', 303);
 		}
 	}
 
@@ -113,7 +113,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		
 		$delete_success = $ipcr->delete($ipcr_ID);
 		$this->session->set('delete', $delete_success);
-		$this->redirect('faculty/ipcr');
+		$this->redirect('faculty/ipcr', 303);
 	}
 
 	/**
@@ -212,7 +212,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		else
 			$this->session->set('error', 'Error: Invalid output.');
 		
-		$this->redirect('faculty/ipcr/update/'.$ipcr_ID);
+		$this->redirect('faculty/ipcr/update/'.$ipcr_ID, 303);
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
 		{	
 			$ipcr->delete_target($target_ID);
-			$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID']);
+			$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID'], 303);
 		}	
 	}
 

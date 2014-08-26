@@ -14,6 +14,18 @@ if ($session->get('accom_awd'))
 		echo $awd['source'], '.';
 		echo date_format(date_create($awd['start']), 'F d, Y'), ' to ';
 		echo date_format(date_create($awd['end']), 'F d, Y');
+		echo '&nbsp;&nbsp;';
+		
+		if ($awd['attachment'])
+		{
+			$attachment = explode(' ', $awd['attachment']);
+			
+			for ($i = 1; $i <= count($attachment); $i++)
+			{
+				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i-1].'" target="_blank"><sup style="padding-left:1px;">', $i, '</sup></a> ';	
+			}
+		}
+
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		
 		// if ($awd['user_ID'] == $session->get('user_ID'))

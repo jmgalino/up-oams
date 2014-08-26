@@ -83,9 +83,9 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$coll = strpos($referrer, 'accom_coll');
 
 		if ($coll) 
-			$this->redirect('faculty/accom_coll/view/'.$accom_ID);
+			$this->redirect('faculty/accom_coll/view/'.$accom_ID, 303);
 		else
-			$this->redirect('faculty/accom_dept/view/'.$accom_ID);
+			$this->redirect('faculty/accom_dept/view/'.$accom_ID, 303);
 	}
 
 	/**

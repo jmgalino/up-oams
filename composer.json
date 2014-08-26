@@ -1,6 +1,7 @@
 {
 	"require": {
 		"kartik-v/bootstrap-fileinput": "dev-master",
+		"kartik-v/bootstrap-popover-x": "dev-master",
 		"kartik-v/dependent-dropdown": "dev-master"
 	}
 }

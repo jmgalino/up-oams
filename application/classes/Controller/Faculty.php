@@ -10,7 +10,7 @@ class Controller_Faculty extends Controller_User {
 		if ($this->session->get('user_ID') !== $user_ID)
 		{
 			$this->session->set('error', 'Error 401: Unauthorized access.');
-			$this->redirect('faculty/error');
+			$this->redirect('faculty/error', 401);
 		}
 	}
 

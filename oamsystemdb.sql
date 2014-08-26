@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.5
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 22, 2014 at 07:13 PM
+-- Generation Time: Aug 26, 2014 at 08:09 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -70,14 +70,15 @@ CREATE TABLE IF NOT EXISTS `accom_awdtbl` (
   `start` date NOT NULL,
   `end` date NOT NULL,
   `user_ID` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `accom_awdtbl`
 --
 
 INSERT INTO `accom_awdtbl` (`award_ID`, `award`, `type`, `source`, `start`, `end`, `user_ID`) VALUES
-(3, 'asd', 'Academe', 'asd', '2014-08-05', '2014-08-05', 17);
+(3, 'asd', 'Academe', 'asd', '2014-08-05', '2014-08-05', 17),
+(4, 's', 'Academe', 's', '2014-07-17', '2014-07-31', 0);
 
 -- --------------------------------------------------------
 
@@ -113,19 +114,20 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
   `year` int(4) NOT NULL,
   `title` varchar(50) NOT NULL,
   `user_ID` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `accom_mattbl`
 --
 
 INSERT INTO `accom_mattbl` (`material_ID`, `year`, `title`, `user_ID`) VALUES
-(4, 1234, 'asd', 17),
 (5, 1234, 'a', 4),
 (6, 1234, 'asdd', 0),
 (8, 1234, 'p', 0),
 (9, 2122, 'Title', 0),
-(10, 2012, 'title', 0);
+(10, 2012, 'title', 0),
+(11, 1998, 'tite', 0),
+(12, 0, 'k', 0);
 
 -- --------------------------------------------------------
 
@@ -271,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
   `attachment` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -285,7 +287,6 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (19, 7, 2, 'ctv', NULL),
 (20, 7, 3, 'par', NULL),
 (22, 7, 3, 'oth', NULL),
-(23, 5, 4, 'mat', NULL),
 (30, 7, 8, 'mat', NULL),
 (31, 10, 5, 'mat', NULL),
 (32, 16, 3, 'ctv', NULL),
@@ -298,7 +299,10 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (42, 3, 5, 'pub', NULL),
 (43, 20, 6, 'pub', NULL),
 (44, 20, 7, 'pub', NULL),
-(45, 21, 10, 'mat', NULL);
+(45, 21, 10, 'mat', NULL),
+(46, 10, 11, 'mat', NULL),
+(47, 5, 12, 'mat', 'f8bvoliiuilhrklk6gxm.jpg tl2jix34xhtndfxiguqn.jpg'),
+(48, 5, 4, 'awd', '2r3e87wjod0uk3j5bde8.jpg');
 
 -- --------------------------------------------------------
 
@@ -426,17 +430,7 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
   `date` date NOT NULL,
   `seen` int(1) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `oams_messagetbl`
---
-
-INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `date`, `seen`, `deleted`) VALUES
-(1, 'Jenny', 'jmgalino@up.edu.ph', 's', 'm', '0000-00-00', 0, 0),
-(2, 'Jamaica', 'jmg@up.edu.ph', 's', 'message', '0000-00-00', 0, 0),
-(3, 'Karen T. Brickey', '123400004', 'Test', 'message', '0000-00-00', 0, 0),
-(4, 'Karen T. Brickey', '123400004', 'test2', 'message', '0000-00-00', 0, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -727,7 +721,7 @@ CREATE TABLE IF NOT EXISTS `user_logintbl` (
 --
 
 INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) VALUES
-(1, '000012345', '$2y$10$yvAleeO0N5N8ihZ89hCB1OWMMSTMmkgUfk4pDUUFHt3UYnBntsLLu', 0),
+(1, '000012345', '$2y$10$ulKxuSpkoORgumOjtA4aae/GvGNziNdksnodjrMb7Ka8tEsoJZU2.', 0),
 (2, '000112345', '$2y$10$hN0N3F9epEd0ptWjoBXh4eg8KEBsdufplLvRCECEUl88WIhkZs1yi', 0),
 (3, '000212345', '$2y$10$bLmvx7vkID.oXMFiiwoNVu12Y/eovcHirNIQT42em0Z9YWAHpoDx2', 0),
 (4, '123400000', '$2y$10$B7erv/a9j5OHPli8T7ESle7WpF9pm12NrgHXHJEijO/jfz7ZYf4ym', 0),
@@ -753,7 +747,8 @@ INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) 
 (24, '123400020', '$2y$10$IAIVW3Gg2F56aNIGbiiTN.mdO/EnI9iOnxnInF88KIrTFZZQ6EtYK', 0),
 (25, '123400021', '$2y$10$.IlTLUYiaGNMorpsL/jnAuhdvylfVl1c.T8k.kMvW.JZ5SffiLf.q', 0),
 (26, '123400023', '$2y$10$BqqpOcGzWTNiRj8q7w2oQOEuZPrnqYxIIHjmLi6mnDAYYYIH1JCWi', 0),
-(27, '123400024', '$2y$10$9Ib2RPOYUFzsH5Q/Q3O/uuwgvC02JGiFbKFkiiOUc45Q2TY.8AYRS', 0);
+(27, '123400024', '$2y$10$9Ib2RPOYUFzsH5Q/Q3O/uuwgvC02JGiFbKFkiiOUc45Q2TY.8AYRS', 0),
+(28, '023', '$2y$10$L14R.FcdYlvohdwJBLOd5.aWKZmNPZww5JlQ5Znw7l1aEaodEqeDm', 0);
 
 -- --------------------------------------------------------
 
@@ -776,7 +771,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `birthday` date NOT NULL,
   `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `user_profiletbl`
@@ -784,7 +779,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 
 INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle_initial`, `last_name`, `user_type`, `faculty_code`, `program_ID`, `department_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
 (1, '000012345', 'Jenny', 'M', 'Galino', 'Admin', NULL, NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
-(2, '000112345', 'Catherine', 'K', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'cd4hwhskhpnbbcyttnkd.jpg', 0),
+(2, '000112345', 'Catherine', 'K', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', '3onrilioto3r0fvwk615.jpg', 0),
 (3, '000212345', 'John', 'E', 'Parsons', 'Admin', NULL, NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),
 (4, '123400000', 'Kiyoko', 'B', 'Blanton', 'Faculty', 'KBBlanton', 2, 2, '-', 'dean', '1982-01-06', NULL, 0),
 (5, '123400001', 'Troy', 'E', 'Keller', 'Faculty', 'TEKeller', 5, 5, '-', 'dean', '1962-02-24', NULL, 0),
@@ -809,7 +804,8 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 (24, '123400020', 'Jeffrey', 'K', 'Barraza', 'Faculty', 'JKBarraza', 4, 4, '-', 'none', '1992-10-29', NULL, 0),
 (25, '123400021', 'Carole', 'C', 'Brown', 'Faculty', 'CCBrown', 4, 4, '-', 'none', '1966-08-12', NULL, 0),
 (26, '123400023', 'Ben', 'P', 'Banks', 'Faculty', 'BPBanks', 5, 5, '-', 'none', '1959-01-09', NULL, 0),
-(27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 5, 5, '-', 'none', '1986-12-25', NULL, 0);
+(27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 5, 5, '-', 'none', '1986-12-25', NULL, 0),
+(28, '123400121', 'J', 'j', 'j', 'Admin', NULL, NULL, NULL, NULL, NULL, '2014-08-24', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1040,7 @@ MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 -- AUTO_INCREMENT for table `accom_awdtbl`
 --
 ALTER TABLE `accom_awdtbl`
-MODIFY `award_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `award_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `accom_ctvtbl`
 --
@@ -1054,7 +1050,7 @@ MODIFY `creative_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
@@ -1084,7 +1080,7 @@ MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -1104,7 +1100,7 @@ MODIFY `target_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 -- AUTO_INCREMENT for table `oams_messagetbl`
 --
 ALTER TABLE `oams_messagetbl`
-MODIFY `message_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `message_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `opcrtbl`
 --
@@ -1154,7 +1150,7 @@ MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `user_pubtbl`
 --

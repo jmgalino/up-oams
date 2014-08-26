@@ -6,7 +6,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Award/Grant Received</h4>
       </div>
-      <?php print form::open('faculty/accom/add/awd', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/accom/add/awd', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="name" class="col-sm-5 control-label">Name</label>
@@ -50,7 +50,17 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-5 control-label">Attachment(s)</label>
+          <div class="col-sm-6">
+            <div id="awdAttachmentWrapper"></div>
+            <span class="help-block">You can add up to 5 attachments.</span>
+            <button type="button" class="btn btn-default" id="addAwdAttachment">Add attachment</button>
+          </div>
+        </div>
       </div>
+    
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

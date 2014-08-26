@@ -9,7 +9,7 @@
 
       <?php
       $url = ($session->get('spec_details') ? 'faculty/accom/edit/mat/'.$session->get('spec_details')['material_ID'] : 'faculty/accom/add/mat');
-      print form::open($url, array('class'=>'form-horizontal', 'role'=>'form'));
+      print form::open($url, array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));
       ?>
       <div class="modal-body">
         <div class="form-group">
@@ -36,16 +36,15 @@
         <div class="form-group">
           <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
           <div class="col-sm-8">
-            <div id="attachmentWrapper"></div>
-            <span class="help-block" id="attachmentCounter"></span>
-            <div id="break"></div>
-            <button type="button" class="btn btn-primary" id="addAttachment">Add attachment</button>
+            <div id="matAttachmentWrapper"></div>
+            <span class="help-block">You can add up to 5 attachments.</span>
+            <button type="button" class="btn btn-default" id="addMatAttachment">Add attachment</button>
           </div>
         </div>
       </div>
     
       <div class="modal-footer">
-        <?php if (!$session->get('spec_details')) echo '<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>'; ?>
+        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php
         $button = ($session->get('spec_details') ? 'Save' : 'Add');
@@ -53,7 +52,7 @@
         ?>
       </div>
       
-      <?php print form::close();?>
+      </form>
     </div>
   </div>
 </div>

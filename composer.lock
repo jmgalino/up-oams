@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bf9967ff30e71fdb7be82a51a345ada5",
+    "hash": "55c4634871b64674cd55b43742c4b43d",
     "packages": [
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -49,6 +49,50 @@
                 "upload"
             ],
             "time": "2014-08-20 21:11:52"
+        },
+        {
+            "name": "kartik-v/bootstrap-popover-x",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-popover-x.git",
+                "reference": "ccaef7a4af7aaa5d563aa4b0138da57d1d00d65b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/ccaef7a4af7aaa5d563aa4b0138da57d1d00d65b",
+                "reference": "ccaef7a4af7aaa5d563aa4b0138da57d1d00d65b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Bootstrap Popover Extended - Popover with modal behavior, styling enhancements and more.",
+            "homepage": "https://github.com/kartik-v/bootstrap-popover-x",
+            "keywords": [
+                "bootstrap",
+                "extended",
+                "jquery",
+                "modal",
+                "modal-popover",
+                "popover",
+                "popover-x"
+            ],
+            "time": "2014-08-01 20:37:57"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -102,6 +146,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/bootstrap-fileinput": 20,
+        "kartik-v/bootstrap-popover-x": 20,
         "kartik-v/dependent-dropdown": 20
     },
     "prefer-stable": false,

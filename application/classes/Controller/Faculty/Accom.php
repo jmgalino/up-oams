@@ -92,7 +92,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		
 		$delete_success = $accom->delete($accom_ID);
 		$this->session->set('delete', $delete_success);
-		$this->redirect('faculty/accom');
+		$this->redirect('faculty/accom', 303);
 	}
 
 	/**

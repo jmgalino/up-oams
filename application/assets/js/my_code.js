@@ -252,22 +252,6 @@ $(document).ready(function()
 		showRemove: false,
 		showUpload: false,
 	});
-	$("#attachment").fileinput({
-		// previewFileType: "file",
-		browseClass: "btn btn-primary",
-		browseLabel: " Browse",
-		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
-		showRemove: false,
-		showUpload: false,
-	});
-	// $('a#editAccom').popover();
-	// $('body').on('click', function (e) {
-	//     //only buttons
-	//     if ($(e.target).data('toggle') !== 'popover'
-	//         && $(e.target).parents('.popover.in').length === 0) { 
-	//         $('[data-toggle="popover"]').popover('hide');
-	//     }
-	// });
 
 	$("a#deleteReport").click(function()
 	{
@@ -416,45 +400,6 @@ $(document).ready(function()
 	    }
     });
 
-    // var last_ID = $("#category").val();//attr('name')
-    var max = 5;
-    var attachment = 0;
-	$('#addAttachment').click(function(e)  //on add input button click
-	{
-		var remaining = max-attachment;
-
-		if (remaining >= 1)
-		{
-			$('#attachmentWrapper').append(
-				'<div>' +
-				'<input type="file" id="attachment" name="attachment_1" style="display:inline">' +
-				'<a href="#" class="btn removeAttachment" role="button"><span class="glyphicon glyphicon-remove "></span></a>' +
-				'</div>');
-			attachment--;
-			var remaining = max-attachment;
-			
-			if (remaining == 1)
-				$("#attachmentCounter").html('You can still add <strong>1</strong> attachment.');
-			else if (remaining != 0)
-				$("#attachmentCounter").html('You can still add <strong>' +  remaining + '</strong> attachments.');
-		}
-		else
-		{
-			$("#attachmentCounter").html('You have already have <strong>5</strong> attachments.')
-		}
-
-		if (attachment == 4)
-			$('#break').html('<br>');
-		
-	});
-
-	$("body").on("click", ".removeAttachment", function() //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		attachment++;
-		$("#attachmentCounter").html('You can still add <strong>' +  remaining + '</strong> attachments.');
-	});
-
 	// var last_ID = $("#category").val();//attr('name')
 	$('#addCategory').click(function()  //on add input button click
 	{
@@ -474,6 +419,181 @@ $(document).ready(function()
 	$("body").on("click", ".removeCategory", function() //user click on remove text
 	{
 		$(this).parent().parent().parent().remove(); //remove input field
+	});
+	
+	var maxMatAttachments = 5;
+    var matAttachmentWrapper = $("#matAttachmentWrapper"); //Input boxes wrapper ID
+    var matAttachments = matAttachmentWrapper.length;
+	var matAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addMatAttachment').click(function(e)  //on add input button click
+	{
+		if (matAttachments <= maxMatAttachments)
+		{
+			matAttachmentCount++; //text box added increment
+			$('#matAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removeMatAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			matAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removeMatAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		matAttachments--;
+	});
+
+	var maxAwdAttachments = 5;
+    var awdAttachmentWrapper = $("#awdAttachmentWrapper"); //Input boxes wrapper ID
+    var awdAttachments = awdAttachmentWrapper.length;
+	var awdAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addAwdAttachment').click(function(e)  //on add input button click
+	{
+		if (awdAttachments <= maxAwdAttachments)
+		{
+			awdAttachmentCount++; //text box added increment
+			$('#awdAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removeAwdAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			awdAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removeAwdAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		awdAttachments--;
+	});
+	
+	var maxCtvAttachments = 5;
+    var ctvAttachmentWrapper = $("#ctvAttachmentWrapper"); //Input boxes wrapper ID
+    var ctvAttachments = ctvAttachmentWrapper.length;
+	var ctvAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addCtvAttachment').click(function(e)  //on add input button click
+	{
+		if (ctvAttachments <= maxCtvAttachments)
+		{
+			ctvAttachmentCount++; //text box added increment
+			$('#ctvAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removeCtvAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			ctvAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removeCtvAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		ctvAttachments--;
+	});
+	
+	var maxOthAttachments = 5;
+    var othAttachmentWrapper = $("#othAttachmentWrapper"); //Input boxes wrapper ID
+    var othAttachments = othAttachmentWrapper.length;
+	var othAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addOthAttachment').click(function(e)  //on add input button click
+	{
+		if (othAttachments <= maxOthAttachments)
+		{
+			othAttachmentCount++; //text box added increment
+			$('#othAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removeOthAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			othAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removeOthAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		othAttachments--;
+	});
+	
+	var maxPprAttachments = 5;
+    var pprAttachmentWrapper = $("#pprAttachmentWrapper"); //Input boxes wrapper ID
+    var pprAttachments = pprAttachmentWrapper.length;
+	var pprAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addPprAttachment').click(function(e)  //on add input button click
+	{
+		if (pprAttachments <= maxPprAttachments)
+		{
+			pprAttachmentCount++; //text box added increment
+			$('#pprAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removePprAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			pprAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removePprAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		pprAttachments--;
+	});
+	
+	var maxParAttachments = 5;
+    var parAttachmentWrapper = $("#parAttachmentWrapper"); //Input boxes wrapper ID
+    var parAttachments = parAttachmentWrapper.length;
+	var parAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addParAttachment').click(function(e)  //on add input button click
+	{
+		if (parAttachments <= maxParAttachments)
+		{
+			parAttachmentCount++; //text box added increment
+			$('#parAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removeParAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			parAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removeParAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		parAttachments--;
+	});
+	
+	var maxRchAttachments = 5;
+    var rchAttachmentWrapper = $("#rchAttachmentWrapper"); //Input boxes wrapper ID
+    var rchAttachments = rchAttachmentWrapper.length;
+	var rchAttachmentCount = 1; //to keep track of text box added
+	
+	$('#addRchAttachment').click(function(e)  //on add input button click
+	{
+		if (rchAttachments <= maxRchAttachments)
+		{
+			rchAttachmentCount++; //text box added increment
+			$('#rchAttachmentWrapper').append(
+				'<div>' +
+				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
+				'<a href="#" class="btn removeRchAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
+				'</div>');
+			rchAttachments++;
+		}
+		return false;
+	});
+	$("body").on("click", ".removeRchAttachment", function() //user click on remove text
+	{
+		$(this).parent().remove(); //remove input field
+		rchAttachments--;
 	});
 
 

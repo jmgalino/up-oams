@@ -15,6 +15,18 @@ if ($session->get('accom_oth'))
 		echo $oth['venue'], '. ';
 		echo date_format(date_create($oth['start']), 'd F Y'), ' to ';
 		echo date_format(date_create($oth['end']), 'd F Y');
+		echo '&nbsp;&nbsp;';
+		
+		if ($oth['attachment'])
+		{
+			$attachment = explode(' ', $oth['attachment']);
+			
+			for ($i = 1; $i <= count($attachment); $i++)
+			{
+				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i-1].'" target="_blank"><sup style="padding-left:1px;">', $i, '</sup></a> ';	
+			}
+		}
+
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		
 		echo '<a class="btn btn-default" id="setAccom" data-toggle="modal" data-target="#modal_other" role="button" href='.URL::site('faculty/accom/set/oth/'.$oth['other_ID']).'>

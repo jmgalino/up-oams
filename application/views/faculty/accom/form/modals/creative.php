@@ -7,7 +7,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Presentation of Creative Work Output</h4>
       </div>
-      <?php print form::open('faculty/accom/add/ctv', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print form::open('faculty/accom/add/ctv', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="author" class="col-sm-4 control-label">Author</label>
@@ -39,7 +39,16 @@
               <input type="text" class="form-control" name="end" required>
             </div>
           </div>
-        </div>  
+        </div>
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
+          <div class="col-sm-8">
+            <div id="ctvAttachmentWrapper"></div>
+            <span class="help-block">You can add up to 5 attachments.</span>
+            <button type="button" class="btn btn-default" id="addCtvAttachment">Add attachment</button>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">

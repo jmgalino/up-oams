@@ -87,9 +87,9 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$coll = strpos($referrer, 'ipcr_coll');
 
 		if ($coll) 
-			$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID);
+			$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
 		else
-			$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID);
+			$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
 	}
 
 	/**

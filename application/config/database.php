@@ -39,10 +39,10 @@ return array
 			 * string   password    database password
 			 * boolean  persistent  use persistent connections?
 			 */
-			'dsn'        => 'mysql:unix_socket=//Applications/XAMPP/xamppfiles/var/mysql/mysql.sock;dbname=oamsystemdb',
+			'dsn'        => 'mysql:host=127.0.0.1;dbname=oamsystemdb',
 			'username'   => 'root',
 			'password'   => 'upmin123',
-			'persistent' => TRUE,
+			'persistent' => FALSE,
 		),
 		'table_prefix' => '',
 		'charset'      => 'utf8',

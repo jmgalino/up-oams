@@ -21,6 +21,17 @@ if ($session->get('accom_rch'))
 				: $rch['fund_amount'].'.'
 			: $rch['fund_up'].'.');
 
+		echo '&nbsp;&nbsp;';
+		
+		if ($rch['attachment'])
+		{
+			$attachment = explode(' ', $rch['attachment']);
+			
+			for ($i = 1; $i <= count($attachment); $i++)
+			{
+				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i-1].'" target="_blank"><sup style="padding-left:1px;">', $i, '</sup></a> ';	
+			}
+		}
 
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 

@@ -4,6 +4,7 @@ vendor/**
 
 # Logs and databases #
 ######################
+application/logs/**
 *.log
  
 # OS generated files #
@@ -15,3 +16,7 @@ vendor/**
 .Trashes
 ehthumbs.db
 Thumbs.db
+ 
+# app generated files #
+######################
+files/**

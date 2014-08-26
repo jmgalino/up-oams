@@ -60,7 +60,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 		$user = new Model_User;
 		$user->add_user($details);
-		$this->redirect('admin/profile/view/'.$details['employee_code']);
+		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$update_success = $user->update_details($employee_code, $details);
 		$this->session->set('update', $update_success);
 
-		$this->redirect('admin/profile/view/'.$details['employee_code']);
+		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 
 	/**
@@ -173,9 +173,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$referrer = $this->request->referrer();
 		$view = strpos($referrer, 'view');
 		if ($view) 
-			$this->redirect('admin/profile/view/'.$this->request->param('id'));
+			$this->redirect('admin/profile/view/'.$this->request->param('id'), 303);
 		else
-			$this->redirect('admin/profile');
+			$this->redirect('admin/profile', 303);
 	}
 
 	/**
@@ -188,7 +188,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$delete_success = $user->delete_profile($this->request->param('id'));
 		$this->session->set('delete', $delete_success);
 
-		$this->redirect('admin/profile');
+		$this->redirect('admin/profile', 303);
 	}
 
 	// private function action_pdfviewer()

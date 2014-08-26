@@ -6,13 +6,13 @@
   font-size: 25px;
 }
 
-/* NAVBAR -- changed hover font color from gray to white */
+/* NAVBAR -- set hover font color to white */
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #ffffff;
 }
 
-/* NAVBAR -- add hover background color, change active backgroud color */
+/* NAVBAR -- add hover background color, set active backgroud color to hover color */
 .navbar-default .navbar-nav li:hover,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -20,23 +20,23 @@
   background-color: #003619;
 }
 
-/* NAVBAR DROPDOWN -- change background and hover background color for dropdown at collapse */
+/* NAVBAR DROPDOWN -- set background and hover background color for dropdown at collapse to a lighter green */
 .navbar-nav .open .dropdown-menu {
   background-color: #014421;
 }
 
-/* NAVBAR DROPDOWN -- change hover color from maroon to green */
+/* NAVBAR DROPDOWN -- set hover color to green (from maroon) */
 .navbar-nav .open .dropdown-menu > li > a:hover,
 .navbar-nav .open .dropdown-menu > li > a:focus {
   background-color: #003619;
 }
 
-/* NAVBAR DROPDOWN -- change divider hover color from green to #e5e to remove flickering look */
+/* NAVBAR DROPDOWN -- set divider hover color same with light gray to remove flickering */
 .navbar-nav .open .dropdown-menu .divider:hover {
   background-color: #e5e5e5;
 }
 
-/* NAVBAR TOGGLE -- change color from gray to white */
+/* NAVBAR TOGGLE -- set color to white (from gray) */
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #fff;
 }
@@ -46,7 +46,7 @@
   border-color: #014421;
 }
 
-/* NAVBAR TODGLE -- change hover color */
+/* NAVBAR TODGLE -- set hover color to dark-green (from light gray) */
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
   background-color: #001c0d;
@@ -65,20 +65,99 @@ body {
   padding-top: 60px;
 }
 
+/* BREADCRUMB -- remove background color and padding on the left (align with body) */
+.breadcrumb {
+  padding: 8px 8px 8px 0px;
+  background-color: transparent;
+}
+
+/* ALERTS - new orange themed alert */
+.alert-warning {
+  background-color: #fcece3;
+  border-color: #fad4cc;
+  color: #8a463b;
+}
+/* ALERTS - alert-warning is now alert-reminder */
+.alert-reminder {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+}
+
+/* JUMBOTRON -- change font color from black to white */
+.jumbotron {
+  color: #ffffff;
+}
+
+/* JUMBOTRON -- reverse primary button colors */
+.jumbotron .btn-primary {
+  background-color: #014421;
+}
+.jumbotron .btn-primary:hover,
+.jumbotron .btn-primary:focus {
+  background-color: #003619;
+}
+
+/* TABLE -- bigger fonts */
 table {
   font-size: 115%;
 }
 
-input {
+/* DATATABLES - set group row color constant */
+tr.group,
+.table-hover > tbody > tr.group:hover > td {
+    background-color: #ddd !important;
+}
+
+/* DROPDOWN - set background color to white */
+div.btn-group ul.dropdown-menu,
+td.dropdown ul.dropdown-menu
+{
+  background-color: #ffffff;
+}
+/* DROPDOWN - set font color to gray */
+div.btn-group ul.dropdown-menu > li > a,
+td.dropdown ul.dropdown-menu > li > a
+{
+  color: #000000;
+}
+/* DROPDOWN - set hover background color to gray-ish */
+div.btn-group ul.dropdown-menu > li > a:hover,
+div.btn-group ul.dropdown-menu > li > a:focus,
+td.dropdown ul.dropdown-menu > li > a:hover,
+td.dropdown ul.dropdown-menu > li > a:focus
+{
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  outline: 0;
+}
+
+/* INPUT -- auto-capitalize first names */
+input[name="first_name"]
+{
   text-transform: capitalize;
 }
 
-input[type="file"],
+/*input[type="file"],
 input[type="email"],
 input[type="password"],
 input[name="recaptcha_response_field"]
 {
   text-transform: none;
+}*/
+
+/* DATEPICKER -- keep on top */
+#datepicker,
+#monthpicker, 
+#birthdaypicker {
+  z-index:1151;
+}
+
+/* PROFILE -- fragment */
+.details {
+  font-size: medium;
+  padding: 2px;
 }
 
 /* Sticky footer styles */
@@ -105,58 +184,9 @@ body {
   background-color: #f5f5f5;
 }
 
-/* JUMBOTRON -- change font color from black to white */
-.jumbotron {
-  color: #ffffff;
-}
-
-/* JUMBOTRON -- reverse primary button colors */
-.jumbotron .btn-primary {
-  background-color: #014421;
-}
-.jumbotron .btn-primary:hover,
-.jumbotron .btn-primary:focus {
-  background-color: #003619;
-}
-
-/* BREADCRUMB -- remove background color and padding on the left (align with body) */
-.breadcrumb {
-  padding: 8px 8px 8px 0px;
-  background-color: transparent;
-}
-
-/* PROFILE -- fragment */
-.details {
-  font-size: medium;
-  padding: 2px;
-}
-
-/* PROFILE -- set max height for tables in profile view */
-.mini-table {
-  max-height: 200px;
-  overflow: auto;
-}
-
-/* PROFILE -- mini-alert for mini-table */
-.mini-alert {
-  padding: 3px;
-}
-
-/* PROFILE -- view documents */
-.pdf-viewer {
-  margin-bottom: 30px;
-}
-
-/* DATEPICKER -- keep on top */
-#datepicker,
-#monthpicker, 
-#birthdaypicker {
-  z-index:1151;
-}
-
 /*** ADMIN ***/
 
-/* Page Headers -- prevent headbutt with navbar */
+/* PAGE HEADERS -- prevent headbutt with navbar with #links */
 .page-header:before { 
   display: block; 
   content: " "; 
@@ -164,48 +194,58 @@ body {
   height: 80px; 
   visibility: hidden; 
 }
-/* Page Headers -- no margin on top (FIRST CHILD ONLY) */
+
+/* PAGE HEADERS -- no margin on top (FIRST CHILD ONLY) */
 .page-header:first-child
 {
    margin: 0 0 20px;
 }
-/* Page Headers -- prevent line break after h2 */
+
+/* PAGE HEADERS -- prevent line break after h2 */
 .page-header h2,
-.col-md-11 input
+.col-md-11 input /* ? */
 {
   display: inline;
 }
+/* PAGE HEADERS -- hide edit link */
 .page-header .show-hover
 {
   font-size: 16px;
   color: transparent;
 }
+
+/* PAGE HEADERS -- show edit link on hover */
 .page-header .show-hover:hover
 {
   color: #7b1113;
   text-decoration: none;
 }
+
+/* INFORMATION -- title */
 .dl-horizontal dt
 {
   width: 120px;
 }
+
+/* INFORMATION -- description */
 .dl-horizontal dd {
   margin-left: 140px;
 }
 
-/* hide sidebar sub menus by default */
+/* SIDEBAR NAV -- hide sidebar sub menus by default */
 #affix.nav .nav {
   display: none;
   font-size:12px;
 }
 
-/* show sub menu when parent is active */
+/* SIDEBAR NAV -- show sub menu when parent is active */
 #affix.nav > .active li {
   display: block;
 }
 
 /*** FACULTY ***/
 
+/* BUTTON -- disabled with tootltip */
 .btn.disabled.button-tip
 {
   pointer-events: inherit;
@@ -246,72 +286,53 @@ body {
   }
 }*/
 
-/* --- FIX --- */
+/* DRAFT DEFAULTS */
 pre {
   padding: 100px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: inherit;
   background-color: #ffffff;
 }
-
 .pre-scrollable {
   max-height: 500px;
   padding: 50px;
 }
-
 pre h1 {
   margin-top: -20px;
   font-size: 20px;
 }
-
 pre h2 {
   margin-top: 0px;
   font-size: 18px;
 }
-
 pre h3 {
   margin-top: 10px;
   font-size: 16px;
 }
-
 pre h4 {
   margin-top: 10px;
   font-size: 15px;
 }
-
 pre p {
   text-align: justify;
 }
 
-a.show-hover
+/* IPCR/OPCR DRAFT DEFAULTS */
+pre table > thead > tr > th
 {
-  color: transparent;
-  border-color: transparent;
+  vertical-align: middle;
 }
-a.show-hover:hover
-{
-  text-decoration: none;
-  color: #7b1113;
-}
-
 pre .category {
   font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
 }
-
 pre .template-output {
   font-size:  14px;
   text-align: justify;
-  /*text-indent: 20px;*/
-  /*word-wrap: break-word;*/
 }
 
-pre table > thead > tr > th
-{
-  vertical-align: middle;
-}
-
+/* IPCR/OPCR DRAFT - edit output */
 .edit_output textarea
 {
   text-align: justify;
@@ -354,47 +375,8 @@ pre table > thead > tr > th
   border-color: #2f0607;
 }
 
-/* Set dropdown background color to white */
-div.btn-group ul.dropdown-menu,
-td.dropdown ul.dropdown-menu
-/*div .bootstrap-select > .dropdown-menu*/
+a.glyphicon-paperclip:hover
 {
-  background-color: #ffffff;
-}
-/* Set dropdown font color to grey */
-div.btn-group ul.dropdown-menu > li > a,
-td.dropdown ul.dropdown-menu > li > a
-/*div .bootstrap-select > .dropdown-menu > li > a*/
-{
-  color: #000000;
-}
-div.btn-group ul.dropdown-menu > li > a:hover,
-div.btn-group ul.dropdown-menu > li > a:focus,
-td.dropdown ul.dropdown-menu > li > a:hover,
-td.dropdown ul.dropdown-menu > li > a:focus
-/*div .bootstrap-select > .dropdown-menu > li > a:hover,
-div .bootstrap-select > .dropdown-menu > li > a:focus*/
-{
-  color: #333333;
-  background-color: #e6e6e6;
-  border-color: #adadad;
-  outline: 0;
+  text-decoration: none;
 }
 
-.alert-warning {
-  background-color: #fcece3;
-  border-color: #fad4cc;
-  color: #8a463b;
-}
-.alert-reminder {
-  background-color: #fcf8e3;
-  border-color: #faebcc;
-  color: #8a6d3b;
-}
-tr.group,
-.table-hover > tbody > tr.group:hover > td {
-    background-color: #ddd !important;
-}
-.file-preview-status {
-    color: #003619;
-}
