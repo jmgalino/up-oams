@@ -16,7 +16,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		
 		if (isset($_FILES['attachment']))
         {
-			$attachment = $this->set_attachment($_FILES['attachment']);
+			$attachment = $this->set_attachment($_FILES['attachment'], $accom_ID, $type);
         }
 
 		if (($type !== 'pub') AND ($type !== 'mat'))
@@ -193,15 +193,17 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	/**
      * Upload user photo
      */
-    private function set_attachment($attachments)
+    private function set_attachment($attachments, $accom_ID, $type)
     {
     	// print_r($attachments);
     	$attachment = '';
     	$filenames = array();
-    	$file_ary = $this->rearray_files($attachments);
+    	$date = new DateTime();
+    	$file_array = $this->rearray_files($attachments);
 
-	    foreach ($file_ary as $file) {
-	        $filename = $this->save_image($file);
+	    foreach ($file_array as $file)
+	    {
+	        $filename = $this->save_image($file, $accom_ID.$type.$date->getTimestamp());
  
 	        if (!$filename)
 	        {
@@ -241,7 +243,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
     /**
      * Save photo in local disk
      */
-    private function save_image($image)
+    private function save_image($image, $postfix)
     {
         if (
             ! Upload::valid($image) OR
@@ -255,12 +257,12 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
  
         if ($file = Upload::save($image, NULL, $directory))
         {
-            $filename = strtolower(Text::random('alnum', 20)).'.jpg';
+            $filename = strtolower(Text::random('alnum', 20)).$postfix.'.jpg';
  
             Image::factory($file)
                 ->save($directory.$filename);
 
-            // Delete the temporary file
+            // Delete the temporarray file
             unlink($file);
  
             return $filename;

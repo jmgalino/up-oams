@@ -195,7 +195,7 @@ Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
 		'controller'=> 'accom',
-		'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
+		'action'	=> '(all|new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
 	))
 	->defaults(array(
 	    'action'     => 'index'
@@ -205,7 +205,7 @@ Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
 Route::set('accom_dept-functions', '<directory>/accom_dept(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		'action'	=> '(dept|view|evaluate|consolidate)'
+		'action'	=> '(dept|all|view|evaluate|consolidate)'
 	))
 	->defaults(array(
 		'controller'=> 'accomgroup',
@@ -216,7 +216,7 @@ Route::set('accom_dept-functions', '<directory>/accom_dept(/<action>(/<id>))',
 Route::set('accom_coll-functions', '<directory>/accom_coll(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		'action'	=> '(coll|view|evaluate|consolidate)'
+		'action'	=> '(coll|all|view|evaluate|consolidate)'
 	))
 	->defaults(array(
 		'controller'=> 'accomgroup',

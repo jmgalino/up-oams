@@ -76,10 +76,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		{
 			// Show PDF
 			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID'])[0];
-			$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
-			$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
-			$label = $period_from.' - '.$period_to;
-			$this->show_pdf($label, $ipcr_details);
+			$this->show_pdf($ipcr_details);
 		}
 		else
 		{
@@ -175,10 +172,14 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	/**
 	 * IPCR Form - PDF
 	 */
-	private function show_pdf($label, $ipcr_details)
+	private function show_pdf($ipcr_details)
 	{
+		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
+		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+		$period = $period_from.' - '.$period_to;
+
 		$this->view->content = View::factory('faculty/ipcr/view/faculty')
-			->bind('label', $label)
+			->bind('period', $period)
 			->bind('ipcr_details', $ipcr_details)
 			->bind('session', $this->session);
 		$this->response->body($this->view->render());

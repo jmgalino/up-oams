@@ -24,9 +24,7 @@ echo View::factory('faculty/accom/form/evaluate')
 
 <div class="row">
 	<div class="col-sm-9">
-		<div class="pdf-viewer text-center">
-			<embed src="<?php echo URL::base().'application/'.$accom_details['document']; ?>" width="850" height="500">
-		</div>
+		<embed src="<?php echo URL::base().'files/document_accom/'.$accom_details['document']; ?>" width="850" height="500">
 	</div>
 
 	<div class="col-md-3" role="complementary">

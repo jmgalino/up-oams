@@ -63,7 +63,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Accomplishment Reports
 	 */
-	private function action_accom($accom_ID, $type, $purpose)
+	private function accom_pdf($accom_ID, $type, $purpose)
 	{
 		$accom = new Model_Accom;
 			
@@ -109,7 +109,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$this->action_submit($template, $filepath);
 
 			$details['status'] = 'Pending';
-			$details['document'] = 'files/document_accom/'.$filename;
+			$details['document'] = $filename;
 			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
 
 			$submit_success = $accom->submit($accom_ID, $details);
@@ -175,7 +175,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			else
 				$details['status'] = 'Saved';
 
-			$details['document'] = 'files/document_ipcr/'.$filename;
+			$details['document'] = $filename;
 			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
 			$submit_success = $ipcr->submit($ipcr_ID, $details);
 			$this->session->set('submit', $submit_success);
@@ -252,7 +252,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
 			}
 
-			$details['document'] = 'files/document_opcr/'.$filename;
+			$details['document'] = $filename;
 			$submit_success = $opcr->submit($opcr_ID, $details);
 			$this->session->set('submit', $submit_success);
 			$this->redirect('faculty/opcr', 303);

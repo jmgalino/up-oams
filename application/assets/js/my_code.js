@@ -30,6 +30,18 @@ $(document).ready(function()
 		    { "searchable": false, "orderable": false }
 		]
     });
+    
+    var table = $("table.display").dataTable({
+    	"paging":   false,
+        "ordering": false,
+        "info":     false,
+    	"dom": '<"toolbar">rt',
+    });
+ 
+    $("#search").keyup( function () {
+      // Filter on the column (the index) of this element
+      table.fnFilterAll(this.value);
+    } );
 	
     /* DATATABLE -- Initialize group accom table */
 	var accom_group_table = $('#accom_group_table').DataTable({
@@ -171,10 +183,6 @@ $(document).ready(function()
 			$(".c-document").attr("required", "");
 		}
     });
-
-	$("input[name=year]").keyup(function(){
-	    $(this).val(this.value.match(/[0-9]*/));
-	});
 
 	// date
 	$('#birthdaypicker input').datepicker({

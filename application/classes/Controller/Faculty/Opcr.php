@@ -194,15 +194,11 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	private function show_pdf($period, $opcr_details)
 	{
 		$ipcr = new Model_Ipcr;
-		$univ = new Model_Univ;
-
 		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_details['opcr_ID']);
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
-
+		
 		$this->view->content = View::factory('faculty/opcr/view/faculty')
 			->bind('opcr_details', $opcr_details)
 			->bind('ipcr_forms', $ipcr_forms)
-			->bind('department', $department['department'])
 			->bind('period', $period);
 		$this->response->body($this->view->render());
 	}

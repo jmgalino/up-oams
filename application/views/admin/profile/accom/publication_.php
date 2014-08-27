@@ -20,7 +20,7 @@
 <div class="form-group">
   <label for="year" class="col-sm-4 control-label">Year</label>
   <div class="col-sm-7">
-    <input type="int" class="form-control" id="year" name="year" min="1900" max="2050" required>
+    <input type="int" class="form-control" id="year" name="year" pattern="([0-9]{4})" title="Format is YYYY" required>
   </div>
 </div>
 

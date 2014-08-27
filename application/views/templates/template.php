@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-datatables.min.js"></script> <!-- //cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-jeditable.min.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-number.min.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/fnFilterAll.js"></script> <!-- //cdn.datatables.net/plug-ins/725b2a2115b/api/fnFilterAll.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap.min.js"></script> <!-- //maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datatables.js"></script> <!-- //cdn.datatables.net/1.10.2/js/jquery.dataTables.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datepicker.js"></script>

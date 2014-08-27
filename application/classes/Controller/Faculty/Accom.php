@@ -29,15 +29,44 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		$this->action_delete_session();
-		$submit = $this->session->get_once('submit');
-		$delete = $this->session->get_once('delete');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
 
-		$this->view->content = View::factory('faculty/accom/list/faculty')
-			->bind('submit', $submit)
-			->bind('delete', $delete)
-			->bind('accom_reports', $accom_reports);
+		if ($accom_reports)
+		{
+			$reports = array();
+			$accom_IDs = array();
+			foreach ($accom_reports as $report)
+			{
+				if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending'))
+				{
+					$reports[] = $report;
+					$accom_IDs[] = $report['accom_ID'];
+				}
+			}
+
+			if ($accom_IDs)
+			{
+				$pub = $accom->get_accoms($accom_IDs, 'pub');
+				$awd = $accom->get_accoms($accom_IDs, 'awd');
+				$rch = $accom->get_accoms($accom_IDs, 'rch');
+				$ppr = $accom->get_accoms($accom_IDs, 'ppr');
+				$ctv = $accom->get_accoms($accom_IDs, 'ctv');
+				$par = $accom->get_accoms($accom_IDs, 'par');
+				$mat = $accom->get_accoms($accom_IDs, 'mat');
+				$oth = $accom->get_accoms($accom_IDs, 'oth');
+			}
+		}
+
+		$this->view->content = View::factory('faculty/accom/list/faculty_all')
+			->bind('accom_reports', $reports)
+			->bind('accom_pub', $pub)
+			->bind('accom_awd', $awd)
+			->bind('accom_rch', $rch)
+			->bind('accom_ppr', $ppr)
+			->bind('accom_ctv', $ctv)
+			->bind('accom_par', $par)
+			->bind('accom_mat', $mat)
+			->bind('accom_oth', $oth);
 		$this->response->body($this->view->render());
 	}
 
@@ -54,11 +83,11 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$details['yearmonth'] = date_format(date_create('01 '.$this->request->post('yearmonth')), 'Y-m-d');
 			$details['accom_ID'] = $accom->initialize($details);
 			$this->session->set('accom_details', $details);
-			$this->action_draft();
+			$this->show_draft();
 		}
 		else
 		{
-			$this->action_consolidate();
+			$this->show_consolidate();
 		}
 	}
 
@@ -76,8 +105,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		if ($accom_details['document'])
 		{
 			// Show PDF
-			$label = date_format(date_create($accom_details['yearmonth']), 'F Y');
-			$this->action_pdf($label, $accom_details);
+			$this->show_pdf($accom_details);
 		}
 		else
 		{
@@ -96,7 +124,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
 		$this->session->set('accom_details', $accom_details);
-		$this->action_draft();
+		$this->show_draft();
 	}
 
 	/**
@@ -139,7 +167,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	/**
 	 * Consolidate Accomplishment Reports
 	 */
-	private function action_consolidate()
+	private function show_consolidate()
 	{
 		// Faculty, Department & College Level
 		// Open PDF in new tab
@@ -148,10 +176,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	/**
 	 * Accomplishment Report - PDF
 	 */
-	private function action_pdf($label, $accom_details)
+	private function show_pdf($accom_details)
 	{
 		$this->view->content = View::factory('faculty/accom/view/faculty')
-			->bind('label', $label)
 			->bind('accom_details', $accom_details);
 		$this->response->body($this->view->render());
 	}
@@ -159,7 +186,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	/**
 	 * Accomplishment Report - Draft
 	 */
-	private function action_draft()
+	private function show_draft()
 	{
 		$accom = new Model_Accom;
 

@@ -186,7 +186,33 @@ class Model_Accom extends Model {
 
 		// Find accomplishments for multiple reports -- consolidated
 		else
-		{}
+		{
+			$accoms = array();
+			$accom_specs = array();
+
+			// Retrive accom_specIDs and attachments if any
+			$result = DB::select('accom_specID', 'attachment')
+				->from('connect_accomtbl')
+				->where('accom_ID', 'IN', $accom_ID)
+				->where('type', '=', $type)
+				->execute()
+				->as_array();
+		
+			foreach ($result as $accom_spec)
+			{
+				$detail['accom_specID'] = $accom_spec['accom_specID'];
+				$detail['attachment'] = $accom_spec['attachment'];
+				$accom_specs[] = $detail;
+			}
+
+			// Retrieve accom details
+			if ($accom_specs)
+			{
+				$accoms[] = $this->get_accom_specs($accom_specs, $type);
+			}
+
+			return $accoms;
+		}
 	}
 
 	/**
@@ -419,6 +445,24 @@ class Model_Accom extends Model {
 	 */
 	private function unlink_accom($accom_ID, $accom_specID, $type)
 	{
+		$result = DB::select()
+			->from('connect_accomtbl')
+			->where('accom_ID', '=', $accom_ID)
+			->where('accom_specID', '=', $accom_specID)
+			->where('type', '=', $type)
+			->execute()
+			->as_array();
+
+		if ($result[0]['attachment'])
+		{
+			$attachment = explode(' ', $result[0]['attachment']);
+			
+			for ($i = 0; $i < count($attachment); $i++)
+			{
+				unlink(DOCROOT.'files/upload_attachments/'.$attachment[$i]);
+			}
+		}
+
 		$rows_deleted = DB::delete('connect_accomtbl')
 			->where('accom_ID', '=', $accom_ID)
 			->where('accom_specID', '=', $accom_specID)

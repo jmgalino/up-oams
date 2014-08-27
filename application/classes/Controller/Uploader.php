@@ -7,14 +7,17 @@ class Controller_Uploader extends Controller {
      */
     public function action_photo()
     {
+        $user = new Model_User;
         $session = Session::instance();
+        $employee_code = $this->request->param('id');
+        $user_details = $user->get_details(NULL, $employee_code)[0];
         $filename = NULL;
  
         if ($this->request->method() == Request::POST)
         {
             if (isset($_FILES['photo']))
             {
-                $filename = $this->save_image($_FILES['photo']);
+                $filename = $this->save_image($_FILES['photo'], $user_details['last_name']);
             }
         }
  
@@ -24,10 +27,6 @@ class Controller_Uploader extends Controller {
         }
         else
         {
-            $user = new Model_User;
-            $employee_code = $this->request->param('id');
-            $user_details = $user->get_details(NULL, $employee_code)[0];
-
             if($user_details['pic'])
                 unlink(DOCROOT.'files/upload_photos/'.$user_details['pic']);
 
@@ -41,7 +40,7 @@ class Controller_Uploader extends Controller {
     /**
      * Save photo in local disk
      */
-    private function save_image($image)
+    private function save_image($image, $surname)
     {
         if (
             ! Upload::valid($image) OR
@@ -55,7 +54,7 @@ class Controller_Uploader extends Controller {
  
         if ($file = Upload::save($image, NULL, $directory))
         {
-            $filename = strtolower(Text::random('alnum', 20)).'.jpg';
+            $filename = strtolower(Text::random('alnum', 20)).$surname.'.jpg';
  
             $img = Image::factory($file);
             $height = $img->height;
@@ -67,7 +66,7 @@ class Controller_Uploader extends Controller {
                 $img->crop($height, $height);
     
             $img->resize(200, 200, Image::AUTO)
-                ->save($directory.$filename);
+                ->save($filename);
 
             // Delete the temporary file
             unlink($file);

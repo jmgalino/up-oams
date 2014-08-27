@@ -12,7 +12,7 @@
 		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_accom">New Report</button>
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
 		        <ul class="dropdown-menu">
-					<li><a href="<?php echo URL::site('faculty/accom/all'); ?>">Display All Accomplishments</a></li>
+					<li><a href="<?php echo URL::site('faculty/accom/all'); ?>">View All Accomplishments</a></li>
 		        </ul>
 			</div>
 	  </div>
