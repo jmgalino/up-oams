@@ -36,7 +36,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			$details['period_to'] = date_format(date_create('01 '.$this->request->post('end')), 'Y-m-d');
 			$details['opcr_ID'] = $opcr->initialize($details);
 			$this->session->set('opcr_details', $details);
-			$this->action_draft();
+			$this->show_draft();
 		}
 		else
 		{
@@ -61,7 +61,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
 			$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
 			$period = $period_from.' - '.$period_to;
-			$this->action_pdf($period, $opcr_details);
+			$this->show_pdf($period, $opcr_details);
 		}
 		else
 		{
@@ -80,7 +80,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		
 		$this->session->set('opcr_details', $opcr_details);
-		$this->action_draft();
+		$this->show_draft();
 	}
 
 	/**
@@ -129,61 +129,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	// private function action_consolidate()
 	// {}
-
-	/**
-	 * OPCR Form - PDF
-	 */
-	private function action_pdf($period, $opcr_details)
-	{
-		$ipcr = new Model_Ipcr;
-		$univ = new Model_Univ;
-
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_details['opcr_ID']);
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
-
-		$this->view->content = View::factory('faculty/opcr/view/faculty')
-			->bind('opcr_details', $opcr_details)
-			->bind('ipcr_forms', $ipcr_forms)
-			->bind('department', $department['department'])
-			->bind('period', $period);
-		$this->response->body($this->view->render());
-	}
-
-	/**
-	 * OPCR Form - Draft
-	 */
-	private function action_draft()
-	{
-		$opcr = new Model_Opcr;
-		$univ = new Model_Univ;
-
-		$period_from = date_format(date_create($this->session->get('opcr_details')['period_from']), 'F Y');
-		$period_to = date_format(date_create($this->session->get('opcr_details')['period_to']), 'F Y');
-		$label = $period_from.' - '.$period_to;
-		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
-		$outputs = $opcr->get_outputs($opcr_ID);
-		$categories = $opcr->get_categories();
-		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
-
-		// if ($this->session->get('identifier') == 'dept_chair')
-		// {
-		// 	$title = $department['short'];
-		// }
-		// elseif ($this->session->get('identifier') == 'dean')
-		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
-		// 	$title = $college['short'];
-		// }
-
-		$this->view->content = View::factory('faculty/opcr/form/initial/template')
-			->bind('label', $label)
-			->bind('session', $this->session)
-			->bind('categories', $categories)
-			// ->bind('department', $department['short'])
-			// ->bind('title', $title)
-			->bind('outputs', $outputs);
-		$this->response->body($this->view->render());
-	}
 
 	/**
 	 * New output
@@ -241,6 +186,61 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$output_ID = $this->request->param('id');
 		$opcr->delete_output($output_ID);
 		$this->redirect('faculty/opcr/update/'.$this->session->get('opcr_details')['opcr_ID'], 303);
+	}
+
+	/**
+	 * OPCR Form - PDF
+	 */
+	private function show_pdf($period, $opcr_details)
+	{
+		$ipcr = new Model_Ipcr;
+		$univ = new Model_Univ;
+
+		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_details['opcr_ID']);
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+
+		$this->view->content = View::factory('faculty/opcr/view/faculty')
+			->bind('opcr_details', $opcr_details)
+			->bind('ipcr_forms', $ipcr_forms)
+			->bind('department', $department['department'])
+			->bind('period', $period);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * OPCR Form - Draft
+	 */
+	private function show_draft()
+	{
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+
+		$period_from = date_format(date_create($this->session->get('opcr_details')['period_from']), 'F Y');
+		$period_to = date_format(date_create($this->session->get('opcr_details')['period_to']), 'F Y');
+		$label = $period_from.' - '.$period_to;
+		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
+		$outputs = $opcr->get_outputs($opcr_ID);
+		$categories = $opcr->get_categories();
+		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+
+		// if ($this->session->get('identifier') == 'dept_chair')
+		// {
+		// 	$title = $department['short'];
+		// }
+		// elseif ($this->session->get('identifier') == 'dean')
+		// {
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+		// 	$title = $college['short'];
+		// }
+
+		$this->view->content = View::factory('faculty/opcr/form/initial/template')
+			->bind('label', $label)
+			->bind('session', $this->session)
+			->bind('categories', $categories)
+			// ->bind('department', $department['short'])
+			// ->bind('title', $title)
+			->bind('outputs', $outputs);
+		$this->response->body($this->view->render());
 	}
 
 } // End Opcr

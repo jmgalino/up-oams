@@ -37,7 +37,7 @@ class Controller_Faculty extends Controller_User {
 	protected function action_contact()
 	{
 		if ($this->request->post())
-			$this->action_send($this->request->post());
+			$this->send_message($this->request->post());
 		else
 		{
 			$error = $this->session->get_once('error');
@@ -57,7 +57,7 @@ class Controller_Faculty extends Controller_User {
 	/**
 	 * Send the message
 	 */
-	private function action_send($details)
+	private function send_message($details)
 	{
 		$message_details['name'] = $this->session->get('fullname');
 	    $message_details['contact'] = $this->session->get('employee_code');

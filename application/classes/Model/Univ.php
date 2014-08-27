@@ -3,6 +3,62 @@
 class Model_Univ extends Model {
 
 	/**
+	 * Get mission
+	 */
+	public function get_mission()
+	{
+		$result = DB::select('value')
+			->from('univtbl')
+			->where('name', '=', 'mission')
+			->execute()
+			->as_array();
+
+		return $result[0]['value'];
+	}
+
+	/**
+	 * Update mission
+	 */
+	public function update_mission($mission)
+	{
+		$rows_updated = DB::update('univtbl')
+ 			->set(array('value' => $mission))
+			->where('name', '=', 'mission')
+ 			->execute();
+
+ 		if ($rows_updated == 1) return 'Mission was successfully updated.';
+ 		else return FALSE; //do something
+	}
+
+	/**
+	 * Get vision
+	 */
+	public function get_vision()
+	{
+		$result = DB::select('value')
+			->from('univtbl')
+			->where('name', '=', 'vision')
+			->execute()
+			->as_array();
+
+		return $result[0]['value'];
+	}
+
+	/**
+	 * Update vision
+	 */
+	public function update_vision($vision)
+	{
+		$rows_updated = DB::update('univtbl')
+ 			->set(array('value' => $vision))
+			->where('name', '=', 'vision')
+ 			->execute();
+
+ 		if ($rows_updated == 1) return 'Vision was successfully updated.';
+ 		else return FALSE; //do something
+	}
+
+	/**
 	 * Get colleges
 	 */
 	public function get_colleges()

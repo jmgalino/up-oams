@@ -44,14 +44,14 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		{
 			$details['ipcr_ID'] = $insert_success;
 			$this->session->set('ipcr_details', $details);
-			$this->action_draft();
+			$this->show_draft();
 		}
 		elseif (is_array($insert_success))
 		{
 			$details['ipcr_ID'] = $insert_success['ipcr_ID'];
 			$this->session->set('ipcr_details', $details);
 			$this->session->set('warning', $insert_success['message']);
-			$this->action_draft();
+			$this->show_draft();
 		}
 		else // Error
 		{
@@ -79,7 +79,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
 			$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
 			$label = $period_from.' - '.$period_to;
-			$this->action_pdf($label, $ipcr_details);
+			$this->show_pdf($label, $ipcr_details);
 		}
 		else
 		{
@@ -98,7 +98,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
 		$this->session->set('ipcr_details', $ipcr_details);
-		$this->action_draft();
+		$this->show_draft();
 	}
 
 	/**
@@ -135,9 +135,47 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	// {}
 
 	/**
+	 * Add output (Link)
+	 */
+	public function action_add()
+	{
+		$ipcr = new Model_Ipcr;
+		$ipcr_ID = $this->request->param('id');
+		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
+
+		if ($this->request->post('output_ID')){
+			$details['output_ID'] = $this->request->post('output_ID');
+			$details['ipcr_ID'] = $ipcr_ID; print_r($details);
+			$ipcr->add_target($details);
+		}
+			
+		else
+			$this->session->set('error', 'Error: Invalid output.');
+		
+		$this->redirect('faculty/ipcr/update/'.$ipcr_ID, 303);
+	}
+
+	/**
+	 * Remove output (Unlink)
+	 */
+	public function action_remove()
+	{
+		$ipcr = new Model_Ipcr;
+		$target_ID = $this->request->param('id');
+		$target_details = $ipcr->get_target_details($target_ID)[0];
+		
+		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
+		{	
+			$ipcr->delete_target($target_ID);
+			$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID'], 303);
+		}	
+	}
+
+	/**
 	 * IPCR Form - PDF
 	 */
-	private function action_pdf($label, $ipcr_details)
+	private function show_pdf($label, $ipcr_details)
 	{
 		$this->view->content = View::factory('faculty/ipcr/view/faculty')
 			->bind('label', $label)
@@ -149,7 +187,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	/**
 	 * IPCR Form - Draft
 	 */
-	private function action_draft()
+	private function show_draft()
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
@@ -191,44 +229,6 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			// ->bind('title', $title)
 			->bind('targets', $targets);
 		$this->response->body($this->view->render());
-	}
-
-	/**
-	 * Add output (Link)
-	 */
-	public function action_add()
-	{
-		$ipcr = new Model_Ipcr;
-		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
-		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
-
-		if ($this->request->post('output_ID')){
-			$details['output_ID'] = $this->request->post('output_ID');
-			$details['ipcr_ID'] = $ipcr_ID; print_r($details);
-			$ipcr->add_target($details);
-		}
-			
-		else
-			$this->session->set('error', 'Error: Invalid output.');
-		
-		$this->redirect('faculty/ipcr/update/'.$ipcr_ID, 303);
-	}
-
-	/**
-	 * Remove output (Unlink)
-	 */
-	public function action_remove()
-	{
-		$ipcr = new Model_Ipcr;
-		$target_ID = $this->request->param('id');
-		$target_details = $ipcr->get_target_details($target_ID)[0];
-		
-		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
-		{	
-			$ipcr->delete_target($target_ID);
-			$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID'], 303);
-		}	
 	}
 
 } // End Ipcr

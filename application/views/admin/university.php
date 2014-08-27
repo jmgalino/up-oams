@@ -4,9 +4,49 @@
   <li class="active">University Settings</li>
 </ol>
 
+<?php if ($success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <p class="text-center">
+    <?php echo $success?>
+  </p>
+</div>
+<?php elseif (($error) OR ($success === FALSE)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <p class="text-center">
+    <?php echo ($error ? $error : 'Something went wrong. Please try it again.'); ?>
+  </p>
+</div>
+<?php endif; ?>
+
+<?php
+// Edit mission form
+echo View::factory('admin/university/mission')
+  ->bind('mission', $mission);
+// Edit vision form
+echo View::factory('admin/university/vision')
+  ->bind('vision', $vision);
+?>
 
 <div class="row">
   <div class="col-md-9" id="content" role="main">
+
+    <div class="page-header" id="mission">
+      <h2>Mission</h2>&nbsp
+      <a class="show-hover" data-toggle="modal" data-target="#modal_mission" href="#">Edit</a>
+    </div>
+    <?php
+      echo '<p>', $mission, '</p>';
+    ?>
+
+    <div class="page-header" id="vision">
+      <h2>Vission</h2>&nbsp
+      <a class="show-hover" data-toggle="modal" data-target="#modal_vision" href="#">Edit</a>
+    </div>
+    <?php
+      echo '<p>', $vision, '</p>';
+    ?>
 
     <div class="page-header" id="colleges">
       <h2>Colleges</h2>&nbsp
@@ -121,6 +161,8 @@
   <div class="col-md-3" id="secondary-nav">
     <div class="hidden-xs hidden-sm affix" data-spy="affix" role="complementary"><!-- style="padding-top: 65px;" -->
       <ul class="nav nav-stacked affix-top" data-spy="affix" data-offset-top="200" id="affix">
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#vision">Vision</a></li>
         <li>
           <a href="#colleges">Colleges</a>
           <ul class="nav">

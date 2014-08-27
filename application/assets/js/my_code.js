@@ -30,7 +30,7 @@ $(document).ready(function()
 		    { "searchable": false, "orderable": false }
 		]
     });
-    
+	
     /* DATATABLE -- Initialize group accom table */
 	var accom_group_table = $('#accom_group_table').DataTable({
         "order": [[ 0, "desc" ]],
@@ -144,7 +144,7 @@ $(document).ready(function()
 	// type of user
 	$("input[name=user_type]").click(function()
 	{
-		var type = jQuery('input[name=user_type]:checked').val(); // try $
+		var type = $('input[name=user_type]:checked').val(); // try $
 		if (type == "Admin")
 			$(".faculty-info").hide();
 		else
@@ -201,14 +201,14 @@ $(document).ready(function()
 	
 	$("input[name=accom_type]").click(function()
 	{
-		var type = jQuery('input[name=accom_type]:checked').val();
+		var type = $('input[name=accom_type]:checked').val();
 		$('.next_choice').attr('data-target','#modal_'+type);
 	});
 
 	//type of pub
 	$("input[name=type]").click(function()
 	{
-		var pub = jQuery('input[name=type]:checked').val();
+		var pub = $('input[name=type]:checked').val();
 		if (pub == "Journal")
 		{
 			$(".pub_book").hide();
@@ -437,20 +437,22 @@ $(document).ready(function()
 	    }
     });
 
-	// var last_ID = $("#category").val();//attr('name')
+    var categoryCount = 1;
+
 	$('#addCategory').click(function()  //on add input button click
 	{
-		var last_ID = $("input[id='category']:last-child").val();//attr('name')
-		alert('Coming soon!');
-		// $('#inputWrapper').append(
-		// 	'<div class="form-group">'+
-		// 		'<div class="col-md-10 col-md-offset-1">'+
-		// 			'<nobr>'+
-		// 				'<input type="text" class="form-control" style="display:inline" required>'+
-		// 				'<a href="#" class="btn removeCategory" role="button"><span class="glyphicon glyphicon-remove "></span></a>'+
-		// 			'</nobr>'+
-		// 		'</div>'+
-		// 	'</div>');
+		categoryCount++;
+		$('#inputWrapper').append(
+			'<div class="form-group">'+
+				'<div class="col-md-10 col-md-offset-1">'+
+					'<nobr>'+
+						'<input type="text" class="form-control" name="new_' + categoryCount + '"style="display:inline" required>'+
+						'<a href="#" class="btn removeCategory" role="button"><span class="glyphicon glyphicon-remove "></span></a>'+
+					'</nobr>'+
+				'</div>'+
+			'</div>');
+
+		return false;
 	});
 
 	$("body").on("click", ".removeCategory", function() //user click on remove text

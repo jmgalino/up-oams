@@ -15,7 +15,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$users = $user->get_user_group($programIDs, 'dean');
 		$consolidate_url = 'faculty/ipcr_dept/consolidate';
 
-		$this->action_view_group($department['department'], $programIDs, $users, $consolidate_url);
+		$this->view_group($department['department'], $programIDs, $users, $consolidate_url);
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	// 	$users = $user->get_user_group($programIDs, NULL);
 	// 	$consolidate_url = 'faculty/ipcr_coll/consolidate';
 
-	// 	$this->action_view_group($college['college'], $programIDs, $users, $consolidate_url);
+	// 	$this->view_group($college['college'], $programIDs, $users, $consolidate_url);
 	// }
 
 	/**
@@ -131,7 +131,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	/**
 	 * IPCR Forms (Department/College)
 	 */
-	private function action_view_group($group, $programIDs, $users, $consolidate_url)
+	private function view_group($group, $programIDs, $users, $consolidate_url)
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;

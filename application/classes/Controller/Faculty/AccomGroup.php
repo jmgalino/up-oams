@@ -15,8 +15,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$users = $user->get_user_group($programIDs, 'dean');
 		// $consolidate_url = 'faculty/accom_dept/consolidate';
 
-		// $this->action_view_group($department['department'], $programIDs, $users, $consolidate_url);
-		$this->action_view_group($department['department'], $programIDs, $users);
+		// $this->view_group($department['department'], $programIDs, $users, $consolidate_url);
+		$this->view_group($department['department'], $programIDs, $users);
 	}
 
 	/**
@@ -32,8 +32,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$users = $user->get_user_group($programIDs, NULL);
 		// $consolidate_url = 'faculty/accom_coll/consolidate';
 
-		// $this->action_view_group($college['college'], $programIDs, $users, $consolidate_url);
-		$this->action_view_group($college['college'], $programIDs, $users);
+		// $this->view_group($college['college'], $programIDs, $users, $consolidate_url);
+		$this->view_group($college['college'], $programIDs, $users);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	/**
 	 * Consolidate Accomplishment Reports
 	 */
-	private function action_consolidate()
+	public function action_consolidate()
 	{
 		// Open PDF in new tab
 	}
@@ -99,8 +99,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	/**
 	 * Accomplishment Reports (Department/College)
 	 */
-	// private function action_view_group($group, $programIDs, $users, $consolidate_url)
-	private function action_view_group($group, $programIDs, $users)
+	// private function view_group($group, $programIDs, $users, $consolidate_url)
+	private function view_group($group, $programIDs, $users)
 	{
 		$accom = new Model_Accom;
 		$univ = new Model_Univ;

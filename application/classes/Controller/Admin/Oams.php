@@ -33,15 +33,15 @@ class Controller_Admin_Oams extends Controller_Admin {
 		switch ($this->request->param('id'))
 		{
 			case 'title':
-				$this->action_update_title();
+				$this->update_title();
 				break;
 			
 			case 'about':
-				$this->action_update_about();
+				$this->update_about();
 				break;
 
 			case 'categories':
-				$this->action_update_categories();
+				$this->update_categories();
 				break;
 		}
 	}
@@ -49,7 +49,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	/**
 	 * Update OAMS Title
 	 */
-	private function action_update_title()
+	private function update_title()
 	{
 		$update_success = $this->oams->update_titles($this->request->post());
 		$this->session->set('success', $update_success);
@@ -59,7 +59,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	/**
 	 * Update OAMS About
 	 */
-	private function action_update_about()
+	private function update_about()
 	{
 		$update_success = $this->oams->update_about($this->request->post('about'));
 		$this->session->set('success', $update_success);
@@ -68,10 +68,67 @@ class Controller_Admin_Oams extends Controller_Admin {
 
 	/**
 	 * Update OAMS (IPCR/OPCR) Categories
+	 * Note: Cannot verify if unique
 	 */
-	private function action_update_categories()
+	private function update_categories()
 	{
-		print_r($this->request->post());
+		$new = array();
+		$update = array();
+		$add_success = TRUE;
+		$update_success = TRUE;
+		$delete_success = TRUE;
+		$categoryArr = $this->request->post();
+		$categories = $this->oams->get_categories();
+		
+		// Get current categories
+		$current = array();
+		foreach ($categories as $category)
+		{
+			$current[] = $category['category'];
+		}
+
+		// Separates new and current categories
+		foreach ($categoryArr as $key => $value)
+		{
+			if (is_numeric($key))
+				$update[$key] = $value;
+			else
+				$new[] = $value;
+		}
+		
+		// Updates old categories if necessary
+		if ($update)
+		{
+			// Check for any changes in current categories
+			foreach ($update as $category)
+			{
+				if (!in_array($category, $current))
+				{
+					$update_success = $this->oams->update_categories($update);
+					break;
+				}
+			}
+		}
+
+		// Inserts new categories if any
+		if ($new)
+			$add_success = $this->oams->add_category($new);
+
+		// Check for deleted categories
+		foreach ($categories as $category)
+		{
+			// Category doesn't exist in the new list, archived
+			if (!array_key_exists($category['category_ID'], $categoryArr))
+				$delete_success = $this->oams->delete_category($category['category']);
+		}
+
+		if (!array_diff($current, $categoryArr) && !array_diff($categoryArr, $current))
+			$this->redirect('admin/oams', 303);
+		elseif ($update_success AND $add_success AND $delete_success)
+			$this->session->set('success', 'The categories were updated successfully.');	
+		else 
+			$this->session->set('error', 'One or more categories were not successfully added/updated.');
+		
 		$this->redirect('admin/oams', 303);
 	}
 

@@ -198,7 +198,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
     	// print_r($attachments);
     	$attachment = '';
     	$filenames = array();
-    	$file_ary = $this->reArrayFiles($attachments);
+    	$file_ary = $this->rearray_files($attachments);
 
 	    foreach ($file_ary as $file) {
 	        $filename = $this->save_image($file);
@@ -220,7 +220,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
     /**
      * Rearrange multiple file array
      */
-    private function reArrayFiles(&$file_post)
+    private function rearray_files(&$file_post)
     {
 
 	    $file_array = array();

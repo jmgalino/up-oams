@@ -60,7 +60,7 @@ class Controller_Site extends Controller {
 
 		if ($this->request->post())
 		{
-			$this->action_send($this->request->post());
+			$this->send_message($this->request->post());
 		}
 		else
 		{
@@ -87,18 +87,31 @@ class Controller_Site extends Controller {
 		// User exists
 		if ($user)
 		{
-			$this->action_start_session($this->request->post('employee_code'));
+			$this->start_session($this->request->post('employee_code'));
 		}
 
 		// User doesn't exist
 		else
 		{
-			$this->action_error();
+			$this->show_error();
 		}
 	}
 
+	/**
+	 * Logout
+	 */
+	public function action_logout()
+	{
+		$session = Session::instance();
+		$success = $session->destroy();
+		if ($success)
+			$this->action_index();
+		else
+			echo 'Error';
+	}
+
 	// Send message to admin
-	private function action_send($details)
+	private function send_message($details)
 	{
 		require_once(APPPATH.'assets/lib/recaptchalib.php');
 		$privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
@@ -131,7 +144,7 @@ class Controller_Site extends Controller {
 	}
 
 	// Error login
-	private function action_error()
+	private function show_error()
 	{
         $oams = new Model_Oams;
 		$title = $oams->get_title();
@@ -144,7 +157,7 @@ class Controller_Site extends Controller {
 	}
 
 	// Successful login
-	private function action_start_session($employee_code)
+	private function start_session($employee_code)
 	{
 		$user = new Model_User;
 		$user_details = $user->get_details(NULL, $employee_code);
@@ -191,19 +204,6 @@ class Controller_Site extends Controller {
 			
 			$this->response = Request::factory('faculty')->execute();
 		}
-	}
-
-	/**
-	 * Logout
-	 */
-	public function action_logout()
-	{
-		$session = Session::instance();
-		$success = $session->destroy();
-		if ($success)
-			$this->action_index();
-		else
-			echo 'Error';
 	}
 
 } // End Site

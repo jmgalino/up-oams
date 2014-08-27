@@ -11,11 +11,11 @@
 		<?php echo $success?>
 	</p>
 </div>
-<?php elseif ($success === FALSE): ?>
+<?php elseif (($error) OR ($success === FALSE)): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Something went wrong. Please try it again.
+		<?php echo ($error ? $error : 'Something went wrong. Please try it again.'); ?>
 	</p>
 </div>
 <?php endif; ?>

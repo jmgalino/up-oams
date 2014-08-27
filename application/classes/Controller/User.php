@@ -6,15 +6,11 @@ class Controller_User extends Controller {
 	protected $session;
 	protected $view;
 	
-	public function before()
-	{
-		$this->action_before();
-	}
-
 	/**
-	 * Check if logged in; sets appropriate navigation
+	 * Check if logged in
+	 * Sets appropriate navigation
 	 */
-	private function action_before()
+	public function before()
     {
 		$this->oams = new Model_Oams;
     	$this->session = Session::instance();
@@ -143,7 +139,7 @@ class Controller_User extends Controller {
 	protected function action_password()
 	{
 		if ($this->request->post())
-			$this->action_change($this->request->post());
+			$this->change_password($this->request->post());
 		
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
@@ -202,7 +198,7 @@ class Controller_User extends Controller {
 	/**
 	 * Save new password
 	 */
-	private function action_change($details)
+	private function change_password($details)
 	{
 		$user = new Model_User;
 

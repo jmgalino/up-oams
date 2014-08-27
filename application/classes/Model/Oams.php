@@ -44,7 +44,7 @@ class Model_Oams extends Model {
 	/**
 	 * Update titles
 	 */
-	public function update_titles($details)
+	public function update_titles($titles)
 	{
 		$rows_updated = 0;
 
@@ -52,7 +52,7 @@ class Model_Oams extends Model {
 		    ->bind(':name', $name)
 		    ->bind(':value', $value);
 		 
-		foreach ($details as $name => $value)
+		foreach ($titles as $name => $value)
 		{
 		    $result = $query->execute();
 		    if ($result == 1) $rows_updated++;
@@ -97,6 +97,7 @@ class Model_Oams extends Model {
 	{
 		$result = DB::select()
 			->from('opcr_categorytbl')
+			->where('deleted', '=', '0')
 			->execute()
 			->as_array();
 
@@ -107,6 +108,81 @@ class Model_Oams extends Model {
 		}
 
 		return $categories;
+	}
+
+	/**
+	 * New IPCR/OPCR category
+	 */
+	public function add_category($categories)
+	{echo 'add';
+		$flag = 0;
+
+		foreach ($categories as $category)
+		{
+			$check = DB::select()
+				->from('opcr_categorytbl')
+				->where('category', '=', $category)
+				->execute()
+				->as_array();
+
+			if (!$check)
+			{
+				$insert_category = DB::insert('opcr_categorytbl')
+		 			->columns(array('category'))
+		 			->values(array($category))
+		 			->execute();
+			}
+			else if ($check[0]['deleted'] == '1')
+			{
+				$rows_updated = DB::update('opcr_categorytbl')
+		 			->set(array('deleted' => '0'))
+					->where('category', '=', $category)
+		 			->execute();
+			}
+			else
+			{
+				$flag++;
+			}
+		}
+
+		if ($flag == 0) return TRUE;
+		else return FALSE;
+	}
+
+	/**
+	 * Update IPCR/OPCR categories
+	 */
+	public function update_categories($categories)
+	{echo 'update';
+ 		$rows_updated = 0;
+
+		$query = DB::query(Database::UPDATE, 'UPDATE opcr_categorytbl SET category = :category WHERE category_ID = :id')
+		    ->bind(':category', $category)
+		    ->bind(':id', $id);
+		 
+		foreach ($categories as $id => $category)
+		{
+		    $result = $query->execute();
+		    if ($result == 1) $rows_updated++;
+		}
+
+ 		if ($rows_updated) return TRUE;
+ 		else return FALSE; //do something
+	}
+
+	/**
+	 * Delete IPCR/OPCR category
+	 */
+	public function delete_category($category)
+	{echo 'delete';
+		// "Archives" categories -- it may be used and deletion can cause conflicts
+ 		$rows_updated = DB::update('opcr_categorytbl')
+ 			->set(array('deleted' => '1'))
+			->where('category', '=', $category)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
 	}
 
 	/**

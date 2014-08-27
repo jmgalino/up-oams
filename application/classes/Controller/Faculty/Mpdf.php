@@ -14,15 +14,15 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		switch ($type) {
 			case 'accom':
 			case 'accom-consolidated':
-				$this->action_accom($id, $type, $purpose);
+				$this->accom_pdf($id, $type, $purpose);
 				break;
 			case 'ipcr':
 			case 'ipcr-consolidated':
-				$this->action_ipcr($id, $type, $purpose);
+				$this->ipcr_pdf($id, $type, $purpose);
 				break;
 			case 'opcr':
 			case 'opcr-consolidated':
-				$this->action_opcr($id, $type, $purpose);
+				$this->opcr_pdf($id, $type, $purpose);
 				break;
 		}
 	}
@@ -121,7 +121,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * IPCR Forms
 	 */
-	private function action_ipcr($ipcr_ID, $type, $purpose)
+	private function ipcr_pdf($ipcr_ID, $type, $purpose)
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
@@ -187,7 +187,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * OPCR Forms
 	 */
-	private function action_opcr($opcr_ID, $type, $purpose)
+	private function opcr_pdf($opcr_ID, $type, $purpose)
 	{
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
