@@ -9,14 +9,14 @@
       <?php print Form::open('faculty/accom/add/rch', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="proponent" class="col-sm-4 control-label">Proponent</label>
+          <label for="proponent" class="col-sm-4 control-label">Name of Faculty</label>
           <div class="col-sm-7">
             <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="title" class="col-sm-4 control-label">Title of Research/Fellowship</label>
+          <label for="title" class="col-sm-4 control-label">Title of Research</label>
           <div class="col-sm-7">
             <input type="text" class="form-control" id="title" name="title" required>
           </div>
@@ -26,17 +26,28 @@
           <label for="nature" class="col-sm-4 control-label">Nature</label>
           <div class="col-sm-7">
             <select class="form-control" name="nature">
-              <option value="Basic">Basic</option>
-              <option value="Other">Other</option>
-              <option value="Policy">Policy</option>
+              <option>Basic</option>
+              <option>Policy</option>
+              <option>Other</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="fund_external" class="col-sm-4 control-label">Source of Fund (External)</label>
+          <label for="fund_external" class="col-sm-4 control-label">Fund Source (External)</label>
           <div class="col-sm-7">
             <input type="text" class="form-control" id="fund_external" name="fund_external" placeholder="(Optional)">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="duration" class="col-sm-4 control-label">Duration of Grant</label>
+          <div class="col-sm-7" id="datepicker">
+            <div class="input-daterange input-group" id="duration">
+              <input type="text" class="form-control" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="end" required>
+            </div>
           </div>
         </div>
 
@@ -51,22 +62,11 @@
         </div>
 
         <div class="form-group">
-          <label for="fund_up" class="col-sm-4 control-label">Amount of Grant (UP)</label>
+          <label for="fund_up" class="col-sm-4 control-label">Amount of Grant (UP System Research Grant)</label>
           <div class="col-sm-7">
             <div class="input-group">
               <span class="input-group-addon">Php</span>
               <input type="text" class="form-control" id="fund_up" name="fund_up" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="duration" class="col-sm-4 control-label">Duration of Grant</label>
-          <div class="col-sm-7" id="datepicker">
-            <div class="input-daterange input-group" id="duration">
-              <input type="text" class="form-control" name="start" required>
-              <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" name="end" required>
             </div>
           </div>
         </div>

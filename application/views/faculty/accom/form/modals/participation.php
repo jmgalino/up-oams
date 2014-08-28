@@ -21,7 +21,6 @@
           <label for="participation" class="col-sm-3 control-label">Participation</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="participation" name="participation" required>
-            </select>
           </div>
         </div>
 

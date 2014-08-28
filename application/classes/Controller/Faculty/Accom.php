@@ -13,11 +13,13 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
+		$error = $this->session->get_once('error');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
 			->bind('submit', $submit)
 			->bind('delete', $delete)
+			->bind('error', $error)
 			->bind('accom_reports', $accom_reports);
 		$this->response->body($this->view->render());
 	}
@@ -29,6 +31,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
+		$name = $this->session->get('fullname2');
 		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
 
 		if ($accom_reports)
@@ -37,7 +40,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$accom_IDs = array();
 			foreach ($accom_reports as $report)
 			{
-				if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending'))
+				if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending') OR ($report['status'] == 'Saved'))
 				{
 					$reports[] = $report;
 					$accom_IDs[] = $report['accom_ID'];
@@ -59,6 +62,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 		$this->view->content = View::factory('faculty/accom/list/faculty_all')
 			->bind('accom_reports', $reports)
+			->bind('name', $name)
 			->bind('accom_pub', $pub)
 			->bind('accom_awd', $awd)
 			->bind('accom_rch', $rch)
@@ -99,7 +103,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom = new Model_Accom;
 
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID)[0];
+		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 
 		if ($accom_details['document'])
@@ -120,11 +124,19 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID)[0];
+		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
-		$this->session->set('accom_details', $accom_details);
-		$this->show_draft();
+		if (($accom_details['status'] == 'Approved') OR ($accom_details['status'] == 'Pending'))
+		{
+			$this->session->set('error', 'Accomplishment Report is locked for editing.');
+			$this->redirect('faculty/accom'); //401
+		}
+		else
+		{
+			$this->session->set('accom_details', $accom_details);
+			$this->show_draft();
+		}
 	}
 
 	/**
@@ -134,12 +146,20 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID)[0];
+		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
-		$delete_success = $accom->delete($accom_ID);
-		$this->session->set('delete', $delete_success);
-		$this->redirect('faculty/accom', 303);
+		if (($accom_details['status'] == 'Approved') OR ($accom_details['status'] == 'Pending'))
+		{
+			$this->session->set('error', 'Accomplishment Report is locked for editing.');
+			$this->redirect('faculty/accom'); //401
+		}
+		else
+		{
+			$delete_success = $accom->delete($accom_ID);
+			$this->session->set('delete', $delete_success);
+			$this->redirect('faculty/accom', 303);
+		}
 	}
 
 	/**
@@ -150,7 +170,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom = new Model_Accom;
 
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID)[0];
+		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
 	}
@@ -190,7 +210,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		$label = date_format(date_create($this->session->get('accom_details')['yearmonth']), 'F Y');
+		$label = date('F Y', strtotime($this->session->get('accom_details')['yearmonth']));
+		$warning = $this->session->get_once('warning');
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
 
 		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
@@ -205,6 +226,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 		$this->view->content = View::factory('faculty/accom/form/template')
 			->bind('label', $label)
+			->bind('warning', $warning)
 			->bind('session', $this->session)
 			->bind('accom', $accoms);
 		$this->response->body($this->view->render());	

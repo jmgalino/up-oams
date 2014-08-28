@@ -26,7 +26,7 @@ class Model_User extends Model {
  	{
  		if ($user_ID)
  		{
- 			$result = DB::select()
+ 			$details = DB::select()
 				->from('user_profiletbl')
 				->where('user_ID', '=', $user_ID)
 		 		->execute()
@@ -34,20 +34,14 @@ class Model_User extends Model {
 		 }
  		else
  		{
- 			$result = DB::select()
+ 			$details = DB::select()
 				->from('user_profiletbl')
 				->where('employee_code', '=', $employee_code)
 		 		->execute()
 		 		->as_array();
  		}
 
- 		$details = array();
-		foreach ($result as $detail)
-		{
-			$details[] = $detail;
-		}
-
- 		return $details;
+ 		return $details[0];
  	}
 
  	/**
@@ -215,7 +209,7 @@ class Model_User extends Model {
 	 */
 	public function delete_profile($employee_code)
  	{
- 		$user_details = $this->get_details(NULL, $employee_code)[0];
+ 		$user_details = $this->get_details(NULL, $employee_code);
 
  		// Archive
  		if ($user_details['deleted'] == 0)

@@ -11,9 +11,9 @@ if ($session->get('accom_awd'))
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $awd['award'], '. ';
-		echo $awd['source'], '. ';
 		echo date_format(date_create($awd['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($awd['end']), 'F d, Y');
+		echo date_format(date_create($awd['end']), 'F d, Y'), '. ';
+		echo $awd['source'], '.';
 		echo '&nbsp;&nbsp;';
 		
 		if ($awd['attachment'])

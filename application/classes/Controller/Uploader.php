@@ -10,7 +10,7 @@ class Controller_Uploader extends Controller {
         $user = new Model_User;
         $session = Session::instance();
         $employee_code = $this->request->param('id');
-        $user_details = $user->get_details(NULL, $employee_code)[0];
+        $user_details = $user->get_details(NULL, $employee_code);
         $filename = NULL;
  
         if ($this->request->method() == Request::POST)

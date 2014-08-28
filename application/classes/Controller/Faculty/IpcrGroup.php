@@ -10,7 +10,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_department_programIDs($department['department_ID']);
 		$users = $user->get_user_group($programIDs, 'dean');
 		$consolidate_url = 'faculty/ipcr_dept/consolidate';
@@ -26,7 +26,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	// 	$univ = new Model_Univ;
 	// 	$user = new Model_User;
 
-	// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+	// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 	// 	$programIDs = $univ->get_college_programIDs($college['college_ID']);
 	// 	$users = $user->get_user_group($programIDs, NULL);
 	// 	$consolidate_url = 'faculty/ipcr_coll/consolidate';
@@ -44,9 +44,9 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$user = new Model_User;
 
 		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
-		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID'])[0];
-		$user_details = $user->get_details($ipcr_details['user_ID'], NULL)[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		$user_details = $user->get_details($ipcr_details['user_ID'], NULL);
 
 		$evaluation = $this->session->get_once('evaluation');
 		$identifier = $this->session->get('identifier');
@@ -107,10 +107,10 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$targets = $ipcr->get_output_targets($outputs);
 		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		$categories = $opcr->get_categories();
-		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$opcr_details = $opcr->get_details($opcr_ID);
 		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
 		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_department_programIDs($department['department_ID']);
 		$users = $user->get_user_group($programIDs, 'dean');
 				

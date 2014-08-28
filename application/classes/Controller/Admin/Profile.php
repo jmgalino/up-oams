@@ -48,7 +48,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 			if (is_numeric($details['program_ID']))
 			{
 				$univ = new Model_Univ;
-				$department = $univ->get_program_details($details['program_ID'])[0];
+				$department = $univ->get_program_details($details['program_ID']);
 				$details['department_ID'] = $department['department_ID'];
 			}
 			else
@@ -79,19 +79,19 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$reset = $this->session->get_once('reset');
 		$error = $this->session->get_once('error');
 
-		$user = $user->get_details(NULL, $this->request->param('id'))[0];
+		$user = $user->get_details(NULL, $this->request->param('id'));
 		$programs = $univ->get_programs();
 
 		if ($user['user_type'] == 'Faculty')
 		{
 			if (isset($user['program_ID']))
 			{
-				$program = $univ->get_program_details($user['program_ID'])[0];
+				$program = $univ->get_program_details($user['program_ID']);
 				$user['program_short'] = $program['program_short'];
 			}
 			else
 			{
-				$department = $univ->get_department_details($user['department_ID'], NULL)[0];
+				$department = $univ->get_department_details($user['department_ID'], NULL);
 				$user['program_short'] = 'Other: '.$department['department'];
 			}	
 		}
@@ -143,7 +143,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 			if (is_numeric($details['program_ID']))
 			{
 				$univ = new Model_Univ;
-				$department = $univ->get_program_details($details['program_ID'])[0];
+				$department = $univ->get_program_details($details['program_ID']);
 				$details['department_ID'] = $department['department_ID'];
 			}
 			else
@@ -197,15 +197,12 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 	// 	$document = $this->request->param('document');
 	// 	$document_ID = $this->request->param('document_ID');
-	// 	$user = $user->get_details(NULL, $this->request->param('id'))[0];
+	// 	$user = $user->get_details(NULL, $this->request->param('id'));
 
 	// 	switch ($document)
 	// 	{
 	// 		case 'accom':
-	// 			$accom = new Model_Accom;
-	// 			$accom_details = $accom->get_details($document_ID)[0];
-	// 			$label = 'Accomplishment Report - '.date_format(date_create($accom_details['yearmonth']), 'F \'y');
-	// 			$filename = $accom_details['document'];
+	// 			# code...
 	// 			break;
 
 	// 		case 'ipcr':

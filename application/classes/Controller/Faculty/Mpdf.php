@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-define("_MPDF_TEMP_PATH", DOCROOT.'files/tmp/');
 include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
 class Controller_Faculty_Mpdf extends Controller_User {
@@ -67,7 +66,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	{
 		$accom = new Model_Accom;
 			
-		$accom_details = $accom->get_details($accom_ID)[0];
+		$accom_details = $accom->get_details($accom_ID);
 		$date = date_format(date_create($accom_details['yearmonth']), 'my');
 		$filename = $this->session->get('employee_code').$date.'.pdf';
 		$filepath = DOCROOT.'files/document_accom/'.$filename;
@@ -108,7 +107,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			$this->action_submit($template, $filepath);
 
-			$details['status'] = 'Pending';
+			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 			$details['document'] = $filename;
 			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
 
@@ -127,15 +126,15 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
-		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID'])[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
 		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
 		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
 		$filepath = DOCROOT.'files/document_ipcr/'.$filename;
 		
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
-		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 
 		$label = ($this->session->get('identifier') == 'dean'
 			? 'Unit Head, '.$college['short']
@@ -167,14 +166,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			$this->action_submit($template, $filepath);
 
-			// IPCR is submitted for approval/checking
-			if ($this->session->get('identifier') == 'faculty')
-				$details['status'] = 'Pending';
-			
-			// IPCR by dean/department chair doen't have to be checked
-			else
-				$details['status'] = 'Saved';
-
+			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 			$details['document'] = $filename;
 			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
 			$submit_success = $ipcr->submit($ipcr_ID, $details);
@@ -192,14 +184,14 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 		
-		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$opcr_details = $opcr->get_details($opcr_ID);
 		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
 		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
 		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
 		$filepath = DOCROOT.'files/document_opcr/'.$filename;
 		
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
-		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		
 		$label = 'Unit Head, '.($this->session->get('identifier') == 'dean'
 			? $college['short']

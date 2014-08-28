@@ -11,7 +11,7 @@
       <?php print Form::open('faculty/accom/add/oth', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="form-group">
-          <label class="col-sm-3 control-label">Name</label>
+          <label class="col-sm-3 control-label">Name of Faculty</label>
           <div class="col-sm-8">
             <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
           </div>

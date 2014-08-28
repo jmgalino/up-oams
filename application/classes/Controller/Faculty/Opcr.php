@@ -12,12 +12,14 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
+		$error = $this->session->get_once('error');
 		$employee_code = $this->session->get('employee_code');
 		$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/opcr/list/faculty')
 			->bind('submit', $submit)
 			->bind('delete', $delete)
+			->bind('error', $error)
 			->bind('opcr_forms', $opcr_forms);
 		$this->response->body($this->view->render());
 	}
@@ -52,7 +54,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 
 		if ($opcr_details['document'])
@@ -76,11 +78,19 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	{
 		$opcr = new Model_Opcr;
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		
-		$this->session->set('opcr_details', $opcr_details);
-		$this->show_draft();
+		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
+		{
+			$this->session->set('error', 'OPCR is locked for editing.');
+			$this->redirect('faculty/opcr'); //401
+		}
+		else
+		{
+			$this->session->set('opcr_details', $opcr_details);
+			$this->show_draft();
+		}
 	}
 
 	/**
@@ -91,12 +101,20 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']);
 
-		$delete = $opcr->delete($opcr_ID);
-		$this->session->set('delete', $delete);
-		$this->redirect('faculty/opcr', 303);
+		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
+		{
+			$this->session->set('error', 'OPCR is locked for editing.');
+			$this->redirect('faculty/opcr'); //401
+		}
+		else
+		{
+			$delete = $opcr->delete($opcr_ID);
+			$this->session->set('delete', $delete);
+			$this->redirect('faculty/opcr', 303);
+		}
 	}
 
 	/**
@@ -107,7 +125,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID)[0];
+		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		$this->redirect('faculty/mpdf/submit/opcr/'.$opcr_ID, 303);
 	}
@@ -157,7 +175,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 
 		$post = $this->request->post();
-		$output_details = $opcr->get_output_details($post['output_ID'])[0];
+		$output_details = $opcr->get_output_details($post['output_ID']);
 		
 		if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
 		{
@@ -217,7 +235,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
 		$outputs = $opcr->get_outputs($opcr_ID);
 		$categories = $opcr->get_categories();
-		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
 		// if ($this->session->get('identifier') == 'dept_chair')
 		// {
@@ -225,7 +243,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		// }
 		// elseif ($this->session->get('identifier') == 'dean')
 		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		// 	$title = $college['short'];
 		// }
 

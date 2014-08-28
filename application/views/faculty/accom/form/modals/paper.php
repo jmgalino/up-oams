@@ -11,14 +11,15 @@
       <?php print Form::open('faculty/accom/add/ppr', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="author" class="col-sm-3 control-label">Author</label>
+          <label for="author" class="col-sm-3 control-label">Author/s</label>
           <div class="col-sm-8">
             <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
+            <input type="text" class="form-control" id="author" name="author" data-toggle="tooltip" data-placement="top" title="No need to include other faculty." placeholder="(Optional)">
           </div>
         </div>
 
         <div class="form-group">
-          <label for="title" class="col-sm-3 control-label">Title</label>
+          <label for="title" class="col-sm-3 control-label">Title of Paper</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="title" name="title" required>
           </div>
@@ -28,10 +29,10 @@
           <label for="activity" class="col-sm-3 control-label">Activity</label>
           <div class="col-sm-8">
             <select class="form-control" name="activity">
-              <option value="Conference">Conference</option>
-              <option value="Forum">Forum</option>
-              <option value="Seminar">Seminar</option>
-              <option value="Workshop">Workshop</option>
+              <option>Conference</option>
+              <option>Forum</option>
+              <option>Seminar</option>
+              <option>Workshop</option>
             </select>
           </div>
         </div>

@@ -14,7 +14,7 @@ if ($session->get('accom_par'))
 		echo $par['title'], '. ';
 		echo $par['venue'], '. ';
 		echo date_format(date_create($par['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($par['end']), 'F d, Y');
+		echo date_format(date_create($par['end']), 'F d, Y'), '.';
 		echo '&nbsp;&nbsp;';
 		
 		if ($par['attachment'])

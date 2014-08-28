@@ -13,9 +13,10 @@
       ?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="author" class="col-sm-3 control-label">Author</label>
+          <label for="author" class="col-sm-3 control-label">Author/s</label>
           <div class="col-sm-8">
             <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
+            <input type="text" class="form-control" id="author" name="author" data-toggle="tooltip" data-placement="top" title="No need to include other faculty." placeholder="(Optional)">
           </div>
         </div>
 

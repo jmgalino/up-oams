@@ -142,7 +142,7 @@ $(document).ready(function()
 
     /* DATATABLE -- Initialize faculty opcr table */
     $('#opcr_table').DataTable({
-        "order": [[ 0, "asc" ]],
+        "order": [[ 0, "desc" ]],
         "columns": [
 		    null,
 		    null,
@@ -216,6 +216,7 @@ $(document).ready(function()
 	//type of pub
 	$("input[name=type]").click(function()
 	{
+		// try to get value from label
 		var pub = $('input[name=type]:checked').val();
 		if (pub == "Journal")
 		{
@@ -250,7 +251,7 @@ $(document).ready(function()
 	});
 
 	// Tooltip for author field
-	$('#author').tooltip();
+	$('input#author').tooltip();
 	$('.button-tip').tooltip();
 	$("#photo").fileinput({
 		previewFileType: "image",
@@ -354,12 +355,14 @@ $(document).ready(function()
     		$("#fund_amount").attr("required", "");
     		$("#fund_amount").removeAttr("placeholder");
     		$("#fund_up").removeAttr("required");
+    		$("#fund_up").attr("placeholder", "(Optional)")
     	}
     	else
     	{
     		$("#fund_amount").attr("placeholder", "(Optional)");
     		$("#fund_amount").removeAttr("required");
     		$("#fund_up").attr("required", "");
+    		$("#fund_up").removeAttr("placeholder");
     	}
     });
     $('#fund_amount').keyup(function()
@@ -371,12 +374,14 @@ $(document).ready(function()
     		$("#fund_external").attr("required", "");
     		$("#fund_external").removeAttr("placeholder");
     		$("#fund_up").removeAttr("required");
+    		$("#fund_up").attr("placeholder", "(Optional)")
     	}
     	else
     	{
     		$("#fund_external").attr("placeholder", "(Optional)");
     		$("#fund_external").removeAttr("required");
     		$("#fund_up").attr("required", "");
+    		$("#fund_up").removeAttr("placeholder");
     	}
     });
 

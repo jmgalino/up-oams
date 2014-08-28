@@ -160,30 +160,17 @@ class Controller_Site extends Controller {
 	private function start_session($employee_code)
 	{
 		$user = new Model_User;
-		$user_details = $user->get_details(NULL, $employee_code);
-
-		foreach ($user_details as $detail)
-		{
-			$session_details['user_ID']		= $detail['user_ID'];
-			$session_details['fname']		= $detail['first_name'];
-			$session_details['minit']		= $detail['middle_initial'];
-			$session_details['lname']		= $detail['last_name'];
-			$session_details['user_type']	= $detail['user_type'];
-			$session_details['fcode']		= $detail['faculty_code'];
-			$session_details['program_ID']	= $detail['program_ID'];
-			$session_details['rank']		= $detail['rank'];
-			$session_details['position']	= $detail['position'];
-		}
+		$session = Session::instance();
 		
-    	$session = Session::instance();
+		$user_details = $user->get_details(NULL, $employee_code);
 		$session->set('employee_code', $employee_code);
-    	$session->set('user_ID', $detail['user_ID']);
-		$session->set('fname', $session_details['fname']);
-		$session->set('fullname', $session_details['fname'].' '.$session_details['minit'].'. '.$session_details['lname']);
-		$session->set('fullname2', $session_details['lname'].', '.$session_details['fname'].' '.$session_details['minit'].'.');
+    	$session->set('user_ID', $user_details['user_ID']);
+		$session->set('fname', $user_details['first_name']);
+		$session->set('fullname', $user_details['first_name'].' '.$user_details['middle_initial'].'. '.$user_details['last_name']);
+		$session->set('fullname2', $user_details['last_name'].', '.$user_details['first_name'].' '.$user_details['middle_initial'].'.');
 		
 		// Admin
-		if ($session_details['user_type'] == 'Admin')
+		if ($user_details['user_type'] == 'Admin')
 		{
 			$session->set('identifier', 'admin');
 			$this->response = Request::factory('admin')->execute();
@@ -192,15 +179,15 @@ class Controller_Site extends Controller {
 		//	Faculty
 		else
 		{
-			$session->set('fcode', $session_details['fcode']);
-			$session->set('program_ID', $session_details['program_ID']);
-			$session->set('rank', $session_details['rank']);
-			$session->set('position', $session_details['position']);
+			$session->set('fcode', $user_details['faculty_code']);
+			$session->set('program_ID', $user_details['program_ID']);
+			$session->set('rank', $user_details['rank']);
+			$session->set('position', $user_details['position']);
 
-			if ($session_details['position'] == 'none')
+			if ($user_details['position'] == 'none')
 				$session->set('identifier', 'faculty');
 			else
-				$session->set('identifier', $session_details['position']);
+				$session->set('identifier', $user_details['position']);
 			
 			$this->response = Request::factory('faculty')->execute();
 		}

@@ -23,7 +23,7 @@
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong><?php echo (($session->get('identifier') == 'faculty') ? 'submit' : 'save'); ?></strong>.
+		Don't forget to <strong><?php echo (($session->get('identifier') == 'faculty') ? 'save' : 'submit'); ?></strong>.
 	</p>
 </div>
 <?php endif; ?>
@@ -75,7 +75,7 @@ echo View::factory('faculty/ipcr/form/modals/output')
 			<hr>
 			<li>
 				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
-				<?php echo (($session->get('identifier') == 'faculty') ? 'Submit' : 'Save'); ?>
+				<?php echo (($session->get('identifier') == 'dean') ? 'Save' : 'Submit'); ?>
 				</a>
 			</li>
 			<?php endif; ?>

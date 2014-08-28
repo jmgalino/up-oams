@@ -9,7 +9,7 @@
       <?php print Form::open('faculty/accom/add/awd', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="name" class="col-sm-5 control-label">Name</label>
+          <label for="name" class="col-sm-5 control-label">Name of Faculty</label>
           <div class="col-sm-6">
             <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
           </div>
@@ -23,13 +23,13 @@
         </div>
 
         <div class="form-group">
-          <label for="type" class="col-sm-5 control-label">Type</label>
-          <div class="col-sm-6">
-            <select class="form-control" name="type">
-              <option value="Academe">Academe</option>
-              <option value="National">National</option>
-              <option value="International">International</option>
-            </select>
+          <label for="duration" class="col-sm-5 control-label">Duration of the Award/Grant</label>
+          <div class="col-sm-6" id="datepicker">
+            <div class="input-daterange input-group" id="duration">
+              <input type="text" class="form-control" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="end" required>
+            </div>
           </div>
         </div>
 
@@ -41,13 +41,13 @@
         </div>
 
         <div class="form-group">
-          <label for="duration" class="col-sm-5 control-label">Duration of the Award/Grant</label>
-          <div class="col-sm-6" id="datepicker">
-            <div class="input-daterange input-group" id="duration">
-              <input type="text" class="form-control" name="start" required>
-              <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" name="end" required>
-            </div>
+          <label for="type" class="col-sm-5 control-label">Type</label>
+          <div class="col-sm-6">
+            <select class="form-control" name="type">
+              <option>Academe</option>
+              <option>National</option>
+              <option>International</option>
+            </select>
           </div>
         </div>
 

@@ -5,7 +5,14 @@
 	<li class="active"><?php echo $label; ?></li>
 </ol>
 
-<?php if ($accom): ?>
+<?php if ($warning): ?>
+<div class="alert alert-warning alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $warning; ?>
+	</p>
+</div>
+<?php elseif ($accom): ?>
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -64,6 +71,15 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				<?php if ($session->get('attachment') != 0)
 					echo '<span class="help-block" style="padding: 10px 15px;">Tip: Click on the paper clips to view attachments.</span>';
 				?>
+			</li>
+			<?php endif; ?>
+			<?php if ($session->get('accom_details')['status'] == 'Rejected'): ?>
+			<br><br><br>
+			<li style="padding:10px 15px; border: 1px dashed #003619"><br>
+				<dl style="padding:15px;">
+					<dt>Remarks</dt>
+					<dd><?php echo $session->get('accom_details')['remarks']; ?></dd>
+				</dl>
 			</li>
 			<?php endif; ?>
 		</ul>

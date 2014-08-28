@@ -30,7 +30,7 @@ class Model_Accom extends Model {
 		$result = DB::select()
 			->from('accomtbl')
 			->where('user_ID', 'IN', $userIDs)
-			->where('status', 'IN', array('Approved', 'Pending'))
+			->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
 	 		->execute()
 	 		->as_array();
 
@@ -48,19 +48,13 @@ class Model_Accom extends Model {
 	 */
 	public function get_details($accom_ID)
 	{
-		$result = DB::select()
+		$details = DB::select()
 			->from('accomtbl')
 			->where('accom_ID', '=', $accom_ID)
 	 		->execute()
 	 		->as_array();
 
-		$details = array();
-		foreach ($result as $detail)
-		{
-			$details[] = $detail;
-		}
-
- 		return $details;
+ 		return $details[0];
 	}
 
 	/**
@@ -122,7 +116,7 @@ class Model_Accom extends Model {
 	 */
 	public function evaluate($accom_ID, $details)
 	{
-		$accom = $this->get_details($accom_ID)[0];
+		$accom = $this->get_details($accom_ID);
 
 		if($accom['remarks'] !== 'None')
 			$details['remarks'] .= '<br>'.$accom['remarks'];
@@ -154,12 +148,12 @@ class Model_Accom extends Model {
 	 */
 	public function get_accoms($accom_ID, $type)
 	{
+		$accoms = array();
+		$accom_specs = array();
+
 		// Find accomplishments for one report
 		if (count($accom_ID) == 1)
 		{
-			$accoms = array();
-			$accom_specs = array();
-
 			// Retrive accom_specIDs and attachments if any
 			$result = DB::select('accom_specID', 'attachment')
 				->from('connect_accomtbl')
@@ -180,18 +174,13 @@ class Model_Accom extends Model {
 			{
 				$accoms = $this->get_accom_specs($accom_specs, $type);
 			}
-
-			return $accoms;
 		}
 
-		// Find accomplishments for multiple reports -- consolidated
+		// Find accomplishments for multiple reports -- consolidated/display all
 		else
 		{
-			$accoms = array();
-			$accom_specs = array();
-
-			// Retrive accom_specIDs and attachments if any
-			$result = DB::select('accom_specID', 'attachment')
+			// Retrive accom_specIDs, attachments etc
+			$result = DB::select()
 				->from('connect_accomtbl')
 				->where('accom_ID', 'IN', $accom_ID)
 				->where('type', '=', $type)
@@ -200,19 +189,23 @@ class Model_Accom extends Model {
 		
 			foreach ($result as $accom_spec)
 			{
-				$detail['accom_specID'] = $accom_spec['accom_specID'];
-				$detail['attachment'] = $accom_spec['attachment'];
-				$accom_specs[] = $detail;
+				$accom_ID = $accom_spec['accom_ID'];
+				$accom_details = $this->get_details($accom_ID);
+				
+				$accom_spec_details['accom_specID'] = $accom_spec['accom_specID'];	// Add accom_specID
+				// $accom_spec_details['attachment'] = $accom_spec['attachment'];		// Add attachment
+				$accom_spec_details['user_ID'] = $accom_details['user_ID'];			// Add user_ID
+				$accom_specs[] = $accom_spec_details;
 			}
 
 			// Retrieve accom details
 			if ($accom_specs)
 			{
-				$accoms[] = $this->get_accom_specs($accom_specs, $type);
+				$accoms = $this->get_accom_specs($accom_specs, $type);
 			}
-
-			return $accoms;
 		}
+
+		return $accoms;
 	}
 
 	/**
@@ -230,7 +223,10 @@ class Model_Accom extends Model {
 	 		foreach ($details as $column_name => $value)
 	 		{
 				$columns[] = $column_name;
-				$values[] = $value;
+				if ($value == '')
+					$values[] = NULL;
+				else
+					$values[] = $value;
 			}
 
 			$insert_accom = DB::insert('accom_'.$type.'tbl')
@@ -302,30 +298,27 @@ class Model_Accom extends Model {
 	 */
 	public function check_accom_exist($name_ID, $type, $details)
 	{
+		$id = NULL;
 		$count = 0;
+		$columns = array();
+		$values = array();
 
-		foreach ($details as $column_name => $value)
+		$query = DB::select()->from('accom_'.$type.'tbl');
+
+		foreach ($details as $key => $value)
 		{
-			$result = DB::select()
-				->from('accom_'.$type.'tbl')
-				->where($column_name, '=', $value)
-				->execute()
-				->as_array();
-
-			if ($result)
-				$count++;
+			if ($value == '')
+				$query->where($key, '=', NULL);
+			else
+				$query->where($key, '=', $value);
 		}
+		
+		$result = $query->execute()->as_array();
 
-		if ($count == count($details))
-		{
-			$result = DB::select($name_ID)
-				->from('accom_'.$type.'tbl')
-				->where($column_name, '=', $value)
-				->execute()
-				->as_array();
+		if ($result)
+			$id = $result[0][$name_ID];
 
-			return $result[0];	
-		}
+		return $id;
 	}
 
 	/**
@@ -393,7 +386,8 @@ class Model_Accom extends Model {
 				break;
 		}
 
-		foreach ($accom_specs as $accom_spec) {
+		foreach ($accom_specs as $accom_spec)
+		{
 			$result = DB::select()
 				->from($table)
 				->where($name_ID, '=', $accom_spec['accom_specID'])
@@ -409,7 +403,8 @@ class Model_Accom extends Model {
 				}
 			}
 
-			$details['attachment'] = $accom_spec['attachment'];
+			if (array_key_exists('attachment', $accom_spec)) $details['attachment'] = $accom_spec['attachment'];	// Add attachment
+			if (array_key_exists('user_ID', $accom_spec)) $details['user_ID'] = $accom_spec['user_ID'];		// Add user_ID
 			$accoms[] = $details;
 		}
 
@@ -430,7 +425,7 @@ class Model_Accom extends Model {
 			->as_array();
 
 		if($check)
-			return FALSE;
+			Session::instance()->set('warning', 'This accomplishment is already included.');
 		else
 		{
 			$insert_accom = DB::insert('connect_accomtbl')

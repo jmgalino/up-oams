@@ -15,11 +15,9 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$attachment = NULL;
 		
 		if (isset($_FILES['attachment']))
-        {
-			$attachment = $this->set_attachment($_FILES['attachment'], $accom_ID, $type);
-        }
-
-		if (($type !== 'pub') AND ($type !== 'mat'))
+        	$attachment = $this->set_attachment($_FILES['attachment'], $accom_ID, $type);
+        
+        if (($type !== 'pub') AND ($type !== 'mat'))
 		{
 			$details = $this->request->post();
 			$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
@@ -38,13 +36,18 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 			
 			case 'rch':
 				$name_ID = 'research_ID';
-				if ($details['fund_amount'])
+				if ($details['fund_external'])
 				{
 					$tmp = str_replace(',', '', $details['fund_amount']);
 
 					if(is_numeric($tmp)) {
 					    $details['fund_amount'] = $tmp;
 					}
+				}
+				else
+				{
+					unset($details['fund_external']);
+					unset($details['fund_amount']);
 				}
 				if ($details['fund_up'])
 				{
@@ -53,6 +56,10 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 					if(is_numeric($tmp)) {
 					    $details['fund_up'] = $tmp;
 					}
+				}
+				else
+				{
+					unset($details['fund_up']);
 				}
 				break;
 			

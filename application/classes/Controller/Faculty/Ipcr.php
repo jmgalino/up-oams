@@ -69,13 +69,13 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 		
 		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 
 		if ($ipcr_details['document'])
 		{
 			// Show PDF
-			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID'])[0];
+			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 			$this->show_pdf($ipcr_details);
 		}
 		else
@@ -91,11 +91,19 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		$this->session->set('ipcr_details', $ipcr_details);
-		$this->show_draft();
+		if (($ipcr_details['status'] == 'Checked') OR ($ipcr_details['status'] == 'Pending'))
+		{
+			$this->session->set('error', 'IPCR is locked for editing.');
+			$this->redirect('faculty/ipcr'); //401
+		}
+		else
+		{
+			$this->session->set('ipcr_details', $ipcr_details);
+			$this->show_draft();
+		}
 	}
 
 	/**
@@ -105,12 +113,20 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		$delete_success = $ipcr->delete($ipcr_ID);
-		$this->session->set('delete', $delete_success);
-		$this->redirect('faculty/ipcr', 303);
+		if (($ipcr_details['status'] == 'Checked') OR ($ipcr_details['status'] == 'Pending'))
+		{
+			$this->session->set('error', 'IPCR is locked for editing.');
+			$this->redirect('faculty/ipcr'); //401
+		}
+		else
+		{
+			$delete_success = $ipcr->delete($ipcr_ID);
+			$this->session->set('delete', $delete_success);
+			$this->redirect('faculty/ipcr', 303);
+		}
 	}
 
 	/**
@@ -120,7 +136,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		$this->redirect('faculty/mpdf/submit/ipcr/'.$ipcr_ID);
 	}
@@ -138,7 +154,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID)[0];
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 
 		if ($this->request->post('output_ID')){
@@ -160,7 +176,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 		$target_ID = $this->request->param('id');
-		$target_details = $ipcr->get_target_details($target_ID)[0];
+		$target_details = $ipcr->get_target_details($target_ID);
 		
 		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
 		{	
@@ -194,7 +210,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 
-		$opcr_details = $opcr->get_details($this->session->get('ipcr_details')['opcr_ID'])[0];
+		$opcr_details = $opcr->get_details($this->session->get('ipcr_details')['opcr_ID']);
 		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
 		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
 		$label = $period_from.' - '.$period_to;
@@ -204,11 +220,11 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$targets = $ipcr->get_targets($this->session->get('ipcr_details')['ipcr_ID']);
 		$outputs = $opcr->get_outputs($this->session->get('ipcr_details')['opcr_ID']);
 		$categories = $opcr->get_categories();
-		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'))[0];
+		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
 		// if ($this->session->get('identifier') == 'dean')
 		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'))[0];
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		// 	$title = 'Unit Head, '.$college['short'];
 		// }
 		// else

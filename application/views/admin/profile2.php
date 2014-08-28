@@ -46,8 +46,8 @@
 				          <label for="user_type">User Type</label>
 				          <select class="form-control" name="user_type" id="user_type">
 							  <option>All</option>
-							  <option value="Admin">Admin</option>
-							  <option value="Faculty">Faculty</option>
+							  <option>Admin</option>
+							  <option>Faculty</option>
 							</select>
 						</div>
 

@@ -1,5 +1,5 @@
 <div class="form-group">
-  <label for="author" class="col-sm-4 control-label">Author</label>
+  <label for="author" class="col-sm-4 control-label">Author/s</label>
   <div class="col-sm-7">
     <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
     <input type="text" class="form-control" id="author" name="author" data-toggle="tooltip" data-placement="top" title="No need to include other faculty." placeholder="(Optional)">
@@ -7,16 +7,16 @@
 </div>
 
 <div class="form-group">
-  <label for="title" class="col-sm-4 control-label">Title</label>
+  <label for="year" class="col-sm-4 control-label">Year</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control getPub" id="title" name="title" required>
+    <input type="text" class="form-control" id="year" name="year" pattern="([0-9]{4})" title="Format is YYYY" required>
   </div>
 </div>
 
 <div class="form-group">
-  <label for="year" class="col-sm-4 control-label">Year</label>
+  <label for="title" class="col-sm-4 control-label">Title</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="year" name="year" pattern="([0-9]{4})" title="Format is YYYY" required>
+    <input type="text" class="form-control getPub" id="title" name="title" required>
   </div>
 </div>
 
@@ -39,14 +39,14 @@
 <div class="form-group pub_journal" style="display:none;">
   <label for="journal_volume" class="col-sm-4 control-label">Volume No.</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control pub_j" id="journal_volume" name="journal_volume" placeholder="III">
+    <input type="text" class="form-control pub_j" id="journal_volume" name="journal_volume">
   </div>
 </div>
 
 <div class="form-group pub_journal" style="display:none;">
   <label for="journal_issue" class="col-sm-4 control-label">Issue No.</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control pub_j" id="journal_issue" name="journal_issue" placeholder="2">
+    <input type="text" class="form-control pub_j" id="journal_issue" name="journal_issue">
   </div>
 </div>
 

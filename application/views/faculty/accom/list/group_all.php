@@ -1,4 +1,76 @@
 <?php
+function reuser($user_IDs, $users)
+{
+	$name = '';
+
+	if (count($user_IDs) == 1)
+	{
+		foreach ($users as $user)
+		{
+			if ($user_IDs == $user['user_ID'])
+			{
+				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_initial'].'.';
+				break;
+			}
+		}
+	}
+	else
+	{
+		$names = array();
+		$names2 = array();
+		foreach ($user_IDs as $user_ID)
+		{
+			if (is_numeric($user_ID))
+			{
+				foreach ($users as $user)
+				{
+					if ($user_ID == $user['user_ID'])
+					{
+						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_initial'].'.';
+						break;
+					}
+				}
+			}
+			else
+			{
+				$names2[] = $user_ID; echo $user_ID, 'in';
+			}
+		}
+
+		$count = count($names);
+		for ($i = 0; $i < $count; $i++)
+		{
+			$name .= $names[$i];
+
+			if (($count == 2) AND ($i == $count-2) AND (!$names2))
+				$name .= ' and ';
+			else if (($count > 2) AND ($i == $count-2) AND (!$names2))
+				$name .= ', and ';
+			else
+				$name .= ', ';
+		}
+		
+		if ($names2)
+		{
+			$count2 = count($names2);
+			for ($i = 0; $i < $count2; $i++)
+			{
+				$name .= $names2[$i];
+
+				if (($count2 == 2) AND ($i == $count2-2))
+					$name .= ' and ';
+				else if (($count2 > 2) AND ($i == $count2-2))
+					$name .= ', and ';
+				else
+					$name .= ', ';
+			}
+		}
+
+	}
+
+	return $name;
+}
+
 function redate($start, $end)
 {
 	$date = '';
@@ -34,8 +106,10 @@ function redate($start, $end)
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href="<?php echo URL::site('faculty/accom'); ?>">Accomplishment Reports</a></li>
-	<li class="active">My Accomplishments</li>
+	<li><a href=<?php echo ($identifier == 'dean'
+		? URL::site('faculty/accom_coll').'>Accomplishment Reports - College'
+		: URL::site('faculty/accom_dept').'>Accomplishment Reports - Department'); ?></a></li>
+	<li class="active">View All Accomplishments</li>
 </ol>
 
 <?php if ($accom_reports): ?>
@@ -49,7 +123,9 @@ function redate($start, $end)
 		</form>
 	</div>
 	<div class="col-md-6">
-		<a class="btn btn-default pull-right" href="<?php echo URL::site('faculty/accom'); ?>" role="button">
+		<a class="btn btn-default pull-right" href="<?php echo ($identifier == 'dean'
+		? URL::site('faculty/accom_coll')
+		: URL::site('faculty/accom_dept')); ?>" role="button">
 		<span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 	</div>
 </div><br>
@@ -72,7 +148,7 @@ function redate($start, $end)
 	foreach ($accom_pub as $pub)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $name;
+		echo '<td class="first">', reuser($pub['user_ID'], $users);
 
 		if ($pub['author']) echo ' and ', $pub['author'];
 
@@ -86,7 +162,7 @@ function redate($start, $end)
 			? $pub['journal_volume'].'('.$pub['journal_issue'].'): '
 			: $pub['book_publisher'].'. '.$pub['book_place'].'. ');
 
-		echo $pub['year'], '</td>';
+		echo $pub['page'], '</td>';
 		echo '</tr>';
 	}
 	?>
@@ -101,7 +177,8 @@ function redate($start, $end)
 <table class="table table-bordered table-condensed display" id="" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th class="first">Award/Grant</th>
+			<th class="first">Name/s of Faculty</th>
+			<th>Award/Grant</th>
 			<th>Duration</th>
 			<th>Source</th>
 		</tr>
@@ -111,7 +188,8 @@ function redate($start, $end)
 	foreach ($accom_awd as $awd)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $awd['award'], '</td>';
+		echo '<td class="first">', reuser($awd['user_ID'], $users), '</td>';
+		echo '<td>', $awd['award'], '</td>';
 		echo '<td>', redate($awd['start'], $awd['end']), '</td>';
 		echo '<td>', $awd['source'], '</td>';
 		echo '</tr>';
@@ -128,7 +206,8 @@ function redate($start, $end)
 <table class="table table-bordered table-condensed display" id="" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th class="first" rowspan="2">Title</th>
+			<th class="first" rowspan="2">Name/s of Faculty</th>
+			<th rowspan="3">Title</th>
 			<th rowspan="2">Fund Source</th>
 			<th rowspan="2">Duration</th>
 			<th colspan="2" style="border-bottom: 1px solid #ddd;">Amount of Grant</th>
@@ -143,7 +222,8 @@ function redate($start, $end)
 	foreach ($accom_rch as $rch)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $rch['title'], '</td>';
+		echo '<td class="first">', reuser($rch['user_ID'], $users), '</td>';
+		echo '<td>', $rch['title'], '</td>';
 		echo '<td>';
 
 		echo ($rch['fund_external'] 
@@ -182,7 +262,7 @@ function redate($start, $end)
 	foreach ($accom_ppr as $ppr)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $name;
+		echo '<td class="first">', reuser($ppr['user_ID'], $users);
 
 		if ($ppr['author']) echo ' and ', $ppr['author'];
 
@@ -216,7 +296,7 @@ function redate($start, $end)
 	foreach ($accom_ctv as $ctv)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $name;
+		echo '<td class="first">', reuser($ctv['user_ID'], $users);
 
 		if ($ctv['author']) echo ' and ', $ctv['author'];
 
@@ -238,7 +318,8 @@ function redate($start, $end)
 <table class="table table-bordered table-condensed display" id="" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th class="first">Participation</th>
+			<th class="first">Name/s of Faculty</th>
+			<th>Participation</th>
 			<th>Title</th>
 			<th>Venue</th>
 			<th>Inclusive Dates</th>
@@ -249,7 +330,8 @@ function redate($start, $end)
 	foreach ($accom_par as $par)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $par['participation'], '</td>';
+		echo '<td class="first">', reuser($par['user_ID'], $users), '</td>';
+		echo '<td>', $par['participation'], '</td>';
 		echo '<td>', $par['title'], '</td>';
 		echo '<td>', $par['venue'], '</td>';
 		echo '<td>', redate($par['start'], $par['end']), '</td>';
@@ -277,7 +359,7 @@ function redate($start, $end)
 	foreach ($accom_mat as $mat)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $name;
+		echo '<td class="first">', reuser($mat['user_ID'], $users);
 
 		if ($mat['author']) echo ' and ', $mat['author'];
 
@@ -298,7 +380,8 @@ function redate($start, $end)
 <table class="table table-bordered table-condensed display" id="" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th class="first">Participation</th>
+			<th class="first">Name/s of Faculty</th>
+			<th>Participation</th>
 			<th>Activity</th>
 			<th>Venue</th>
 			<th>Inclusive Dates</th>
@@ -309,7 +392,8 @@ function redate($start, $end)
 	foreach ($accom_oth as $oth)
 	{
 		echo '<tr>';
-		echo '<td class="first">', $oth['participation'], '</td>';
+		echo '<td class="first">', reuser($oth['user_ID'], $users), '</td>';
+		echo '<td>', $oth['participation'], '</td>';
 		echo '<td>', $oth['activity'], '</td>';
 		echo '<td>', $oth['venue'], '</td>';
 		echo '<td>', redate($oth['start'], $oth['end']), '</td>';
@@ -325,5 +409,4 @@ function redate($start, $end)
 <div class="alert alert-danger text-center">
 	<p>The list is empty.</p>
 </div>
-<span class="help-block">Note: Only accomplishments from submitted report will be included.</span>
 <?php endif; ?>

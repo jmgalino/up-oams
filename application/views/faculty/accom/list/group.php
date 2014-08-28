@@ -7,8 +7,20 @@
 </ol>
 
 <h3>
-	Accomplishment Reports <small><?php echo $group; ?></small>
-	<!-- <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button> -->
+	<div class="row">
+		<div class="col-md-6">Accomplishment Reports <small><?php echo $group; ?></small></div>
+		<div class="col-md-6">
+			<div class="btn-group pull-right">
+		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button>
+		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+		        <ul class="dropdown-menu">
+					<li><a href="<?php echo ($identifier == 'dean'
+						? URL::site('faculty/accom_coll/all')
+						: URL::site('faculty/accom_dept/all')); ?>">View All Accomplishments</a></li>
+		        </ul>
+			</div>
+	  </div>
+	</div>
 </h3>
 <br>
 

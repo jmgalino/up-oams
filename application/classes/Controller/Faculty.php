@@ -10,26 +10,26 @@ class Controller_Faculty extends Controller_User {
 		if ($this->session->get('user_ID') !== $user_ID)
 		{
 			$this->session->set('error', 'Error 401: Unauthorized access.');
-			$this->redirect('faculty/error', 401);
+			$this->redirect('faculty/error');
 		}
 	}
 
 	/**
-	 * Preview documents
+	 * Preview documents from profile
 	 */
-	protected function action_preview()
-	{
-		$accom = new Model_Accom;
+	// protected function action_preview()
+	// {
+		// $accom = new Model_Accom;
 
-		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID)[0];
-		$label = 'Accomplishment Report - '.date_format(date_create($accom_details['yearmonth']), 'F \'y');
+		// $accom_ID = $this->request->param('id');
+		// $accom_details = $accom->get_details($accom_ID);
+		// $label = 'Accomplishment Report - '.date('F \'y', strtotime($accom_details['yearmonth']));
 
-		$this->view->content = View::factory('profile/myprofile/pdfviewer')
-			->bind('label', $label)
-			->bind('filename', $accom_details['document']);
-		$this->response->body($this->view->render());
-	}
+		// $this->view->content = View::factory('profile/myprofile/pdfviewer')
+		// 	->bind('label', $label)
+		// 	->bind('filename', $accom_details['document']);
+		// $this->response->body($this->view->render());
+	// }
 
 	/**
 	 * Contact admin form

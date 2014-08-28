@@ -10,6 +10,9 @@ if ($session->get('accom_mat'))
 		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+		if ($mat['author']) echo $mat['author'], '. ';
+		
 		echo $mat['year'], '. ';
 		echo $mat['title'], '.';
 		echo '&nbsp;&nbsp;';

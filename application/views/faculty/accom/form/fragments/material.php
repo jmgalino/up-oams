@@ -10,8 +10,11 @@ if ($session->get('accom_mat'))
 		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+		if ($mat['author']) echo $mat['author'], '. ';
+		
 		echo $mat['year'], '. ';
-		echo $mat['title'], '. ';
+		echo $mat['title'], '.';
 		echo '&nbsp;&nbsp;';
 
 		if ($mat['attachment'])
@@ -28,9 +31,9 @@ if ($session->get('accom_mat'))
 		
 		echo '&nbsp;&nbsp;&nbsp;';
 
-		echo '<a class="btn btn-default" id="setAccom" data-toggle="modal" data-target="#modal_material" role="button" href='.URL::site('faculty/accom/set/mat/'.$mat['material_ID']).'>
-			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		echo '<a class="btn btn-default" id="deleteAccom" href='.URL::site('faculty/accom/remove/mat/'.$mat['material_ID']).'>',
+		// echo '<a class="btn btn-default" id="setAccom" data-toggle="modal" data-target="#modal_material" role="button" href='.URL::site('faculty/accom/set/mat/'.$mat['material_ID']).'>
+		// 	<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/mat/'.$mat['material_ID']).'>',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}

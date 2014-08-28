@@ -14,7 +14,7 @@ if ($session->get('accom_oth'))
 		echo $oth['activity'], '. ';
 		echo $oth['venue'], '. ';
 		echo date_format(date_create($oth['start']), 'd F Y'), ' to ';
-		echo date_format(date_create($oth['end']), 'd F Y');
+		echo date_format(date_create($oth['end']), 'd F Y'), '.';
 		echo '&nbsp;&nbsp;';
 		
 		if ($oth['attachment'])

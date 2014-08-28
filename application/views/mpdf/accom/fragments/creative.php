@@ -10,10 +10,13 @@ if ($session->get('accom_ctv'))
 		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+		if ($ctv['author']) echo $ctv['author'], '. ';
+		
 		echo $ctv['title'], '. ';
 		echo $ctv['venue'], '. ';
 		echo date_format(date_create($ctv['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($ctv['end']), 'F d, Y');
+		echo date_format(date_create($ctv['end']), 'F d, Y'), '.';
 		echo '&nbsp;&nbsp;';
 		
 		if ($ctv['attachment'])

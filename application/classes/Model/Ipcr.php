@@ -68,19 +68,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_details($ipcr_ID)
 	{
-		$result = DB::select()
+		$details = DB::select()
 			->from('ipcrtbl')
 			->where('ipcr_ID', '=', $ipcr_ID)
 	 		->execute()
 	 		->as_array();
 
-		$details = array();
-		foreach ($result as $detail)
-		{
-			$details[] = $detail;
-		}
-
- 		return $details;
+		return $details[0];
 	}
 
 	/**
@@ -143,7 +137,7 @@ class Model_Ipcr extends Model {
 	 */
 	public function evaluate($ipcr_ID, $details)
 	{
-		$ipcr = $this->get_details($ipcr_ID)[0];
+		$ipcr = $this->get_details($ipcr_ID);
 
 		if($ipcr['remarks'] != 'None')
 			$details['remarks'] = $details['remarks'].'<br>'.$ipcr['remarks'];

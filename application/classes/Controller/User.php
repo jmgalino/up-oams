@@ -104,13 +104,13 @@ class Controller_User extends Controller {
 		$reset = $this->session->get_once('reset');
 		$update = $this->session->get_once('update');
 
-		$user = $user->get_details($this->session->get('user_ID'), NULL)[0];
+		$user = $user->get_details($this->session->get('user_ID'), NULL);
 		if ($user['user_type'] == 'Faculty')
 		{
 			$univ = new Model_Univ;
 
 			$programs = $univ->get_programs();
-			$program = $univ->get_program_details($user['program_ID'])[0];
+			$program = $univ->get_program_details($user['program_ID']);
 			$user['program_short'] = $program['program_short'];
 		}
 		// $accom_rows = $accom->get_faculty_accom($this->session->get('user_ID'));

@@ -86,16 +86,16 @@ class Model_Univ extends Model {
  		if (is_null($college_ID))
  		{
  			$program = $this->get_program_details($program_ID);
- 			$college_ID = $program[0]['college_ID'];
+ 			$college_ID = $program['college_ID'];
  		}
 		
-		$result = DB::select()
+		$details = DB::select()
 			->from('univ_collegetbl')
 			->where('college_ID', '=', $college_ID)
 			->execute()
 			->as_array();
 
- 		return $result;
+ 		return $details[0];
  	}
 
 	/**
@@ -162,16 +162,16 @@ class Model_Univ extends Model {
  		if (is_null($department_ID))
  		{
  			$program = $this->get_program_details($program_ID);
- 			$department_ID = $program[0]['department_ID'];
+ 			$department_ID = $program['department_ID'];
  		}
 		
-		$result = DB::select()
+		$details = DB::select()
 			->from('univ_departmenttbl')
 			->where('department_ID', '=', $department_ID)
 			->execute()
 			->as_array();
 
- 		return $result;
+ 		return $details[0];
  	}
 
 	/**
@@ -235,13 +235,13 @@ class Model_Univ extends Model {
 	 */
 	public function get_program_details($program_ID)
  	{
- 		$result = DB::select()
+ 		$details = DB::select()
  			->from('univ_programtbl')
  			->where('program_ID', '=', $program_ID)
 			->execute()
 			->as_array();
 
-		return $result;
+		return $details[0];
  	}
 	
 } // End Univ

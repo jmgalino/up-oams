@@ -12,9 +12,9 @@ if ($session->get('accom_rch'))
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $rch['title'], '. ';
 		
-		echo ($rch['fund_amount'] 
+		echo ($rch['fund_external'] 
 			? $rch['fund_up']
-				? $rch['fund_external'].' and UP System Research Grant. '
+				? ' and UP System Research Grant'.$rch['fund_external'].'. '
 				: $rch['fund_external'].'. '
 			: 'UP System Research Grant. ');
 
@@ -23,7 +23,7 @@ if ($session->get('accom_rch'))
 		
 		echo ($rch['fund_amount'] 
 			? $rch['fund_up']
-				? number_format(intval($rch['fund_amount']) + intval($rch['fund_up']), 2).'. '
+				? number_format(intval($rch['fund_amount']) + intval($rch['fund_up']), 2).'.'
 				: number_format($rch['fund_amount'], 2).'.'
 			: number_format($rch['fund_up'], 2).'.');
 		echo '&nbsp;&nbsp;';

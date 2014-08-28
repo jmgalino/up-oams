@@ -10,9 +10,10 @@
       <?php print Form::open('faculty/accom/add/ctv', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="author" class="col-sm-4 control-label">Author</label>
+          <label for="author" class="col-sm-4 control-label">Author/s</label>
           <div class="col-sm-7">
             <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
+            <input type="text" class="form-control" id="author" name="author" data-toggle="tooltip" data-placement="top" title="No need to include other faculty." placeholder="(Optional)">
           </div>
         </div>
 
@@ -42,8 +43,8 @@
         </div>
 
         <div class="form-group">
-          <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
-          <div class="col-sm-8">
+          <label for="attachment" class="col-sm-4 control-label">Attachment(s)</label>
+          <div class="col-sm-7">
             <div id="ctvAttachmentWrapper"></div>
             <span class="help-block">You can add up to 5 attachments.</span>
             <button type="button" class="btn btn-default" id="addCtvAttachment">Add attachment</button>

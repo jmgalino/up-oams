@@ -30,8 +30,8 @@ class Model_Opcr extends Model {
 		$user = new Model_User;
 		$univ = new Model_Univ;
 
-		$program = $user->get_details($user_ID, NULL)[0];
-		$department = $univ->get_department_details(NULL, $program['program_ID'])[0];
+		$program = $user->get_details($user_ID, NULL);
+		$department = $univ->get_department_details(NULL, $program['program_ID']);
 
 		$result = DB::select()
 			->from('opcrtbl')
@@ -60,18 +60,13 @@ class Model_Opcr extends Model {
 	 */
 	public function get_details($opcr_ID)
 	{
-		$result = DB::select()
+		$details = DB::select()
 			->from('opcrtbl')
 			->where('opcr_ID', '=', $opcr_ID)
 	 		->execute()
 	 		->as_array();
 
-		foreach ($result as $detail)
-		{
-			$details[] = $detail;
-		}
-
- 		return $details;
+		return $details[0];
 	}
 
 	/**
@@ -92,7 +87,7 @@ class Model_Opcr extends Model {
 		// Existing
 		if ($result)
  		{
- 			if (($result[0]['status'] == 'Approved') OR ($result[0]['status'] == 'Pending'))
+ 			if (($result[0]['status'] == 'Accepted') OR ($result[0]['status'] == 'Pending'))
  			{
  				return FALSE;
  			}
