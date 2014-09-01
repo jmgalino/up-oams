@@ -3,7 +3,7 @@
 		<tr>
 			<th class="active text-center" style="font-size:17px;"><strong>Output</strong></th>
 			<th class="active text-center" style="font-size:17px;"><strong>Success Indicators<br>(Targets + Measures)</strong></th>
-			<th class="active text-center" style="width: 25px"></th>
+			<th class="active text-center" style="width:50px"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,10 +23,14 @@
 						if ($output['output_ID'] == $target['output_ID'])
 						{
 							echo '<tr>
-								<td class="template-output">', $output['output'], '</td>
-								<td class="template-output">', $output['indicators'] ,'</td>
-								<td><a id="deleteOutput" href='.URL::site('faculty/ipcr/remove/'.$target['target_ID']).'>
+								<td class="template-output" style="color: #909090">', $output['output'], '</td>
+								<td class="template-output" style="color: #909090">', $output['indicators'] ,'</td>
+								<td rowspan="2"><a  class="btn" id="deleteOutput" href='.URL::site('faculty/ipcr/remove/'.$target['target_ID']).'>
 									<span class="glyphicon glyphicon-remove-circle"></span></a></td>
+								</tr>
+								<tr>
+								<td class="template-output editTarget" id="'.$target['target_ID'].'" style="border-top: dotted 1px #7b1113; padding-left: 25px;">', $target['target'], '</td>
+								<td class="template-output editTargetIndicator" id="'.$target['target_ID'].'" style="border-top: dotted 1px #7b1113; padding-left: 25px;">', $target['indicators'] ,'</td>
 								</tr>';
 						}
 					}

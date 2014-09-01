@@ -249,7 +249,7 @@ Route::set('icpr_dept-functions', '<directory>/ipcr_dept(/<action>(/<id>))',
 Route::set('icpr_coll-functions', '<directory>/ipcr_coll(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		// 'action'	=> '(coll|view|evaluate|consolidate)'
+		'action'	=> '(coll|view|evaluate|consolidate)'
 	))
 	->defaults(array(
 		'controller'=> 'ipcrgroup',

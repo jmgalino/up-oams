@@ -78,6 +78,11 @@ echo View::factory('faculty/ipcr/form/modals/output')
 				<?php echo (($session->get('identifier') == 'dean') ? 'Save' : 'Submit'); ?>
 				</a>
 			</li>
+			<li>
+				<span class="help-block" style="padding: 10px 15px;">
+					Note: Double click values to edit; press save to keep the changes;
+					 and press the esc button to cancel.</span>
+			</li>
 			<?php endif; ?>
 		</ul>
 	</div>

@@ -95,7 +95,7 @@ class Model_Ipcr extends Model {
  		{
  			if (($result[0]['status'] == 'Checked') OR ($result[0]['status'] == 'Accepted') OR ($result[0]['status'] == 'Pending'))
  			{
- 				return 'This form has been locked.';
+ 				return 'IPCR Form is locked for editing.';
  			}
  			else
  			{
@@ -266,8 +266,16 @@ class Model_Ipcr extends Model {
 	/**
 	 * Update target
 	 */
-	// public function update_target($ipcr_ID, $target_ID, $details)
-	// {}
+	public function update_target($details)
+	{
+		$rows_updated = DB::update('ipcr_targettbl')
+ 			->set($details)
+ 			->where('target_ID', '=', $details['target_ID'])
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+	}
 
 	/**
 	 * Delete target

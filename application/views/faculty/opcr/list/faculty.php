@@ -106,6 +106,13 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 						<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
 					</li>';
 		}
+		else// if ($opcr['status'] == 'Published')
+		{
+			echo 	'<li>
+						<a href='.URL::site('faculty/ipcr_dept/consolidate/'.$opcr['opcr_ID']).'>
+						<span class="glyphicon glyphicon-link"></span> Consolidate Form</a>
+					</li>';
+		}
 
 		echo '	</ul>
 			</td>

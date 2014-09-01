@@ -76,7 +76,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		{
 			// Show PDF
 			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
-			$this->show_pdf($ipcr_details);
+			$this->show_pdf($ipcr_details, $opcr_details);
 		}
 		else
 		{
@@ -96,7 +96,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		
 		if (($ipcr_details['status'] == 'Checked') OR ($ipcr_details['status'] == 'Pending'))
 		{
-			$this->session->set('error', 'IPCR is locked for editing.');
+			$this->session->set('error', 'IPCR Form is locked for editing.');
 			$this->redirect('faculty/ipcr'); //401
 		}
 		else
@@ -116,9 +116,9 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		if (($ipcr_details['status'] == 'Checked') OR ($ipcr_details['status'] == 'Pending'))
+		if (($ipcr_details['status'] == 'Checked') OR ($ipcr_details['status'] == 'Accepted') OR ($ipcr_details['status'] == 'Pending'))
 		{
-			$this->session->set('error', 'IPCR is locked for editing.');
+			$this->session->set('error', 'IPCR Form is locked for editing.');
 			$this->redirect('faculty/ipcr'); //401
 		}
 		else
@@ -135,6 +135,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	public function action_submit()
 	{
 		$ipcr = new Model_Ipcr;
+		
 		$ipcr_ID = $this->request->param('id');
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
@@ -159,7 +160,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 
 		if ($this->request->post('output_ID')){
 			$details['output_ID'] = $this->request->post('output_ID');
-			$details['ipcr_ID'] = $ipcr_ID; print_r($details);
+			$details['ipcr_ID'] = $ipcr_ID;
 			$ipcr->add_target($details);
 		}
 			
@@ -167,6 +168,35 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			$this->session->set('error', 'Error: Invalid output.');
 		
 		$this->redirect('faculty/ipcr/update/'.$ipcr_ID, 303);
+	}
+
+	/**
+	 * Edit output
+	 */
+	public function action_edit()
+	{
+		$ipcr = new Model_Ipcr;
+		
+		$post = $this->request->post();
+		$target_details = $ipcr->get_target_details($post('ipcr_ID'));
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
+
+		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
+		{
+			$edit_success = $ipcr->update_target($post);
+
+			if ($edit_success)
+			{
+				if (isset($post['target'])) echo $post['target'];
+				elseif (isset($post['indicators'])) echo $post['indicators'];
+			}
+			else
+			{
+				echo "<script>
+					alert('There seems to be an error. Please refresh the page.');
+					</script>";
+			}
+		}
 	}
 
 	/**
@@ -188,7 +218,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	/**
 	 * IPCR Form - PDF
 	 */
-	private function show_pdf($ipcr_details)
+	private function show_pdf($ipcr_details, $opcr_details)
 	{
 		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
 		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
@@ -219,7 +249,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$warning = $this->session->get_once('warning');
 		$targets = $ipcr->get_targets($this->session->get('ipcr_details')['ipcr_ID']);
 		$outputs = $opcr->get_outputs($this->session->get('ipcr_details')['opcr_ID']);
-		$categories = $opcr->get_categories();
+		$categories = $this->oams->get_categories();
 		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
 		// if ($this->session->get('identifier') == 'dean')

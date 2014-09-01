@@ -24,7 +24,7 @@
 		<tr class="padded">
 			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">Output</th>
 			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">Success Indicators<br>(Targets + Measures)</th>
-			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:11px;">Actual Accomplishments</th>
+			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5;">Actual Accomplishments</th>
 			<th class="template-header" colspan="4" style="background-color:#f5f5f5;">Rating</th>
 			<th class="template-header" rowspan="2" width="55" style="background-color:#f5f5f5;">Remarks</th>
 		</tr>
@@ -36,55 +36,48 @@
 		</tr>
 	</thead>
 	<tbody class="padded">
-		<?php
-		$targets = $ipcr->get_targets($ipcr_ID); 
-		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
-		$categories = $opcr->get_categories(); 
+	<?php
+	$targets = $ipcr->get_targets($ipcr_ID); 
+	$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
+	$categories = $this->oams->get_categories();
 
-		foreach ($categories as $category)
-		{
-			echo '<tr><td class="category" colspan="8">', $category['category'], '</td></tr>';
-				
-			if ($targets)
-			{	
-				foreach ($outputs as $output)
+	foreach ($categories as $category)
+	{
+		echo '<tr><td class="category" colspan="8">', $category['category'], '</td></tr>';
+			
+		if ($targets)
+		{	
+			foreach ($outputs as $output)
+			{
+				if ($category['category_ID'] == $output['category_ID'])
 				{
-					if ($category['category_ID'] == $output['category_ID'])
+					foreach ($targets as $target)
 					{
-						foreach ($targets as $target)
+						if ($output['output_ID'] == $target['output_ID'])
 						{
-							if ($output['output_ID'] == $target['output_ID'])
-							{
-								echo '<tr>
-									<td class="form-rows">', $output['output'], '</td>
-									<td class="form-rows">';
+							$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
+							echo '<tr>
+								<td class="form-rows">', $target['target'], '</td>
+								<td class="form-rows">', $target['indicators'], '</td>
+								<td class="form-rows">', $target['actual_accom'], '</td>
+								<td class="form-rows">', $target['r_quantity'], '</td>
+								<td class="form-rows">', $target['r_efficiency'], '</td>
+								<td class="form-rows">', $target['r_timeliness'], '</td>
+								<td class="form-rows">';
 
-									$style1 = strpos($output['indicators'], 'Targets:');
-									if ($style1 !== FALSE)
-									{
-										list($indicator, $imeasures) = explode('Measures:', $output['indicators']);
-										list($nothingness, $itargets) = explode('Targets:', $indicator);
-										echo '<strong>Targets</strong>:', $itargets;
-										echo '<strong>Measures</strong>: ', $imeasures;
-									}
-									else
-										echo $output['indicators'];
+							if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
+								echo array_sum($rating)/count($rating);
 
-								echo '</td>
-									<td class="form-rows">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									<td class="form-rows">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									<td class="form-rows">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									<td class="form-rows">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									<td class="form-rows">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									<td class="form-rows">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									</tr>';
-							}
+							echo '</td>
+								<td class="form-rows">', $target['r_timeliness'], '</td>
+								</tr>';
 						}
 					}
 				}
 			}
 		}
-		?>
+	}
+	?>
 	</tbody>
 </table>
 

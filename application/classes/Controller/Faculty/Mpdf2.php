@@ -174,6 +174,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$this->session->set('submit', $submit_success);
 			$this->redirect('faculty/ipcr', 303);
 		}
+
 	}
 
 	/**
@@ -189,35 +190,23 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
 		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
+		
 		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
 		$filepath = DOCROOT.'files/document_opcr/'.$filename;
-			
-		if ($this->session->get('identifier') == 'dean')
-		{
-			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-			$label = $college['short'];
-			$programIDs = $univ->get_college_programIDs($college['college_ID']);
-			$users = $user->get_user_group($programIDs, NULL);
-		}
-		else
-		{
-			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-			$label = $department['short'];
-			$programIDs = $univ->get_department_programIDs($department['department_ID']);
-			$users = $user->get_user_group($programIDs, 'dean');
-		}
-
-		$outputs = $opcr->get_outputs($opcr_ID);
-		$targets = $ipcr->get_output_targets($outputs);
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
-		$categories = $this->oams->get_categories();
+		
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		
+		$label = 'Unit Head, '.($this->session->get('identifier') == 'dean'
+			? $college['short']
+			: $department['short']);
 
 		ob_start();
 		include_once(APPPATH.'views/mpdf/opcr/template.php');
 
 			// OPCR - template for faculty
-			if ($type == 'opcr')
-				include_once(APPPATH.'views/mpdf/opcr/basic.php');
+			// if ($type == 'opcr')
+			// 	include_once(APPPATH.'views/mpdf/opcr/basic.php');
 
 			// OPCR - consolidated for dean
 			// elseif ($type == 'opcr-consolidated')
@@ -236,33 +225,33 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			$this->action_submit($template, $filepath);
 
-			if ($opcr_details['status'] == 'Draft')
-			{
-				$position = $this->session->get('position');
+			// if ($opcr_details['status'] == 'Draft')
+			// {
+			// 	$position = $this->session->get('position');
 
-				// OPCR is saved
-				if ($position == 'dean')
-					$details['status'] = 'Saved';
+			// 	// OPCR is saved
+			// 	if ($position == 'dean')
+			// 		$details['status'] = 'Saved';
 
-				// OPCR is published for faculty use - as template for IPCRs
-				else
-				{
-					$details['status'] = 'Published';
-					$details['date_published'] = date_format(date_create(), 'Y-m-d');
-				}
-			}
+			// 	// OPCR is published for faculty use - as template for IPCRs
+			// 	else
+			// 	{
+			// 		$details['status'] = 'Published';
+			// 		$details['date_published'] = date_format(date_create(), 'Y-m-d');
+			// 	}
+			// }
 
-			// OPCR by a department is submitted to the dean
-			else
-			{
-				$details['status'] = 'Pending';
-				$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
-			}
+			// // OPCR by a department is submitted to the dean
+			// else
+			// {
+			// 	$details['status'] = 'Pending';
+			// 	$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
+			// }
 
 			$details['document'] = $filename;
 			$submit_success = $opcr->submit($opcr_ID, $details);
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/opcr', 303);
+			// $this->session->set('submit', $submit_success);
+			// $this->redirect('faculty/opcr', 303);
 		}
 	}
 

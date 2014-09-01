@@ -3,7 +3,7 @@
 		<tr>
 			<th class="active text-center" style="font-size:17px;"><strong>MFO/PAP</strong></th>
 			<th class="active text-center" style="font-size:17px;"><strong>Success Indicators<br>(Targets + Measures)</strong></th>
-			<th class="active text-center" style="width: 25px"></th>
+			<th class="active text-center" style="width: 50px"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -20,8 +20,8 @@
 				{
 					echo '<tr>
 						<td class="template-output editOutput" id="'.$output['output_ID'].'">', $output['output'], '</td>
-						<td class="template-output editIndicator" id="'.$output['output_ID'].'">', $output['indicators'] , '</td>
-						<td><a id="deleteOutput" href='.URL::site('faculty/opcr/remove/'.$output['output_ID']).'>
+						<td class="template-output editOutputIndicator" id="'.$output['output_ID'].'">', $output['indicators'] , '</td>
+						<td><a class="btn" id="deleteOutput" href='.URL::site('faculty/opcr/remove/'.$output['output_ID']).'>
 							<span class="glyphicon glyphicon-remove-circle"></span></a></td>
 						</tr>';
 				}

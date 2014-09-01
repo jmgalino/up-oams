@@ -92,7 +92,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Award Table -->
@@ -119,7 +119,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Research Table -->
@@ -161,7 +161,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Paper Table -->
@@ -196,7 +196,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Creative Table -->
@@ -229,7 +229,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Participation Table -->
@@ -258,7 +258,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Material Table -->
@@ -289,7 +289,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <!-- Other Table -->
@@ -318,7 +318,7 @@ function redate($start, $end)
 	?>
 	</tbody>
 </table>
-</br>
+<br>
 <?php endif; ?>
 
 <?php elseif (!$accom_reports): ?>

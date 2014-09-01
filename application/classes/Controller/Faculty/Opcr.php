@@ -36,9 +36,27 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			$details['user_ID'] = $this->session->get('user_ID');
 			$details['period_from'] = date_format(date_create('01 '.$this->request->post('start')), 'Y-m-d');
 			$details['period_to'] = date_format(date_create('01 '.$this->request->post('end')), 'Y-m-d');
-			$details['opcr_ID'] = $opcr->initialize($details);
-			$this->session->set('opcr_details', $details);
-			$this->show_draft();
+
+			$insert_success = $opcr->initialize($details);
+
+			if (is_numeric($insert_success))
+			{
+				$details['opcr_ID'] = $insert_success;
+				$this->session->set('opcr_details', $details);
+				$this->show_draft();
+			}
+			elseif (is_array($insert_success))
+			{
+				$details['opcr_ID'] = $insert_success['opcr_ID'];
+				$this->session->set('opcr_details', $details);
+				$this->session->set('warning', $insert_success['message']);
+				$this->show_draft();
+			}
+			else // Error
+			{
+				$this->session->set('error', $insert_success);
+				$this->redirect('faculty/opcr', 303);
+			}
 		}
 		else
 		{
@@ -83,7 +101,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		
 		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
 		{
-			$this->session->set('error', 'OPCR is locked for editing.');
+			$this->session->set('error', 'OPCR Form is locked for editing.');
 			$this->redirect('faculty/opcr'); //401
 		}
 		else
@@ -104,9 +122,9 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']);
 
-		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
+		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Accepted') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
 		{
-			$this->session->set('error', 'OPCR is locked for editing.');
+			$this->session->set('error', 'OPCR Form is locked for editing.');
 			$this->redirect('faculty/opcr'); //401
 		}
 		else
@@ -176,6 +194,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 
 		$post = $this->request->post();
 		$output_details = $opcr->get_output_details($post['output_ID']);
+		$this->action_check($output_details['user_ID']); // Redirects if not the owner
 		
 		if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
 		{
@@ -228,13 +247,15 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	{
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
-
+		
+		$error = $this->session->get_once('error');
+		$warning = $this->session->get_once('warning');
 		$period_from = date_format(date_create($this->session->get('opcr_details')['period_from']), 'F Y');
 		$period_to = date_format(date_create($this->session->get('opcr_details')['period_to']), 'F Y');
 		$label = $period_from.' - '.$period_to;
 		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
 		$outputs = $opcr->get_outputs($opcr_ID);
-		$categories = $opcr->get_categories();
+		$categories = $this->oams->get_categories();
 		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
 		// if ($this->session->get('identifier') == 'dept_chair')
@@ -249,6 +270,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 
 		$this->view->content = View::factory('faculty/opcr/form/initial/template')
 			->bind('label', $label)
+			->bind('error', $error)
+			->bind('warning', $warning)
 			->bind('session', $this->session)
 			->bind('categories', $categories)
 			// ->bind('department', $department['short'])

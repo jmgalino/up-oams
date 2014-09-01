@@ -74,11 +74,11 @@ class Model_Accom extends Model {
  		{
  			if (($result[0]['status'] == 'Approved') OR ($result[0]['status'] == 'Pending'))
  			{
- 				return FALSE;
+ 				return 'Accomplishment Report is locked for editing.';
  			}
  			else
  			{
- 				return $result[0]['accom_ID'];
+ 				return array('accom_ID' => $result[0]['accom_ID'], 'message' => 'This report has been generated.');
  			}
  		}
  		else
@@ -86,7 +86,7 @@ class Model_Accom extends Model {
  			foreach ($details as $column_name => $value) {
  				$columns[] = $column_name;
 				$values[] = $value;
-			}// print_r($values);
+			}
 
  			$insert_accom = DB::insert('accomtbl')
 	 			->columns($columns)

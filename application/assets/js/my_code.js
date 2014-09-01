@@ -38,10 +38,10 @@ $(document).ready(function()
     	"dom": '<"toolbar">rt',
     });
  
-    $("#search").keyup( function () {
+    $("#search").keyup(function (){
       // Filter on the column (the index) of this element
       table.fnFilterAll(this.value);
-    } );
+    });
 	
     /* DATATABLE -- Initialize group accom table */
 	var accom_group_table = $('#accom_group_table').DataTable({
@@ -318,7 +318,33 @@ $(document).ready(function()
 		tooltip		: 'Double click to edit',
      });
 
-	$('td.editIndicator').editable('/oamsystem/index.php/faculty/opcr/edit/indicator',
+	$('td.editOutputIndicator').editable('/oamsystem/index.php/faculty/opcr/edit/indicator',
+	{
+		name		: 'indicators',
+		id			: 'output_ID',
+		type		: 'textarea',
+		submit		: 'Save',
+		event		: 'dblclick',
+		onblur		: 'ignore',
+		// style   	: 'width: '+($(this).width()-40),
+		cssclass	: 'edit_output',
+		tooltip		: 'Double click to edit',
+     });
+
+	$('td.editTarget').editable('/oamsystem/index.php/faculty/ipcr/edit/target',
+	{
+		name		: 'output',
+		id			: 'output_ID',
+		type		: 'textarea',
+		submit		: 'Save',
+		event		: 'dblclick',
+		onblur		: 'ignore',
+		// style   	: 'width: '+($(this).width()-40),
+		cssclass	: 'edit_output',
+		tooltip		: 'Double click to edit',
+     });
+
+	$('td.editTargetIndicator').editable('/oamsystem/index.php/faculty/ipcr/edit/indicator',
 	{
 		name		: 'indicators',
 		id			: 'output_ID',

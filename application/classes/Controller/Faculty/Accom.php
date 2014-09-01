@@ -85,9 +85,27 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 			$details['user_ID'] = $this->session->get('user_ID');
 			$details['yearmonth'] = date_format(date_create('01 '.$this->request->post('yearmonth')), 'Y-m-d');
-			$details['accom_ID'] = $accom->initialize($details);
-			$this->session->set('accom_details', $details);
-			$this->show_draft();
+			
+			$insert_success = $accom->initialize($details);
+
+			if (is_numeric($insert_success))
+			{
+				$details['accom_ID'] = $insert_success;
+				$this->session->set('accom_details', $details);
+				$this->show_draft();
+			}
+			elseif (is_array($insert_success))
+			{
+				$details['accom_ID'] = $insert_success['accom_ID'];
+				$this->session->set('accom_details', $details);
+				$this->session->set('warning', $insert_success['message']);
+				$this->show_draft();
+			}
+			else // Error
+			{
+				$this->session->set('error', $insert_success);
+				$this->redirect('faculty/accom', 303);
+			}
 		}
 		else
 		{

@@ -5,7 +5,21 @@
 	<li class="active"><?php echo $label; ?></li>
 </ol>
 
-<?php if ($outputs): ?>
+<?php if ($error): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $error; ?>
+	</p>
+</div>
+<?php elseif ($warning): ?>
+<div class="alert alert-warning alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $warning; ?>
+	</p>
+</div>
+<?php elseif ($outputs): ?>
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -47,7 +61,9 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 				</a>
 			</li>
 			<li>
-				<span class="help-block" style="padding: 10px 15px;">Note: Double click values to edit; press save to keep the changes; and pres the esc button to cancel.</span>
+				<span class="help-block" style="padding: 10px 15px;">
+					Note: Double click values to edit; press save to keep the changes;
+					 and press the esc button to cancel.</span>
 			</li>
 			<?php endif; ?>
 		</ul>

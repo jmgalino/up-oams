@@ -87,13 +87,13 @@ class Model_Opcr extends Model {
 		// Existing
 		if ($result)
  		{
- 			if (($result[0]['status'] == 'Accepted') OR ($result[0]['status'] == 'Pending'))
+ 			if (($result[0]['status'] == 'Checked') OR ($result[0]['status'] == 'Accepted') OR ($result[0]['status'] == 'Pending') OR ($result[0]['status'] == 'Published'))
  			{
- 				return FALSE;
+ 				return 'OPCR Form is locked for editing.';
  			}
  			else
  			{
- 				return $result[0]['opcr_ID'];
+ 				return array('opcr_ID' => $result[0]['opcr_ID'], 'message' => 'This form has been generated.');
  			}
  		}
  		else
@@ -134,6 +134,12 @@ class Model_Opcr extends Model {
  		}
  		else return FALSE; //do something
 	}
+
+	/**
+	 * Evaluate report
+	 */
+	// public function evaluate($opcr_ID, $details)
+	// {}
 
 	/**
 	 * Delete form
@@ -265,24 +271,5 @@ class Model_Opcr extends Model {
 	 */
 	// private function check_output_users($output_ID)
 	// {}
-
-	/**
-	 * Get output categories
-	 */
-	public function get_categories()
-	{
-    	$result = DB::select()
-			->from('opcr_categorytbl')
-	 		->execute()
-	 		->as_array();
-	 	
-		$categories = array();
-		foreach ($result as $category)
-		{
-			$categories[] = $category;
-		}
-
- 		return $categories;
-	}
 
 } // End Opcr
