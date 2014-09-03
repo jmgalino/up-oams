@@ -1,5 +1,3 @@
-<?php echo 'HA'; ?>
-
 <table class="table table-bordered">
   <tbody class="padded">
     <tr>

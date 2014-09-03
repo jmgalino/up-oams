@@ -1,5 +1,3 @@
-<?php echo 'HE'; ?>
-
 <p>
 	Legend: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	1 - <em>Quantity</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

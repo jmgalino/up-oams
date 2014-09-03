@@ -214,19 +214,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_target_details($target_ID)
 	{
-    	$result = DB::select()
+    	$details = DB::select()
 			->from('ipcr_targettbl')
 			->where('target_ID', '=', $target_ID)
 			->execute()
 			->as_array();
-	 
-		$details = array();	
-		foreach ($result as $target)
-		{
-			$details[] = $target;
-		}
 
- 		return $details;
+ 		return $details[0];
 	}
 
 	/**

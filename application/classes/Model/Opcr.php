@@ -206,19 +206,13 @@ class Model_Opcr extends Model {
 	 */
 	public function get_output_details($output_ID)
 	{
-		$result = DB::select()
+		$details = DB::select()
 			->from('opcr_outputtbl')
 			->where('output_ID', '=', $output_ID)
 	 		->execute()
 	 		->as_array();
 
-		$details = array();
-		foreach ($result as $detail)
-		{
-			$details[] = $detail;
-		}
-
- 		return $details;
+ 		return $details[0];
 	}
 
 	/**

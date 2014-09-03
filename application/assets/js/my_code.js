@@ -333,8 +333,8 @@ $(document).ready(function()
 
 	$('td.editTarget').editable('/oamsystem/index.php/faculty/ipcr/edit/target',
 	{
-		name		: 'output',
-		id			: 'output_ID',
+		name		: 'target',
+		id			: 'target_ID',
 		type		: 'textarea',
 		submit		: 'Save',
 		event		: 'dblclick',
@@ -347,7 +347,7 @@ $(document).ready(function()
 	$('td.editTargetIndicator').editable('/oamsystem/index.php/faculty/ipcr/edit/indicator',
 	{
 		name		: 'indicators',
-		id			: 'output_ID',
+		id			: 'target_ID',
 		type		: 'textarea',
 		submit		: 'Save',
 		event		: 'dblclick',

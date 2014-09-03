@@ -46,6 +46,8 @@ function reuser($user_IDs, $users)
 				$name .= ' and ';
 			else if (($count > 2) AND ($i == $count-2) AND (!$names2))
 				$name .= ', and ';
+			else if ($i == $count-1)
+				$name .= '';
 			else
 				$name .= ', ';
 		}
@@ -61,6 +63,8 @@ function reuser($user_IDs, $users)
 					$name .= ' and ';
 				else if (($count2 > 2) AND ($i == $count2-2))
 					$name .= ', and ';
+				else if ($i == $count2-1)
+					$name .= '';
 				else
 					$name .= ', ';
 			}

@@ -178,8 +178,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr = new Model_Ipcr;
 		
 		$post = $this->request->post();
-		$target_details = $ipcr->get_target_details($post('ipcr_ID'));
-		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
+		$target_details = $ipcr->get_target_details($post['target_ID']);
+		$this->action_check($this->session->get('ipcr_details')['user_ID']); // Redirects if not the owner
 
 		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
 		{
