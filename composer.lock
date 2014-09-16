@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "55c4634871b64674cd55b43742c4b43d",
+    "hash": "64fb432bdcfd3ca106624a110dc3852c",
     "packages": [
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -51,17 +51,17 @@
             "time": "2014-08-20 21:11:52"
         },
         {
-            "name": "kartik-v/bootstrap-popover-x",
+            "name": "kartik-v/bootstrap-star-rating",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kartik-v/bootstrap-popover-x.git",
-                "reference": "ccaef7a4af7aaa5d563aa4b0138da57d1d00d65b"
+                "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
+                "reference": "3ef5ee7858c5f1d543405d361e417e90bc74522a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/ccaef7a4af7aaa5d563aa4b0138da57d1d00d65b",
-                "reference": "ccaef7a4af7aaa5d563aa4b0138da57d1d00d65b",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/3ef5ee7858c5f1d543405d361e417e90bc74522a",
+                "reference": "3ef5ee7858c5f1d543405d361e417e90bc74522a",
                 "shasum": ""
             },
             "type": "library",
@@ -81,60 +81,15 @@
                     "homepage": "http://www.krajee.com/"
                 }
             ],
-            "description": "Bootstrap Popover Extended - Popover with modal behavior, styling enhancements and more.",
-            "homepage": "https://github.com/kartik-v/bootstrap-popover-x",
+            "description": "A simple yet powerful JQuery star rating plugin for Bootstrap.",
+            "homepage": "https://github.com/kartik-v/bootstrap-star-rating",
             "keywords": [
+                "Rating",
                 "bootstrap",
-                "extended",
                 "jquery",
-                "modal",
-                "modal-popover",
-                "popover",
-                "popover-x"
+                "star"
             ],
-            "time": "2014-08-01 20:37:57"
-        },
-        {
-            "name": "kartik-v/dependent-dropdown",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/dependent-dropdown.git",
-                "reference": "f2c5d7d68e8070ef9656c4df82b9dc70a77190d6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/dependent-dropdown/zipball/f2c5d7d68e8070ef9656c4df82b9dc70a77190d6",
-                "reference": "f2c5d7d68e8070ef9656c4df82b9dc70a77190d6",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "kartik\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD 3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
-                }
-            ],
-            "description": "A multi level dependent dropdown JQuery plugin that allows nested dependencies.",
-            "homepage": "https://github.com/kartik-v/dependent-dropdown",
-            "keywords": [
-                "dependent",
-                "dropdown",
-                "jquery",
-                "option",
-                "select"
-            ],
-            "time": "2014-08-11 16:59:00"
+            "time": "2014-08-23 00:57:12"
         }
     ],
     "packages-dev": [
@@ -146,8 +101,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/bootstrap-fileinput": 20,
-        "kartik-v/bootstrap-popover-x": 20,
-        "kartik-v/dependent-dropdown": 20
+        "kartik-v/bootstrap-star-rating": 20
     },
     "prefer-stable": false,
     "platform": [

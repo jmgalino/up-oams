@@ -143,10 +143,82 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	}
 
 	/**
-	 * Download IPCR Form
+	 * Rate IPCR Form
 	 */
-	// public function action_download()
-	// {}
+	public function action_rate()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+
+		$ipcr_ID = $this->request->param('id');
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
+
+		$this->session->set('ipcr_details', $ipcr_details);
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
+		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+		$label = $period_from.' - '.$period_to;
+
+		$error = $this->session->get_once('error');
+		$warning = $this->session->get_once('warning');
+		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
+		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
+		$categories = $this->oams->get_categories();
+
+		$flag = 0;
+		foreach ($targets as $target)
+		{
+			if (!$target['r_quantity'] OR !$target['r_efficiency'] OR !$target['r_timeliness'])
+				$flag++;
+		}
+
+		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+
+		// if ($this->session->get('identifier') == 'dean')
+		// {
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		// 	$title = 'Unit Head, '.$college['short'];
+		// }
+		// else
+		// {
+		// 	$title = ($this->session->get('identifier') == 'dept_chair'
+		// 		? 'Unit Head, '.$department['short']
+		// 		: 'Faculty, '.$department['short']);
+		// }
+
+		$this->view->content = View::factory('faculty/ipcr/form/final/template')
+			->bind('label', $label)
+			->bind('error', $error)
+			->bind('flag', $flag)
+			->bind('warning', $warning)
+			->bind('session', $this->session)
+			->bind('ipcr_ID', $ipcr_ID)
+			->bind('categories', $categories)
+			->bind('outputs', $outputs)
+			// ->bind('department', $department['short'])
+			// ->bind('title', $title)
+			->bind('targets', $targets);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Save IPCR rating
+	 */
+	public function action_save()
+	{
+		$ipcr = new Model_Ipcr;
+		
+		$post = $this->request->post();
+		$target_details = $ipcr->get_target_details($post['target_ID']);
+		$ipcr_details = $ipcr->get_details($target_details['ipcr_ID']);
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
+		
+		$update_success = $ipcr->update_target($post);
+		// add alert
+		$this->redirect('faculty/ipcr/rate/'.$target_details['ipcr_ID']);
+	}
 
 	/**
 	 * Add output (Link)
@@ -189,6 +261,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			{
 				if (isset($post['target'])) echo $post['target'];
 				elseif (isset($post['indicators'])) echo $post['indicators'];
+				elseif (isset($post['actual_accom'])) echo $post['actual_accom'];
 			}
 			else
 			{

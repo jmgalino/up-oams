@@ -144,13 +144,13 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				: 'Faculty, '.$department['short']);
 
 		ob_start();
-		include_once(APPPATH.'views/mpdf/ipcr/template.php');
+		include_once(APPPATH.'views/mpdf/ipcr/header.php');
 
-			// OPCR - template for faculty
+			// IPCR - template for faculty
 			if ($type == 'ipcr')
-				include_once(APPPATH.'views/mpdf/ipcr/basic.php');
+				include_once(APPPATH.'views/mpdf/ipcr/body.php');
 
-			// OPCR - consolidated for dean
+			// IPCR - consolidated for dean
 			// elseif ($type == 'opcr-consolidated')
 			// 	include_once(APPPATH.'views/mpdf/ipcr/consolidated.php');
 
@@ -170,6 +170,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 			$details['document'] = $filename;
 			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
+			$details['version'] = intval($ipcr_details['version'])+1;
 			$submit_success = $ipcr->submit($ipcr_ID, $details);
 			$this->session->set('submit', $submit_success);
 			$this->redirect('faculty/ipcr', 303);

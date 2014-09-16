@@ -174,14 +174,29 @@ class Model_Ipcr extends Model {
 			->where('ipcr_ID', '=', $ipcr_ID)
 			->execute()
 			->as_array();
-	 
-		$targets = array();	
-		foreach ($result as $target)
-		{
-			$targets[] = $target;
-		}
+	
+		// $targets = array();	
+		// foreach ($result as $target)
+		// {
+		// 	$targets[] = $target;
+		// }
 
- 		return $targets;
+ 		// return $targets;
+ 		return $result;
+	}
+
+	public function get_category_targets($ipcr_ID, $category_ID)
+	{
+		$result = DB::select('ipcr_targettbl.target_ID', 'ipcr_targettbl.target')
+			->from('ipcr_targettbl')
+			->join('opcr_outputtbl', 'INNER')
+			->on('ipcr_targettbl.output_ID', '=', 'opcr_outputtbl.output_ID')
+			->where('ipcr_targettbl.ipcr_ID', '=', $ipcr_ID)
+			->where('opcr_outputtbl.category_ID', '=', $category_ID)
+			->execute()
+			->as_array();
+
+		return $result;
 	}
 
 	/**

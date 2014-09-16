@@ -19,21 +19,21 @@
 		<?php echo $warning; ?>
 	</p>
 </div>
-<?php elseif ($targets): ?>
-<div class="alert alert-reminder alert-dismissable">
+<?php elseif ($flag==0): ?>
+<div class="alert alert-reminder alert-dismissable" id="flag">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong><?php echo (($session->get('identifier') == 'faculty') ? 'save' : 'submit'); ?></strong>.
+		Don't forget to <strong><?php echo (($session->get('identifier') == 'dean') ? 'save' : 'submit'); ?></strong>.
 	</p>
 </div>
 <?php endif; ?>
 
 <?php
-// Add output
-echo View::factory('faculty/ipcr/form/modals/output')
+// Rate target
+echo View::factory('faculty/ipcr/form/modals/rate')
 	->bind('ipcr_ID', $ipcr_ID)
 	->bind('categories', $categories)
-	->bind('outputs', $outputs);
+	->bind('targets', $targets);
 ?>
 
 <div class="row">
@@ -58,10 +58,16 @@ echo View::factory('faculty/ipcr/form/modals/output')
 			// 	</tbody>
 			// </table><br><br><br><br>';
 
-			echo View::factory('faculty/ipcr/form/initial/fragment')
+			echo View::factory('faculty/ipcr/form/final/fragment')
 				->bind('categories', $categories)
 				->bind('targets', $targets)
 				->bind('outputs', $outputs);
+
+			echo 'Legend: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+				'1 - <em>Quantity</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+				'2 - <em>Efficiency</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+				'3 - <em>Timeliness</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+				'4 - <em>Average</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		?>
 		</pre>
 	</div>
@@ -69,22 +75,19 @@ echo View::factory('faculty/ipcr/form/modals/output')
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li>
-				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
+				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Target</a>
 			</li>
-			<?php if ($targets): ?>
 			<hr>
-			<li>
+			<li <?php if ($flag > 0) echo 'class="disabled"' ?>>
 				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
 				<?php echo (($session->get('identifier') == 'dean') ? 'Save' : 'Submit'); ?>
 				</a>
 			</li>
 			<li style="padding: 10px 15px;">
 				<span class="help-block">
-					Note: Double click values to edit; press save to keep the changes;
-					 and press the esc button to cancel.
+					Note: You have to rate all targets to enable submit function
 				</span>
 			</li>
-			<?php endif; ?>
 		</ul>
 	</div>
 </div>

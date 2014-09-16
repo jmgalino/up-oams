@@ -116,11 +116,14 @@ echo '<table width="200" align="right">
                   <td class="form-rows">', $target['r_timeliness'], '</td>
                   <td class="form-rows">';
 
+                $rating[0] = $target['r_quantity'];
+                $rating[1] = $target['r_efficiency'];
+                $rating[2] = $target['r_timeliness'];
                 if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
-                  echo array_sum($rating)/count($rating);
+                  echo array_sum($rating)/3;
 
                 echo '</td>
-                  <td class="form-rows">', $target['r_timeliness'], '</td>
+                  <td class="form-rows">', $target['r_remarks'], '</td>
                   </tr>';
 
               } // if target in under output and ipcr

@@ -37,9 +37,13 @@
 	</thead>
 	<tbody class="padded">
 	<?php
-	$targets = $ipcr->get_targets($ipcr_ID); 
+	$targets = $ipcr->get_targets($ipcr_ID);
 	$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 	$categories = $this->oams->get_categories();
+	$r_quantity = array();
+	$r_efficiency = array();
+	$r_timeliness = array();
+	$r_average = array();
 
 	foreach ($categories as $category)
 	{
@@ -55,7 +59,6 @@
 					{
 						if ($output['output_ID'] == $target['output_ID'])
 						{
-							$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
 							echo '<tr>
 								<td class="form-rows">', $target['target'], '</td>
 								<td class="form-rows">', $target['indicators'], '</td>
@@ -66,10 +69,13 @@
 								<td class="form-rows">';
 
 							if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
-								echo array_sum($rating)/count($rating);
+							{
+								$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
+								echo number_format(array_sum($rating)/3, 1);
+							}
 
 							echo '</td>
-								<td class="form-rows">', $target['r_timeliness'], '</td>
+								<td class="form-rows">', $target['rermarks'], '</td>
 								</tr>';
 						}
 					}
@@ -79,6 +85,43 @@
 	}
 	?>
 	</tbody>
+</table>
+
+<table class="table table-bordered padded">
+  <tbody>
+    <tr>
+      <td>Average Rating</td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="55"></td>
+    </tr>
+    <tr>
+      <td>Total Rating</td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="55"></td>
+    </tr>
+    <tr>
+      <td>Final Average Rating</td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="55"></td>
+    </tr>
+    <tr>
+      <td>Adjectival Rating</td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="55"></td>
+    </tr>
+  </tbody>
 </table>
 
 <table class="table table-bordered padded">

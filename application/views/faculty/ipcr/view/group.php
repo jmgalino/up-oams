@@ -30,13 +30,13 @@ echo View::factory('faculty/ipcr/form/modals/evaluate')
 	<div class="col-md-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li> 
-				<?php echo (($ipcr_details['status'] == 'Pending' AND $ipcr_details['remarks'] != 'None')
+				<?php echo (($ipcr_details['status'] == 'Pending' AND $ipcr_details['version'] != '1')
 						? '<a href="">Mark as Checked'
 						: '<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate (Initial)') ?>
 				</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
-			<li style="padding:10 15">
+			<li style="padding:10px 15px">
 				<dl>
 					<dt>Faculty</dt>
 					<dd><?php echo $user; ?></dd>

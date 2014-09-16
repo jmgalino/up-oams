@@ -98,7 +98,7 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 							</li>';
 				}
 
-				if (($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Accepted'))
+				if (($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Accepted') OR (($ipcr['status'] == 'Pending') AND ($session->get('identifier') == 'dept_chair')))
 				{
 					echo 	'<li>
 								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>

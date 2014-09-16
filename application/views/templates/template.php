@@ -10,8 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>application/assets/css/my_code.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo url::base(); ?>application/assets/less/variables.less" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-popover-x/css/bootstrap-popover-x.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>vendor/kartik-v/dependent-dropdown/css/dependent-dropdown.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-star-rating/css/star-rating.min.css" rel="stylesheet">
 
 	<title><?php echo $page_title;?></title>
 </head>
@@ -48,7 +47,6 @@
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datepicker.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/my_code.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-fileinput/js/fileinput.min.js"></script>
-	<script type="text/javascript" src="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-popover-x/js/bootstrap-popover-x.min.js"></script>
-	<script type="text/javascript" src="<?php echo URL::base(); ?>vendor/kartik-v/dependent-dropdown/js/dependent-dropdown.min.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js"></script>
 </body>
 </html>

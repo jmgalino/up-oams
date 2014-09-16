@@ -262,6 +262,25 @@ $(document).ready(function()
 		showUpload: false,
 	});
 
+	$("#r_quantity").rating({
+		step: 1,
+		size: 'xs',
+	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
+	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
+	});
+	$("#r_efficiency").rating({
+		step: 1,
+		size: 'xs',
+	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
+	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
+	});
+	$("#r_timeliness").rating({
+		step: 1,
+		size: 'xs',
+	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
+	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
+	});
+
 	$("a#deleteReport").click(function()
 	{
 		return confirm('Are you sure you want to delete this report?');
@@ -369,6 +388,44 @@ $(document).ready(function()
 				$('.change-output').find('[category="' + i + '"]').prop('disabled', true);
 		}
     });
+
+	$("#category_ID").change(function(){
+		var ipcr_ID = $(this).attr("ipcr-id");
+        var category_ID = $(this).val();
+        // alert(ipcr_ID+' '+category_ID);
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/cats",
+            data: 'category_ID=' + category_ID + '&ipcr_ID=' + ipcr_ID,
+		    dataType: "json",
+            success:function(options){
+                var newOptions = '';
+				for (var i = 0; i < options.length; i++)
+				{
+					newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
+				}
+				$("#target_ID").html(newOptions);
+            }
+        });
+    });
+
+	$("#target_ID").change(function(){
+        var target_ID = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/target_details",
+            data: 'target_ID=' + target_ID,
+		    dataType: "json",
+            success:function(data){
+            	$("#indicators").text(data['indicators']);
+            	$("#actual_accom").text(data['actual_accom']);
+            	$("#r_quantity").rating('update', data['r_quantity']);
+            	$("#r_efficiency").rating('update', data['r_efficiency']);
+            	$("#r_timeliness").rating('update', data['r_timeliness']);
+            	$("#remarks").val(data['remarks']);
+            }
+        });
+	});
 
 	$("#fund_amount").number( true, 2 );
 	$("#fund_up").number( true, 2 )
