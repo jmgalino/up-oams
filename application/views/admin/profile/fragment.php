@@ -21,7 +21,7 @@
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Middle Initial</strong></div>
-			<div class="col-xs-6"><?php echo $user['middle_initial']; ?></div>
+			<div class="col-xs-6"><?php echo $user['middle_name']; ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Last Name</strong></div>

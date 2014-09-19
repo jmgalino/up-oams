@@ -22,10 +22,10 @@
 
 <?php
 // Edit mission form
-echo View::factory('admin/university/mission')
+echo View::factory('admin/university/form/mission')
   ->bind('mission', $mission);
 // Edit vision form
-echo View::factory('admin/university/vision')
+echo View::factory('admin/university/form/vision')
   ->bind('vision', $vision);
 ?>
 
@@ -41,7 +41,7 @@ echo View::factory('admin/university/vision')
     ?>
 
     <div class="page-header" id="vision">
-      <h2>Vission</h2>&nbsp
+      <h2>Vision</h2>&nbsp
       <a class="show-hover" data-toggle="modal" data-target="#modal_vision" href="#">Edit</a>
     </div>
     <?php
@@ -50,99 +50,64 @@ echo View::factory('admin/university/vision')
 
     <div class="page-header" id="colleges">
       <h2>Colleges</h2>&nbsp
-      <a class="show-hover" onclick="alert('Coming soon!')" href="#">Edit</a>
+      <a class="show-hover" href="<?php echo URL::site('admin/university/college'); ?>">Edit</a>
     </div>
     <?php
     foreach ($colleges as $college) {
       echo '<h4 id="', $college['short'], '">', $college['college'], '</h4>
         <dl class="dl-horizontal">
-          <dt>Initials</dt>
+
+          <dt>Short Name</dt>
           <dd>', $college['short'], '</dd>
 
-          <dt>College Dean</dt>';
-          foreach ($users as $user) {
-            if ($college['user_ID'] == $user['user_ID'])
-            {
-              echo '<dd>', $user['first_name'], ' ', $user['middle_initial'], '. ', $user['last_name'], '</dd>';
-              break;
-            }
-          }
-
-      echo '</dl>';
+          <dt>College Dean</dt>
+          <dd>', $college['first_name'], ' ', $college['middle_name'][0], '. ', $college['last_name'], '</dd>
+        </dl>';
     }
     ?>
 
     <div class="page-header" id="departments">
       <h2>Departments</h2>&nbsp
-      <a class="show-hover" onclick="alert('Coming soon!')" href="#">Edit</a>
+      <a class="show-hover" data-toggle="modal" data-target="#modal_department" href="#">Edit</a>
     </div>
     <?php
     foreach ($departments as $department) {
       echo '<h4 id="', $department['short'], '">', $department['department'], '</h4>
         <dl class="dl-horizontal">
-          <dt>Initials</dt>
+
+          <dt>College</dt>
+          <dd>', $department['college'], '</dd>
+
+          <dt>Short Name</dt>
           <dd>', $department['short'], '</dd>
 
-          <dt>College</dt>';
-          foreach ($colleges as $college) {
-            if ($department['college_ID'] == $college['college_ID'])
-            {
-              echo '<dd>', $college['short'], '</dd>';
-              break;
-            }
-          }
-
-      echo '<dt>Department Chair</dt>';
-          foreach ($users as $user) {
-            if ($department['user_ID'] == $user['user_ID'])
-            {
-              echo '<dd>', $user['first_name'], ' ', $user['middle_initial'], '. ', $user['last_name'], '</dd>';
-              break;
-            }
-          }
-
-      echo '</dl>';
+          <dt>Department Chair</dt>
+          <dd>', $department['first_name'], ' ', $department['middle_name'][0], '. ', $department['last_name'], '</dd>
+        </dl>';
    }
    ?>
 
     <div class="page-header" id="programs">
       <h2>Degree Programs</h2>&nbsp
-      <a class="show-hover" onclick="alert('Coming soon!')" href="#">Edit</a>
+      <a class="show-hover" href="#">Edit</a>
     </div>
     <?php
     foreach ($programs as $program) {
-      echo '<h4 id="', $program['short'], '">', $program['program_short'], '</h4>
+      echo '<h4 id="', $program['short'], '">', $program['program'], '</h4>
         <dl class="dl-horizontal">
-          <dt>Full</dt>
-          <dd>', $program['program'], '</dd>
 
-          <dt>Initials</dt>
+          <dt>College</dt>
+          <dd>', $program['college'], '</dd>
+
+          <dt>Department</dt>
+          <dd>';
+      echo ($program['department_ID'] ? $program['department'] : 'Not Applicable');
+      echo '</dd>
+
+          <dt>Short Name</dt>
           <dd>', $program['short'], '</dd>
 
-          <dt>College</dt>';
-          foreach ($colleges as $college) {
-            if ($program['college_ID'] == $college['college_ID'])
-            {
-              echo '<dd>', $college['short'], '</dd>';
-              break;
-            }
-          }
-
-      echo '<dt>Department</dt>';
-          if (!$program['department_ID'])
-            echo '<dd> Not Applicable</dd>';
-          else
-          {
-            foreach ($departments as $department) {
-              if ($program['department_ID'] == $department['department_ID'])
-              {
-                echo '<dd>', $department['short'], '</dd>';
-                break;
-              }
-            }
-          }
-
-      echo '<dt>Date Instituted</dt>
+          <dt>Date Instituted</dt>
           <dd>', $program['date_instituted'], '</dd>
 
           <dt>Type</dt>

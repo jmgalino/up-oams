@@ -9,7 +9,7 @@ function reuser($user_IDs, $users)
 		{
 			if ($user_IDs == $user['user_ID'])
 			{
-				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_initial'].'.';
+				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
 				break;
 			}
 		}
@@ -26,7 +26,7 @@ function reuser($user_IDs, $users)
 				{
 					if ($user_ID == $user['user_ID'])
 					{
-						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_initial'].'.';
+						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
 						break;
 					}
 				}
@@ -122,7 +122,7 @@ function redate($start, $end)
 		<form class="form-inline" role="form">
 			<div class="form-group">
 				<label for="search" style="font-size: 16px; font-weight: normal; padding-right: 20px;">Search</label>
-				<input type="text" class="form-control" id="search">
+				<input type="text" class="form-control" id="searchh">
 			</div>
 		</form>
 	</div>

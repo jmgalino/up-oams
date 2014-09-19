@@ -1,4 +1,4 @@
-<?php $fullname = $user->last_name.", ".$user->first_name." ".$user->middle_initial."."?>
+<?php $fullname = $user->last_name.", ".$user->first_name." ".$user->middle_name."."?>
 
 <div class="form-group">
   <label for="author" class="col-sm-4 control-label">Author</label>

@@ -4,7 +4,7 @@ return array(
 
 	'cookie' => array(
         'encrypted' => TRUE,
-        'lifetime' => 43200,
+        'lifetime' => 28800,
 	),
 
 );

@@ -56,7 +56,7 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 				{
 					if ($ipcr['user_ID'] == $user['user_ID'])
 					{
-						echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_initial'], '.</td>';
+						echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'], '.</td>';
 
 						foreach ($programs as $program)
 						{

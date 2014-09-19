@@ -79,20 +79,20 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$reset = $this->session->get_once('reset');
 		$error = $this->session->get_once('error');
 
-		$user = $user->get_details(NULL, $this->request->param('id'));
+		$user_details = $user->get_details(NULL, $this->request->param('id'));
 		$programs = $univ->get_programs();
 
-		if ($user['user_type'] == 'Faculty')
+		if ($user_details['user_type'] == 'Faculty')
 		{
-			if (isset($user['program_ID']))
+			if (isset($user_details['program_ID']))
 			{
-				$program = $univ->get_program_details($user['program_ID']);
-				$user['program_short'] = $program['program_short'];
+				$program = $univ->get_program_details($user_details['program_ID']);
+				$user_details['program_short'] = $program['program_short'];
 			}
 			else
 			{
-				$department = $univ->get_department_details($user['department_ID'], NULL);
-				$user['program_short'] = 'Other: '.$department['department'];
+				$department = $univ->get_department_details($user_details['department_ID'], NULL);
+				$user_details['program_short'] = 'Other: '.$department['department'];
 			}	
 		}
 		// $accom_rows = $accom->get_faculty_accom($user['user_ID']);
@@ -103,7 +103,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$rch_rows = NULL;
 
 		$this->view->content = View::factory('admin/profile/template')
-			->bind('user', $user)
+			->bind('user', $user_details)
 			// ->bind('accom_rows', $accom_rows)
 			// ->bind('ipcr_rows', $ipcr_rows)
 			// ->bind('opcr_rows', $opcr_rows)

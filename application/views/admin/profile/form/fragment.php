@@ -13,9 +13,9 @@
 </div>
 
 <div class="form-group">
-  <label for="middle_initial" class="col-sm-4 control-label">Middle Initial</label>
+  <label for="middle_name" class="col-sm-4 control-label">Middle Name</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="middle_initial" name="middle_initial" value="<?php echo $user['middle_initial']; ?>" required>
+    <input type="text" class="form-control" id="middle_name" name="middle_name" value="<?php echo $user['middle_name']; ?>" required>
   </div>
 </div>
 

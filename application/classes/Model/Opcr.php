@@ -98,14 +98,9 @@ class Model_Opcr extends Model {
  		}
  		else
  		{
- 			foreach ($details as $column_name => $value) {
- 				$columns[] = $column_name;
-				$values[] = $value;
-			}
-
  			$insert_opcr = DB::insert('opcrtbl')
-	 			->columns($columns)
-	 			->values($values)
+	 			->columns(array_keys($details))
+	 			->values($details)
 	 			->execute();
 
 	 		return $insert_opcr[0];

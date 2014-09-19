@@ -26,8 +26,10 @@
 <form action="<?php echo URL::site($identifier."/password") ?>" class="form-horizontal" autocomplete="off" method="post" role="form">
 <div class="form-group">
 	<label for="current_password" class="col-md-3 control-label">Current Password</label>
-	<div class="col-md-6">
+	<div class="col-md-6 current_password">
 		<input type="password" class="form-control" id="current_password" name="current_password" required>
+		<span id="checkIcon"></span>
+		<span class="help-block" id="passwordCheck"></span>
 	</div>
 </div>
 
@@ -35,8 +37,8 @@
 	<label for="new_password" class="col-md-3 control-label">New Password</label>
 	<div class="col-md-6 new_password">
 		<input type="password" class="form-control" id="new_password" name="new_password" pattern=".{5,}" required>
-		<span id="checkIcon"></span>
-		<span class="help-block" id="passwordCheck"></span>
+		<span id="newCheckIcon"></span>
+		<span class="help-block" id="newPasswordCheck"></span>
 	</div>
 </div>
 

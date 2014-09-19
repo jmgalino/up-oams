@@ -32,7 +32,7 @@ class Model_User extends Model {
 		 		->execute()
 		 		->as_array();
 		 }
- 		else
+ 		elseif ($employee_code)
  		{
  			$details = DB::select()
 				->from('user_profiletbl')
@@ -41,7 +41,7 @@ class Model_User extends Model {
 		 		->as_array();
  		}
 
- 		return $details[0];
+ 		return ($details ? $details[0] : FALSE);
  	}
 
  	/**
@@ -108,20 +108,15 @@ class Model_User extends Model {
 
  		if ($result)
  		{
+ 			echo 'Existing User';
  			// Existing User
  			// Deleted User
  		}
  		else
  		{
- 			foreach ($details as $column => $value)
- 			{
-				$columns[] = $column;
-				$values[] = $value;
-			}
- 			
  			$insert_profile = DB::insert('user_profiletbl')
-	 			->columns($columns)
-	 			->values($values)
+	 			->columns(array_keys($details))
+	 			->values($details)
 	 			->execute();
  			$insert_login = DB::insert('user_logintbl')
  				->columns(array('user_ID', 'employee_code', 'password'))
@@ -130,11 +125,9 @@ class Model_User extends Model {
 
  			if ($details['position'] == 'dean')
  			{
- 				$college_details = array("user_ID" => $insert_profile[0]);
-
  				$univ = new Model_Univ;
  				$college = $univ->get_college_details(null, $details['program_ID']);
- 				$success = $univ->update_college_details($college[0]['college_ID'], $college_details);
+ 				$success = $univ->update_college(array('college_ID' => $college['college_ID'], 'user_ID' => $insert_profile[0]));
  			}
  			elseif ($details['position'] == 'dept_chair')
  			{
@@ -142,7 +135,7 @@ class Model_User extends Model {
 
  				$univ = new Model_Univ;
  				$department = $univ->get_department_details(null, $details['program_ID']);
- 				$success = $univ->update_department_details($department[0]['department_ID'], $department_details);	
+ 				$success = $univ->update_department($department['department_ID'], $department_details);	
  			}
 
  			// if ($sucess)
@@ -162,8 +155,23 @@ class Model_User extends Model {
  			->where('employee_code', '=', $employee_code)
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+		// if ($details['position'] == 'dean')
+		// {
+		// 	$univ = new Model_Univ;
+		// 	$college = $univ->get_college_details(null, $details['program_ID']);
+		// 	$success = $univ->update_college(array('college_ID' => $college['college_ID'], 'user_ID' => $insert_profile[0]));
+		// }
+		// elseif ($details['position'] == 'dept_chair')
+		// {
+		// 	$department_details = array("user_ID" => $insert_profile[0]);
+
+		// 	$univ = new Model_Univ;
+		// 	$department = $univ->get_department_details(null, $details['program_ID']);
+		// 	$success = $univ->update_department($department['department_ID'], $department_details);	
+		// }
+
+ 		// if ($rows_updated == 1) return TRUE;
+ 		// else return FALSE; //do something
  	}
 
  	/**
@@ -171,7 +179,6 @@ class Model_User extends Model {
 	 */
 	public function check_password($password)
  	{
- 		// $session = Session::instance();
  		$employee_code = Session::instance()->get('employee_code');
  		return $this->check_user($employee_code, $password);
  	}

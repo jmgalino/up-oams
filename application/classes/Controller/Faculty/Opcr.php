@@ -190,7 +190,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_edit()
 	{
-		$opcr = new Model_Opcr;
+		// $opcr = new Model_Opcr;
 
 		$post = $this->request->post(); echo $post;
 		// $output_details = $opcr->get_output_details($post['output_ID']);

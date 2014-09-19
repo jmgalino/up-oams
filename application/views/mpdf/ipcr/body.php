@@ -71,7 +71,13 @@
 							if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
 							{
 								$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
-								echo number_format(array_sum($rating)/3, 1);
+								$average = number_format(array_sum($rating)/3, 1);
+								echo $average;
+
+								$r_quantity[] = $taret['r_quantity'];
+								$r_efficiency[] = $taret['r_efficiency'];
+								$r_timeliness[] = $taret['r_timeliness'];
+								$r_average[] = $average;
 							}
 
 							echo '</td>

@@ -10,9 +10,9 @@
       <?php print Form::open('admin/university/update/mission', array('class'=>'form-horizontal', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="mission" class="col-sm-2 control-label">Mission</label>
+          <label for="mission-field" class="col-sm-2 control-label">Mission</label>
           <div class="col-sm-9">
-            <textarea class="form-control" id="mission" name="mission" rows="10" required><?php echo $mission; ?></textarea>
+            <textarea class="form-control" id="mission-field" name="mission" rows="10" required><?php echo $mission; ?></textarea>
           </div>
         </div>
       </div>

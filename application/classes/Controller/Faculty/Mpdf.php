@@ -170,7 +170,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 			$details['document'] = $filename;
 			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
-			$details['version'] = intval($ipcr_details['version'])+1;
 			$submit_success = $ipcr->submit($ipcr_ID, $details);
 			$this->session->set('submit', $submit_success);
 			$this->redirect('faculty/ipcr', 303);

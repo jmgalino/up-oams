@@ -185,6 +185,9 @@ class Model_Ipcr extends Model {
  		return $result;
 	}
 
+	/**
+	 * Get targets (by category - faculty)
+	 */
 	public function get_category_targets($ipcr_ID, $category_ID)
 	{
 		$result = DB::select('ipcr_targettbl.target_ID', 'ipcr_targettbl.target')

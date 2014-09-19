@@ -1,158 +1,5 @@
 $(document).ready(function()
 {
-	/* DATATABLE -- Initialize user table */
-	$('#user_table').DataTable({
-        "order": [[ 0, "asc" ]],
-        "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": "action"
-        }]
-    });
-	/* DATATABLE -- Initialize message table */
-	$('#message_table').DataTable({
-        "order": [[ 2, "asc" ]],
-        "dom": 'ftipr',
-        "columnDefs": [{
-        	"visible": false,
-        	"targets": 2
-        }]
-    });
-
-	/* DATATABLE -- Initialize faculty accom table */
-	$('#accom_table').DataTable({
-        "order": [[ 0, "desc" ]],
-         "columns": [
-		    null,
-		    null,
-		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
-		]
-    });
-    
-    var table = $("table.display").dataTable({
-    	"paging":   false,
-        "ordering": false,
-        "info":     false,
-    	"dom": '<"toolbar">rt',
-    });
- 
-    $("#search").keyup(function (){
-      // Filter on the column (the index) of this element
-      table.fnFilterAll(this.value);
-    });
-	
-    /* DATATABLE -- Initialize group accom table */
-	var accom_group_table = $('#accom_group_table').DataTable({
-        "order": [[ 0, "desc" ]],
-        "columns": [
-		    { "visible": false },
-		    null,
-		    null,
-		    null,
-		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
-		],
-        // WALA KO KASABOT ANI
-        "drawCallback": function (settings) {
-            var api = this.api();
-            var rows = api.rows({page:'current'}).nodes();
-            var last=null;
- 
-            api.column(0, {page:'current'}).data().each(function (group, i) {
-                if (last !== group)
-                {
-                    $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
-                    );
-                    last = group;
-                }
-            });
-        }
-    });
-    // Order by the period
-	$('#accom_group_table tbody').on('click', 'tr.group', function(){
-		var currentOrder = accom_group_table.order()[0];
-		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
-		{
-			accom_group_table.order([0, 'desc']).draw();
-		}
-		else
-		{
-			accom_group_table.order([0, 'asc']).draw();
-		}
-    });
-
-    /* DATATABLE -- Initialize faculty ipcr table */
-    $('#ipcr_table').DataTable({
-        "order": [[ 0, "desc" ]],
-        "columns": [
-		    null,
-		    null,
-		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
-		]
-    });
-    
-    /* DATATABLE -- Initialize group ipcr table */
-	var ipcr_group_table = $('#ipcr_group_table').DataTable({
-        "order": [[ 0, "desc" ]],
-        "columns": [
-		    { "visible": false },
-		    null,
-		    null,
-		    null,
-		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
-		],
-        // WALA KO KASABOT ANI
-        "drawCallback": function (settings) {
-            var api = this.api();
-            var rows = api.rows({page:'current'}).nodes();
-            var last=null;
- 
-            api.column(0, {page:'current'}).data().each(function (group, i) {
-                if (last !== group)
-                {
-                    $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
-                    );
-                    last = group;
-                }
-            });
-        }
-    });
- 
-    // Order by the period
-    $('#ipcr_group_table tbody').on('click', 'tr.group', function(){
-		var currentOrder = ipcr_group_table.order()[0];
-		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
-		{
-			ipcr_group_table.order([0, 'desc']).draw();
-		}
-		else
-		{
-			ipcr_group_table.order([0, 'asc']).draw();
-		}
-    });
-
-    /* DATATABLE -- Initialize faculty opcr table */
-    $('#opcr_table').DataTable({
-        "order": [[ 0, "desc" ]],
-        "columns": [
-		    null,
-		    null,
-		    null,
-		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
-		]
-    });
-
 	// type of user
 	$("input[name=user_type]").click(function()
 	{
@@ -183,30 +30,8 @@ $(document).ready(function()
 			$(".c-document").attr("required", "");
 		}
     });
-
-	// date
-	$('#birthdaypicker input').datepicker({
-		format: "mm/dd/yyyy",
-		// format: "MM dd, yyyy",
-		todayHighlight: true,
-		autoclose: true
-	});
-	$('#datepicker .input-daterange').datepicker({
-		format: "d MM yyyy",
-		todayHighlight: true
-	});
-	$('#monthpicker .input-daterange').datepicker({
-		format: "MM yyyy",
-	    viewMode: 1, 
-	    minViewMode: 1,
-	});
-	$('#monthpicker input').datepicker({
-		format: "MM yyyy",
-	    viewMode: 1, 
-	    minViewMode: 1,
-		autoclose: true
-	});
 	
+	// type of accom
 	$("input[name=accom_type]").click(function()
 	{
 		var type = $('input[name=accom_type]:checked').val();
@@ -248,37 +73,6 @@ $(document).ready(function()
 			$("input[name=page]").removeAttr("placeholder");
 			$(".pub_b").attr("required", "");
 		}
-	});
-
-	// Tooltip for author field
-	$('input#author').tooltip();
-	$('.button-tip').tooltip();
-	$("#photo").fileinput({
-		previewFileType: "image",
-		browseClass: "btn btn-primary",
-		browseLabel: " Browse",
-		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
-		showRemove: false,
-		showUpload: false,
-	});
-
-	$("#r_quantity").rating({
-		step: 1,
-		size: 'xs',
-	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
-	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
-	});
-	$("#r_efficiency").rating({
-		step: 1,
-		size: 'xs',
-	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
-	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
-	});
-	$("#r_timeliness").rating({
-		step: 1,
-		size: 'xs',
-	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
-	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
 	});
 
 	$("a#deleteReport").click(function()
@@ -324,6 +118,7 @@ $(document).ready(function()
 		}
 	});
 
+	// not working properly
 	$('td.editOutput').editable('/oamsystem/index.php/faculty/opcr/edit/output',
 	{
 		name		: 'output',
@@ -337,6 +132,7 @@ $(document).ready(function()
 		tooltip		: 'Double click to edit',
      });
 
+	// not working properly
 	$('td.editOutputIndicator').editable('/oamsystem/index.php/faculty/opcr/edit/indicator',
 	{
 		name		: 'indicators',
@@ -395,7 +191,7 @@ $(document).ready(function()
         // alert(ipcr_ID+' '+category_ID);
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/cats",
+            url: "/oamsystem/index.php/ajax/category_targets",
             data: 'category_ID=' + category_ID + '&ipcr_ID=' + ipcr_ID,
 		    dataType: "json",
             success:function(options){
@@ -427,8 +223,83 @@ $(document).ready(function()
         });
 	});
 
-	$("#fund_amount").number( true, 2 );
-	$("#fund_up").number( true, 2 )
+	$("#collegeForm").on("submit", function(event){
+
+		if (!$(this).attr("action"))
+			event.preventDefault();
+
+		if ($("input[type='submit']").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_college";
+		else if ($("input[type='submit']").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_college";
+
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#collegeForm").serialize(),
+            success: function(unique){
+            	if (unique)
+            	{
+            		$("#collegeForm").attr("action", $("#collegeForm").attr("url")).unbind("submit").trigger("submit");
+            	}
+            	else
+            	{
+					$("#invalidMessage").text("This is not a unique college.").parent().show();
+				}
+            }
+        });
+	});
+
+	$("#newCollege").click(function(){
+		var url = $(this).attr("url");
+
+		$("#myModalLabel").text("New College");
+		$("#invalidMessage").parent().hide();
+		$("#college-id, #college-college, #college-short, #college-dean").val("");
+        $("input[type='submit']").val("Add");
+        $("#collegeForm").attr("url", url);
+        // $("#college-id").removeAttr("name");
+	});
+
+	$("a#updateCollege").click(function(){
+		var url = $(this).attr("url");
+		var college_ID = $(this).attr("key");
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/college_details",
+            data: 'college_ID=' + college_ID,
+		    dataType: "json",
+            success:function(data){
+				$("#myModalLabel").text("Update College");
+				$("#invalidMessage").parent().hide();
+                $("#college-id").val(data['college_ID']);
+                $("#college-college").val(data['college']);
+                $("#college-short").val(data['short']);
+                $("#college-dean").val(data['user_ID']);
+		        $("input[type='submit']").val("Save");
+		        $("#collegeForm").attr("url", url);
+            }
+        });
+    });
+
+	$("#department-field").change(function(){
+		var department_ID = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/department_details",
+            data: 'department_ID=' + department_ID,
+		    dataType: "json",
+            success:function(data){
+                $("#department-full").val(data['department']);
+                $("#department-short").val(data['short']);
+                $("#department-college").val(data['college_ID']);
+                $("#department-chair").val(data['user_ID']);
+            }
+        });
+    });
+
     $('#fund_external').keyup(function()
     {
     	var external = $(this).val();
@@ -496,6 +367,31 @@ $(document).ready(function()
 			$("#charRemaining").css("color","black");
     });
 
+	$("#current_password").keyup(function(){
+		var password = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/abc",
+            data: 'password=' + password,
+            success:function(correct){
+                if(correct)
+                {
+			    	// $("div.current_password").removeClass("has-error has-feedback");
+			    	// $(this).setCustomValidity("");
+			    	$("#checkIcon").removeClass("glyphicon glyphicon-remove form-control-feedback");
+			    	$("#passwordCheck").html("");
+			    }
+			    else
+			    {
+			    	// $("div.current_password")addClass("has-error has-feedback");
+			    	// $(this).setCustomValidity("Invalid field.")
+			    	$("#checkIcon").addClass("glyphicon glyphicon-remove form-control-feedback");
+			    	$("#passwordCheck").html("Wrong password.");
+			    }
+            }
+        });
+	});
+
 	$("#new_password").keyup(function()
 	{
 		var passwordLen = $("#new_password").val().length;
@@ -503,14 +399,14 @@ $(document).ready(function()
 		if (passwordLen < 5)
 	    {
 	    	$("div.new_password").removeClass("has-success has-feedback").addClass("has-warning has-feedback");
-	    	$("#checkIcon").removeClass("glyphicon glyphicon-ok form-control-feedback").addClass("glyphicon glyphicon-warning-sign form-control-feedback");
-	    	$("#passwordCheck").html("Minimum of 5 characters.");
+	    	$("#newCheckIcon").removeClass("glyphicon glyphicon-ok form-control-feedback").addClass("glyphicon glyphicon-warning-sign form-control-feedback");
+	    	$("#newPasswordCheck").html("Minimum of 5 characters.");
 	    }
 	    else
 	    {
 	    	$("div.new_password").removeClass("has-warning has-feedback").addClass("has-success has-feedback");
-	    	$("#checkIcon").removeClass("glyphicon glyphicon-warning-sign form-control-feedback").addClass("glyphicon glyphicon-ok form-control-feedback");
-	    	$("#passwordCheck").html("");	
+	    	$("#newCheckIcon").removeClass("glyphicon glyphicon-warning-sign form-control-feedback").addClass("glyphicon glyphicon-ok form-control-feedback");
+	    	$("#newPasswordCheck").html("");	
 	    }
 	});
 
@@ -737,15 +633,6 @@ $(document).ready(function()
 		rchAttachments--;
 		return false;
 	});
-
-	var birthdate = document.getElementById("birthday");
-	if (!birthdate)
-	{
-		$('#birthdaypicker input').datepicker(
-			'update',
-			new Date(birthdate.getAttribute("value"))
-		);
-	}
 
 });
 	// // Refine - filter, sort

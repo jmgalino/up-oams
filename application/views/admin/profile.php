@@ -51,7 +51,7 @@ echo View::factory('admin/profile/form/template')
 	{
 		echo '<tr>';
 		echo '<td>', $user['employee_code'], '</td>';
-		echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_initial'], '.</td>';
+		echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>';
 		echo '<td>', $user['user_type'], '</td>';
 		
 		if ($user['employee_code'] !== $employee_code)
