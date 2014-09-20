@@ -65,8 +65,8 @@ var RecaptchaOptions = {
 </div>
 
 <div class="form-group">
-	<div class="col-md-6 col-md-offset-3">
-		<button type="submit" class="btn btn-primary pull-right" <?php if (!$details['message']) echo 'disabled="disabled"'; ?>>Send Message</button>
+	<div class="col-md-3 col-md-offset-1">
+		<button type="submit" class="btn btn-primary" <?php if (!$details['message']) echo 'disabled="disabled"'; ?>>Send Message</button>
 	</div>
 </div>
 </form>

@@ -7,11 +7,44 @@ class Controller_Admin extends Controller_User {
 	 */
 	protected function action_messages()
 	{
+		$success = $this->session->get_once('success');
 		$messages = $this->oams->get_messages();
 
 		$this->view->content = View::factory('admin/messages')
+			->bind('success', $success)
 			->bind('messages', $messages);
 		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Mark message as read
+	 */
+	public function action_read()
+	{
+		$message_ID = $this->request->param('id');
+		$this->oams->update_message(array('message_ID'=>$message_ID, 'seen'=>'1'));
+		$this->redirect('admin/messages', 303);
+	}
+
+	/**
+	 * Mark message as unread
+	 */
+	public function action_unread()
+	{
+		$message_ID = $this->request->param('id');
+		$this->oams->update_message(array('message_ID'=>$message_ID, 'seen'=>'0'));
+		$this->redirect('admin/messages', 303);
+	}
+
+	/**
+	 * Delete message
+	 */
+	public function action_delete()
+	{
+		$message_ID = $this->request->param('id');
+		$delete_success = $this->oams->delete_message($message_ID);
+		$this->session->set('success', $delete_success);
+		$this->redirect('admin/messages', 303);
 	}
 
 } // End Admin

@@ -227,6 +227,27 @@ class Controller_Ajax extends Controller {
 	}
 
 	/**
+	 * Get message details
+	 */
+	public function action_message_details()
+	{
+		$oams = new Model_Oams;
+
+		$message_ID = $this->request->post('message_ID');
+		$message_details = $oams->get_message_details($message_ID);
+		$oams->update_message(array('message_ID'=>$message_ID, 'seen'=>'1'));
+
+		$arr = array();
+		$arr['sender'] = $message_details['name'].' ('.$message_details['contact'].')';
+		$arr['subject'] = $message_details['subject'];
+		$arr['date'] = date('F d, Y', strtotime($message_details['date']));
+		$arr['message'] = $message_details['message'];
+		
+		echo json_encode($arr);
+		exit();
+	}
+
+	/**
 	 * Get targets based on category
 	 */
 	public function action_category_targets()

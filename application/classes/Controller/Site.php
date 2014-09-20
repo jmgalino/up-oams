@@ -64,9 +64,9 @@ class Controller_Site extends Controller {
 		}
 		else
 		{
-			$error = $session->get_once('error');
 			$success = $session->get_once('success');
-			$details = NULL;
+			$error = $session->get_once('error');
+			$details = $session->get_once('message_details');
 
 			$this->view->content = View::factory('site/contact')
 				->bind('error', $error)
@@ -110,7 +110,9 @@ class Controller_Site extends Controller {
 			echo 'Error';
 	}
 
-	// Send message to admin
+	/**
+	 * Send message to admin
+	 */
 	private function send_message($details)
 	{
 		require_once(APPPATH.'assets/lib/recaptchalib.php');
@@ -120,30 +122,32 @@ class Controller_Site extends Controller {
 			$details['recaptcha_challenge_field'],
 			$details['recaptcha_response_field']);
 
+		$message_details['name'] = $details['name'];
+	    $message_details['contact'] = $details['email'];
+		$message_details['subject'] = $details['subject'];
+		$message_details['message'] = $details['message'];
+
 		if (!$resp->is_valid)
 		{
 		    $error = $resp->error;
+		    $this->session->set('error', $error);
+		    $this->session->set('message_details', $message_details);
 		}
 		else
 		{
 			$oams = new Model_Oams;
 
-			$message_details['name'] = $details['name'];
-		    $message_details['contact'] = $details['email'];
-			$message_details['subject'] = $details['subject'];
-			$message_details['message'] = $details['message'];
+			$message_details['date'] = date('Y-m-d', strtotime("now"));
 			$insert_success = $oams->new_message($message_details);
-			$details = NULL;
+			$this->session->set('success', $insert_success);
 		}
 
-		$this->view->content = View::factory('site/contact')
-			->bind('error', $error)
-			->bind('success', $insert_success)
-			->bind('details', $details);
-		$this->response->body($this->view->render());
+		$this->redirect('site/contact', 303);
 	}
 
-	// Error login
+	/**
+	 * Error login
+	 */
 	private function show_error()
 	{
         $oams = new Model_Oams;
@@ -156,7 +160,9 @@ class Controller_Site extends Controller {
 		$this->response->body($this->view->render());
 	}
 
-	// Successful login
+	/**
+	 * Successful login
+	 */
 	private function start_session($employee_code)
 	{
 		$user = new Model_User;

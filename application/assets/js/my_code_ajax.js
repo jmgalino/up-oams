@@ -98,6 +98,10 @@ $(document).ready(function()
 	{
 		return confirm('Are you sure you want to delete this account?');
 	});
+	$("a#deleteMessage").click(function()
+	{
+		return confirm('Are you sure you want to delete this message?');
+	});
 
 	// Success indicator style
 	$("#style a").click(function()
@@ -463,6 +467,26 @@ $(document).ready(function()
 					newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
 				}
 				$("#program-department").html(newOptions).prop('disabled', false);
+            }
+        });
+	});
+
+	$("a#showMessage").click(function(){
+        var message_ID = $(this).attr("key");
+        var row = "#"+message_ID;
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/message_details",
+            data: 'message_ID=' + message_ID,
+		    dataType: "json",
+            success:function(data){
+				$("#myModalLabel").text(data["subject"]);
+                $("#message-sender").text(data['sender']);
+                $("#message-date").text(data['date']);
+                $("#message-message").text(data['message']);
+
+                $(row).removeClass("warning");
             }
         });
 	});

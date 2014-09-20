@@ -216,12 +216,14 @@ $(document).ready(function()
 
 	/* DATATABLE -- Initialize message table */
 	$('#message_table').DataTable({
-        "order": [[ 2, "asc" ]],
+        "order": [[ 2, "desc" ]],
         "dom": 'ftipr',
-        "columnDefs": [{
-        	"visible": false,
-        	"targets": 2
-        }]
+        "columns": [
+		    null,
+		    null,
+		    null,
+		    { "searchable": false, "orderable": false }
+		]
     });
 
 	/* DATATABLE -- Initialize faculty accom table */

@@ -13,7 +13,7 @@
 		Your message has been sent.
 	</p>
 </div>
-<?php elseif ($error): ?>
+<?php elseif ($success === FALSE): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">

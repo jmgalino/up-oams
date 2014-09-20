@@ -40,10 +40,10 @@ class Controller_Faculty extends Controller_User {
 			$this->send_message($this->request->post());
 		else
 		{
-			$error = $this->session->get_once('error');
 			$success = $this->session->get_once('success');
+			$error = $this->session->get_once('error');
+			$details = $this->session->get_once('message_details');
 			$fullname = $this->session->get('fullname');
-			$details = NULL;
 
 			$this->view->content = View::factory('profile/form/contact')
 				->bind('error', $error)
@@ -63,16 +63,12 @@ class Controller_Faculty extends Controller_User {
 	    $message_details['contact'] = $this->session->get('employee_code');
 		$message_details['subject'] = $details['subject'];
 		$message_details['message'] = $details['message'];
-		$insert_success = $this->oams->new_message($message_details);
-		$details = NULL;
+		$message_details['date'] = date('Y-m-d', strtotime("now"));
 
-		$fullname = $this->session->get('fullname');
-		$this->view->content = View::factory('profile/form/contact')
-			->bind('error', $error)
-			->bind('success', $insert_success)
-			->bind('fullname', $fullname)
-			->bind('details', $details);
-		$this->response->body($this->view->render());
+		$insert_success = $this->oams->new_message($message_details);
+		$this->session->set('success', $insert_success);
+			
+		$this->redirect('faculty/contact', 303);
 	}
 
 } // End Faculty

@@ -209,17 +209,26 @@ class Model_Oams extends Model {
 	 */
 	public function get_messages()
 	{
-		$result = DB::select()
+		$messages = DB::select()
 			->from('oams_messagetbl')
 			->execute()
 			->as_array();
 
-		$messages = array();
-		foreach ($result as $message) {
-			$messages[] = $message;
-		}
-
 		return $messages;
+	}
+
+	/**
+	 * Get message details
+	 */
+	public function get_message_details($message_ID)
+	{
+		$details = DB::select()
+			->from('oams_messagetbl')
+			->where('message_ID', '=', $message_ID)
+			->execute()
+			->as_array();
+
+		return $details[0];
 	}
 
 	/**
@@ -252,6 +261,33 @@ class Model_Oams extends Model {
 
 			return $insert_target;
 		}
+	}
+
+	/**
+	 * Update message
+	 */
+	public function update_message($details)
+	{
+		$rows_updated = DB::update('oams_messagetbl')
+ 			->set($details)
+			->where('message_ID', '=', $details['message_ID'])
+ 			->execute();
+
+ 		// if ($rows_updated == 1) return TRUE;
+ 		// else return FALSE; //do something
+	}
+
+	/**
+	 * Delete message
+	 */
+	public function delete_message($message_ID)
+	{
+		$rows_deleted = DB::delete('oams_messagetbl')
+ 			->where('message_ID', '=', $message_ID)
+ 			->execute();
+
+ 		if ($rows_deleted == 1) return 'Message was successfully deleted.';
+ 		else return FALSE; //do something
 	}
 	
 } // End Oams
