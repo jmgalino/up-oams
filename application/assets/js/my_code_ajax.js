@@ -1,9 +1,8 @@
 $(document).ready(function()
 {
 	// type of user
-	$("input[name=user_type]").click(function()
-	{
-		var type = $('input[name=user_type]:checked').val(); // try $
+	$("input[name=user_type]").click(function(){
+		var type = $('input[name=user_type]:checked').val();
 		if (type == "Admin")
 			$(".faculty-info").hide();
 		else
@@ -223,8 +222,40 @@ $(document).ready(function()
         });
 	});
 
-	$("#newProfile").on("submit", function(event){
-		//check employee code
+	$("#profileForm").on("submit", function(event){
+		event.preventDefault();
+
+		if ($("input[type='submit']").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_user";
+		else if ($("input[type='submit']").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_user";
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#profileForm").serialize(),
+            success: function(unique){
+            	if (unique)
+            	{
+            		$("#profileForm").attr("action", $("#profileForm").attr("url")).unbind("submit").trigger("submit");
+            	}
+            	else
+            	{
+					$("#invalidMessage").text("This is not a unique employee code.").parent().show();
+				}
+            }
+        });
+	});
+
+	$("#newProfile").click(function(){
+		var url = $(this).attr("url");
+
+		$("#modalProfileLabel").text("New Profile");
+		$("#invalidMessage").parent().hide();
+		$("#adminType, #facultyType").prop("checked", false);
+		$("#user-id, #empcode, #fname, #mname, #lname, #datepicker .input-group.date, #fcode, #rank, #program-id, #position").val("");
+		$("input[type='submit']").val("Add");
+        $("#profileForm").attr("url", url);
 	});
 
 	$("#updateProfile").click(function(){
@@ -246,7 +277,7 @@ $(document).ready(function()
 				$("#lname").val(data['lname']);
 				$("#datepicker .input-group.date").datepicker('setDate', data['birthday']).datepicker('fill');
 				$("input[type='submit']").val("Save");
-				$("#updateForm").attr("url", url);
+				$("#profileForm").attr("url", url);
 
 				if (data['fcode'])
 				{
@@ -260,7 +291,6 @@ $(document).ready(function()
 				else
 				{
 					$("#adminType").prop("checked", true);
-					// $("#user_type").val("Admin");
 				}
 			}
 		});
@@ -273,7 +303,6 @@ $(document).ready(function()
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_college";
 		else if ($("input[type='submit']").val() == "Save")
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_college";
-
 
 		$.ajax({
             type: "POST",
@@ -389,7 +418,6 @@ $(document).ready(function()
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_program";
 		else if ($("input[type='submit']").val() == "Save")
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_program";
-
 
 		$.ajax({
             type: "POST",

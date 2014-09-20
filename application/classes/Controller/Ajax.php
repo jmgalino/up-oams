@@ -15,6 +15,20 @@ class Controller_Ajax extends Controller {
 	{
 		switch ($this->request->param('id'))
 		{
+			case 'new_user':
+				$table = 'user_profiletbl';
+				$exclude = array('first_name', 'middle_name', 'last_name', 'user_type',
+					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'deleted');
+				$max = 0;
+				break;
+
+			case 'edit_user':
+				$table = 'user_profiletbl';
+				$exclude = array('first_name', 'middle_name', 'last_name', 'user_type',
+					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'deleted');
+				$max = 1;
+				break;
+
 			case 'new_college':
 				$table = 'univ_collegetbl';
 				$exclude = array();
@@ -52,9 +66,9 @@ class Controller_Ajax extends Controller {
 				break;
 		}
 
-		$univ = new Model_Univ;
+		$oams = new Model_Oams;
 		$post = $this->request->post();
-		$record = $univ->unique_record($post, $table, $exclude);
+		$record = $oams->unique_record($post, $table, $exclude);
 
 		if ($record <= $max)
 			echo TRUE;

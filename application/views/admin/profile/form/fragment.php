@@ -1,3 +1,7 @@
+<div class="alert alert-danger" style="display:none">
+  <p class="text-center" id="invalidMessage"></p>
+</div>
+
 <input type="text" id="user-id" name="user_ID" hidden>
 
 <div class="form-group">
@@ -63,8 +67,6 @@
       {
           echo '<option value="'.$program['program_ID'].'">'.$program['program_short'].'</option>';
       }
-
-        echo '<option value="department">Other: Department of Human Kinetics</option>';
       ?>
     </select>
   </div>

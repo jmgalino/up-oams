@@ -7,7 +7,7 @@
 
 <div class="btn-group pull-right">
 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		Action <span class="caret"></span>
+		Actions <span class="caret"></span>
 	</button>
 	<ul class="dropdown-menu" role="menu">
 		<li>
@@ -15,47 +15,33 @@
 			<span class="glyphicon glyphicon-picture"></span> Upload Photo</a>
 		</li>
 		<li>
-			<a id="updateProfile" key="<?php echo $user['user_ID']; ?>" data-toggle="modal" data-target="#modal_profile" role="button" href="" url="<?php echo URL::site('admin/profile/update/'.$user['employee_code']); ?>">
+			<a id="updateProfile" key="<?php echo $user['user_ID']; ?>" data-toggle="modal" data-target="#modal_profile" role="button" href="" url="<?php echo URL::site('admin/profile/update/'.$user['user_ID']); ?>">
 			<span class="glyphicon glyphicon-pencil"></span> Update Profile</a>
 		</li>
 		<li>
-			<a id="resetPassword" href=<?php echo URL::site('admin/profile/reset/'.$user['employee_code']); ?>>
+			<a id="resetPassword" href=<?php echo URL::site('admin/profile/reset/'.$user['user_ID']); ?>>
 			<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
 		</li>
 		<li>
-			<a id="deleteAccount" href=<?php echo URL::site('admin/profile/delete/'.$user['employee_code']); ?>>
+			<a id="deleteAccount" href=<?php echo URL::site('admin/profile/delete/'.$user['user_ID']); ?>>
 			<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
 		</li>
 	</ul>
 </div>
 <br><br>
 
-<?php if ($upload): ?>
+<?php if ($success): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Photo was successfully uploaded.
+		<?php echo $success; ?>
 	</p>
 </div>
-<?php elseif ($reset): ?>
+<?php elseif ($error OR $success === FALSE): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Password was successfully reset.
-	</p>
-</div>
-<?php elseif ($update): ?>
-<div class="alert alert-success alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		Profile was successfully updated.
-	</p>
-</div>
-<?php elseif ($error): ?>
-<div class="alert alert-danger alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		<?php echo $error; ?>
+		Something went wrong. Please try again.
 	</p>
 </div>
 <?php endif; ?>

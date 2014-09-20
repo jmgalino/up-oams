@@ -10,15 +10,15 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$reset = $this->session->get_once('reset');
-		$delete = $this->session->get_once('delete');
-		$users = $user->get_users();	
+		$success = $this->session->get_once('success');
+		$error = $this->session->get_once('error');
 		$employee_code = $this->session->get('employee_code');
+		$users = $user->get_users();
 		$programs = $univ->get_programs();
 
 		$this->view->content = View::factory('admin/profile')
-			->bind('reset', $reset)
-			->bind('delete', $delete)
+			->bind('success', $success)
+			->bind('error', $error)
 			->bind('users', $users)
 			->bind('employee_code', $employee_code)
 			->bind('programs', $programs);
@@ -31,9 +31,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	public function action_new()
 	{
 		$details = $this->request->post();
-		// $birthday = DateTime::createFromFormat('F d, Y', $details['birthday']);
-		$birthday = DateTime::createFromFormat('m/d/Y', $details['birthday']);
-		$details['birthday'] = $birthday->format('Y-m-d');
+		$details['birthday'] = date('Y-m-d', strtotime($details['birthday']));
 
 		if ($details['user_type'] == 'Admin')
 		{
@@ -45,17 +43,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
 		else
 		{
-			if (is_numeric($details['program_ID']))
-			{
-				$univ = new Model_Univ;
-				$department = $univ->get_program_details($details['program_ID']);
-				$details['department_ID'] = $department['department_ID'];
-			}
-			else
-			{
-				$details['program_ID'] = NULL;
-				$details['department_ID'] = 3;
-			}
+			$univ = new Model_Univ;
+			$department = $univ->get_program_details($details['program_ID']);
+			$details['department_ID'] = $department['department_ID'];
 		}
 
 		$user = new Model_User;
@@ -76,46 +66,43 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 		$upload = $this->session->get_once('upload');
 		$update = $this->session->get_once('update');
-		$reset = $this->session->get_once('reset');
+		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 
 		$user_details = $user->get_details(NULL, $this->request->param('id'));
-		$programs = $univ->get_programs();
-
-		if ($user_details['user_type'] == 'Faculty')
+		
+		if ($user_details)
 		{
-			if (isset($user_details['program_ID']))
+			$programs = $univ->get_programs();
+
+			if ($user_details['user_type'] == 'Faculty')
 			{
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 			}
-			else
-			{
-				$department = $univ->get_department_details($user_details['department_ID'], NULL);
-				$user_details['program_short'] = 'Other: '.$department['department'];
-			}	
-		}
-		// $accom_rows = $accom->get_faculty_accom($user['user_ID']);
-		// $ipcr_rows = NULL;
-		// $opcr_rows = NULL;
-		// $cuma_rows = NULL;
-		$pub_rows = NULL;
-		$rch_rows = NULL;
+			// $accom_rows = $accom->get_faculty_accom($user['user_ID']);
+			// $ipcr_rows = NULL;
+			// $opcr_rows = NULL;
+			// $cuma_rows = NULL;
 
-		$this->view->content = View::factory('admin/profile/template')
-			->bind('user', $user_details)
-			// ->bind('accom_rows', $accom_rows)
-			// ->bind('ipcr_rows', $ipcr_rows)
-			// ->bind('opcr_rows', $opcr_rows)
-			// ->bind('cuma_rows', $cuma_rows)
-			->bind('upload', $upload)
-			->bind('reset', $reset)
-			->bind('update', $update)
-			->bind('error', $error)
-			->bind('programs', $programs)
-			->bind('pub_rows', $pub_rows)
-			->bind('rch_rows', $rch_rows);
-		$this->response->body($this->view->render());
+			$this->view->content = View::factory('admin/profile/template')
+				->bind('user', $user_details)
+				// ->bind('accom_rows', $accom_rows)
+				// ->bind('ipcr_rows', $ipcr_rows)
+				// ->bind('opcr_rows', $opcr_rows)
+				// ->bind('cuma_rows', $cuma_rows)
+				->bind('upload', $upload)
+				->bind('success', $success)
+				->bind('update', $update)
+				->bind('error', $error)
+				->bind('programs', $programs);
+			$this->response->body($this->view->render());
+		}
+		else
+		{
+			$this->session->set('error', 'User does not exist.');
+			$this->redirect('admin/error');
+		}
 	}
 
 	/**
@@ -126,8 +113,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user = new Model_User;
 
 		$details = $this->request->post();
-		$birthday = DateTime::createFromFormat('m/d/Y', $details['birthday']);
-		$details['birthday'] = $birthday->format('Y-m-d');
+		$details['birthday'] = date('Y-m-d', strtotime($details['birthday']));
 
 		if ($details['user_type'] == 'Admin')
 		{
@@ -139,26 +125,54 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
 		else
 		{
-			if (is_numeric($details['program_ID']))
-			{
-				$univ = new Model_Univ;
-				$department = $univ->get_program_details($details['program_ID']);
-				$details['department_ID'] = $department['department_ID'];
-			}
-			else
-			{
-				$details['program_ID'] = NULL;
-				$details['department_ID'] = 3;
-			}
+			$univ = new Model_Univ;
+			$department = $univ->get_program_details($details['program_ID']);
+			$details['department_ID'] = $department['department_ID'];
 		}
  
+		$update_success = $user->update_details($details);
+		$this->session->set('success', $update_success);
 		$user_ID = $this->request->param('id');
-		$update_success = $user->update_details($user_ID, $details);
-		$this->session->set('update', $update_success);
 		$user_details = $user->get_details($user_ID, NULL);
 
 		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 	}
+
+ 	/**
+     * Upload user photo
+     */
+    public function action_upload()
+    {
+        $user = new Model_User;
+        
+        $user_ID = $this->request->param('id');
+        $user_details = $user->get_details($user_ID, NULL);
+        $filename = NULL;
+ 
+        if ($this->request->method() == Request::POST)
+        {
+            if (isset($_FILES['photo']))
+            {
+                $filename = $this->save_image($_FILES['photo'], $user_details['last_name']);
+            }
+        }
+ 
+        if (!$filename)
+        {
+            $this->session->set('error', 'There was a problem while uploading the image.');
+        }
+        else
+        {
+            if($user_details['pic'])
+                unlink(DOCROOT.'files/upload_photos/'.$user_details['pic']);
+
+            $update_success = $user->update_details(array('user_ID'=>$user_ID, 'pic'=>$filename));
+            $success = ($update_success ? $user_details['first_name'].'\'s photo was successfully uploaded.' : FALSE);
+            $this->session->set('success', $success);
+            $this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
+        }
+        
+    }
 
 	/**
 	 * Reset user password
@@ -168,7 +182,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user = new Model_User;
 
 		$reset_success = $user->reset_password($this->request->param('id'));
-		$this->session->set('reset', $reset_success);
+		$this->session->set('success', $reset_success);
 
 		$referrer = $this->request->referrer();
 		$view = strpos($referrer, 'view');
@@ -186,10 +200,50 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user = new Model_User;
 		
 		$delete_success = $user->delete_profile($this->request->param('id'));
-		$this->session->set('delete', $delete_success);
+		$this->session->set('success', $delete_success);
 
 		$this->redirect('admin/profile', 303);
 	}
+ 
+    /**
+     * Save photo in local disk
+     */
+    private function save_image($image, $surname)
+    {
+        if (
+            ! Upload::valid($image) OR
+            ! Upload::not_empty($image) OR
+            ! Upload::type($image, array('jpg', 'jpeg', 'png', 'gif')))
+        {
+            return FALSE;
+        }
+ 
+        $directory = DOCROOT.'files/upload_photos/';
+ 
+        if ($file = Upload::save($image, NULL, $directory))
+        {
+            $filename = strtolower(Text::random('alnum', 20)).$surname.'.jpg';
+ 
+            $img = Image::factory($file);
+            $height = $img->height;
+            $width = $img->width;
+
+            if ($height > $width)
+                $img->crop($width, $width);
+            else
+                $img->crop($height, $height);
+    
+            $img->resize(200, 200, Image::AUTO)
+                ->save($directory.$filename);
+
+            // Delete the temporary file
+            unlink($file);
+ 
+            return $filename;
+        }
+ 
+        return FALSE;
+    }
 
 	// private function action_pdfviewer()
 	// {

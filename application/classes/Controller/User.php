@@ -104,30 +104,24 @@ class Controller_User extends Controller {
 		$reset = $this->session->get_once('reset');
 		$update = $this->session->get_once('update');
 
-		$user = $user->get_details($this->session->get('user_ID'), NULL);
-		if ($user['user_type'] == 'Faculty')
+		$user_details = $user->get_details($this->session->get('user_ID'), NULL);
+		if ($user_details['user_type'] == 'Faculty')
 		{
 			$univ = new Model_Univ;
-
-			$programs = $univ->get_programs();
-			$program = $univ->get_program_details($user['program_ID']);
-			$user['program_short'] = $program['program_short'];
+			$program_details = $univ->get_program_details($user_details['program_ID']);
+			$user_details['program_short'] = $program_details['program_short'];
 		}
 		// $accom_rows = $accom->get_faculty_accom($this->session->get('user_ID'));
 		// $ipcr_rows = NULL;
 		// $opcr_rows = NULL;
 		// $cuma_rows = NULL;
-		$pub_rows = NULL;
-		$rch_rows = NULL;
 		
 		$this->view->content = View::factory('profile/myprofile/template')
-			->bind('user', $user)
+			->bind('user', $user_details)
 			// ->bind('accom_rows', $accom_rows)
 			// ->bind('ipcr_rows', $ipcr_rows)
 			// ->bind('opcr_rows', $opcr_rows)
 			// ->bind('cuma_rows', $cuma_rows)
-			->bind('pub_rows', $pub_rows)
-			->bind('rch_rows', $rch_rows)
 			->bind('reset', $reset)
 			->bind('update', $update);
 		$this->response->body($this->view->render());

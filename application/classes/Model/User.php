@@ -24,6 +24,8 @@ class Model_User extends Model {
 	 */
 	public function get_details($user_ID, $employee_code)
  	{
+ 		// $details = NULL;
+
  		if ($user_ID)
  		{
  			$details = DB::select()
@@ -41,7 +43,7 @@ class Model_User extends Model {
 		 		->as_array();
  		}
 
- 		return ($details ? $details[0] : FALSE);
+ 		return $details[0];//($details ? $details[0] : FALSE);
  	}
 
  	/**
@@ -104,75 +106,78 @@ class Model_User extends Model {
 	 */
 	public function add_user($details)
  	{
- 		// Check User
- 		$result = $this->get_details(NULL, $details['employee_code']);
+ 		$insert_profile = DB::insert('user_profiletbl')
+			->columns(array_keys($details))
+			->values($details)
+			->execute();
+		$insert_login = DB::insert('user_logintbl')
+			->columns(array('user_ID', 'employee_code', 'password'))
+			->values(array($insert_profile[0], $details['employee_code'], password_hash('upmin', PASSWORD_DEFAULT)))
+			->execute();
 
- 		if ($result)
- 		{
- 			echo 'Existing User';
- 			// Existing User
- 			// Deleted User
- 		}
- 		else
- 		{
- 			$insert_profile = DB::insert('user_profiletbl')
-	 			->columns(array_keys($details))
-	 			->values($details)
-	 			->execute();
- 			$insert_login = DB::insert('user_logintbl')
- 				->columns(array('user_ID', 'employee_code', 'password'))
- 				->values(array($insert_profile[0], $details['employee_code'], password_hash('upmin', PASSWORD_DEFAULT)))
- 				->execute();
+		$positions = array('dean', 'dept_chair');
+		if (in_array($details['position'], $positions))
+		{
+			$update = $this->update_univ($insert_profile[0]);
+			$success = ($insert_profile[1] == 1 AND $insert_login[1] == 1 AND $update ? TRUE : FALSE);
+		}
+		elseif ($insert_profile[1] == 1 AND $insert_login[1] == 1 )
+			$success = TRUE;
 
- 			if ($details['position'] == 'dean')
- 			{
- 				$univ = new Model_Univ;
- 				$college = $univ->get_college_details(null, $details['program_ID']);
- 				$success = $univ->update_college(array('college_ID' => $college['college_ID'], 'user_ID' => $insert_profile[0]));
- 			}
- 			elseif ($details['position'] == 'dept_chair')
- 			{
- 				$department_details = array('department_ID' => $department['department_ID'], 'user_ID' => $insert_profile[0]);
-
- 				$univ = new Model_Univ;
- 				$department = $univ->get_department_details(null, $details['program_ID']);
- 				$success = $univ->update_department($department_details);	
- 			}
-
- 			// if ($sucess)
- 			// 	// yay
- 			// else
- 			// 	// nay
- 		}
+		if (!$sucess)
+		{
+			$this->session->set('error', TRUE);
+			$this->redirect('admin/profile');
+		}
  	}
 
  	/**
 	 * Update user details
 	 */
-	public function update_details($employee_code, $details)
+	public function update_details($details)
  	{
  		$rows_updated = DB::update('user_profiletbl')
  			->set($details)
- 			->where('employee_code', '=', $employee_code)
+ 			->where('user_ID', '=', $details['user_ID'])
  			->execute();
 
-		// if ($details['position'] == 'dean')
- 	// 		{
- 	// 			$univ = new Model_Univ;
- 	// 			$college = $univ->get_college_details(null, $details['program_ID']);
- 	// 			$success = $univ->update_college(array('college_ID' => $college['college_ID'], 'user_ID' => $insert_profile[0]));
- 	// 		}
- 	// 		elseif ($details['position'] == 'dept_chair')
- 	// 		{
- 	// 			$department_details = array('department_ID' => $department['department_ID'], 'user_ID' => $insert_profile[0]);
+		$positions = array('dean', 'dept_chair');
+		if (in_array('position', array_keys($details)) AND in_array($details['position'], $positions))
+		{
+			$update = $this->update_univ($details['user_ID']);
+			$success = ($rows_updated == 1 AND $update ? TRUE : FALSE);
+		}
+		elseif ($rows_updated == 1)
+			$success = TRUE;
 
- 	// 			$univ = new Model_Univ;
- 	// 			$department = $univ->get_department_details(null, $details['program_ID']);
- 	// 			$success = $univ->update_department($department_details);	
- 	// 		}
+ 		if ($success)
+ 		{
+ 			$user_details = $this->get_details($details['user_ID'], NULL);
+ 			return $user_details['first_name'].'\'s profile was successfully updated.';
+ 		}
+ 		else return FALSE;
+ 	}
 
- 		// if ($rows_updated == 1) return TRUE;
- 		// else return FALSE; //do something
+ 	/**
+	 * Update univ details
+	 */
+	private function update_univ($user_ID)
+ 	{
+ 		$univ = new Model_Univ;
+ 		$success = NULL;
+
+ 		if ($details['position'] == 'dean')
+		{	
+			$college = $univ->get_college_details(null, $details['program_ID']);
+			$success = $univ->update_college(array('college_ID'=>$college['college_ID'], 'user_ID'=>$user_ID));
+		}
+		elseif ($details['position'] == 'dept_chair')
+		{
+			$department = $univ->get_department_details(null, $details['program_ID']);
+			$success = $univ->update_department(array('department_ID'=>$department['department_ID'], 'user_ID'=>$user_ID));
+		}
+
+		return $success;
  	}
 
  	/**
@@ -201,64 +206,38 @@ class Model_User extends Model {
  	/**
 	 * Reset user password
 	 */
-	public function reset_password($employee_code)
+	public function reset_password($user_ID)
  	{
  		$rows_updated = DB::update('user_logintbl')
  			->set(array('password' => password_hash('upmin', PASSWORD_DEFAULT)))
- 			->where('employee_code', '=', $employee_code)
+ 			->where('user_ID', '=', $user_ID)
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+ 		if ($rows_updated == 1) return 'Password was successfully reset.';
+ 		else return FALSE;
  	}
 
  	/**
 	 * Archive/Delete user
 	 */
-	public function delete_profile($employee_code)
+	public function delete_profile($user_ID)
  	{
- 		$user_details = $this->get_details(NULL, $employee_code);
+ 		$user_details = $this->get_details($user_ID, NULL);
 
  		// Archive
  		if ($user_details['deleted'] == 0)
  		{
  			$rows_deleted = DB::update('user_profiletbl')
 	 			->set(array('deleted' => '1'))
-	 			->where('employee_code', '=', $employee_code)
+	 			->where('user_ID', '=', $user_ID)
 	 			->execute();
  		}
  		// Delete
  		else
- 		{
+ 		{}
 
- 		}
-
- 		if ($rows_deleted == 1) return TRUE;
- 		else return FALSE; //do something
+ 		if ($rows_deleted == 1) return 'Profile was successfully deleted.';
+ 		else return FALSE;
  	}
-
- 	/**
-	 * Get publications (pre-)OAMS
-	 */
-	// public function get_publications($user_ID)
- 	// {}
-
- 	/**
-	 * Get research (pre-)OAMS
-	 */
-	// public function get_research($user_ID)
- 	// {}
-
- 	/**
-	 * New (pre-)OAMS publication 
-	 */
-	// public function add_accom($key, $details)
- 	// {}
-
- 	/**
-	 * New (pre-)OAMS research 
-	 */
-	// public function delete_accom($key, $accom_ID)
- 	// {}
 	
 } // End User

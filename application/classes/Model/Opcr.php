@@ -33,18 +33,12 @@ class Model_Opcr extends Model {
 		$program = $user->get_details($user_ID, NULL);
 		$department = $univ->get_department_details(NULL, $program['program_ID']);
 
-		$result = DB::select()
+		$opcr_forms = DB::select()
 			->from('opcrtbl')
 			->where('user_ID', '=', $department['user_ID'])
 			->where('status', '=', 'Published')
 			->execute()
 			->as_array();
-	
-		$opcr_forms = array();
-		foreach ($result as $form)
-		{
-			$opcr_forms[] = $form;
-		}
 
 		return $opcr_forms;
 	}

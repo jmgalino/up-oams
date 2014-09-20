@@ -44,6 +44,11 @@ echo View::factory('admin/university/form/program')
 			<th>Initials</th>
       <th>Type</th>
 			<th class="action"></th>
+      <th><!-- department --></th>
+      <th><!-- program --></th>
+      <th><!-- date_instituted --></th>
+      <th><!-- vision --></th>
+      <th><!-- goals --></th>
 		</tr>
 	</thead>
 </table>

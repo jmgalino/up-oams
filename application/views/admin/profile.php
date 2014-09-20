@@ -10,18 +10,18 @@
 </h3>
 <br>
 
-<?php if ($reset): ?>
+<?php if ($success): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Password was successfully reset.
+		<?php echo $success; ?>
 	</p>
 </div>
-<?php elseif ($delete): ?>
+<?php elseif ($error OR $success === FALSE): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Profile was successfully deleted.
+		Something went wrong. Please try again.
 	</p>
 </div>
 <?php endif; ?>
@@ -62,11 +62,11 @@ echo View::factory('admin/profile/form/template')
 						<span class="glyphicon glyphicon-user"></span> Show Profile</a>
 					</li>
 					<li>
-						<a id="resetPassword" href='.URL::site('admin/profile/reset/'.$user['employee_code']).'>
+						<a id="resetPassword" href='.URL::site('admin/profile/reset/'.$user['user_ID']).'>
 						<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
 					</li>
 					<li>
-						<a id="deleteAccount" href='.URL::site('admin/profile/delete/'.$user['employee_code']).'>
+						<a id="deleteAccount" href='.URL::site('admin/profile/delete/'.$user['user_ID']).'>
 						<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
 					</li>
 				</ul>

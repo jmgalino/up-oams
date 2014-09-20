@@ -110,7 +110,27 @@ $(document).ready(function()
             	"data": 		"update",
 	        	"orderable":	false,
 	        	"searchable":	false
-	        }
+	        },
+            { 
+            	"data":		"department",
+            	"visible": 	false
+			},
+            { 
+            	"data":		"program",
+            	"visible": 	false
+			},
+            { 
+            	"data":		"date_instituted",
+            	"visible": 	false
+			},
+            { 
+            	"data":		"vision",
+            	"visible": 	false
+			},
+            { 
+            	"data":		"goals",
+            	"visible": 	false
+			}
         ],
         "order": [[1, 'asc']],
         // WALA KO KASABOT ANI
@@ -123,7 +143,7 @@ $(document).ready(function()
                 if (last !== group)
                 {
                     $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
+                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
                     );
                     last = group;
                 }

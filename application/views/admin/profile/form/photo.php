@@ -7,7 +7,7 @@
        <h4 class="modal-title" id="myModalLabel">Upload Photo</h4>
       </div>
 
-      <form action="<?php echo URL::site("uploader/photo/$user_ID") ?>" class="form-horizontal" method="post" enctype="multipart/form-data" role="form">
+      <form action="<?php echo URL::site("admin/profile/upload/$user_ID") ?>" class="form-horizontal" method="post" enctype="multipart/form-data" role="form">
       <div class="modal-body">
         <div class="form-group">
           <div class="col-sm-10 col-sm-offset-1">

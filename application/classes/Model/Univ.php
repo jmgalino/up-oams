@@ -2,23 +2,6 @@
 
 class Model_Univ extends Model {
 
-
-	public static function unique_record($details, $table, $exclude)
-	{
-		// Check if the username already exists in the database
-		$query = DB::select()->from($table);
-		
-		foreach ($details as $key => $value)
-		{
-			if (!in_array($key, $exclude))
-				$query->or_where($key, '=', $value); // shows record that matches any value
-		}
-		
-		$result = $query->execute()->as_array();
-		
-		return count($result);
-	}
-
 	/**
 	 * Get mission
 	 */
