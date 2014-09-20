@@ -223,10 +223,51 @@ $(document).ready(function()
         });
 	});
 
-	$("#collegeForm").on("submit", function(event){
+	$("#newProfile").on("submit", function(event){
+		//check employee code
+	});
 
-		if (!$(this).attr("action"))
-			event.preventDefault();
+	$("#updateProfile").click(function(){
+		var url = $(this).attr("url");
+		var user_ID = $(this).attr("key");
+
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/user_details",
+			data: 'user_ID=' + user_ID,
+			dataType: "json",
+			success:function(data){
+				$("#modalProfileLabel").text("Update Profile");
+				$("#invalidMessage").parent().hide();
+				$("#user-id").val(data['user_ID']);
+				$("#empcode").val(data['empcode']);
+				$("#fname").val(data['fname']);
+				$("#mname").val(data['mname']);
+				$("#lname").val(data['lname']);
+				$("#datepicker .input-group.date").datepicker('setDate', data['birthday']).datepicker('fill');
+				$("input[type='submit']").val("Save");
+				$("#updateForm").attr("url", url);
+
+				if (data['fcode'])
+				{
+					$("#facultyType").prop("checked", true);
+					$(".faculty-info").show();
+					$("#fcode").val(data['fcode']);
+					$("#rank").val(data['rank']);
+					$("#program-id").val(data['program_ID']);
+					$("#position").val(data['position']);
+				}
+				else
+				{
+					$("#adminType").prop("checked", true);
+					// $("#user_type").val("Admin");
+				}
+			}
+		});
+	});
+
+	$("#collegeForm").on("submit", function(event){
+		event.preventDefault();
 
 		if ($("input[type='submit']").val() == "Add")
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_college";
@@ -259,46 +300,144 @@ $(document).ready(function()
 		$("#college-id, #college-college, #college-short, #college-dean").val("");
         $("input[type='submit']").val("Add");
         $("#collegeForm").attr("url", url);
-        // $("#college-id").removeAttr("name");
 	});
 
 	$("a#updateCollege").click(function(){
 		var url = $(this).attr("url");
 		var college_ID = $(this).attr("key");
 
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/college_details",
-            data: 'college_ID=' + college_ID,
-		    dataType: "json",
-            success:function(data){
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/college_details",
+			data: 'college_ID=' + college_ID,
+			dataType: "json",
+			success:function(data){
 				$("#myModalLabel").text("Update College");
 				$("#invalidMessage").parent().hide();
-                $("#college-id").val(data['college_ID']);
-                $("#college-college").val(data['college']);
-                $("#college-short").val(data['short']);
-                $("#college-dean").val(data['user_ID']);
-		        $("input[type='submit']").val("Save");
-		        $("#collegeForm").attr("url", url);
-            }
-        });
+				$("#college-id").val(data['college_ID']);
+				$("#college-college").val(data['college']);
+				$("#college-short").val(data['short']);
+				$("#college-dean").val(data['user_ID']);
+				$("input[type='submit']").val("Save");
+				$("#collegeForm").attr("url", url);
+			}
+		});
     });
 
-	$("#department-field").change(function(){
-		var department_ID = $(this).val();
+	$("#departmentForm").on("submit", function(event){
+		event.preventDefault();
+
+		if ($("input[type='submit']").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_department";
+		else if ($("input[type='submit']").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_department";
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#departmentForm").serialize(),
+            success: function(unique){
+            	if (unique)
+            	{
+            		$("#departmentForm").attr("action", $("#departmentForm").attr("url")).unbind("submit").trigger("submit");
+            	}
+            	else
+            	{
+					$("#invalidMessage").text("This is not a unique department.").parent().show();
+				}
+            }
+        });
+	});
+
+	$("#newDepartment").click(function(){
+		var url = $(this).attr("url");
+
+		$("#myModalLabel").text("New Department");
+		$("#invalidMessage").parent().hide();
+		$("#department-college, #department-chair, #department-id, #department-department, #department-short").val("");
+        $("input[type='submit']").val("Add");
+        $("#departmentForm").attr("url", url);
+	});
+
+	$("a#updateDepartment").click(function(){
+		var url = $(this).attr("url");
+		var department_ID = $(this).attr("key");
+
         $.ajax({
             type: "POST",
             url: "/oamsystem/index.php/ajax/department_details",
             data: 'department_ID=' + department_ID,
 		    dataType: "json",
             success:function(data){
-                $("#department-full").val(data['department']);
-                $("#department-short").val(data['short']);
+				$("#myModalLabel").text("Update Department");
+				$("#invalidMessage").parent().hide();
+                $("#department-id").val(data['department_ID']);
                 $("#department-college").val(data['college_ID']);
+                $("#department-department").val(data['department']);
+                $("#department-short").val(data['short']);
                 $("#department-chair").val(data['user_ID']);
+		        $("input[type='submit']").val("Save");
+		        $("#departmentForm").attr("url", url);
             }
         });
     });
+
+	$("#programForm").on("submit", function(event){
+		event.preventDefault();
+
+		if ($("input[type='submit']").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_program";
+		else if ($("input[type='submit']").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_program";
+
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#programForm").serialize(),
+            success: function(unique){
+            	if (unique)
+            	{
+            		$("#programForm").attr("action", $("#programForm").attr("url")).unbind("submit").trigger("submit");
+            	}
+            	else
+            	{
+					$("#invalidMessage").text("This is not a unique program.").parent().show();
+				}
+            }
+        });
+	});
+
+	$("#newProgram").click(function(){
+		var url = $(this).attr("url");
+
+		$("#myModalLabel").text("New Degree Program");
+		$("#invalidMessage").parent().hide();
+		$("#program-college, #program-id, #program-program, #program-program-short, #program-short, #datepicker .input-group.date, #program-type").val("");
+		$("#program-department").html("<option value=\"\">Select</option>").prop("disabled", true);
+		$("#program-vision, #program-goals").text("");
+        $("input[type='submit']").val("Add");
+        $("#programForm").attr("url", url);
+	});
+
+	$("#program-college").change(function(){
+		var college_ID = $(this).val();
+        
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/college_departments",
+            data: 'college_ID=' + college_ID,
+		    dataType: "json",
+            success:function(options){
+            	var newOptions = '';
+				for (var i = 0; i < options.length; i++)
+				{
+					newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
+				}
+				$("#program-department").html(newOptions).prop('disabled', false);
+            }
+        });
+	});
 
     $('#fund_external').keyup(function()
     {

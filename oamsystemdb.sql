@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 19, 2014 at 12:01 PM
+-- Generation Time: Sep 20, 2014 at 03:25 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -686,59 +686,6 @@ INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `pro
 -- --------------------------------------------------------
 
 --
--- Table structure for table `univ_review-facultytbl`
---
-
-CREATE TABLE IF NOT EXISTS `univ_review-facultytbl` (
-`review_ID` int(11) NOT NULL,
-  `user_ID` int(11) NOT NULL,
-  `cuma_ID` int(11) NOT NULL,
-  `no_mentored` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `univ_review-programtbl`
---
-
-CREATE TABLE IF NOT EXISTS `univ_review-programtbl` (
-`review_ID` int(11) NOT NULL,
-  `program_ID` int(11) NOT NULL,
-  `date_reviewed` date NOT NULL,
-  `passing_rate` int(11) DEFAULT NULL,
-  `revisions` text NOT NULL,
-  `desription_instituions` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `univ_review-studentstbl`
---
-
-CREATE TABLE IF NOT EXISTS `univ_review-studentstbl` (
-`review_ID` int(11) NOT NULL,
-  `cuma_ID` int(11) NOT NULL,
-  `program_ID` int(11) NOT NULL,
-  `no_freshmen` int(11) NOT NULL,
-  `graduate_honors` int(11) DEFAULT NULL,
-  `percent_honors` int(11) DEFAULT NULL,
-  `no_leaders` int(11) DEFAULT NULL,
-  `no_thesis_isi` int(11) DEFAULT NULL,
-  `no_thesis_refereed` int(11) DEFAULT NULL,
-  `no_postgrad_ph` int(11) NOT NULL,
-  `no_postgrad_foreign` int(11) NOT NULL,
-  `employed_academe` int(11) NOT NULL,
-  `employed_industry` int(11) NOT NULL,
-  `employed_research` int(11) NOT NULL,
-  `employed_kpo` int(11) NOT NULL,
-  `employed_cc` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user_educbgtbl`
 --
 
@@ -858,48 +805,6 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 (26, '123400023', 'Ben', 'P', 'Banks', 'Faculty', 'BPBanks', 5, 5, '-', 'none', '1959-01-09', NULL, 0),
 (27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 5, 5, '-', 'none', '1986-12-25', NULL, 0),
 (31, '143860113', 'Armacheska', 'River', 'Mesa', 'Faculty', 'Armesa', 8, 7, 'Intructor', 'dean', '2014-09-09', NULL, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_pubtbl`
---
-
-CREATE TABLE IF NOT EXISTS `user_pubtbl` (
-`publication_ID` int(11) NOT NULL,
-  `user_ID` int(11) NOT NULL,
-  `author` varchar(50) DEFAULT NULL,
-  `year` int(4) NOT NULL,
-  `title` varchar(50) NOT NULL,
-  `type` enum('book','chapter','journal') NOT NULL,
-  `book_publisher` varchar(50) DEFAULT NULL,
-  `book_place` varchar(50) DEFAULT NULL,
-  `journal_volume` int(10) DEFAULT NULL,
-  `journal_issue` int(11) DEFAULT NULL,
-  `page` varchar(10) NOT NULL,
-  `isi` int(1) NOT NULL DEFAULT '0',
-  `peer_reviewed` int(1) NOT NULL DEFAULT '0',
-  `refereed` int(1) NOT NULL DEFAULT '0',
-  `popular` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_rchtbl`
---
-
-CREATE TABLE IF NOT EXISTS `user_rchtbl` (
-`research_ID` int(11) NOT NULL,
-  `user_ID` int(11) NOT NULL,
-  `title` varchar(50) NOT NULL,
-  `nature` enum('Basic','Applied','Policy','Other') NOT NULL,
-  `fund_up` int(10) NOT NULL DEFAULT '0',
-  `fund_external` varchar(50) NOT NULL DEFAULT 'External',
-  `fund_amount` int(10) NOT NULL DEFAULT '0',
-  `duration_from` date NOT NULL,
-  `duration_to` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Indexes for dumped tables
@@ -1038,24 +943,6 @@ ALTER TABLE `univ_programtbl`
  ADD PRIMARY KEY (`program_ID`), ADD KEY `department_ID` (`department_ID`), ADD KEY `college_ID` (`college_ID`);
 
 --
--- Indexes for table `univ_review-facultytbl`
---
-ALTER TABLE `univ_review-facultytbl`
- ADD PRIMARY KEY (`review_ID`), ADD KEY `cuma_ID` (`cuma_ID`), ADD KEY `user_ID` (`user_ID`);
-
---
--- Indexes for table `univ_review-programtbl`
---
-ALTER TABLE `univ_review-programtbl`
- ADD PRIMARY KEY (`review_ID`), ADD KEY `program_ID` (`program_ID`);
-
---
--- Indexes for table `univ_review-studentstbl`
---
-ALTER TABLE `univ_review-studentstbl`
- ADD PRIMARY KEY (`review_ID`), ADD KEY `program_ID` (`program_ID`), ADD KEY `cuma_ID` (`cuma_ID`);
-
---
 -- Indexes for table `user_educbgtbl`
 --
 ALTER TABLE `user_educbgtbl`
@@ -1072,18 +959,6 @@ ALTER TABLE `user_logintbl`
 --
 ALTER TABLE `user_profiletbl`
  ADD PRIMARY KEY (`user_ID`), ADD KEY `program` (`program_ID`), ADD KEY `department_ID` (`department_ID`);
-
---
--- Indexes for table `user_pubtbl`
---
-ALTER TABLE `user_pubtbl`
- ADD PRIMARY KEY (`publication_ID`), ADD KEY `user` (`user_ID`);
-
---
--- Indexes for table `user_rchtbl`
---
-ALTER TABLE `user_rchtbl`
- ADD PRIMARY KEY (`research_ID`), ADD KEY `user` (`user_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1190,35 +1065,10 @@ MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 ALTER TABLE `univ_programtbl`
 MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
--- AUTO_INCREMENT for table `univ_review-facultytbl`
---
-ALTER TABLE `univ_review-facultytbl`
-MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `univ_review-programtbl`
---
-ALTER TABLE `univ_review-programtbl`
-MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `univ_review-studentstbl`
---
-ALTER TABLE `univ_review-studentstbl`
-MODIFY `review_ID` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
 MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
---
--- AUTO_INCREMENT for table `user_pubtbl`
---
-ALTER TABLE `user_pubtbl`
-MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_rchtbl`
---
-ALTER TABLE `user_rchtbl`
-MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -1259,18 +1109,6 @@ ADD CONSTRAINT `univ_departmenttbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES
 --
 ALTER TABLE `univ_programtbl`
 ADD CONSTRAINT `univ_programtbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`);
-
---
--- Constraints for table `univ_review-facultytbl`
---
-ALTER TABLE `univ_review-facultytbl`
-ADD CONSTRAINT `univ_review-facultytbl_ibfk_2` FOREIGN KEY (`cuma_ID`) REFERENCES `cumatbl` (`cuma_ID`);
-
---
--- Constraints for table `univ_review-programtbl`
---
-ALTER TABLE `univ_review-programtbl`
-ADD CONSTRAINT `univ_review-programtbl_ibfk_2` FOREIGN KEY (`program_ID`) REFERENCES `univ_programtbl` (`program_ID`);
 
 --
 -- Constraints for table `user_profiletbl`

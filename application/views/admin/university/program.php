@@ -1,48 +1,49 @@
+<!-- Site Navigation -->
 <ol class="breadcrumb">
-  <li><a href=<?php echo url::site('admin/index'); ?>>Home</a></li>
-  <li><a href=<?php echo url::site('admin/university'); ?>>University Settings</a></li>
-  <li class="active">Modify University Settings</li>
+  <li><a href=<?php echo URL::site(); ?>>Home</a></li>
+  <li><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
+  <li class="active">Degree Programs</li>
 </ol>
 
 <h3>
-  Degree Programs
-  <div class="btn-toolbar pull-right" role="toolbar">
-    <div class="btn-group">
-      <a class="btn btn-default" href=<?php echo url::site('admin/university'); ?> role="button">Back</a>
-    </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_add">Add</button>
-    </div>
-  </div>
+  List of Degree Programs
+  <button type="button" class="btn btn-default pull-right" id="newProgram" data-toggle="modal" data-target="#modal_program" url="<?php echo URL::site('admin/university/new/program'); ?>">Create</button>
 </h3>
 <br>
 
+<?php if ($success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <p class="text-center">
+    <?php echo $success; ?>
+  </p>
+</div>
+<?php elseif ($success === FALSE): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <p class="text-center">
+    Something went wrong. Please try it again.
+  </p>
+</div>
+<?php endif; ?>
+
 <?php
-echo '<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Degree Program</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>';
-
-foreach ($programs as $program)
-{
-  echo
-  '<tr>',
-    '<td>', $program->program, '</td>',
-    '<td><a class="owned" href='.URL::site('univ/edit/program/'.$program->program_ID).'>',
-      '<span class="glyphicon glyphicon-pencil"></span></a></td>',
-    '<td><a class="owned" href='.URL::site('univ/edit/program/'.$program->program_ID).'>',
-      '<span class="glyphicon glyphicon-trash"></span></a></td>';
-  '</tr>';
-}
-
-echo '</tbody></table></div><br>';
-
-// New program
-echo View::factory('admin/university/form/_add/program')->render();
+// Add/Edit program form
+echo View::factory('admin/university/form/program')
+  ->bind('colleges', $colleges)
+  ->bind('departments', $departments);
 ?>
+
+<!-- Table -->
+<table class="table table-hover" id="program_table" width="100%">
+	<thead>
+		<tr>
+      <th></th>
+			<th>College</th>
+			<th>Degree Program</th>
+			<th>Initials</th>
+      <th>Type</th>
+			<th class="action"></th>
+		</tr>
+	</thead>
+</table>

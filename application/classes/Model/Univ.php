@@ -10,12 +10,12 @@ class Model_Univ extends Model {
 		
 		foreach ($details as $key => $value)
 		{
-			if ($key != $exclude)
+			if (!in_array($key, $exclude))
 				$query->or_where($key, '=', $value); // shows record that matches any value
 		}
 		
 		$result = $query->execute()->as_array();
-
+		
 		return count($result);
 	}
 
@@ -130,7 +130,7 @@ class Model_Univ extends Model {
  	}
 
 	/**
-	 * Update college details
+	 * Update college
 	 */
 	public function update_college($details)
  	{
@@ -142,6 +142,20 @@ class Model_Univ extends Model {
  		if ($rows_updated == 1) return $details['short'].' was successfully updated.';
  		else return FALSE;
  	}
+
+	/**
+	 * Get departments by college
+	 */
+	public function get_college_departments($college_ID)
+	{
+		$departments = DB::select()
+			->from('univ_departmenttbl')
+			->where('college_ID', '=', $college_ID)
+			->execute()
+			->as_array();
+
+		return $departments;
+	}
 
 	/**
 	 * Get departments
@@ -188,16 +202,31 @@ class Model_Univ extends Model {
  	}
 
 	/**
-	 * Update department details
+	 * New department
 	 */
-	public function update_department($department_ID, $details)
+	public function add_department($details)
+ 	{
+ 		$insert_profile = DB::insert('univ_departmenttbl')
+ 			->columns(array_keys($details))
+ 			->values($details)
+ 			->execute();
+
+ 		if ($insert_profile[1] == 1) return $details['short'].' was successfully added.';
+ 		else return FALSE;
+ 	}
+
+	/**
+	 * Update department
+	 */
+	public function update_department($details)
  	{
  		$rows_updated = DB::update('univ_departmenttbl')
  			->set($details)
- 			->where('department_ID', '=', $department_ID)
+ 			->where('department_ID', '=', $details['department_ID'])
  			->execute();
 
- 		return $rows_updated;
+ 		if ($rows_updated == 1) return $details['short'].' was successfully updated.';
+ 		else return FALSE;
  	}
 
 	/**
@@ -252,18 +281,53 @@ class Model_Univ extends Model {
 	 */
 	public function get_program_details($program_ID)
  	{
- 		$details = DB::select('univ_programtbl.*',
-			'univ_departmenttbl.department', 'univ_collegetbl.college')
-			->from('univ_programtbl')
-			->join('univ_departmenttbl')
-			->on('univ_programtbl.department_ID', '=', 'univ_departmenttbl.department_ID')
-			->join('univ_collegetbl')
-			->on('univ_programtbl.college_ID', '=', 'univ_collegetbl.college_ID')
- 			->where('univ_programtbl.program_ID', '=', $program_ID)
-			->execute()
-			->as_array();
+ 		$details = DB::select()
+ 			->from('univ_programtbl')
+ 			->where('program_ID', '=', $program_ID)
+ 			->execute()
+ 			->as_array();
+
+ 		if ($details[0]['department_ID'])
+ 			$details = DB::select('univ_programtbl.*',
+				'univ_departmenttbl.department', 'univ_collegetbl.college')
+				->from('univ_programtbl')
+				->join('univ_departmenttbl')
+				->on('univ_programtbl.department_ID', '=', 'univ_departmenttbl.department_ID')
+				->join('univ_collegetbl')
+				->on('univ_programtbl.college_ID', '=', 'univ_collegetbl.college_ID')
+	 			->where('univ_programtbl.program_ID', '=', $program_ID)
+				->execute()
+				->as_array();
 
 		return $details[0];
+ 	}
+
+	/**
+	 * New program
+	 */
+	public function add_program($details)
+ 	{
+ 		$insert_profile = DB::insert('univ_programtbl')
+ 			->columns(array_keys($details))
+ 			->values($details)
+ 			->execute();
+
+ 		if ($insert_profile[1] == 1) return $details['short'].' was successfully added.';
+ 		else return FALSE;
+ 	}
+
+	/**
+	 * Update program
+	 */
+	public function update_program($details)
+ 	{
+ 		$rows_updated = DB::update('univ_programtbl')
+ 			->set($details)
+ 			->where('program_ID', '=', $details['program_ID'])
+ 			->execute();
+
+ 		if ($rows_updated == 1) return $details['short'].' was successfully updated.';
+ 		else return FALSE;
  	}
 	
 } // End Univ

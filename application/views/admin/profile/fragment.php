@@ -59,81 +59,11 @@
 </div>
 
 <?php if ($user['user_type'] == 'Faculty'): ?>
-<hr>
-<div>
+<hr hidden>
+<div hidden>
 	<h4>Educational Background</h4><br>
 	<div class="alert alert-warning mini-alert"><p class="text-center">Coming soon.</p></div>
-</div><br>
-
-<hr>
-<div class="row">
-	<div class="col-md-4">
-	<h4>
-		Publications
-		<a class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_publication" role="button" href="">Add</a>
-	</h4><br>
-	<?php
-	if (count($pub_rows)>0)
-	{
-		echo '<div class="table-responsive"><table class="table table-striped">';
-
-		foreach ($pub_rows as $pub)
-		{
-			echo '<tr>
-				<td>', $pub['title'], '</td>
-				<td title="Delete Publication"><a class="pull-right" href='.url::site('user/delete/'.$user['user_ID'].'/pub/'.$pub->publication_ID).'>
-				<span class="glyphicon glyphicon-trash"></span></a></td>';
-			echo '</tr>';
-		}
-		
-		echo '</table></div>';
-	}
-	else
-	{
-		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
-	}
-	?>
-	</div>
-
-	<div class="col-md-4">
-	<h4>
-		Research
-		<a class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_research" role="button" href="">Add</a>
-	</h4><br>
-	<?php
-	if (count($rch_rows)>0)
-	{
-		echo '<div class="table-responsive"><table class="table table-striped">';
-
-		foreach ($rch_rows as $rch)
-		{
-			echo '<tr>
-				<td>', $rch->title, '</td>
-				<td title="Research"><a class="pull-right" href='.url::site('user/delete/'.$user['user_ID'].'/rch/'.$rch->research_ID).'>
-				<span class="glyphicon glyphicon-trash"></span></a></td>
-			</tr>';
-		}
-		
-		echo '</table></div>';
-	}
-	else
-	{
-		echo '<div class="alert alert-danger mini-alert"><p class="text-center">The list is empty.</p></div>';
-	}
-	?>
-	</div>
-	<div class="col-md-4"></div>
 </div>
 
-<?php 
-endif;
-
-// $pub = new View('admin/profile/accom/publication');
-// $pub->bind('user', $user);
-// $pub->render(TRUE);
-
-// $rch = new View('admin/profile/accom/research');
-// $rch->bind('user', $user);
-// $rch->render(TRUE);
-?>
+<?php endif; ?>
 

@@ -22,7 +22,7 @@
 <div class="alert alert-danger alert-dismissable">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   <p class="text-center">
-    <?php echo ('Something went wrong. Please try it again.'); ?>
+    Something went wrong. Please try it again.
   </p>
 </div>
 <?php endif; ?>
@@ -36,45 +36,45 @@ echo View::factory('admin/university/form/department')
 ?>
 
 <!-- Table -->
-<div class="table-responsive">
-	<table class="table table-hover" id="department_table">
-		<thead>
-			<tr>
-				<th>Complete Name</th>
-				<th>Short Name</th>
-				<th>Department Chair</th>
-				<th class="action">Update</th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php
-		foreach ($departments as $department)
-		{
-			echo
-			'<tr>
-				<td>', $department['department'], '</td>
-				<td>', $department['short'], '</td>
-				<td>', $department['first_name'], ' ', $department['middle_name'][0], '. ', $department['last_name'], '</td>
-				<td>
-					<a class="btn btn-default" key="', $department['department_ID'], '" id="updateDepartment" data-toggle="modal" data-target="#modal_department" href="#" url="', URL::site('admin/university/update/department'), '">
-					<span class="glyphicon glyphicon-pencil"></span></a>
-				</td>
-			</tr>';
+<table class="table table-hover no-wrap" id="department_table" width="100%">
+	<thead>
+		<tr>
+			<th>College</th>
+			<th>Department</th>
+			<th>Initials</th>
+			<th>Department Chair</th>
+			<th class="action"></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	foreach ($departments as $department)
+	{
+		echo
+		'<tr>
+			<td>', $department['college'], '</td>
+			<td>', $department['department'], '</td>
+			<td>', $department['short'], '</td>
+			<td>', $department['first_name'], ' ', $department['middle_name'][0], '. ', $department['last_name'], '</td>
+			<td>
+				<a class="btn btn-default" id="updateDepartment" key="', $department['department_ID'], '" data-toggle="modal" data-target="#modal_department" href="#" url="', URL::site('admin/university/update/department'), '">
+				<span class="glyphicon glyphicon-pencil"></span> Update</a>
+			</td>
+		</tr>';
 
-			// echo '<td class="dropdown">
-			// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-			// 		<ul class="dropdown-menu">
-			// 			<li>
-			// 				<a id="updateDepartment" href='.URL::site('admin/department/update/'.$department['department_ID']).'>
-			// 				<span class="glyphicon glyphicon-pencil"></span> Update Department</a>
-			// 			</li>
-			// 			<li>
-			// 				<a id="deleteDepartment" href='.URL::site('admin/department/delete/'.$department['department_ID']).'>
-			// 				<span class="glyphicon glyphicon-trash"></span> Delete Department</a>
-			// 			</li>
-			// 		</ul>
-			// 	</td>'; href='.URL::site('admin/department/update/'.$department['department_ID']).'
-		}?>
-		</tbody>
-	</table>
-</div>
+		// echo '<td class="dropdown">
+		// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+		// 		<ul class="dropdown-menu">
+		// 			<li>
+		// 				<a id="updateDepartment" href='.URL::site('admin/department/update/'.$department['department_ID']).'>
+		// 				<span class="glyphicon glyphicon-pencil"></span> Update Department</a>
+		// 			</li>
+		// 			<li>
+		// 				<a id="deleteDepartment" href='.URL::site('admin/department/delete/'.$department['department_ID']).'>
+		// 				<span class="glyphicon glyphicon-trash"></span> Delete Department</a>
+		// 			</li>
+		// 		</ul>
+		// 	</td>'; href='.URL::site('admin/department/update/'.$department['department_ID']).'
+	}?>
+	</tbody>
+</table>

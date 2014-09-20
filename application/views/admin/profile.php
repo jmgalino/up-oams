@@ -6,7 +6,7 @@
 
 <h3>
 	List of User Profiles
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_profile">Create</button>
+	<button type="button" class="btn btn-default pull-right" id="newProfile" data-toggle="modal" data-target="#modal_profile" url="<?php echo URL::site('admin/profile/new'); ?>">Create</button>
 </h3>
 <br>
 
@@ -28,9 +28,7 @@
 
 <?php
 // Add user form
-$user = NULL;
 echo View::factory('admin/profile/form/template')
-	->bind('user', $user)
 	->bind('programs', $programs);
 ?>
 

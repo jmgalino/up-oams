@@ -1,36 +1,38 @@
+<input type="text" id="user-id" name="user_ID" hidden>
+
 <div class="form-group">
-  <label for="employee_code" class="col-sm-4 control-label">Employee Code</label>
+  <label for="empcode" class="col-sm-4 control-label">Employee Code</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="employee_code" name="employee_code" pattern="([0-9]{9})" title="Input a 9 digit code." value="<?php echo $user['employee_code']; ?>" required>
+    <input type="text" class="form-control" id="empcode" name="employee_code" pattern="([0-9]{9})" title="Input a 9 digit code." required>
   </div>
 </div>
 
 <div class="form-group">
-  <label for="first_name" class="col-sm-4 control-label">First Name</label>
+  <label for="fname" class="col-sm-4 control-label">First Name</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $user['first_name']; ?>" required>
+    <input type="text" class="form-control" id="fname" name="first_name" required>
   </div>
 </div>
 
 <div class="form-group">
-  <label for="middle_name" class="col-sm-4 control-label">Middle Name</label>
+  <label for="mname" class="col-sm-4 control-label">Middle Name</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="middle_name" name="middle_name" value="<?php echo $user['middle_name']; ?>" required>
+    <input type="text" class="form-control" id="mname" name="middle_name" required>
   </div>
 </div>
 
 <div class="form-group">
-  <label for="last_name" class="col-sm-4 control-label">Last Name</label>
+  <label for="lname" class="col-sm-4 control-label">Last Name</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $user['last_name']; ?>" required>
+    <input type="text" class="form-control" id="lname" name="last_name" required>
   </div>
 </div>
 
 <div class="form-group">
   <label for="birthday" class="col-sm-4 control-label">Birthday</label>
-  <div class="col-sm-7">
-    <div class="input-group" id="birthdaypicker">
-      <input type="text" class="form-control" id="birthday" name="birthday" value="<?php if ($user) echo date_format(date_create($user['birthday']), 'm/d/Y'); ?>" required>
+  <div class="col-sm-7" id="datepicker">
+    <div class="input-group date">
+      <input type="text" class="form-control" id="birthday" name="birthday" required>
       <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
     </div>
   </div>
@@ -38,40 +40,31 @@
 <br>
 
 <div class="form-group faculty-info" style="display:none;">
-  <label for="rank" class="col-sm-4 control-label">Faculty Code</label>
+  <label for="fcode" class="col-sm-4 control-label">Faculty Code</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control f_info" id="faculty_code" name="faculty_code" value=<?php echo $user['faculty_code']; ?>>
+    <input type="text" class="form-control f_info" id="fcode" name="faculty_code">
   </div>
 </div>
 
 <div class="form-group faculty-info" style="display:none;">
   <label for="rank" class="col-sm-4 control-label">Rank</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control f_info" id="rank" name="rank" value=<?php echo $user['rank']; ?>>
+    <input type="text" class="form-control f_info" id="rank" name="rank">
   </div>
 </div>
 
 <div class="form-group faculty-info" style="display:none;">
-  <label for="program" class="col-sm-4 control-label">Program</label>
+  <label for="program-id" class="col-sm-4 control-label">Program</label>
   <div class="col-sm-7">
-    <select class="form-control" id="program" name="program_ID">
+    <select class="form-control" id="program-id" name="program_ID">
+      <option value="">Select</option>
      <?php
       foreach ($programs as $program)
       {
-          echo '<option value="'.$program['program_ID'].'"';
-
-          if (($user) AND ($user['program_ID'] == $program['program_ID']))
-            echo 'selected="selected"';
-
-          echo '>'.$program['program_short'].'</option>';
+          echo '<option value="'.$program['program_ID'].'">'.$program['program_short'].'</option>';
       }
 
-        echo '<option value="department"';
-
-        if (($user) AND ($user['department_ID'] == '3'))
-          echo 'selected="selected"';
-
-        echo '>Other: Department of Human Kinetics</option>';
+        echo '<option value="department">Other: Department of Human Kinetics</option>';
       ?>
     </select>
   </div>
@@ -81,9 +74,10 @@
   <label for="position" class="col-sm-4 control-label">Position</label>
   <div class="col-sm-7">
     <select class="form-control" id="position" name="position">
-      <option value="none" <?php if ($user['position'] == 'none') echo 'selected="selected"'?>>Not Applicable</option>
-      <option value="dept_chair" <?php if ($user['position'] == 'dept_chair') echo 'selected="selected"'?>>Department Chair</option>
-      <option value="dean" <?php if ($user['position'] == 'dean') echo 'selected="selected"'?>>College Dean</option>
+      <option value="">Select</option>
+      <option value="none">Not Applicable</option>
+      <option value="dept_chair">Department Chair</option>
+      <option value="dean">College Dean</option>
     </select>
 </div>
 </div>

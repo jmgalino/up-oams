@@ -29,12 +29,6 @@
           <div class="col-sm-8">
             <select class="form-control" id="target_ID" name="target_ID" required>
               <option value="">Select</option>
-              <?php
-              // foreach ($targets as $target)
-              // {
-              //   echo '<option value="'.$target['target_ID'].'">'.$target['target'].'</option>';
-              // }
-              ?>
             </select>
           </div>
         </div>

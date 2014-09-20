@@ -412,3 +412,14 @@ table.display td
   vertical-align: middle;
   font-weight: bold;
 }
+
+td.details-control {
+    background: url('../img/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../img/details_close.png') no-repeat center center;
+}
+.padded td {
+  padding-left: 5px;
+}

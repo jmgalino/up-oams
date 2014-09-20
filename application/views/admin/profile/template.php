@@ -15,7 +15,7 @@
 			<span class="glyphicon glyphicon-picture"></span> Upload Photo</a>
 		</li>
 		<li>
-			<a data-toggle="modal" data-target="#modal_profile" role="button" href="">
+			<a id="updateProfile" key="<?php echo $user['user_ID']; ?>" data-toggle="modal" data-target="#modal_profile" role="button" href="" url="<?php echo URL::site('admin/profile/update/'.$user['employee_code']); ?>">
 			<span class="glyphicon glyphicon-pencil"></span> Update Profile</a>
 		</li>
 		<li>
@@ -61,22 +61,16 @@
 <?php endif; ?>
 
 <?php
+// Upload photo form
 echo View::factory('admin/profile/form/photo')
-	->bind('employee_code', $user['employee_code']);
+	->bind('user_ID', $user['user_ID']);
 
 // Edit user form
 echo View::factory('admin/profile/form/template')
-	->bind('user', $user)
 	->bind('programs', $programs);
 ?>
 
 <?php 
 echo View::factory('admin/profile/fragment')
-	->bind('user', $user)
-	// ->bind('accom_rows', $accom_rows)
-	// ->bind('ipcr_rows', $ipcr_rows)
-	// ->bind('opcr_rows', $opcr_rows)
-	// ->bind('cuma_rows', $cuma_rows)
-	->bind('pub_rows', $pub_rows)
-	->bind('rch_rows', $rch_rows);
+	->bind('user', $user);
 ?>

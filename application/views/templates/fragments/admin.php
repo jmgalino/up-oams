@@ -12,9 +12,9 @@
 
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li <?php if (Request::current()->controller() == 'Profile') echo 'class="active"'; ?>><a href=<?php echo URL::site('admin/profile'); ?>>User Profiles</a></li>
-				<li <?php if (Request::current()->controller() == 'University') echo 'class="active"'; ?>><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
-				<li <?php if (Request::current()->controller() == 'Oams') echo 'class="active"'; ?>><a href=<?php echo URL::site('admin/oams'); ?>>OAMS Settings</a></li>
+				<li><a href=<?php echo URL::site('admin/profile'); ?>>User Profiles</a></li>
+				<li><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
+				<li><a href=<?php echo URL::site('admin/oams'); ?>>OAMS Settings</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href=<?php echo URL::site(); ?>><span class="glyphicon glyphicon-home"></span></a></li>

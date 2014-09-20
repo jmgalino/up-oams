@@ -9,8 +9,8 @@ class Controller_Uploader extends Controller {
     {
         $user = new Model_User;
         $session = Session::instance();
-        $employee_code = $this->request->param('id');
-        $user_details = $user->get_details(NULL, $employee_code);
+        $user_ID = $this->request->param('id');
+        $user_details = $user->get_details($user_ID, NULL);
         $filename = NULL;
  
         if ($this->request->method() == Request::POST)
@@ -30,9 +30,9 @@ class Controller_Uploader extends Controller {
             if($user_details['pic'])
                 unlink(DOCROOT.'files/upload_photos/'.$user_details['pic']);
 
-            $update_success = $user->update_details($employee_code, array('pic' => $filename));
+            $update_success = $user->update_details($user_ID, array('pic' => $filename));
             $session->set('upload', $update_success);
-            $this->redirect('admin/profile/view/'.$employee_code, 303);
+            $this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
         }
         
     }

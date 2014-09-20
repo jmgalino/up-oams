@@ -126,7 +126,6 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user = new Model_User;
 
 		$details = $this->request->post();
-		// $birthday = DateTime::createFromFormat('F d, Y', $details['birthday']);
 		$birthday = DateTime::createFromFormat('m/d/Y', $details['birthday']);
 		$details['birthday'] = $birthday->format('Y-m-d');
 
@@ -153,11 +152,12 @@ class Controller_Admin_Profile extends Controller_Admin {
 			}
 		}
  
-		$employee_code = $this->request->param('id');
-		$update_success = $user->update_details($employee_code, $details);
+		$user_ID = $this->request->param('id');
+		$update_success = $user->update_details($user_ID, $details);
 		$this->session->set('update', $update_success);
+		$user_details = $user->get_details($user_ID, NULL);
 
-		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
+		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 	}
 
 	/**

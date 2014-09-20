@@ -32,7 +32,7 @@ class Controller_Admin_University extends Controller_Admin {
 	/**
 	 * List colleges
 	 */
-	public function action_college()
+	public function action_colleges()
 	{
 		$univ = new Model_Univ;
 		$user = new Model_User;
@@ -43,14 +43,53 @@ class Controller_Admin_University extends Controller_Admin {
 
 		$this->view->content = View::factory('admin/university/college')
 			->bind('success', $success)
-			->bind('error', $error)
 			->bind('colleges', $colleges)
 			->bind('users', $users);
 		$this->response->body($this->view->render());
 	}
 
 	/**
-	 * Save changes in University Settings
+	 * List departments
+	 */
+	public function action_departments()
+	{
+		$univ = new Model_Univ;
+		$user = new Model_User;
+
+		$success = $this->session->get_once('success');
+		$colleges = $univ->get_colleges();
+		$departments = $univ->get_departments();
+		$users = $user->get_users();
+
+		$this->view->content = View::factory('admin/university/department')
+			->bind('success', $success)
+			->bind('colleges', $colleges)
+			->bind('departments', $departments)
+			->bind('users', $users);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * List degree programs
+	 */
+	public function action_programs()
+	{
+		$univ = new Model_Univ;
+		$user = new Model_User;
+
+		$success = $this->session->get_once('success');
+		$colleges = $univ->get_colleges();
+		$departments = $univ->get_departments();
+
+		$this->view->content = View::factory('admin/university/program')
+			->bind('success', $success)
+			->bind('colleges', $colleges)
+			->bind('departments', $departments);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Create college/department/program
 	 */
 	public function action_new()
 	{
@@ -61,11 +100,11 @@ class Controller_Admin_University extends Controller_Admin {
 				break;
 
 			case 'department':
-				// $this->new_department();
+				$this->new_department();
 				break;
 
 			case 'program':
-				// $this->new_program();
+				$this->new_program();
 				break;
 		}
 	}
@@ -89,12 +128,12 @@ class Controller_Admin_University extends Controller_Admin {
 				$this->update_college();
 				break;
 
-			case 'departments':
+			case 'department':
 				$this->update_department();
 				break;
 
-			case 'programs':
-				// $this->update_program();
+			case 'program':
+				$this->update_program();
 				break;
 		}
 	}
@@ -130,10 +169,9 @@ class Controller_Admin_University extends Controller_Admin {
 	{
 		$univ = new Model_Univ;
 
-		$post = $this->request->post();
 		$add_success = $univ->add_college($this->request->post());
 		$this->session->set('success', $add_success);
-		$this->redirect('admin/university/college', 303);
+		$this->redirect('admin/university/colleges', 303);
 	}
 
 	/**
@@ -145,11 +183,23 @@ class Controller_Admin_University extends Controller_Admin {
 
 		$update_success = $univ->update_college($this->request->post());
 		$this->session->set('success', $update_success);
-		$this->redirect('admin/university/college', 303);
+		$this->redirect('admin/university/colleges', 303);
 	}
 
 	/**
-	 * Update university departments
+	 * Add department
+	 */
+	private function new_department()
+	{
+		$univ = new Model_Univ;
+
+		$add_success = $univ->add_department($this->request->post());
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/university/departments', 303);
+	}
+
+	/**
+	 * Update department
 	 */
 	private function update_department()
 	{
@@ -157,7 +207,35 @@ class Controller_Admin_University extends Controller_Admin {
 
 		$update_success = $univ->update_department($this->request->post());
 		$this->session->set('success', $update_success);
-		$this->redirect('admin/university', 303);
+		$this->redirect('admin/university/departments', 303);
+	}
+
+	/**
+	 * Add program
+	 */
+	private function new_program()
+	{
+		$univ = new Model_Univ;
+
+		$post = $this->request->post();
+		$post['date_instituted'] = date('Y-m-d', strtotime($post['date_instituted']));
+		$add_success = $univ->add_program($post);
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/university/programs', 303);
+	}
+
+	/**
+	 * Update program
+	 */
+	private function update_program()
+	{
+		$univ = new Model_Univ;
+
+		$post = $this->request->post();
+		$post['date_instituted'] = date('Y-m-d', strtotime($post['date_instituted']));
+		$update_success = $univ->update_program($post);
+		$this->session->set('success', $update_success);
+		$this->redirect('admin/university/programs', 303);
 	}
 
 } // End University

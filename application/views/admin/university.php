@@ -50,7 +50,7 @@ echo View::factory('admin/university/form/vision')
 
     <div class="page-header" id="colleges">
       <h2>Colleges</h2>&nbsp
-      <a class="show-hover" href="<?php echo URL::site('admin/university/college'); ?>">Edit</a>
+      <a class="show-hover" href="<?php echo URL::site('admin/university/colleges'); ?>">Edit</a>
     </div>
     <?php
     foreach ($colleges as $college) {
@@ -68,7 +68,7 @@ echo View::factory('admin/university/form/vision')
 
     <div class="page-header" id="departments">
       <h2>Departments</h2>&nbsp
-      <a class="show-hover" data-toggle="modal" data-target="#modal_department" href="#">Edit</a>
+      <a class="show-hover" href="<?php echo URL::site('admin/university/departments'); ?>">Edit</a>
     </div>
     <?php
     foreach ($departments as $department) {
@@ -89,7 +89,7 @@ echo View::factory('admin/university/form/vision')
 
     <div class="page-header" id="programs">
       <h2>Degree Programs</h2>&nbsp
-      <a class="show-hover" href="#">Edit</a>
+      <a class="show-hover" href="<?php echo URL::site('admin/university/programs'); ?>">Edit</a>
     </div>
     <?php
     foreach ($programs as $program) {
@@ -128,36 +128,9 @@ echo View::factory('admin/university/form/vision')
       <ul class="nav nav-stacked affix-top" data-spy="affix" data-offset-top="200" id="affix">
         <li><a href="#mission">Mission</a></li>
         <li><a href="#vision">Vision</a></li>
-        <li>
-          <a href="#colleges">Colleges</a>
-          <ul class="nav">
-            <?php
-            foreach ($colleges as $college) {
-              echo '<li><a href="#', $college['short'], '">', $college['short'], '</a></li>';
-            }
-            ?>
-          </ul>
-        </li>
-        <li class="active">
-          <a href="#departments">Departments</a>
-          <ul class="nav">
-            <?php
-            foreach ($departments as $department) {
-              echo '<li><a href="#', $department['short'], '">', $department['short'], '</a></li>';
-            }
-            ?>
-          </ul>
-        </li>
-        <li>
-          <a href="#programs">Degree Programs</a>
-          <ul class="nav">
-            <?php
-            foreach ($programs as $program) {
-              echo '<li><a href="#', $program['short'], '">', $program['program_short'], '</a></li>';
-            }
-            ?>
-          </ul>
-        </li>
+        <li><a href="#colleges">Colleges</a></li>
+        <li><a href="#departments">Departments</a></li>
+        <li><a href="#programs">Degree Programs</a></li>
       </ul>
     </div>
   </div>

@@ -1,4 +1,4 @@
-<!-- Update Colleges Form -->
+<!-- Create/Update Colleges Form -->
 <div class="modal fade" id="modal_college" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -16,7 +16,7 @@
         <input type="text" id="college-id" name="college_ID" hidden>
 
         <div class="form-group">
-          <label for="college-college" class="col-sm-3 control-label">Full</label>
+          <label for="college-college" class="col-sm-3 control-label">College</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="college-college" name="college" required>
           </div>
@@ -39,7 +39,7 @@
               {
                 if ($user['position'] == 'dean')
                 {
-                  echo '<option value="'.$user['user_ID'].'">'.$user['first_name'].' '.$user['middle_name'].'. '.$user['last_name'].'</option>';
+                  echo '<option value="'.$user['user_ID'].'">'.$user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'].'</option>';
                 }
               }
               ?>

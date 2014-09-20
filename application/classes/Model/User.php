@@ -52,6 +52,7 @@ class Model_User extends Model {
     	$result = DB::select()
 		->from('user_profiletbl')
 		->where('deleted', '=', '0')
+		->order_by('first_name')
  		->execute()
  		->as_array();
 	 	
@@ -131,11 +132,11 @@ class Model_User extends Model {
  			}
  			elseif ($details['position'] == 'dept_chair')
  			{
- 				$department_details = array("user_ID" => $insert_profile[0]);
+ 				$department_details = array('department_ID' => $department['department_ID'], 'user_ID' => $insert_profile[0]);
 
  				$univ = new Model_Univ;
  				$department = $univ->get_department_details(null, $details['program_ID']);
- 				$success = $univ->update_department($department['department_ID'], $department_details);	
+ 				$success = $univ->update_department($department_details);	
  			}
 
  			// if ($sucess)
@@ -156,19 +157,19 @@ class Model_User extends Model {
  			->execute();
 
 		// if ($details['position'] == 'dean')
-		// {
-		// 	$univ = new Model_Univ;
-		// 	$college = $univ->get_college_details(null, $details['program_ID']);
-		// 	$success = $univ->update_college(array('college_ID' => $college['college_ID'], 'user_ID' => $insert_profile[0]));
-		// }
-		// elseif ($details['position'] == 'dept_chair')
-		// {
-		// 	$department_details = array("user_ID" => $insert_profile[0]);
+ 	// 		{
+ 	// 			$univ = new Model_Univ;
+ 	// 			$college = $univ->get_college_details(null, $details['program_ID']);
+ 	// 			$success = $univ->update_college(array('college_ID' => $college['college_ID'], 'user_ID' => $insert_profile[0]));
+ 	// 		}
+ 	// 		elseif ($details['position'] == 'dept_chair')
+ 	// 		{
+ 	// 			$department_details = array('department_ID' => $department['department_ID'], 'user_ID' => $insert_profile[0]);
 
-		// 	$univ = new Model_Univ;
-		// 	$department = $univ->get_department_details(null, $details['program_ID']);
-		// 	$success = $univ->update_department($department['department_ID'], $department_details);	
-		// }
+ 	// 			$univ = new Model_Univ;
+ 	// 			$department = $univ->get_department_details(null, $details['program_ID']);
+ 	// 			$success = $univ->update_department($department_details);	
+ 	// 		}
 
  		// if ($rows_updated == 1) return TRUE;
  		// else return FALSE; //do something
