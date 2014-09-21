@@ -154,8 +154,8 @@ function redate($start, $end)
 
 		echo '</td>';
 		echo '<td>', redate($rch['start'], $rch['end']), '</td>';
-		echo '<td>', number_format($rch['fund_amount'], 2), '</td>';
-		echo '<td>', number_format($rch['fund_up'], 2), '</td>';
+		echo '<td>Php ', number_format($rch['fund_amount'], 2), '</td>';
+		echo '<td>Php ', number_format($rch['fund_up'], 2), '</td>';
 		echo '</tr>';
 	}
 	?>
@@ -321,7 +321,7 @@ function redate($start, $end)
 <br>
 <?php endif; ?>
 
-<?php elseif (!$accom_reports): ?>
+<?php else: ?>
 <div class="alert alert-danger text-center">
 	<p>The list is empty.</p>
 </div>

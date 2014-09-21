@@ -122,7 +122,7 @@ function redate($start, $end)
 		<form class="form-inline" role="form">
 			<div class="form-group">
 				<label for="search" style="font-size: 16px; font-weight: normal; padding-right: 20px;">Search</label>
-				<input type="text" class="form-control" id="searchh">
+				<input type="text" class="form-control" id="search">
 			</div>
 		</form>
 	</div>
@@ -211,7 +211,7 @@ function redate($start, $end)
 	<thead>
 		<tr>
 			<th class="first" rowspan="2">Name/s of Faculty</th>
-			<th rowspan="3">Title</th>
+			<th rowspan="2">Title</th>
 			<th rowspan="2">Fund Source</th>
 			<th rowspan="2">Duration</th>
 			<th colspan="2" style="border-bottom: 1px solid #ddd;">Amount of Grant</th>
@@ -238,8 +238,8 @@ function redate($start, $end)
 
 		echo '</td>';
 		echo '<td>', redate($rch['start'], $rch['end']), '</td>';
-		echo '<td>', number_format($rch['fund_amount'], 2), '</td>';
-		echo '<td>', number_format($rch['fund_up'], 2), '</td>';
+		echo '<td>Php ', number_format($rch['fund_amount'], 2), '</td>';
+		echo '<td>Php ', number_format($rch['fund_up'], 2), '</td>';
 		echo '</tr>';
 	}
 	?>
@@ -409,7 +409,7 @@ function redate($start, $end)
 <br>
 <?php endif; ?>
 
-<?php elseif (!$accom_reports): ?>
+<?php else: ?>
 <div class="alert alert-danger text-center">
 	<p>The list is empty.</p>
 </div>

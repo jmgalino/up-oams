@@ -1,3 +1,4 @@
+/* DATATABLE -- Show child rows for program table */
 function programDetails (d) {
     // `d` is the original data object for the row
     return '<table class="padded" style="font-size: 100%; margin-left:50px;">'+
@@ -28,69 +29,68 @@ function programDetails (d) {
     '</table>';
 }
 
-$(document).ready(function()
-{
+$(document).ready(function () {
 	/* DATATABLE -- Initialize user table */
 	$('#user_table').DataTable({
-        "order": [[ 0, "asc" ]],
         "columnDefs": [{
         	"searchable": false,
         	"orderable": false,
         	"targets": "action"
-        }]
+        }],
+        // Order table by employee code (column 0), ascending
+        "order": [[ 0, "asc" ]]
     });
 
 	/* DATATABLE -- Initialize college table */
 	$('#college_table').DataTable({
-        "order": [[ 0, "asc" ]],
         "columnDefs": [{
-        	"searchable": false,
-        	"orderable": false,
-        	"targets": "action"
-        }]
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        // Order table by college (column 0), ascending
+        "order": [[ 0, "asc" ]]
     });
 
 	/* DATATABLE -- Initialize department table */
 	var department_table = $('#department_table').DataTable({
-        "order": [[ 0, "asc" ]],
         "columns": [
-		    { "visible": false },
+		    // College column is searchable but hidden; used as group header
+            { "visible": false },
 		    null,
 		    null,
 		    null,
-		    { "searchable": false, "orderable": false }
+		    // Action column is neither searchable nor orderable
+            { "searchable": false, "orderable": false }
 		],
-        // WALA KO KASABOT ANI
         "drawCallback": function (settings) {
             var api = this.api();
             var rows = api.rows({page:'current'}).nodes();
-            var last=null;
+            var last = null;
  
+            // Group department table by college (column 0)
             api.column(0, {page:'current'}).data().each(function (group, i) {
-                if (last !== group)
-                {
-                    $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
-                    );
+                if (last !== group) {
+                    $(rows).eq(i).before('<tr class="group"><td colspan="5">'+group+'</td></tr>');
                     last = group;
                 }
             });
-        }
+        },
+        // Order table by college (column 0), ascending
+        "order": [[ 0, "asc" ]]
     });
-    // Order by college
-	$('#department_table tbody').on('click', 'tr.group', function(){
+    /* DATATABLE -- Add event listener for ordering table by college */
+	$('#department_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = department_table.order()[0];
+
 		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
-		{
-			department_table.order([0, 'desc']).draw();
-		}
+		  department_table.order([0, 'desc']).draw();
 		else
-		{
-			department_table.order([0, 'asc']).draw();
-		}
+		  department_table.order([0, 'asc']).draw();
     });
 
-    var program_table = $('#program_table').DataTable( {
+    /* DATATABLE -- Initialize program table */
+    var program_table = $('#program_table').DataTable({
         "ajax": "/oamsystem/index.php/ajax/get_programs",
         "columns": [
             {
@@ -132,42 +132,37 @@ $(document).ready(function()
             	"visible": 	false
 			}
         ],
-        "order": [[1, 'asc']],
-        // WALA KO KASABOT ANI
         "drawCallback": function (settings) {
             var api = this.api();
             var rows = api.rows({page:'current'}).nodes();
-            var last=null;
- 
+            var last = null;
+            
+            // Group program table by college (column 1)
             api.column(1, {page:'current'}).data().each(function (group, i) {
-                if (last !== group)
-                {
-                    $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
-                    );
+                if (last !== group) {
+                    $(rows).eq(i).before('<tr class="group"><td colspan="5">'+group+'</td></tr>');
                     last = group;
                 }
             });
-        }
+        },
+        // Order table by college (column 1), ascending
+        "order": [[1, 'asc']]
     });
-    // Order by college
-	$('#program_table tbody').on('click', 'tr.group', function(){
+    /* DATATABLE -- Add event listener for ordering program table by college */
+	$('#program_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = program_table.order()[0];
+
 		if (currentOrder[0] === 1 && currentOrder[1] === 'asc')
-		{
-			program_table.order([1, 'desc']).draw();
-		}
+    		program_table.order([1, 'desc']).draw();
 		else
-		{
-			program_table.order([1, 'asc']).draw();
-		}
+		  program_table.order([1, 'asc']).draw();
     });
-    // Add event listener for opening and closing details
-    $('#program_table tbody').on('click', 'td.details-control', function(){
+    /* DATATABLE -- Add event listener for opening/closing details */
+    $('#program_table tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
-        var row = program_table.row( tr );
+        var row = program_table.row(tr);
  
-        if ( row.child.isShown() ) {
+        if (row.child.isShown()) {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
@@ -178,16 +173,17 @@ $(document).ready(function()
             tr.addClass('shown');
         }
     });
-    $('#program_table tbody').on('click', 'a#updateProgram', function(){
-    	var url = $(this).attr("url");
-		var program_ID = $(this).attr("key");
-		
+    /* MODAL -- Add event listener for 'Update Program' buttons */
+    $('#program_table tbody').on('click', 'a#updateProgram', function () {
+    	var program_ID = $(this).attr("key");
+		var url = $(this).attr("url");
+        
 		$.ajax({
+            data: 'program_ID=' + program_ID,
+            dataType: "json",
             type: "POST",
             url: "/oamsystem/index.php/ajax/program_details",
-            data: 'program_ID=' + program_ID,
-		    dataType: "json",
-            success:function(data){
+            success: function (data) {
 				$("#myModalLabel").text("Update Program");
 				$("#invalidMessage").parent().hide();
                 $("#program-id").val(data['program_ID']);
@@ -203,95 +199,94 @@ $(document).ready(function()
 		        $("#programForm").attr("url", url);
 
             	if (data['department_ID'])
-            	{
-            		$("#program-department").val(data['department_ID']).prop('disabled', false);
-            	}
-	            else
-	            {
-	            	$("#program-department").html("<option value=\"\">Not Applicable</option>").prop("disabled", true);
-	            }
+            	   $("#program-department").val(data['department_ID']).prop('disabled', false);
+            	else
+	               $("#program-department").html("<option value=\"\">Not Applicable</option>").prop("disabled", true);
             }
         });
     });
 
 	/* DATATABLE -- Initialize message table */
 	$('#message_table').DataTable({
-        "order": [[ 2, "desc" ]],
+        "columnDefs": [{
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        // Custom table tools: (f)ilter, (t)able, (i)nformation, (p)agination, p(r)ocessing
         "dom": 'ftipr',
-        "columns": [
-		    null,
-		    null,
-		    null,
-		    { "searchable": false, "orderable": false }
-		]
+        // Order table by date (column 2), descending
+        "order": [[ 2, "desc" ]]
     });
 
-	/* DATATABLE -- Initialize faculty accom table */
+	/* DATATABLE -- Initialize faculty accomplishment table */
 	$('#accom_table').DataTable({
-        "order": [[ 0, "desc" ]],
-         "columns": [
-		    null,
-		    null,
-		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
-		]
-    });
-    
-    var table = $("table.display").dataTable({
-    	"paging":   false,
-        "ordering": false,
-        "info":     false,
-    	"dom": '<"toolbar">rt',
-    });
- 
-    $("#search").keyup(function (){
-      // Filter on the column (the index) of this element
-      table.fnFilterAll(this.value);
+        "columns": [
+            null,
+            null,
+            null,
+            // Remarks column is searchable but hidden
+            { "visible": false },
+            // Action column is neither searchable nor orderable
+            { "searchable": false, "orderable": false }
+        ],
+        // Order table by period (column 0), descending
+        "order": [[ 0, "desc" ]]
     });
 	
-    /* DATATABLE -- Initialize group accom table */
+    /* DATATABLE -- Initialize group (department/college) accomplishment table */
 	var accom_group_table = $('#accom_group_table').DataTable({
-        "order": [[ 0, "desc" ]],
         "columns": [
-		    { "visible": false },
+		    // Period column is searchable but hidden; used as group header
+            { "visible": false },
 		    null,
 		    null,
 		    null,
 		    null,
-		    { "visible": false },
-		    { "searchable": false, "orderable": false }
+		    // Remarks column is searchable but hidden
+            { "visible": false },
+		    // Action column is neither searchable nor orderable
+            { "searchable": false, "orderable": false }
 		],
-        // WALA KO KASABOT ANI
         "drawCallback": function (settings) {
             var api = this.api();
             var rows = api.rows({page:'current'}).nodes();
-            var last=null;
+            var last = null;
  
+            // Group group accomplishment table by period (column 0)
             api.column(0, {page:'current'}).data().each(function (group, i) {
-                if (last !== group)
-                {
-                    $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
-                    );
+                if (last !== group) {
+                    $(rows).eq(i).before('<tr class="group"><td colspan="6">'+group+'</td></tr>');
                     last = group;
                 }
             });
-        }
+        },
+        // Order table by period (column 0), descending
+        "order": [[ 0, "desc" ]]
     });
-    // Order by the period
+    /* DATATABLE -- Add event listener for ordering group accomplishment table by period */
 	$('#accom_group_table tbody').on('click', 'tr.group', function(){
 		var currentOrder = accom_group_table.order()[0];
-		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
-		{
-			accom_group_table.order([0, 'desc']).draw();
-		}
+		
+        if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
+		  accom_group_table.order([0, 'desc']).draw();
 		else
-		{
-			accom_group_table.order([0, 'asc']).draw();
-		}
+		  accom_group_table.order([0, 'asc']).draw();
     });
-
+    
+    /* DATATABLE -- Initialize multiple accomplishment tables */
+    var all_table = $("table.display").DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        // Custom table tools: (t)able, p(r)ocessing
+        "dom": 'tr',
+    });
+    /* DATATABLE -- Add event listener for filtering multiple accomplishment tables */
+    $("#search").on('keyup', function () {
+      all_table.search(this.value).draw();
+    });
+    
     /* DATATABLE -- Initialize faculty ipcr table */
     $('#ipcr_table').DataTable({
         "order": [[ 0, "desc" ]],
