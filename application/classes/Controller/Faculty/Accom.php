@@ -229,6 +229,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom = new Model_Accom;
 
 		$label = date('F Y', strtotime($this->session->get('accom_details')['yearmonth']));
+		$success = $this->session->get_once('success');
+		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
 
@@ -244,6 +246,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 		$this->view->content = View::factory('faculty/accom/form/template')
 			->bind('label', $label)
+			->bind('success', $success)
+			->bind('error', $error)
 			->bind('warning', $warning)
 			->bind('session', $this->session)
 			->bind('accom', $accoms);

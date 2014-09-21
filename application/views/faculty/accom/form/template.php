@@ -5,11 +5,18 @@
 	<li class="active"><?php echo $label; ?></li>
 </ol>
 
-<?php if ($error): ?>
+<?php if ($success): ?>
+<div class="alert alert-success alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $success; ?>
+	</p>
+</div>
+<?php elseif ($error OR $success === FALSE): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		<?php echo $error; ?>
+		<?php echo ($error ? $error : 'Something went wrong. Please try again.'); ?>
 	</p>
 </div>
 <?php elseif ($warning): ?>
@@ -67,7 +74,7 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li>
-				<a data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
+				<a id="addAccomplishment" data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
 			</li>
 			<?php if ($accom): ?>
 			<hr>

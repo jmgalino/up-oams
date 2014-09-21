@@ -131,7 +131,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
  
 		$update_success = $user->update_details($details);
-		$this->session->set('success', $update_success);
+		if ($update_success != 'none')
+			$this->session->set('success', $update_success);
 		$user_ID = $this->request->param('id');
 		$user_details = $user->get_details($user_ID, NULL);
 
@@ -170,8 +171,7 @@ class Controller_Admin_Profile extends Controller_Admin {
             $success = ($update_success ? $user_details['first_name'].'\'s photo was successfully uploaded.' : FALSE);
             $this->session->set('success', $success);
             $this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
-        }
-        
+        }       
     }
 
 	/**

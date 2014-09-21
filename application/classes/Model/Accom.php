@@ -139,6 +139,74 @@ class Model_Accom extends Model {
 	}
 
 	/**
+	 * Get accomplishments details
+	 */
+	public function get_accom_details($accom_ID, $accom_specID, $type)
+	{
+		// Retrive attachments if any
+		$attachment = DB::select('attachment')
+			->from('connect_accomtbl')
+			->where('accom_ID', '=', $accom_ID)
+			->where('accom_specID', '=', $accom_specID)
+			->where('type', '=', $type)
+			->execute()
+			->as_array();
+
+		switch ($type)
+		{
+			case 'pub':
+				$table = 'accom_pubtbl';
+				$name_ID = 'publication_ID';
+				break;
+			
+			case 'awd':
+				$table = 'accom_awdtbl';
+				$name_ID = 'award_ID';
+				break;
+			
+			case 'rch':
+				$table = 'accom_rchtbl';
+				$name_ID = 'research_ID';
+				break;
+			
+			case 'ppr':
+				$table = 'accom_pprtbl';
+				$name_ID = 'paper_ID';
+				break;
+			
+			case 'ctv':
+				$table = 'accom_ctvtbl';
+				$name_ID = 'creative_ID';
+				break;
+			
+			case 'par':
+				$table = 'accom_partbl';
+				$name_ID = 'participation_ID';
+				break;
+			
+			case 'mat':
+				$table = 'accom_mattbl';
+				$name_ID = 'material_ID';
+				break;
+			
+			case 'oth':
+				$table = 'accom_othtbl';
+				$name_ID = 'other_ID';
+				break;
+		}
+
+		$details = DB::select()
+			->from($table)
+			->where($name_ID, '=', $accom_specID)
+			->execute()
+			->as_array();
+
+		// Add attachment
+		$details[0]['attachment'] = $attachment[0]['attachment'];
+		return $details[0];
+	}
+
+	/**
 	 * Get report accomplishments (by type)
 	 */
 	public function get_accoms($accom_ID, $type)
@@ -229,7 +297,10 @@ class Model_Accom extends Model {
 			$accom_specID = $insert_accom[0];
 		}	
 
-		$this->link_accom($accom_ID, $accom_specID, $type, $attachment);
+		$link_success = $this->link_accom($accom_ID, $accom_specID, $type, $attachment);
+
+		if ($link_success) return "Accomplishment was successfully added";
+ 		else return FALSE;
 	}
 
 	/**
@@ -248,14 +319,19 @@ class Model_Accom extends Model {
 	 			->where($name_ID, '=', $accom_specID)
 	 			->execute();
 
-	 		// if ($rows_updated == 1) return TRUE;
-	 		// else return FALSE; //do something
+	 		if ($rows_updated == 1) return "Accomplishment was successfully updated";
+	 		else return FALSE;
 		}
 		// Used by others
 		else
 		{
-			$this->unlink_accom($accom_ID, $accom_specID, $type);
-			$this->add_accom($accom_ID, $details, $type, $name_ID);
+			$accom_details = $this->get_accom_details($accom_ID, $accom_specID, $type);
+			$attachment = $accom_details['attachment'];
+			$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
+			$add_success = $this->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
+
+			if ($link_success AND $add_success) return "Accomplishment was successfully updated";
+	 		else return FALSE;
 		}
 	}
 
@@ -329,7 +405,7 @@ class Model_Accom extends Model {
 	}
 
 	/**
-	 * Get accomplishment details
+	 * Get accomplishments (with details) by type
 	 */
 	private function get_accom_specs($accom_specs, $type)
 	{
@@ -380,24 +456,15 @@ class Model_Accom extends Model {
 
 		foreach ($accom_specs as $accom_spec)
 		{
-			$result = DB::select()
+			$details = DB::select()
 				->from($table)
 				->where($name_ID, '=', $accom_spec['accom_specID'])
 				->execute()
 				->as_array();
 
-			$details = array();
-			foreach ($result as $detail)
-			{
-				foreach ($detail as $column => $value)
-				{
-					$details[$column]	= $value;
-				}
-			}
-
-			if (array_key_exists('attachment', $accom_spec)) $details['attachment'] = $accom_spec['attachment'];	// Add attachment
-			if (array_key_exists('user_ID', $accom_spec)) $details['user_ID'] = $accom_spec['user_ID'];		// Add user_ID
-			$accoms[] = $details;
+			if (array_key_exists('attachment', $accom_spec)) $details[0]['attachment'] = $accom_spec['attachment'];	// Add attachment
+			if (array_key_exists('user_ID', $accom_spec)) $details[0]['user_ID'] = $accom_spec['user_ID'];		// Add user_ID
+			$accoms[] = $details[0];
 		}
 
 		return $accoms;
@@ -424,6 +491,9 @@ class Model_Accom extends Model {
 				->columns(array('accom_ID', 'accom_specID', 'type', 'attachment'))
 				->values(array($accom_ID, $accom_specID, $type, $attachment))
 				->execute();
+
+			if ($insert_accom[1] == 1) return TRUE;
+	 		else return FALSE;
 		}
 	}
 
@@ -432,23 +502,23 @@ class Model_Accom extends Model {
 	 */
 	private function unlink_accom($accom_ID, $accom_specID, $type)
 	{
-		$result = DB::select()
-			->from('connect_accomtbl')
-			->where('accom_ID', '=', $accom_ID)
-			->where('accom_specID', '=', $accom_specID)
-			->where('type', '=', $type)
-			->execute()
-			->as_array();
+		// $result = DB::select()
+		// 	->from('connect_accomtbl')
+		// 	->where('accom_ID', '=', $accom_ID)
+		// 	->where('accom_specID', '=', $accom_specID)
+		// 	->where('type', '=', $type)
+		// 	->execute()
+		// 	->as_array();
 
-		if ($result[0]['attachment'])
-		{
-			$attachment = explode(' ', $result[0]['attachment']);
+		// if ($result[0]['attachment'])
+		// {
+		// 	$attachment = explode(' ', $result[0]['attachment']);
 			
-			for ($i = 0; $i < count($attachment); $i++)
-			{
-				unlink(DOCROOT.'files/upload_attachments/'.$attachment[$i]);
-			}
-		}
+		// 	for ($i = 0; $i < count($attachment); $i++)
+		// 	{
+		// 		unlink(DOCROOT.'files/upload_attachments/'.$attachment[$i]);
+		// 	}
+		// }
 
 		$rows_deleted = DB::delete('connect_accomtbl')
 			->where('accom_ID', '=', $accom_ID)

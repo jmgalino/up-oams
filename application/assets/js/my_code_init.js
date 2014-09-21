@@ -265,7 +265,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
     /* DATATABLE -- Add event listener for ordering group accomplishment table by period */
-	$('#accom_group_table tbody').on('click', 'tr.group', function(){
+	$('#accom_group_table tbody').on('click', 'tr.group', function (){
 		var currentOrder = accom_group_table.order()[0];
 		
         if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
@@ -284,7 +284,7 @@ $(document).ready(function () {
     });
     /* DATATABLE -- Add event listener for filtering multiple accomplishment tables */
     $("#search").on('keyup', function () {
-      all_table.search(this.value).draw();
+      all_table.search($(this).val()).draw();
     });
     
     /* DATATABLE -- Initialize faculty ipcr table */
@@ -330,7 +330,7 @@ $(document).ready(function () {
     });
  
     // Order by the period
-    $('#ipcr_group_table tbody').on('click', 'tr.group', function(){
+    $('#ipcr_group_table tbody').on('click', 'tr.group', function (){
 		var currentOrder = ipcr_group_table.order()[0];
 		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
 		{
@@ -387,10 +387,12 @@ $(document).ready(function () {
 		browseLabel: " Browse",
 		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
 		showRemove: false,
-		showUpload: false,
+		showUpload: false
 	});
 
-	$("#r_quantity").rating({
+                
+
+    $("#r_quantity").rating({
 		step: 1,
 		size: 'xs',
 	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
@@ -414,7 +416,7 @@ $(document).ready(function () {
 
 });
 	// // Refine - filter, sort
-	// $("#refine_list").click(function()
+	// $("#refine_list").click(function ()
 	// {
 	// 	$("#refine_form").toggle();
 	// 	$("#display_table").toggleClass("col-md-9");		

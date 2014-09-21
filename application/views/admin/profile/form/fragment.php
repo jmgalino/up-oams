@@ -43,24 +43,24 @@
 </div>
 <br>
 
-<div class="form-group faculty-info" style="display:none;">
+<div class="form-group" style="display:none;">
   <label for="fcode" class="col-sm-4 control-label">Faculty Code</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control f_info" id="fcode" name="faculty_code">
+    <input type="text" class="form-control faculty_info" id="fcode" name="faculty_code">
   </div>
 </div>
 
-<div class="form-group faculty-info" style="display:none;">
+<div class="form-group" style="display:none;">
   <label for="rank" class="col-sm-4 control-label">Rank</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control f_info" id="rank" name="rank">
+    <input type="text" class="form-control faculty_info" id="rank" name="rank">
   </div>
 </div>
 
-<div class="form-group faculty-info" style="display:none;">
+<div class="form-group" style="display:none;">
   <label for="program-id" class="col-sm-4 control-label">Program</label>
   <div class="col-sm-7">
-    <select class="form-control" id="program-id" name="program_ID">
+    <select class="form-control faculty_info" id="program-id" name="program_ID">
       <option value="">Select</option>
      <?php
       foreach ($programs as $program)
@@ -72,10 +72,10 @@
   </div>
 </div>
 
-<div class="form-group faculty-info" style="display:none;">
+<div class="form-group" style="display:none;">
   <label for="position" class="col-sm-4 control-label">Position</label>
   <div class="col-sm-7">
-    <select class="form-control" id="position" name="position">
+    <select class="form-control faculty_info" id="position" name="position">
       <option value="">Select</option>
       <option value="none">Not Applicable</option>
       <option value="dept_chair">Department Chair</option>

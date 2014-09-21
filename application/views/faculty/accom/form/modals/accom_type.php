@@ -11,49 +11,49 @@
         <div class="modal-body">
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="publication" checked>
+              <input type="radio" id="publicationType" name="accom_type" value="publication" url="<?php echo URL::site('faculty/accom/add/pub');?>" required>
               Journal Publication/Book/Chapter in a Book
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="award">
+              <input type="radio" id="awardType" name="accom_type" value="award" url="<?php echo URL::site('faculty/accom/add/awd');?>" required>
               Award/Grant Received
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="research">
+              <input type="radio" id="researchType" name="accom_type" value="research" url="<?php echo URL::site('faculty/accom/add/rch');?>" required>
               Research Grants/Fellowships Received
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="paper">
+              <input type="radio" id="paperType" name="accom_type" value="paper" url="<?php echo URL::site('faculty/accom/add/ppr');?>" required>
               Oral Paper/Poster Presentation
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="creative">
+              <input type="radio" id="creativeType" name="accom_type" value="creative" url="<?php echo URL::site('faculty/accom/add/ctv');?>" required>
               Presentation of Creative Work Output
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="participation">
+              <input type="radio" id="participationType" name="accom_type" value="participation" url="<?php echo URL::site('faculty/accom/add/par');?>" required>
               Participation in Seminars/Conferences/Workshops/Training Courses/Fora
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="material">
+              <input type="radio" id="materialType" name="accom_type" value="material" url="<?php echo URL::site('faculty/accom/add/mat');?>" required>
               Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="accom_type" value="other">
+              <input type="radio" id="otherType" name="accom_type" value="other" url="<?php echo URL::site('faculty/accom/add/oth');?>" required>
               Other Accomplishments
             </label>
           </div>
@@ -62,7 +62,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-right next_choice" data-dismiss="modal" data-toggle="modal" data-target="#modal_publication">Next</button>
+        <button type="button" class="btn btn-default pull-right next_choice" data-dismiss="modal" data-toggle="modal" data-target="">Next</button>
       </div>
     </div>
   </div>

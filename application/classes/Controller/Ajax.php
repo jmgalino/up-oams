@@ -18,14 +18,14 @@ class Controller_Ajax extends Controller {
 			case 'new_user':
 				$table = 'user_profiletbl';
 				$exclude = array('first_name', 'middle_name', 'last_name', 'user_type',
-					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'deleted');
+					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
 				$max = 0;
 				break;
 
 			case 'edit_user':
 				$table = 'user_profiletbl';
 				$exclude = array('first_name', 'middle_name', 'last_name', 'user_type',
-					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'deleted');
+					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
 				$max = 1;
 				break;
 
@@ -244,6 +244,36 @@ class Controller_Ajax extends Controller {
 		$arr['message'] = $message_details['message'];
 		
 		echo json_encode($arr);
+		exit();
+	}
+
+	/**
+	 * Get material details
+	 */
+	public function action_accom_details()
+	{
+		$accom = new Model_Accom;
+
+		$type = $this->request->param('id');
+		$accom_ID = $this->request->post('accom_ID');
+		$accom_specID = $this->request->post('accom_specID');
+		$accom_details = $accom->get_accom_details($accom_ID, $accom_specID, $type);
+
+		$tmp = '';
+		$count = 0;
+		$arr = ($accom_details['attachment'] ? explode(' ', $accom_details['attachment']) : NULL);
+		if ($arr)
+		{
+			foreach ($arr as $filename)
+			{
+				$tmp .= '<img src="'.URL::base().'files/upload_attachments/'.$filename.'" class="file-preview-image"><br>';
+				$count++;
+			}
+		}
+		// $accom_details['attachmentCount'] = ($count > 1 ? $count.' files selected' : $count.' file selected');
+		$accom_details['attachment'] = $tmp;
+		
+		echo json_encode($accom_details);
 		exit();
 	}
 

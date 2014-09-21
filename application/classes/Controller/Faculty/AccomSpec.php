@@ -14,7 +14,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$type = $this->request->param('key');
 		$attachment = NULL;
 		
-		if (isset($_FILES['attachment']))
+		if (is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
         	$attachment = $this->set_attachment($_FILES['attachment'], $accom_ID, $type);
         
         if (($type !== 'pub') AND ($type !== 'mat'))
@@ -84,67 +84,69 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				break;
 		}
 		
-		$accom->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
+		$add_success = $accom->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
+		$this->session->set('success', $add_success);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
 	}
 
 	/**
 	 * Edit Accomplishment
 	 */
-	// public function action_edit()
-	// {
-	// 	$accom = new Model_Accom;
+	public function action_edit()
+	{
+		$accom = new Model_Accom;
 
-	// 	$accom_ID = $this->session->get('accom_details')['accom_ID'];
-	// 	$accom_specID = $this->request->param('id');
-	// 	$details = $this->request->post();
-	// 	$type = $this->request->param('key');
+		$accom_ID = $this->session->get('accom_details')['accom_ID'];
+		$accom_specID = $this->request->param('id');
+		$details = $this->request->post();
+		$type = $this->request->param('key');
 		
-	// 	if (($type !== 'pub') AND ($type !== 'mat'))
-	// 	{
-	// 		$details = $this->request->post();
-	// 		$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
-	// 		$details['end'] = date_format(date_create($details['end']), 'Y-m-d');
-	// 	}
+		if (($type !== 'pub') AND ($type !== 'mat'))
+		{
+			$details = $this->request->post();
+			$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
+			$details['end'] = date_format(date_create($details['end']), 'Y-m-d');
+		}
 
-	// 	switch ($type)
-	// 	{
-	// 		case 'pub':
-	// 			$name_ID = 'publication_ID';
-	// 			break;
+		switch ($type)
+		{
+			case 'pub':
+				$name_ID = 'publication_ID';
+				break;
 			
-	// 		case 'awd':
-	// 			$name_ID = 'award_ID';
-	// 			break;
+			case 'awd':
+				$name_ID = 'award_ID';
+				break;
 			
-	// 		case 'rch':
-	// 			$name_ID = 'research_ID';
-	// 			break;
+			case 'rch':
+				$name_ID = 'research_ID';
+				break;
 			
-	// 		case 'ppr':
-	// 			$name_ID = 'paper_ID';
-	// 			break;
+			case 'ppr':
+				$name_ID = 'paper_ID';
+				break;
 			
-	// 		case 'ctv':
-	// 			$name_ID = 'creative_ID';
-	// 			break;
+			case 'ctv':
+				$name_ID = 'creative_ID';
+				break;
 			
-	// 		case 'par':
-	// 			$name_ID = 'participation_ID';
-	// 			break;
+			case 'par':
+				$name_ID = 'participation_ID';
+				break;
 			
-	// 		case 'mat':
-	// 			$name_ID = 'material_ID';
-	// 			break;
+			case 'mat':
+				$name_ID = 'material_ID';
+				break;
 			
-	// 		case 'oth':
-	// 			$name_ID = 'other_ID';
-	// 			break;
-	// 	}
+			case 'oth':
+				$name_ID = 'other_ID';
+				break;
+		}
 
-	// 	$accom->update_accom($accom_ID, $accom_specID, $details, $type, $name_ID);
-	// 	$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
-	// }
+		$update_success = $accom->update_accom($accom_ID, $accom_specID, $details, $type, $name_ID);
+		$this->session->set('success', $update_success);
+		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
+	}
 
 	/**
 	 * Delete Accomplishment
@@ -198,23 +200,22 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	}
 
 	/**
-     * Upload user photo
+     * Upload attachment
      */
     private function set_attachment($attachments, $accom_ID, $type)
     {
-    	// print_r($attachments);
     	$attachment = '';
     	$filenames = array();
-    	$date = new DateTime();
+    	$date = strtotime("now");
     	$file_array = $this->rearray_files($attachments);
 
 	    foreach ($file_array as $file)
 	    {
-	        $filename = $this->save_image($file, $accom_ID.$type.$date->getTimestamp());
+	        $filename = $this->save_image($file, $accom_ID.$type.$date);
  
 	        if (!$filename)
 	        {
-	            $session->set('error', 'There was a problem while uploading the attachment(s).');
+	            $this->session->set('error', 'There was a problem while uploading the attachment(s).');
 	        }
 	        else
 	        {
@@ -248,7 +249,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	}
  
     /**
-     * Save photo in local disk
+     * Save attachment(s) in local disk
      */
     private function save_image($image, $postfix)
     {

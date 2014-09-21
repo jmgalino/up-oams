@@ -136,25 +136,35 @@ class Model_User extends Model {
 	 */
 	public function update_details($details)
  	{
+ 		$positions = array('dean', 'dept_chair');
+		$user_details = $this->get_details($details['user_ID'], NULL);
+ 		
  		$rows_updated = DB::update('user_profiletbl')
  			->set($details)
  			->where('user_ID', '=', $details['user_ID'])
  			->execute();
 
-		$positions = array('dean', 'dept_chair');
+ 		// Profile and univ update
 		if (in_array('position', array_keys($details)) AND in_array($details['position'], $positions))
 		{
 			$update = $this->update_univ($details['user_ID']);
 			$success = ($rows_updated == 1 AND $update ? TRUE : FALSE);
 		}
+
+		// Profile update
 		elseif ($rows_updated == 1)
 			$success = TRUE;
 
- 		if ($success)
- 		{
- 			$user_details = $this->get_details($details['user_ID'], NULL);
- 			return $user_details['first_name'].'\'s profile was successfully updated.';
- 		}
+		// Update was unnecessary
+		elseif (count(array_diff($user_details, $details)) == 2)
+			$success = 'none';
+		
+		// No update was made
+		else
+			$success = FALSE;
+
+ 		if ($success === TRUE) return $user_details['first_name'].'\'s profile was successfully updated.';
+ 		elseif($success === 'none') return $success;
  		else return FALSE;
  	}
 
