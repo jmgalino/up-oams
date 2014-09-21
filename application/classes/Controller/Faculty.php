@@ -42,7 +42,7 @@ class Controller_Faculty extends Controller_User {
 		{
 			$success = $this->session->get_once('success');
 			$error = $this->session->get_once('error');
-			$details = $this->session->get_once('message_details');
+			$details = $this->session->get_once('details');
 			$fullname = $this->session->get('fullname');
 
 			$this->view->content = View::factory('profile/form/contact')

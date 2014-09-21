@@ -248,18 +248,24 @@ class Model_Oams extends Model {
 		// No similar entry in the database
 		if (!$result)
  		{
-			// Prepare column names and values
-	 		foreach ($details as $column_name => $value) {
-				$columns[] = $column_name;
-				$values[] = $value;
-			}
-
 			$insert_target = DB::insert('oams_messagetbl')
-				->columns($columns)
-				->values($values)
+				->columns(array_keys($details))
+				->values($details)
 				->execute();
 
-			return $insert_target;
+			if ($insert_target[1] == 1)
+				return 'Got it. We\'ll get back to you ASAP!';
+			else
+			{
+				$session = Session::instance();
+				$session->set('error', 'Something went wrong. Please try again.');
+				$session->set('details', $details);
+				return FALSE;
+			}
+		}
+		else
+		{
+			return 'We got your message the first time. We\'ll get back to you ASAP!';
 		}
 	}
 

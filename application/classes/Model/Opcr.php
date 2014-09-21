@@ -209,14 +209,9 @@ class Model_Opcr extends Model {
 	 */
 	public function add_output($details)
 	{
-		foreach ($details as $column_name => $value) {
-			$columns[] = $column_name;
-			$values[] = $value;
-		}
-
 		$insert_output = DB::insert('opcr_outputtbl')
-			->columns($columns)
-			->values($values)
+			->columns(array_keys($details))
+			->values($details)
 			->execute();
 
 		// return $insert_output[0]; -- output_ID

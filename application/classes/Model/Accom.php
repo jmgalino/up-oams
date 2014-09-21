@@ -83,14 +83,9 @@ class Model_Accom extends Model {
  		}
  		else
  		{
- 			foreach ($details as $column_name => $value) {
- 				$columns[] = $column_name;
-				$values[] = $value;
-			}
-
  			$insert_accom = DB::insert('accomtbl')
-	 			->columns($columns)
-	 			->values($values)
+	 			->columns(array_keys($details))
+	 			->values($details)
 	 			->execute();
 
 	 		return $insert_accom[0];
@@ -220,18 +215,15 @@ class Model_Accom extends Model {
 		if (!$accom_specID)
  		{
 	 		// Prepare column names and values
-	 		foreach ($details as $column_name => $value)
+	 		foreach ($details as $column => $value)
 	 		{
-				$columns[] = $column_name;
 				if ($value == '')
-					$values[] = NULL;
-				else
-					$values[] = $value;
+					$details[$column] = NULL;
 			}
 
 			$insert_accom = DB::insert('accom_'.$type.'tbl')
-				->columns($columns)
-				->values($values)
+				->columns(array_keys($details))
+				->values($details)
 				->execute();
 
 			$accom_specID = $insert_accom[0];

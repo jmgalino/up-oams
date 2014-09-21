@@ -4,6 +4,9 @@ class Controller_Site extends Controller {
 
 	private $view;
 
+	/**
+	 * Check if logged in
+	 */
 	public function before()
     {
     	$oams = new Model_Oams;
@@ -59,14 +62,12 @@ class Controller_Site extends Controller {
 		$session = Session::instance();
 
 		if ($this->request->post())
-		{
 			$this->send_message($this->request->post());
-		}
 		else
 		{
 			$success = $session->get_once('success');
 			$error = $session->get_once('error');
-			$details = $session->get_once('message_details');
+			$details = $session->get_once('details');
 
 			$this->view->content = View::factory('site/contact')
 				->bind('error', $error)
@@ -115,6 +116,9 @@ class Controller_Site extends Controller {
 	 */
 	private function send_message($details)
 	{
+		$oams = new Model_Oams;
+		$session = Session::instance();
+
 		require_once(APPPATH.'assets/lib/recaptchalib.php');
 		$privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
 		$resp = recaptcha_check_answer ($privatekey,
@@ -129,17 +133,14 @@ class Controller_Site extends Controller {
 
 		if (!$resp->is_valid)
 		{
-		    $error = $resp->error;
-		    $this->session->set('error', $error);
-		    $this->session->set('message_details', $message_details);
+		    $session->set('error', 'The verification code wasn\'t entered correctly. Please try again.');
+		    $session->set('details', $details);
 		}
 		else
 		{
-			$oams = new Model_Oams;
-
 			$message_details['date'] = date('Y-m-d', strtotime("now"));
 			$insert_success = $oams->new_message($message_details);
-			$this->session->set('success', $insert_success);
+			$session->set('success', $insert_success);
 		}
 
 		$this->redirect('site/contact', 303);

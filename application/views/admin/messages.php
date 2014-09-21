@@ -17,7 +17,7 @@
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Something went wrong. Please try it again.
+		Something went wrong. Please try again.
 	</p>
 </div>
 <?php endif; ?>

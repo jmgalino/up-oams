@@ -536,21 +536,10 @@ $(document).ready(function()
 		var len = $(this).val().length;
 		var remaining = max - len;
 
-		if (len == max)
-		{
-			$('#charRemaining').html('You have reached the limit.');
-			$('input[type="submit"]').prop('disabled', false);
-		}
-		else if (len > max)
-		{
-			$('#charRemaining').html('You have reached the limit (<strong>' + remaining + '</strong>).');
-			$('input[type="submit"]').prop('disabled', true);
-		}
+		if (len < max)
+			$('#charRemaining').html('You have <strong>' + remaining + '</strong> characters left.');
 		else
-		{
-			$('#charRemaining').html('You have <strong>' + remaining + '</strong> characters left');
-			$('button[type="submit"]').prop('disabled', false);
-		}
+			$('#charRemaining').html('You have reached the limit.');
 
 		if(remaining <= 10)
 			$("#charRemaining").css("color","red");

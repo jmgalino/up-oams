@@ -104,14 +104,9 @@ class Model_Ipcr extends Model {
  		}
  		else
  		{
- 			foreach ($details as $column_name => $value) {
- 				$columns[] = $column_name;
-				$values[] = $value;
-			}
-
  			$insert_ipcr = DB::insert('ipcrtbl')
-	 			->columns($columns)
-	 			->values($values)
+	 			->columns(array_keys($details))
+	 			->values($details)
 	 			->execute();
 
 	 		return $insert_ipcr[0];
@@ -256,15 +251,9 @@ class Model_Ipcr extends Model {
 
 		if(!$result)
 		{
-			// Prepare column names and values
-	 		foreach ($details as $column_name => $value) {
-				$columns[] = $column_name;
-				$values[] = $value;
-			}
-
 			$insert_target = DB::insert('ipcr_targettbl')
-				->columns($columns)
-				->values($values)
+				->columns(array_keys($details))
+				->values($details)
 				->execute();
 		}
 		else
