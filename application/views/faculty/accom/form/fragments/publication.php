@@ -24,13 +24,9 @@ if ($session->get('accom_pub'))
 		echo $pub['page'], '.';
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		// if ($pub['user_ID'] == $session->get('user_ID'))
-		// {
-		// 	echo '<a data-toggle="modal" data-target="#modal_publication" role="button" href="">',
-		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		// }
-		
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/pub/'.$pub['publication_ID']).'>',
+		echo '<a class="btn btn-default" id="updatePublication" pub-id="', $pub['publication_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_publication" role="button" href="" url="', URL::site('faculty/accom/edit/pub/'.$pub['publication_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/pub/'.$pub['publication_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}

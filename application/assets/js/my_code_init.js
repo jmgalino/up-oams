@@ -166,8 +166,7 @@ $(document).ready(function () {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
-        }
-        else {
+        } else {
             // Open this row
             row.child(programDetails(row.data())).show();
             tr.addClass('shown');
@@ -265,7 +264,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
     /* DATATABLE -- Add event listener for ordering group accomplishment table by period */
-	$('#accom_group_table tbody').on('click', 'tr.group', function (){
+	$('#accom_group_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = accom_group_table.order()[0];
 		
         if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
@@ -284,7 +283,7 @@ $(document).ready(function () {
     });
     /* DATATABLE -- Add event listener for filtering multiple accomplishment tables */
     $("#search").on('keyup', function () {
-      all_table.search($(this).val()).draw();
+        all_table.search($(this).val()).draw();
     });
     
     /* DATATABLE -- Initialize faculty ipcr table */
@@ -311,18 +310,14 @@ $(document).ready(function () {
 		    { "visible": false },
 		    { "searchable": false, "orderable": false }
 		],
-        // WALA KO KASABOT ANI
         "drawCallback": function (settings) {
             var api = this.api();
             var rows = api.rows({page:'current'}).nodes();
-            var last=null;
+            var last = null;
  
             api.column(0, {page:'current'}).data().each(function (group, i) {
-                if (last !== group)
-                {
-                    $(rows).eq(i).before(
-                        '<tr class="group"><td colspan="6">'+group+'</td></tr>'
-                    );
+                if (last !== group) {
+                    $(rows).eq(i).before('<tr class="group"><td colspan="6">'+group+'</td></tr>');
                     last = group;
                 }
             });
@@ -330,14 +325,11 @@ $(document).ready(function () {
     });
  
     // Order by the period
-    $('#ipcr_group_table tbody').on('click', 'tr.group', function (){
+    $('#ipcr_group_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = ipcr_group_table.order()[0];
-		if (currentOrder[0] === 0 && currentOrder[1] === 'asc')
-		{
+		if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
 			ipcr_group_table.order([0, 'desc']).draw();
-		}
-		else
-		{
+		} else {
 			ipcr_group_table.order([0, 'asc']).draw();
 		}
     });
@@ -356,12 +348,13 @@ $(document).ready(function () {
     });
 
 	// date
+    // $("#datepicker .input-group").datepicker({
 	$("#datepicker .input-group.date").datepicker({
 		// format: "MM dd, yyyy",
 		todayHighlight: true,
 		autoclose: true
 	});
-	$('#datepicker .input-daterange').datepicker({
+	$("#award-duration .input-daterange, #research-duration .input-daterange").datepicker({
 		format: "d MM yyyy",
 		todayHighlight: true
 	});
@@ -390,6 +383,15 @@ $(document).ready(function () {
 		showUpload: false
 	});
 
+    $("input#accom-attachment").fileinput({
+        previewFileType: "image",
+        browseClass: "btn btn-primary",
+        browseLabel: " Browse",
+        browseIcon: '',
+        removeIcon: '',
+        showUpload: false,
+        maxFileCount: 5
+    });
                 
 
     $("#r_quantity").rating({

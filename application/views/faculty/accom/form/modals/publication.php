@@ -1,41 +1,44 @@
-<!-- "pub" Form -->
+<!-- Add/Edit Publication Form -->
 <div class="modal fade" id="modal_publication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>        
-        <h4 class="modal-title" id="myModalLabel">Journal Publication/Book/Chapter in a Book</h4>
+        <h4 class="modal-title" id="accom-label">Journal Publication/Book/Chapter in a Book</h4>
       </div>
 
-      <?php print Form::open('faculty/accom/add/pub', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'publicationForm', 'role'=>'form')); ?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="accom-alert"></p>
+        </div>
+
         <div class="radio">
           <label>
-            <input type="radio" name="type" value="Book" checked>
+            <input type="radio" name="type" id="bookType" value="Book" required>
             Book
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="type" value="Chapter in a Book">
+            <input type="radio" name="type" id="chapterType" value="Chapter in a Book" required>
             Chapter in a Book
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="type" value="Journal">
+            <input type="radio" name="type" id="journalType" value="Journal" required>
             Journal
           </label>
         </div>
-        <hr>
         <?php echo View::factory('faculty/accom/form/modals/publication_fragment')->bind('session', $session); ?>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
+        <button type="button" class="btn btn-default" id="back-button" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'accom-submit')); ?>
       </div>
 
       <?php print Form::close();?>

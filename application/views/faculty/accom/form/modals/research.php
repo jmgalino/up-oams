@@ -1,31 +1,38 @@
-<!-- "rch" Form -->
+<!-- Add/Edit Research Form -->
 <div class="modal fade" id="modal_research" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Research Grant/Fellowship Received</h4>
+        <h4 class="modal-title" id="accom-label">Research Grant/Fellowship Received</h4>
       </div>
-      <?php print Form::open('faculty/accom/add/rch', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
+
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'researchForm', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="accom-alert"></p>
+        </div>
+
+        <input type="text" id="research-id" name="research_ID" hidden>
+
         <div class="form-group">
-          <label for="proponent" class="col-sm-4 control-label">Name of Faculty</label>
+          <label for="research-proponent" class="col-sm-4 control-label">Name of Faculty</label>
           <div class="col-sm-7">
-            <p class="form-control-static"><?php echo $session->get('fullname2'); ?></p>
+            <p class="form-control-static" id="research-proponent"><?php echo $session->get('fullname2'); ?></p>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="title" class="col-sm-4 control-label">Title of Research</label>
+          <label for="research-title" class="col-sm-4 control-label">Title of Research</label>
           <div class="col-sm-7">
-            <input type="text" class="form-control" id="title" name="title" required>
+            <input type="text" class="form-control" id="research-title" name="title" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="nature" class="col-sm-4 control-label">Nature</label>
+          <label for="research-nature" class="col-sm-4 control-label">Nature</label>
           <div class="col-sm-7">
-            <select class="form-control" name="nature">
+            <select class="form-control" id="research-nature" name="nature">
               <option>Basic</option>
               <option>Policy</option>
               <option>Other</option>
@@ -41,12 +48,12 @@
         </div>
 
         <div class="form-group">
-          <label for="duration" class="col-sm-4 control-label">Duration of Grant</label>
-          <div class="col-sm-7" id="datepicker">
-            <div class="input-daterange input-group" id="duration">
-              <input type="text" class="form-control" name="start" required>
+          <label for="research-duration" class="col-sm-4 control-label">Duration of Grant</label>
+          <div class="col-sm-7" id="research-duration">
+            <div class="input-daterange input-group">
+              <input type="text" class="form-control" id="research-start" name="start" required>
               <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" name="end" required>
+              <input type="text" class="form-control" id="research-end" name="end" required>
             </div>
           </div>
         </div>
@@ -73,21 +80,21 @@
 
         <div class="form-group">
           <label for="attachment" class="col-sm-4 control-label">Attachment(s)</label>
-          <div class="col-sm-7">
-            <div id="rchAttachmentWrapper"></div>
+          <div class="col-sm-7" id="add-attachment">
+            <input type="file" id="accom-attachment" name="attachment[]" accept="image/*" multiple="true">
             <span class="help-block">You can add up to 5 attachments.</span>
-            <button type="button" class="btn btn-default" id="addRchAttachment">Add attachment</button>
           </div>
+          <div class="col-sm-7" id="view-attachment"></div>
         </div>
       </div>
-
+    
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
+        <button type="button" class="btn btn-default" id="back-button" data-dismiss="modal" data-toggle="modal" data-target="#modal_accom" style="float:left;">Back</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'accom-submit')); ?>
       </div>
+      </form>
       
-      <?php print Form::close();?>
     </div>
   </div>
 </div>

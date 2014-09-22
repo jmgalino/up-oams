@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	/* PROFILE FORM -- Reset label, alert, fields, and button text */
+	/* PROFILE FORM (NEW) -- Reset label, alert, input fields, and button text */
 	$("#newProfile").click(function () {
 		var url = $(this).attr("url");
 
@@ -7,11 +7,11 @@ $(document).ready(function () {
 		$("#invalidMessage").parent().hide();
 		$("#adminType, #facultyType").prop("checked", false);
 		$("#user-id, #empcode, #fname, #mname, #lname, #datepicker .input-group.date, #fcode, #rank, #program-id, #position").val("");
-		$("input[type='submit']").val("Add");
+		$("input[type=submit]").val("Add");
         $("#profileForm").attr("url", url);
 	});
 
-	/* PROFILE FORM -- Set label, hide alert, load data into fields, and set button text */
+	/* PROFILE FORM (UPDATE) -- Set label, hide alert, load data into input fields, and set button text */
 	$("#updateProfile").click(function () {
 		var url = $(this).attr("url");
 		var user_ID = $(this).attr("key");
@@ -21,36 +21,33 @@ $(document).ready(function () {
 			url: "/oamsystem/index.php/ajax/user_details",
 			data: 'user_ID=' + user_ID,
 			dataType: "json",
-			success:function (data){
+			success:function (data) {
 				$("#modalProfileLabel").text("Update Profile");
 				$("#invalidMessage").parent().hide();
-				$("#user-id").val(data['user_ID']);
-				$("#empcode").val(data['empcode']);
-				$("#fname").val(data['fname']);
-				$("#mname").val(data['mname']);
-				$("#lname").val(data['lname']);
-				$("#datepicker .input-group.date").datepicker('setDate', data['birthday']).datepicker('fill');
+				$("#user-id").val(data["user_ID"]);
+				$("#empcode").val(data["empcode"]);
+				$("#fname").val(data["fname"]);
+				$("#mname").val(data["mname"]);
+				$("#lname").val(data["lname"]);
+				$("#datepicker .input-group.date").datepicker("setDate", data["birthday"]).datepicker("fill");
 				$("input[type='submit']").val("Save");
 				$("#profileForm").attr("url", url);
 
-				if (data['fcode'])
-				{
+				if (data['fcode']) {
 					$("#facultyType").prop("checked", true).trigger("click");
 					$(".faculty-info").show();
 					$("#fcode").val(data['fcode']);
 					$("#rank").val(data['rank']);
 					$("#program-id").val(data['program_ID']);
 					$("#position").val(data['position']);
-				}
-				else
-				{
+				} else {
 					$("#adminType").prop("checked", true).trigger("click");
 				}
 			}
 		});
 	});
 
-	/* PROFILE FORM -- Check if employee code is unique: if unique, submit; else, show error message */
+	/* PROFILE FORM (VALIDATE) -- Check if employee code is unique: if unique, submit; else, show error message */
 	$("#profileForm").on("submit", function (event) {
 		event.preventDefault();
 
@@ -63,7 +60,7 @@ $(document).ready(function () {
             type: "POST",
             url: ajaxUrl,
             data: $("#profileForm").serialize(),
-            success: function (unique){
+            success: function (unique) {
             	if (unique)
             		$("#profileForm").attr("action", $("#profileForm").attr("url")).unbind("submit").trigger("submit");
             	else
@@ -74,16 +71,34 @@ $(document).ready(function () {
 
 	/* PROFILE FORM -- Show necessary fields depending on user type */
 	$("input[name=user_type]").click(function () {
-		if ($(this).val() == "Admin")
-		{
+		if ($(this).val() == "Admin") {
 			$(".faculty_info").parent().parent().hide();
 			$(".faculty_info").prop("required", false);
-		}
-		else
-		{
+		} else {
 			$(".faculty_info").parent().parent().show();
 			$(".faculty_info").prop("required", true);
 		}
+	});
+
+	/* MESSAGE -- Show message */
+	$("a#showMessage").click(function () {
+        var message_ID = $(this).attr("key");
+        var row = "#"+message_ID;
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/message_details",
+            data: 'message_ID=' + message_ID,
+		    dataType: "json",
+            success:function (data){
+				$("#myModalLabel").text(data["subject"]);
+                $("#message-sender").text(data['sender']);
+                $("#message-date").text(data['date']);
+                $("#message-message").text(data['message']);
+
+                $(row).removeClass("warning");
+            }
+        });
 	});
 
 	// type of report
@@ -107,132 +122,317 @@ $(document).ready(function () {
 		}
     });
 
-	/* ACCOM FORM -- Reset radio buttons */
+	/* ACCOMPLISHMENT FORM -- Reset radio buttons and next modal */
 	$("#addAccomplishment").click(function () {
-		$("input[name=accom_type]:checked").prop("checked", false);
-		// $("#publicationType, #awardType, #researchType, #paperType, #creativeType, #participationType, #materialType, #otherType").prop("checked", false);
+		$("input[name=accom_type]").prop("checked", false);
+		$("#next-button").removeAttr("data-dismiss").removeAttr("data-target");
 	});
 	
-	/* ACCOM FORM -- Set next modal depending on accomlishment type and set appropriate url */
+	/* ACCOMPLISHMENT FORM -- Set next modal depending on accomlishment */
 	$("input[name=accom_type]").click(function () {
 		var url = $(this).attr("url");
 		var type = $(this).val();
 
+		// Dismiss curent modal and set next modal
+		$("#next-button").attr("data-dismiss", "modal").attr("data-target", "#modal_" + type);
+
+		// Reset label, input fields and url 
 		switch (type) {
 			case "publication":
-				$("#publicationForm").attr("url", url);
+				$("h4#accom-label").text("Journal Publication/Book/Chapter in a Book");
+				$("#publicationForm").attr("action", url); //change to "url" if needs ajax validation
+				$("input[name=type]").prop("checked", false);
+				$("#publicationDetails input").val("");
 				break;
 			
 			case "award":
+				$("h4#accom-label").text("Award/Grant Received");
 				$("#awardForm").attr("url", url);
+				$("#awardForm input").val("");
 				break;
 			
 			case "research":
+				$("h4#accom-label").text("Research Grant/Fellowship Received");
 				$("#researchForm").attr("url", url);
+				$("#researchForm input").val("");
 				break;
 			
 			case "paper":
+				$("h4#accom-label").text("");
 				$("#paperForm").attr("url", url);
 				break;
 			
 			case "creative":
+				$("h4#accom-label").text("");
 				$("#creativeForm").attr("url", url);
 				break;
 			
 			case "participation":
+				$("h4#accom-label").text("");
 				$("#participationForm").attr("url", url);
 				break;
 			
 			case "material":
-				$("#materialModalLabel").text("Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals");
-				$("#material-alert").parent().hide();
-				// $("#material-id, #material-author, #material-year, #material-title").val("");
+				$("h4#accom-label").text("Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals");
+				$("#materialForm").attr("action", url); //change to "url" if needs ajax validation
 				$("#materialForm input").val("");
-				$("#material-attachment").attr("name", "attachment[]");
-				$("#attachmentWrapper1").show();
-				$("#attachmentWrapper2").hide();
-				$("#materialForm").attr("url", url);
-				$("#material-attachment").fileinput({
-                    previewFileType: "image",
-                    browseClass: "btn btn-primary",
-                    browseLabel: " Browse",
-                    browseIcon: '',
-                    removeIcon: '',
-                    showUpload: false,
-                    maxFileCount: 5
-                });
 				break;
 			
 			case "other":
+				$("h4#accom-label").text("");
 				$("#otherForm").attr("url", url);
 				break;
 		}
 
-		$("#publication-alert, #award-alert, #research-alert, #paper-alert, #creative-alert, #participation-alert, #material-alert, #other-alert").parent().hide();
-		$("input[type='submit']").val("Add");
-
-		$('.next_choice').attr('data-target', '#modal_' + type);
+		// Reset alert, attachment, back and submit button
+		$("p#accom-alert").parent().hide();
+		$("input#accom-attachment").attr("name", "attachment[]");
+		$("div#add-attachment").show();
+		$("div#view-attachment").hide();
+		$("button#back-button").show();
+		$("input#accom-submit").val("Add");
 	});
 
-	//type of pub
+	/* PUBLICATION FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
+	$("a#updatePublication").click(function () {
+		var url = $(this).attr("url");
+		var publication_ID = $(this).attr("publication-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/pub",
+			data: 'accom_ID=' + accom_ID + '&accom_specID=' + publication_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#publicationForm").attr("action", url); //change to "url" if needs ajax validation
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#publication-id").val(details['publication_ID']);
+				$("#publication-author").val(details['author']);
+				$("#publication-year").val(details['year']);
+				$("#publication-title").val(details['title']);
+				$("#publication-page").val(details['page'])
+
+				if (details['type'] == 'Journal')
+				{
+					$("#journal_volume").val(details['journal_volume']);
+					$("#journal_issue").val(details['journal_issue']);
+					$("#journalType").prop("checked", true).trigger("click");
+				} else {
+					$("#book_publisher").val(details['book_publisher']);
+					$("#book_place").val(details['book_place']);
+
+					if (details['type'] == 'Book') {
+						$("#bookType").prop("checked", true).trigger("click");
+					} else {
+						$("#chapterType").prop("checked", true).trigger("click");
+					}
+				}
+			}
+		});
+	});
+
+	/* PUBLICATION FORM -- Show necessary fields depending on publication type */
 	$("input[name=type]").click(function () {
-		// try to get value from label
-		var pub = $('input[name=type]:checked').val();
-		if (pub == "Journal")
-		{
-			$(".pub_book").hide();
-			$(".pub_bookk").hide();
-			$(".pub_chapter").hide();
-			$(".pub_journal").show();
+		var pub = $(this).val();
 
-			$(".pub_b").removeAttr("required");
-			$(".pub_j").attr("required", "");
-		}
-		else
-		{
-			$(".pub_journal").hide();
-			$(".pub_book").show();
+		if (pub == "Journal") {
+			$(".journal-details").parent().parent().show();
+			$(".journal-details").prop("required", true);
+			$("#pages-label").text("Inclusive Pages")
 
+			$(".book-details").parent().parent().hide();
+			$(".book-details").prop("required", false);
+		} else {
 			if (pub == "Book")
-			{
-				$(".pub_bookk").show();
-				$(".pub_chapter").hide();
-			}
+				$("#pages-label").text("Total Number of Pages");
 			else
-			{
-				$(".pub_bookk").hide();
-				$(".pub_chapter").show();
-			}
-			
-			$(".pub_j").removeAttr("required");
-			$("input[name=page]").removeAttr("placeholder");
-			$(".pub_b").attr("required", "");
+				$("#pages-label").text("Inclusive Pages");
+
+			$(".book-details").parent().parent().show();
+			$(".book-details").prop("required", true);
+
+			$(".journal-details").parent().parent().hide();
+			$(".journal-details").prop("required", false);
 		}
 	});
 
+	/* AWARD FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
+	$("a#updateAward").click(function () {
+		var url = $(this).attr("url");
+		var award_ID = $(this).attr("award-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/awd",
+			data: 'accom_ID=' + accom_ID + '&accom_specID=' + award_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#awardForm").attr("url", url);
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#award-id").val(details['award_ID']);
+				$("#award-award").val(details['award']);
+				$("#award-start").datepicker('setDate', details['start']).datepicker('fill');
+				$("#award-end").datepicker('setDate', details['end']).datepicker('fill');
+				$("#award-source").val(details['source']);
+				$("#award-type").val(details['type']);
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details['attachment']).show();
+			}
+		});
+	});
+	
+	/* AWARD FORM (VALIDATE) -- Check if date range is correct */
+	$("#awardForm").on("submit", function (event) {
+		event.preventDefault();
+		
+		$.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/check_date",
+            data: $("#awardForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#awardForm").attr("action", $("#awardForm").attr("url")).unbind("submit").trigger("submit");
+            	else
+            		$("p#accom-alert").text(valid).parent().show();
+            }
+        });
+	});
+
+	/* RESEARCH FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
+	$("a#updateResearch").click(function () {
+		var url = $(this).attr("url");
+		var research_ID = $(this).attr("research-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/rch",
+			data: 'accom_ID=' + accom_ID + '&accom_specID=' + research_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#researchForm").attr("url", url);
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#research-id").val(details['research_ID']);
+				$("#research-title").val(details['title']);
+				$("#research-nature").val(details['nature']);
+				$("#fund_external").val(details['fund_external']);
+				$("#research-start").datepicker('setDate', details['start']).datepicker('fill');
+				$("#research-end").datepicker('setDate', details['end']).datepicker('fill');
+				$("#fund_amount").val(details['fund_amount']);
+				$("#fund_up").val(details['fund_up']);
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details['attachment']).show();
+			}
+		});
+	});
+	
+	/* RESEARCH FORM (VALIDATE) -- Check if date range is correct */
+	$("#researchForm").on("submit", function (event) {
+		event.preventDefault();
+		
+		$.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/check_date",
+            data: $("#researchForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
+            	else {
+            		$("p#accom-alert").text(valid).parent().show();
+            		$("#research-start").focus();
+            	}
+            }
+        });
+	});
+
+	/* RESEARCH FORM -- Require necessary fields */
+    $('#fund_external').keyup(function ()
+    {
+    	var external = $(this).val();
+    	
+    	if (external)
+    	{
+    		$("#fund_amount").attr("required", "");
+    		$("#fund_amount").removeAttr("placeholder");
+    		$("#fund_up").removeAttr("required");
+    		$("#fund_up").attr("placeholder", "(Optional)")
+    	}
+    	else
+    	{
+    		$("#fund_amount").attr("placeholder", "(Optional)");
+    		$("#fund_amount").removeAttr("required");
+    		$("#fund_up").attr("required", "");
+    		$("#fund_up").removeAttr("placeholder");
+    	}
+    });
+    $('#fund_amount').keyup(function ()
+    {
+    	var external = $(this).val();
+    	
+    	if (external)
+    	{
+    		$("#fund_external").attr("required", "");
+    		$("#fund_external").removeAttr("placeholder");
+    		$("#fund_up").removeAttr("required");
+    		$("#fund_up").attr("placeholder", "(Optional)")
+    	}
+    	else
+    	{
+    		$("#fund_external").attr("placeholder", "(Optional)");
+    		$("#fund_external").removeAttr("required");
+    		$("#fund_up").attr("required", "");
+    		$("#fund_up").removeAttr("placeholder");
+    	}
+    });
+
+	/* MATERIAL FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
 	$("a#updateMaterial").click(function () {
 		var url = $(this).attr("url");
-		var material_ID = $(this).attr("key");
+		var material_ID = $(this).attr("material-id");
 		var accom_ID = $(this).attr("accom-id");
 		
 		$.ajax({
 			type: "POST",
 			url: "/oamsystem/index.php/ajax/accom_details/mat",
-			data: 'accom_specID=' + material_ID + '&accom_ID=' + accom_ID,
+			data: 'accom_ID=' + accom_ID + '&accom_specID=' + material_ID,
 			dataType: "json",
-			success:function (details){
-				$("#materialModalLabel").text("Edit Accomplishment");
-				$("#material-alert").parent().hide();
+			success:function (details) {
+				$("#materialForm").attr("action", url); //change to "url" if needs ajax validation
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
 				$("#material-id").val(details['material_ID']);
 				$("#material-author").val(details['author']);
 				$("#material-year").val(details['year']);
 				$("#material-title").val(details['title']);
-				$("input[type='submit']").val("Save");
-				$("#materialForm").attr("url", url);
 
-				$("#material-attachment").removeAttr("name");
-				$("#attachmentWrapper1").hide();
-				$("#attachmentWrapper2").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details['attachment']).show();
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details['attachment']).show();
+
+				/* ================================= *
+				*   Attempts on editable attachments *
+				*  ================================= */
 
 				// if (details['attachment'])
 				// {
@@ -262,29 +462,6 @@ $(document).ready(function () {
 			}
 		});
 	})
-
-	$("#materialForm").on("submit", function (event) {
-		event.preventDefault();
-		$("#materialForm").attr("action", $(this).attr("url")).unbind("submit").trigger("submit");
-
-		// if ($("input[type='submit']").val() == "Add")
-		// 	var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_user";
-		// else if ($("input[type='submit']").val() == "Save")
-		// 	var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_user";
-
-		// $.ajax({
-  //           type: "POST",
-  //           url: ajaxUrl,
-  //           data: $("#profileForm").serialize(),
-		// 	data: 'accom_specID=' + material_ID,
-  //           success: function (unique){
-  //           	if (unique)
-  //           		$("#materialForm").attr("action", $("#profileForm").attr("url")).unbind("submit").trigger("submit");
-  //           	else
-  //           		$("#invalidMessage").text("This is not a unique accomplishment.").parent().show();
-  //           }
-  //       });
-	});
 
 	$("a#deleteReport").click(function () {
 		return confirm('Are you sure you want to delete this report?');
@@ -326,7 +503,6 @@ $(document).ready(function () {
 		}
 	});
 
-	// not working properly
 	$('td.editOutput').editable('/oamsystem/index.php/faculty/opcr/edit/output',
 	{
 		name		: 'output',
@@ -335,12 +511,10 @@ $(document).ready(function () {
 		submit		: 'Save',
 		event		: 'dblclick',
 		onblur		: 'ignore',
-		// style   	: 'width: '+($(this).width()-40),
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
      });
 
-	// not working properly
 	$('td.editOutputIndicator').editable('/oamsystem/index.php/faculty/opcr/edit/indicator',
 	{
 		name		: 'indicators',
@@ -349,7 +523,6 @@ $(document).ready(function () {
 		submit		: 'Save',
 		event		: 'dblclick',
 		onblur		: 'ignore',
-		// style   	: 'width: '+($(this).width()-40),
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
      });
@@ -602,65 +775,6 @@ $(document).ready(function () {
         });
 	});
 
-	$("a#showMessage").click(function () {
-        var message_ID = $(this).attr("key");
-        var row = "#"+message_ID;
-
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/message_details",
-            data: 'message_ID=' + message_ID,
-		    dataType: "json",
-            success:function (data){
-				$("#myModalLabel").text(data["subject"]);
-                $("#message-sender").text(data['sender']);
-                $("#message-date").text(data['date']);
-                $("#message-message").text(data['message']);
-
-                $(row).removeClass("warning");
-            }
-        });
-	});
-
-    $('#fund_external').keyup(function ()
-    {
-    	var external = $(this).val();
-    	
-    	if (external)
-    	{
-    		$("#fund_amount").attr("required", "");
-    		$("#fund_amount").removeAttr("placeholder");
-    		$("#fund_up").removeAttr("required");
-    		$("#fund_up").attr("placeholder", "(Optional)")
-    	}
-    	else
-    	{
-    		$("#fund_amount").attr("placeholder", "(Optional)");
-    		$("#fund_amount").removeAttr("required");
-    		$("#fund_up").attr("required", "");
-    		$("#fund_up").removeAttr("placeholder");
-    	}
-    });
-    $('#fund_amount').keyup(function ()
-    {
-    	var external = $(this).val();
-    	
-    	if (external)
-    	{
-    		$("#fund_external").attr("required", "");
-    		$("#fund_external").removeAttr("placeholder");
-    		$("#fund_up").removeAttr("required");
-    		$("#fund_up").attr("placeholder", "(Optional)")
-    	}
-    	else
-    	{
-    		$("#fund_external").attr("placeholder", "(Optional)");
-    		$("#fund_external").removeAttr("required");
-    		$("#fund_up").attr("required", "");
-    		$("#fund_up").removeAttr("placeholder");
-    	}
-    });
-
 	// Character counter for message
 	$('#message').keyup(function () {
 		var max = 255;
@@ -741,7 +855,6 @@ $(document).ready(function () {
     });
 
     var categoryCount = 1;
-
 	$('#addCategory').click(function ()  //on add input button click
 	{
 		categoryCount++;
@@ -757,192 +870,9 @@ $(document).ready(function () {
 
 		return false;
 	});
-
 	$("body").on("click", ".removeCategory", function () //user click on remove text
 	{
 		$(this).parent().parent().parent().remove(); //remove input field
-	});
-	
-	var maxMatAttachments = 5;
-    var matAttachmentWrapper = $("#matAttachmentWrapper"); //Input boxes wrapper ID
-    var matAttachments = matAttachmentWrapper.length;
-	var matAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addMatAttachment').click(function (e)  //on add input button click
-	{
-		if (matAttachments <= maxMatAttachments)
-		{
-			matAttachmentCount++; //text box added increment
-			$('#matAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removeMatAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			matAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removeMatAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		matAttachments--;
-		return false;
-	});
-
-	var maxAwdAttachments = 5;
-    var awdAttachmentWrapper = $("#awdAttachmentWrapper"); //Input boxes wrapper ID
-    var awdAttachments = awdAttachmentWrapper.length;
-	var awdAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addAwdAttachment').click(function (e)  //on add input button click
-	{
-		if (awdAttachments <= maxAwdAttachments)
-		{
-			awdAttachmentCount++; //text box added increment
-			$('#awdAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removeAwdAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			awdAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removeAwdAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		awdAttachments--;
-		return false;
-	});
-	
-	var maxCtvAttachments = 5;
-    var ctvAttachmentWrapper = $("#ctvAttachmentWrapper"); //Input boxes wrapper ID
-    var ctvAttachments = ctvAttachmentWrapper.length;
-	var ctvAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addCtvAttachment').click(function (e)  //on add input button click
-	{
-		if (ctvAttachments <= maxCtvAttachments)
-		{
-			ctvAttachmentCount++; //text box added increment
-			$('#ctvAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removeCtvAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			ctvAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removeCtvAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		ctvAttachments--;
-		return false;
-	});
-	
-	var maxOthAttachments = 5;
-    var othAttachmentWrapper = $("#othAttachmentWrapper"); //Input boxes wrapper ID
-    var othAttachments = othAttachmentWrapper.length;
-	var othAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addOthAttachment').click(function (e)  //on add input button click
-	{
-		if (othAttachments <= maxOthAttachments)
-		{
-			othAttachmentCount++; //text box added increment
-			$('#othAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removeOthAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			othAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removeOthAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		othAttachments--;
-		return false;
-	});
-	
-	var maxPprAttachments = 5;
-    var pprAttachmentWrapper = $("#pprAttachmentWrapper"); //Input boxes wrapper ID
-    var pprAttachments = pprAttachmentWrapper.length;
-	var pprAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addPprAttachment').click(function (e)  //on add input button click
-	{
-		if (pprAttachments <= maxPprAttachments)
-		{
-			pprAttachmentCount++; //text box added increment
-			$('#pprAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removePprAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			pprAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removePprAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		pprAttachments--;
-		return false;
-	});
-	
-	var maxParAttachments = 5;
-    var parAttachmentWrapper = $("#parAttachmentWrapper"); //Input boxes wrapper ID
-    var parAttachments = parAttachmentWrapper.length;
-	var parAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addParAttachment').click(function (e)  //on add input button click
-	{
-		if (parAttachments <= maxParAttachments)
-		{
-			parAttachmentCount++; //text box added increment
-			$('#parAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removeParAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			parAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removeParAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		parAttachments--;
-		return false;
-	});
-	
-	var maxRchAttachments = 5;
-    var rchAttachmentWrapper = $("#rchAttachmentWrapper"); //Input boxes wrapper ID
-    var rchAttachments = rchAttachmentWrapper.length;
-	var rchAttachmentCount = 1; //to keep track of text box added
-	
-	$('#addRchAttachment').click(function (e)  //on add input button click
-	{
-		if (rchAttachments <= maxRchAttachments)
-		{
-			rchAttachmentCount++; //text box added increment
-			$('#rchAttachmentWrapper').append(
-				'<div>' +
-				'<input type="file" class="multi" name="attachment[]" accept="image/*" style="display:inline" required>' +
-				'<a href="#" class="btn removeRchAttachment" role="button"><span class="glyphicon glyphicon-remove-circle"></span></a>' +
-				'</div>');
-			rchAttachments++;
-		}
-		return false;
-	});
-	$("body").on("click", ".removeRchAttachment", function () //user click on remove text
-	{
-		$(this).parent().remove(); //remove input field
-		rchAttachments--;
-		return false;
 	});
 
 });

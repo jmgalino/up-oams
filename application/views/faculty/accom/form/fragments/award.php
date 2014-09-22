@@ -4,15 +4,14 @@ echo '<h4>II. Award/Grants Received</h4>';
 if ($session->get('accom_awd'))
 {
 	$accom_awd = $session->get('accom_awd');
-	
+
 	foreach ($accom_awd as $awd)
 	{
 		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		echo $awd['award'], '. ';
-		echo date_format(date_create($awd['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($awd['end']), 'F d, Y'), '. ';
+		echo redate($awd['start'], $awd['end']), '. ';
 		echo $awd['source'], '.';
 		echo '&nbsp;&nbsp;';
 		
@@ -30,7 +29,9 @@ if ($session->get('accom_awd'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/awd/'.$awd['award_ID']).'>',
+		echo '<a class="btn btn-default" id="updateAward" award-id="', $awd['award_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_award" role="button" href="" url="', URL::site('faculty/accom/edit/awd/'.$awd['award_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/awd/'.$awd['award_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}

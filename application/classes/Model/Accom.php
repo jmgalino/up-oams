@@ -343,22 +343,36 @@ class Model_Accom extends Model {
 		// Check for other users
 		$users = $this->check_accom_users($accom_specID, $type);	
 
-		// No other users
+		$accom_details = $this->get_accom_details($accom_ID, $accom_specID, $type);
+		$attachment = $accom_details['attachment'];
+		$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
+
+		// Delete attachment(s) if any
+		if ($attachment)
+		{
+			$attachment = explode(' ', $result[0]['attachment']);
+			
+			for ($i = 0; $i < count($attachment); $i++)
+			{
+				unlink(DOCROOT.'files/upload_attachments/'.$attachment[$i]);
+			}	
+		}
+
+		// Delete accom if no other user
 		if ($users == 1)
 		{
-			$this->unlink_accom($accom_ID, $accom_specID, $type);
-
 			$rows_deleted = DB::delete('accom_'.$type.'tbl')
 				->where($name_ID, '=', $accom_specID)
 		 		->execute();
 
-	 		// if ($rows_deleted == 1) return TRUE;
-	 		// else return FALSE; //do something
+	 		if ($unlink_success AND $rows_deleted == 1) return 'Accomplishment was successfully deleted.';
+	 		else return FALSE;
 		}
-
-		// Used by others
 		else
-			$this->unlink_accom($accom_ID, $accom_specID, $type);
+		{
+			if ($unlink_success) return 'Accomplishment was successfully deleted.';
+	 		else return FALSE;
+		}
 	}
 
 	/**
@@ -502,24 +516,6 @@ class Model_Accom extends Model {
 	 */
 	private function unlink_accom($accom_ID, $accom_specID, $type)
 	{
-		// $result = DB::select()
-		// 	->from('connect_accomtbl')
-		// 	->where('accom_ID', '=', $accom_ID)
-		// 	->where('accom_specID', '=', $accom_specID)
-		// 	->where('type', '=', $type)
-		// 	->execute()
-		// 	->as_array();
-
-		// if ($result[0]['attachment'])
-		// {
-		// 	$attachment = explode(' ', $result[0]['attachment']);
-			
-		// 	for ($i = 0; $i < count($attachment); $i++)
-		// 	{
-		// 		unlink(DOCROOT.'files/upload_attachments/'.$attachment[$i]);
-		// 	}
-		// }
-
 		$rows_deleted = DB::delete('connect_accomtbl')
 			->where('accom_ID', '=', $accom_ID)
 			->where('accom_specID', '=', $accom_specID)
@@ -527,7 +523,7 @@ class Model_Accom extends Model {
 	 		->execute();
 
  		if ($rows_deleted == 1) return TRUE;
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 } // End Accom

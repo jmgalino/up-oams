@@ -258,7 +258,16 @@ class Controller_Ajax extends Controller {
 		$accom_ID = $this->request->post('accom_ID');
 		$accom_specID = $this->request->post('accom_specID');
 		$accom_details = $accom->get_accom_details($accom_ID, $accom_specID, $type);
-
+		
+		// Format dates
+		foreach ($accom_details as $key => $value)
+		{
+			// Check if date (in format)
+			if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $value))
+				$accom_details[$key] = date('d F Y', strtotime($value));
+		}
+		
+		// Convert attachments array into html <img> strings
 		$tmp = '';
 		$count = 0;
 		$arr = ($accom_details['attachment'] ? explode(' ', $accom_details['attachment']) : NULL);
@@ -266,15 +275,32 @@ class Controller_Ajax extends Controller {
 		{
 			foreach ($arr as $filename)
 			{
-				$tmp .= '<img src="'.URL::base().'files/upload_attachments/'.$filename.'" class="file-preview-image"><br>';
+				$tmp .= '<img src="'.URL::base().'files/upload_attachments/'.$filename.'" class="file-preview-image"> ';
 				$count++;
 			}
 		}
 		// $accom_details['attachmentCount'] = ($count > 1 ? $count.' files selected' : $count.' file selected');
 		$accom_details['attachment'] = $tmp;
-		
+
 		echo json_encode($accom_details);
 		exit();
+	}
+
+	/**
+	 * Check if date range is valid
+	 */
+	public function action_check_date()
+	{
+		$post = $this->request->post();
+
+		if (array_key_exists('start', $post))
+		{
+			if (strtotime($post['start']) < strtotime($post['end']))
+				echo TRUE;
+			else
+				echo 'Dates are invalid.';
+		}
+		
 	}
 
 	/**

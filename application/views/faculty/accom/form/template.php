@@ -1,3 +1,36 @@
+<?php
+function redate($start, $end)
+{
+	$date = '';
+
+	$stime = strtotime($start);
+	$sdate = date('d', $stime);
+	$smonth = date('F', $stime);
+	$syear = date('Y', $stime);
+
+	$etime = strtotime($end);
+	$edate = date('d', $etime);;
+	$emonth = date('F', $etime);
+	$eyear = date('Y', $etime);
+
+	if (($smonth == $emonth) AND ($syear == $eyear))
+	{
+		if ($sdate == $edate)
+		{
+			$date = date('F d, Y', strtotime($start));
+		}
+		else
+		{
+			$date = $smonth.' '.$sdate.'-'.$edate.', '.$syear;
+		}
+	}
+	else
+		$date = date('F d, Y', strtotime($start)).' - '.date('F d, Y', strtotime($end));
+
+	return $date;
+}
+?>
+
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>

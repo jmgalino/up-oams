@@ -31,7 +31,7 @@ if ($session->get('accom_mat'))
 		
 		echo '&nbsp;&nbsp;&nbsp;';
 
-		echo '<a class="btn btn-default" id="updateMaterial" key="', $mat['material_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_material" role="button" href="" url="', URL::site('faculty/accom/edit/mat/'.$mat['material_ID']), '">
+		echo '<a class="btn btn-default" id="updateMaterial" material-id="', $mat['material_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_material" role="button" href="" url="', URL::site('faculty/accom/edit/mat/'.$mat['material_ID']), '">
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/mat/'.$mat['material_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';

@@ -4,7 +4,7 @@ echo '<h4>III. Research Grants/Fellowships Received</h4>';
 if ($session->get('accom_rch'))
 {
 	$accom_rch = $session->get('accom_rch');
-	
+
 	foreach ($accom_rch as $rch)
 	{
 		echo '<p style="padding-left:20px;">';
@@ -41,17 +41,12 @@ if ($session->get('accom_rch'))
 		}
 
 		echo '&nbsp;&nbsp;&nbsp;';
-
-		// if ($rch['user_ID'] == $session->get('user_ID'))
-		// {
-		// 	echo '<a data-toggle="modal" data-target="#modal_research" role="button" href="">',
-		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		// }
 		
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/rch/'.$rch['research_ID']).'>',
+		echo '<a class="btn btn-default" id="updateResearch" research-id="', $rch['research_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_research" role="button" href="" url="', URL::site('faculty/accom/edit/rch/'.$rch['research_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/rch/'.$rch['research_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
-
 	}
 }
 ?>

@@ -150,7 +150,9 @@ input[name="recaptcha_response_field"]
 /* DATEPICKER -- keep on top */
 #datepicker,
 #monthpicker, 
-#birthdaypicker {
+#award-duration,
+#research-duration
+{
   z-index:1151;
 }
 
