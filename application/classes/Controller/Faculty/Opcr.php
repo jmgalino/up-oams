@@ -190,28 +190,28 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_edit()
 	{
-		// $opcr = new Model_Opcr;
+		$opcr = new Model_Opcr;
 
-		$post = $this->request->post(); echo $post;
-		// $output_details = $opcr->get_output_details($post['output_ID']);
-		// $this->action_check($output_details['user_ID']); // Redirects if not the owner
+		$post = $this->request->post();
+		$output_details = $opcr->get_output_details($post['output_ID']);
+		$this->action_check($output_details['user_ID']); // Redirects if not the owner
 		
-		// if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
-		// {
-		// 	$edit_success = $opcr->update_output($post);
+		if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
+		{
+			$edit_success = $opcr->update_output($post);
 
-		// 	if ($edit_success)
-		// 	{
-		// 		if (isset($post['output'])) echo $post['output'];
-		// 		elseif (isset($post['indicators'])) echo $post['indicators'];
-		// 	}
-		// 	else
-		// 	{
-		// 		echo "<script>
-		// 			alert('There seems to be an error. Please refresh the page.');
-		// 			</script>";
-		// 	}
-		// }
+			if ($edit_success)
+			{
+				if (isset($post['output'])) echo $post['output'];
+				elseif (isset($post['indicators'])) echo $post['indicators'];
+			}
+			else
+			{
+				echo "<script>
+					alert('There seems to be an error. Please refresh the page.');
+					</script>";
+			}
+		}
 	}
 
 	/**

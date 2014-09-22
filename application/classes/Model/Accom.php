@@ -483,7 +483,7 @@ class Model_Accom extends Model {
 			->execute()
 			->as_array();
 
-		if($check)
+		if ($check)
 			Session::instance()->set('warning', 'This accomplishment is already included.');
 		else
 		{

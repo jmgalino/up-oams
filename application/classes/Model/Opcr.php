@@ -195,10 +195,12 @@ class Model_Opcr extends Model {
 	 */
 	public function get_output_details($output_ID)
 	{
-		$details = DB::select()
+		$details = DB::select('opcr_outputtbl.*, opcrtbl.user_ID')
 			->from('opcr_outputtbl')
-			->where('output_ID', '=', $output_ID)
-	 		->execute()
+			->join('opcrtbl')
+			->on('opcr_outputtbl.opcr_ID', '=', 'opcrtbl.opcr_ID')
+	 		->where('output_ID', '=', $output_ID)
+			->execute()
 	 		->as_array();
 
  		return $details[0];
@@ -228,7 +230,7 @@ class Model_Opcr extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
