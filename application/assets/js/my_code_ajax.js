@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	/* PROFILE FORM (NEW) -- Reset label, alert, input fields, and button text */
+	/* PROFILE FORM (NEW) -- Reset form */
 	$("#newProfile").click(function () {
 		var url = $(this).attr("url");
 
@@ -11,7 +11,7 @@ $(document).ready(function () {
         $("#profileForm").attr("url", url);
 	});
 
-	/* PROFILE FORM (UPDATE) -- Set label, hide alert, load data into input fields, and set button text */
+	/* PROFILE FORM (UPDATE) -- Set form for editing */
 	$("#updateProfile").click(function () {
 		var url = $(this).attr("url");
 		var user_ID = $(this).attr("key");
@@ -19,7 +19,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: "POST",
 			url: "/oamsystem/index.php/ajax/user_details",
-			data: 'user_ID=' + user_ID,
+			data: "user_ID=" + user_ID,
 			dataType: "json",
 			success:function (data) {
 				$("#modalProfileLabel").text("Update Profile");
@@ -30,16 +30,16 @@ $(document).ready(function () {
 				$("#mname").val(data["mname"]);
 				$("#lname").val(data["lname"]);
 				$("#datepicker .input-group.date").datepicker("setDate", data["birthday"]).datepicker("fill");
-				$("input[type='submit']").val("Save");
+				$("input[type=submit]").val("Save");
 				$("#profileForm").attr("url", url);
 
 				if (data['fcode']) {
 					$("#facultyType").prop("checked", true).trigger("click");
 					$(".faculty-info").show();
-					$("#fcode").val(data['fcode']);
-					$("#rank").val(data['rank']);
-					$("#program-id").val(data['program_ID']);
-					$("#position").val(data['position']);
+					$("#fcode").val(data["fcode"]);
+					$("#rank").val(data["rank"]);
+					$("#program-id").val(data["program_ID"]);
+					$("#position").val(data["position"]);
 				} else {
 					$("#adminType").prop("checked", true).trigger("click");
 				}
@@ -51,9 +51,9 @@ $(document).ready(function () {
 	$("#profileForm").on("submit", function (event) {
 		event.preventDefault();
 
-		if ($("input[type='submit']").val() == "Add")
+		if ($("input[type=submit]").val() == "Add")
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_user";
-		else if ($("input[type='submit']").val() == "Save")
+		else if ($("input[type=submit]").val() == "Save")
 			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_user";
 
 		$.ajax({
@@ -80,6 +80,186 @@ $(document).ready(function () {
 		}
 	});
 
+	/* COLLEGE FORM (NEW) -- Reset form */
+	$("#newCollege").click(function () {
+		var url = $(this).attr("url");
+
+		$("#myModalLabel").text("New College");
+		$("#invalidMessage").parent().hide();
+		// change to $("#collegeForm input").val("");
+		$("#college-id, #college-college, #college-short, #college-dean").val("");
+        $("input[type=submit]").val("Add");
+        $("#collegeForm").attr("url", url);
+	});
+
+	/* COLLEGE FORM (UPDATE) -- Set form for editing */
+	$("a#updateCollege").click(function () {
+		var url = $(this).attr("url");
+		var college_ID = $(this).attr("key");
+
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/college_details",
+			data: "college_ID=" + college_ID,
+			dataType: "json",
+			success:function (data) {
+				$("#myModalLabel").text("Update College");
+				$("#invalidMessage").parent().hide();
+				$("#college-id").val(data["college_ID"]);
+				$("#college-college").val(data["college"]);
+				$("#college-short").val(data["short"]);
+				$("#college-dean").val(data["user_ID"]);
+				$("input[type=submit]").val("Save");
+				$("#collegeForm").attr("url", url);
+			}
+		});
+    });
+
+	/* COLLEGE FORM (VALIDATE) -- Check if everything is unique */
+	$("#collegeForm").on("submit", function (event) {
+		event.preventDefault();
+
+		if ($("input[type=submit]").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_college";
+		else if ($("input[type=submit]").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_college";
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#collegeForm").serialize(),
+            success: function (unique) {
+            	if (unique)
+            		$("#collegeForm").attr("action", $("#collegeForm").attr("url")).unbind("submit").trigger("submit");
+            	else
+	            	$("#invalidMessage").text("This is not a unique college.").parent().show();
+            }
+        });
+	});
+
+	/* DEPARTMENT FORM (NEW) -- Reset form */
+	$("#newDepartment").click(function () {
+		var url = $(this).attr("url");
+
+		$("#myModalLabel").text("New Department");
+		$("#invalidMessage").parent().hide();
+		// change to $("#departmentForm input").val("");
+		$("#department-college, #department-chair, #department-id, #department-department, #department-short").val("");
+        $("input[type=submit]").val("Add");
+        $("#departmentForm").attr("url", url);
+	});
+
+	/* DEPARTMENT FORM (UPDATE) -- Set form for editing */
+	$("a#updateDepartment").click(function () {
+		var url = $(this).attr("url");
+		var department_ID = $(this).attr("key");
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/department_details",
+            data: "department_ID=" + department_ID,
+		    dataType: "json",
+            success:function (data) {
+				$("#myModalLabel").text("Update Department");
+				$("#invalidMessage").parent().hide();
+                $("#department-id").val(data["department_ID"]);
+                $("#department-college").val(data["college_ID"]);
+                $("#department-department").val(data["department"]);
+                $("#department-short").val(data["short"]);
+                $("#department-chair").val(data["user_ID"]);
+		        $("input[type=submit]").val("Save");
+		        $("#departmentForm").attr("url", url);
+            }
+        });
+    });
+
+	/* DEPARTMENT FORM (VALIDATE) -- Check if everything but college_ID is unique */
+	$("#departmentForm").on("submit", function (event) {
+		event.preventDefault();
+
+		if ($("input[type=submit]").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_department";
+		else if ($("input[type=submit]").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_department";
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#departmentForm").serialize(),
+            success: function (unique) {
+            	if (unique)
+            	{
+            		$("#departmentForm").attr("action", $("#departmentForm").attr("url")).unbind("submit").trigger("submit");
+            	}
+            	else
+            	{
+					$("#invalidMessage").text("This is not a unique department.").parent().show();
+				}
+            }
+        });
+	});
+
+	/* PROGRAM FORM (NEW) -- Reset form */
+	$("#newProgram").click(function () {
+		var url = $(this).attr("url");
+
+		$("#myModalLabel").text("New Degree Program");
+		$("#invalidMessage").parent().hide();
+		// change to $("#programForm input").val("");
+		$("#program-college, #program-id, #program-program, #program-program-short, #program-short, #datepicker .input-group.date, #program-type").val("");
+		$("#program-department").html("<option value=\"\">Select</option>").prop("disabled", true);
+		$("#program-vision, #program-goals").text("");
+        $("input[type=submit]").val("Add");
+        $("#programForm").attr("url", url);
+	});
+
+	/* PROGRAM FORM (VALIDATE) -- Check if program names (complete, short, initials) are unique */
+	$("#programForm").on("submit", function (event) {
+		event.preventDefault();
+
+		if ($("input[type=submit]").val() == "Add")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_program";
+		else if ($("input[type=submit]").val() == "Save")
+			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_program";
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#programForm").serialize(),
+            success: function (unique){
+            	if (unique)
+            	{
+            		$("#programForm").attr("action", $("#programForm").attr("url")).unbind("submit").trigger("submit");
+            	}
+            	else
+            	{
+					$("#invalidMessage").text("This is not a unique program.").parent().show();
+				}
+            }
+        });
+	});
+
+	/* PROGRAM FORM -- List of departments depends on selected college */
+	$("#program-college").change(function () {
+		var college_ID = $(this).val();
+        
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/college_departments",
+            data: "college_ID=" + college_ID,
+		    dataType: "json",
+            success:function (options) {
+            	var newOptions = "";
+
+				for (var i = 0; i < options.length; i++) {
+					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
+				}
+
+				$("#program-department").html(newOptions).prop("disabled", false);
+            }
+        });
+	});
+
 	/* MESSAGE -- Show message */
 	$("a#showMessage").click(function () {
         var message_ID = $(this).attr("key");
@@ -92,43 +272,22 @@ $(document).ready(function () {
 		    dataType: "json",
             success:function (data){
 				$("#myModalLabel").text(data["subject"]);
-                $("#message-sender").text(data['sender']);
-                $("#message-date").text(data['date']);
-                $("#message-message").text(data['message']);
+                $("#message-sender").text(data["sender"]);
+                $("#message-date").text(data["date"]);
+                $("#message-message").text(data["message"]);
 
                 $(row).removeClass("warning");
             }
         });
 	});
 
-	// type of report
-	$('#document_type').change(function () {
-		var type = $(this).val();
-		if (type == "new")
-		{
-			$(".new-document").show();
-			$(".consolidated-document").hide();
-
-			$(".n-document").attr("required", "");
-			$(".c-document").removeAttr("required");
-		}
-		else if (type == "consolidated")
-		{
-			$(".new-document").hide();
-			$(".consolidated-document").show();
-
-			$(".n-document").removeAttr("required");
-			$(".c-document").attr("required", "");
-		}
-    });
-
-	/* ACCOMPLISHMENT FORM -- Reset radio buttons and next modal */
+	/* ACCOMPLISHMENT FORM -- Reset form */
 	$("#addAccomplishment").click(function () {
 		$("input[name=accom_type]").prop("checked", false);
 		$("#next-button").removeAttr("data-dismiss").removeAttr("data-target");
 	});
 	
-	/* ACCOMPLISHMENT FORM -- Set next modal depending on accomlishment */
+	/* ACCOMPLISHMENT FORM -- Set next modal depending on accomplishment */
 	$("input[name=accom_type]").click(function () {
 		var url = $(this).attr("url");
 		var type = $(this).val();
@@ -155,6 +314,7 @@ $(document).ready(function () {
 				$("h4#accom-label").text("Research Grant/Fellowship Received");
 				$("#researchForm").attr("url", url);
 				$("#researchForm input").val("");
+				$("#fund_amount, #fund_up").number();
 				break;
 			
 			case "paper":
@@ -193,7 +353,7 @@ $(document).ready(function () {
 		$("input#accom-submit").val("Add");
 	});
 
-	/* PUBLICATION FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
+	/* PUBLICATION FORM (UPDATE) -- Set form for editing */
 	$("a#updatePublication").click(function () {
 		var url = $(this).attr("url");
 		var publication_ID = $(this).attr("publication-id");
@@ -202,7 +362,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: "POST",
 			url: "/oamsystem/index.php/ajax/accom_details/pub",
-			data: 'accom_ID=' + accom_ID + '&accom_specID=' + publication_ID,
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + publication_ID,
 			dataType: "json",
 			success:function (details) {
 				$("#publicationForm").attr("action", url); //change to "url" if needs ajax validation
@@ -211,26 +371,24 @@ $(document).ready(function () {
 				$("button#back-button").hide();
 				$("input#accom-submit").val("Save");
 
-				$("#publication-id").val(details['publication_ID']);
-				$("#publication-author").val(details['author']);
-				$("#publication-year").val(details['year']);
-				$("#publication-title").val(details['title']);
-				$("#publication-page").val(details['page'])
+				$("#publication-id").val(details["publication_ID"]);
+				$("#publication-author").val(details["author"]);
+				$("#publication-year").val(details["year"]);
+				$("#publication-title").val(details["title"]);
+				$("#publication-page").val(details["page"])
 
-				if (details['type'] == 'Journal')
-				{
-					$("#journal_volume").val(details['journal_volume']);
-					$("#journal_issue").val(details['journal_issue']);
+				if (details["type"] == "Journal") {
+					$("#journal_volume").val(details["journal_volume"]);
+					$("#journal_issue").val(details["journal_issue"]);
 					$("#journalType").prop("checked", true).trigger("click");
 				} else {
-					$("#book_publisher").val(details['book_publisher']);
-					$("#book_place").val(details['book_place']);
+					$("#book_publisher").val(details["book_publisher"]);
+					$("#book_place").val(details["book_place"]);
 
-					if (details['type'] == 'Book') {
+					if (details["type"] == "Book")
 						$("#bookType").prop("checked", true).trigger("click");
-					} else {
+					else
 						$("#chapterType").prop("checked", true).trigger("click");
-					}
 				}
 			}
 		});
@@ -243,25 +401,23 @@ $(document).ready(function () {
 		if (pub == "Journal") {
 			$(".journal-details").parent().parent().show();
 			$(".journal-details").prop("required", true);
-			$("#pages-label").text("Inclusive Pages")
-
 			$(".book-details").parent().parent().hide();
 			$(".book-details").prop("required", false);
+			$("#pages-label").text("Inclusive Pages");
 		} else {
+			$(".book-details").parent().parent().show();
+			$(".book-details").prop("required", true);
+			$(".journal-details").parent().parent().hide();
+			$(".journal-details").prop("required", false);
+
 			if (pub == "Book")
 				$("#pages-label").text("Total Number of Pages");
 			else
 				$("#pages-label").text("Inclusive Pages");
-
-			$(".book-details").parent().parent().show();
-			$(".book-details").prop("required", true);
-
-			$(".journal-details").parent().parent().hide();
-			$(".journal-details").prop("required", false);
 		}
 	});
 
-	/* AWARD FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
+	/* AWARD FORM (UPDATE) -- Set form for editing */
 	$("a#updateAward").click(function () {
 		var url = $(this).attr("url");
 		var award_ID = $(this).attr("award-id");
@@ -270,7 +426,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: "POST",
 			url: "/oamsystem/index.php/ajax/accom_details/awd",
-			data: 'accom_ID=' + accom_ID + '&accom_specID=' + award_ID,
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + award_ID,
 			dataType: "json",
 			success:function (details) {
 				$("#awardForm").attr("url", url);
@@ -279,16 +435,16 @@ $(document).ready(function () {
 				$("button#back-button").hide();
 				$("input#accom-submit").val("Save");
 
-				$("#award-id").val(details['award_ID']);
-				$("#award-award").val(details['award']);
-				$("#award-start").datepicker('setDate', details['start']).datepicker('fill');
-				$("#award-end").datepicker('setDate', details['end']).datepicker('fill');
-				$("#award-source").val(details['source']);
-				$("#award-type").val(details['type']);
+				$("#award-id").val(details["award_ID"]);
+				$("#award-award").val(details["award"]);
+				$("#award-start").datepicker("setDate", details["start"]).datepicker("fill");
+				$("#award-end").datepicker("setDate", details["end"]).datepicker("fill");
+				$("#award-source").val(details["source"]);
+				$("#award-type").val(details["type"]);
 
 				$("input#accom-attachment").removeAttr("name");
 				$("div#add-attachment").hide();
-				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details['attachment']).show();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
 			}
 		});
 	});
@@ -310,7 +466,7 @@ $(document).ready(function () {
         });
 	});
 
-	/* RESEARCH FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
+	/* RESEARCH FORM (UPDATE) -- Set form for editing */
 	$("a#updateResearch").click(function () {
 		var url = $(this).attr("url");
 		var research_ID = $(this).attr("research-id");
@@ -319,7 +475,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: "POST",
 			url: "/oamsystem/index.php/ajax/accom_details/rch",
-			data: 'accom_ID=' + accom_ID + '&accom_specID=' + research_ID,
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + research_ID,
 			dataType: "json",
 			success:function (details) {
 				$("#researchForm").attr("url", url);
@@ -328,23 +484,29 @@ $(document).ready(function () {
 				$("button#back-button").hide();
 				$("input#accom-submit").val("Save");
 
-				$("#research-id").val(details['research_ID']);
-				$("#research-title").val(details['title']);
-				$("#research-nature").val(details['nature']);
-				$("#fund_external").val(details['fund_external']);
-				$("#research-start").datepicker('setDate', details['start']).datepicker('fill');
-				$("#research-end").datepicker('setDate', details['end']).datepicker('fill');
-				$("#fund_amount").val(details['fund_amount']);
-				$("#fund_up").val(details['fund_up']);
+				$("#research-id").val(details["research_ID"]);
+				$("#research-title").val(details["title"]);
+				$("#research-nature").val(details["nature"]);
+				$("#fund_external").val(details["fund_external"]).trigger("keyup");
+				$("#research-start").datepicker("setDate", details["start"]).datepicker("fill");
+				$("#research-end").datepicker("setDate", details["end"]).datepicker("fill");
+				
+				if (details["fund_amount"])
+					$("#fund_amount").val(details["fund_amount"]).trigger("keyup");
+				if (details["fund_up"])
+					$("#fund_up").val(details["fund_up"]).trigger("keyup");
+				if (!details["fund_amount"] && !details["fund_up"])
+					$("#fund_amount, #fund_up").number();
 
 				$("input#accom-attachment").removeAttr("name");
 				$("div#add-attachment").hide();
-				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details['attachment']).show();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
 			}
 		});
 	});
 	
 	/* RESEARCH FORM (VALIDATE) -- Check if date range is correct */
+    /* ========== CAN BE IMPROVED ========== */
 	$("#researchForm").on("submit", function (event) {
 		event.preventDefault();
 		
@@ -353,55 +515,28 @@ $(document).ready(function () {
             url: "/oamsystem/index.php/ajax/check_date",
             data: $("#researchForm").serialize(),
             success: function (valid) {
-            	if (valid == 1)
-            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
-            	else {
+            	if (valid == 1) {
+            		$.ajax({
+			            type: "POST",
+			            url: "/oamsystem/index.php/ajax/check_amount",
+			            data: $("#researchForm").serialize(),
+			            dataType: "json",
+			            success: function (amountCheck) {
+			            	if (amountCheck["invalid"]) {
+								$("p#accom-alert").text("Amount is invalid.").parent().show();
+			            		$(amountCheck["invalid"].key).focus();
+			            	} else {
+			            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
+			            	}
+			            }
+		           });
+	            } else {
             		$("p#accom-alert").text(valid).parent().show();
             		$("#research-start").focus();
             	}
             }
         });
 	});
-
-	/* RESEARCH FORM -- Require necessary fields */
-    $('#fund_external').keyup(function ()
-    {
-    	var external = $(this).val();
-    	
-    	if (external)
-    	{
-    		$("#fund_amount").attr("required", "");
-    		$("#fund_amount").removeAttr("placeholder");
-    		$("#fund_up").removeAttr("required");
-    		$("#fund_up").attr("placeholder", "(Optional)")
-    	}
-    	else
-    	{
-    		$("#fund_amount").attr("placeholder", "(Optional)");
-    		$("#fund_amount").removeAttr("required");
-    		$("#fund_up").attr("required", "");
-    		$("#fund_up").removeAttr("placeholder");
-    	}
-    });
-    $('#fund_amount').keyup(function ()
-    {
-    	var external = $(this).val();
-    	
-    	if (external)
-    	{
-    		$("#fund_external").attr("required", "");
-    		$("#fund_external").removeAttr("placeholder");
-    		$("#fund_up").removeAttr("required");
-    		$("#fund_up").attr("placeholder", "(Optional)")
-    	}
-    	else
-    	{
-    		$("#fund_external").attr("placeholder", "(Optional)");
-    		$("#fund_external").removeAttr("required");
-    		$("#fund_up").attr("required", "");
-    		$("#fund_up").removeAttr("placeholder");
-    	}
-    });
 
 	/* MATERIAL FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
 	$("a#updateMaterial").click(function () {
@@ -600,177 +735,6 @@ $(document).ready(function () {
             	$("#r_efficiency").rating('update', data['r_efficiency']);
             	$("#r_timeliness").rating('update', data['r_timeliness']);
             	$("#remarks").val(data['remarks']);
-            }
-        });
-	});
-
-	$("#collegeForm").on("submit", function (event){
-		event.preventDefault();
-
-		if ($("input[type='submit']").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_college";
-		else if ($("input[type='submit']").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_college";
-
-		$.ajax({
-            type: "POST",
-            url: ajaxUrl,
-            data: $("#collegeForm").serialize(),
-            success: function (unique){
-            	if (unique)
-            	{
-            		$("#collegeForm").attr("action", $("#collegeForm").attr("url")).unbind("submit").trigger("submit");
-            	}
-            	else
-            	{
-					$("#invalidMessage").text("This is not a unique college.").parent().show();
-				}
-            }
-        });
-	});
-
-	$("#newCollege").click(function () {
-		var url = $(this).attr("url");
-
-		$("#myModalLabel").text("New College");
-		$("#invalidMessage").parent().hide();
-		$("#college-id, #college-college, #college-short, #college-dean").val("");
-        $("input[type='submit']").val("Add");
-        $("#collegeForm").attr("url", url);
-	});
-
-	$("a#updateCollege").click(function () {
-		var url = $(this).attr("url");
-		var college_ID = $(this).attr("key");
-
-		$.ajax({
-			type: "POST",
-			url: "/oamsystem/index.php/ajax/college_details",
-			data: 'college_ID=' + college_ID,
-			dataType: "json",
-			success:function (data){
-				$("#myModalLabel").text("Update College");
-				$("#invalidMessage").parent().hide();
-				$("#college-id").val(data['college_ID']);
-				$("#college-college").val(data['college']);
-				$("#college-short").val(data['short']);
-				$("#college-dean").val(data['user_ID']);
-				$("input[type='submit']").val("Save");
-				$("#collegeForm").attr("url", url);
-			}
-		});
-    });
-
-	$("#departmentForm").on("submit", function (event){
-		event.preventDefault();
-
-		if ($("input[type='submit']").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_department";
-		else if ($("input[type='submit']").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_department";
-
-		$.ajax({
-            type: "POST",
-            url: ajaxUrl,
-            data: $("#departmentForm").serialize(),
-            success: function (unique){
-            	if (unique)
-            	{
-            		$("#departmentForm").attr("action", $("#departmentForm").attr("url")).unbind("submit").trigger("submit");
-            	}
-            	else
-            	{
-					$("#invalidMessage").text("This is not a unique department.").parent().show();
-				}
-            }
-        });
-	});
-
-	$("#newDepartment").click(function () {
-		var url = $(this).attr("url");
-
-		$("#myModalLabel").text("New Department");
-		$("#invalidMessage").parent().hide();
-		$("#department-college, #department-chair, #department-id, #department-department, #department-short").val("");
-        $("input[type='submit']").val("Add");
-        $("#departmentForm").attr("url", url);
-	});
-
-	$("a#updateDepartment").click(function () {
-		var url = $(this).attr("url");
-		var department_ID = $(this).attr("key");
-
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/department_details",
-            data: 'department_ID=' + department_ID,
-		    dataType: "json",
-            success:function (data){
-				$("#myModalLabel").text("Update Department");
-				$("#invalidMessage").parent().hide();
-                $("#department-id").val(data['department_ID']);
-                $("#department-college").val(data['college_ID']);
-                $("#department-department").val(data['department']);
-                $("#department-short").val(data['short']);
-                $("#department-chair").val(data['user_ID']);
-		        $("input[type='submit']").val("Save");
-		        $("#departmentForm").attr("url", url);
-            }
-        });
-    });
-
-	$("#programForm").on("submit", function (event){
-		event.preventDefault();
-
-		if ($("input[type='submit']").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_program";
-		else if ($("input[type='submit']").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_program";
-
-		$.ajax({
-            type: "POST",
-            url: ajaxUrl,
-            data: $("#programForm").serialize(),
-            success: function (unique){
-            	if (unique)
-            	{
-            		$("#programForm").attr("action", $("#programForm").attr("url")).unbind("submit").trigger("submit");
-            	}
-            	else
-            	{
-					$("#invalidMessage").text("This is not a unique program.").parent().show();
-				}
-            }
-        });
-	});
-
-	$("#newProgram").click(function () {
-		var url = $(this).attr("url");
-
-		$("#myModalLabel").text("New Degree Program");
-		$("#invalidMessage").parent().hide();
-		$("#program-college, #program-id, #program-program, #program-program-short, #program-short, #datepicker .input-group.date, #program-type").val("");
-		$("#program-department").html("<option value=\"\">Select</option>").prop("disabled", true);
-		$("#program-vision, #program-goals").text("");
-        $("input[type='submit']").val("Add");
-        $("#programForm").attr("url", url);
-	});
-
-	$("#program-college").change(function () {
-		var college_ID = $(this).val();
-        
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/college_departments",
-            data: 'college_ID=' + college_ID,
-		    dataType: "json",
-            success:function (options){
-            	var newOptions = '';
-				for (var i = 0; i < options.length; i++)
-				{
-					newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
-				}
-				$("#program-department").html(newOptions).prop('disabled', false);
             }
         });
 	});

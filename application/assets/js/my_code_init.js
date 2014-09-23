@@ -190,7 +190,7 @@ $(document).ready(function () {
                 $("#program-program").val(data['program']);
                 $("#program-program-short").val(data['program_short']);
                 $("#program-short").val(data['short']);
-                $("#datepicker .input-group.date").datepicker('setDate', data['date_instituted']).datepicker('fill');
+                $("#datepicker .input-group.date").datepicker('setDate', data['date_instituted']).datepicker("fill");
                 $("#program-type").val(data['type']);
                 $("#program-vision").text(data['vision']);
                 $("#program-goals").text(data['goals']);
@@ -347,6 +347,56 @@ $(document).ready(function () {
 		]
     });
 
+    /* DOCUMENT FORM -- Show necessary fields depending on doument type */
+    $("#document_type").change(function () {
+        var type = $(this).val();
+
+        if (type == "new") {
+            $(".new-document").show();
+            $(".consolidated-document").hide();
+
+            $(".n-document").attr("required", "");
+            $(".c-document").removeAttr("required");
+        } else if (type == "consolidated") {
+            $(".new-document").hide();
+            $(".consolidated-document").show();
+
+            $(".n-document").removeAttr("required");
+            $(".c-document").attr("required", "");
+        }
+    });
+
+    /* RESEARCH FORM -- Set required/optional fields */
+    /* ========== CAN BE IMPROVED ========== */
+    $("#fund_external").keyup(function () {
+        if ($(this).val()) {
+            $("#fund_amount").attr("required", "").removeAttr("placeholder");
+            $("#fund_up").attr("placeholder", "(Optional)").removeAttr("required");
+        } else {
+            $("#fund_up").attr("required", "").removeAttr("placeholder");
+            $("#fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
+        }
+    });
+    $("#fund_amount").keyup(function () {
+        if ($(this).val()) {
+            $("#fund_external").attr("required", "").removeAttr("placeholder");
+            $("#fund_up").attr("placeholder", "(Optional)").removeAttr("required");
+        } else {
+            $("#fund_up").attr("required", "").removeAttr("placeholder");
+            $("#fund_external").attr("placeholder", "(Optional)").removeAttr("required");
+        }
+    });
+    $("#fund_up").keyup(function () {
+        var external = $("#fund_external").val();
+
+        if ($(this).val() && !external)
+            $("#fund_external, #fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
+        else
+            $("#fund_external, #fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
+    });
+    $("#fund_amount").number(true, 2);
+    $("#fund_up").number(true, 2);
+
 	// date
     // $("#datepicker .input-group").datepicker({
 	$("#datepicker .input-group.date").datepicker({
@@ -412,9 +462,6 @@ $(document).ready(function () {
 	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
 	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
 	});
-
-	$("#fund_amount").number( true, 2 );
-	$("#fund_up").number( true, 2 );
 
 });
 	// // Refine - filter, sort

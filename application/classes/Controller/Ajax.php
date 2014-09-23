@@ -300,7 +300,30 @@ class Controller_Ajax extends Controller {
 			else
 				echo 'Dates are invalid.';
 		}
-		
+	}
+
+	/**
+	 * Check if amount is valid
+	 */
+	public function action_check_amount()
+	{
+		$arr = array();
+		$post = $this->request->post();
+
+		foreach ($post as $key => $value) {
+			if ($key == 'fund_amount' OR $key == 'fund_up')
+			{
+				if ($value == '0.00')
+				{
+					$id = '#'.$key;
+					$arr['invalid'] = array('key' => $id);
+					break;
+				}
+			}
+		}
+
+		echo json_encode($arr);
+        exit();
 	}
 
 	/**
