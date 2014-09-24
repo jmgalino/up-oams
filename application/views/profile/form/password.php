@@ -23,7 +23,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?php echo URL::site($identifier."/password") ?>" class="form-horizontal" autocomplete="off" method="post" role="form">
+<form action="<?php echo ($identifier == 'admin' ?  URL::site('admin/password') : URL::site('faculty/password')); ?>" class="form-horizontal" autocomplete="off" method="post" role="form">
 <div class="form-group">
 	<label for="current_password" class="col-md-3 control-label">Current Password</label>
 	<div class="col-md-6 current_password">

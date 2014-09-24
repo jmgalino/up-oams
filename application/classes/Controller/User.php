@@ -212,7 +212,8 @@ class Controller_User extends Controller {
 		}
 
 		$identifier = $this->session->get('identifier');
-		$this->redirect($identifier.'/password', 303);
+		$url = ($identifier == 'admin' ? 'admin/password' : 'faculty/password');
+		$this->redirect($url, 303);
 	}
 
 } // End User

@@ -133,7 +133,7 @@ class Model_Oams extends Model {
 	 * New IPCR/OPCR category
 	 */
 	public function add_category($categories)
-	{echo 'add';
+	{
 		$flag = 0;
 
 		foreach ($categories as $category)
@@ -172,7 +172,7 @@ class Model_Oams extends Model {
 	 * Update IPCR/OPCR categories
 	 */
 	public function update_categories($categories)
-	{echo 'update';
+	{
  		$rows_updated = 0;
 
 		$query = DB::query(Database::UPDATE, 'UPDATE opcr_categorytbl SET category = :category WHERE category_ID = :id')
@@ -193,7 +193,7 @@ class Model_Oams extends Model {
 	 * Delete IPCR/OPCR category
 	 */
 	public function delete_category($category)
-	{echo 'delete';
+	{
 		// "Archives" categories -- it may be used and deletion can cause conflicts
  		$rows_updated = DB::update('opcr_categorytbl')
  			->set(array('deleted' => '1'))

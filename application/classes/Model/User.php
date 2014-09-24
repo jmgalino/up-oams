@@ -244,7 +244,11 @@ class Model_User extends Model {
  		}
  		// Delete
  		else
- 		{}
+ 		{
+ 			// $rows_deleted = DB::delete('user_profiletbl')
+	 		// 	->where('user_ID', '=', $user_ID)
+	 		// 	->execute();
+ 		}
 
  		if ($rows_deleted == 1) return 'Profile was successfully deleted.';
  		else return FALSE;

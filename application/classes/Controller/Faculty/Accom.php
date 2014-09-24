@@ -124,19 +124,30 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 
-		if ($accom_details['document'])
+		if (!$accom_details['document'])
 		{
-			// Show PDF
-			$this->show_pdf($accom_details);
+			$draft = $this->session->get_once('pdf_draft');
+
+			if ($draft)
+			{
+				$accom_details['draft'] = $draft;
+				$this->view->content = View::factory('faculty/accom/view/faculty')
+					->bind('accom_details', $accom_details);
+				$this->response->body($this->view->render());
+			}
+			else
+				$this->redirect('faculty/mpdf/preview/accom/'.$accom_details['accom_ID']);
+
+			$accom_details['draft'] = $draft;
 		}
-		else
-		{
-			$this->show_pdf_draft($accom_details);
-		}
+
+		$this->view->content = View::factory('faculty/accom/view/faculty')
+			->bind('accom_details', $accom_details);
+		$this->response->body($this->view->render());
 	}
 
 	/**
-	 * View Accomplishment Report (Draft)
+	 * Edit Accomplishment Report
 	 */
 	public function action_update()
 	{
@@ -202,6 +213,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$end = $this->request->post('end');
 		$period = $this->redate($start, $end);
 
+		echo Debug::vars($period);
+
 		// if ($identifier == 'faculty')
 		// {
 		// 	$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
@@ -230,35 +243,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * Show Accomplishment Report - PDF
-	 */
-	private function show_pdf($accom_details)
-	{
-		$this->view->content = View::factory('faculty/accom/view/faculty')
-			->bind('accom_details', $accom_details);
-		$this->response->body($this->view->render());
-	}
-
-	/**
-	 * Show Accomplishment Report - PDF from draft
-	 */
-	private function show_pdf_draft($accom_details)
-	{
-		$draft = $this->session->get_once('pdf_draft');
-
-		if ($draft)
-		{
-			$accom_details['draft'] = $draft;
-			$this->view->content = View::factory('faculty/accom/view/faculty')
-				->bind('accom_details', $accom_details);
-			$this->response->body($this->view->render());
-		}
-		else
-			$this->redirect('faculty/mpdf/preview/accom/'.$accom_details['accom_ID']);
-	}
-
-	/**
-	 * Show Accomplishment Report - Draft
+	 * View Accomplishment Report (Draft)
 	 */
 	private function show_draft()
 	{
