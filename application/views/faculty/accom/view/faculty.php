@@ -7,7 +7,9 @@
 
 <div class="row">
 	<div class="col-sm-9">
-		<embed src="<?php echo URL::base().'files/document_accom/'.$accom_details['document']; ?>" width="850" height="500">
+		<embed src="<?php echo ($accom_details['document']
+			? URL::base().'files/document_accom/'.$accom_details['document']
+			: URL::base().'files/tmp/'.$accom_details['draft']);?>" width="850" height="500">
 	</div>
 
 	<div class="col-md-3" role="complementary">
@@ -19,7 +21,9 @@
 				</dl>
 				<dl>
 					<dt>Status</dt>
-					<dd><?php echo $accom_details['status']; ?></dd>
+					<?php echo ($accom_details['status'] != 'Draft'
+						? '<dd>'.$accom_details['status'].'</dd>'
+						: '<dd style="color:#7b1113;"><em>'.$accom_details['status'].'</em></dd>'); ?>
 				</dl>
 				<dl>
 					<dt>Remarks</dt>

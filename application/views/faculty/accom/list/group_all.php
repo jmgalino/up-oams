@@ -85,7 +85,7 @@ function redate($start, $end)
 	$syear = date('Y', $stime);
 
 	$etime = strtotime($end);
-	$edate = date('d', $etime);;
+	$edate = date('d', $etime);
 	$emonth = date('F', $etime);
 	$eyear = date('Y', $etime);
 

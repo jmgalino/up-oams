@@ -30,24 +30,47 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Show PDF
 	 */
-	// public function action_preview($template, $filename)
-	// {
-	// 	$fullname = $this->session->get('fullname');
+	private function pdf_preview($template, $filename)
+	{
+		$fullname = $this->session->get('fullname');
+		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
+		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
-	// 	$mpdf = new mPDF();
-	// 	$mpdf->SetAuthor($fullname);
-	// 	$mpdf->SetCreator('UP Mindanao OAMS');
-	// 	$mpdf->WriteHTML($template);
-	// 	$mpdf->Output($filename, 'D');
-	// }
+		$mpdf = new mPDF('', 'A4');
+		$mpdf->SetAuthor($fullname);
+		$mpdf->SetCreator('UP Mindanao OAMS');
+		$mpdf->WriteHTML($bootstrap_css, 1);
+		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->WriteHTML($template);
+		$mpdf->Output($filename, 'I');
+		exit;
+	}
+
+	/**
+	 * Download PDF
+	 */
+	private function pdf_download($template, $filename)
+	{
+		$fullname = $this->session->get('fullname');
+		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
+		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
+
+		$mpdf = new mPDF('', 'A4');
+		$mpdf->SetAuthor($fullname);
+		$mpdf->SetCreator('UP Mindanao OAMS');
+		$mpdf->WriteHTML($bootstrap_css, 1);
+		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->WriteHTML($template);
+		$mpdf->Output($filename, 'D');
+		exit;
+	}
 
 	/**
 	 * Save PDF to local file
 	 */
-	public function action_submit($template, $filepath)
+	private function pdf_save($template, $filepath)
 	{
 		$fullname = $this->session->get('fullname');
-		
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
 		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
@@ -67,11 +90,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	{
 		$accom = new Model_Accom;
 			
-		$accom_details = $accom->get_details($accom_ID);
-		$date = date_format(date_create($accom_details['yearmonth']), 'my');
-		$filename = $this->session->get('employee_code').$date.'.pdf';
-		$filepath = DOCROOT.'files/document_accom/'.$filename;
-		
 		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
 		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
 		$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
@@ -84,37 +102,51 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// Monthly Accomplishment Report
 		if ($type == 'accom')
 		{
+			$accom_details = $accom->get_details($accom_ID);
+			$date = date_format(date_create($accom_details['yearmonth']), 'my');
+			$filename = $this->session->get('employee_code').$date.'.pdf';
+
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/basic.php');
 			$template = ob_get_contents();
 			ob_get_clean();
+		
+			// Generate PDF to download
+			if ($purpose == 'download')
+				$this->pdf_download($template, $filename);
+			
+			// Generate PDF to preview
+			elseif ($purpose == 'preview')
+			{
+				$filepath = DOCROOT.'files/tmp/'.$filename;
+				$this->pdf_save($template, $filepath);
+				$this->session->set('pdf_draft', $filename);
+				$this->redirect('faculty/accom/preview/'.$accom_ID);
+			}
+			
+			// Generate PDF to be submitted
+			elseif ($purpose == 'submit')
+			{
+				$filepath = DOCROOT.'files/document_accom/'.$filename;
+				$this->pdf_save($template, $filepath);
+
+				$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
+				$details['document'] = $filename;
+				$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
+
+				$submit_success = $accom->submit($accom_ID, $details);
+				$this->session->set('submit', $submit_success);
+				$this->redirect('faculty/accom', 303);
+			}
 		}
 
-		// Consolidated Accomplishment Reports
+		// Consolidate Accomplishment Reports
 		elseif ($type == 'accom-consolidated')
 		{
 			// ob_start();
 			// include(APPPATH.'views/mpdf/accom/consolidated.php');
 			// $template = ob_get_contents();
 			// ob_get_clean();
-		}
-		
-		// Generate PDF to preview
-		if ($purpose == 'preview')
-		{} // redirect to preview or save in tmp then delete after preview
-		
-		// Generate PDF to be submitted
-		elseif ($purpose == 'submit')
-		{
-			$this->action_submit($template, $filepath);
-
-			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
-			$details['document'] = $filename;
-			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
-
-			$submit_success = $accom->submit($accom_ID, $details);
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/accom', 303);
 		}
 	}
 
@@ -146,15 +178,17 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		ob_start();
 		include_once(APPPATH.'views/mpdf/ipcr/header.php');
 
-			// IPCR - template for faculty
+			// IPCR (Individual) - For faculty members
 			if ($type == 'ipcr')
-				include_once(APPPATH.'views/mpdf/ipcr/body.php');
+				include_once(APPPATH.'views/mpdf/ipcr/basic.php');
 
-			// IPCR - consolidated for dean
-			// elseif ($type == 'opcr-consolidated')
-			// 	include_once(APPPATH.'views/mpdf/ipcr/consolidated.php');
+			// IPCR (Consolidated) - For department chairs
+			elseif ($type == 'opcr-consolidated')
+			{
+				include_once(APPPATH.'views/mpdf/ipcr/consolidated.php');
+				include_once(APPPATH.'views/mpdf/ipcr/legend.php');
+			}
 
-		include_once(APPPATH.'views/mpdf/ipcr/legend.php');
 		$template = ob_get_contents();
 		ob_get_clean();	
 		
@@ -165,7 +199,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// Generate PDF to publish/submit
 		elseif ($purpose == 'submit')
 		{
-			$this->action_submit($template, $filepath);
+			$this->pdf_save($template, $filepath);
 
 			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 			$details['document'] = $filename;
@@ -234,7 +268,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// Generate PDF to publish/submit
 		elseif ($purpose == 'submit')
 		{
-			$this->action_submit($template, $filepath);
+			$this->pdf_save($template, $filepath);
 
 			if ($opcr_details['status'] == 'Draft')
 			{

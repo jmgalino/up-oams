@@ -195,7 +195,7 @@ Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
 		'controller'=> 'accom',
-		'action'	=> '(all|new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
+		'action'	=> '(all|new|preview|update|delete|submit)'
 	))
 	->defaults(array(
 	    'action'     => 'index'

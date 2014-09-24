@@ -16,8 +16,7 @@ if ($session->get('accom_ppr'))
 		echo $ppr['title'], '. ';
 		echo $ppr['activity'], '. ';
 		echo $ppr['venue'], '. ';
-		echo date_format(date_create($ppr['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($ppr['end']), 'F d, Y'), '.';
+		echo redate($rch['start'], $rch['end']), '. ';
 		echo '&nbsp;&nbsp;';
 		
 		if ($ppr['attachment'])
@@ -34,13 +33,9 @@ if ($session->get('accom_ppr'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		// if ($ppr['user_ID'] == $session->get('user_ID'))
-		// {
-		// 	echo '<a data-toggle="modal" data-target="#modal_paper" role="button" href="">',
-		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		// }
-		
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/ppr/'.$ppr['paper_ID']).'>',
+		echo '<a class="btn btn-default" id="updateResearch" research-id="', $rch['research_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_research" role="button" href="" url="', URL::site('faculty/accom/edit/rch/'.$rch['research_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/rch/'.$rch['research_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}

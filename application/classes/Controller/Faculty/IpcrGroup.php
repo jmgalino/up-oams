@@ -93,60 +93,61 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	}
 
 	/**
-	 * Consolidate IPCR Forms
+	 * Shows consolidated IPCR Forms (OPCR Form) for evaluation
 	 */
 	public function action_consolidate()
 	{
-		$ipcr = new Model_Ipcr;
-		$opcr = new Model_Opcr;
-		$univ = new Model_Univ;
-		$user = new Model_User;
+		echo 'Shows consolidated IPCR Forms (OPCR Form) for evaluation';
+		// $ipcr = new Model_Ipcr;
+		// $opcr = new Model_Opcr;
+		// $univ = new Model_Univ;
+		// $user = new Model_User;
 
-		$opcr_ID = ($this->request->post('opcr_ID') ? $this->request->post('opcr_ID') : $this->request->param('id'));
-		$opcr_details = $opcr->get_details($opcr_ID);
-		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
-		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
+		// $opcr_ID = ($this->request->post('opcr_ID') ? $this->request->post('opcr_ID') : $this->request->param('id'));
+		// $opcr_details = $opcr->get_details($opcr_ID);
+		// $period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
+		// $period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
 			
-		if ($this->session->get('identifier') == 'dean')
-		{
-			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-			$label = $college['short'];
-			$programIDs = $univ->get_college_programIDs($college['college_ID']);
-			$users = $user->get_user_group($programIDs, NULL);
-		}
-		else
-		{
-			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-			$label = $department['short'];
-			$programIDs = $univ->get_department_programIDs($department['department_ID']);
-			$users = $user->get_user_group($programIDs, 'dean');
-		}
+		// if ($this->session->get('identifier') == 'dean')
+		// {
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		// 	$label = $college['short'];
+		// 	$programIDs = $univ->get_college_programIDs($college['college_ID']);
+		// 	$users = $user->get_user_group($programIDs, NULL);
+		// }
+		// else
+		// {
+		// 	$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		// 	$label = $department['short'];
+		// 	$programIDs = $univ->get_department_programIDs($department['department_ID']);
+		// 	$users = $user->get_user_group($programIDs, 'dean');
+		// }
 		
-		$outputs = $opcr->get_outputs($opcr_ID);
-		$targets = $ipcr->get_output_targets($outputs);
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
-		$categories = $this->oams->get_categories();
+		// $outputs = $opcr->get_outputs($opcr_ID);
+		// $targets = $ipcr->get_output_targets($outputs);
+		// $ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
+		// $categories = $this->oams->get_categories();
 				
-		$this->view->content = View::factory('faculty/opcr/form/final/basic2')
-			->bind('session', $this->session)
-			->bind('department', $department)
-			->bind('period_to', $period_to)
-			->bind('period_from', $period_from)
-			->bind('label', $label)
-			->bind('opcr_details', $opcr_details)
-			->bind('categories', $categories)
-			->bind('outputs', $outputs)
-			->bind('ipcr_forms', $ipcr_forms)
-			->bind('targets', $targets)
-			->bind('users', $users);
-		$this->response->body($this->view->render());
+		// $this->view->content = View::factory('faculty/opcr/form/final/basic2')
+		// 	->bind('session', $this->session)
+		// 	->bind('department', $department)
+		// 	->bind('period_to', $period_to)
+		// 	->bind('period_from', $period_from)
+		// 	->bind('label', $label)
+		// 	->bind('opcr_details', $opcr_details)
+		// 	->bind('categories', $categories)
+		// 	->bind('outputs', $outputs)
+		// 	->bind('ipcr_forms', $ipcr_forms)
+		// 	->bind('targets', $targets)
+		// 	->bind('users', $users);
+		// $this->response->body($this->view->render());
 
 		// $opcr = new Model_Opcr;
 
 		// $opcr_ID = $this->request->param('id');
 		// $opcr_details = $opcr->get_details($opcr_ID);
 		// $this->action_check($opcr_details['user_ID']); // Redirects if not the owner
-		// $this->redirect('faculty/mpdf/submit/opcr/'.$opcr_ID);
+		// $this->redirect('faculty/mpdf/submit/ipcr-consolidated/'.$opcr_ID);
 	}
 
 	/**

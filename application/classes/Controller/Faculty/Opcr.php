@@ -29,7 +29,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
-		if (($this->request->post('document_type') == 'new') OR ($this->request->post('start')))
+		if (($this->request->post('document_type') == 'new') AND ($this->request->post('start')))
 		{
 			$opcr = new Model_Opcr;
 
@@ -163,8 +163,13 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * Consolidate OPCR Forms
 	 */
-	// private function action_consolidate()
-	// {}
+	private function action_consolidate()
+	{
+		if ($this->session->get('identifier') == 'dean')
+		{}
+		elseif ($this->session->get('identifier') == 'dept_chair')
+			$this->redirect('faculty/ipcr_dept/consolidate/'.$this->request->post('opcr_ID'));
+	}
 
 	/**
 	 * New output

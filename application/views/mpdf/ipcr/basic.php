@@ -40,10 +40,6 @@
 	$targets = $ipcr->get_targets($ipcr_ID);
 	$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 	$categories = $this->oams->get_categories();
-	$r_quantity = array();
-	$r_efficiency = array();
-	$r_timeliness = array();
-	$r_average = array();
 
 	foreach ($categories as $category)
 	{
@@ -71,13 +67,7 @@
 							if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
 							{
 								$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
-								$average = number_format(array_sum($rating)/3, 1);
-								echo $average;
-
-								$r_quantity[] = $taret['r_quantity'];
-								$r_efficiency[] = $taret['r_efficiency'];
-								$r_timeliness[] = $taret['r_timeliness'];
-								$r_average[] = $average;
+								echo number_format(array_sum($rating)/3, 1);
 							}
 
 							echo '</td>
@@ -91,43 +81,6 @@
 	}
 	?>
 	</tbody>
-</table>
-
-<table class="table table-bordered padded">
-  <tbody>
-    <tr>
-      <td>Average Rating</td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="55"></td>
-    </tr>
-    <tr>
-      <td>Total Rating</td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="55"></td>
-    </tr>
-    <tr>
-      <td>Final Average Rating</td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="55"></td>
-    </tr>
-    <tr>
-      <td>Adjectival Rating</td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="20"></td>
-      <td width="55"></td>
-    </tr>
-  </tbody>
 </table>
 
 <table class="table table-bordered padded">

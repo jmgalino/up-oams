@@ -79,7 +79,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
-		if (($this->request->post('document_type') == 'new') OR ($this->request->post('yearmonth')))
+		if (($this->request->post('document_type') == 'new') AND ($this->request->post('yearmonth')))
 		{
 			$accom = new Model_Accom;
 
@@ -131,7 +131,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		}
 		else
 		{
-			// Create from draft
+			$this->show_pdf_draft($accom_details);
 		}
 	}
 
@@ -194,25 +194,43 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * Download Accomplishment Report
-	 */
-	public function action_download()
-	{
-		// generate pdf from draft and force download
-		// $this->redirect('faculty/mpdf/download/accom/'.$accom_ID);
-	}
-
-	/**
 	 * Consolidate Accomplishment Reports
 	 */
 	private function show_consolidate()
 	{
-		// Faculty, Department & College Level
-		// Open PDF in new tab
+		$start = $this->request->post('start');
+		$end = $this->request->post('end');
+		$period = $this->redate($start, $end);
+
+		// if ($identifier == 'faculty')
+		// {
+		// 	$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
+		// }
+
+		// 	$date = DateTime::createFromFormat('Ymd', date('Ymd'));
+		// 	$date = $date->format('Y-m-d');
+
+		// 	$filename = $user[0]->last_name.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
+		// 	$this->mpdf->consolidate($filename, $period, 'faculty', 'ar');
+
+		// elseif ($identifier == 'department')
+		// {
+		// 	$program_ID = $this->site->session->get('program_ID');
+		// 	$department = $this->univ->get_department($program_ID);
+		// 	$filename = $department[0]->short.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
+		// 	$this->mpdf->consolidate($filename, $period, $identifier, 'ar');
+		// }
+		// elseif ($identifier == 'college')
+		// {
+		// 	$program_ID = $this->site->session->get('program_ID');
+		// 	$college = $this->univ->get_college($program_ID);
+		// 	$filename = $college[0]->short.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
+		// 	$this->mpdf->consolidate($filename, $period, $identifier, 'ar');
+		// }
 	}
 
 	/**
-	 * Accomplishment Report - PDF
+	 * Show Accomplishment Report - PDF
 	 */
 	private function show_pdf($accom_details)
 	{
@@ -222,7 +240,25 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * Accomplishment Report - Draft
+	 * Show Accomplishment Report - PDF from draft
+	 */
+	private function show_pdf_draft($accom_details)
+	{
+		$draft = $this->session->get_once('pdf_draft');
+
+		if ($draft)
+		{
+			$accom_details['draft'] = $draft;
+			$this->view->content = View::factory('faculty/accom/view/faculty')
+				->bind('accom_details', $accom_details);
+			$this->response->body($this->view->render());
+		}
+		else
+			$this->redirect('faculty/mpdf/preview/accom/'.$accom_details['accom_ID']);
+	}
+
+	/**
+	 * Show Accomplishment Report - Draft
 	 */
 	private function show_draft()
 	{
@@ -252,6 +288,26 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			->bind('session', $this->session)
 			->bind('accom', $accoms);
 		$this->response->body($this->view->render());	
+	}
+
+	private function redate($start, $end)
+	{
+		$date = '';
+
+		$stime = strtotime($start);
+		$smonth = date('F', $stime);
+		$syear = date('Y', $stime);
+
+		$etime = strtotime($end);
+		$emonth = date('F', $etime);
+		$eyear = date('Y', $etime);
+
+		if ($syear == $eyear)
+			$date = $smonth.' - '.$emonth.' '.$syear;
+		else
+			$date = $start.' - '.$end;
+
+		return $date;
 	}
 
 } // End Accom

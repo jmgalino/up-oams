@@ -75,23 +75,25 @@ echo View::factory('faculty/accom/form/initialize')
 		echo '<td>', $accom['remarks'], '</td>';
 		echo '<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-				<ul class="dropdown-menu">';
+				<ul class="dropdown-menu">
+					<li>
+						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).'>
+						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
+					</li>';
 
 		if ($accom['document'])
 		{
+				// Download PDF
 				echo '<li>
-						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).'>
-						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
-					</li>
-					<li>
 						<a href='.URL::base().'application/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
 						<span class="glyphicon glyphicon-download"></span> Download Report</a>
 					</li>';
 		}
 		else
 		{
+				// Download draft
 				echo '<li>
-						<a href='.URL::site('faculty/accom/download/'.$accom['accom_ID']).'>
+						<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
 						<span class="glyphicon glyphicon-download"></span> Download Report</a>
 					</li>';
 		}

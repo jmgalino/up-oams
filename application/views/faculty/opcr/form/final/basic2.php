@@ -55,6 +55,11 @@ echo '<table width="200" align="right">
   </thead>
   <tbody class="padded">
     <?php
+    $r_quantity = array();
+    $r_efficiency = array();
+    $r_timeliness = array();
+    $r_average = array();
+
     foreach ($categories as $category)
     {
       echo '<tr><td class="category" colspan="9">', $category['category'], '</td></tr>';
@@ -116,14 +121,19 @@ echo '<table width="200" align="right">
                   <td class="form-rows">', $target['r_timeliness'], '</td>
                   <td class="form-rows">';
 
-                $rating[0] = $target['r_quantity'];
-                $rating[1] = $target['r_efficiency'];
-                $rating[2] = $target['r_timeliness'];
                 if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
-                  echo array_sum($rating)/3;
+                {
+                  $rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
+                  $average = array_sum($rating)/3;
+                  echo number_format($average, 1);
 
+                  $r_quantity[] = $target['r_quantity'];
+                  $r_efficiency[] = $target['r_efficiency'];
+                  $r_timeliness[] = $target['r_timeliness'];
+                  $r_average[] = $average;
+                }
                 echo '</td>
-                  <td class="form-rows">', $target['r_remarks'], '</td>
+                  <td class="form-rows">', $target['remarks'], '</td>
                   </tr>';
 
               } // if target in under output and ipcr
