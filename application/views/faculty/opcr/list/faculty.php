@@ -6,7 +6,7 @@
 
 <h3>
 	My OPCR Forms
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_opcr">New Form</button>
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_opcr" id="new-form">New Form</button>
 </h3>
 <br>
 
@@ -36,6 +36,7 @@
 <?php
 // Init Modal
 echo View::factory('faculty/opcr/form/modals/initialize')
+	->bind('identifier', $identifier)
 	->bind('opcr_forms', $opcr_forms);
 ?>
 

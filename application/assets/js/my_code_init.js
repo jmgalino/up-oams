@@ -30,8 +30,25 @@ function programDetails (d) {
 }
 
 $(document).ready(function () {
-	/* DATATABLE -- Initialize user table */
-	$('#user_table').DataTable({
+
+	/****************************************
+    *                                       *
+    *               DATATABLE               *  
+    *           Initialize tables           *
+    *                                       *
+    *   1. User Table (Admin)               *
+    *   2. College Table (Admin)            *
+    *   3. Department Table (Admin)         *
+    *   4. Program Table (Admin)            *
+    *   5. Message Table (Admin)            *
+    *   6. Accomplishment Table (Faculty)   *
+    *   7. Accomplishment Group Table       *
+    *       (Faculty - Dept. Chair/Dean)    *
+    *****************************************/
+
+    
+	// 1. User Table (Admin)
+    $('#user_table').DataTable({
         "columnDefs": [{
         	"searchable": false,
         	"orderable": false,
@@ -40,9 +57,8 @@ $(document).ready(function () {
         // Order table by employee code (column 0), ascending
         "order": [[ 0, "asc" ]]
     });
-
-	/* DATATABLE -- Initialize college table */
-	$('#college_table').DataTable({
+    // 2. College Table (Admin)
+    $('#college_table').DataTable({
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -51,9 +67,8 @@ $(document).ready(function () {
         // Order table by college (column 0), ascending
         "order": [[ 0, "asc" ]]
     });
-
-	/* DATATABLE -- Initialize department table */
-	var department_table = $('#department_table').DataTable({
+    // 3. Department Table (Admin)
+    var department_table = $('#department_table').DataTable({
         "columns": [
 		    // College column is searchable but hidden; used as group header
             { "visible": false },
@@ -79,6 +94,7 @@ $(document).ready(function () {
         // Order table by college (column 0), ascending
         "order": [[ 0, "asc" ]]
     });
+
     /* DATATABLE -- Add event listener for ordering table by college */
 	$('#department_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = department_table.order()[0];
@@ -89,7 +105,7 @@ $(document).ready(function () {
 		  department_table.order([0, 'asc']).draw();
     });
 
-    /* DATATABLE -- Initialize program table */
+    // 4. Program Table (Admin)
     var program_table = $('#program_table').DataTable({
         "ajax": "/oamsystem/index.php/ajax/get_programs",
         "columns": [
@@ -205,7 +221,7 @@ $(document).ready(function () {
         });
     });
 
-	/* DATATABLE -- Initialize message table */
+	// 5. Message Table (Admin)
 	$('#message_table').DataTable({
         "columnDefs": [{
             "searchable": false,
@@ -218,7 +234,7 @@ $(document).ready(function () {
         "order": [[ 2, "desc" ]]
     });
 
-	/* DATATABLE -- Initialize faculty accomplishment table */
+	// 6. Accomplishment Table (Faculty)
 	$('#accom_table').DataTable({
         "columns": [
             null,
@@ -233,7 +249,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
 	
-    /* DATATABLE -- Initialize group (department/college) accomplishment table */
+    // 7. Accomplishment Group Table (Faculty - Dept. Chair/Dean)
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
 		    // Period column is searchable but hidden; used as group header
@@ -348,22 +364,41 @@ $(document).ready(function () {
     });
 
     /* DOCUMENT FORM -- Show necessary fields depending on doument type */
-    $("#document_type").change(function () {
+    $("#report_type").change(function () {
         var type = $(this).val();
 
         if (type == "new") {
-            $(".new-document").show();
-            $(".consolidated-document").hide();
-
-            $(".n-document").attr("required", "");
-            $(".c-document").removeAttr("required");
+            $("#yearmonth").parent().show();
+            $("#yearmonth").prop("required", true);
+            $("#period").parent().hide();
+            $("#period input").prop("required", false);
         } else if (type == "consolidated") {
-            $(".new-document").hide();
-            $(".consolidated-document").show();
-
-            $(".n-document").removeAttr("required");
-            $(".c-document").attr("required", "");
+            $("#period").parent().show();
+            $("#period input").prop("required", true);
+            $("#yearmonth").parent().hide();
+            $("#yearmonth").prop("required", false);
         }
+    });
+    $("#form_type").change(function () {
+        var type = $(this).val();
+
+        if (type == "new") {
+            $("#period").parent().show();
+            $("#period input").prop("required", true);
+            $("#opcr").parent().parent().hide();
+            $("#opcr").prop("required", false);
+        } else if (type == "consolidated") {
+            $("#opcr").parent().parent().show();
+            $("#opcr").prop("required", true);
+            $("#period").parent().hide();
+            $("#period input").prop("required", false);
+        }
+    });
+
+    $("#new-report, #new-form").click(function () {
+        $("#report_type, #form_type").val("new").trigger("change");
+        $("#yearmonth .input-group.date, #period input").datepicker("setDate", null);
+        $("#opcr").val("");
     });
 
     /* RESEARCH FORM -- Set required/optional fields */
@@ -398,7 +433,6 @@ $(document).ready(function () {
     $("#fund_up").number(true, 2);
 
 	// date
-    // $("#datepicker .input-group").datepicker({
 	$("#datepicker .input-group.date").datepicker({
 		// format: "MM dd, yyyy",
 		todayHighlight: true,
@@ -408,12 +442,12 @@ $(document).ready(function () {
 		format: "d MM yyyy",
 		todayHighlight: true
 	});
-	$('#monthpicker .input-daterange').datepicker({
+	$('#period .input-daterange').datepicker({
 		format: "MM yyyy",
 	    viewMode: 1, 
 	    minViewMode: 1,
 	});
-	$('#monthpicker input').datepicker({
+	$("#yearmonth .input-group.date").datepicker({
 		format: "MM yyyy",
 	    viewMode: 1, 
 	    minViewMode: 1,

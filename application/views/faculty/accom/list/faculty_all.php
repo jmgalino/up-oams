@@ -34,8 +34,7 @@ function redate($start, $end)
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href="<?php echo URL::site('faculty/accom'); ?>">Accomplishment Reports</a></li>
-	<li class="active">My Accomplishments</li>
+	<li class="active">Accomplishment Reports</a></li>
 </ol>
 
 <?php if ($accom_reports): ?>

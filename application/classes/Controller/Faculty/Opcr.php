@@ -13,13 +13,14 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
-		$employee_code = $this->session->get('employee_code');
+		$identifier = $this->session->get('identifier');
 		$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/opcr/list/faculty')
 			->bind('submit', $submit)
 			->bind('delete', $delete)
 			->bind('error', $error)
+			->bind('identifier', $identifier)
 			->bind('opcr_forms', $opcr_forms);
 		$this->response->body($this->view->render());
 	}
@@ -29,7 +30,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
-		if (($this->request->post('document_type') == 'new') AND ($this->request->post('start')))
+		if (($this->request->post('form_type') == 'new') AND ($this->request->post('start')))
 		{
 			$opcr = new Model_Opcr;
 
@@ -47,8 +48,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			}
 			elseif (is_array($insert_success))
 			{
-				$details['opcr_ID'] = $insert_success['opcr_ID'];
-				$this->session->set('opcr_details', $details);
+				$opcr_details = $opcr->get_details($insert_success['opcr_ID']);
+				$this->session->set('opcr_details', $opcr_details);
 				$this->session->set('warning', $insert_success['message']);
 				$this->show_draft();
 			}

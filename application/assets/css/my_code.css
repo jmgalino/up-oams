@@ -149,7 +149,9 @@ input[name="recaptcha_response_field"]
 
 /* DATEPICKER -- keep on top */
 #datepicker,
-#monthpicker, 
+#monthpicker,
+#yearmonth,
+#period,
 #award-duration,
 #research-duration
 {

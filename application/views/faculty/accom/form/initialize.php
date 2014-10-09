@@ -7,42 +7,40 @@
         <h4 class="modal-title" id="myModalLabel">New Accomplishment Report</h4>
       </div>
 
-      <?php print Form::open('faculty/accom/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/accom/new', array('class'=>'form-horizontal', 'id' => 'newReport', 'role'=>'form'));?>
       <div class="modal-body">
         <?php if (count($accom_reports) > 1): ?>
         <div class="form-group">
-          <label for="document_type" class="col-sm-4 control-label">Report Type</label>
+          <label for="report_type" class="col-sm-4 control-label">Report Type</label>
           <div class="col-sm-6">
-            <select class="form-control" name="document_type" id="document_type">
+            <select class="form-control" name="report_type" id="report_type">
               <option value="new">New</option>
               <option value="consolidated">Consolidated</option>
             </select>
           </div>
         </div>
+
+        <div class="form-group" style="display:none">
+          <label for="period" class="col-sm-4 control-label">Period</label>
+          <div class="col-sm-6" id="period">
+            <div class="input-daterange input-group">
+              <input type="text" class="form-control" name="start">
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="end">
+            </div>
+          </div>
+        </div>
         <?php endif; ?>
 
-        <div class="form-group new-document">
+        <div class="form-group">
           <label for="yearmonth" class="col-sm-4 control-label">Period</label>
-          <div class="col-sm-6">
-            <div class="input-group" id="monthpicker">
-              <input type="text" class="form-control n-document" name="yearmonth" required>
+          <div class="col-sm-6" id="yearmonth">
+            <div class="input-group date">
+              <input type="text" class="form-control" name="yearmonth" id="yearmonth" required>
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
           </div>
         </div>
-
-        <?php if (count($accom_reports) > 1): ?>
-        <div class="form-group consolidated-document" style="display:none">
-          <label for="period" class="col-sm-4 control-label">Period</label>
-          <div class="col-sm-6" id="monthpicker">
-            <div class="input-daterange input-group" id="period">
-              <input type="text" class="form-control c-document" name="start">
-              <span class="input-group-addon">-</span>
-              <input type="text" class="form-control c-document" name="end">
-            </div>
-          </div>
-        </div>
-        <?php endif; ?>
       </div>
 
       <div class="modal-footer">

@@ -7,36 +7,24 @@
         <h4 class="modal-title" id="myModalLabel">New Office Performance Commitment and Review Form</h4>
       </div>
 
-      <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
       <div class="modal-body">
-        <?php if ($opcr_forms): ?>
+        <?php if ($opcr_forms AND $identifier == 'dean'): ?>
         <div class="form-group">
-          <label for="document_type" class="col-sm-4 control-label">Report Type</label>
+          <label for="form_type" class="col-sm-4 control-label">Form Type</label>
           <div class="col-sm-6">
-            <select class="form-control" name="document_type" id="document_type">
+            <select class="form-control" name="form_type" id="form_type">
               <option value="new">New</option>
               <option value="consolidated">Consolidated</option>
             </select>
           </div>
         </div>
-        <?php endif; ?>
 
-        <div class="form-group new-document">
-          <label for="period" class="col-sm-4 control-label">Period</label>
-          <div class="col-sm-6" id="monthpicker">
-            <div class="input-daterange input-group" id="period">
-              <input type="text" class="form-control n-document" name="start" required>
-              <span class="input-group-addon">-</span>
-              <input type="text" class="form-control n-document" name="end" required>
-            </div>
-          </div>
-        </div>
-
-        <?php if ($opcr_forms): ?>
-        <div class="form-group consolidated-document" style="display:none">
-          <label for="opcr_ID" class="col-sm-4 control-label">Period</label>
+        <div class="form-group" style="display:none">
+          <label for="opcr" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6">
-            <select class="form-control c-document" name="opcr_ID" id="period">
+            <select class="form-control" name="opcr_ID" id="opcr">
+              <option value="">Select</option>
               <?php 
               foreach ($opcr_forms as $opcr) {
                 echo '<option value=',$opcr['opcr_ID'],'>',
@@ -48,6 +36,17 @@
           </div>
         </div>
         <?php endif; ?>
+
+        <div class="form-group">
+          <label for="period" class="col-sm-4 control-label">Period</label>
+          <div class="col-sm-6" id="period">
+            <div class="input-daterange input-group">
+              <input type="text" class="form-control" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="end" required>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">

@@ -9,7 +9,7 @@
 		<div class="col-md-6">My Accomplishment Reports</div>
 		<div class="col-md-6">
 			<div class="btn-group pull-right">
-		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_accom">New Report</button>
+		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_accom" id="new-report">New Report</button>
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
 		        <ul class="dropdown-menu">
 					<li><a href="<?php echo URL::site('faculty/accom/all'); ?>">View All Accomplishments</a></li>

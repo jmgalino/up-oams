@@ -79,7 +79,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
-		if (($this->request->post('document_type') == 'new') AND ($this->request->post('yearmonth')))
+		if (($this->request->post('report_type') == 'new') AND ($this->request->post('yearmonth')))
 		{
 			$accom = new Model_Accom;
 
@@ -225,21 +225,6 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 		// 	$filename = $user[0]->last_name.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
 		// 	$this->mpdf->consolidate($filename, $period, 'faculty', 'ar');
-
-		// elseif ($identifier == 'department')
-		// {
-		// 	$program_ID = $this->site->session->get('program_ID');
-		// 	$department = $this->univ->get_department($program_ID);
-		// 	$filename = $department[0]->short.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
-		// 	$this->mpdf->consolidate($filename, $period, $identifier, 'ar');
-		// }
-		// elseif ($identifier == 'college')
-		// {
-		// 	$program_ID = $this->site->session->get('program_ID');
-		// 	$college = $this->univ->get_college($program_ID);
-		// 	$filename = $college[0]->short.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
-		// 	$this->mpdf->consolidate($filename, $period, $identifier, 'ar');
-		// }
 	}
 
 	/**

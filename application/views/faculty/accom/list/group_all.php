@@ -110,10 +110,9 @@ function redate($start, $end)
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href=<?php echo ($identifier == 'dean'
-		? URL::site('faculty/accom_coll').'>Accomplishment Reports - College'
-		: URL::site('faculty/accom_dept').'>Accomplishment Reports - Department'); ?></a></li>
-	<li class="active">View All Accomplishments</li>
+	<li class="active"><?php echo ($identifier == 'dean'
+		? 'Accomplishment Reports - College'
+		: 'Accomplishment Reports - Department'); ?></li>
 </ol>
 
 <?php if ($accom_reports): ?>

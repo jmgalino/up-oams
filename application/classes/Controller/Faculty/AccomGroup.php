@@ -164,6 +164,20 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	public function action_consolidate()
 	{
 		// Open PDF in new tab
+		// elseif ($identifier == 'department')
+		// {
+		// 	$program_ID = $this->site->session->get('program_ID');
+		// 	$department = $this->univ->get_department($program_ID);
+		// 	$filename = $department[0]->short.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
+		// 	$this->mpdf->consolidate($filename, $period, $identifier, 'ar');
+		// }
+		// elseif ($identifier == 'college')
+		// {
+		// 	$program_ID = $this->site->session->get('program_ID');
+		// 	$college = $this->univ->get_college($program_ID);
+		// 	$filename = $college[0]->short.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
+		// 	$this->mpdf->consolidate($filename, $period, $identifier, 'ar');
+		// }
 	}
 
 	/**
