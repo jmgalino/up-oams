@@ -36,7 +36,7 @@
           <label for="yearmonth" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6" id="yearmonth">
             <div class="input-group date">
-              <input type="text" class="form-control" name="yearmonth" id="yearmonth" required>
+              <input type="text" class="form-control" name="yearmonth" id="yearmonth-input" required>
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
           </div>

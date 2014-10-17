@@ -369,14 +369,14 @@ $(document).ready(function () {
 
         if (type == "new") {
             $("#yearmonth").parent().show();
-            $("#yearmonth").prop("required", true);
+            $("#yearmonth-input").prop("required", true);
             $("#period").parent().hide();
             $("#period input").prop("required", false);
         } else if (type == "consolidated") {
             $("#period").parent().show();
             $("#period input").prop("required", true);
             $("#yearmonth").parent().hide();
-            $("#yearmonth").prop("required", false);
+            $("#yearmonth-input").prop("required", false);
         }
     });
     $("#form_type").change(function () {
