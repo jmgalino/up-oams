@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="oams">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -30,6 +30,7 @@
 	<!-- FOOTER -->
 	<div id="footer">
 		<div class="container">
+			{{"Jenny Galino"}}
 			Copyright &copy; <?php echo date('Y'); ?>.<br>
 			All Rights Reserved.<br>
 			<a href="http://upmin.edu.ph">University of the Philippines Mindanao</a>
@@ -37,6 +38,7 @@
 	</div>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/angular.min.js"></script> <!-- https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery.min.js"></script> <!-- http://code.jquery.com/jquery-1.11.1.min.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-datatables.min.js"></script> <!-- http://cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-jeditable.min.js"></script>
@@ -46,6 +48,7 @@
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/bootstrap-datepicker.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/datatables-fnFilterAll.js"></script> <!-- http://cdn.datatables.net/plug-ins/725b2a2115b/api/fnFilterAll.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/my_code_ajax.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/my_code_angular.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/my_code_init.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-fileinput/js/fileinput.min.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js"></script>
