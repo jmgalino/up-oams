@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
-class Controller_Faculty_Mpdf extends Controller_User {
+class Controller_Faculty_Mpdf2 extends Controller_User {
 
 	public function action_index()
 	{
@@ -255,4 +255,4 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		}
 	}
 
-} // End Mpdf
+} // End Mpdf2

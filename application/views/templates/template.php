@@ -30,7 +30,6 @@
 	<!-- FOOTER -->
 	<div id="footer">
 		<div class="container">
-			{{"Jenny Galino"}}
 			Copyright &copy; <?php echo date('Y'); ?>.<br>
 			All Rights Reserved.<br>
 			<a href="http://upmin.edu.ph">University of the Philippines Mindanao</a>
