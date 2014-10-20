@@ -330,9 +330,9 @@ $(document).ready(function () {
 				break;
 			
 			case "participation":
-				$("h4#accom-label").text("");
+				$("h4#accom-label").text("Participation in Seminars/Conferences/Workshops/Training Courses/Fora");
 				$("#participationForm").attr("url", url);
-				$("#participationForm").val("");
+				$("#participationForm input").val("");
 				break;
 			
 			case "material":
@@ -635,6 +635,55 @@ $(document).ready(function () {
             success: function (valid) {
             	if (valid == 1)
             		$("#creativeForm").attr("action", $("#creativeForm").attr("url")).unbind("submit").trigger("submit");
+            	else
+            		$("p#accom-alert").text(valid).parent().show();
+            }
+        });
+	});
+
+	/* PARTICIPATION FORM (UPDATE) -- Set form for editing */
+	$("a#updateParticipation").click(function () {
+		var url = $(this).attr("url");
+		var participation_ID = $(this).attr("participation-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/par",
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + participation_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#participationForm").attr("url", url);
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#participation-id").val(details["participation_ID"]);
+				$("#participation-participation").val(details["participation"]);
+				$("#participation-title").val(details["title"]);
+				$("#participation-venue").val(details["venue"]);
+				$("#participation-start").datepicker("setDate", details["start"]).datepicker("fill");
+				$("#participation-end").datepicker("setDate", details["end"]).datepicker("fill");
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
+			}
+		});
+	});
+	
+	/* PARTICIPATION FORM (VALIDATE) -- Check if date range is correct */
+	$("#participationForm").on("submit", function (event) {
+		event.preventDefault();
+		
+		$.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/check_date",
+            data: $("#participationForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#participationForm").attr("action", $("#participationForm").attr("url")).unbind("submit").trigger("submit");
             	else
             		$("p#accom-alert").text(valid).parent().show();
             }

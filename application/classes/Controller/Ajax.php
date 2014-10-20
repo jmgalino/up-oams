@@ -295,7 +295,7 @@ class Controller_Ajax extends Controller {
 
 		if (array_key_exists('start', $post))
 		{
-			if (strtotime($post['start']) < strtotime($post['end']))
+			if (strtotime($post['start']) <= strtotime($post['end']))
 				echo TRUE;
 			else
 				echo 'Dates are invalid.';
