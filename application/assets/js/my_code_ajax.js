@@ -318,18 +318,21 @@ $(document).ready(function () {
 				break;
 			
 			case "paper":
-				$("h4#accom-label").text("");
+				$("h4#accom-label").text("Oral Paper/Poster Presentation");
 				$("#paperForm").attr("url", url);
+				$("#paperForm input").val("");
 				break;
 			
 			case "creative":
 				$("h4#accom-label").text("");
 				$("#creativeForm").attr("url", url);
+				$("#creativeForm input").val("");
 				break;
 			
 			case "participation":
 				$("h4#accom-label").text("");
 				$("#participationForm").attr("url", url);
+				$("#participationForm").val("");
 				break;
 			
 			case "material":
@@ -341,6 +344,7 @@ $(document).ready(function () {
 			case "other":
 				$("h4#accom-label").text("");
 				$("#otherForm").attr("url", url);
+				$("#otherForm input").val("");
 				break;
 		}
 
@@ -534,6 +538,56 @@ $(document).ready(function () {
             		$("p#accom-alert").text(valid).parent().show();
             		$("#research-start").focus();
             	}
+            }
+        });
+	});
+
+	/* PAPER FORM (UPDATE) -- Set form for editing */
+	$("a#updatePaper").click(function () {
+		var url = $(this).attr("url");
+		var paper_ID = $(this).attr("paper-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/ppr",
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + paper_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#paperForm").attr("url", url);
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#paper-id").val(details["paper_ID"]);
+				$("#paper-author").val(details["author"]);
+				$("#paper-title").val(details["title"]);
+				$("#paper-activity").val(details["activity"]);
+				$("#paper-venue").val(details["venue"]);
+				$("#paper-start").datepicker("setDate", details["start"]).datepicker("fill");
+				$("#paper-end").datepicker("setDate", details["end"]).datepicker("fill");
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
+			}
+		});
+	});
+	
+	/* PAPER FORM (VALIDATE) -- Check if date range is correct */
+	$("#paperForm").on("submit", function (event) {
+		event.preventDefault();
+		
+		$.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/check_date",
+            data: $("#paperForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#paperForm").attr("action", $("#paperForm").attr("url")).unbind("submit").trigger("submit");
+            	else
+            		$("p#accom-alert").text(valid).parent().show();
             }
         });
 	});

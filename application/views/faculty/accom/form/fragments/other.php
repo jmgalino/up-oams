@@ -13,8 +13,7 @@ if ($session->get('accom_oth'))
 		echo $oth['participation'], '. ';
 		echo $oth['activity'], '. ';
 		echo $oth['venue'], '. ';
-		echo date_format(date_create($oth['start']), 'd F Y'), ' to ';
-		echo date_format(date_create($oth['end']), 'd F Y'), '.';
+		echo redate($oth['start'], $oth['end']), '. ';
 		echo '&nbsp;&nbsp;';
 		
 		if ($oth['attachment'])
@@ -31,9 +30,9 @@ if ($session->get('accom_oth'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		// echo '<a id="setAccom" data-toggle="modal" data-target="#modal_other" href='.URL::site('faculty/accom/set/oth/'.$oth['other_ID']).'>
-		// 	<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/oth/'.$oth['other_ID']).'>',
+		echo '<a class="btn btn-default" id="updateOther" other-id="', $oth['other_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_other" role="button" href="" url="', URL::site('faculty/accom/edit/oth/'.$oth['other_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/oth/'.$oth['other_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}

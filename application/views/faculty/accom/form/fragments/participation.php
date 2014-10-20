@@ -13,8 +13,7 @@ if ($session->get('accom_par'))
 		echo $par['participation'], '. ';
 		echo $par['title'], '. ';
 		echo $par['venue'], '. ';
-		echo date_format(date_create($par['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($par['end']), 'F d, Y'), '.';
+		echo redate($par['start'], $par['end']), '. ';
 		echo '&nbsp;&nbsp;';
 		
 		if ($par['attachment'])
@@ -30,14 +29,10 @@ if ($session->get('accom_par'))
 		}
 
 		echo '&nbsp;&nbsp;&nbsp;';
-
-		// if ($par['user_ID'] == $session->get('user_ID'))
-		// {
-		// 	echo '<a data-toggle="modal" data-target="#modal_participation" role="button" href="">',
-		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		// }
 		
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/par/'.$par['participation_ID']).'>',
+		echo '<a class="btn btn-default" id="updateParticipation" participation-id="', $par['participation_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_participation" role="button" href="" url="', URL::site('faculty/accom/edit/par/'.$par['participation_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/par/'.$par['participation_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}

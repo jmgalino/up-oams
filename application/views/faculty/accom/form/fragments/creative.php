@@ -15,8 +15,7 @@ if ($session->get('accom_ctv'))
 
 		echo $ctv['title'], '. ';
 		echo $ctv['venue'], '. ';
-		echo date_format(date_create($ctv['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($ctv['end']), 'F d, Y'), '.';
+		echo redate($ctv['start'], $ctv['end']), '. ';
 		echo '&nbsp;&nbsp;';
 		
 		if ($ctv['attachment'])
@@ -32,14 +31,10 @@ if ($session->get('accom_ctv'))
 		}
 
 		echo '&nbsp;&nbsp;&nbsp;';
-
-		// if ($ctv['user_ID'] == $session->get('user_ID'))
-		// {
-		// 	echo '<a data-toggle="modal" data-target="#modal_creative" role="button" href="">',
-		// 		'<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
-		// }
 		
-		echo '<a id="deleteAccom" href='.URL::site('faculty/accom/remove/ctv/'.$ctv['creative_ID']).'>',
+		echo '<a class="btn btn-default" id="updateCreative" creative-id="', $ctv['creative_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_creative" role="button" href="" url="', URL::site('faculty/accom/edit/ctv/'.$ctv['creative_ID']), '">
+			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
+		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/ctv/'.$ctv['creative_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';
 		echo '</p>';
 	}
