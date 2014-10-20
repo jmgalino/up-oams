@@ -342,7 +342,7 @@ $(document).ready(function () {
 				break;
 			
 			case "other":
-				$("h4#accom-label").text("");
+				$("h4#accom-label").text("Other Accomplishments");
 				$("#otherForm").attr("url", url);
 				$("#otherForm input").val("");
 				break;
@@ -749,6 +749,55 @@ $(document).ready(function () {
 			}
 		});
 	})
+
+	/* OTHER FORM (UPDATE) -- Set form for editing */
+	$("a#updateOther").click(function () {
+		var url = $(this).attr("url");
+		var other_ID = $(this).attr("other-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/oth",
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + other_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#otherForm").attr("url", url);
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#other-id").val(details["other_ID"]);
+				$("#other-participation").val(details["participation"]);
+				$("#other-activity").val(details["activity"]);
+				$("#other-venue").val(details["venue"]);
+				$("#other-start").datepicker("setDate", details["start"]).datepicker("fill");
+				$("#other-end").datepicker("setDate", details["end"]).datepicker("fill");
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
+			}
+		});
+	});
+	
+	/* OTHER FORM (VALIDATE) -- Check if date range is correct */
+	$("#otherForm").on("submit", function (event) {
+		event.preventDefault();
+		
+		$.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/check_date",
+            data: $("#otherForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#otherForm").attr("action", $("#otherForm").attr("url")).unbind("submit").trigger("submit");
+            	else
+            		$("p#accom-alert").text(valid).parent().show();
+            }
+        });
+	});
 
 	$("a#deleteReport").click(function () {
 		return confirm('Are you sure you want to delete this report?');

@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="accom-label">Award/Grant Received</h4>
+        <h4 class="modal-title" id="accom-label"></h4>
       </div>
 
       <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'awardForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>

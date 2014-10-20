@@ -2,11 +2,11 @@
 <div class="modal fade" id="modal_creative" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="accom-label"></h4>
       </div>
+      
       <?php print Form::open('faculty/accom/add/ctv', array('class'=>'form-horizontal', 'id'=>'creativeForm', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">

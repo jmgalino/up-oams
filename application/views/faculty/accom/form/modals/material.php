@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="accom-label">Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals</h4>
+        <h4 class="modal-title" id="accom-label"></h4>
       </div>
 
       <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'materialForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>

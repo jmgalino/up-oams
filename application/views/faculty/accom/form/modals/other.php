@@ -2,10 +2,9 @@
 <div class="modal fade" id="modal_other" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="accom-label">Other Accomplishments</h4>
+        <h4 class="modal-title" id="accom-label"></h4>
       </div>
 
       <?php print Form::open('faculty/accom/add/oth', array('class'=>'form-horizontal', 'id'=>'otherForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
@@ -24,33 +23,33 @@
         </div>
 
         <div class="form-group">
-          <label for="participation" class="col-sm-3 control-label">Participation</label>
+          <label for="other-participation" class="col-sm-3 control-label">Participation</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="participation" name="participation" required>
+            <input type="text" class="form-control" id="other-participation" name="participation" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="activity" class="col-sm-3 control-label">Activity</label>
+          <label for="other-activity" class="col-sm-3 control-label">Activity</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="activity" name="activity" required>
+            <input type="text" class="form-control" id="other-activity" name="activity" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="venue" class="col-sm-3 control-label">Venue</label>
+          <label for="other-venue" class="col-sm-3 control-label">Venue</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="venue" name="venue" required>
+            <input type="text" class="form-control" id="other-venue" name="venue" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="dates" class="col-sm-3 control-label">Inclusive dates</label>
-          <div class="col-sm-8" id="datepicker">
-            <div class="input-daterange input-group" id="dates">
-              <input type="text" class="form-control" name="start" required>
+          <label for="other-dates" class="col-sm-3 control-label">Inclusive Dates</label>
+          <div class="col-sm-8" id="other-dates">
+            <div class="input-daterange input-group">
+              <input type="text" class="form-control" id="other-start" name="start" required>
               <span class="input-group-addon">-</span>
-              <input type="text" class="form-control" name="end" required>
+              <input type="text" class="form-control" id="other-end" name="end" required>
             </div>
           </div>
         </div>
