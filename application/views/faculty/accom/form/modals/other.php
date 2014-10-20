@@ -1,4 +1,4 @@
-<!-- "oth" Form -->
+<!-- Add/Edit Other Form -->
 <div class="modal fade" id="modal_other" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -8,7 +8,7 @@
         <h4 class="modal-title" id="accom-label">Other Accomplishments</h4>
       </div>
 
-      <?php print Form::open('faculty/accom/add/oth', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
+      <?php print Form::open('faculty/accom/add/oth', array('class'=>'form-horizontal', 'id'=>'otherForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="accom-alert"></p>

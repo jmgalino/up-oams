@@ -1,4 +1,4 @@
-<!-- "par" Form -->
+<!-- Add/Edit Participation Form -->
 <div class="modal fade" id="modal_participation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -8,7 +8,7 @@
         <h4 class="modal-title" id="accom-label">Participation in Seminars/Conferences/Workshops/Training Courses/Fora</h4>
       </div>
 
-      <?php print Form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
+      <?php print Form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'id'=>'participationForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="accom-alert"></p>

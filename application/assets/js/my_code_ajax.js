@@ -324,7 +324,7 @@ $(document).ready(function () {
 				break;
 			
 			case "creative":
-				$("h4#accom-label").text("");
+				$("h4#accom-label").text("Presentation of Creative Work Output");
 				$("#creativeForm").attr("url", url);
 				$("#creativeForm input").val("");
 				break;
@@ -586,6 +586,55 @@ $(document).ready(function () {
             success: function (valid) {
             	if (valid == 1)
             		$("#paperForm").attr("action", $("#paperForm").attr("url")).unbind("submit").trigger("submit");
+            	else
+            		$("p#accom-alert").text(valid).parent().show();
+            }
+        });
+	});
+
+	/* CREATIVE FORM (UPDATE) -- Set form for editing */
+	$("a#updateCreative").click(function () {
+		var url = $(this).attr("url");
+		var creative_ID = $(this).attr("creative-id");
+		var accom_ID = $(this).attr("accom-id");
+		
+		$.ajax({
+			type: "POST",
+			url: "/oamsystem/index.php/ajax/accom_details/ctv",
+			data: "accom_ID=" + accom_ID + "&accom_specID=" + creative_ID,
+			dataType: "json",
+			success:function (details) {
+				$("#creativeForm").attr("url", url);
+				$("h4#accom-label").text("Edit Accomplishment");
+				$("p#accom-alert").parent().hide();
+				$("button#back-button").hide();
+				$("input#accom-submit").val("Save");
+
+				$("#creative-id").val(details["creative_ID"]);
+				$("#creative-author").val(details["author"]);
+				$("#creative-title").val(details["title"]);
+				$("#creative-venue").val(details["venue"]);
+				$("#creative-start").datepicker("setDate", details["start"]).datepicker("fill");
+				$("#creative-end").datepicker("setDate", details["end"]).datepicker("fill");
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
+			}
+		});
+	});
+	
+	/* CREATIVE FORM (VALIDATE) -- Check if date range is correct */
+	$("#creativeForm").on("submit", function (event) {
+		event.preventDefault();
+		
+		$.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/check_date",
+            data: $("#creativeForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#creativeForm").attr("action", $("#creativeForm").attr("url")).unbind("submit").trigger("submit");
             	else
             		$("p#accom-alert").text(valid).parent().show();
             }

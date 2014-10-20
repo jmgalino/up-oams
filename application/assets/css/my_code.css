@@ -154,7 +154,10 @@ input[name="recaptcha_response_field"]
 #period,
 #award-duration,
 #research-duration,
-#paper-dates
+#paper-dates,
+#creative-dates,
+#participation-dates,
+#other-dates
 {
   z-index:1151;
 }

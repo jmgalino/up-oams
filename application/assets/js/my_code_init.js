@@ -438,7 +438,7 @@ $(document).ready(function () {
 		todayHighlight: true,
 		autoclose: true
 	});
-	$("#award-duration .input-daterange, #research-duration .input-daterange, #paper-dates .input-daterange").datepicker({
+	$("#award-duration .input-daterange, #research-duration .input-daterange, #paper-dates .input-daterange, #creative-dates .input-daterange, #participation-dates .input-daterange, #other-dates .input-daterange").datepicker({
 		format: "d MM yyyy",
 		todayHighlight: true
 	});

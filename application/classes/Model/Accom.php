@@ -201,8 +201,8 @@ class Model_Accom extends Model {
 			->execute()
 			->as_array();
 
-		// Add attachment
-		$details[0]['attachment'] = $attachment[0]['attachment'];
+		// Add attachments if any
+		if ($attachment) $details[0]['attachment'] = $attachment[0]['attachment'];
 		return $details[0];
 	}
 
@@ -344,13 +344,13 @@ class Model_Accom extends Model {
 		$users = $this->check_accom_users($accom_specID, $type);	
 
 		$accom_details = $this->get_accom_details($accom_ID, $accom_specID, $type);
-		$attachment = $accom_details['attachment'];
+		$accom_attachments = (array_key_exists('attachment', $accom_details) ? $accom_details['attachment'] : null);
 		$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
 
-		// Delete attachment(s) if any
-		if ($attachment)
+		// Delete attachments if any
+		if ($accom_attachments)
 		{
-			$attachment = explode(' ', $result[0]['attachment']);
+			$attachment = explode(' ', $accom_attachments);
 			
 			for ($i = 0; $i < count($attachment); $i++)
 			{
