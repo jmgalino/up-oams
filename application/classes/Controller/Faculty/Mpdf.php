@@ -13,7 +13,12 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		switch ($type)
 		{
 			case 'accom':
-			case 'accom-consolidated':
+				if ($purpose == 'consolidate')
+				{
+					$data = $this->session->get_once('consolidate_data');
+					$this->session->set('accom_period', $data['period']);
+					$id = $data['accom_ID'];
+				}
 				$this->accom_pdf($id, $type, $purpose);
 				break;
 			case 'ipcr':
@@ -99,8 +104,22 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
 		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 
+
+		// Consolidate Accomplishment Reports
+		if ($purpose == 'consolidate')
+		{
+			$filename = $this->session->get('employee_code').'['.$this->session->get('accom_period').'].pdf';
+
+			ob_start();
+			include_once(APPPATH.'views/mpdf/accom/consolidated.php');
+			$template = ob_get_contents();
+			ob_get_clean();
+
+			$this->pdf_download($template, $filename);
+		}
+
 		// Monthly Accomplishment Report
-		if ($type == 'accom')
+		else
 		{
 			$accom_details = $accom->get_details($accom_ID);
 			$date = date_format(date_create($accom_details['yearmonth']), 'my');
@@ -138,15 +157,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				$this->session->set('submit', $submit_success);
 				$this->redirect('faculty/accom', 303);
 			}
-		}
-
-		// Consolidate Accomplishment Reports
-		elseif ($type == 'accom-consolidated')
-		{
-			// ob_start();
-			// include(APPPATH.'views/mpdf/accom/consolidated.php');
-			// $template = ob_get_contents();
-			// ob_get_clean();
 		}
 	}
 

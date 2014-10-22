@@ -232,33 +232,8 @@ class Model_Accom extends Model {
 		$accoms = array();
 		$accom_specs = array();
 
-		// Find accomplishments for one report
-		if (count($accom_ID) == 1)
-		{
-			// Retrive accom_specIDs and attachments if any
-			$result = DB::select('accom_specID', 'attachment')
-				->from('connect_accomtbl')
-				->where('accom_ID', '=', $accom_ID)
-				->where('type', '=', $type)
-				->execute()
-				->as_array();
-		
-			foreach ($result as $accom_spec)
-			{
-				$detail['accom_specID'] = $accom_spec['accom_specID'];
-				$detail['attachment'] = $accom_spec['attachment'];
-				$accom_specs[] = $detail;
-			}
-
-			// Retrieve accom details
-			if ($accom_specs)
-			{
-				$accoms = $this->get_accom_specs($accom_specs, $type);
-			}
-		}
-
 		// Find accomplishments for multiple reports -- consolidated/display all
-		else
+		if (is_array($accom_ID))
 		{
 			// Retrive accom_specIDs, attachments etc
 			$result = DB::select()
@@ -274,9 +249,34 @@ class Model_Accom extends Model {
 				$accom_details = $this->get_details($accom_ID);
 				
 				$accom_spec_details['accom_specID'] = $accom_spec['accom_specID'];	// Add accom_specID
-				// $accom_spec_details['attachment'] = $accom_spec['attachment'];		// Add attachment
+				$accom_spec_details['attachment'] = $accom_spec['attachment'];		// Add attachment
 				$accom_spec_details['user_ID'] = $accom_details['user_ID'];			// Add user_ID
 				$accom_specs[] = $accom_spec_details;
+			}
+
+			// Retrieve accom details
+			if ($accom_specs)
+			{
+				$accoms = $this->get_accom_specs($accom_specs, $type);
+			}
+		}
+
+		// Find accomplishments for one report
+		elseif (count($accom_ID) == 1)
+		{
+			// Retrive accom_specIDs and attachments if any
+			$result = DB::select('accom_specID', 'attachment')
+				->from('connect_accomtbl')
+				->where('accom_ID', '=', $accom_ID)
+				->where('type', '=', $type)
+				->execute()
+				->as_array();
+		
+			foreach ($result as $accom_spec)
+			{
+				$detail['accom_specID'] = $accom_spec['accom_specID'];
+				$detail['attachment'] = $accom_spec['attachment'];
+				$accom_specs[] = $detail;
 			}
 
 			// Retrieve accom details

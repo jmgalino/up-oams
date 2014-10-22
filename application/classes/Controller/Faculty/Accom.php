@@ -112,9 +112,10 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 			$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
 
-			$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end);
-			$period = $this->redate($this->request->post('start'), $this->request->post('end'));
-			$this->show_consolidate($accom_reports, $period);
+			$consolidate_data['accom_ID'] = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end);
+			$consolidate_data['period'] = $this->redate($this->request->post('start'), $this->request->post('end'));
+			$this->session->set('consolidate_data', $consolidate_data);
+			$this->redirect('faculty/mpdf/consolidate/accom');
 		}
 	}
 
@@ -207,17 +208,6 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
-	}
-
-	/**
-	 * Consolidate Accomplishment Reports
-	 */
-	private function show_consolidate($accom_reports, $period)
-	{
-		echo Debug::vars($accom_reports, $period);
-		
-		// 	$filename = $user[0]->last_name.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
-		// 	$this->mpdf->consolidate($filename, $period, 'faculty', 'ar');
 	}
 
 	/**

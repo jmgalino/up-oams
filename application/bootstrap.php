@@ -268,11 +268,11 @@ Route::set('opcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 	));
 
 // mpdf
-Route::set('mpdf', '<directory>/<controller>/<purpose>/<type>/<id>',
+Route::set('mpdf', '<directory>/<controller>/<purpose>/<type>(/<id>)',
 	array(
 		'directory' => 'faculty',
 		'controller'=> 'mpdf',
-		'purpose'	=> '(preview|download|submit)'
+		'purpose'	=> '(preview|download|consolidate|submit)'
 		// 'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
 	))
 	->defaults(array(

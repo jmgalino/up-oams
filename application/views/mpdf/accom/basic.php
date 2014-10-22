@@ -5,7 +5,7 @@ $session->set('attachment', 0);
 $session->set('attachments', $array);
 
 echo '<h1 class="text-center">Accomplishment Report</h1>';
-echo '<h2 class="text-center">', date_format(date_create($accom_details['yearmonth']), 'F Y'), '</h2><br>';
+echo '<h2 class="text-center">', date('F Y', strtotime($accom_details['yearmonth'])), '</h2><br>';
 echo '<h2>', $session->get('fullname'), '</h2>';
 echo '<h3>', $session->get('rank'), '</h3>';
 echo '<br>';
@@ -27,16 +27,19 @@ echo '<br><br><br>
 	</tbody>
 </table>';
 
-echo '<pagebreak />';
-
 $attachment = $session->get_once('attachment');
-$attachments = $session->get_once('attachments');
-
-echo '<h2>Attachments</h2><br>';
-
-for ($i = 1; $i <= $attachment; $i++)
+if ($attachment)
 {
-	echo '<p><a name="attachment_'.$i.'">[', $i, ']<a/> ',
-		'<img src="'.URL::base().'files/upload_attachments/'.$attachments[$i].'" max-height="750" max-width="500" style="vertical-align: text-top;"></p>';
+	echo '<pagebreak />';
+
+	$attachments = $session->get_once('attachments');
+
+	echo '<h2>Attachments</h2><br>';
+
+	for ($i = 1; $i <= $attachment; $i++)
+	{
+		echo '<p><a name="attachment_'.$i.'">[', $i, ']<a/> ',
+			'<img src="'.URL::base().'files/upload_attachments/'.$attachments[$i].'" max-height="750" max-width="500" style="vertical-align: text-top;"></p>';
+	}
 }
 ?>
