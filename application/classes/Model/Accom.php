@@ -5,18 +5,35 @@ class Model_Accom extends Model {
 	/**
 	 * Get reports (by faculty)
 	 */
-	public function get_faculty_accom($user_ID)
+	public function get_faculty_accom($user_ID, $start, $end)
 	{
-		$result = DB::select()
-			->from('accomtbl')
-			->where('user_ID', '=', $user_ID)
-			->execute()
-			->as_array();
-
-		$accom_reports = array();
-		foreach ($result as $report)
+		if ($start AND $end)
 		{
-			$accom_reports[] = $report;
+			$accom_IDs = DB::select('accom_ID')
+				->from('accomtbl')
+				->where('user_ID', '=', $user_ID)
+				->where('yearmonth', '>=', $start)
+				->where('yearmonth', '<=', $end)
+				->order_by('yearmonth', 'ASC')
+				->execute()
+				->as_array();
+
+			$accom_reports = array();
+			foreach ($accom_IDs as $accom_ID)
+			{
+				foreach ($accom_ID as $key => $value)
+				{
+					$accom_reports[] = $value;
+				}	
+			}
+		}
+		else
+		{
+			$accom_reports = DB::select()
+				->from('accomtbl')
+				->where('user_ID', '=', $user_ID)
+				->execute()
+				->as_array();
 		}
 
 		return $accom_reports;
@@ -63,9 +80,10 @@ class Model_Accom extends Model {
 	public function initialize($details)
 	{
 		// Check
-		$result = DB::query(Database::SELECT, 'SELECT * FROM accomtbl WHERE user_ID = :user_ID AND DATE_FORMAT(yearmonth, \'%Y %m\') = DATE_FORMAT(:yearmonth, \'%Y %m\')')
-			->bind(':user_ID', $details['user_ID'])
-		    ->bind(':yearmonth', $details['yearmonth'])
+		$result = DB::select()
+			->from('accomtbl')
+			->where('user_ID', '=', $details['user_ID'])
+			->where('yearmonth', '=', $details['yearmonth'])
 		    ->execute()
 	 		->as_array();
 

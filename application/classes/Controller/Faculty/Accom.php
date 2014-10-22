@@ -14,7 +14,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL);
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
 			->bind('submit', $submit)
@@ -32,7 +32,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom = new Model_Accom;
 
 		$name = $this->session->get('fullname2');
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'));
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL);
 
 		if ($accom_reports)
 		{
@@ -79,12 +79,12 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
+		$accom = new Model_Accom;
+
 		if (($this->request->post('report_type') == 'new') AND ($this->request->post('yearmonth')))
 		{
-			$accom = new Model_Accom;
-
 			$details['user_ID'] = $this->session->get('user_ID');
-			$details['yearmonth'] = date_format(date_create('01 '.$this->request->post('yearmonth')), 'Y-m-d');
+			$details['yearmonth'] = date('Y-m-d', strtotime('01 '.$this->request->post('yearmonth')));
 			
 			$insert_success = $accom->initialize($details);
 
@@ -109,7 +109,12 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		}
 		else
 		{
-			$this->show_consolidate();
+			$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
+			$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
+
+			$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end);
+			$period = $this->redate($this->request->post('start'), $this->request->post('end'));
+			$this->show_consolidate($accom_reports, $period);
 		}
 	}
 
@@ -207,22 +212,10 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	/**
 	 * Consolidate Accomplishment Reports
 	 */
-	private function show_consolidate()
+	private function show_consolidate($accom_reports, $period)
 	{
-		$start = $this->request->post('start');
-		$end = $this->request->post('end');
-		$period = $this->redate($start, $end);
-
-		echo Debug::vars($period);
-
-		// if ($identifier == 'faculty')
-		// {
-		// 	$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
-		// }
-
-		// 	$date = DateTime::createFromFormat('Ymd', date('Ymd'));
-		// 	$date = $date->format('Y-m-d');
-
+		echo Debug::vars($accom_reports, $period);
+		
 		// 	$filename = $user[0]->last_name.' ('.$smy->format('F Y').'-'.$emy->format('F Y').').pdf';
 		// 	$this->mpdf->consolidate($filename, $period, 'faculty', 'ar');
 	}
@@ -260,6 +253,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$this->response->body($this->view->render());	
 	}
 
+	/**
+	 * Change and improve date format
+	 */
 	private function redate($start, $end)
 	{
 		$date = '';
