@@ -14,7 +14,7 @@ if ($session->get('accom_rch'))
 		
 		echo ($rch['fund_external'] 
 			? $rch['fund_up']
-				? ' and UP System Research Grant'.$rch['fund_external'].'. '
+				? $rch['fund_external'].' and UP System Research Grant'.'. '
 				: $rch['fund_external'].'. '
 			: 'UP System Research Grant. ');
 

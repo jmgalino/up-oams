@@ -37,31 +37,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 			
 			case 'rch':
 				$name_ID = 'research_ID';
-				if ($details['fund_external'])
-				{
-					$tmp = str_replace(',', '', $details['fund_amount']);
-
-					if(is_numeric($tmp)) {
-					    $details['fund_amount'] = $tmp;
-					}
-				}
-				else
-				{
-					unset($details['fund_external']);
-					unset($details['fund_amount']);
-				}
-				if ($details['fund_up'])
-				{
-					$tmp = str_replace(',', '', $details['fund_up']);
-
-					if(is_numeric($tmp)) {
-					    $details['fund_up'] = $tmp;
-					}
-				}
-				else
-				{
-					unset($details['fund_up']);
-				}
+				$details = $this->reformat_number($details);
 				break;
 			
 			case 'ppr':
@@ -121,6 +97,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 			
 			case 'rch':
 				$name_ID = 'research_ID';
+				$details = $this->reformat_number($details);
 				break;
 			
 			case 'ppr':
@@ -199,6 +176,37 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$delete_success = $accom->delete_accom($accom_ID, $accom_specID, $type, $name_ID);
 		$this->session->set('success', $delete_success);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
+	}
+
+	private function reformat_number($details)
+	{
+		if ($details['fund_external'])
+		{
+			$tmp = str_replace(',', '', $details['fund_amount']);
+
+			if(is_numeric($tmp)) {
+			    $details['fund_amount'] = $tmp;
+			}
+		}
+		else
+		{
+			unset($details['fund_external']);
+			unset($details['fund_amount']);
+		}
+		if ($details['fund_up'])
+		{
+			$tmp = str_replace(',', '', $details['fund_up']);
+
+			if(is_numeric($tmp)) {
+			    $details['fund_up'] = $tmp;
+			}
+		}
+		else
+		{
+			unset($details['fund_up']);
+		}
+
+		return $details;
 	}
 
 	/**

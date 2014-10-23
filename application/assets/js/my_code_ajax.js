@@ -299,8 +299,9 @@ $(document).ready(function () {
 		switch (type) {
 			case "publication":
 				$("h4#accom-label").text("Journal Publication/Book/Chapter in a Book");
-				$("#publicationForm").attr("action", url); //change to "url" if needs ajax validation
-				$("input[name=type]").prop("checked", false);
+				// $("#publicationForm").attr("action", url);
+				$("#publicationForm").attr("url", url);
+				$("#publicationForm input[name=type]").prop("checked", false);
 				$("#publicationDetails input").val("");
 				break;
 			
@@ -314,7 +315,7 @@ $(document).ready(function () {
 				$("h4#accom-label").text("Research Grant/Fellowship Received");
 				$("#researchForm").attr("url", url);
 				$("#researchForm input").val("");
-				$("#fund_amount, #fund_up").number();
+				// $("#fund_up").removeAttr("placeholder");
 				break;
 			
 			case "paper":
@@ -337,7 +338,8 @@ $(document).ready(function () {
 			
 			case "material":
 				$("h4#accom-label").text("Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals");
-				$("#materialForm").attr("action", url); //change to "url" if needs ajax validation
+				// $("#materialForm").attr("action", url);
+				$("#materialForm").attr("url", url);
 				$("#materialForm input").val("");
 				break;
 			
@@ -421,6 +423,12 @@ $(document).ready(function () {
 		}
 	});
 
+	/* PUBLICATION/MATERIAL FORM (SUBMIT) */
+	$("#publicationForm, #materialForm").on("submit", function (event) {
+		event.preventDefault();
+		$(this).attr("action", $(this).attr("url")).unbind("submit").trigger("submit");
+	});
+
 	/* AWARD FORM (UPDATE) -- Set form for editing */
 	$("a#updateAward").click(function () {
 		var url = $(this).attr("url");
@@ -499,9 +507,7 @@ $(document).ready(function () {
 					$("#fund_amount").val(details["fund_amount"]).trigger("keyup");
 				if (details["fund_up"])
 					$("#fund_up").val(details["fund_up"]).trigger("keyup");
-				if (!details["fund_amount"] && !details["fund_up"])
-					$("#fund_amount, #fund_up").number();
-
+				
 				$("input#accom-attachment").removeAttr("name");
 				$("div#add-attachment").hide();
 				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();

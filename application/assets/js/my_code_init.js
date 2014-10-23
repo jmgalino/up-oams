@@ -422,15 +422,12 @@ $(document).ready(function () {
         }
     });
     $("#fund_up").keyup(function () {
-        var external = $("#fund_external").val();
-
-        if ($(this).val() && !external)
+        if ($(this).val() && !$("#fund_external").val())
             $("#fund_external, #fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
         else
             $("#fund_external, #fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
     });
-    $("#fund_amount").number(true, 2);
-    $("#fund_up").number(true, 2);
+    $("#fund_amount, #fund_up").number(true, 2);
 
 	// date
 	$("#datepicker .input-group.date").datepicker({
