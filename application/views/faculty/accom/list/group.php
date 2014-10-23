@@ -9,6 +9,8 @@
 <h3>
 	<div class="row">
 		<div class="col-md-6">Accomplishment Reports <small><?php echo $group; ?></small></div>
+
+		<?php if ($accom_reports): ?>
 		<div class="col-md-6">
 			<div class="btn-group pull-right">
 		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button>
@@ -19,15 +21,17 @@
 						: URL::site('faculty/accom_dept/all')); ?>">View All Accomplishments</a></li>
 		        </ul>
 			</div>
-	  </div>
+		</div>
+		<?php endif; ?>
+
 	</div>
 </h3>
 <br>
 
 <?php
 // Consolidate Form
-// echo View::factory('faculty/accom/form/consolidate')
-// 	->bind('consolidate_url', $consolidate_url);
+echo View::factory('faculty/accom/form/consolidate')
+	->bind('consolidate_url', $consolidate_url);
 ?>
 
 <?php if ($accom_reports): ?>
@@ -48,7 +52,7 @@
 	<?php foreach ($accom_reports as $accom)
 	{
 		echo '<tr>';
-		echo '<td>', date_format(date_create($accom['yearmonth']), 'F Y'), '</td>';
+		echo '<td>', date('F Y', strtotime($accom['yearmonth'])), '</td>';
 		
 		foreach ($users as $user)
 		{

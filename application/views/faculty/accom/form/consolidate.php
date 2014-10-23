@@ -11,8 +11,8 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="period" class="col-sm-4 control-label">Period</label>
-          <div class="col-sm-6" id="monthpicker">
-            <div class="input-daterange input-group" id="period">
+          <div class="col-sm-6" id="period">
+            <div class="input-daterange input-group">
               <input type="text" class="form-control" name="start">
               <span class="input-group-addon">-</span>
               <input type="text" class="form-control" name="end">

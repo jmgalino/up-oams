@@ -10,9 +10,12 @@ if ($session->get('accom_awd'))
 		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+		if ($session->get('accom_type') == 'group')
+			echo reuser($awd['user_ID'], $session->get('users')), '. ';
+		
 		echo $awd['award'], '. ';
-		echo date_format(date_create($awd['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($awd['end']), 'F d, Y'), '. ';
+		echo redate($awd['start'], $awd['end']), '. ';
 		echo $awd['source'], '.';
 		echo '&nbsp;&nbsp;';
 		

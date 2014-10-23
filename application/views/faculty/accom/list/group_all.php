@@ -1,4 +1,7 @@
 <?php
+/**
+ * Return names
+ */
 function reuser($user_IDs, $users)
 {
 	$name = '';
@@ -75,6 +78,9 @@ function reuser($user_IDs, $users)
 	return $name;
 }
 
+/**
+ * Change and improve date format
+ */
 function redate($start, $end)
 {
 	$date = '';

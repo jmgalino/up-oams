@@ -5,7 +5,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 
 	public function action_index()
 	{
-		$this->action_delete_session();
 		$id = $this->request->param('id');
 		$type = $this->request->param('type');
 		$purpose = $this->request->param('purpose');
@@ -14,13 +13,11 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			case 'accom':
 				if ($purpose == 'consolidate')
-				{
-					$data = $this->session->get_once('consolidate_data');
-					$this->session->set('accom_period', $data['period']);
-					$id = $data['accom_ID'];
-				}
+					$id = $this->session->get('consolidate_data')['accom_ID'];
 				$this->accom_pdf($id, $type, $purpose);
 				break;
+			case 'accom-group':
+				$this->accom_group_pdf();
 			case 'ipcr':
 			case 'ipcr-consolidated':
 				$this->ipcr_pdf($id, $type, $purpose);
@@ -89,7 +86,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	}
 
 	/**
-	 * Accomplishment Reports
+	 * Accomplishment Reports - Faculty
 	 */
 	private function accom_pdf($accom_ID, $type, $purpose)
 	{
@@ -108,7 +105,11 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// Consolidate Accomplishment Reports
 		if ($purpose == 'consolidate')
 		{
-			$filename = $this->session->get('employee_code').'['.$this->session->get('accom_period').'].pdf';
+			$data = $this->session->get_once('consolidate_data');
+			$this->session->set('accom_type', 'faculty');
+			$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
+			$period = $this->redate($data['start'], $data['end'], FALSE);
+			$filename = $this->session->get('employee_code').'['.$period.'].pdf';
 
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/consolidated.php');
@@ -158,6 +159,25 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				$this->redirect('faculty/accom', 303);
 			}
 		}
+	}
+
+	/**
+	 * Accomplishment Reports - College/Department
+	 */
+	private function accom_group_pdf()
+	{
+		$data = $this->session->get_once('consolidate_data');
+		$this->session->set('accom_type', 'group');
+		$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
+		$period = $this->redate($data['start'], $data['end'], FALSE);
+		$filename = $this->session->get('employee_code').'['.$period.'].pdf';
+
+		ob_start();
+		include_once(APPPATH.'views/mpdf/accom/consolidated.php');
+		$template = ob_get_contents();
+		ob_get_clean();
+
+		$this->pdf_download($template, $filename);
 	}
 
 	/**
@@ -308,6 +328,29 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$this->session->set('submit', $submit_success);
 			$this->redirect('faculty/opcr', 303);
 		}
+	}
+
+	/**
+	 * Change and improve date format
+	 */
+	private function redate($start, $end, $words)
+	{
+		$date = '';
+
+		$stime = strtotime($start);
+		$smonth = ($words ? date('F', $stime) : date('m', $stime));
+		$syear = date('Y', $stime);
+
+		$etime = strtotime($end);
+		$emonth = ($words ? date('F', $etime) : date('m', $etime));
+		$eyear = date('Y', $etime);
+
+		if ($syear == $eyear)
+			$date = $smonth.' - '.$emonth.' '.$syear;
+		else
+			$date = $start.' - '.$end;
+
+		return $date;
 	}
 
 } // End Mpdf

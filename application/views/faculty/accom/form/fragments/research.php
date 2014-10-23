@@ -23,12 +23,12 @@ if ($session->get('accom_rch'))
 		if ($rch['fund_amount'])
 		{
 			if ($rch['fund_up'])
-				echo number_format(floatval(str_replace(',', '', $rch['fund_amount'])) + floatval(str_replace(',', '', $rch['fund_up'])), 2);
+				echo 'Php ', number_format(floatval(str_replace(',', '', $rch['fund_amount'])) + floatval(str_replace(',', '', $rch['fund_up'])), 2);
 			else
-				echo $rch['fund_amount'];
+				echo 'Php ', number_format($rch['fund_amount'], 2);
 		}
 		else
-			echo $rch['fund_up'];
+			echo 'Php ', number_format($rch['fund_up'], 2);
 
 		echo '.&nbsp;&nbsp;';
 		

@@ -11,13 +11,38 @@ if ($session->get('accom_ppr'))
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		if ($ppr['author']) echo $ppr['author'], '. ';
-		
+		if ($session->get('accom_type') == 'group')
+		{
+			echo reuser($ppr['user_ID'], $session->get('users'));
+			if ($ppr['author']) echo ' and ', $ppr['author'], '. ';
+		}
+		else
+		{
+			if ($ppr['author']) echo $ppr['author'], '. ';
+		}
+
 		echo $ppr['title'], '. ';
 		echo $ppr['activity'], '. ';
 		echo $ppr['venue'], '. ';
-		echo date_format(date_create($ppr['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($ppr['end']), 'F d, Y'), '.';
+		echo redate($ppr['start'], $ppr['end']), '. ';
+		echo '&nbsp;&nbsp;';
+		
+		if ($ppr['attachment'])
+		{
+			$attachment = explode(' ', $ppr['attachment']);
+			$counter = $session->get_once('attachment');
+			$attachments = $session->get_once('attachments');
+
+			for ($i = 0; $i < count($attachment); $i++)
+			{
+				$attachments[++$counter] = $attachment[$i];
+				echo '<a class="glyphicon glyphicon-paperclip" href="#attachment_'.$counter.'" target="_blank">',
+					'<sup style="padding-left:1px;">[', $counter, ']</sup></a> ';
+			}
+
+			$session->set('attachment', $counter);
+			$session->set('attachments', $attachments);
+		}
 		echo '</p>';
 	}
 }

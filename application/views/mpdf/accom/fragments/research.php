@@ -10,6 +10,10 @@ if ($session->get('accom_rch'))
 		echo '<p style="padding-left:20px;">';
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+		if ($session->get('accom_type') == 'group')
+			echo reuser($rch['user_ID'], $session->get('users')), '. ';
+
 		echo $rch['title'], '. ';
 		
 		echo ($rch['fund_external'] 
@@ -18,15 +22,19 @@ if ($session->get('accom_rch'))
 				: $rch['fund_external'].'. '
 			: 'UP System Research Grant. ');
 
-		echo date_format(date_create($rch['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($rch['end']), 'F d, Y'), '. ';
+		echo redate($rch['start'], $rch['end']), '. ';
 		
-		echo ($rch['fund_amount'] 
-			? $rch['fund_up']
-				? number_format(intval($rch['fund_amount']) + intval($rch['fund_up']), 2).'.'
-				: number_format($rch['fund_amount'], 2).'.'
-			: number_format($rch['fund_up'], 2).'.');
-		echo '&nbsp;&nbsp;';
+		if ($rch['fund_amount'])
+		{
+			if ($rch['fund_up'])
+				echo 'Php ', number_format(floatval(str_replace(',', '', $rch['fund_amount'])) + floatval(str_replace(',', '', $rch['fund_up'])), 2);
+			else
+				echo 'Php ', number_format($rch['fund_amount'], 2);
+		}
+		else
+			echo 'Php ', number_format($rch['fund_up'], 2);
+
+		echo '.&nbsp;&nbsp;';
 		
 		if ($rch['attachment'])
 		{

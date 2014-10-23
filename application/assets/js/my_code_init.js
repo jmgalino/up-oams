@@ -268,7 +268,7 @@ $(document).ready(function () {
             var rows = api.rows({page:'current'}).nodes();
             var last = null;
  
-            // Group group accomplishment table by period (column 0)
+            // Group accomplishment table by period (column 0)
             api.column(0, {page:'current'}).data().each(function (group, i) {
                 if (last !== group) {
                     $(rows).eq(i).before('<tr class="group"><td colspan="6">'+group+'</td></tr>');

@@ -111,9 +111,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		{
 			$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 			$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
-
 			$consolidate_data['accom_ID'] = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end);
-			$consolidate_data['period'] = $this->redate($this->request->post('start'), $this->request->post('end'));
+			$consolidate_data['start'] = $start;
+			$consolidate_data['end'] = $end;
 			$this->session->set('consolidate_data', $consolidate_data);
 			$this->redirect('faculty/mpdf/consolidate/accom');
 		}
@@ -241,29 +241,6 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			->bind('session', $this->session)
 			->bind('accom', $accoms);
 		$this->response->body($this->view->render());	
-	}
-
-	/**
-	 * Change and improve date format
-	 */
-	private function redate($start, $end)
-	{
-		$date = '';
-
-		$stime = strtotime($start);
-		$smonth = date('F', $stime);
-		$syear = date('Y', $stime);
-
-		$etime = strtotime($end);
-		$emonth = date('F', $etime);
-		$eyear = date('Y', $etime);
-
-		if ($syear == $eyear)
-			$date = $smonth.' - '.$emonth.' '.$syear;
-		else
-			$date = $start.' - '.$end;
-
-		return $date;
 	}
 
 } // End Accom

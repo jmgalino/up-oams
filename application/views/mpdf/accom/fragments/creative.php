@@ -11,12 +11,19 @@ if ($session->get('accom_ctv'))
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		if ($ctv['author']) echo $ctv['author'], '. ';
-		
+		if ($session->get('accom_type') == 'group')
+		{
+			echo reuser($ctv['user_ID'], $session->get('users'));
+			if ($ctv['author']) echo ' and ', $ctv['author'], '. ';
+		}
+		else
+		{
+			if ($ctv['author']) echo $ctv['author'], '. ';
+		}
+
 		echo $ctv['title'], '. ';
 		echo $ctv['venue'], '. ';
-		echo date_format(date_create($ctv['start']), 'F d, Y'), ' to ';
-		echo date_format(date_create($ctv['end']), 'F d, Y'), '.';
+		echo redate($ctv['start'], $ctv['end']), '. ';
 		echo '&nbsp;&nbsp;';
 		
 		if ($ctv['attachment'])

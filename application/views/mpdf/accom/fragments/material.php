@@ -11,7 +11,8 @@ if ($session->get('accom_mat'))
 		echo '-';
 		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-		if ($mat['author']) echo $mat['author'], '. ';
+		if ($session->get('accom_type') == 'group')
+			echo reuser($mat['user_ID'], $session->get('users')), '. ';
 		
 		echo $mat['year'], '. ';
 		echo $mat['title'], '.';
