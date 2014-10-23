@@ -14,11 +14,13 @@ if ($session->get('accom_ppr'))
 		if ($session->get('accom_type') == 'group')
 		{
 			echo reuser($ppr['user_ID'], $session->get('users'));
-			if ($ppr['author']) echo ' and ', $ppr['author'], '. ';
+			if ($ppr['author']) echo ' and ', $ppr['author'];
+			echo '. ';
 		}
 		else
 		{
-			if ($ppr['author']) echo $ppr['author'], '. ';
+			if ($ppr['author']) echo $ppr['author'];
+			echo '. ';
 		}
 
 		echo $ppr['title'], '. ';

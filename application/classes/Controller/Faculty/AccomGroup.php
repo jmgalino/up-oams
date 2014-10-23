@@ -11,12 +11,11 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$user = new Model_User;
 
 		$this->action_delete_session();
+		$users = $this->get_group_users($this->session->get('identifier'));
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $univ->get_department_programIDs($department['department_ID']);
-		$users = $user->get_user_group($programIDs, 'dean');
 		$consolidate_url = 'faculty/accom_dept/consolidate';
 
-		$this->view_group($department['department'], $programIDs, $users, $consolidate_url);
+		$this->view_group($department['department'], $users, $consolidate_url);
 	}
 
 	/**
@@ -28,12 +27,11 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$user = new Model_User;
 
 		$this->action_delete_session();
+		$users = $this->get_group_users($this->session->get('identifier'));
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $univ->get_college_programIDs($college['college_ID']);
-		$users = $user->get_user_group($programIDs, NULL);
 		$consolidate_url = 'faculty/accom_coll/consolidate';
 
-		$this->view_group($college['college'], $programIDs, $users, $consolidate_url);
+		$this->view_group($college['college'], $users, $consolidate_url);
 	}
 
 	/**
@@ -42,8 +40,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	public function action_all()
 	{
 		$identifier = $this->session->get('identifier');
-		$user_details = $this->get_group_users($this->session->get('identifier'));
-		$accoms = $this->get_group_accom($user_details['user_IDs']);
+		$users = $this->get_group_users($this->session->get('identifier'));
+		$accoms = $this->get_group_accom($users['user_IDs'], NULL, NULL);
 
 		$this->view->content = View::factory('faculty/accom/list/group_all')
 			->bind('identifier', $identifier)
@@ -56,7 +54,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 			->bind('accom_par', $accoms['par'])
 			->bind('accom_mat', $accoms['mat'])
 			->bind('accom_oth', $accoms['oth'])
-			->bind('users', $user_details['users']);
+			->bind('users', $users['users']);
 		$this->response->body($this->view->render());
 	}
 
@@ -119,6 +117,9 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	{
 		$univ = new Model_Univ;
 
+		$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
+		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
+
 		if ($this->session->get('identifier') == 'dept_chair')
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
@@ -131,7 +132,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		}
 
 		$user_details = $this->get_group_users($this->session->get('identifier'));
-		$accoms = $this->get_group_accom($user_details['user_IDs']);
+		$accoms = $this->get_group_accom($user_details['user_IDs'], $start, $end);
 		
 		$this->session->set('users', $user_details['users']);
 		$this->session->set('accom_pub', $accoms['pub']);
@@ -143,8 +144,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$this->session->set('accom_mat', $accoms['mat']);
 		$this->session->set('accom_oth', $accoms['oth']);
 
-		$consolidate_data['start'] = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
-		$consolidate_data['end'] = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
+		$consolidate_data['start'] = $start;
+		$consolidate_data['end'] = $end;
 		$this->session->set('consolidate_data', $consolidate_data);
 		$this->redirect('faculty/mpdf/consolidate/accom-group');
 	}
@@ -152,7 +153,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	/**
 	 * Accomplishment Reports (Department/College)
 	 */
-	private function view_group($group, $programIDs, $users, $consolidate_url)
+	private function view_group($group, $users, $consolidate_url)
 	{
 		$accom = new Model_Accom;
 		$univ = new Model_Univ;
@@ -162,20 +163,14 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$identifier = $this->session->get('identifier');
 		$programs = $univ->get_programs();
 
-		$userIDs = array();
-		foreach ($users as $user)
-		{
-			$userIDs[] = $user['user_ID'];
-		}
-
-		$accom_reports = $accom->get_group_accom($userIDs);
+		$accom_reports = $accom->get_group_accom($users['user_IDs'], NULL, NULL);
 		
 		$this->view->content = View::factory('faculty/accom/list/group')
 			->bind('identifier', $identifier)
 			->bind('group', $group)
 			->bind('accom_reports', $accom_reports)
 			->bind('consolidate_url', $consolidate_url)
-			->bind('users', $users)
+			->bind('users', $users['users'])
 			->bind('programs', $programs)
 			->bind('employee_code', $employee_code);
 		$this->response->body($this->view->render());
@@ -217,31 +212,35 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	/**
 	 * Get Department/College Accomplishments
 	 */
-	private function get_group_accom($users)
+	private function get_group_accom($users, $start, $end)
 	{
 		$accom = new Model_Accom;
+		$accom_reports = $accom->get_group_accom($users, $start, $end);
 
-		$accom_reports = $accom->get_group_accom($users);
-
-		if ($accom_reports)
+		if ($start AND $end)
+			$accom_IDs = $accom_reports;
+		else
 		{
-			$accom_IDs = array();
-			foreach ($accom_reports as $report)
+			if ($accom_reports)
 			{
-				$accom_IDs[] = $report['accom_ID'];
+				$accom_IDs = array();
+				foreach ($accom_reports as $report)
+				{
+					$accom_IDs[] = $report['accom_ID'];
+				}
 			}
+		}
 
-			if ($accom_IDs)
-			{
-				$pub = $accom->get_accoms($accom_IDs, 'pub'); $accom_pub = $this->rearray_accoms($pub, 'publication_ID');
-				$awd = $accom->get_accoms($accom_IDs, 'awd'); $accom_awd = $this->rearray_accoms($awd, 'award_ID');
-				$rch = $accom->get_accoms($accom_IDs, 'rch'); $accom_rch = $this->rearray_accoms($rch, 'research_ID');
-				$ppr = $accom->get_accoms($accom_IDs, 'ppr'); $accom_ppr = $this->rearray_accoms($ppr, 'paper_ID');
-				$ctv = $accom->get_accoms($accom_IDs, 'ctv'); $accom_ctv = $this->rearray_accoms($ctv, 'creative_ID');
-				$par = $accom->get_accoms($accom_IDs, 'par'); $accom_par = $this->rearray_accoms($par, 'participation_ID');
-				$mat = $accom->get_accoms($accom_IDs, 'mat'); $accom_mat = $this->rearray_accoms($mat, 'material_ID'); 
-				$oth = $accom->get_accoms($accom_IDs, 'oth'); $accom_oth = $this->rearray_accoms($oth, 'other_ID');
-			}
+		if ($accom_IDs)
+		{
+			$pub = $accom->get_accoms($accom_IDs, 'pub'); $accom_pub = $this->rearray_accoms($pub, 'publication_ID');
+			$awd = $accom->get_accoms($accom_IDs, 'awd'); $accom_awd = $this->rearray_accoms($awd, 'award_ID');
+			$rch = $accom->get_accoms($accom_IDs, 'rch'); $accom_rch = $this->rearray_accoms($rch, 'research_ID');
+			$ppr = $accom->get_accoms($accom_IDs, 'ppr'); $accom_ppr = $this->rearray_accoms($ppr, 'paper_ID');
+			$ctv = $accom->get_accoms($accom_IDs, 'ctv'); $accom_ctv = $this->rearray_accoms($ctv, 'creative_ID');
+			$par = $accom->get_accoms($accom_IDs, 'par'); $accom_par = $this->rearray_accoms($par, 'participation_ID');
+			$mat = $accom->get_accoms($accom_IDs, 'mat'); $accom_mat = $this->rearray_accoms($mat, 'material_ID'); 
+			$oth = $accom->get_accoms($accom_IDs, 'oth'); $accom_oth = $this->rearray_accoms($oth, 'other_ID');
 		}
 
 		$accoms['accom_reports'] = $accom_reports;

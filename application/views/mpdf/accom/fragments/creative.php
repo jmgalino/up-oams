@@ -14,11 +14,13 @@ if ($session->get('accom_ctv'))
 		if ($session->get('accom_type') == 'group')
 		{
 			echo reuser($ctv['user_ID'], $session->get('users'));
-			if ($ctv['author']) echo ' and ', $ctv['author'], '. ';
+			if ($ctv['author']) echo ' and ', $ctv['author'];
+			echo '. ';
 		}
 		else
 		{
-			if ($ctv['author']) echo $ctv['author'], '. ';
+			if ($ctv['author']) echo $ctv['author'];
+			echo '. ';
 		}
 
 		echo $ctv['title'], '. ';

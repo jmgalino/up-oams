@@ -14,7 +14,7 @@ class Model_Accom extends Model {
 				->where('user_ID', '=', $user_ID)
 				->where('yearmonth', '>=', $start)
 				->where('yearmonth', '<=', $end)
-				->order_by('yearmonth', 'ASC')
+				->order_by('yearmonth', 'DESC')
 				->execute()
 				->as_array();
 
@@ -42,22 +42,40 @@ class Model_Accom extends Model {
 	/**
 	 * Get reports (by department/college)
 	 */
-	public function get_group_accom($userIDs)
+	public function get_group_accom($userIDs, $start, $end)
 	{
-		$result = DB::select()
+		if ($start AND $end)
+		{
+			$accom_IDs = DB::select('accom_ID')
+				->from('accomtbl')
+				->where('user_ID', 'IN', $userIDs)
+				->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
+				->where('yearmonth', '>=', $start)
+				->where('yearmonth', '<=', $end)
+				->order_by('yearmonth', 'DESC')
+				->execute()
+				->as_array();
+
+			$accom_reports = array();
+			foreach ($accom_IDs as $accom_ID)
+			{
+				foreach ($accom_ID as $key => $value)
+				{
+					$accom_reports[] = $value;
+				}	
+			}
+		}
+		else
+		{
+			$accom_reports = DB::select()
 			->from('accomtbl')
 			->where('user_ID', 'IN', $userIDs)
 			->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
 	 		->execute()
 	 		->as_array();
-
-		$accoms = array();
-	 	foreach ($result as $accom)
-	 	{
-	 		$accoms[] = $accom;
 	 	}
 
-	 	return $accoms;
+	 	return $accom_reports;
 	}
 
 	/**

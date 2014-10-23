@@ -14,11 +14,13 @@ if ($session->get('accom_pub'))
 		if ($session->get('accom_type') == 'group')
 		{
 			echo reuser($pub['user_ID'], $session->get('users'));
-			if ($pub['author']) echo ' and ', $pub['author'], '. ';
+			if ($pub['author']) echo ' and ', $pub['author'];
+			echo '. ';
 		}
 		else
 		{
-			if ($pub['author']) echo $pub['author'], '. ';
+			if ($pub['author']) echo $pub['author'];
+			echo '. ';
 		}
 
 		echo $pub['year'], '. ';
