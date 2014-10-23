@@ -91,7 +91,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	private function accom_pdf($accom_ID, $type, $purpose)
 	{
 		$accom = new Model_Accom;
-			
+		
 		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
 		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
 		$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
@@ -100,13 +100,12 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$par = $accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
 		$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
 		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
-
-
+		$this->session->set('accom_type', 'faculty');
+		
 		// Consolidate Accomplishment Reports
 		if ($purpose == 'consolidate')
 		{
 			$data = $this->session->get_once('consolidate_data');
-			$this->session->set('accom_type', 'faculty');
 			$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
 			$period = $this->redate($data['start'], $data['end'], FALSE);
 			$filename = $this->session->get('employee_code').'['.$period.'].pdf';
