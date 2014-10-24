@@ -122,7 +122,13 @@ class Model_Univ extends Model {
  			->where('college_ID', '=', $details['college_ID'])
  			->execute();
 
- 		if ($rows_updated == 1) return $details['short'].' was successfully updated.';
+ 		if ($rows_updated == 1)
+ 		{
+ 			if (array_key_exists('short', $details))
+ 				return $details['short'].' was successfully updated.';
+ 			else
+ 				return TRUE;
+ 		}
  		else return FALSE;
  	}
 
@@ -208,7 +214,13 @@ class Model_Univ extends Model {
  			->where('department_ID', '=', $details['department_ID'])
  			->execute();
 
- 		if ($rows_updated == 1) return $details['short'].' was successfully updated.';
+ 		if ($rows_updated == 1)
+ 		{
+ 			if (array_key_exists('short', $details))
+ 				return $details['short'].' was successfully updated.';
+ 			else
+ 				return TRUE;
+ 		}
  		else return FALSE;
  	}
 

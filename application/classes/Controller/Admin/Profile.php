@@ -49,7 +49,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		}
 
 		$user = new Model_User;
-		$user->add_user($details);
+		if (!$user->add_user($details)) $this->session->set('success', $user->add_user($details));
 		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 

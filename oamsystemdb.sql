@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 23, 2014 at 03:15 AM
+-- Generation Time: Oct 24, 2014 at 02:16 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
   `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `accomtbl`
@@ -49,7 +49,7 @@ INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `s
 (10, 4, '2014-04-01', '2014-08-28', 'Saved', 'None', '1234000000414.pdf'),
 (11, 17, '2014-08-01', NULL, 'Draft', 'None', ''),
 (15, 4, '2014-08-01', NULL, 'Draft', 'None', NULL),
-(16, 8, '2014-01-01', '2014-08-28', 'Pending', 'None', '1234000040114.pdf'),
+(16, 8, '2014-01-01', '2014-08-28', 'Approved', 'None', '1234000040114.pdf'),
 (17, 8, '2014-03-01', '2014-08-29', 'Pending', 'None', '1234000040314.pdf'),
 (18, 7, '2014-08-01', NULL, 'Draft', 'None', NULL),
 (19, 24, '2014-01-01', NULL, 'Draft', 'None', NULL),
@@ -59,7 +59,8 @@ INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `s
 (23, 8, '2014-05-01', '2014-10-22', 'Pending', 'None', '1234000040514.pdf'),
 (24, 8, '2014-06-01', '2014-10-22', 'Pending', 'None', '1234000040614.pdf'),
 (25, 31, '2014-09-01', '2014-09-16', 'Pending', 'None', '1438601130914.pdf'),
-(26, 8, '2014-07-01', NULL, 'Draft', 'None', NULL);
+(26, 8, '2014-07-01', '2014-10-23', 'Pending', 'None', '1234000040714.pdf'),
+(27, 8, '2014-08-01', '2014-10-23', 'Draft', 'None', '1234000040814.pdf');
 
 -- --------------------------------------------------------
 
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `accom_awdtbl` (
   `end` date NOT NULL,
   `source` varchar(255) NOT NULL DEFAULT 'University of the Philppines',
   `type` enum('Academe','National','International') NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `accom_awdtbl`
@@ -88,7 +89,8 @@ INSERT INTO `accom_awdtbl` (`award_ID`, `award`, `start`, `end`, `source`, `type
 (8, 'a', '2014-09-16', '2014-09-08', 'a', 'Academe'),
 (9, 'Change Award', '2014-09-02', '2014-09-11', 'awarder', 'Academe'),
 (10, 's', '2014-09-03', '2014-09-12', 's', 'Academe'),
-(11, 'awd', '2014-10-09', '2014-10-16', 'asd', 'Academe');
+(11, 'awd', '2014-10-09', '2014-10-16', 'asd', 'Academe'),
+(12, 'Award', '2014-07-03', '2014-07-03', 'Sources', 'Academe');
 
 -- --------------------------------------------------------
 
@@ -103,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `accom_ctvtbl` (
   `venue` varchar(255) NOT NULL,
   `start` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `accom_ctvtbl`
@@ -113,7 +115,8 @@ INSERT INTO `accom_ctvtbl` (`creative_ID`, `author`, `title`, `venue`, `start`, 
 (2, NULL, 'asd', 'asd', '2014-08-05', '2014-08-05'),
 (3, NULL, 'Work', 'Venu', '2014-08-07', '2014-08-07'),
 (4, NULL, 'Title', 'Venue', '2014-08-28', '2014-08-30'),
-(5, '', 'Art', 'Venue', '2014-10-11', '2014-10-15');
+(5, '', 'Art', 'Venue', '2014-10-11', '2014-10-15'),
+(6, NULL, 'Try', 'Venue', '2014-07-10', '2014-07-15');
 
 -- --------------------------------------------------------
 
@@ -126,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
   `author` varchar(255) DEFAULT NULL,
   `year` text NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `accom_mattbl`
@@ -150,7 +153,9 @@ INSERT INTO `accom_mattbl` (`material_ID`, `author`, `year`, `title`) VALUES
 (24, '', '2010', 'Titlesa a'),
 (27, '', '1111', 'Subokan'),
 (29, NULL, '1234', 'weee'),
-(30, NULL, '1234', 'test');
+(30, NULL, '1234', 'test'),
+(31, 'sWe', '2014', 'Yeah'),
+(32, NULL, '2014', 'Attach');
 
 -- --------------------------------------------------------
 
@@ -165,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `accom_othtbl` (
   `venue` varchar(255) NOT NULL,
   `start` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `accom_othtbl`
@@ -176,7 +181,8 @@ INSERT INTO `accom_othtbl` (`other_ID`, `participation`, `activity`, `venue`, `s
 (4, 'Participant', 'Activity', 'Venue', '2014-08-08', '2014-08-09'),
 (5, 'Participant', 'Activity', 'Venue', '2014-08-07', '2014-08-09'),
 (6, 'Other', 'Activity', 'Venue', '2014-08-01', '2014-08-04'),
-(7, 'pa', 'pbb', 'pc', '2014-10-17', '2014-10-17');
+(7, 'pa', 'pbb', 'pc', '2014-10-17', '2014-10-17'),
+(8, 'Administrator', 'Trekking', 'Mt. Gawler', '2014-07-10', '2014-07-12');
 
 -- --------------------------------------------------------
 
@@ -191,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `accom_partbl` (
   `venue` varchar(255) NOT NULL,
   `start` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `accom_partbl`
@@ -200,7 +206,8 @@ CREATE TABLE IF NOT EXISTS `accom_partbl` (
 INSERT INTO `accom_partbl` (`participation_ID`, `participation`, `title`, `venue`, `start`, `end`) VALUES
 (3, 'adas', 'asd', 'asd', '2014-08-05', '2014-08-05'),
 (4, 'Facilitator', 'Seminar Title', 'Venue', '2014-08-28', '2014-08-30'),
-(5, 'wa', 'wb', 'wc', '2014-10-09', '2014-10-09');
+(5, 'wa', 'wb', 'wc', '2014-10-09', '2014-10-09'),
+(6, 'Guardian', 'Dance', 'Court', '2014-07-14', '2014-07-14');
 
 -- --------------------------------------------------------
 
@@ -216,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `accom_pprtbl` (
   `venue` varchar(255) NOT NULL,
   `start` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `accom_pprtbl`
@@ -229,7 +236,8 @@ INSERT INTO `accom_pprtbl` (`paper_ID`, `author`, `title`, `activity`, `venue`, 
 (6, NULL, 'Title', 'Forum', 'Venue', '2014-08-28', '2014-08-30'),
 (10, '', 't', 'Conference', 't', '2014-08-04', '2014-08-04'),
 (11, NULL, 't', 'Conference', 'w', '2014-08-06', '2014-08-08'),
-(12, '', 'Title', 'Conference', 'b', '2014-10-01', '2014-10-08');
+(12, '', 'Title', 'Conference', 'b', '2014-10-01', '2014-10-08'),
+(13, 'Author', 'Titles', 'Conference', 'Venues', '2014-07-03', '2014-07-04');
 
 -- --------------------------------------------------------
 
@@ -252,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
   `peer_reviewed` int(1) NOT NULL DEFAULT '0',
   `refereed` int(1) NOT NULL DEFAULT '0',
   `popular` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `accom_pubtbl`
@@ -266,7 +274,9 @@ INSERT INTO `accom_pubtbl` (`publication_ID`, `author`, `year`, `title`, `type`,
 (6, NULL, 1234, 'Title', 'Book', '0', '0', 'Publisher', 'Place', '123', 0, 0, 0, 0),
 (7, NULL, 1234, 'Title', 'Journal', '0', '2', NULL, NULL, '12-23', 0, 0, 0, 0),
 (8, NULL, 1234, 'Title', 'Journal', '1', '1', NULL, NULL, '12-23', 0, 0, 0, 0),
-(9, '', 2010, 'Book', 'Chapter in a Book', 'a', 'a', 'a', 'a', 'p', 0, 0, 0, 0);
+(9, '', 2010, 'Book', 'Chapter in a Book', 'a', 'a', 'a', 'a', 'p', 0, 0, 0, 0),
+(10, 'Nobody', 2014, 'This', 'Book', NULL, NULL, 'is', 'Sparta', '300', 0, 0, 0, 0),
+(11, NULL, 2014, 'Some', 'Chapter in a Book', NULL, NULL, 'Cheesy', 'Book', '1', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -283,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
   `end` date NOT NULL,
   `fund_amount` varchar(20) DEFAULT NULL,
   `fund_up` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `accom_rchtbl`
@@ -296,7 +306,8 @@ INSERT INTO `accom_rchtbl` (`research_ID`, `title`, `nature`, `fund_external`, `
 (5, 'Title', 'Basic', 'With external', '2014-08-28', '2014-08-30', '100.00', '200.00'),
 (6, 'Title', 'Basic', NULL, '2014-08-28', '2014-08-30', '0', '200.00'),
 (7, 'w', 'Basic', 'w', '2014-09-17', '2014-09-26', NULL, '1212312.05'),
-(8, 'hello', 'Basic', NULL, '2014-10-15', '2014-10-16', NULL, '1221.22');
+(8, 'hello', 'Basic', NULL, '2014-10-15', '2014-10-16', NULL, '1221.22'),
+(9, 'How To', 'Basic', 'Heyy', '2014-07-01', '2015-07-01', '122211.11', '11111.00');
 
 -- --------------------------------------------------------
 
@@ -310,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
   `attachment` text
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=113 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=123 ;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -377,7 +388,17 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (109, 24, 5, 'par', NULL),
 (110, 24, 7, 'oth', NULL),
 (111, 23, 11, 'awd', NULL),
-(112, 26, 8, 'rch', NULL);
+(112, 26, 8, 'rch', NULL),
+(113, 27, 12, 'awd', NULL),
+(114, 27, 9, 'rch', NULL),
+(115, 27, 13, 'ppr', 'tyw2jxyfjetl3qlrecwb27ppr1414060135.jpg'),
+(116, 27, 6, 'ctv', NULL),
+(117, 27, 8, 'oth', NULL),
+(118, 27, 6, 'par', NULL),
+(119, 27, 31, 'mat', NULL),
+(120, 27, 10, 'pub', NULL),
+(121, 27, 11, 'pub', NULL),
+(122, 27, 32, 'mat', '0ofm190orl1tdjblwehg27mat1414064445.jpg');
 
 -- --------------------------------------------------------
 
@@ -691,8 +712,8 @@ INSERT INTO `univ_departmenttbl` (`department_ID`, `college_ID`, `user_ID`, `dep
 (3, 1, 9, 'Department of Human Kinetics', 'DHK'),
 (4, 1, 10, 'Department of Social Sciences', 'DSS'),
 (5, 2, 11, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
-(6, 2, 12, 'Department of Food Science and Chemistry', 'DFSC'),
-(7, 2, 13, 'Department of Mathematics, Physics and Computer Science', 'DMPCS'),
+(6, 2, 11, 'Department of Food Science and Chemistry', 'DFSC'),
+(7, 2, 12, 'Department of Mathematics, Physics and Computer Science', 'DMPCS'),
 (8, 4, 31, 'Department Test', 'DT'),
 (9, 4, 27, 'Department Again', 'DAg');
 
@@ -774,7 +795,7 @@ INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) 
 (6, '123400002', '$2y$10$TBODwFR1rFW/RFnSGyAtduqks7xjnyP8oEWNrCfkYVLwHZjgJvSFm', 0),
 (7, '123400003', '$2y$10$cSza7WOFYdzf8OvJv/w39O.1EeTfaJELWq0A7GUS2GF9szSMPHqnm', 0),
 (8, '123400004', '$2y$10$Sz2CN29qxnNFuDMabvnxn.E2oogdLJMzB43LizMJcIxdwyHZtAomi', 0),
-(9, '123400005', 'upmin', 0),
+(9, '123400005', '$2y$10$lCo2R46aJLWK.UpuouyBvOLSC2tUqRn0qG3fHAVPwJ5AcZZ80h.r6', 0),
 (10, '123400006', '$2y$10$FFKYIUjtiaYCG6aUL3WLyuIODWeYvQeSriXfVBZLjAPycUY4QVJYS', 0),
 (11, '123400007', '$2y$10$EkQJPig07h41Q3xewEjhmeO8x80MbFfLbTri71WO1AszIM7j2qr9C', 0),
 (12, '123400008', '$2y$10$dzFnMXjJ8PZrW4eFbuEVMOhqNyZNb9N.BzExgzq/4c5QYLhsmzAbe', 0),
@@ -793,10 +814,23 @@ INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) 
 (25, '123400021', '$2y$10$.IlTLUYiaGNMorpsL/jnAuhdvylfVl1c.T8k.kMvW.JZ5SffiLf.q', 0),
 (26, '123400023', '$2y$10$BqqpOcGzWTNiRj8q7w2oQOEuZPrnqYxIIHjmLi6mnDAYYYIH1JCWi', 0),
 (27, '123400024', '$2y$10$9Ib2RPOYUFzsH5Q/Q3O/uuwgvC02JGiFbKFkiiOUc45Q2TY.8AYRS', 0),
-(28, '023', '$2y$10$L14R.FcdYlvohdwJBLOd5.aWKZmNPZww5JlQ5Znw7l1aEaodEqeDm', 0),
-(29, '123410000', '$2y$10$SOhXN7EsXSBlyzyR3S9oC.9frgHBDYKFS4ZH44mv2hkBvPT2LIK1m', 0),
-(30, '123410001', '$2y$10$D9jttwcfOU4Lwx1lihtjh.3GaZg97qPv9L1RkKRM.c.diQse5atE.', 0),
-(31, '143860113', '$2y$10$ofuLNO/ICgQe7BY5KwJazO3c/MlOeREnhSgCrTJLjAEz92dWG/WjS', 0);
+(31, '143860113', '$2y$10$ofuLNO/ICgQe7BY5KwJazO3c/MlOeREnhSgCrTJLjAEz92dWG/WjS', 0),
+(32, '123400026', '$2y$10$2fEmUz3.7JkrdHc.1LfQGusGNza08VDxoQJtMJCLjxMl4xk7TMmyS', 0),
+(33, '123400028', '$2y$10$X6rBZiWOq8Z83GbGO273T.OLJev4C4L2eiCmcBwuwG3YNb8sq0q.6', 0),
+(34, '123400025', '$2y$10$LqqdYG21psJNw5kTbJr3oemX4VvVQ4.Iarw3y1K05VQGM9TN/wMpS', 0),
+(35, '123400027', '$2y$10$J5zsDNeqGaqGoBxjaLQtaeset6ExUeVtH9SXW7ggn.jKMSQ1Vovbu', 0),
+(36, '123400029', '$2y$10$iDIrxjQAHZQstRETIpRtGurm6Ez3Dq9ev7ZPBfIbJZUX7n52n86uC', 0),
+(37, '123400022', '$2y$10$ZlAIISWW9OidGoAo8UMEu.KgQx2tAZktrg.0xEyia7DJePnGk1K0y', 0),
+(38, '123400030', '$2y$10$dZrNFhEd1O0dxlwWLeq32eQTm7krIBo9zJAqi5nKrBzCl7LYuXDnO', 0),
+(39, '123400031', '$2y$10$qWNmvXmTKnwKWskOdW8AB.j7HFb3hUieFYIXAt.KPq.FylnlUMOg.', 0),
+(40, '123400032', '$2y$10$LpkQaik9xX/H8YvThFkeLuhE4yC8DIkYBZ/lIBpJdxz6ddJGCIAdq', 0),
+(41, '123400034', '$2y$10$CabRuEiqb7aj5gsGM9VyJOqyx19.IJH5ZsczM1hQimhZQip9.q2VG', 0),
+(42, '123400035', '$2y$10$4jj72Ld40Sv21/SFhTg8WerhnSj7ixdfug.PJ0idLFzQQGjMtUJ76', 0),
+(43, '123400033', '$2y$10$Vy7fEwVrccG/tnp21p0dyupoFgey6D9iZpHknMYcckyQ5qEpr5mhq', 0),
+(44, '123400036', '$2y$10$w6r36LhVqV..Tv7WXfVqQum36oMX/fAVTFzu.aHIpX9O06eCyfw6i', 0),
+(45, '123400037', '$2y$10$Ddvwhf1N6X5gxxFdc5Uy3edcknjW7ofczEU0.xacqiO9m05Fsy8Gq', 0),
+(46, '123400038', '$2y$10$fT4.Lnj2N3HRmtfwuJBJiOhla.B2XXzPOR4xZkd.MHXRxXwjDT8z.', 0),
+(47, '000312345', '$2y$10$WQTV8YHrW3N.a3DnVHXf/uRAaa9oleUefPvaGCMJVbIxS..1Nu.N2', 0);
 
 -- --------------------------------------------------------
 
@@ -819,7 +853,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `birthday` date NOT NULL,
   `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
 
 --
 -- Dumping data for table `user_profiletbl`
@@ -834,26 +868,42 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 (6, '123400002', 'Martha', 'K', 'Stutts', 'Faculty', 'MKStutts', 9, NULL, '-', 'dean', '1991-02-01', NULL, 0),
 (7, '123400003', 'Evan', 'L', 'Woodrow', 'Faculty', 'ELWoodrow', 1, 1, '-', 'dept_chair', '1964-02-18', NULL, 0),
 (8, '123400004', 'Karen', 'T', 'Brickey', 'Faculty', 'KTBrickey', 2, 2, '-', 'dept_chair', '1967-08-10', NULL, 0),
-(9, '123400005', 'Jacqueline', 'A', 'Morales', 'Faculty', 'JAMorales', NULL, 3, '-', 'dept_chair', '1987-03-22', NULL, 0),
-(10, '123400006', 'Sharon', 'D', 'Call', 'Faculty', 'SDCall', 4, 4, '-', 'dept_chair', '1970-12-07', NULL, 0),
-(11, '123400007', 'Pedro', 'R', 'Morales', 'Faculty', 'PRMorales', 5, 5, '-', 'dept_chair', '1971-01-01', NULL, 0),
-(12, '123400008', 'Thomas', 'W', 'Seay', 'Faculty', 'TWSeay', 6, 6, '-', 'dept_chair', '1974-03-03', NULL, 0),
-(13, '123400009', 'Albert', 'A', 'Russell', 'Faculty', 'AARussell', 7, 7, '-', 'dept_chair', '1977-08-10', NULL, 0),
+(9, '123400005', 'Jacqueline', 'A', 'Morales', 'Faculty', 'JAMorales', 4, 4, '-', 'dept_chair', '1987-03-22', NULL, 0),
+(10, '123400006', 'Sharon', 'D', 'Call', 'Faculty', 'SDCall', 5, 5, '-', 'dept_chair', '1970-12-07', NULL, 0),
+(11, '123400007', 'Pedro', 'R', 'Morales', 'Faculty', 'PRMorales', 6, 6, '-', 'dept_chair', '1971-01-01', NULL, 0),
+(12, '123400008', 'Thomas', 'W', 'Seay', 'Faculty', 'TWSeay', 8, 7, '-', 'dept_chair', '1974-03-03', NULL, 0),
+(13, '123400009', 'Albert', 'A', 'Russell', 'Faculty', 'AARussell', 1, 1, '-', 'none', '1977-08-10', NULL, 0),
 (14, '123400010', 'Dianne', 'A', 'Farias', 'Faculty', 'DAFarias', 1, 1, '-', 'none', '1993-04-15', NULL, 0),
 (15, '123400011', 'Daniel', 'C', 'Daly', 'Faculty', 'DCDaly', 1, 1, '-', 'none', '1975-12-31', NULL, 0),
-(16, '123400012', 'Kristin', 'B', 'Morford', 'Faculty', 'KBMorford', 1, 1, '-', 'none', '1983-10-16', NULL, 0),
+(16, '123400012', 'Kristin', 'B', 'Morford', 'Faculty', 'KBMorford', 2, 2, '-', 'none', '1983-10-16', NULL, 0),
 (17, '123400013', 'Gloria', 'V', 'Hubbard', 'Faculty', 'GVHubbard', 2, 2, 'Some rank', 'none', '1991-03-04', NULL, 0),
 (18, '123400014', 'Anthony', 'C', 'Whitehill', 'Faculty', 'ACWhitehill', 2, 2, '-', 'none', '1967-02-11', NULL, 0),
-(19, '123400015', 'Richard', 'A', 'Savage', 'Faculty', 'RASavage', 2, 2, '-', 'none', '1994-07-26', NULL, 0),
+(19, '123400015', 'Richard', 'A', 'Savage', 'Faculty', 'RASavage', 3, 2, '-', 'none', '1994-07-26', NULL, 0),
 (20, '123400016', 'Dominic', 'R', 'Martinez', 'Faculty', 'DRMartinez', 3, 2, '-', 'none', '1982-01-31', NULL, 0),
 (21, '123400017', 'Lillian', 'R', 'Laberge', 'Faculty', 'LRLaberge', 3, 2, '-', 'none', '1968-07-03', NULL, 0),
-(22, '123400018', 'Jack', 'A', 'Hansen', 'Faculty', 'JAHansen', 3, 2, '-', 'none', '1984-01-29', NULL, 0),
+(22, '123400018', 'Jack', 'A', 'Hansen', 'Faculty', 'JAHansen', 4, 4, '-', 'none', '1984-01-29', NULL, 0),
 (23, '123400019', 'Peggy', 'L', 'Benedetto', 'Faculty', 'PLBenedetto', 4, 4, '-', 'none', '2014-07-22', NULL, 0),
 (24, '123400020', 'Jeffrey', 'K', 'Barraza', 'Faculty', 'JKBarraza', 4, 4, '-', 'none', '1992-10-29', NULL, 0),
-(25, '123400021', 'Carole', 'C', 'Brown', 'Faculty', 'CCBrown', 4, 4, '-', 'none', '1966-08-12', NULL, 0),
+(25, '123400021', 'Carole', 'C', 'Brown', 'Faculty', 'CCBrown', 5, 5, '-', 'none', '1966-08-12', NULL, 0),
 (26, '123400023', 'Ben', 'P', 'Banks', 'Faculty', 'BPBanks', 5, 5, '-', 'none', '1959-01-09', NULL, 0),
-(27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 5, 5, '-', 'none', '1986-12-25', NULL, 0),
-(31, '143860113', 'Armacheska', 'River', 'Mesa', 'Faculty', 'Armesa', 8, 7, 'Intructor', 'none', '2014-09-09', NULL, 0);
+(27, '123400024', 'Hilda', 'D', 'Jones', 'Faculty', 'HDJones', 6, 6, '-', 'none', '1986-12-25', NULL, 0),
+(31, '143860113', 'Armacheska', 'River', 'Mesa', 'Faculty', 'Armesa', 8, 7, 'Intructor', 'none', '2014-09-09', NULL, 0),
+(32, '123400026', 'Ryan', 'C', 'Clark', 'Faculty', 'RCClark', 6, 6, '-', 'none', '1983-06-18', NULL, 0),
+(33, '123400028', 'Gwyn', 'J', 'Johnson', 'Faculty', 'GJJohnson', 7, 7, '-', 'none', '1985-02-18', NULL, 0),
+(34, '123400025', 'Ralph', 'J', 'Harris', 'Faculty', 'RJHarris', 6, 6, '-', 'none', '1972-03-12', NULL, 0),
+(35, '123400027', 'Phyllis', 'K', 'May', 'Faculty', 'PKMay', 7, 7, '-', 'none', '1990-04-03', NULL, 0),
+(36, '123400029', 'Susan', 'J', 'Anderson', 'Faculty', 'SJAnderson', 7, 7, '-', 'none', '1981-02-13', NULL, 0),
+(37, '123400022', 'Allen', 'D', 'Katz', 'Faculty', 'ADKatz', 5, 5, '-', 'none', '1975-02-02', NULL, 0),
+(38, '123400030', 'Richard', 'T', 'Ferrell', 'Faculty', 'RTFerrell', 8, 7, '-', 'none', '1975-12-20', NULL, 0),
+(39, '123400031', 'Allison', 'M', 'McLain', 'Faculty', 'AMMcLain', 8, 7, '-', 'none', '1965-04-03', NULL, 0),
+(40, '123400032', 'Johnny', 'B', 'Mitchell', 'Admin', NULL, NULL, NULL, NULL, NULL, '1960-04-03', NULL, 0),
+(41, '123400034', 'Deborah', 'H', 'Jensen', 'Faculty', 'DHJensen', 9, NULL, '-', 'none', '1976-01-17', NULL, 0),
+(42, '123400035', 'Kathleen', 'M', 'Thomas', 'Faculty', 'KMThomas', 9, NULL, '-', 'none', '1985-04-01', NULL, 0),
+(43, '123400033', 'Hilda', 'K', 'Martinez', 'Faculty', 'HKMartinez', 9, NULL, '-', 'none', '1977-06-04', NULL, 0),
+(44, '123400036', 'Joyce', 'D', 'Carter', 'Faculty', 'JDCarter', 10, NULL, '-', 'none', '1992-04-12', NULL, 0),
+(45, '123400037', 'Joseph', 'L', 'Duke', 'Faculty', 'JLDuke', 10, NULL, '-', 'none', '1993-12-23', NULL, 0),
+(46, '123400038', 'Lisa', 'A', 'Gray', 'Faculty', 'LAGray', 10, NULL, '-', 'none', '1985-06-21', NULL, 0),
+(47, '000312345', 'Lori', 'K', 'Shoffner', 'Admin', NULL, NULL, NULL, NULL, NULL, '1982-02-24', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -1017,52 +1067,52 @@ ALTER TABLE `user_profiletbl`
 -- AUTO_INCREMENT for table `accomtbl`
 --
 ALTER TABLE `accomtbl`
-MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `accom_awdtbl`
 --
 ALTER TABLE `accom_awdtbl`
-MODIFY `award_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `award_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `accom_ctvtbl`
 --
 ALTER TABLE `accom_ctvtbl`
-MODIFY `creative_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `creative_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
+MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
 ALTER TABLE `accom_othtbl`
-MODIFY `other_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `other_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `accom_partbl`
 --
 ALTER TABLE `accom_partbl`
-MODIFY `participation_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `participation_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `accom_pprtbl`
 --
 ALTER TABLE `accom_pprtbl`
-MODIFY `paper_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `paper_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `accom_pubtbl`
 --
 ALTER TABLE `accom_pubtbl`
-MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `accom_rchtbl`
 --
 ALTER TABLE `accom_rchtbl`
-MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `research_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=113;
+MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=123;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -1117,7 +1167,7 @@ MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 --
 -- Constraints for dumped tables
 --

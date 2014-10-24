@@ -1,0 +1,14 @@
+Fixed: 
+
+TO DO:
+- view all, limit/pagination
+- rch modal optional/not fields
+- no pagebreak before signature
+- remove extra period on consolidated accom group (?)
+- signature name, same size
+- shorten long filenames for upload files
+- change birthday input style
+
+ASSUMPTION:
+- No repetitive accomplishments
+- No faculty under DHK

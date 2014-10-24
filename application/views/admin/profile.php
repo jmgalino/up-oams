@@ -18,7 +18,7 @@
 	</p>
 </div>
 <?php elseif ($error OR $success === FALSE): ?>
-<div class="alert alert-success alert-dismissable">
+<div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
 		Something went wrong. Please try again.
@@ -33,50 +33,48 @@ echo View::factory('admin/profile/form/template')
 ?>
 
 <!-- Table -->
-<div class="table-responsive">
-	<table class="table table-hover" id="user_table">
-		<thead>
-			<tr>
-				<th>Employee Code</th>
-				<th>Name</th>
-				<th>User Type</th>
-				<th class="action">Action</th>
-			</tr>
-		</thead>
-		<tbody>
-	<?php
-	foreach ($users as $user)
+<table class="table table-hover" id="user_table" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Employee Code</th>
+			<th>Name</th>
+			<th>User Type</th>
+			<th class="action">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+foreach ($users as $user)
+{
+	echo '<tr>';
+	echo '<td>', $user['employee_code'], '</td>';
+	echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>';
+	echo '<td>', $user['user_type'], '</td>';
+	
+	if ($user['employee_code'] !== $employee_code)
 	{
-		echo '<tr>';
-		echo '<td>', $user['employee_code'], '</td>';
-		echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>';
-		echo '<td>', $user['user_type'], '</td>';
-		
-		if ($user['employee_code'] !== $employee_code)
-		{
-			echo '<td class="dropdown">
-				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href='.URL::site('admin/profile/view/'.$user['employee_code']).'>
-						<span class="glyphicon glyphicon-user"></span> Show Profile</a>
-					</li>
-					<li>
-						<a id="resetPassword" href='.URL::site('admin/profile/reset/'.$user['user_ID']).'>
-						<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
-					</li>
-					<li>
-						<a id="deleteAccount" href='.URL::site('admin/profile/delete/'.$user['user_ID']).'>
-						<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
-					</li>
-				</ul>
-			</td>';
-		}
-		else
-			echo '<td>Disabled</td>';
+		echo '<td class="dropdown">
+			<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li>
+					<a href='.URL::site('admin/profile/view/'.$user['employee_code']).'>
+					<span class="glyphicon glyphicon-user"></span> Show Profile</a>
+				</li>
+				<li>
+					<a id="resetPassword" href='.URL::site('admin/profile/reset/'.$user['user_ID']).'>
+					<span class="glyphicon glyphicon-repeat"></span> Reset Password</a>
+				</li>
+				<li>
+					<a id="deleteAccount" href='.URL::site('admin/profile/delete/'.$user['user_ID']).'>
+					<span class="glyphicon glyphicon-trash"></span> Delete Profile</a>
+				</li>
+			</ul>
+		</td>';
+	}
+	else
+		echo '<td>Disabled</td>';
 
-		echo '</tr>';
-	}?>
-		</tbody>
-	</table>
-</div>
+	echo '</tr>';
+}?>
+	</tbody>
+</table>

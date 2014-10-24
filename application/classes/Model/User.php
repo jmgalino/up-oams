@@ -104,50 +104,57 @@ class Model_User extends Model {
  	/**
 	 * New user
 	 */
-	public function add_user($details)
+	public function add_user($user_details)
  	{
+ 		$success = FALSE;
+
  		$insert_profile = DB::insert('user_profiletbl')
-			->columns(array_keys($details))
-			->values($details)
+			->columns(array_keys($user_details))
+			->values($user_details)
 			->execute();
 		$insert_login = DB::insert('user_logintbl')
 			->columns(array('user_ID', 'employee_code', 'password'))
-			->values(array($insert_profile[0], $details['employee_code'], password_hash('upmin', PASSWORD_DEFAULT)))
+			->values(array($insert_profile[0], $user_details['employee_code'], password_hash('upmin', PASSWORD_DEFAULT)))
 			->execute();
 
 		$positions = array('dean', 'dept_chair');
-		if (in_array($details['position'], $positions))
+		if (in_array($user_details['position'], $positions))
 		{
-			$update = $this->update_univ($insert_profile[0]);
+			$user_details['user_ID'] = $insert_profile[0];
+			$update = $this->update_univ($user_details);
 			$success = ($insert_profile[1] == 1 AND $insert_login[1] == 1 AND $update ? TRUE : FALSE);
 		}
 		elseif ($insert_profile[1] == 1 AND $insert_login[1] == 1 )
 			$success = TRUE;
 
-		if (!$sucess)
-		{
-			$this->session->set('error', TRUE);
-			$this->redirect('admin/profile');
-		}
+		return $success;
  	}
 
  	/**
 	 * Update user details
 	 */
-	public function update_details($details)
+	public function update_details($new_details)
  	{
  		$positions = array('dean', 'dept_chair');
-		$user_details = $this->get_details($details['user_ID'], NULL);
+		$user_details = $this->get_details($new_details['user_ID'], NULL);
  		
  		$rows_updated = DB::update('user_profiletbl')
- 			->set($details)
- 			->where('user_ID', '=', $details['user_ID'])
+ 			->set($new_details)
+ 			->where('user_ID', '=', $new_details['user_ID'])
  			->execute();
 
+ 		// Login update
+ 		if (array_key_exists('employee_code', $new_details))
+ 		{
+ 			$rows_updated = DB::update('user_logintbl')
+	 			->set(array('employee_code'=>$new_details['employee_code']))
+	 			->where('user_ID', '=', $new_details['user_ID'])
+	 			->execute();
+ 		}
  		// Profile and univ update
-		if (in_array('position', array_keys($details)) AND in_array($details['position'], $positions))
+		if (array_key_exists('position', $new_details) AND in_array($new_details['position'], $positions))
 		{
-			$update = $this->update_univ($details['user_ID']);
+			$update = $this->update_univ($new_details);
 			$success = ($rows_updated == 1 AND $update ? TRUE : FALSE);
 		}
 
@@ -156,14 +163,14 @@ class Model_User extends Model {
 			$success = TRUE;
 
 		// Update was unnecessary
-		elseif (count(array_diff($user_details, $details)) == 2)
+		elseif (count(array_diff($user_details, $new_details)) == 2)
 			$success = 'none';
 		
 		// No update was made
 		else
 			$success = FALSE;
 
- 		if ($success === TRUE) return $user_details['first_name'].'\'s profile was successfully updated.';
+ 		if ($success === TRUE) return $new_details['first_name'].'\'s profile was successfully updated.';
  		elseif($success === 'none') return $success;
  		else return FALSE;
  	}
@@ -171,20 +178,20 @@ class Model_User extends Model {
  	/**
 	 * Update univ details
 	 */
-	private function update_univ($user_ID)
+	private function update_univ($user_details)
  	{
  		$univ = new Model_Univ;
  		$success = NULL;
 
- 		if ($details['position'] == 'dean')
+ 		if ($user_details['position'] == 'dean')
 		{	
-			$college = $univ->get_college_details(null, $details['program_ID']);
-			$success = $univ->update_college(array('college_ID'=>$college['college_ID'], 'user_ID'=>$user_ID));
+			$college = $univ->get_college_details(NULL, $user_details['program_ID']);
+			$success = $univ->update_college(array('college_ID'=>$college['college_ID'], 'user_ID'=>$user_details['user_ID']));
 		}
-		elseif ($details['position'] == 'dept_chair')
+		elseif ($user_details['position'] == 'dept_chair')
 		{
-			$department = $univ->get_department_details(null, $details['program_ID']);
-			$success = $univ->update_department(array('department_ID'=>$department['department_ID'], 'user_ID'=>$user_ID));
+			$department = $univ->get_department_details(NULL, $user_details['program_ID']);
+			$success = $univ->update_department(array('department_ID'=>$department['department_ID'], 'user_ID'=>$user_details['user_ID']));
 		}
 
 		return $success;
