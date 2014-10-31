@@ -7,7 +7,6 @@ class Model_Oams extends Model {
 	 */
 	public static function unique_record($details, $table, $exclude)
 	{
-		// Check if the username already exists in the database
 		$query = DB::select()->from($table);
 		
 		foreach ($details as $key => $value)
@@ -79,7 +78,7 @@ class Model_Oams extends Model {
 
  		if ($rows_updated == 1) return 'The title was successfully updated.';
  		elseif ($rows_updated > 1) return 'The titles were successfully updated.';
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
@@ -106,7 +105,7 @@ class Model_Oams extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return '"About" was successfully updated.';
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
@@ -186,7 +185,7 @@ class Model_Oams extends Model {
 		}
 
  		if ($rows_updated) return TRUE;
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
@@ -201,7 +200,7 @@ class Model_Oams extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
@@ -293,7 +292,7 @@ class Model_Oams extends Model {
  			->execute();
 
  		if ($rows_deleted == 1) return 'Message was successfully deleted.';
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 	
 } // End Oams

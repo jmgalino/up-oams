@@ -14,11 +14,11 @@
 		Password was successfully changed.
 	</p>
 </div>
-<?php elseif ($error): ?>
+<?php elseif ($error or ($success === FALSE)): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		<?php echo $error; ?>
+		<?php echo ($error ? $error : 'Something went wrong. Please try again.'); ?>
 	</p>
 </div>
 <?php endif; ?>

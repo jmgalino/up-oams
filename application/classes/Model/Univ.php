@@ -27,7 +27,7 @@ class Model_Univ extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return 'Mission was successfully updated.';
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Model_Univ extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return 'Vision was successfully updated.';
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**
@@ -129,6 +129,7 @@ class Model_Univ extends Model {
  			else
  				return TRUE;
  		}
+ 		elseif ($rows_updated == 0) return 'No changes were made.';
  		else return FALSE;
  	}
 
@@ -221,6 +222,7 @@ class Model_Univ extends Model {
  			else
  				return TRUE;
  		}
+ 		elseif ($rows_updated == 0) return 'No changes were made.';
  		else return FALSE;
  	}
 
