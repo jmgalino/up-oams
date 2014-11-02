@@ -180,8 +180,18 @@ class Controller_Admin_University extends Controller_Admin {
 	private function update_college()
 	{
 		$univ = new Model_Univ;
+		$user_updated = TRUE;
+		$update_details = $this->request->post();
 
-		$update_success = $univ->update_college($this->request->post());
+		if (array_key_exists('user_ID', $update_details))
+ 		{
+ 			$college_details = $univ->get_college_details($update_details['college_ID'], NULL);
+
+ 			if ($college_details['user_ID'] != $update_details['user_ID'])
+ 				$user_updated = $this->update_user($college_details['user_ID'], $update_details['user_ID'], 'dean');
+ 		}
+
+		$update_success = ($user_updated ? $univ->update_college($update_details) : FALSE);
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/university/colleges', 303);
 	}
@@ -204,8 +214,18 @@ class Controller_Admin_University extends Controller_Admin {
 	private function update_department()
 	{
 		$univ = new Model_Univ;
+		$user_updated = TRUE;
+		$update_details = $this->request->post();
 
-		$update_success = $univ->update_department($this->request->post());
+		if (array_key_exists('user_ID', $update_details))
+ 		{
+ 			$department_details = $univ->get_department_details($update_details['college_ID'], NULL);
+
+ 			if ($department_details['user_ID'] != $update_details['user_ID'])
+ 				$user_updated = $this->update_user($department_details['user_ID'], $update_details['user_ID'], 'dept_chair');
+ 		}
+
+		$update_success = ($user_updated ? $univ->update_department($update_details) : FALSE);
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/university/departments', 303);
 	}
@@ -237,5 +257,23 @@ class Controller_Admin_University extends Controller_Admin {
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/university/programs', 303);
 	}
+
+ 	/**
+	 * Update user positions
+	 */
+	private function update_user($old_user_ID, $new_user_ID, $new_position)
+	{
+ 		$user = new Model_User;
+
+ 		$old_user_updated = $user->update_details(array(
+ 			'user_ID' => $old_user_ID,
+ 			'position' => 'none'));
+
+ 		$new_user_updated = $user->update_details(array(
+ 			'user_ID' => $new_user_ID,
+ 			'position' => $new_position));
+
+ 		return ($old_user_updated AND $new_user_updated);
+ 	}
 
 } // End University

@@ -79,6 +79,7 @@ class Model_User extends Model {
 			->where('program_ID', 'IN', $programIDs)
 			->where('position', '!=', $exclude)
 			->where('deleted', '=', '0')
+			->order_by('first_name')
 	 		->execute()
 	 		->as_array();
     	}
@@ -88,6 +89,7 @@ class Model_User extends Model {
 			->from('user_profiletbl')
 			->where('program_ID', 'IN', $programIDs)
 			->where('deleted', '=', '0')
+			->order_by('first_name')
 	 		->execute()
 	 		->as_array();
 	 	}
@@ -135,8 +137,7 @@ class Model_User extends Model {
 	 */
 	public function update_details($new_details)
  	{
- 		$positions = array('dean', 'dept_chair');
-		$user_details = $this->get_details($new_details['user_ID'], NULL);
+ 		$user_details = $this->get_details($new_details['user_ID'], NULL);
  		
  		$profile_updated = DB::update('user_profiletbl')
  			->set($new_details)
@@ -146,7 +147,7 @@ class Model_User extends Model {
 		// Profile update
  		$success = ($profile_updated == 1 ? TRUE : ($profile_updated == 0 ? 'No changes were made.' : FALSE));
 
- 		// Login update echo Debug::vars($profile_updated, $success);
+ 		// Login update
  		if (array_key_exists('employee_code', $new_details) AND $new_details['employee_code'] != $user_details['employee_code'])
  		{
  			$login_updated = DB::update('user_logintbl')
@@ -156,59 +157,10 @@ class Model_User extends Model {
 
 	 		$success = ($login_updated ? $success : FALSE);
  		}
- 		// Univ update
-		if (array_key_exists('position', $new_details) AND in_array($new_details['position'], $positions))
-		{
-			$univ_updated = $this->update_univ($new_details);
-			$success = ($univ_updated ? $success : FALSE);
-		}
+		
 
  		if ($success === TRUE) return (array_key_exists('first_name', $new_details) ? $new_details['first_name'] : $user_details['first_name']).'\'s profile was successfully updated.';
  		else return $success;
- 	}
-
- 	/**
-	 * Update univ details
-	 */
-	private function update_univ($user_details)
- 	{
- 		$univ = new Model_Univ;
-
- 		if ($user_details['position'] == 'dean')
-		{
-			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
-			if ($college_details['user_ID'] == $user_details['user_ID'])
-				return TRUE;
-			else
-			{
-				$user_updated = $this->update_details(array('user_ID' => $college_details['user_ID'], 'position' => 'none'));
-				$college_updated = $univ->update_college(array('college_ID'=>$college_details['college_ID'], 'user_ID'=>$user_details['user_ID']));
-				return ($user_updated AND $college_updated);
-			}
-		}
-		elseif ($user_details['position'] == 'dept_chair')
-		{
-			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
-			if ($department_details['user_ID'] == $user_details['user_ID'])
-				return TRUE;
-			else
-			{
-				$user_updated = $this->update_details(array('user_ID' => $department_details['user_ID'], 'position' => 'none'));
-				$department_updated = $univ->update_department(array('department_ID'=>$department_details['department_ID'], 'user_ID'=>$user_details['user_ID']));
-				return ($user_updated AND $department_updated);
-			}
-		}
- 	}
-
- 	/**
-	 * Update univ details
-	 */
-	private function update_position($user_ID)
- 	{
- 		$rows_updated = DB::update('user_logintbl')
- 			->set(array('employee_code'=>$new_details['employee_code']))
- 			->where('user_ID', '=', $new_details['user_ID'])
- 			->execute();
  	}
 
  	/**

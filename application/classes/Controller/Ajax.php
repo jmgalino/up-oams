@@ -119,6 +119,30 @@ class Controller_Ajax extends Controller {
 	}
 
 	/**
+	 * Get users based on college
+	 */
+	public function action_college_users()
+	{
+		$univ = new Model_Univ;
+		$user = new Model_User;
+
+		$college_ID = $this->request->post('college_ID');
+		$programIDs = $univ->get_college_programIDs($college_ID);
+		$users = $user->get_user_group($programIDs, NULL);
+
+		$arr = array();
+		foreach ($users as $user)
+        {
+        	$tmp['optionValue'] = $user['user_ID'];
+        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+        	$arr[] = $tmp;
+        }
+
+        echo json_encode($arr);
+        exit();
+	}
+
+	/**
 	 * Get department details
 	 */
 	public function action_department_details()
@@ -137,6 +161,30 @@ class Controller_Ajax extends Controller {
 		
 		echo json_encode($arr);
 		exit();
+	}
+
+	/**
+	 * Get users based on department
+	 */
+	public function action_department_users()
+	{
+		$univ = new Model_Univ;
+		$user = new Model_User;
+
+		$department_ID = $this->request->post('department_ID');
+		$programIDs = $univ->get_department_programIDs($department_ID);
+		$users = $user->get_user_group($programIDs, NULL);
+
+		$arr = array();
+		foreach ($users as $user)
+        {
+        	$tmp['optionValue'] = $user['user_ID'];
+        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+        	$arr[] = $tmp;
+        }
+
+        echo json_encode($arr);
+        exit();
 	}
 
 	/**
@@ -194,6 +242,28 @@ class Controller_Ajax extends Controller {
 		
 		echo json_encode($arr);
 		exit();
+	}
+
+	public function action_get_users()
+	{
+		$user = new Model_User;
+
+		$users = $user->get_users();
+		$position = $this->request->post('position');
+
+		$arr = array();
+		foreach ($users as $user)
+		{
+			if ($user['position'] == $position)
+			{
+				$tmp['optionValue'] = $user['user_ID'];
+	        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+	        	$arr[] = $tmp;
+			}
+		}
+
+        echo json_encode($arr);
+        exit();
 	}
 
 	/**

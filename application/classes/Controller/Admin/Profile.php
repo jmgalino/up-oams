@@ -111,6 +111,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	public function action_update()
 	{
 		$user = new Model_User;
+		$univ_updated = TRUE;
 
 		$details = $this->request->post();
 		$details['birthday'] = date('Y-m-d', strtotime($details['birthday']));
@@ -128,15 +129,17 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$univ = new Model_Univ;
 			$department = $univ->get_program_details($details['program_ID']);
 			$details['department_ID'] = $department['department_ID'];
+
+	 		// Univ update
+			$positions = array('dean', 'dept_chair');
+			if (array_key_exists('position', $details) AND in_array($details['position'], $positions))
+				$univ_updated = $this->update_univ($details);
 		}
  
-		$update_success = $user->update_details($details);
-		if ($update_success != 'none')
-			$this->session->set('success', $update_success);
-		$user_ID = $this->request->param('id');
-		$user_details = $user->get_details($user_ID, NULL);
+		$update_success = ($univ_updated ? $user->update_details($details) : FALSE);
+		$this->session->set('success', $update_success);
 
-		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
+		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 
  	/**
@@ -244,6 +247,40 @@ class Controller_Admin_Profile extends Controller_Admin {
  
         return FALSE;
     }
+
+ 	/**
+	 * Update univ details
+	 */
+	private function update_univ($user_details)
+ 	{
+ 		$univ = new Model_Univ;
+ 		$user = new Model_User;
+
+ 		if ($user_details['position'] == 'dean')
+		{
+			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
+			if ($college_details['user_ID'] == $user_details['user_ID'])
+				return TRUE;
+			else
+			{
+				$user_updated = $user->update_details(array('user_ID' => $college_details['user_ID'], 'position' => 'none'));
+				$college_updated = $univ->update_college(array('college_ID'=>$college_details['college_ID'], 'user_ID'=>$user_details['user_ID']));
+				return ($user_updated AND $college_updated);
+			}
+		}
+		elseif ($user_details['position'] == 'dept_chair')
+		{
+			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
+			if ($department_details['user_ID'] == $user_details['user_ID'])
+				return TRUE;
+			else
+			{
+				$user_updated = $user->update_details(array('user_ID' => $department_details['user_ID'], 'position' => 'none'));
+				$department_updated = $univ->update_department(array('department_ID'=>$department_details['department_ID'], 'user_ID'=>$user_details['user_ID']));
+				return ($user_updated AND $department_updated);
+			}
+		}
+ 	}
 
 	// private function action_pdfviewer()
 	// {

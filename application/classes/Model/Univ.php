@@ -66,7 +66,7 @@ class Model_Univ extends Model {
 		$colleges = DB::select('univ_collegetbl.*',
 			'user_profiletbl.first_name', 'user_profiletbl.middle_name', 'user_profiletbl.last_name')
 			->from('univ_collegetbl')
-			->join('user_profiletbl')
+			->join('user_profiletbl', 'LEFT')
 			->on('univ_collegetbl.user_ID', '=', 'user_profiletbl.user_ID')
 			->order_by('college')
 			->execute()
@@ -89,7 +89,7 @@ class Model_Univ extends Model {
 		$details = DB::select('univ_collegetbl.*',
 			'user_profiletbl.first_name', 'user_profiletbl.middle_name', 'user_profiletbl.last_name')
 			->from('univ_collegetbl')
-			->join('user_profiletbl')
+			->join('user_profiletbl', 'LEFT')
 			->on('univ_collegetbl.user_ID', '=', 'user_profiletbl.user_ID')
 			->where('college_ID', '=', $college_ID)
 			->execute()
@@ -122,13 +122,7 @@ class Model_Univ extends Model {
  			->where('college_ID', '=', $details['college_ID'])
  			->execute();
 
- 		if ($rows_updated == 1)
- 		{
- 			if (array_key_exists('short', $details))
- 				return $details['short'].' was successfully updated.';
- 			else
- 				return TRUE;
- 		}
+ 		if ($rows_updated == 1) return (array_key_exists('short', $details) ? $details['short'].' was successfully updated.' : TRUE);
  		elseif ($rows_updated == 0) return 'No changes were made.';
  		else return FALSE;
  	}
@@ -157,7 +151,7 @@ class Model_Univ extends Model {
 			->from('univ_departmenttbl')
 			->join('univ_collegetbl')
 			->on('univ_departmenttbl.college_ID', '=', 'univ_collegetbl.college_ID')
-			->join('user_profiletbl')
+			->join('user_profiletbl', 'LEFT')
 			->on('univ_departmenttbl.user_ID', '=', 'user_profiletbl.user_ID')
 			->order_by('department')
 			->execute()
@@ -182,7 +176,7 @@ class Model_Univ extends Model {
 			->from('univ_departmenttbl')
 			->join('univ_collegetbl')
 			->on('univ_departmenttbl.college_ID', '=', 'univ_collegetbl.college_ID')
-			->join('user_profiletbl')
+			->join('user_profiletbl', 'LEFT')
 			->on('univ_departmenttbl.user_ID', '=', 'user_profiletbl.user_ID')
 			->where('univ_departmenttbl.department_ID', '=', $department_ID)
 			->execute()
@@ -215,13 +209,7 @@ class Model_Univ extends Model {
  			->where('department_ID', '=', $details['department_ID'])
  			->execute();
 
- 		if ($rows_updated == 1)
- 		{
- 			if (array_key_exists('short', $details))
- 				return $details['short'].' was successfully updated.';
- 			else
- 				return TRUE;
- 		}
+ 		if ($rows_updated == 1) return (array_key_exists('short', $details) ? $details['short'].' was successfully updated.' : TRUE);
  		elseif ($rows_updated == 0) return 'No changes were made.';
  		else return FALSE;
  	}

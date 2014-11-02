@@ -37,7 +37,9 @@ echo View::factory('admin/profile/form/template')
 	<thead>
 		<tr>
 			<th>Employee Code</th>
-			<th>Name</th>
+			<th>Last Name</th>
+			<th>First Name</th>
+			<th>Middle Name</th>
 			<th>User Type</th>
 			<th class="action">Action</th>
 		</tr>
@@ -48,7 +50,9 @@ foreach ($users as $user)
 {
 	echo '<tr>';
 	echo '<td>', $user['employee_code'], '</td>';
-	echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>';
+	echo '<td>', $user['last_name'], '</td>';
+	echo '<td>', $user['first_name'], '</td>';
+	echo '<td>', $user['middle_name'], '</td>';
 	echo '<td>', $user['user_type'], '</td>';
 	
 	if ($user['employee_code'] !== $employee_code)

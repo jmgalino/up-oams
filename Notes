@@ -1,4 +1,5 @@
 ERROR:
+- preselect user on college/department edit
 
 Fixed: 
 
@@ -13,4 +14,4 @@ TO DO:
 
 ASSUMPTION:
 - No repetitive accomplishments
-- No faculty under DHK; No need for dept chair
+- No program under DHK; No need for faculty & dept chair

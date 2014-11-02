@@ -77,9 +77,9 @@
   <div class="col-sm-7">
     <select class="form-control faculty_info" id="position" name="position">
       <option value="">Select</option>
-      <option value="none">Not Applicable</option>
-      <option value="dept_chair">Department Chair</option>
       <option value="dean">College Dean</option>
+      <option value="dept_chair">Department Chair</option>
+      <option value="none">Not Applicable</option>
     </select>
 </div>
 </div>

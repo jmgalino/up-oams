@@ -86,10 +86,25 @@ $(document).ready(function () {
 
 		$("#myModalLabel").text("New College");
 		$("#invalidMessage").parent().hide();
-		// change to $("#collegeForm input").val("");
-		$("#college-id, #college-college, #college-short, #college-dean").val("");
+		$("#collegeForm input").val("");
         $("input[type=submit]").val("Add");
         $("#collegeForm").attr("url", url);
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/get_users/",
+            data: "position=dean",
+		    dataType: "json",
+            success:function (options) {
+            	var newOptions = "<option value=\"\">None</option>";
+
+				for (var i = 0; i < options.length; i++) {
+					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
+				}
+
+				$("#college-dean").html(newOptions);
+            }
+        });
 	});
 
 	/* COLLEGE FORM (UPDATE) -- Set form for editing */
@@ -105,7 +120,7 @@ $(document).ready(function () {
 			success:function (data) {
 				$("#myModalLabel").text("Update College");
 				$("#invalidMessage").parent().hide();
-				$("#college-id").val(data["college_ID"]);
+				$("#college-id").val(data["college_ID"]).trigger("change");
 				$("#college-college").val(data["college"]);
 				$("#college-short").val(data["short"]);
 				$("#college-dean").val(data["user_ID"]);
@@ -114,6 +129,27 @@ $(document).ready(function () {
 			}
 		});
     });
+
+    /* COLLEGE FORM -- List of users depends on selected college */
+    $("#college-id").change(function () {
+		var college_ID = $(this).val();
+        
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/college_users",
+            data: "college_ID=" + college_ID,
+		    dataType: "json",
+            success:function (options) {
+            	var newOptions = "";
+
+				for (var i = 0; i < options.length; i++) {
+					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
+				}
+
+				$("#college-dean").html(newOptions);
+            }
+        });
+	});
 
 	/* COLLEGE FORM (VALIDATE) -- Check if everything is unique */
 	$("#collegeForm").on("submit", function (event) {
@@ -143,10 +179,25 @@ $(document).ready(function () {
 
 		$("#myModalLabel").text("New Department");
 		$("#invalidMessage").parent().hide();
-		// change to $("#departmentForm input").val("");
-		$("#department-college, #department-chair, #department-id, #department-department, #department-short").val("");
-        $("input[type=submit]").val("Add");
+		$("#departmentForm input").val("");
+		$("input[type=submit]").val("Add");
         $("#departmentForm").attr("url", url);
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/get_users/",
+            data: "position=dept_chair",
+		    dataType: "json",
+            success:function (options) {
+            	var newOptions = "<option value=\"\">None</option>";
+
+				for (var i = 0; i < options.length; i++) {
+					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
+				}
+
+				$("#department-chair").html(newOptions).prop("disabled", false);
+            }
+        });
 	});
 
 	/* DEPARTMENT FORM (UPDATE) -- Set form for editing */
@@ -162,7 +213,7 @@ $(document).ready(function () {
             success:function (data) {
 				$("#myModalLabel").text("Update Department");
 				$("#invalidMessage").parent().hide();
-                $("#department-id").val(data["department_ID"]);
+                $("#department-id").val(data["department_ID"]).trigger("change");
                 $("#department-college").val(data["college_ID"]);
                 $("#department-department").val(data["department"]);
                 $("#department-short").val(data["short"]);
@@ -172,6 +223,30 @@ $(document).ready(function () {
             }
         });
     });
+
+    /* DEPARTMENT FORM -- List of users depends on selected department */
+    $("#department-id").change(function () {
+		var department_ID = $(this).val();
+        
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/department_users",
+            data: "department_ID=" + department_ID,
+		    dataType: "json",
+            success:function (options) {
+        		var newOptions = "";
+
+				for (var i = 0; i < options.length; i++) {
+					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
+				}
+
+				$("#department-chair").html(newOptions).prop("disabled", false);
+            },
+            error: function () {
+            	$("#department-chair").html("<option value=\"\">Not Applicable</option>").prop("disabled", true);
+            }
+        });
+	});
 
 	/* DEPARTMENT FORM (VALIDATE) -- Check if everything but college_ID is unique */
 	$("#departmentForm").on("submit", function (event) {

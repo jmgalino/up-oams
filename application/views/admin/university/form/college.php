@@ -32,18 +32,7 @@
         <div class="form-group">
           <label for="college-dean" class="col-sm-3 control-label">College Dean</label>
           <div class="col-sm-8">
-            <select class="form-control" id="college-dean" name="user_ID" required>
-              <option value="">Select</option>
-              <?php
-              foreach ($users as $user)
-              {
-                if ($user['position'] == 'dean')
-                {
-                  echo '<option value="'.$user['user_ID'].'">'.$user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'].'</option>';
-                }
-              }
-              ?>
-            </select>
+            <select class="form-control" id="college-dean" name="user_ID"></select>
           </div>
         </div>
       </div>

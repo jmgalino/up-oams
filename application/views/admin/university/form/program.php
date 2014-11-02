@@ -33,15 +33,7 @@
         <div class="form-group">
           <label for="program-department" class="col-sm-3 control-label">Department</label>
           <div class="col-sm-8">
-            <select class="form-control" id="program-department" name="department_ID" disabled>
-              <option value="">Select</option>
-              <?php
-              foreach ($departments as $department)
-              {
-                echo '<option value="'.$department['department_ID'].'">', $department['department'], '</option>';
-              }
-              ?>
-            </select>
+            <select class="form-control" id="program-department" name="department_ID" disabled></select>
           </div>
         </div>
 
