@@ -6,6 +6,19 @@
   font-size: 25px;
 }
 
+/* NAVBAR -- adjust badge */
+.badge {
+  margin-top: -10px;
+  margin-left: -5px;
+  font-size: 10px;
+  vertical-align: super;
+  background-color: #7b1113;
+}
+
+.notify {
+  background-color: #7b1113;
+}
+
 /* NAVBAR -- set hover font color to white */
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {

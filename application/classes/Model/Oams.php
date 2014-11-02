@@ -217,6 +217,20 @@ class Model_Oams extends Model {
 	}
 
 	/**
+	 * Get admin messages count (unread)
+	 */
+	public function get_messages_count()
+	{
+		$messages = DB::select(array(DB::expr('COUNT(`message_ID`)'), 'messages'))
+			->from('oams_messagetbl')
+			->where('seen', '=', '0')
+			->execute()
+			->as_array();
+
+		return $messages[0];
+	}
+
+	/**
 	 * Get message details
 	 */
 	public function get_message_details($message_ID)

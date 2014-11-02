@@ -33,8 +33,10 @@ class Controller_User extends Controller {
 			if ($identifier == 'admin')
 			{
 				$fname = $this->session->get('fname');
+				$messages = $this->oams->get_messages_count();
 				$this->view->navbar = View::factory('templates/fragments/admin')
 					->bind('label', $label)
+					->bind('messages', $messages['messages'])
 					->bind('fname', $fname);
 			}
 			else
