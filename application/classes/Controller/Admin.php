@@ -17,6 +17,26 @@ class Controller_Admin extends Controller_User {
 	}
 
 	/**
+	 * Add star
+	 */
+	public function action_star()
+	{
+		$message_ID = $this->request->param('id');
+		$this->oams->update_message(array('message_ID'=>$message_ID, 'star'=>'1'));
+		$this->redirect('admin/messages', 303);
+	}
+
+	/**
+	 * Remove star
+	 */
+	public function action_remove_star()
+	{
+		$message_ID = $this->request->param('id');
+		$this->oams->update_message(array('message_ID'=>$message_ID, 'star'=>'0'));
+		$this->redirect('admin/messages', 303);
+	}
+
+	/**
 	 * Mark message as read
 	 */
 	public function action_read()

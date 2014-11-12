@@ -1,9 +1,10 @@
 ERROR:
 - preselect user on college/department edit
-
-Fixed: 
+- refresh table after reading message
+- link on message popup should not refresh the page
 
 TO DO:
+- delete message on popup
 - view all, limit/pagination
 - rch modal optional/not fields
 - no pagebreak before signature
@@ -15,3 +16,5 @@ TO DO:
 ASSUMPTION:
 - No repetitive accomplishments
 - No program under DHK; No need for faculty & dept chair
+
+Fixed:

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 24, 2014 at 02:16 PM
+-- Generation Time: Nov 12, 2014 at 01:09 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -528,8 +528,9 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
   `contact` varchar(255) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `seen` int(1) NOT NULL DEFAULT '0',
+  `star` int(1) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
@@ -537,11 +538,11 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
 -- Dumping data for table `oams_messagetbl`
 --
 
-INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `date`, `seen`, `deleted`) VALUES
-(2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21', 1, 0),
-(3, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet', '2014-09-21', 0, 0),
-(4, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet2', '2014-09-21', 1, 0),
-(5, 'Gloria V. Hubbard', '123400013', 'hello', 'phoesz', '2014-09-21', 0, 0);
+INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `date`, `seen`, `star`, `deleted`) VALUES
+(2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21 06:17:00', 1, 0, 0),
+(3, 'Kiyoko B. Blanton', '123400000', 'testing', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', '2014-09-21 15:47:00', 1, 0, 0),
+(4, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet2', '2014-09-22 00:00:00', 1, 1, 0),
+(5, 'Gloria V. Hubbard', '123400013', 'hello', 'phoesz', '2014-09-21 00:00:00', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -676,7 +677,7 @@ CREATE TABLE IF NOT EXISTS `univ_collegetbl` (
   `user_ID` int(11) DEFAULT NULL,
   `college` varchar(100) NOT NULL,
   `short` varchar(10) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `univ_collegetbl`
@@ -686,7 +687,8 @@ INSERT INTO `univ_collegetbl` (`college_ID`, `user_ID`, `college`, `short`) VALU
 (1, 4, ' College of Humanities and Social Sciences', 'CHSS'),
 (2, 5, 'College of Science and Mathematics', 'CSM'),
 (3, 6, 'School of Management', 'SOM'),
-(4, 31, 'College Test', 'CT');
+(4, 31, 'College Test', 'CT'),
+(5, 0, 'New College', 'NC');
 
 -- --------------------------------------------------------
 
@@ -700,7 +702,7 @@ CREATE TABLE IF NOT EXISTS `univ_departmenttbl` (
   `user_ID` int(11) DEFAULT NULL,
   `department` varchar(100) NOT NULL,
   `short` varchar(10) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `univ_departmenttbl`
@@ -709,13 +711,14 @@ CREATE TABLE IF NOT EXISTS `univ_departmenttbl` (
 INSERT INTO `univ_departmenttbl` (`department_ID`, `college_ID`, `user_ID`, `department`, `short`) VALUES
 (1, 1, 7, 'Department of Architecture', 'DA'),
 (2, 1, 8, 'Department of Humanities', 'DH'),
-(3, 1, 9, 'Department of Human Kinetics', 'DHK'),
-(4, 1, 10, 'Department of Social Sciences', 'DSS'),
-(5, 2, 11, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
+(3, 1, NULL, 'Department of Human Kinetics', 'DHK'),
+(4, 1, 9, 'Department of Social Sciences', 'DSS'),
+(5, 2, 10, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
 (6, 2, 11, 'Department of Food Science and Chemistry', 'DFSC'),
 (7, 2, 12, 'Department of Mathematics, Physics and Computer Science', 'DMPCS'),
 (8, 4, 31, 'Department Test', 'DT'),
-(9, 4, 27, 'Department Again', 'DAg');
+(9, 4, 27, 'Department Again', 'DAg'),
+(10, 5, 0, 'New Department', 'ND');
 
 -- --------------------------------------------------------
 
@@ -734,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `univ_programtbl` (
   `type` enum('Undergraduate','Graduate','Certificate','Diploma') NOT NULL,
   `vision` text NOT NULL,
   `goals` text NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `univ_programtbl`
@@ -751,7 +754,8 @@ INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `pro
 (8, 2, 7, 'Bachelor of Science in Computer Science', 'BS Computer Science', 'BSCS', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
 (9, 3, NULL, 'Bachelor of Science in Agribusiness Economics', 'BS Agribusiness Economics', 'BSABE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
 (10, 3, NULL, 'Master in Management', 'Master in Management', 'MM', '1995-02-20', 'Graduate', 'Sample vision', 'Sample goals'),
-(11, 4, 8, 'Degree Program Test', 'DP Test', 'DPT', '2014-09-11', 'Undergraduate', 'Sample vision', 'Sample goals');
+(11, 4, 8, 'Degree Program Test', 'DP Test', 'DPT', '2014-09-11', 'Undergraduate', 'Sample vision', 'Sample goals'),
+(13, 5, 10, 'Degree Program New Program', 'DG New Program', 'DGNP', '2014-11-02', 'Certificate', 'SampleV', 'SampleG');
 
 -- --------------------------------------------------------
 
@@ -830,7 +834,8 @@ INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) 
 (44, '123400036', '$2y$10$w6r36LhVqV..Tv7WXfVqQum36oMX/fAVTFzu.aHIpX9O06eCyfw6i', 0),
 (45, '123400037', '$2y$10$Ddvwhf1N6X5gxxFdc5Uy3edcknjW7ofczEU0.xacqiO9m05Fsy8Gq', 0),
 (46, '123400038', '$2y$10$fT4.Lnj2N3HRmtfwuJBJiOhla.B2XXzPOR4xZkd.MHXRxXwjDT8z.', 0),
-(47, '000312345', '$2y$10$WQTV8YHrW3N.a3DnVHXf/uRAaa9oleUefPvaGCMJVbIxS..1Nu.N2', 0);
+(47, '000312345', '$2y$10$WQTV8YHrW3N.a3DnVHXf/uRAaa9oleUefPvaGCMJVbIxS..1Nu.N2', 0),
+(48, '123400039', '$2y$10$HJrraHBRmkFjaSXFOVVgWuzCSMt4xF9p4CfQpCBMwGXVTYEiBtw22', 0);
 
 -- --------------------------------------------------------
 
@@ -853,7 +858,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `birthday` date NOT NULL,
   `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
 
 --
 -- Dumping data for table `user_profiletbl`
@@ -861,9 +866,9 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 
 INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle_name`, `last_name`, `user_type`, `faculty_code`, `program_ID`, `department_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
 (1, '000012345', 'Jenny', 'M', 'Galino', 'Admin', NULL, NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
-(2, '000112345', 'Catherine', 'Kay', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'yrfm4lregtfxnoqypmtvGastone.jpg', 0),
+(2, '000112345', 'Catherine', 'Kay', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'hkwb0ddz9rwrux5ujaioGastone.jpg', 0),
 (3, '000212345', 'John', 'E', 'Parsons', 'Admin', NULL, NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),
-(4, '123400000', 'Kiyoko', 'B', 'Blanton', 'Faculty', 'KBBlanton', 2, 2, '-', 'dean', '1982-01-06', NULL, 0),
+(4, '123400000', 'Kiyoko', 'B', 'Blantons', 'Faculty', 'KBBlanton', 2, 2, '-', 'dean', '1982-01-06', NULL, 0),
 (5, '123400001', 'Troy', 'E', 'Keller', 'Faculty', 'TEKeller', 5, 5, '-', 'dean', '1962-02-24', NULL, 0),
 (6, '123400002', 'Martha', 'K', 'Stutts', 'Faculty', 'MKStutts', 9, NULL, '-', 'dean', '1991-02-01', NULL, 0),
 (7, '123400003', 'Evan', 'L', 'Woodrow', 'Faculty', 'ELWoodrow', 1, 1, '-', 'dept_chair', '1964-02-18', NULL, 0),
@@ -903,7 +908,8 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 (44, '123400036', 'Joyce', 'D', 'Carter', 'Faculty', 'JDCarter', 10, NULL, '-', 'none', '1992-04-12', NULL, 0),
 (45, '123400037', 'Joseph', 'L', 'Duke', 'Faculty', 'JLDuke', 10, NULL, '-', 'none', '1993-12-23', NULL, 0),
 (46, '123400038', 'Lisa', 'A', 'Gray', 'Faculty', 'LAGray', 10, NULL, '-', 'none', '1985-06-21', NULL, 0),
-(47, '000312345', 'Lori', 'K', 'Shoffner', 'Admin', NULL, NULL, NULL, NULL, NULL, '1982-02-24', NULL, 0);
+(47, '000312345', 'Lori', 'K', 'Shoffner', 'Admin', NULL, NULL, NULL, NULL, NULL, '1982-02-24', NULL, 0),
+(48, '123400039', 'New', 'Sample', 'User', 'Faculty', 'NSUser', 13, 10, '-', 'none', '2014-11-02', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -1152,22 +1158,22 @@ MODIFY `output_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
 -- AUTO_INCREMENT for table `univ_collegetbl`
 --
 ALTER TABLE `univ_collegetbl`
-MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `univ_departmenttbl`
 --
 ALTER TABLE `univ_departmenttbl`
-MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `univ_programtbl`
 --
 ALTER TABLE `univ_programtbl`
-MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
+MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 --
 -- Constraints for dumped tables
 --

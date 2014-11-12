@@ -402,7 +402,7 @@ a.glyphicon-paperclip
 {
   color: inherit;
 }
-a.glyphicon-paperclip:hover
+a.glyphicon-paperclip:hover,
 {
   text-decoration: none;
 }
@@ -445,4 +445,18 @@ tr.shown td.details-control {
 }
 .padded td {
   padding-left: 5px;
+}
+#message_table td.message {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+a.link-reverse
+{
+  color: inherit;
+}
+a.link-reverse:hover
+{
+  color: #7b1113;
+  text-decoration: none;
 }

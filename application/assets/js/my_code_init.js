@@ -224,14 +224,35 @@ $(document).ready(function () {
 	// 5. Message Table (Admin)
 	$('#message_table').DataTable({
         "columnDefs": [{
+            "visible": false,
+            "targets": "message"
+        },{
             "searchable": false,
             "orderable": false,
             "targets": "action"
         }],
         // Custom table tools: (f)ilter, (t)able, (i)nformation, (p)agination, p(r)ocessing
-        "dom": 'ftipr',
         // Order table by date (column 2), descending
         "order": [[ 2, "desc" ]]
+    });
+      /* MODAL -- Add event listener */
+    $('#message_table tbody').on('click', 'td.message', function () {
+        var message_ID = $(this).attr("key");
+        var row = "#"+message_ID;
+
+        $.ajax({
+            type: "POST",
+            url: "/oamsystem/index.php/ajax/message_details",
+            data: 'message_ID=' + message_ID,
+            dataType: "json",
+            success:function (data){
+                $("#message-star").html(data["star"]);
+                $("#message-subject").text(data["subject"]);
+                $("#message-sender").text(data["sender"]);
+                $("#message-date").text(data["date"]);
+                $("#message-message").text(data["message"]);
+            }
+        });
     });
 
 	// 6. Accomplishment Table (Faculty)

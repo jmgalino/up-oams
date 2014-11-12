@@ -310,8 +310,11 @@ class Controller_Ajax extends Controller {
 		$arr = array();
 		$arr['sender'] = $message_details['name'].' ('.$message_details['contact'].')';
 		$arr['subject'] = $message_details['subject'];
-		$arr['date'] = date('F d, Y', strtotime($message_details['date']));
+		$arr['date'] = date('F d, Y \a\t H:i A', strtotime($message_details['date']));
 		$arr['message'] = $message_details['message'];
+		$arr['star'] = ($message_details['star']
+			? '<a class="link-reverse" href="'.URL::site('admin/remove_star/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-star-empty"></span> Remove Star</a>'
+			: '<a class="link-reverse" href="'.URL::site('admin/star/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-star"></span> Add Star</a>');
 		
 		echo json_encode($arr);
 		exit();

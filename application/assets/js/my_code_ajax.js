@@ -335,27 +335,6 @@ $(document).ready(function () {
         });
 	});
 
-	/* MESSAGE -- Show message */
-	$("a#showMessage").click(function () {
-        var message_ID = $(this).attr("key");
-        var row = "#"+message_ID;
-
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/message_details",
-            data: 'message_ID=' + message_ID,
-		    dataType: "json",
-            success:function (data){
-				$("#myModalLabel").text(data["subject"]);
-                $("#message-sender").text(data["sender"]);
-                $("#message-date").text(data["date"]);
-                $("#message-message").text(data["message"]);
-
-                $(row).removeClass("warning");
-            }
-        });
-	});
-
 	/* ACCOMPLISHMENT FORM -- Reset form */
 	$("#addAccomplishment").click(function () {
 		$("input[name=accom_type]").prop("checked", false);
