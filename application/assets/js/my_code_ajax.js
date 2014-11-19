@@ -140,13 +140,17 @@ $(document).ready(function () {
             data: "college_ID=" + college_ID,
 		    dataType: "json",
             success:function (options) {
+            	var selected = "";
             	var newOptions = "";
 
 				for (var i = 0; i < options.length; i++) {
+					if (options[i].optionSelect)
+						selected = options[i].optionValue;
+
 					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
 				}
 
-				$("#college-dean").html(newOptions);
+				$("#college-dean").html(newOptions).val(selected);
             }
         });
 	});
@@ -234,13 +238,17 @@ $(document).ready(function () {
             data: "department_ID=" + department_ID,
 		    dataType: "json",
             success:function (options) {
+            	var selected = "";
         		var newOptions = "";
 
 				for (var i = 0; i < options.length; i++) {
+					if (options[i].optionSelect)
+						selected = options[i].optionValue;
+					
 					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
 				}
 
-				$("#department-chair").html(newOptions).prop("disabled", false);
+				$("#department-chair").html(newOptions).prop("disabled", false).val(selected);
             },
             error: function () {
             	$("#department-chair").html("<option value=\"\">Not Applicable</option>").prop("disabled", true);

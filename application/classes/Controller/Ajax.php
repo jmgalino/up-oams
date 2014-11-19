@@ -129,12 +129,14 @@ class Controller_Ajax extends Controller {
 		$college_ID = $this->request->post('college_ID');
 		$programIDs = $univ->get_college_programIDs($college_ID);
 		$users = $user->get_user_group($programIDs, NULL);
+		$college_details = $univ->get_college_details($college_ID, NULL);
 
 		$arr = array();
 		foreach ($users as $user)
         {
         	$tmp['optionValue'] = $user['user_ID'];
         	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+        	$tmp['optionSelect'] = ($college_details['user_ID'] == $user['user_ID'] ? TRUE : FALSE);
         	$arr[] = $tmp;
         }
 
@@ -174,12 +176,14 @@ class Controller_Ajax extends Controller {
 		$department_ID = $this->request->post('department_ID');
 		$programIDs = $univ->get_department_programIDs($department_ID);
 		$users = $user->get_user_group($programIDs, NULL);
+		$department_details = $univ->get_department_details($department_ID, NULL);
 
 		$arr = array();
 		foreach ($users as $user)
         {
         	$tmp['optionValue'] = $user['user_ID'];
         	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+        	$tmp['optionSelect'] = ($department_details['user_ID'] == $user['user_ID'] ? TRUE : FALSE);
         	$arr[] = $tmp;
         }
 
