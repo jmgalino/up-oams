@@ -210,6 +210,7 @@ class Model_Oams extends Model {
 	{
 		$messages = DB::select()
 			->from('oams_messagetbl')
+			->where('deleted', '=', '0')
 			->execute()
 			->as_array();
 
@@ -224,6 +225,7 @@ class Model_Oams extends Model {
 		$messages = DB::select(array(DB::expr('COUNT(`message_ID`)'), 'messages'))
 			->from('oams_messagetbl')
 			->where('seen', '=', '0')
+			->where('deleted', '=', '0')
 			->execute()
 			->as_array();
 
@@ -294,6 +296,20 @@ class Model_Oams extends Model {
 
  		// if ($rows_updated == 1) return TRUE;
  		// else return FALSE; //do something
+	}
+
+	/**
+	 * Archive message
+	 */
+	public function archive_message($message_ID)
+	{
+		$rows_deleted = DB::update('oams_messagetbl')
+ 			->set(array('deleted' => '1'))
+			->where('message_ID', '=', $message_ID)
+ 			->execute();
+
+ 		if ($rows_deleted == 1) return 'Message was successfully deleted.';
+ 		else return FALSE;
 	}
 
 	/**

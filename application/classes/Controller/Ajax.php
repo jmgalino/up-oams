@@ -319,7 +319,8 @@ class Controller_Ajax extends Controller {
 		$arr['star'] = ($message_details['star']
 			? '<a class="link-reverse" href="'.URL::site('admin/remove_star/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-star-empty"></span> Remove Star</a>'
 			: '<a class="link-reverse" href="'.URL::site('admin/star/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-star"></span> Add Star</a>');
-		
+		$arr['delete'] = '<a class="link-reverse" onclick="return confirm(\'Are you sure you want to delete this message?\')" href="'.URL::site('admin/archive/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-trash"></span> Delete</a>';
+
 		echo json_encode($arr);
 		exit();
 	}

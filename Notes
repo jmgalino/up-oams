@@ -1,13 +1,11 @@
 ERROR:
-- refresh table after reading message
-- link on message popup should not refresh the page
+- read/star link on message should not refresh the page but update table & icon (angular?)
 
 TO DO:
-- delete message on popup
 - view all, limit/pagination
 - rch modal optional/not fields
-- no pagebreak before signature
 - remove extra period on consolidated accom group (?)
+- no pagebreak before signature
 - signature name, same size
 - shorten long filenames for upload files
 - change birthday input style
@@ -15,5 +13,3 @@ TO DO:
 ASSUMPTION:
 - No repetitive accomplishments
 - No program under DHK; No need for faculty & dept chair
-
-Fixed:

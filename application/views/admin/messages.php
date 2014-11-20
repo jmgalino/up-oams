@@ -6,14 +6,14 @@
 
 <h3>Messages</h3>
 
-<?php if ($success): ?>
+<?php if ($messages AND $success): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
 		<?php echo $success?>
 	</p>
 </div>
-<?php elseif ($success === FALSE): ?>
+<?php elseif ($messages AND $success === FALSE): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -83,7 +83,7 @@ echo View::factory('admin/oams/message');
 					</li>';
 
 		echo 		'<li>
-						<a id="deleteMessage" href="', URL::site('admin/delete/'.$message['message_ID']), '">
+						<a id="deleteMessage" href="', URL::site('admin/archive/'.$message['message_ID']), '">
 						<span class="glyphicon glyphicon-trash"></span> Delete Message</a>
 					</li>
 				</ul>

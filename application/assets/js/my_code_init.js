@@ -247,6 +247,7 @@ $(document).ready(function () {
             dataType: "json",
             success:function (data){
                 $("#message-star").html(data["star"]);
+                $("#message-delete").html(data["delete"]);
                 $("#message-subject").text(data["subject"]);
                 $("#message-sender").text(data["sender"]);
                 $("#message-date").text(data["date"]);
@@ -480,7 +481,7 @@ $(document).ready(function () {
 		previewFileType: "image",
 		browseClass: "btn btn-primary",
 		browseLabel: " Browse",
-		browseIcon: '',//<i class="glyphicon glyphicon-picture"></i>
+		browseIcon: '',//<span class="glyphicon glyphicon-picture"></span>
 		showRemove: false,
 		showUpload: false
 	});

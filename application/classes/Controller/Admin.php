@@ -57,6 +57,17 @@ class Controller_Admin extends Controller_User {
 	}
 
 	/**
+	 * Archive message
+	 */
+	public function action_archive()
+	{
+		$message_ID = $this->request->param('id');
+		$archive_success = $this->oams->archive_message($message_ID);
+		$this->session->set('success', $archive_success);
+		$this->redirect('admin/messages', 303);
+	}
+
+	/**
 	 * Delete message
 	 */
 	public function action_delete()
