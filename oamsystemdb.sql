@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2014 at 01:09 PM
+-- Generation Time: Nov 26, 2014 at 03:33 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -539,9 +539,9 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
 --
 
 INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `date`, `seen`, `star`, `deleted`) VALUES
-(2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21 06:17:00', 1, 0, 0),
+(2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21 06:17:00', 1, 1, 0),
 (3, 'Kiyoko B. Blanton', '123400000', 'testing', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', '2014-09-21 15:47:00', 1, 0, 0),
-(4, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet2', '2014-09-22 00:00:00', 1, 1, 0),
+(4, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet2', '2014-09-22 00:00:00', 1, 0, 1),
 (5, 'Gloria V. Hubbard', '123400013', 'hello', 'phoesz', '2014-09-21 00:00:00', 1, 0, 0);
 
 -- --------------------------------------------------------
@@ -646,6 +646,18 @@ INSERT INTO `opcr_outputtbl` (`output_ID`, `category_ID`, `opcr_ID`, `output`, `
 (32, 2, 8, 'core 4', 'jkl', NULL, NULL, NULL, NULL, 'None'),
 (33, 1, 2, 'test', 'test2', NULL, NULL, NULL, NULL, 'None'),
 (34, 1, 7, 'atest', 'at', NULL, NULL, NULL, NULL, 'None');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(24) NOT NULL,
+  `last_active` int(10) unsigned NOT NULL,
+  `contents` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -835,7 +847,8 @@ INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) 
 (45, '123400037', '$2y$10$Ddvwhf1N6X5gxxFdc5Uy3edcknjW7ofczEU0.xacqiO9m05Fsy8Gq', 0),
 (46, '123400038', '$2y$10$fT4.Lnj2N3HRmtfwuJBJiOhla.B2XXzPOR4xZkd.MHXRxXwjDT8z.', 0),
 (47, '000312345', '$2y$10$WQTV8YHrW3N.a3DnVHXf/uRAaa9oleUefPvaGCMJVbIxS..1Nu.N2', 0),
-(48, '123400039', '$2y$10$HJrraHBRmkFjaSXFOVVgWuzCSMt4xF9p4CfQpCBMwGXVTYEiBtw22', 0);
+(48, '123400039', '$2y$10$HJrraHBRmkFjaSXFOVVgWuzCSMt4xF9p4CfQpCBMwGXVTYEiBtw22', 0),
+(49, '000412345', '$2y$10$OQCgO85dKRLExX2hHNA65eBIKFv7ADL2pyUTMp7Xqjk6Uon4by7Fa', 0);
 
 -- --------------------------------------------------------
 
@@ -858,7 +871,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `birthday` date NOT NULL,
   `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
 
 --
 -- Dumping data for table `user_profiletbl`
@@ -909,7 +922,8 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle
 (45, '123400037', 'Joseph', 'L', 'Duke', 'Faculty', 'JLDuke', 10, NULL, '-', 'none', '1993-12-23', NULL, 0),
 (46, '123400038', 'Lisa', 'A', 'Gray', 'Faculty', 'LAGray', 10, NULL, '-', 'none', '1985-06-21', NULL, 0),
 (47, '000312345', 'Lori', 'K', 'Shoffner', 'Admin', NULL, NULL, NULL, NULL, NULL, '1982-02-24', NULL, 0),
-(48, '123400039', 'New', 'Sample', 'User', 'Faculty', 'NSUser', 13, 10, '-', 'none', '2014-11-02', NULL, 0);
+(48, '123400039', 'New', 'Sample', 'User', 'Faculty', 'NSUser', 13, 10, '-', 'none', '2014-11-02', NULL, 0),
+(49, '000412345', 'George', 'Lee', 'Sanchez', 'Admin', NULL, NULL, NULL, NULL, NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0);
 
 --
 -- Indexes for dumped tables
@@ -1022,6 +1036,12 @@ ALTER TABLE `opcr_categorytbl`
 --
 ALTER TABLE `opcr_outputtbl`
  ADD PRIMARY KEY (`output_ID`), ADD KEY `category_ID` (`category_ID`), ADD KEY `opcr_ID` (`opcr_ID`);
+
+--
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+ ADD PRIMARY KEY (`session_id`), ADD KEY `last_active` (`last_active`);
 
 --
 -- Indexes for table `univtbl`
@@ -1173,7 +1193,7 @@ MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- Constraints for dumped tables
 --
