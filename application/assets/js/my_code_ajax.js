@@ -85,26 +85,11 @@ $(document).ready(function () {
 		var url = $(this).attr("url");
 
 		$("#myModalLabel").text("New College");
+        $("#collegeForm").attr("url", url);
 		$("#invalidMessage").parent().hide();
 		$("#collegeForm input").val("");
+        $("#college-dean").parent().parent().hide();
         $("input[type=submit]").val("Add");
-        $("#collegeForm").attr("url", url);
-
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/get_users/",
-            data: "position=dean",
-		    dataType: "json",
-            success:function (options) {
-            	var newOptions = "<option value=\"\">None</option>";
-
-				for (var i = 0; i < options.length; i++) {
-					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
-				}
-
-				$("#college-dean").html(newOptions);
-            }
-        });
 	});
 
 	/* COLLEGE FORM (UPDATE) -- Set form for editing */
@@ -123,7 +108,7 @@ $(document).ready(function () {
 				$("#college-id").val(data["college_ID"]).trigger("change");
 				$("#college-college").val(data["college"]);
 				$("#college-short").val(data["short"]);
-				$("#college-dean").val(data["user_ID"]);
+				$("#college-dean").val(data["user_ID"]).parent().parent().show();
 				$("input[type=submit]").val("Save");
 				$("#collegeForm").attr("url", url);
 			}
@@ -141,7 +126,7 @@ $(document).ready(function () {
 		    dataType: "json",
             success:function (options) {
             	var selected = "";
-            	var newOptions = "";
+            	var newOptions = "<option value=\"\">None</option>";
 
 				for (var i = 0; i < options.length; i++) {
 					if (options[i].optionSelect)
@@ -182,26 +167,11 @@ $(document).ready(function () {
 		var url = $(this).attr("url");
 
 		$("#myModalLabel").text("New Department");
+        $("#departmentForm").attr("url", url);
 		$("#invalidMessage").parent().hide();
 		$("#departmentForm input").val("");
+        $("#department-chair").parent().parent().hide();
 		$("input[type=submit]").val("Add");
-        $("#departmentForm").attr("url", url);
-
-        $.ajax({
-            type: "POST",
-            url: "/oamsystem/index.php/ajax/get_users/",
-            data: "position=dept_chair",
-		    dataType: "json",
-            success:function (options) {
-            	var newOptions = "<option value=\"\">None</option>";
-
-				for (var i = 0; i < options.length; i++) {
-					newOptions += "<option value=\"" + options[i].optionValue + "\">" + options[i].optionText + "</option>";
-				}
-
-				$("#department-chair").html(newOptions).prop("disabled", false);
-            }
-        });
 	});
 
 	/* DEPARTMENT FORM (UPDATE) -- Set form for editing */
@@ -221,7 +191,7 @@ $(document).ready(function () {
                 $("#department-college").val(data["college_ID"]);
                 $("#department-department").val(data["department"]);
                 $("#department-short").val(data["short"]);
-                $("#department-chair").val(data["user_ID"]);
+                $("#department-chair").val(data["user_ID"]).parent().parent().show();
 		        $("input[type=submit]").val("Save");
 		        $("#departmentForm").attr("url", url);
             }
@@ -239,7 +209,7 @@ $(document).ready(function () {
 		    dataType: "json",
             success:function (options) {
             	var selected = "";
-        		var newOptions = "";
+        		var newOptions = "<option value=\"\">None</option>";
 
 				for (var i = 0; i < options.length; i++) {
 					if (options[i].optionSelect)
@@ -376,8 +346,8 @@ $(document).ready(function () {
 			case "research":
 				$("h4#accom-label").text("Research Grant/Fellowship Received");
 				$("#researchForm").attr("url", url);
+				$("#fund_amount, #fund_up").text();
 				$("#researchForm input").val("");
-				// $("#fund_up").removeAttr("placeholder");
 				break;
 			
 			case "paper":

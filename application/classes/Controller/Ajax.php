@@ -31,25 +31,25 @@ class Controller_Ajax extends Controller {
 
 			case 'new_college':
 				$table = 'univ_collegetbl';
-				$exclude = array();
+				$exclude = ($this->request->post('user_ID') ? array() : array('user_ID'));
 				$max = 0;
 				break;
 
 			case 'edit_college':
 				$table = 'univ_collegetbl';
-				$exclude = array();
+				$exclude = ($this->request->post('user_ID') ? array() : array('user_ID'));
 				$max = 1;
 				break;
 
 			case 'new_department':
 				$table = 'univ_departmenttbl';
-				$exclude = array('college_ID');
+				$exclude = ($this->request->post('user_ID') ? array('college_ID') : array('college_ID', 'user_ID'));
 				$max = 0;
 				break;
 
 			case 'edit_department':
 				$table = 'univ_departmenttbl';
-				$exclude = array('college_ID');
+				$exclude = ($this->request->post('user_ID') ? array('college_ID') : array('college_ID', 'user_ID'));
 				$max = 1;
 				break;
 
@@ -128,17 +128,20 @@ class Controller_Ajax extends Controller {
 
 		$college_ID = $this->request->post('college_ID');
 		$programIDs = $univ->get_college_programIDs($college_ID);
-		$users = $user->get_user_group($programIDs, NULL);
+		$users = ($programIDs ? $user->get_user_group($programIDs, NULL) : NULL);
 		$college_details = $univ->get_college_details($college_ID, NULL);
 
 		$arr = array();
-		foreach ($users as $user)
-        {
-        	$tmp['optionValue'] = $user['user_ID'];
-        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
-        	$tmp['optionSelect'] = ($college_details['user_ID'] == $user['user_ID'] ? TRUE : FALSE);
-        	$arr[] = $tmp;
-        }
+		if ($users)
+		{
+			foreach ($users as $user)
+	        {
+	        	$tmp['optionValue'] = $user['user_ID'];
+	        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+	        	$tmp['optionSelect'] = ($college_details['user_ID'] == $user['user_ID'] ? TRUE : FALSE);
+	        	$arr[] = $tmp;
+	        }
+		}
 
         echo json_encode($arr);
         exit();
@@ -175,17 +178,20 @@ class Controller_Ajax extends Controller {
 
 		$department_ID = $this->request->post('department_ID');
 		$programIDs = $univ->get_department_programIDs($department_ID);
-		$users = $user->get_user_group($programIDs, NULL);
+		$users = ($programIDs ? $user->get_user_group($programIDs, NULL) : NULL);
 		$department_details = $univ->get_department_details($department_ID, NULL);
 
 		$arr = array();
-		foreach ($users as $user)
-        {
-        	$tmp['optionValue'] = $user['user_ID'];
-        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
-        	$tmp['optionSelect'] = ($department_details['user_ID'] == $user['user_ID'] ? TRUE : FALSE);
-        	$arr[] = $tmp;
-        }
+		if ($users)
+		{
+			foreach ($users as $user)
+	        {
+	        	$tmp['optionValue'] = $user['user_ID'];
+	        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
+	        	$tmp['optionSelect'] = ($department_details['user_ID'] == $user['user_ID'] ? TRUE : FALSE);
+	        	$arr[] = $tmp;
+	        }
+		}
 
         echo json_encode($arr);
         exit();
@@ -246,28 +252,6 @@ class Controller_Ajax extends Controller {
 		
 		echo json_encode($arr);
 		exit();
-	}
-
-	public function action_get_users()
-	{
-		$user = new Model_User;
-
-		$users = $user->get_users();
-		$position = $this->request->post('position');
-
-		$arr = array();
-		foreach ($users as $user)
-		{
-			if ($user['position'] == $position)
-			{
-				$tmp['optionValue'] = $user['user_ID'];
-	        	$tmp['optionText'] = $user['first_name'].' '.$user['middle_name'][0].'. '.$user['last_name'];
-	        	$arr[] = $tmp;
-			}
-		}
-
-        echo json_encode($arr);
-        exit();
 	}
 
 	/**

@@ -219,7 +219,7 @@ class Controller_Admin_University extends Controller_Admin {
 
 		if (array_key_exists('user_ID', $update_details))
  		{
- 			$department_details = $univ->get_department_details($update_details['college_ID'], NULL);
+ 			$department_details = $univ->get_department_details($update_details['department_ID'], NULL);
 
  			if ($department_details['user_ID'] != $update_details['user_ID'])
  				$user_updated = $this->update_user($department_details['user_ID'], $update_details['user_ID'], 'dept_chair');
@@ -264,14 +264,22 @@ class Controller_Admin_University extends Controller_Admin {
 	private function update_user($old_user_ID, $new_user_ID, $new_position)
 	{
  		$user = new Model_User;
+ 		$old_user_updated = 'TRUE';
+ 		$new_user_updated = 'TRUE';
+ 		
+ 		if ($old_user_ID)
+ 		{
+ 			$old_user_updated = $user->update_details(array(
+	 			'user_ID' => $old_user_ID,
+	 			'position' => 'none'));
+ 		}
 
- 		$old_user_updated = $user->update_details(array(
- 			'user_ID' => $old_user_ID,
- 			'position' => 'none'));
-
- 		$new_user_updated = $user->update_details(array(
- 			'user_ID' => $new_user_ID,
- 			'position' => $new_position));
+ 		if ($new_user_ID)
+ 		{
+ 			$new_user_updated = $user->update_details(array(
+	 			'user_ID' => $new_user_ID,
+	 			'position' => $new_position));
+ 		}
 
  		return ($old_user_updated AND $new_user_updated);
  	}

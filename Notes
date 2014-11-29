@@ -4,11 +4,10 @@ ERROR:
 TO DO:
 - view all, limit/pagination
 - rch modal optional/not fields
-- remove extra period on consolidated accom group (?)
 - no pagebreak before signature
-- signature name, same size
-- shorten long filenames for upload files
-- change birthday input style
+- shorten long filenames for upload files (instance?)
+- remove extra period on consolidated accom group (or not?)
+- change birthday input style (what for?)
 
 ASSUMPTION:
 - No repetitive accomplishments

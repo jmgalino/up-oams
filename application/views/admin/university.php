@@ -61,7 +61,7 @@ echo View::factory('admin/university/form/vision')
           <dd>', $college['short'], '</dd>
 
           <dt>College Dean</dt>
-          <dd>', $college['first_name'], ' ', $college['middle_name'][0], '. ', $college['last_name'], '</dd>
+          <dd>', ($college['first_name'] ? $college['first_name'].' '.$college['middle_name'][0].'. '.$college['last_name'] : '<em>None</em>'), '</dd>
         </dl>';
     }
     ?>
@@ -82,7 +82,7 @@ echo View::factory('admin/university/form/vision')
           <dd>', $department['short'], '</dd>
 
           <dt>Department Chair</dt>
-          <dd>', $department['first_name'], ' ', $department['middle_name'][0], '. ', $department['last_name'], '</dd>
+          <dd>', ($department['first_name'] ? $department['first_name'].' '.$department['middle_name'][0].'. '.$department['last_name'] : '<em>None</em>'), '</dd>
         </dl>';
    }
    ?>
