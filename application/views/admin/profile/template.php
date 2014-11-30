@@ -15,7 +15,7 @@
 			<span class="glyphicon glyphicon-picture"></span> Upload Photo</a>
 		</li>
 		<li>
-			<a id="updateProfile" key="<?php echo $user['user_ID']; ?>" data-toggle="modal" data-target="#modal_profile" role="button" href="" url="<?php echo URL::site('admin/profile/update/'.$user['user_ID']); ?>">
+			<a id="updateProfile" key="<?php echo $user['user_ID']; ?>" data-toggle="modal" data-target="#modal_profile" role="button" href="" url="<?php echo URL::site('admin/profile/update/'.$user['user_ID']); ?>" ajax-url="<?php echo URL::site('ajax/user_details'); ?>" validate-url="<?php echo URL::site('ajax/unique/edit_user'); ?>">
 			<span class="glyphicon glyphicon-pencil"></span> Update Profile</a>
 		</li>
 		<li>

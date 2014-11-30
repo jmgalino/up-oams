@@ -56,7 +56,7 @@ echo View::factory('admin/university/form/department')
 			<td>', $department['short'], '</td>
 			<td>', ($department['first_name'] ? $department['first_name'].' '.$department['middle_name'][0].'. '.$department['last_name'] : '<em>None</em>'), '</td>
 			<td>
-				<a class="btn btn-default" id="updateDepartment" key="', $department['department_ID'], '" data-toggle="modal" data-target="#modal_department" href="#" url="', URL::site('admin/university/update/department'), '">
+				<a class="btn btn-default" id="updateDepartment" key="', $department['department_ID'], '" data-toggle="modal" data-target="#modal_department" href="#" url="', URL::site('admin/university/update/department'), '" ajax-url="', URL::site('ajax/department_details'), '" validate-url="', URL::site('ajax/unique/edit_department'), '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
 		</tr>';

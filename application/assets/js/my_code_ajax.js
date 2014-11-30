@@ -13,12 +13,14 @@ $(document).ready(function () {
 
 	/* PROFILE FORM (UPDATE) -- Set form for editing */
 	$("#updateProfile").click(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var validateUrl = $(this).attr("validate-url");
 		var url = $(this).attr("url");
 		var user_ID = $(this).attr("key");
 
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/user_details",
+			url: ajaxUrl,
 			data: "user_ID=" + user_ID,
 			dataType: "json",
 			success:function (data) {
@@ -31,7 +33,7 @@ $(document).ready(function () {
 				$("#lname").val(data["lname"]);
 				$("#datepicker .input-group.date").datepicker("setDate", data["birthday"]).datepicker("fill");
 				$("input[type=submit]").val("Save");
-				$("#profileForm").attr("url", url);
+				$("#profileForm").attr("url", url).attr("ajax-url", validateUrl);
 
 				if (data['fcode']) {
 					$("#facultyType").prop("checked", true).trigger("click");
@@ -50,11 +52,7 @@ $(document).ready(function () {
 	/* PROFILE FORM (VALIDATE) -- Check if employee code is unique: if unique, submit; else, show error message */
 	$("#profileForm").on("submit", function (event) {
 		event.preventDefault();
-
-		if ($("input[type=submit]").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_user";
-		else if ($("input[type=submit]").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_user";
+		var ajaxUrl = $(this).attr("ajax-url");
 
 		$.ajax({
             type: "POST",
@@ -94,12 +92,14 @@ $(document).ready(function () {
 
 	/* COLLEGE FORM (UPDATE) -- Set form for editing */
 	$("a#updateCollege").click(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var validateUrl = $(this).attr("validate-url");
 		var url = $(this).attr("url");
 		var college_ID = $(this).attr("key");
 
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/college_details",
+			url: ajaxUrl,
 			data: "college_ID=" + college_ID,
 			dataType: "json",
 			success:function (data) {
@@ -110,18 +110,19 @@ $(document).ready(function () {
 				$("#college-short").val(data["short"]);
 				$("#college-dean").val(data["user_ID"]).parent().parent().show();
 				$("input[type=submit]").val("Save");
-				$("#collegeForm").attr("url", url);
+				$("#collegeForm").attr("url", url).attr("ajax-url", validateUrl);
 			}
 		});
     });
 
     /* COLLEGE FORM -- List of users depends on selected college */
     $("#college-id").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
 		var college_ID = $(this).val();
         
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/college_users",
+            url: ajaxUrl,
             data: "college_ID=" + college_ID,
 		    dataType: "json",
             success:function (options) {
@@ -143,11 +144,7 @@ $(document).ready(function () {
 	/* COLLEGE FORM (VALIDATE) -- Check if everything is unique */
 	$("#collegeForm").on("submit", function (event) {
 		event.preventDefault();
-
-		if ($("input[type=submit]").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_college";
-		else if ($("input[type=submit]").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_college";
+		var ajaxUrl = $(this).attr("ajax-url");
 
 		$.ajax({
             type: "POST",
@@ -176,12 +173,14 @@ $(document).ready(function () {
 
 	/* DEPARTMENT FORM (UPDATE) -- Set form for editing */
 	$("a#updateDepartment").click(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var validateUrl = $(this).attr("validate-url");
 		var url = $(this).attr("url");
 		var department_ID = $(this).attr("key");
 
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/department_details",
+            url: ajaxUrl,
             data: "department_ID=" + department_ID,
 		    dataType: "json",
             success:function (data) {
@@ -193,18 +192,19 @@ $(document).ready(function () {
                 $("#department-short").val(data["short"]);
                 $("#department-chair").val(data["user_ID"]).parent().parent().show();
 		        $("input[type=submit]").val("Save");
-		        $("#departmentForm").attr("url", url);
+		        $("#departmentForm").attr("url", url).attr("ajax-url", validateUrl);
             }
         });
     });
 
     /* DEPARTMENT FORM -- List of users depends on selected department */
     $("#department-id").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
 		var department_ID = $(this).val();
         
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/department_users",
+            url: ajaxUrl,
             data: "department_ID=" + department_ID,
 		    dataType: "json",
             success:function (options) {
@@ -229,11 +229,7 @@ $(document).ready(function () {
 	/* DEPARTMENT FORM (VALIDATE) -- Check if everything but college_ID is unique */
 	$("#departmentForm").on("submit", function (event) {
 		event.preventDefault();
-
-		if ($("input[type=submit]").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_department";
-		else if ($("input[type=submit]").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_department";
+		var ajaxUrl = $(this).attr("ajax-url");
 
 		$.ajax({
             type: "POST",
@@ -269,11 +265,7 @@ $(document).ready(function () {
 	/* PROGRAM FORM (VALIDATE) -- Check if program names (complete, short, initials) are unique */
 	$("#programForm").on("submit", function (event) {
 		event.preventDefault();
-
-		if ($("input[type=submit]").val() == "Add")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/new_program";
-		else if ($("input[type=submit]").val() == "Save")
-			var ajaxUrl = "/oamsystem/index.php/ajax/unique/edit_program";
+		var ajaxUrl = $(this).attr("ajax-url");
 
 		$.ajax({
             type: "POST",
@@ -294,11 +286,12 @@ $(document).ready(function () {
 
 	/* PROGRAM FORM -- List of departments depends on selected college */
 	$("#program-college").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
 		var college_ID = $(this).val();
         
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/college_departments",
+            url: ajaxUrl,
             data: "college_ID=" + college_ID,
 		    dataType: "json",
             success:function (options) {
@@ -399,7 +392,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/pub",
+			url: "/up-oams/index.php/ajax/accom_details/pub",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + publication_ID,
 			dataType: "json",
 			success:function (details) {
@@ -469,7 +462,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/awd",
+			url: "/up-oams/index.php/ajax/accom_details/awd",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + award_ID,
 			dataType: "json",
 			success:function (details) {
@@ -499,7 +492,7 @@ $(document).ready(function () {
 		
 		$.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/check_date",
+            url: "/up-oams/index.php/ajax/check_date",
             data: $("#awardForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -518,7 +511,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/rch",
+			url: "/up-oams/index.php/ajax/accom_details/rch",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + research_ID,
 			dataType: "json",
 			success:function (details) {
@@ -554,13 +547,13 @@ $(document).ready(function () {
 		
 		$.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/check_date",
+            url: "/up-oams/index.php/ajax/check_date",
             data: $("#researchForm").serialize(),
             success: function (valid) {
             	if (valid == 1) {
             		$.ajax({
 			            type: "POST",
-			            url: "/oamsystem/index.php/ajax/check_amount",
+			            url: "/up-oams/index.php/ajax/check_amount",
 			            data: $("#researchForm").serialize(),
 			            dataType: "json",
 			            success: function (amountCheck) {
@@ -588,7 +581,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/ppr",
+			url: "/up-oams/index.php/ajax/accom_details/ppr",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + paper_ID,
 			dataType: "json",
 			success:function (details) {
@@ -619,7 +612,7 @@ $(document).ready(function () {
 		
 		$.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/check_date",
+            url: "/up-oams/index.php/ajax/check_date",
             data: $("#paperForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -638,7 +631,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/ctv",
+			url: "/up-oams/index.php/ajax/accom_details/ctv",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + creative_ID,
 			dataType: "json",
 			success:function (details) {
@@ -668,7 +661,7 @@ $(document).ready(function () {
 		
 		$.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/check_date",
+            url: "/up-oams/index.php/ajax/check_date",
             data: $("#creativeForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -687,7 +680,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/par",
+			url: "/up-oams/index.php/ajax/accom_details/par",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + participation_ID,
 			dataType: "json",
 			success:function (details) {
@@ -717,7 +710,7 @@ $(document).ready(function () {
 		
 		$.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/check_date",
+            url: "/up-oams/index.php/ajax/check_date",
             data: $("#participationForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -736,7 +729,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/mat",
+			url: "/up-oams/index.php/ajax/accom_details/mat",
 			data: 'accom_ID=' + accom_ID + '&accom_specID=' + material_ID,
 			dataType: "json",
 			success:function (details) {
@@ -796,7 +789,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type: "POST",
-			url: "/oamsystem/index.php/ajax/accom_details/oth",
+			url: "/up-oams/index.php/ajax/accom_details/oth",
 			data: "accom_ID=" + accom_ID + "&accom_specID=" + other_ID,
 			dataType: "json",
 			success:function (details) {
@@ -826,7 +819,7 @@ $(document).ready(function () {
 		
 		$.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/check_date",
+            url: "/up-oams/index.php/ajax/check_date",
             data: $("#otherForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -877,7 +870,7 @@ $(document).ready(function () {
 		}
 	});
 
-	$('td.editOutput').editable('/oamsystem/index.php/faculty/opcr/edit/output',
+	$('td.editOutput').editable('/up-oams/index.php/faculty/opcr/edit/output',
 	{
 		name		: 'output',
 		id			: 'output_ID',
@@ -889,7 +882,7 @@ $(document).ready(function () {
 		tooltip		: 'Double click to edit',
      });
 
-	$('td.editOutputIndicator').editable('/oamsystem/index.php/faculty/opcr/edit/indicator',
+	$('td.editOutputIndicator').editable('/up-oams/index.php/faculty/opcr/edit/indicator',
 	{
 		name		: 'indicators',
 		id			: 'output_ID',
@@ -901,7 +894,7 @@ $(document).ready(function () {
 		tooltip		: 'Double click to edit',
      });
 
-	$('td.editTarget').editable('/oamsystem/index.php/faculty/ipcr/edit/target',
+	$('td.editTarget').editable('/up-oams/index.php/faculty/ipcr/edit/target',
 	{
 		name		: 'target',
 		id			: 'target_ID',
@@ -914,7 +907,7 @@ $(document).ready(function () {
 		tooltip		: 'Double click to edit',
      });
 
-	$('td.editTargetIndicator').editable('/oamsystem/index.php/faculty/ipcr/edit/indicator',
+	$('td.editTargetIndicator').editable('/up-oams/index.php/faculty/ipcr/edit/indicator',
 	{
 		name		: 'indicators',
 		id			: 'target_ID',
@@ -940,13 +933,14 @@ $(document).ready(function () {
 		}
     });
 
+	// IPCR Rate Form
 	$("#category_ID").change(function () {
 		var ipcr_ID = $(this).attr("ipcr-id");
         var category_ID = $(this).val();
-        // alert(ipcr_ID+' '+category_ID);
+        
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/category_targets",
+            url: "/up-oams/index.php/ajax/category_targets",
             data: 'category_ID=' + category_ID + '&ipcr_ID=' + ipcr_ID,
 		    dataType: "json",
             success:function (options){
@@ -964,7 +958,7 @@ $(document).ready(function () {
         var target_ID = $(this).val();
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/target_details",
+            url: "/up-oams/index.php/ajax/target_details",
             data: 'target_ID=' + target_ID,
 		    dataType: "json",
             success:function (data){
@@ -997,23 +991,22 @@ $(document).ready(function () {
 
 	$("#current_password").keyup(function () {
 		var password = $(this).val();
+
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/abc",
+            url: "/up-oams/index.php/ajax/abc",
             data: 'password=' + password,
             success:function (correct){
                 if(correct)
                 {
-			    	// $("div.current_password").removeClass("has-error has-feedback");
-			    	// $(this).setCustomValidity("");
-			    	$("#checkIcon").removeClass("glyphicon glyphicon-remove form-control-feedback");
+			    	$("div.current_password").removeClass("has-error has-feedback").addClass("has-success has-feedback");
+			    	$("#checkIcon").removeClass("glyphicon glyphicon-remove form-control-feedback").addClass("glyphicon glyphicon-ok form-control-feedback");
 			    	$("#passwordCheck").html("");
 			    }
 			    else
 			    {
-			    	// $("div.current_password")addClass("has-error has-feedback");
-			    	// $(this).setCustomValidity("Invalid field.")
-			    	$("#checkIcon").addClass("glyphicon glyphicon-remove form-control-feedback");
+			    	$("div.current_password").removeClass("has-success has-feedback").addClass("has-error has-feedback");
+			    	$("#checkIcon").removeClass("glyphicon glyphicon-ok form-control-feedback").addClass("glyphicon glyphicon-remove form-control-feedback");
 			    	$("#passwordCheck").html("Wrong password.");
 			    }
             }
@@ -1079,14 +1072,3 @@ $(document).ready(function () {
 	});
 
 });
-	// // Refine - filter, sort
-	// $("#refine_list").click(function ()
-	// {
-	// 	$("#refine_form").toggle();
-	// 	$("#display_table").toggleClass("col-md-9");		
-	// });
-
-	// // No auto close
-	// $('#user_filter').collapse({
-	//   toggle: false
-	// })

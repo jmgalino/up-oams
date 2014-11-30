@@ -7,13 +7,13 @@
        <h4 class="modal-title" id="myModalLabel">New Department</h4>
       </div>
 
-      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'departmentForm', 'role'=>'form')); ?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'departmentForm', 'role'=>'form', 'ajax-url'=>URL::site('ajax/unique/new_department'))); ?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="invalidMessage"></p>
         </div>
 
-        <input type="text" id="department-id" name="department_ID" hidden>
+        <input type="text" id="department-id" name="department_ID" ajax-url="<?php echo URL::site('ajax/department_users'); ?>" hidden>
 
         <div class="form-group">
           <label for="department-college" class="col-sm-3 control-label">College</label>

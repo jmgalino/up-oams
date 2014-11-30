@@ -219,7 +219,7 @@ class Controller_Ajax extends Controller {
 			$tmp['type'] = $program['type'];
 			$tmp['vision'] = $program['vision'];
 			$tmp['goals'] = $program['goals'];
-			$tmp['update'] = '<a class="btn btn-default" key="'.$program['program_ID'].'" id="updateProgram" data-toggle="modal" data-target="#modal_program" href="#" url="'.URL::site('admin/university/update/program').'">
+			$tmp['update'] = '<a class="btn btn-default" key="'.$program['program_ID'].'" id="updateProgram" data-toggle="modal" data-target="#modal_program" href="#" url="'.URL::site('admin/university/update/program').'" ajax-url="'.URL::site('ajax/program_details').'">
 					<span class="glyphicon glyphicon-pencil"></span> Update</a>';
 			$arr[] = $tmp;
 		}
@@ -300,6 +300,9 @@ class Controller_Ajax extends Controller {
 		$arr['subject'] = $message_details['subject'];
 		$arr['date'] = date('F d, Y \a\t H:i A', strtotime($message_details['date']));
 		$arr['message'] = $message_details['message'];
+		$arr['read'] = ($message_details['seen']
+			? '<a class="link-reverse" href="'.URL::site('admin/unread/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-eye-close"></span> Mark as Unread</a>'
+			: '<a class="link-reverse" href="'.URL::site('admin/read/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-eye-open"></span> Mark as Read</a>');
 		$arr['star'] = ($message_details['star']
 			? '<a class="link-reverse" href="'.URL::site('admin/remove_star/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-star-empty"></span> Remove Star</a>'
 			: '<a class="link-reverse" href="'.URL::site('admin/star/'.$message_details['message_ID']).'"><span class="glyphicon glyphicon-star"></span> Add Star</a>');

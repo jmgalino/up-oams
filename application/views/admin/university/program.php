@@ -35,7 +35,7 @@ echo View::factory('admin/university/form/program')
 ?>
 
 <!-- Table -->
-<table class="table table-hover" id="program_table" width="100%">
+<table class="table table-hover" id="program_table" width="100%" ajax-url="<?php echo URL::site('ajax/get_programs'); ?>">
 	<thead>
 		<tr>
       <th></th>

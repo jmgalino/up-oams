@@ -47,7 +47,7 @@ echo View::factory('admin/oams/message');
 		echo ($message['seen'] ? $message['name'] : '<strong>'.$message['name'].'</strong>');
 
 		echo '</td>
-			<td class="message" key="', $message['message_ID'], '" data-toggle="modal" data-target="#modal_message" style="cursor:pointer;">';
+			<td class="message" key="', $message['message_ID'], '" data-toggle="modal" data-target="#modal_message" style="cursor:pointer;" ajax-url="', URL::site('ajax/message_details').'">';
 
 		echo ($message['star'] ? '<span class="glyphicon glyphicon-star" style="color:#7b1113"></span> ' : '<span class="glyphicon glyphicon-star-empty" style="color:#cccccc"></span> ');
 		echo ($message['seen'] ? $message['subject'] : '<strong>'.$message['subject'].'</strong>');

@@ -106,8 +106,9 @@ $(document).ready(function () {
     });
 
     // 4. Program Table (Admin)
+    var ajaxUrl = $("#program_table").attr("ajax-url");
     var program_table = $('#program_table').DataTable({
-        "ajax": "/oamsystem/index.php/ajax/get_programs",
+        "ajax": ajaxUrl,
         "columns": [
             {
                 "class":			'details-control',
@@ -190,6 +191,8 @@ $(document).ready(function () {
     });
     /* MODAL -- Add event listener for 'Update Program' buttons */
     $('#program_table tbody').on('click', 'a#updateProgram', function () {
+        var ajaxUrl = $(this).attr("ajax-url");
+        var validateUrl = $(this).attr("validate-url");
     	var program_ID = $(this).attr("key");
 		var url = $(this).attr("url");
         
@@ -197,7 +200,7 @@ $(document).ready(function () {
             data: 'program_ID=' + program_ID,
             dataType: "json",
             type: "POST",
-            url: "/oamsystem/index.php/ajax/program_details",
+            url: ajaxUrl,
             success: function (data) {
 				$("#myModalLabel").text("Update Program");
 				$("#invalidMessage").parent().hide();
@@ -211,7 +214,7 @@ $(document).ready(function () {
                 $("#program-vision").text(data['vision']);
                 $("#program-goals").text(data['goals']);
 		        $("input[type='submit']").val("Save");
-		        $("#programForm").attr("url", url);
+		        $("#programForm").attr("url", url).attr("ajax-url", validateUrl);
 
             	if (data['department_ID'])
             	   $("#program-department").val(data['department_ID']).prop('disabled', false);
@@ -237,15 +240,17 @@ $(document).ready(function () {
     });
       /* MODAL -- Add event listener */
     $('#message_table tbody').on('click', 'td.message', function () {
+        var ajaxUrl = $(this).attr("ajax-url");
         var message_ID = $(this).attr("key");
         var row = "#"+message_ID;
 
         $.ajax({
             type: "POST",
-            url: "/oamsystem/index.php/ajax/message_details",
+            url: ajaxUrl,
             data: 'message_ID=' + message_ID,
             dataType: "json",
             success:function (data){
+                $("#message-read").html(data["read"]);
                 $("#message-star").html(data["star"]);
                 $("#message-delete").html(data["delete"]);
                 $("#message-subject").text(data["subject"]);

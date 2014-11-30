@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <a class="link-reverse" href=""><span class="glyphicon glyphicon-eye-close"></span> Mark as Unread</a>&nbsp&nbsp
+        <span id="message-read"></span>&nbsp&nbsp
         <span id="message-star"></span>&nbsp&nbsp
         <span id="message-delete"></span>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
