@@ -8,10 +8,10 @@
 
 <h3>
 	<div class="row">
-		<div class="col-md-6">Accomplishment Reports <small><?php echo $group; ?></small></div>
+		<div class="col-md-9">Accomplishment Reports <small><?php echo $group; ?></small></div>
 
 		<?php if ($accom_reports): ?>
-		<div class="col-md-6">
+		<div class="col-md-3">
 			<div class="btn-group pull-right">
 		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button>
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>

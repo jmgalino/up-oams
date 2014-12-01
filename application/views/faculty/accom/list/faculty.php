@@ -8,6 +8,8 @@
 	<div class="row">
 		<div class="col-md-6">My Accomplishment Reports</div>
 		<div class="col-md-6">
+
+			<?php if ($accom_reports): ?>
 			<div class="btn-group pull-right">
 		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_accom" id="new-report">New Report</button>
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
@@ -15,11 +17,21 @@
 					<li><a href="<?php echo URL::site('faculty/accom/all'); ?>">View All Accomplishments</a></li>
 		        </ul>
 			</div>
+			<?php else: ?>
+			<button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_accom" id="new-report">New Report</button>
+			<?php endif; ?>
 	  </div>
 	</div>
 </h3>
 <br>
 
+<?php
+// New Form (Initialize)
+echo View::factory('faculty/accom/form/initialize')
+	->bind('accom_reports', $accom_reports);
+?>
+
+<?php if ($accom_reports): ?>
 <?php if ($submit): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -43,13 +55,6 @@
 </div>
 <?php endif; ?>
 
-<?php
-// New Form (Initialize)
-echo View::factory('faculty/accom/form/initialize')
-	->bind('accom_reports', $accom_reports);
-?>
-
-<?php if ($accom_reports): ?>
 <!-- Table -->
 <table class="table table-hover" id="accom_table" cellspacing="0" width="100%">
 	<thead>

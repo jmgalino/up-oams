@@ -190,7 +190,7 @@ body {
   /* The html and body elements cannot have any padding or margin. */
 }
 
-/* Wrapper for page content to push down fotter */
+/* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;
   height: auto;
@@ -398,14 +398,6 @@ pre .template-output {
   border-color: #2f0607;
 }
 
-a.glyphicon-paperclip
-{
-  color: inherit;
-}
-a.glyphicon-paperclip:hover,
-{
-  text-decoration: none;
-}
 table.display
 {
   table-layout:fixed;

@@ -9,6 +9,7 @@
 
       <?php print Form::open('faculty/accom/new', array('class'=>'form-horizontal', 'id' => 'newReport', 'role'=>'form'));?>
       <div class="modal-body">
+
         <?php if (count($accom_reports) > 1): ?>
         <div class="form-group">
           <label for="report_type" class="col-sm-4 control-label">Report Type</label>
@@ -30,8 +31,9 @@
             </div>
           </div>
         </div>
-        <?php endif; ?>
 
+      <?php else: ?>
+        <input name="report_type" value="new" hidden>
         <div class="form-group">
           <label for="yearmonth" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6" id="yearmonth">
@@ -41,6 +43,8 @@
             </div>
           </div>
         </div>
+        <?php endif; ?>
+
       </div>
 
       <div class="modal-footer">

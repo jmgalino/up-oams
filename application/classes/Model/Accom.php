@@ -166,11 +166,41 @@ class Model_Accom extends Model {
 	 */
 	public function delete($accom_ID)
 	{
+		$pub = $this->get_accoms($accom_ID, 'pub'); $accoms['pub'] = $pub;
+		$awd = $this->get_accoms($accom_ID, 'awd'); $accoms['awd'] = $awd;
+		$rch = $this->get_accoms($accom_ID, 'rch'); $accoms['rch'] = $rch;
+		$ppr = $this->get_accoms($accom_ID, 'ppr'); $accoms['ppr'] = $ppr;
+		$ctv = $this->get_accoms($accom_ID, 'ctv'); $accoms['ctv'] = $ctv;
+		$par = $this->get_accoms($accom_ID, 'par'); $accoms['par'] = $par;
+		$mat = $this->get_accoms($accom_ID, 'mat'); $accoms['mat'] = $mat;
+		$oth = $this->get_accoms($accom_ID, 'oth'); $accoms['oth'] = $oth;
+
+		if ($accoms)
+		{
+			foreach ($accoms as $type => $accom_specs)
+			{
+				if ($accom_specs)
+				{
+					foreach ($accom_specs as $accom_spec)
+					{
+						foreach ($accom_spec as $key => $value)
+						{
+							if ($key == array_keys($accom_spec)[0])
+								$this->delete_accom($accom_ID, $value, $type, $key);
+						}
+					}
+				}
+			}
+		}
+
+		$accom_details = $this->get_details($accom_ID);
+		$delete = unlink(DOCROOT.'files/document_accom/'.$accom_details['document']);
+
 		$rows_deleted = DB::delete('accomtbl')
 			->where('accom_ID', '=', $accom_ID)
 	 		->execute();
 
- 		if ($rows_deleted == 1) return TRUE;
+ 		if ($delete AND $rows_deleted == 1) return TRUE;
  		else return FALSE; //do something
 	}
 
@@ -187,7 +217,7 @@ class Model_Accom extends Model {
 			->where('type', '=', $type)
 			->execute()
 			->as_array();
-
+ 
 		switch ($type)
 		{
 			case 'pub':
@@ -380,7 +410,7 @@ class Model_Accom extends Model {
 		$users = $this->check_accom_users($accom_specID, $type);	
 
 		$accom_details = $this->get_accom_details($accom_ID, $accom_specID, $type);
-		$accom_attachments = (array_key_exists('attachment', $accom_details) ? $accom_details['attachment'] : null);
+		$accom_attachments = (array_key_exists('attachment', $accom_details) ? $accom_details['attachment'] : NULL);
 		$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
 
 		// Delete attachments if any

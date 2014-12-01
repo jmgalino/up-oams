@@ -26,7 +26,7 @@ if ($session->get('accom_ppr'))
 			for ($i = 0; $i < count($attachment); $i++)
 			{
 				$session->set('attachment', $session->get_once('attachment')+1);
-				echo '<a class="glyphicon glyphicon-paperclip" href="'.URL::base().'files/upload_attachments/'.$attachment[$i].'" target="_blank">',
+				echo '<a class="glyphicon glyphicon-paperclip link-reverse" href="'.URL::base().'files/upload_attachments/'.$attachment[$i].'" target="_blank">',
 					'<sup style="padding-left:1px;">', $session->get('attachment'), '</sup></a> ';	
 			}
 		}
