@@ -16,7 +16,3 @@ application/logs/**
 .Trashes
 ehthumbs.db
 Thumbs.db
- 
-# app generated files #
-######################
-files/**

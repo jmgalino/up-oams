@@ -5,8 +5,9 @@ OAMS is an elegant and minimalistic websystem created specifically for UP Mindan
 ## Documentation
 A brief documentation of UP - OAMS can be found at <http://jennygii.github.io/up-oams> which also contains download links of this repo.
 
-Kohana: <http://kohanaframework.org/3.3/guide> (or `oamsystem/index.php/guide` for offline use)
+Kohana: <http://kohanaframework.org/3.3/guide> (or `up-oams/index.php/guide` for offline use)
 Bootstrap: <http://getbootstrap.com/>
+Composer: <https://getcomposer.org/doc/>
 
 ## Reporting bugs
 If you've stumbled across a bug, please help out by [reporting the bug](https://github.com/jennygii/up-oams/issues) you have found. Simply log in or register and submit a new issue, leaving as much information about the bug as possible, e.g.
