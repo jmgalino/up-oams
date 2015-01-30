@@ -41,13 +41,6 @@
         </div>
 
         <div class="form-group">
-          <label for="fund_external" class="col-sm-4 control-label">Fund Source (External)</label>
-          <div class="col-sm-7">
-            <input type="text" class="form-control" id="fund_external" name="fund_external" placeholder="(Optional)">
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="research-duration" class="col-sm-4 control-label">Duration of Grant</label>
           <div class="col-sm-7" id="research-duration">
             <div class="input-daterange input-group">
@@ -58,22 +51,33 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="fund_amount" class="col-sm-4 control-label">Amount of Grant (External)</label>
+        <div class="form-group" ng-controller="ResearchFormController">
+          <label for="fund_external" class="col-sm-4 control-label">Fund Source</label>
           <div class="col-sm-7">
-            <div class="input-group">
-              <span class="input-group-addon">Php</span>
-              <input type="text" class="form-control" id="fund_amount" name="fund_amount" placeholder="(Optional)">
+            
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="fund_source_up" name="form_up" value="up" ng-model="showFormUp"> UP System Research Grant
+              </label>
             </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="fund_up" class="col-sm-4 control-label">Amount of Grant (UP System Research Grant)</label>
-          <div class="col-sm-7">
-            <div class="input-group">
-              <span class="input-group-addon">Php</span>
-              <input type="text" class="form-control" id="fund_up" name="fund_up" required>
+            <div id="form_up" ng-show="showFormUp">
+              <div class="input-group">
+                <span class="input-group-addon">Php</span>
+                <input type="text" class="form-control" id="fund_up" name="fund_up" ng-required="showFormUp">
+              </div>
+            </div>
+                
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="fund_source_external" name="form_external" value="external" ng-model="showFormExternal"> Other
+              </label>
+            </div>
+            <div id="form_external" ng-show="showFormExternal">
+              <input type="text" class="form-control" id="fund_external" name="fund_external" style="margin-bottom:3px" ng-required="showFormExternal" placeholder="Source">
+              <div class="input-group">
+                <span class="input-group-addon">Php</span>
+                <input type="text" class="form-control" id="fund_amount" name="fund_amount" ng-required="showFormExternal">
+              </div>
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 			
 			case 'rch':
 				$name_ID = 'research_ID';
-				$details = $this->reformat_number($details);
+				$details = $this->check_rch($details);
 				break;
 			
 			case 'ppr':
@@ -61,6 +61,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				break;
 		}
 		
+		// echo Debug::vars($details);
 		$add_success = $accom->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
 		$this->session->set('success', $add_success);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
@@ -97,7 +98,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 			
 			case 'rch':
 				$name_ID = 'research_ID';
-				$details = $this->reformat_number($details);
+				$details = $this->check_rch($details);
 				break;
 			
 			case 'ppr':
@@ -178,36 +179,46 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
 	}
 
-	private function reformat_number($details)
+	/**
+	 * Check (Research) Accom Details
+	 */
+	private function check_rch($details)
 	{
-		if ($details['fund_external'])
+		if (array_key_exists('form_up', $details))
 		{
-			$tmp = str_replace(',', '', $details['fund_amount']);
+			$details['fund_up'] = $this->remove_chars($details['fund_up']);
+			unset($details['form_up']);
+		}
+		else
+			$details['fund_up'] = NULL;
 
-			if(is_numeric($tmp)) {
-			    $details['fund_amount'] = $tmp;
-			}
+		if (array_key_exists('form_external', $details))
+		{
+			$details['fund_amount'] = $this->remove_chars($details['fund_amount']);
+			unset($details['form_external']);
 		}
 		else
 		{
-			unset($details['fund_external']);
-			unset($details['fund_amount']);
+			$details['fund_external'] = NULL;
+			$details['fund_amount'] = NULL;
 		}
-		if ($details['fund_up'])
-		{
-			$tmp = str_replace(',', '', $details['fund_up']);
-
-			if(is_numeric($tmp)) {
-			    $details['fund_up'] = $tmp;
-			}
-		}
-		else
-		{
-			unset($details['fund_up']);
-		}
-
+		
 		return $details;
 	}
+
+	/**
+	 * Remove chars from integer string
+	 */
+	private function remove_chars($string)
+	{
+		$int_string = str_replace(',', '', $string);
+		
+		if(is_numeric($int_string))
+			return $int_string;
+		else
+			return $string;
+	}
+	
 
 	/**
      * Upload attachment

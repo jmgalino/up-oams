@@ -428,33 +428,11 @@ $(document).ready(function () {
         $("#opcr").val("");
     });
 
-    /* RESEARCH FORM -- Set required/optional fields */
-    /* ========== CAN BE IMPROVED ========== */
-    $("#fund_external").keyup(function () {
-        if ($(this).val()) {
-            $("#fund_amount").attr("required", "").removeAttr("placeholder");
-            $("#fund_up").attr("placeholder", "(Optional)").removeAttr("required");
-        } else {
-            $("#fund_up").attr("required", "").removeAttr("placeholder");
-            $("#fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
-        }
+    /* RESEARCH FORM -- Reformat numbers */
+    $("#fund_up, #fund_amount").focusout(function () {
+        var fund = $(this).val();
+        if (fund) $(this).val($.number(fund, 2));
     });
-    $("#fund_amount").keyup(function () {
-        if ($(this).val()) {
-            $("#fund_external").attr("required", "").removeAttr("placeholder");
-            $("#fund_up").attr("placeholder", "(Optional)").removeAttr("required");
-        } else {
-            $("#fund_up").attr("required", "").removeAttr("placeholder");
-            $("#fund_external").attr("placeholder", "(Optional)").removeAttr("required");
-        }
-    });
-    $("#fund_up").keyup(function () {
-        if ($(this).val() && !$("#fund_external").val())
-            $("#fund_external, #fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
-        else
-            $("#fund_external, #fund_amount").attr("placeholder", "(Optional)").removeAttr("required");
-    });
-    $("#fund_amount, #fund_up").number(true, 2);
 
 	// date
 	$("#datepicker .input-group.date").datepicker({

@@ -313,7 +313,7 @@ class Controller_Ajax extends Controller {
 	}
 
 	/**
-	 * Get material details
+	 * Get accom details
 	 */
 	public function action_accom_details()
 	{

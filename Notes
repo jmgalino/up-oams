@@ -3,8 +3,11 @@ ERROR:
 
 TO DO:
 - view all, limit/pagination
-- rch modal optional/not fields
+- rch fund source should be > 0
 - no pagebreak before signature
+- check if unselected radio doesn't collect data
+  - /faculty/accom/form/modals/publication
+  - /admin/profile/accom/publication*
 - shorten long filenames for upload files (instance?)
 - remove extra period on consolidated accom group (or not?)
 - change birthday input style (what for?)
@@ -12,3 +15,4 @@ TO DO:
 ASSUMPTION:
 - No repetitive accomplishments
 - No program under DHK; No need for faculty & dept chair
+- Fund amount on research accom will be limited to 2 decimal places

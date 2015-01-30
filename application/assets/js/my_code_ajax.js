@@ -339,7 +339,6 @@ $(document).ready(function () {
 			case "research":
 				$("h4#accom-label").text("Research Grant/Fellowship Received");
 				$("#researchForm").attr("url", url);
-				$("#fund_amount, #fund_up").text();
 				$("#researchForm input").val("");
 				break;
 			
@@ -524,14 +523,20 @@ $(document).ready(function () {
 				$("#research-id").val(details["research_ID"]);
 				$("#research-title").val(details["title"]);
 				$("#research-nature").val(details["nature"]);
-				$("#fund_external").val(details["fund_external"]).trigger("keyup");
 				$("#research-start").datepicker("setDate", details["start"]).datepicker("fill");
 				$("#research-end").datepicker("setDate", details["end"]).datepicker("fill");
 				
-				if (details["fund_amount"])
-					$("#fund_amount").val(details["fund_amount"]).trigger("keyup");
 				if (details["fund_up"])
-					$("#fund_up").val(details["fund_up"]).trigger("keyup");
+				{
+					$("#fund_source_up").prop('checked', true);
+					$("#fund_up").val(details["fund_up"]);
+				}
+				if (details["fund_amount"])
+				{
+					$("#fund_source_external").prop('checked', true);
+					$("#fund_external").val(details["fund_external"]);
+					$("#fund_amount").val(details["fund_amount"]);
+				}
 				
 				$("input#accom-attachment").removeAttr("name");
 				$("div#add-attachment").hide();
@@ -540,37 +545,31 @@ $(document).ready(function () {
 		});
 	});
 	
-	/* RESEARCH FORM (VALIDATE) -- Check if date range is correct */
-    /* ========== CAN BE IMPROVED ========== */
+	/* RESEARCH FORM (VALIDATE) -- Check if fund source is entered and date range is correct */
 	$("#researchForm").on("submit", function (event) {
 		event.preventDefault();
 		
-		$.ajax({
-            type: "POST",
-            url: "/up-oams/index.php/ajax/check_date",
-            data: $("#researchForm").serialize(),
-            success: function (valid) {
-            	if (valid == 1) {
-            		$.ajax({
-			            type: "POST",
-			            url: "/up-oams/index.php/ajax/check_amount",
-			            data: $("#researchForm").serialize(),
-			            dataType: "json",
-			            success: function (amountCheck) {
-			            	if (amountCheck["invalid"]) {
-								$("p#accom-alert").text("Amount is invalid.").parent().show();
-			            		$(amountCheck["invalid"].key).focus();
-			            	} else {
-			            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
-			            	}
-			            }
-		           });
-	            } else {
-            		$("p#accom-alert").text(valid).parent().show();
-            		$("#research-start").focus();
-            	}
-            }
-        });
+		var selected = $("input:checkbox:checked").length;
+		if(selected > 0) {
+			$.ajax({
+	            type: "POST",
+	            url: "/up-oams/index.php/ajax/check_date",
+	            data: $("#researchForm").serialize(),
+	            success: function (valid) {
+	            	if (valid == 1) {
+	            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
+		            } else {
+	            		$("p#accom-alert").text(valid).parent().show();
+	            		$("#research-start").focus();
+	            	}
+	            }
+	        });
+		}
+		else {
+			$("p#accom-alert").text("Choose at least one fund source").parent().show();
+			$("#fund_source_up").focus();
+		}
+
 	});
 
 	/* PAPER FORM (UPDATE) -- Set form for editing */
