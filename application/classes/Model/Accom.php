@@ -448,21 +448,28 @@ class Model_Accom extends Model {
 	{
 		$id = NULL;
 		$count = 0;
-		$columns = array();
-		$values = array();
+		// $columns = array();
+		// $values = array();
 
 		$query = DB::select()->from('accom_'.$type.'tbl');
 
 		foreach ($details as $key => $value)
 		{
-			if ($value == '')
-				$query->where($key, '=', NULL);
+			//try strpos
+			if ($count == 0)
+				$count++;
 			else
-				$query->where($key, '=', $value);
+			{
+				// echo $key, ",";
+				if ($value == '')
+					$query->where($key, '=', NULL);
+				else
+					$query->where($key, '=', $value);
+			}
 		}
 		
 		$result = $query->execute()->as_array();
-
+// echo Debug::vars($result);
 		if ($result)
 			$id = $result[0][$name_ID];
 
