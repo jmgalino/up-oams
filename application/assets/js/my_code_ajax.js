@@ -306,6 +306,38 @@ $(document).ready(function () {
         });
 	});
 
+	/* ANNOUNCEMENT FORM (NEW) -- Reset form */
+	$("#newAnnouncement").click(function () {
+		var action = $(this).attr("url");
+
+		$("#myModalLabel").text("New Announcement");
+		$("#announcementForm").attr("action", action);
+		$("#announcementForm input, #announcement-content").val("");
+        $("input[type=submit]").val("Post");
+	});
+
+	/* ANNOUNCEMENT FORM (UPDATE) -- Set form for editing*/
+	$("#updateAnnouncement").click(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var action = $(this).attr("url");
+		var announcement_ID = $(this).attr("key");
+
+		$.ajax({
+			type: "POST",
+			url: ajaxUrl,
+			data: "announcement_ID=" + announcement_ID,
+			dataType: "json",
+			success:function (data) {
+				$("#myModalLabel").text("Update Announcement");
+				$("#announcementForm").attr("action", action);
+				$("#announcement-id").val(data["announcement_ID"]);
+				$("#announcement-subject").val(data["subject"]);
+				$("#announcement-content").val(data["content"]);
+		        $("input[type=submit]").val("Save");
+			}
+		});
+	});
+
 	/* ACCOMPLISHMENT FORM -- Reset form */
 	$("#addAccomplishment").click(function () {
 		$("input[name=accom_type]").prop("checked", false);

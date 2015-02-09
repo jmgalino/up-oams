@@ -7,17 +7,11 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_faculty_ipcr($user_ID)
 	{
-		$result = DB::select()
+		$ipcr_forms = DB::select()
 			->from('ipcrtbl')
 			->where('user_ID', '=', $user_ID)
 			->execute()
 			->as_array();
-	
-		$ipcr_forms = array();
-		foreach ($result as $form)
-		{
-			$ipcr_forms[] = $form;
-		}
 
 		return $ipcr_forms;
 	}
@@ -27,20 +21,14 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_group_ipcr($userIDs)
 	{
-		$result = DB::select()
+		$group_ipcrs = DB::select()
 			->from('ipcrtbl')
 			->where('user_ID', 'IN', $userIDs)
 			->where('status', 'IN', array('Checked', 'Accepted', 'Pending', 'Saved'))
 	 		->execute()
 	 		->as_array();
 
-		$ipcrs = array();
-	 	foreach ($result as $ipcr)
-	 	{
-	 		$ipcrs[] = $ipcr;
-	 	}
-
-	 	return $ipcrs;
+	 	return $group_ipcrs;
 	}
 
 	/**
@@ -48,19 +36,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_opcr_ipcr($opcr_ID)
 	{
-		$result = DB::select()
+		$opcr_ipcrs = DB::select()
 			->from('ipcrtbl')
 			->where('opcr_ID', '=', $opcr_ID)
 			->execute()
 			->as_array();
 
-		$ipcrs = array();
-	 	foreach ($result as $ipcr)
-	 	{
-	 		$ipcrs[] = $ipcr;
-	 	}
-
-	 	return $ipcrs;
+	 	return $opcr_ipcrs;
 	}
 
 	/**
@@ -68,13 +50,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_details($ipcr_ID)
 	{
-		$details = DB::select()
+		$ipcr_details = DB::select()
 			->from('ipcrtbl')
 			->where('ipcr_ID', '=', $ipcr_ID)
 	 		->execute()
 	 		->as_array();
 
-		return $details[0];
+		return $ipcr_details[0];
 	}
 
 	/**
@@ -83,7 +65,7 @@ class Model_Ipcr extends Model {
 	public function initialize($details)
 	{
 		// Check
-		$result = DB::select()
+		$ipcr = DB::select()
 			->from('ipcrtbl')
 			->where('opcr_ID', '=', $details['opcr_ID'])
 			->where('user_ID', '=', $details['user_ID'])
@@ -91,15 +73,15 @@ class Model_Ipcr extends Model {
 			->as_array();
 
 		// Existing
-		if ($result)
+		if ($ipcr)
  		{
- 			if (($result[0]['status'] == 'Checked') OR ($result[0]['status'] == 'Accepted') OR ($result[0]['status'] == 'Pending'))
+ 			if (($ipcr[0]['status'] == 'Checked') OR ($ipcr[0]['status'] == 'Accepted') OR ($ipcr[0]['status'] == 'Pending'))
  			{
  				return 'IPCR Form is locked for editing.';
  			}
  			else
  			{
- 				return array('ipcr_ID' => $result[0]['ipcr_ID'], 'message' => 'This form has been generated.');
+ 				return array('ipcr_ID' => $ipcr[0]['ipcr_ID'], 'message' => 'This form has been generated.');
  			}
  		}
  		else
@@ -164,20 +146,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_targets($ipcr_ID)
 	{
-    	$result = DB::select()
+    	$ipcr_targets = DB::select()
 			->from('ipcr_targettbl')
 			->where('ipcr_ID', '=', $ipcr_ID)
 			->execute()
 			->as_array();
-	
-		// $targets = array();	
-		// foreach ($result as $target)
-		// {
-		// 	$targets[] = $target;
-		// }
 
- 		// return $targets;
- 		return $result;
+ 		return $ipcr_targets;
 	}
 
 	/**
@@ -185,7 +160,7 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_category_targets($ipcr_ID, $category_ID)
 	{
-		$result = DB::select('ipcr_targettbl.target_ID', 'ipcr_targettbl.target')
+		$category_targets = DB::select('ipcr_targettbl.target_ID', 'ipcr_targettbl.target')
 			->from('ipcr_targettbl')
 			->join('opcr_outputtbl', 'INNER')
 			->on('ipcr_targettbl.output_ID', '=', 'opcr_outputtbl.output_ID')
@@ -194,7 +169,7 @@ class Model_Ipcr extends Model {
 			->execute()
 			->as_array();
 
-		return $result;
+		return $category_targets;
 	}
 
 	/**
@@ -207,19 +182,13 @@ class Model_Ipcr extends Model {
 			$outputIDs[] = $output['output_ID'];
 		}
 
-		$result = DB::select()
+		$output_targets = DB::select()
 			->from('ipcr_targettbl')
 			->where('output_ID', 'IN', $outputIDs)
 			->execute()
 			->as_array();
 
-		$targets = array();
-	 	foreach ($result as $target)
-	 	{
-	 		$targets[] = $target;
-	 	}
-
-	 	return $targets;
+	 	return $output_targets;
 	}
 
 	/**
@@ -227,13 +196,13 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_target_details($target_ID)
 	{
-    	$details = DB::select()
+    	$target_details = DB::select()
 			->from('ipcr_targettbl')
 			->where('target_ID', '=', $target_ID)
 			->execute()
 			->as_array();
 
- 		return $details[0];
+ 		return $target_details[0];
 	}
 
 	/**
@@ -242,14 +211,14 @@ class Model_Ipcr extends Model {
 	public function add_target($details)
 	{
 		// Check if target is existing
-		$result = DB::select()
+		$target = DB::select()
 			->from('ipcr_targettbl')
 			->where('output_ID', '=', $details['output_ID'])
 			->where('ipcr_ID', '=', $details['ipcr_ID'])
 			->execute()
 			->as_array();
 
-		if(!$result)
+		if(!$target)
 		{
 			$insert_target = DB::insert('ipcr_targettbl')
 				->columns(array_keys($details))

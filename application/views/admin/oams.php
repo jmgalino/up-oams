@@ -22,13 +22,13 @@
 
 <?php
 // Edit title form
-echo View::factory('admin/oams/title')
+echo View::factory('admin/oams/form/title')
 	->bind('titles', $titles);
 // Edit about form
-echo View::factory('admin/oams/about')
+echo View::factory('admin/oams/form/about')
 	->bind('about', $about);
 // Edit categories form
-echo View::factory('admin/oams/categories')
+echo View::factory('admin/oams/form/categories')
 	->bind('categories', $categories);
 ?>
 
@@ -51,6 +51,37 @@ echo View::factory('admin/oams/categories')
 			echo '<p>', $about, '</p>';
 		?>
 
+		<div class="page-header" id="announcements">
+			<h2>Announcements</h2>&nbsp
+			<a class="show-hover" href=<?php echo URL::site('admin/oams/announcements'); ?>>Edit</a>
+		</div>
+
+		<?php if ($announcements): ?>
+		<!-- Announcement Summary Table -->
+		<table class="table table-condensed" cellspacing="0">
+			<?php
+			foreach ($announcements as $announcement)
+			{
+				echo '<tr>';
+				echo '<td style="border-top: none; width:75%"><strong>', $announcement['subject'], '</strong> - ', $announcement['content'], '</td>';
+
+				echo ($announcement['attachment']
+					? '<td style="border-top: none; width:5%"><span class="glyphicon glyphicon-paperclip aria-hidden="true""></span></td>'
+					: '<td style="border-top: none; width:5%"></td>');
+
+				echo '<td style="border-top: none; width:10%">', date('d M', strtotime($announcement['date'])), '</td>';
+				echo '</tr>';
+			}
+			?>
+		</table>
+
+		<?php else: ?>
+		<div class="alert alert-danger text-center">
+			<p>The list is empty.</p>
+		</div>
+		<span class="help-block">Note: Announcements reset on the first day of the month. [SOON]</span>
+		<?php endif; ?>
+
 		<div class="page-header" id="categories">
 			<h2 data-toggle="modal" data-target="#modal_categories">IPCR/OPCR Categories</h2>&nbsp
 			<a class="show-hover" data-toggle="modal" data-target="#modal_categories" href="#">Edit</a>
@@ -69,6 +100,7 @@ echo View::factory('admin/oams/categories')
 			<ul class="nav nav-stacked">
 	            <li><a href="#title">Title</a></li>
 	            <li><a href="#about">About</a></li>
+	            <li><a href="#announcements">Announcements</a></li>
 	            <li><a href="#categories">IPCR/OPCR Categories</a></li>
 	        </ul>
 		</div>

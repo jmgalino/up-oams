@@ -40,9 +40,10 @@ $(document).ready(function () {
     *   2. College Table (Admin)            *
     *   3. Department Table (Admin)         *
     *   4. Program Table (Admin)            *
-    *   5. Message Table (Admin)            *
-    *   6. Accomplishment Table (Faculty)   *
-    *   7. Accomplishment Group Table       *
+    *   5. Announcement Table (Admin)       *
+    *   6. Message Table (Admin)            *
+    *   7. Accomplishment Table (Faculty)   *
+    *   8. Accomplishment Group Table       *
     *       (Faculty - Dept. Chair/Dean)    *
     *****************************************/
 
@@ -224,7 +225,34 @@ $(document).ready(function () {
         });
     });
 
-	// 5. Message Table (Admin)
+    // 5. Announcement Table (Admin)
+    $('#announcement_table').DataTable({
+        "columnDefs": [{
+            "orderable": false,
+            "targets": "subject"
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        // Order table by date (column 2), descending
+        "order": [[ 2, "desc" ]]
+    });
+    $('#announcement_table_summary').DataTable({
+        "columnDefs": [{
+            "orderable": false,
+            "targets": "subject"
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        "dom": 'tr'
+        // Order table by date (column 2), descending
+        // "order": [[ 2, "desc" ]]
+    });
+
+	// 6. Message Table (Admin)
 	$('#message_table').DataTable({
         "columnDefs": [{
             "visible": false,
@@ -261,7 +289,7 @@ $(document).ready(function () {
         });
     });
 
-	// 6. Accomplishment Table (Faculty)
+	// 7. Accomplishment Table (Faculty)
 	$('#accom_table').DataTable({
         "columns": [
             null,
@@ -276,7 +304,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
 	
-    // 7. Accomplishment Group Table (Faculty - Dept. Chair/Dean)
+    // 8. Accomplishment Group Table (Faculty - Dept. Chair/Dean)
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
 		    // Period column is searchable but hidden; used as group header

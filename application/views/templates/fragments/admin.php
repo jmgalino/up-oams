@@ -13,11 +13,23 @@
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li><a href=<?php echo URL::site('admin/profile'); ?>>User Profiles</a></li>
-				<li><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
-				<li><a href=<?php echo URL::site('admin/oams'); ?>>OAMS Settings</a></li>
+				<li class="dropdown">
+					<a href=<?php echo URL::site('admin/university'); ?> class="dropdown-toggle disabled" data-toggle="dropdown">University Settings</a>
+					<ul class="dropdown-menu">
+						<li><a href=<?php echo URL::site('admin/university/colleges'); ?>>Colleges</a></li>
+						<li><a href=<?php echo URL::site('admin/university/departments'); ?>>Departments</a></li>
+						<li><a href=<?php echo URL::site('admin/university/programs'); ?>>Degree Programs</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href=<?php echo URL::site('admin/oams'); ?> class="dropdown-toggle disabled" data-toggle="dropdown">OAMS Settings</a>
+					<ul class="dropdown-menu">
+						<li><a href=<?php echo URL::site('admin/oams/announcements'); ?>>Announcements</a></li>
+					</ul>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href=<?php echo URL::site(); ?>><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href=<?php echo URL::site('admin/announcements'); ?>><span class="glyphicon glyphicon-home"></span></a></li>
 				<li><a href=<?php echo URL::site('admin/messages'); ?>><span class="glyphicon glyphicon-envelope <?php echo ($messages ? 'notify' : NULL);?>"></span><span class="badge pull-right"><?php echo ($messages ? $messages : NULL);?></span></a></li>
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown"><?php echo $fname;?> <b class="caret"></b></a>

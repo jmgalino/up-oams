@@ -84,10 +84,10 @@
 </div>
 
 <?php if ($user['user_type'] == 'Faculty'): ?>
-<hr hidden>
-<div hidden>
+<hr>
+<div>
 	<h4>Educational Background</h4><br>
-	<div class="alert alert-warning mini-alert"><p class="text-center">Coming soon.</p></div>
+	<div class="alert alert-warning"><p class="text-center">Coming soon.</p></div>
 </div>
 
 <?php endif; ?>

@@ -76,9 +76,11 @@ class Controller_User extends Controller {
 	protected function action_index()
 	{
 		$title = $this->oams->get_title();
+		$announcements = $this->oams->get_announcements();
 
 		$this->view->content = View::factory('profile/index')
-			->bind('title', $title);
+			->bind('title', $title)
+			->bind('announcements', $announcements);
 		$this->response->body($this->view->render());
 	}
 
@@ -92,6 +94,15 @@ class Controller_User extends Controller {
 
 		$this->view->content = View::factory('profile/error')
 			->bind('error', $error);
+		$this->response->body($this->view->render());
+	}
+
+	protected function action_announcements()
+	{
+		$announcements = $this->oams->get_announcements();
+
+		$this->view->content = View::factory('profile/announcements')
+			->bind('announcements', $announcements);
 		$this->response->body($this->view->render());
 	}
 

@@ -14,6 +14,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$titles['initials'] = $this->oams->get_initials();
 		$titles['page_title'] = $this->oams->get_page_title();
 		$about = $this->oams->get_about();
+		$announcements = $this->oams->get_announcements();
 		$categories = $this->oams->get_categories();
 
 		$this->view->content = View::factory('admin/oams')
@@ -21,8 +22,54 @@ class Controller_Admin_Oams extends Controller_Admin {
 			->bind('success', $success)
 			->bind('error', $error)
 			->bind('about', $about)
+			->bind('announcements', $announcements)
 			->bind('categories', $categories);
 		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * List announcements
+	 */
+	public function action_announcements()
+	{
+		$initials = $this->oams->get_initials();
+		$success = $this->session->get_once('success');
+		$error = $this->session->get_once('error');
+		$announcements = $this->oams->get_announcements();
+		
+		$this->view->content = View::factory('admin/oams/announcements')
+			->bind('initials', $initials)
+			->bind('success', $success)
+			->bind('error', $error)
+			->bind('announcements', $announcements);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Something new
+	 */
+	public function action_new()
+	{
+		switch ($this->request->param('id'))
+		{
+			case 'announcement':
+				$this->new_announcement();
+				break;
+		}
+	}
+
+	/**
+	 * Create announcement
+	 */
+	private function new_announcement()
+	{
+		$details = $this->request->post();
+		$details['announcement_ID'] = null;
+		$details['date'] = date('Y-m-d H:i:s');
+		
+		$add_success = $this->oams->add_announcement($details);
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/oams/announcements', 303);	
 	}
 
 	/**
@@ -38,6 +85,10 @@ class Controller_Admin_Oams extends Controller_Admin {
 			
 			case 'about':
 				$this->update_about();
+				break;
+
+			case 'announcement':
+				$this->update_announcement();
 				break;
 
 			case 'categories':
@@ -67,7 +118,19 @@ class Controller_Admin_Oams extends Controller_Admin {
 	}
 
 	/**
-	 * Update OAMS (IPCR/OPCR) Categories
+	 * Update Announcements
+	 */
+	private function update_announcement()
+	{
+		$details = $this->request->post();
+		$details['edited'] = 1;
+		$update_success = $this->oams->update_announcement($details);
+		$this->session->set('success', $update_success);
+		$this->redirect('admin/oams/announcements', 303);
+	}
+
+	/**
+	 * Update IPCR/OPCR Categories
 	 * Note: Cannot verify if unique
 	 */
 	private function update_categories()

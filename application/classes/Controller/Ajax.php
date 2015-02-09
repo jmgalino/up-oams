@@ -285,6 +285,25 @@ class Controller_Ajax extends Controller {
 	}
 
 	/**
+	 * Get announcement details
+	 */
+	public function action_announcement_details()
+	{
+		$oams = new Model_Oams;
+
+		$announcement_ID = $this->request->post('announcement_ID');
+		$announcement_details = $oams->get_announcement_details($announcement_ID);
+
+		$arr = array();
+		$arr['announcement_ID'] = $announcement_ID;
+		$arr['subject'] = $announcement_details['subject'];
+		$arr['content'] = $announcement_details['content'];
+		
+		echo json_encode($arr);
+		exit();
+	}	
+
+	/**
 	 * Get message details
 	 */
 	public function action_message_details()

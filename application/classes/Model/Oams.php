@@ -109,21 +109,82 @@ class Model_Oams extends Model {
 	}
 
 	/**
+	 * Get announcements
+	 */
+	public function get_announcements()
+	{
+		$today = getdate();
+
+		$announcements = DB::select()
+			->from('oams_announcementtbl')
+			// ->where('deleted', '=', '0') to add?
+			->where('YEAR(date)', '=', $today['year'])
+			->where('MONTH(date)', '=', $today['mon'])
+			->order_by('date', 'DESC')
+			->execute()
+			->as_array();
+			
+		return $announcements;
+	}
+
+	/**
+	 * Get announcement details
+	 */
+	public function get_announcement_details($announcement_ID)
+	{
+		$announcement_details = DB::select()
+			->from('oams_announcementtbl')
+			->where('announcement_ID', '=', $announcement_ID)
+			->execute()
+			->as_array();
+			
+		return $announcement_details[0];
+	}
+
+	/**
+	 * New announcement
+	 */
+	public function add_announcement($details)
+	{
+		$insert_row = DB::insert('oams_announcementtbl')
+			->columns(array_keys($details))
+			->values($details)
+			->execute();
+
+		if ($insert_row[1] == 1)
+			return 'The announcement has been published.';
+		else
+		{
+			$session = Session::instance();
+			$session->set('error', 'Something went wrong. Please try again.');
+			return FALSE;
+		}
+	}
+
+	/**
+	 * Update an announcement
+	 */
+	public function update_announcement($details)
+	{
+		$rows_updated = DB::update('oams_announcementtbl')
+ 			->set($details)
+			->where('announcement_ID', '=', $details['announcement_ID'])
+ 			->execute();
+
+ 		if ($rows_updated == 1) return 'The announcement <i>'.$details['subject'].'</i> was successfully updated.';
+ 		else return FALSE;
+	}
+
+	/**
 	 * Get IPCR/OPCR categories
 	 */
 	public function get_categories()
 	{
-		$result = DB::select()
+		$categories = DB::select()
 			->from('opcr_categorytbl')
 			->where('deleted', '=', '0')
 			->execute()
 			->as_array();
-
-		$categories = array();
-		foreach ($result as $category)
-		{
-			$categories[] = $category;
-		}
 
 		return $categories;
 	}
@@ -263,12 +324,12 @@ class Model_Oams extends Model {
 		// No similar entry in the database
 		if (!$result)
  		{
-			$insert_target = DB::insert('oams_messagetbl')
+			$insert_row = DB::insert('oams_messagetbl')
 				->columns(array_keys($details))
 				->values($details)
 				->execute();
 
-			if ($insert_target[1] == 1)
+			if ($insert_row[1] == 1)
 				return 'Got it. We\'ll get back to you ASAP!';
 			else
 			{

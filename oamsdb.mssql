@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 05, 2015 at 12:13 AM
+-- Generation Time: Feb 09, 2015 at 08:47 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.5.14
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
   `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accomtbl`
@@ -46,7 +46,9 @@ INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `s
 (3, 39, '2015-02-01', '2015-02-04', 'Pending', 'Checked by Thomas W. Seay (05 Feb 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000310215.pdf'),
 (4, 39, '2014-12-01', '2015-02-04', 'Approved', 'Checked by Troy E. Keller (05 Feb 2015)', '1234000311215.pdf'),
 (5, 40, '2015-03-01', '2015-02-04', 'Approved', 'Checked by Troy E. Keller (05 Feb 2015)', '1234000320315.pdf'),
-(6, 39, '2015-03-01', '2015-02-04', 'Draft', 'None', '1234000310315.pdf');
+(6, 39, '2015-03-01', '2015-02-04', 'Draft', 'None', '1234000310315.pdf'),
+(7, 12, '2015-03-01', '2015-02-05', 'Approved', 'Checked by Troy E. Keller (05 Feb 2015)', '1234000080315.pdf'),
+(8, 5, '2015-04-01', '2015-02-05', 'Saved', 'None', '1234000010415.pdf');
 
 -- --------------------------------------------------------
 
@@ -89,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
   `author` varchar(255) DEFAULT NULL,
   `year` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accom_mattbl`
@@ -100,7 +102,8 @@ INSERT INTO `accom_mattbl` (`material_ID`, `author`, `year`, `title`) VALUES
 (2, NULL, '2015', 'Friends With Better Lives'),
 (3, NULL, '2015', 'Avatar: Legend of Korra'),
 (4, NULL, '2014', 'Bad Teacher'),
-(5, NULL, '2015', 'The Big Bang Theory');
+(5, NULL, '2015', 'The Big Bang Theory'),
+(7, NULL, '2015', 'Family Guy');
 
 -- --------------------------------------------------------
 
@@ -207,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
   `attachment` text
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -220,7 +223,9 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (6, 3, 3, 'mat', NULL),
 (7, 4, 4, 'mat', NULL),
 (8, 5, 5, 'mat', NULL),
-(10, 6, 5, 'mat', NULL);
+(10, 6, 5, 'mat', NULL),
+(11, 7, 7, 'mat', NULL),
+(16, 8, 7, 'mat', NULL);
 
 -- --------------------------------------------------------
 
@@ -341,6 +346,30 @@ INSERT INTO `oamstbl` (`name`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `oams_announcementtbl`
+--
+
+CREATE TABLE IF NOT EXISTS `oams_announcementtbl` (
+  `announcement_ID` int(11) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `date` datetime NOT NULL,
+  `content` text NOT NULL,
+  `attachment` text,
+  `edited` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oams_announcementtbl`
+--
+
+INSERT INTO `oams_announcementtbl` (`announcement_ID`, `subject`, `date`, `content`, `attachment`, `edited`) VALUES
+(1, 'asd', '2015-02-09 00:00:00', 'a', 'a', 0),
+(2, 'asdass', '2015-02-09 00:00:00', 's', NULL, 0),
+(3, '1', '2015-02-09 16:31:06', '22', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `oams_messagetbl`
 --
 
@@ -351,9 +380,9 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `date` datetime NOT NULL,
-  `seen` int(1) NOT NULL DEFAULT '0',
-  `star` int(1) NOT NULL DEFAULT '0',
-  `deleted` int(1) NOT NULL DEFAULT '0'
+  `seen` tinyint(1) NOT NULL DEFAULT '0',
+  `star` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
@@ -364,7 +393,7 @@ INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `mess
 (2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21 06:17:00', 1, 1, 1),
 (3, 'Kiyoko B. Blanton', '123400000', 'testing', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', '2014-09-21 15:47:00', 1, 0, 0),
 (4, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet2', '2014-09-22 00:00:00', 1, 0, 1),
-(5, 'Gloria V. Hubbard', '123400013', 'hello', 'phoesz', '2014-09-21 00:00:00', 1, 0, 0);
+(5, 'Gloria V. Hubbard', '123400013', 'hello', 'phoesz', '2014-09-21 00:00:00', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -383,7 +412,7 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL,
   `document_consolidated` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `opcrtbl`
@@ -395,7 +424,8 @@ INSERT INTO `opcrtbl` (`opcr_ID`, `user_ID`, `period_from`, `period_to`, `date_p
 (7, 8, '2014-05-01', '2014-08-01', '2014-09-22', NULL, 'Published', 'None', '12340000405140814.pdf', NULL),
 (8, 7, '2014-09-01', '2014-12-01', '2014-08-13', NULL, 'Published', 'None', 'files/document_opcr/12340000309141214.pdf', NULL),
 (9, 8, '2014-01-01', '2014-03-01', NULL, NULL, 'Draft', 'None', NULL, NULL),
-(10, 4, '2014-01-01', '2014-05-01', NULL, NULL, 'Draft', 'None', NULL, NULL);
+(10, 4, '2014-01-01', '2014-05-01', NULL, NULL, 'Draft', 'None', NULL, NULL),
+(11, 12, '2015-01-01', '2015-04-01', NULL, NULL, 'Draft', 'None', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -705,7 +735,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 
 INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `first_name`, `middle_name`, `last_name`, `user_type`, `faculty_code`, `program_ID`, `department_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
 (1, '000012345', 'Jenny', 'M', 'Galino', 'Admin', NULL, NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
-(2, '000112345', 'Catherine', 'Kay', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', 'hkwb0ddz9rwrux5ujaioGastone.jpg', 0),
+(2, '000112345', 'Catherine', 'Kay', 'Gastone', 'Admin', NULL, NULL, NULL, NULL, NULL, '1963-12-14', NULL, 0),
 (3, '000212345', 'John', 'E', 'Parsons', 'Admin', NULL, NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),
 (4, '123400000', 'Kiyoko', 'B', 'Blantons', 'Faculty', 'KBBlanton', 2, 2, '-', 'dean', '1982-01-06', NULL, 0),
 (5, '123400001', 'Troy', 'E', 'Keller', 'Faculty', 'TEKeller', 5, 5, '-', 'dean', '1962-02-24', NULL, 0),
@@ -832,13 +862,19 @@ ALTER TABLE `ipcrtbl`
 -- Indexes for table `ipcr_targettbl`
 --
 ALTER TABLE `ipcr_targettbl`
-  ADD PRIMARY KEY (`target_ID`), ADD KEY `ipcr_ID` (`ipcr_ID`);
+  ADD PRIMARY KEY (`target_ID`), ADD KEY `ipcr_ID` (`ipcr_ID`), ADD KEY `output_ID` (`output_ID`);
 
 --
 -- Indexes for table `oamstbl`
 --
 ALTER TABLE `oamstbl`
   ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `oams_announcementtbl`
+--
+ALTER TABLE `oams_announcementtbl`
+  ADD PRIMARY KEY (`announcement_ID`);
 
 --
 -- Indexes for table `oams_messagetbl`
@@ -920,7 +956,7 @@ ALTER TABLE `user_profiletbl`
 -- AUTO_INCREMENT for table `accomtbl`
 --
 ALTER TABLE `accomtbl`
-  MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `accom_awdtbl`
 --
@@ -935,7 +971,7 @@ ALTER TABLE `accom_ctvtbl`
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
@@ -965,7 +1001,7 @@ ALTER TABLE `accom_rchtbl`
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -982,6 +1018,11 @@ ALTER TABLE `ipcrtbl`
 ALTER TABLE `ipcr_targettbl`
   MODIFY `target_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
+-- AUTO_INCREMENT for table `oams_announcementtbl`
+--
+ALTER TABLE `oams_announcementtbl`
+  MODIFY `announcement_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `oams_messagetbl`
 --
 ALTER TABLE `oams_messagetbl`
@@ -990,7 +1031,7 @@ ALTER TABLE `oams_messagetbl`
 -- AUTO_INCREMENT for table `opcrtbl`
 --
 ALTER TABLE `opcrtbl`
-  MODIFY `opcr_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `opcr_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `opcr_categorytbl`
 --
@@ -1041,6 +1082,7 @@ ADD CONSTRAINT `ipcrtbl_ibfk_3` FOREIGN KEY (`opcr_ID`) REFERENCES `opcrtbl` (`o
 -- Constraints for table `ipcr_targettbl`
 --
 ALTER TABLE `ipcr_targettbl`
+ADD CONSTRAINT `ipcr_targettbl_ibfk_1` FOREIGN KEY (`output_ID`) REFERENCES `opcr_outputtbl` (`output_ID`),
 ADD CONSTRAINT `ipcr_targettbl_ibfk_2` FOREIGN KEY (`ipcr_ID`) REFERENCES `ipcrtbl` (`ipcr_ID`);
 
 --

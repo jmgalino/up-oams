@@ -29,7 +29,7 @@
 				<li><a href=<?php echo URL::site('faculty/opcr'); ?>>OPCR</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href=<?php echo URL::site(); ?>><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href=<?php echo URL::site('faculty/announcements'); ?>><span class="glyphicon glyphicon-home"></span></a></li>
 				<li><a href=""><span class="glyphicon glyphicon-bell"></span></a></li>
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown"><?php echo $fcode;?> <b class="caret"></b></a>

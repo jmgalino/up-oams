@@ -35,6 +35,11 @@
   background-color: #003619;
 }
 
+/* NAVBAR DROPDOWN -- show dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+ }
+
 /* NAVBAR DROPDOWN -- set background and hover background color for dropdown at collapse to a lighter green */
 .navbar-nav .open .dropdown-menu {
   background-color: #014421;
@@ -183,7 +188,7 @@ input[name="recaptcha_response_field"]
   padding: 2px;
 }
 
-/* Sticky footer styles */
+/* FOOTER -- styles */
 html,
 body {
   height: 100%;
