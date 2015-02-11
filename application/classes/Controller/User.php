@@ -119,25 +119,55 @@ class Controller_User extends Controller {
 
 		$reset = $this->session->get_once('reset');
 		$update = $this->session->get_once('update');
+		$name = $this->session->get('fullname2');
+		$user_details = $user->get_details($this->session->get('user_ID'), NULL);		
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL);
 
-		$user_details = $user->get_details($this->session->get('user_ID'), NULL);
 		if ($user_details['user_type'] == 'Faculty')
 		{
 			$univ = new Model_Univ;
 			$program_details = $univ->get_program_details($user_details['program_ID']);
 			$user_details['program_short'] = $program_details['program_short'];
 		}
-		// $accom_rows = $accom->get_faculty_accom($this->session->get('user_ID'));
-		// $ipcr_rows = NULL;
-		// $opcr_rows = NULL;
-		// $cuma_rows = NULL;
+
+		if ($accom_reports)
+		{
+			$reports = array();
+			$accom_IDs = array();
+			foreach ($accom_reports as $report)
+			{
+				if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending') OR ($report['status'] == 'Saved'))
+				{
+					$reports[] = $report;
+					$accom_IDs[] = $report['accom_ID'];
+				}
+			}
+
+			if ($accom_IDs)
+			{
+				$pub = $accom->get_accoms($accom_IDs, 'pub');
+				$awd = $accom->get_accoms($accom_IDs, 'awd');
+				$rch = $accom->get_accoms($accom_IDs, 'rch');
+				$ppr = $accom->get_accoms($accom_IDs, 'ppr');
+				$ctv = $accom->get_accoms($accom_IDs, 'ctv');
+				$par = $accom->get_accoms($accom_IDs, 'par');
+				$mat = $accom->get_accoms($accom_IDs, 'mat');
+				$oth = $accom->get_accoms($accom_IDs, 'oth');
+			}
+		}
 		
 		$this->view->content = View::factory('profile/myprofile/template')
 			->bind('user', $user_details)
-			// ->bind('accom_rows', $accom_rows)
-			// ->bind('ipcr_rows', $ipcr_rows)
-			// ->bind('opcr_rows', $opcr_rows)
-			// ->bind('cuma_rows', $cuma_rows)
+			->bind('accom_reports', $reports)
+			->bind('name', $name)
+			->bind('accom_pub', $pub)
+			->bind('accom_awd', $awd)
+			->bind('accom_rch', $rch)
+			->bind('accom_ppr', $ppr)
+			->bind('accom_ctv', $ctv)
+			->bind('accom_par', $par)
+			->bind('accom_mat', $mat)
+			->bind('accom_oth', $oth)
 			->bind('reset', $reset)
 			->bind('update', $update);
 		$this->response->body($this->view->render());
