@@ -527,6 +527,47 @@ $(document).ready(function () {
 	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
 	});
 
+
+    $("a#deleteReport").click(function () {
+        return confirm('Are you sure you want to delete this report?');
+    });
+    $("a#deleteAccom").click(function () {
+        return confirm('Are you sure you want to remove this accomplishment?');
+    });
+    $("a#deleteForm").click(function () {
+        return confirm('Are you sure you want to delete this form?');
+    });
+    $("a#deleteOutput").click(function () {
+        return confirm('Are you sure you want to remove this?');
+    });
+    $("a#resetPassword").click(function () {
+        return confirm('Are you sure you want to reset the password?');
+    });
+    $("a#deleteAccount").click(function () {
+        return confirm('Are you sure you want to delete this account?');
+    });
+    $("a#deleteMessage").click(function () {
+        return confirm('Are you sure you want to delete this message?');
+    });
+    $("#education_toggle").click(function()
+    {
+        var $this = $(this);
+        $("#education").toggle("slow");
+        if ($("#education").hidden)
+            $this.text("Show");
+        else
+            $this.text("Hide");
+    });
+    $("#accomplishment_toggle").click(function()
+    {
+        var $this = $(this);
+        $("#accomplishments").toggle("slow");
+        if ($("#accomplishments").hidden)
+            $this.text("Show");
+        else
+            $this.text("Hide");
+    });
+
 });
 	// // Refine - filter, sort
 	// $("#refine_list").click(function ()

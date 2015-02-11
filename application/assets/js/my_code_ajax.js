@@ -861,28 +861,6 @@ $(document).ready(function () {
         });
 	});
 
-	$("a#deleteReport").click(function () {
-		return confirm('Are you sure you want to delete this report?');
-	});
-	$("a#deleteAccom").click(function () {
-		return confirm('Are you sure you want to remove this accomplishment?');
-	});
-	$("a#deleteForm").click(function () {
-		return confirm('Are you sure you want to delete this form?');
-	});
-	$("a#deleteOutput").click(function () {
-		return confirm('Are you sure you want to remove this?');
-	});
-	$("a#resetPassword").click(function () {
-		return confirm('Are you sure you want to reset the password?');
-	});
-	$("a#deleteAccount").click(function () {
-		return confirm('Are you sure you want to delete this account?');
-	});
-	$("a#deleteMessage").click(function () {
-		return confirm('Are you sure you want to delete this message?');
-	});
-
 	// Success indicator style
 	$("#style a").click(function ()
 	{
