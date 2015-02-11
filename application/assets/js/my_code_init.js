@@ -238,7 +238,7 @@ $(document).ready(function () {
         // Order table by date (column 2), descending
         "order": [[ 2, "desc" ]]
     });
-    $('#announcement_table_summary').DataTable({
+    $('#announcement_summary_table').DataTable({
         "columnDefs": [{
             "orderable": false,
             "targets": "subject"

@@ -49,7 +49,7 @@ echo View::factory('admin/oams/form/announcement');
 	{
 		echo '<tr>';
 		echo '<td>', $announcement['subject'], '</td>';
-		echo '<td>', $announcement['content'], '</td>';
+		echo '<td class="content">', $announcement['content'], '</td>';
 
 		echo ($announcement['attachment']
 			? '<td style="width:5%"><span class="glyphicon glyphicon-paperclip aria-hidden="true""></span></td>'

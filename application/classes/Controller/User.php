@@ -77,10 +77,13 @@ class Controller_User extends Controller {
 	{
 		$title = $this->oams->get_title();
 		$announcements = $this->oams->get_announcements();
+		$identifier = Session::instance()->get('identifier');
+		$general = ($identifier == 'admin' ? $identifier : 'faculty');
 
 		$this->view->content = View::factory('profile/index')
 			->bind('title', $title)
-			->bind('announcements', $announcements);
+			->bind('announcements', $announcements)
+			->bind('identifier', $general);
 		$this->response->body($this->view->render());
 	}
 

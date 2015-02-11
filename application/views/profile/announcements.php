@@ -12,7 +12,7 @@ if ($announcements)
 {
 	foreach ($announcements as $announcement)
 	{
-		echo '<h4>', $announcement['subject'], '</h4>';
+		echo '<h4 id="', $announcement['announcement_ID'], '">', $announcement['subject'], '</h4>';
 		echo '<p style="font-size:12px">', date('F d, Y \a\t h:i A', strtotime($announcement['date']));
 
 		if ($announcement['edited'])

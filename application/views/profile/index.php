@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="jumbotron">
 		<h1><?php echo $title; ?></h1>
-		<a class="btn btn-primary btn-lg" role="button" href=<?php echo url::site('site/about'); ?>>Learn more</a>
+		<a class="btn btn-primary btn-lg" role="button" href=<?php echo URL::site('site/about'); ?>>Learn more</a>
 	</div>
 
 	<?php if ($announcements): ?>
@@ -13,8 +13,8 @@
 		{
 			echo '<div class="col-xs-6 col-lg-4">
               <h2>', $announcement['subject'], '</h2>
-              <p>', $announcement['content'], '</p>
-              <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+              <p id="headlines">', $announcement['content'], '</p>
+              <p><a class="btn btn-default" href="', URL::site($identifier.'/announcements#'.$announcement['announcement_ID']),'" role="button">View details »</a></p>
             </div>';
 
             $count++;

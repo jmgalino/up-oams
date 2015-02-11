@@ -443,11 +443,20 @@ tr.shown td.details-control {
 .padded td {
   padding-left: 5px;
 }
+#announcement_table td.content,
+#announcement_summary_table td.content,
 #message_table td.message {
+  text-overflow: ellipsis;
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
+  color: inherit;
 }
+#headlines {
+  height: 100px;
+  overflow: hidden;
+}
+
 a.link-reverse
 {
   color: inherit;

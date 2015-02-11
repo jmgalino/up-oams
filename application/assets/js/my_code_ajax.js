@@ -317,7 +317,7 @@ $(document).ready(function () {
 	});
 
 	/* ANNOUNCEMENT FORM (UPDATE) -- Set form for editing*/
-	$("#updateAnnouncement").click(function () {
+	$("a#updateAnnouncement").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
 		var action = $(this).attr("url");
 		var announcement_ID = $(this).attr("key");

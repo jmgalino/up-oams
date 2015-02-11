@@ -58,12 +58,12 @@ echo View::factory('admin/oams/form/categories')
 
 		<?php if ($announcements): ?>
 		<!-- Announcement Summary Table -->
-		<table class="table table-condensed" cellspacing="0">
+		<table class="table table-condensed" id="announcement_summary_table" cellspacing="0">
 			<?php
 			foreach ($announcements as $announcement)
 			{
 				echo '<tr>';
-				echo '<td style="border-top: none; width:75%"><strong>', $announcement['subject'], '</strong> - ', $announcement['content'], '</td>';
+				echo '<td class="content" style="border-top: none; width:75%">', $announcement['subject'], '<span> - ', $announcement['content'], '</span></td>';
 
 				echo ($announcement['attachment']
 					? '<td style="border-top: none; width:5%"><span class="glyphicon glyphicon-paperclip aria-hidden="true""></span></td>'
