@@ -88,7 +88,8 @@
 <div>
 	<h4 style="font-size:20px">
 		Educational Background&nbsp
-		<button class="btn btn-default" id="education_toggle">Show</button>
+		<button class="btn btn-default" id="education_toggle_show" style="display:none">Show</button>
+		<button class="btn btn-default" id="education_toggle_hide">Hide</button>
 	</h4>
 
 	<div id="education">

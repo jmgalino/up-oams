@@ -549,23 +549,15 @@ $(document).ready(function () {
     $("a#deleteMessage").click(function () {
         return confirm('Are you sure you want to delete this message?');
     });
-    $("#education_toggle").click(function()
+    $("#education_toggle_show, #education_toggle_hide").click(function()
     {
-        var $this = $(this);
         $("#education").toggle("slow");
-        if ($("#education").hidden)
-            $this.text("Show");
-        else
-            $this.text("Hide");
+        $("#education_toggle_show, #education_toggle_hide").toggle();
     });
-    $("#accomplishment_toggle").click(function()
+    $("#accomplishments_toggle_show, #accomplishments_toggle_hide").click(function()
     {
-        var $this = $(this);
         $("#accomplishments").toggle("slow");
-        if ($("#accomplishments").hidden)
-            $this.text("Show");
-        else
-            $this.text("Hide");
+        $("#accomplishments_toggle_show, #accomplishments_toggle_hide").toggle();
     });
 
 });

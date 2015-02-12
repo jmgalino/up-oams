@@ -35,7 +35,8 @@ function redate($start, $end)
 <div>
 	<h4 style="font-size:20px">
 		Accomplishments&nbsp
-		<button class="btn btn-default" id="accomplishment_toggle">Show</button>
+		<button class="btn btn-default" id="accomplishments_toggle_show" style="display:none">Show</button>
+		<button class="btn btn-default" id="accomplishments_toggle_hide">Hide</button>
 	</h4>
 
 	<div id="accomplishments">
