@@ -64,6 +64,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		// if ($this->request->param('document'))
 		// 	$this->action_pdfviewer();
 
+		$accom = new Model_Accom;
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
@@ -73,6 +74,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$error = $this->session->get_once('error');
 
 		$user_details = $user->get_details(NULL, $this->request->param('id'));
+		$accom_reports = $accom->get_faculty_accom($user_details['user_ID'], NULL, NULL);
 		
 		if ($user_details)
 		{
@@ -82,18 +84,61 @@ class Controller_Admin_Profile extends Controller_Admin {
 			{
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
-			}
-			// $accom_rows = $accom->get_faculty_accom($user['user_ID']);
-			// $ipcr_rows = NULL;
-			// $opcr_rows = NULL;
-			// $cuma_rows = NULL;
 
+				if ($accom_reports)
+				{
+					$reports = array();
+					$accom_IDs = array();
+					foreach ($accom_reports as $report)
+					{
+						if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending') OR ($report['status'] == 'Saved'))
+						{
+							$reports[] = $report;
+							$accom_IDs[] = $report['accom_ID'];
+						}
+					}
+
+					if ($accom_IDs)
+					{
+						$pub = $accom->get_accoms($accom_IDs, 'pub');
+						$awd = $accom->get_accoms($accom_IDs, 'awd');
+						$rch = $accom->get_accoms($accom_IDs, 'rch');
+						$ppr = $accom->get_accoms($accom_IDs, 'ppr');
+						$ctv = $accom->get_accoms($accom_IDs, 'ctv');
+						$par = $accom->get_accoms($accom_IDs, 'par');
+						$mat = $accom->get_accoms($accom_IDs, 'mat');
+						$oth = $accom->get_accoms($accom_IDs, 'oth');
+					}
+				}
+
+				$education = $user->get_education($user_details['user_ID']);
+			}
+			else
+			{
+				$reports = NULL;
+				$pub = NULL;
+				$awd = NULL;
+				$rch = NULL;
+				$ppr = NULL;
+				$ctv = NULL;
+				$par = NULL;
+				$mat = NULL;
+				$oth = NULL;
+				$education = NULL;
+			}
+ 
 			$this->view->content = View::factory('admin/profile/template')
 				->bind('user', $user_details)
-				// ->bind('accom_rows', $accom_rows)
-				// ->bind('ipcr_rows', $ipcr_rows)
-				// ->bind('opcr_rows', $opcr_rows)
-				// ->bind('cuma_rows', $cuma_rows)
+				->bind('education', $education)
+				->bind('accom_reports', $reports)
+				->bind('accom_pub', $pub)
+				->bind('accom_awd', $awd)
+				->bind('accom_rch', $rch)
+				->bind('accom_ppr', $ppr)
+				->bind('accom_ctv', $ctv)
+				->bind('accom_par', $par)
+				->bind('accom_mat', $mat)
+				->bind('accom_oth', $oth)
 				->bind('upload', $upload)
 				->bind('success', $success)
 				->bind('update', $update)
@@ -141,6 +186,22 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$this->session->set('success', $update_success);
 
 		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
+	}
+
+	/**
+	 * Add educational attainment
+	 */
+	public function action_add()
+	{
+		$user = new Model_User;
+		$details = $this->request->post();
+		$user_ID = $this->request->param('id');
+		$user_details = $user->get_details($user_ID, NULL);
+
+		$details['user_ID'] = $user_ID;
+        $add_success = $user->add_education($details);
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 	}
 
  	/**

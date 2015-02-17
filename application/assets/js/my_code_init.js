@@ -42,8 +42,9 @@ $(document).ready(function () {
     *   4. Program Table (Admin)            *
     *   5. Announcement Table (Admin)       *
     *   6. Message Table (Admin)            *
-    *   7. Accomplishment Table (Faculty)   *
-    *   8. Accomplishment Group Table       *
+    *   7. Education Table                  *
+    *   8. Accomplishment Table (Faculty)   *
+    *   9. Accomplishment Group Table       *
     *       (Faculty - Dept. Chair/Dean)    *
     *****************************************/
 
@@ -289,7 +290,16 @@ $(document).ready(function () {
         });
     });
 
-	// 7. Accomplishment Table (Faculty)
+    // 7. Education Table
+    $('#education_table').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "dom": 'tr',
+        "order": [[0, "desc"]],
+    })
+
+	// 8. Accomplishment Table (Faculty)
 	$('#accom_table').DataTable({
         "columns": [
             null,
@@ -304,7 +314,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
 	
-    // 8. Accomplishment Group Table (Faculty - Dept. Chair/Dean)
+    // 9. Accomplishment Group Table (Faculty - Dept. Chair/Dean)
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
 		    // Period column is searchable but hidden; used as group header

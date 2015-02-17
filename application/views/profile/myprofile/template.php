@@ -86,15 +86,11 @@
 <?php if ($user['user_type'] == 'Faculty'): ?>
 <hr>
 <div>
-	<h4 style="font-size:20px">
-		Educational Background&nbsp
-		<button class="btn btn-default" id="education_toggle_show" style="display:none">Show</button>
-		<button class="btn btn-default" id="education_toggle_hide">Hide</button>
-	</h4>
-
-	<div id="education">
-		<div class="alert alert-warning"><p class="text-center">Coming soon.</p></div>
-	</div>
+	<?php
+	echo View::factory('profile/myprofile/education')
+		->bind('user', $user)
+		->bind('education', $education);
+	?>
 </div>
 
 <!-- List of all accomplishments -->
@@ -111,4 +107,5 @@ echo View::factory('profile/myprofile/accomplishments')
 	->bind('accom_mat', $accom_mat)
 	->bind('accom_oth', $accom_oth);
 ?>
+
 <?php endif; ?>

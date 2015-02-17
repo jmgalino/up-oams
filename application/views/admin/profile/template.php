@@ -58,5 +58,15 @@ echo View::factory('admin/profile/form/template')
 
 <?php 
 echo View::factory('admin/profile/fragment')
-	->bind('user', $user);
+	->bind('user', $user)
+	->bind('education', $education)
+	->bind('accom_reports', $accom_reports)
+	->bind('accom_pub', $accom_pub)
+	->bind('accom_awd', $accom_awd)
+	->bind('accom_rch', $accom_rch)
+	->bind('accom_ppr', $accom_ppr)
+	->bind('accom_ctv', $accom_ctv)
+	->bind('accom_par', $accom_par)
+	->bind('accom_mat', $accom_mat)
+	->bind('accom_oth', $accom_oth);
 ?>

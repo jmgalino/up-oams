@@ -466,3 +466,9 @@ a.link-reverse:hover
   color: #7b1113;
   text-decoration: none;
 }
+
+#education_table 
+{
+  background-color: #f5f5f5;
+  vertical-align: left;
+}

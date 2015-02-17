@@ -164,6 +164,37 @@ class Model_User extends Model {
  	}
 
  	/**
+	 * Get user educational background
+	 */
+	public function get_education($user_ID)
+ 	{
+ 		$education = DB::select()
+ 			->from('user_educationtbl')
+ 			->where('user_ID', '=', $user_ID)
+ 			->order_by('year', 'DESC')
+			->execute()
+			->as_array();
+
+		return $education;
+ 	}
+
+ 	/**
+	 * New educational attainment
+	 */
+	public function add_education($education_details)
+ 	{
+ 		$success = FALSE;
+
+ 		$insert_education = DB::insert('user_educationtbl')
+			->columns(array_keys($education_details))
+			->values($education_details)
+			->execute();
+
+		if ($insert_education[1] == 1) $success = TRUE;
+		return $success;
+ 	}
+
+ 	/**
 	 * Check if password match
 	 */
 	public function check_password($password)
