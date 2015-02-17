@@ -11,14 +11,14 @@
 		$count = 0;
 		foreach ($announcements as $announcement)
 		{
-			echo '<div class="col-xs-6 col-lg-4">
+			echo '<div class="col-xs-6">
               <h2>', $announcement['subject'], '</h2>
               <p id="headlines">', $announcement['content'], '</p>
               <p><a class="btn btn-default" href="', URL::site($identifier.'/announcements#'.$announcement['announcement_ID']),'" role="button">View details »</a></p>
             </div>';
 
             $count++;
-            if ($count == 3) break;
+            if ($count == 2) break;
 		}
 		?>
 	</div>
