@@ -61,9 +61,29 @@
 <?php if ($user['user_type'] == 'Faculty'): ?>
 <hr>
 <div>
-	<h4>Educational Background</h4><br>
-	<div class="alert alert-warning"><p class="text-center">Coming soon.</p></div>
+	<?php
+	echo View::factory('admin/profile/education')
+		->bind('user', $user)
+		->bind('education', $education);
+	?>
 </div>
+
+<!-- List of all accomplishments -->
+<?php
+$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
+
+echo View::factory('admin/profile/accomplishments')
+	->bind('accom_reports', $accom_reports)
+	->bind('name', $name)
+	->bind('accom_pub', $accom_pub)
+	->bind('accom_awd', $accom_awd)
+	->bind('accom_rch', $accom_rch)
+	->bind('accom_ppr', $accom_ppr)
+	->bind('accom_ctv', $accom_ctv)
+	->bind('accom_par', $accom_par)
+	->bind('accom_mat', $accom_mat)
+	->bind('accom_oth', $accom_oth);
+?>
 
 <?php endif; ?>
 
