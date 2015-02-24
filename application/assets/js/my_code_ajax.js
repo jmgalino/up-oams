@@ -78,6 +78,43 @@ $(document).ready(function () {
 		}
 	});
 
+	$("#newEducation").click(function () {
+		var url = $(this).attr("url");
+
+		$("#myEducLabel").text("New Educational Attainment");
+        $("#educationForm").attr("action", url);
+		$("#educationForm input").val("");
+        $("input[type=submit]").val("Add");
+	});
+
+	$("a#updateEducation").click(function () {
+		var education_ID = $(this).attr("key");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var url = $(this).attr("url");
+
+		$.ajax({
+			type: "POST",
+			url: ajaxUrl,
+			data: "education_ID=" + education_ID,
+			dataType: "json",
+			success:function (data) {
+				$("#myEducLabel").text("Update Educational Attainment");
+				$("#education-id").val(data["education_ID"]);
+				$("#major").val(data["major"]);
+				$("#minor").val(data["minor"]);
+				$("#qualification").val(data["qualification"]);
+				$("#year").val(data["year"]);
+				$("#institution").val(data["institution"]);
+				$("#thesis").val(data["thesis"]);
+				$("#city").val(data["city"]);
+				$("#country").val(data["country"]);
+				$("#notes").val(data["notes"]);
+				$("input[type=submit]").val("Save");
+				$("#educationForm").attr("action", url);
+			}
+		});
+	});
+
 	/* COLLEGE FORM (NEW) -- Reset form */
 	$("#newCollege").click(function () {
 		var url = $(this).attr("url");

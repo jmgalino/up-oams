@@ -2,7 +2,7 @@
 	Educational Background&nbsp
 	<button class="btn btn-default" id="education_toggle_show" style="display:none">Show</button>
 	<button class="btn btn-default" id="education_toggle_hide">Hide</button>
-	<a class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_education" role="button" href="">Add</a>
+	<button type="button" class="btn btn-default pull-right" id="newEducation" data-toggle="modal" data-target="#modal_education" url="<?php echo URL::site('admin/profile/new_educ/'.$user['user_ID']); ?>">Add</button>
 </h4>
 
 <div id="education">
@@ -20,12 +20,16 @@
 			<?php
 			foreach ($education as $educ)
 			{
-				echo '<tr>';
-				echo '<td>', $educ['year'], '</td>';
-				echo '<td>', $educ['major'], '</td>';
-				echo '<td>', $educ['city'], ', ', $educ['country'], '</td>';
-				echo '<td><a class="btn btn-default" href="" style="font-size:11px"><span class="glyphicon glyphicon-pencil"></span></a></td>';
-				echo '</tr>';
+				echo
+				'<tr>
+					<td>', $educ['year'], '</td>
+					<td>', $educ['major'], '</td>
+					<td>', $educ['city'], ', ', $educ['country'], '</td>
+					<td>
+						<a class="btn btn-default" key="', $educ['education_ID'], '" id="updateEducation" data-toggle="modal" data-target="#modal_education" href="" url="', URL::site('admin/profile/update_educ/'.$user['user_ID']), '" ajax-url="', URL::site('ajax/educ'), '" style="font-size:11px">
+						<span class="glyphicon glyphicon-pencil"></span></a>
+					</td>
+				</tr>';
 			}
 			?>
 		</tbody>

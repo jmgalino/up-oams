@@ -76,6 +76,16 @@ class Controller_Ajax extends Controller {
 			echo FALSE;
 	}
 
+	public function action_educ()
+	{
+		$user = new Model_User;
+
+		$education_ID = $this->request->post('education_ID');
+		$education_details = $user->get_education(NULL, $education_ID);
+		echo json_encode($education_details);
+		exit();
+	}
+
 	/**
 	 * Get college details
 	 */
@@ -85,14 +95,7 @@ class Controller_Ajax extends Controller {
 
 		$college_ID = $this->request->post('college_ID');
 		$college_details = $univ->get_college_details($college_ID, NULL);
-
-		$arr = array();
-		$arr['college_ID'] = $college_ID;
-		$arr['college'] = $college_details['college'];
-		$arr['short'] = $college_details['short'];
-		$arr['user_ID'] = $college_details['user_ID'];
-		
-		echo json_encode($arr);
+		echo json_encode($college_details);
 		exit();
 	}
 
@@ -156,15 +159,7 @@ class Controller_Ajax extends Controller {
 
 		$department_ID = $this->request->post('department_ID');
 		$department_details = $univ->get_department_details($department_ID, NULL);
-
-		$arr = array();
-		$arr['department_ID'] = $department_ID;
-		$arr['college_ID'] = $department_details['college_ID'];
-		$arr['department'] = $department_details['department'];
-		$arr['short'] = $department_details['short'];
-		$arr['user_ID'] = $department_details['user_ID'];
-		
-		echo json_encode($arr);
+		echo json_encode($department_details);
 		exit();
 	}
 
@@ -293,13 +288,7 @@ class Controller_Ajax extends Controller {
 
 		$announcement_ID = $this->request->post('announcement_ID');
 		$announcement_details = $oams->get_announcement_details($announcement_ID);
-
-		$arr = array();
-		$arr['announcement_ID'] = $announcement_ID;
-		$arr['subject'] = $announcement_details['subject'];
-		$arr['content'] = $announcement_details['content'];
-		
-		echo json_encode($arr);
+		echo json_encode($announcement_details);
 		exit();
 	}	
 

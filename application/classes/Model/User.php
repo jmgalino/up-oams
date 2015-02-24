@@ -166,16 +166,29 @@ class Model_User extends Model {
  	/**
 	 * Get user educational background
 	 */
-	public function get_education($user_ID)
+	public function get_education($user_ID, $education_ID)
  	{
- 		$education = DB::select()
- 			->from('user_educationtbl')
- 			->where('user_ID', '=', $user_ID)
- 			->order_by('year', 'DESC')
-			->execute()
-			->as_array();
-
-		return $education;
+ 		if ($user_ID)
+ 		{
+ 			$education = DB::select()
+	 			->from('user_educationtbl')
+	 			->where('user_ID', '=', $user_ID)
+	 			->order_by('year', 'DESC')
+				->execute()
+				->as_array();
+			
+			return $education;
+ 		}
+ 		else
+ 		{
+ 			$education = DB::select()
+	 			->from('user_educationtbl')
+	 			->where('education_ID', '=', $education_ID)
+				->execute()
+				->as_array();
+			
+			return $education[0];
+ 		}
  	}
 
  	/**
@@ -184,14 +197,29 @@ class Model_User extends Model {
 	public function add_education($education_details)
  	{
  		$success = FALSE;
+ 		$user_details = $this->get_details($education_details['user_ID'], NULL);
 
  		$insert_education = DB::insert('user_educationtbl')
 			->columns(array_keys($education_details))
 			->values($education_details)
 			->execute();
 
-		if ($insert_education[1] == 1) $success = TRUE;
+		if ($insert_education[1] == 1) $success = $user_details['first_name'].'\'s educational background was successfully updated.';
 		return $success;
+ 	}
+
+ 	public function update_education($education_details)
+ 	{
+ 		$success = FALSE;
+ 		$user_details = $this->get_details($education_details['user_ID'], NULL);
+
+ 		$education_updated = DB::update('user_educationtbl')
+ 			->set($education_details)
+ 			->where('education_ID', '=', $education_details['education_ID'])
+ 			->execute();
+
+ 		if ($education_updated) $success = $user_details['first_name'].'\'s educational background was successfully updated.';
+ 		return $success;
  	}
 
  	/**

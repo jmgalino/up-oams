@@ -4,11 +4,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="modalProfileLabel">New Educational Attainment</h4>
+        <h4 class="modal-title" id="myEducLabel">New Educational Attainment</h4>
       </div>
 
-      <?php print Form::open('admin/profile/add/'.$user_ID, array('class'=>'form-horizontal', 'id'=>'profileForm', 'role'=>'form')); ?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'educationForm', 'role'=>'form')); ?>
       <div class="modal-body">
+        <input type="text" id="education-id" name="education_ID" hidden>
+
         <div class="form-group">
           <label for="major" class="col-sm-3 control-label">Major</label>
           <div class="col-sm-8">
@@ -27,7 +29,7 @@
           <label for="qualification" class="col-sm-3 control-label">Qualification</label>
           <div class="col-sm-8">
             <select class="form-control" id="qualification" name="qualification">
-              <option value="certficate">Certificate/Diploma</option>
+              <option value="certificate">Certificate/Diploma</option>
               <option value="bachelor">Bachelor's Degree</option>
               <option value="honours">Honours Degree</option>
               <option value="master">Master's Degree</option>
@@ -55,7 +57,7 @@
         <div class="form-group">
           <label for="thesis" class="col-sm-3 control-label">Thesis Title</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="thesis" name="thesis" required>
+            <input type="text" class="form-control" id="thesis" name="thesis" placeholder="(Optional)">
           </div>
         </div>
 
@@ -83,7 +85,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'onclick'=>'submit()')); ?>
       </div>
       </form>
     </div>

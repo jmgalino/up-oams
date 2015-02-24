@@ -82,6 +82,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 			if ($user_details['user_type'] == 'Faculty')
 			{
+				$education = $user->get_education($user_details['user_ID'], NULL);
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 
@@ -110,8 +111,6 @@ class Controller_Admin_Profile extends Controller_Admin {
 						$oth = $accom->get_accoms($accom_IDs, 'oth');
 					}
 				}
-
-				$education = $user->get_education($user_details['user_ID']);
 			}
 			else
 			{
@@ -191,7 +190,24 @@ class Controller_Admin_Profile extends Controller_Admin {
 	/**
 	 * Add educational attainment
 	 */
-	public function action_add()
+	public function action_new_educ()
+	{
+		$user = new Model_User;
+		$details = $this->request->post();
+		$user_ID = $this->request->param('id');
+		$user_details = $user->get_details($user_ID, NULL);
+
+		$details['education_ID'] = NULL;
+		$details['user_ID'] = $user_ID;
+        $add_success = $user->add_education($details);
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
+	}
+
+	/**
+	 * Update educational attainment details
+	 */
+	public function action_update_educ()
 	{
 		$user = new Model_User;
 		$details = $this->request->post();
@@ -199,8 +215,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user_details = $user->get_details($user_ID, NULL);
 
 		$details['user_ID'] = $user_ID;
-        $add_success = $user->add_education($details);
-		$this->session->set('success', $add_success);
+        $udpate_success = $user->update_education($details);
+		$this->session->set('success', $udpate_success);
 		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 	}
 
