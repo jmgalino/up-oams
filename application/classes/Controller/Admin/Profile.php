@@ -190,7 +190,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	/**
 	 * Add educational attainment
 	 */
-	public function action_new_educ()
+	public function action_new_education()
 	{
 		$user = new Model_User;
 		$details = $this->request->post();
@@ -207,7 +207,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	/**
 	 * Update educational attainment details
 	 */
-	public function action_update_educ()
+	public function action_update_education()
 	{
 		$user = new Model_User;
 		$details = $this->request->post();

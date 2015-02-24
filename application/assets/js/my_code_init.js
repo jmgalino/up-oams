@@ -570,6 +570,20 @@ $(document).ready(function () {
         $("#accomplishments_toggle_show, #accomplishments_toggle_hide").toggle();
     });
 
+    $("#educationForm").submit(function (event) {
+        if ($("#major, #year, #institution, #city, #country"))
+            $("#educationForm").unbind("submit").submit();
+        else
+            event.preventDefault();
+    })
+
+    $("#announcementForm").submit(function (event)) {
+        if(#("announcement-subject, #announcement-content"))
+            $("#announcementForm").unbind("submit").submit();
+        else
+            event.preventDefault();
+    }
+
 });
 	// // Refine - filter, sort
 	// $("#refine_list").click(function ()

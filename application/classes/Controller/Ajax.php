@@ -76,7 +76,10 @@ class Controller_Ajax extends Controller {
 			echo FALSE;
 	}
 
-	public function action_educ()
+	/**
+	 * Get education details
+	 */
+	public function action_education_details()
 	{
 		$user = new Model_User;
 

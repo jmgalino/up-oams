@@ -43,7 +43,7 @@
         <div class="form-group">
           <label for="year" class="col-sm-3 control-label">Year Received</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="year" name="year" pattern="([0-9]{4})"required>
+            <input type="text" class="form-control" id="year" name="year" pattern="([0-9]{4})" title="Format: YYYY" required>
           </div>
         </div>
 
@@ -85,7 +85,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'onclick'=>'submit()')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
       </form>
     </div>

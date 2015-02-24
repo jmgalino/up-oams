@@ -159,15 +159,15 @@ class Controller_User extends Controller {
 			else
 			{
 				$education = NULL;
-				$reports = null;
-				$pub = null;
-				$awd = null;
-				$rch = null;
-				$ppr = null;
-				$ctv = null;
-				$par = null;
-				$mat = null;
-				$oth = null;
+				$reports = NULL;
+				$pub = NULL;
+				$awd = NULL;
+				$rch = NULL;
+				$ppr = NULL;
+				$ctv = NULL;
+				$par = NULL;
+				$mat = NULL;
+				$oth = NULL;
 			}
 		
 		$this->view->content = View::factory('profile/myprofile/template')

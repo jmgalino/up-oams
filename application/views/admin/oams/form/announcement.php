@@ -37,7 +37,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Post', array('type'=>'submit', 'class'=>'btn btn-primary', 'onclick'=>'<script>("#announcementForm").submit();</script>')); ?>
+        <?php print Form::submit(NULL, 'Post', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
       
       </form>

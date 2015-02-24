@@ -78,6 +78,7 @@ $(document).ready(function () {
 		}
 	});
 
+	/* EDUCATION FORM (NEW) -- Reset form */
 	$("#newEducation").click(function () {
 		var url = $(this).attr("url");
 
@@ -87,6 +88,7 @@ $(document).ready(function () {
         $("input[type=submit]").val("Add");
 	});
 
+	/* EDUCATION FORM (UPDATE) -- Set form for editing */
 	$("a#updateEducation").click(function () {
 		var education_ID = $(this).attr("key");
 		var ajaxUrl = $(this).attr("ajax-url");

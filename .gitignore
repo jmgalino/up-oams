@@ -1,11 +1,6 @@
 # Dependencies #
 ############
 vendor/**
-
-# Logs and databases #
-######################
-application/logs/**
-*.log
  
 # OS generated files #
 ######################
