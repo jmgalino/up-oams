@@ -12,19 +12,24 @@ if ($announcements)
 {
 	foreach ($announcements as $announcement)
 	{
-		echo '<h4 id="', $announcement['announcement_ID'], '">', $announcement['subject'], '</h4>';
-		echo '<p style="font-size:12px">', date('F d, Y \a\t h:i A', strtotime($announcement['date']));
+		$id = str_replace (" ", "_", $announcement['subject']);
+		
+		echo '
+		<div class="page-header" id="', $id, '">
+			<h4>', $announcement['subject'], '</h4>
+			<p style="font-size:12px">', date('F d, Y \a\t h:i A', strtotime($announcement['date']));
 
 		if ($announcement['edited'])
 			echo ' · Edited';
 
-		echo '<p>', $announcement['content'], '</p>';
+		echo '</div>
+			<p>', $announcement['content'], '</p>';
 
 		// Show attachment here
 
-		$counter++;
-		if ($counter < count($announcements))
-			echo '<hr>';
+		// $counter++;
+		// if ($counter < count($announcements))
+		// 	echo '<hr>';
 	}
 }
 ?>

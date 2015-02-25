@@ -113,13 +113,8 @@ class Model_Oams extends Model {
 	 */
 	public function get_announcements()
 	{
-		$today = getdate();
-
 		$announcements = DB::select()
 			->from('oams_announcementtbl')
-			// ->where('deleted', '=', '0') to add?
-			->where('YEAR(date)', '=', $today['year'])
-			->where('MONTH(date)', '=', $today['mon'])
 			->order_by('date', 'DESC')
 			->execute()
 			->as_array();
@@ -172,6 +167,19 @@ class Model_Oams extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return 'The announcement <i>'.$details['subject'].'</i> was successfully updated.';
+ 		else return FALSE;
+	}
+
+	/**
+	 * Delete announcement (Automated)
+	 */
+	public function delete_announcement($announcement_ID)
+	{
+		$rows_deleted = DB::delete('oams_announcementtbl')
+ 			->where('announcement_ID', '=', $announcement_ID)
+ 			->execute();
+
+ 		if ($rows_deleted == 1) return TRUE;
  		else return FALSE;
 	}
 

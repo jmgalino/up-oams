@@ -113,3 +113,6 @@
 #7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
 #9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-02-24 12:32:48 --- EMERGENCY: ErrorException [ 4 ]: parse error ~ APPPATH/views/profile/index.php [ 16 ] in file:line
+2015-02-24 12:32:48 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line

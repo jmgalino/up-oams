@@ -177,6 +177,7 @@ class Controller_Site extends Controller {
 		$user = new Model_User;
 		$session = Session::instance();
 		
+		$this->check_announcements();
 		$user_details = $user->get_details(NULL, $employee_code);
 		$session->set('employee_code', $employee_code);
     	$session->set('user_ID', $user_details['user_ID']);
@@ -205,6 +206,34 @@ class Controller_Site extends Controller {
 				$session->set('identifier', $user_details['position']);
 			
 			$this->response = Request::factory('faculty')->execute();
+		}
+	}
+
+
+	/**
+	 * Check for announcements and if reset is needed
+	 */
+	private function check_announcements()
+	{
+		$oams = new Model_Oams;
+		$now = time();
+		$announcements = $oams->get_announcements();
+		
+		foreach ($announcements as $announcement)
+		{
+			$date = strtotime($announcement['date']);
+			$days = floor(($now-$date)/(60*60*24));
+
+			if ($days > 30)
+			{
+				$deleted = $oams->delete_announcement($announcement['announcement_ID']);
+
+				if (!$deleted)
+				{
+					$this->session->set("error", "Something went wrong with loading the announcements.");
+					$this->action_error();
+				}
+			}
 		}
 	}
 

@@ -100,6 +100,9 @@ class Controller_User extends Controller {
 		$this->response->body($this->view->render());
 	}
 
+	/**
+	 * Announcement Page
+	 */
 	protected function action_announcements()
 	{
 		$announcements = $this->oams->get_announcements();
