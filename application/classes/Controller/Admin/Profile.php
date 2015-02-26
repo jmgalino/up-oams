@@ -82,7 +82,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 			if ($user_details['user_type'] == 'Faculty')
 			{
-				$education = $user->get_education($user_details['user_ID'], NULL);
+				$education = $user->get_education($user_details['user_ID']);
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 
@@ -197,7 +197,6 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user_ID = $this->request->param('id');
 		$user_details = $user->get_details($user_ID, NULL);
 
-		$details['education_ID'] = NULL;
 		$details['user_ID'] = $user_ID;
         $add_success = $user->add_education($details);
 		$this->session->set('success', $add_success);
@@ -214,9 +213,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user_ID = $this->request->param('id');
 		$user_details = $user->get_details($user_ID, NULL);
 
-		$details['user_ID'] = $user_ID;
-        $udpate_success = $user->update_education($details);
-		$this->session->set('success', $udpate_success);
+		$update_success = $user->update_education($details);
+		if ($update_success) $this->session->set('success', $user_details['first_name'].'\'s educational background was successfully updated.');
+		else $this->session->set('success', $update_success);
 		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 	}
 

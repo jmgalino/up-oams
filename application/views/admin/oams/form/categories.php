@@ -16,7 +16,7 @@
             <div class="col-md-10 col-md-offset-1">
               <nobr>
                 <input type="text" class="form-control" style="display:inline" id="category" name="', $category['category_ID'], '" value="', $category['category'], '" required>
-                <a href="#" class="btn removeCategory" role="button"><span class="glyphicon glyphicon-remove "></span></a>
+                <a href="" class="btn removeCategory" role="button"><span class="glyphicon glyphicon-remove "></span></a>
               </nobr>
             </div>
           </div>';

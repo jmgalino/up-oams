@@ -84,7 +84,7 @@ class Controller_Ajax extends Controller {
 		$user = new Model_User;
 
 		$education_ID = $this->request->post('education_ID');
-		$education_details = $user->get_education(NULL, $education_ID);
+		$education_details = $user->get_education_details($education_ID);
 		echo json_encode($education_details);
 		exit();
 	}
@@ -217,7 +217,7 @@ class Controller_Ajax extends Controller {
 			$tmp['type'] = $program['type'];
 			$tmp['vision'] = $program['vision'];
 			$tmp['goals'] = $program['goals'];
-			$tmp['update'] = '<a class="btn btn-default" key="'.$program['program_ID'].'" id="updateProgram" data-toggle="modal" data-target="#modal_program" href="#" url="'.URL::site('admin/university/update/program').'" ajax-url="'.URL::site('ajax/program_details').'">
+			$tmp['update'] = '<a class="btn btn-default" id="updateProgram" key="'.$program['program_ID'].'" data-toggle="modal" data-target="#modal_program" href="" url="'.URL::site('admin/university/update/program').'" ajax-url="'.URL::site('ajax/program_details').'" validate-url="'.URL::site('ajax/unique/edit_program').'">
 					<span class="glyphicon glyphicon-pencil"></span> Update</a>';
 			$arr[] = $tmp;
 		}

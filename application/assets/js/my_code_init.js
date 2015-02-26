@@ -206,7 +206,7 @@ $(document).ready(function () {
             success: function (data) {
 				$("#myModalLabel").text("Update Program");
 				$("#invalidMessage").parent().hide();
-                $("#program-id").val(data['program_ID']);
+                $("#program-id").attr("name", "program_ID").val(data['program_ID']);
                 $("#program-college").val(data['college_ID']).trigger("change");
                 $("#program-program").val(data['program']);
                 $("#program-program-short").val(data['program_short']);
@@ -262,6 +262,10 @@ $(document).ready(function () {
             "searchable": false,
             "orderable": false,
             "targets": "action"
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": "star"
         }],
         // Custom table tools: (f)ilter, (t)able, (i)nformation, (p)agination, p(r)ocessing
         // Order table by date (column 2), descending
@@ -577,12 +581,12 @@ $(document).ready(function () {
             event.preventDefault();
     })
 
-    $("#announcementForm").submit(function (event)) {
-        if(#("announcement-subject, #announcement-content"))
+    $("#announcementForm").submit(function (event) {
+        if("#announcement-subject, #announcement-content")
             $("#announcementForm").unbind("submit").submit();
         else
             event.preventDefault();
-    }
+    });
 
 });
 	// // Refine - filter, sort

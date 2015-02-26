@@ -7,6 +7,7 @@ $(document).ready(function () {
 		$("#invalidMessage").parent().hide();
 		$("#adminType, #facultyType").prop("checked", false);
 		$("#user-id, #empcode, #fname, #mname, #lname, #datepicker .input-group.date, #fcode, #rank, #program-id, #position").val("");
+		$("#user-id").removeAttr("name");
 		$("input[type=submit]").val("Add");
         $("#profileForm").attr("url", url);
 	});
@@ -26,7 +27,7 @@ $(document).ready(function () {
 			success:function (data) {
 				$("#modalProfileLabel").text("Update Profile");
 				$("#invalidMessage").parent().hide();
-				$("#user-id").val(data["user_ID"]);
+				$("#user-id").attr("name", "user_ID").val(data["user_ID"]);
 				$("#empcode").val(data["empcode"]);
 				$("#fname").val(data["fname"]);
 				$("#mname").val(data["mname"]);
@@ -85,6 +86,7 @@ $(document).ready(function () {
 		$("#myEducLabel").text("New Educational Attainment");
         $("#educationForm").attr("action", url);
 		$("#educationForm input").val("");
+		$("#education-id").removeAttr("name");
         $("input[type=submit]").val("Add");
 	});
 
@@ -101,7 +103,7 @@ $(document).ready(function () {
 			dataType: "json",
 			success:function (data) {
 				$("#myEducLabel").text("Update Educational Attainment");
-				$("#education-id").val(data["education_ID"]);
+				$("#education-id").attr("name", "education_ID").val(data["education_ID"]);
 				$("#major").val(data["major"]);
 				$("#minor").val(data["minor"]);
 				$("#qualification").val(data["qualification"]);
@@ -125,6 +127,7 @@ $(document).ready(function () {
         $("#collegeForm").attr("url", url);
 		$("#invalidMessage").parent().hide();
 		$("#collegeForm input").val("");
+		$("#college-id").removeAttr("name");
         $("#college-dean").parent().parent().hide();
         $("input[type=submit]").val("Add");
 	});
@@ -144,7 +147,7 @@ $(document).ready(function () {
 			success:function (data) {
 				$("#myModalLabel").text("Update College");
 				$("#invalidMessage").parent().hide();
-				$("#college-id").val(data["college_ID"]).trigger("change");
+				$("#college-id").attr("name", "college_ID").val(data["college_ID"]).trigger("change");
 				$("#college-college").val(data["college"]);
 				$("#college-short").val(data["short"]);
 				$("#college-dean").val(data["user_ID"]).parent().parent().show();
@@ -206,6 +209,7 @@ $(document).ready(function () {
         $("#departmentForm").attr("url", url);
 		$("#invalidMessage").parent().hide();
 		$("#departmentForm input").val("");
+		$("#department-id").removeAttr("name");
         $("#department-chair").parent().parent().hide();
 		$("input[type=submit]").val("Add");
 	});
@@ -225,7 +229,7 @@ $(document).ready(function () {
             success:function (data) {
 				$("#myModalLabel").text("Update Department");
 				$("#invalidMessage").parent().hide();
-                $("#department-id").val(data["department_ID"]).trigger("change");
+                $("#department-id").attr("name", "department_ID").val(data["department_ID"]).trigger("change");
                 $("#department-college").val(data["college_ID"]);
                 $("#department-department").val(data["department"]);
                 $("#department-short").val(data["short"]);
@@ -297,6 +301,7 @@ $(document).ready(function () {
 		$("#program-college, #program-id, #program-program, #program-program-short, #program-short, #datepicker .input-group.date, #program-type").val("");
 		$("#program-department").html("<option value=\"\">Select</option>").prop("disabled", true);
 		$("#program-vision, #program-goals").text("");
+		$("#program-id").removeAttr("name");
         $("input[type=submit]").val("Add");
         $("#programForm").attr("url", url);
 	});
@@ -352,6 +357,7 @@ $(document).ready(function () {
 		$("#myModalLabel").text("New Announcement");
 		$("#announcementForm").attr("action", action);
 		$("#announcementForm input, #announcement-content").val("");
+		$("#announcement-id").removeAttr("name");
         $("input[type=submit]").val("Post");
 	});
 
@@ -369,7 +375,7 @@ $(document).ready(function () {
 			success:function (data) {
 				$("#myModalLabel").text("Update Announcement");
 				$("#announcementForm").attr("action", action);
-				$("#announcement-id").val(data["announcement_ID"]);
+				$("#announcement-id").attr("name", "announcement_ID").val(data["announcement_ID"]);
 				$("#announcement-subject").val(data["subject"]);
 				$("#announcement-content").val(data["content"]);
 		        $("input[type=submit]").val("Save");

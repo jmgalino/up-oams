@@ -153,20 +153,6 @@ td.dropdown ul.dropdown-menu > li > a:focus
   outline: 0;
 }
 
-/* INPUT -- auto-capitalize first names */
-input[name="first_name"]
-{
-  text-transform: capitalize;
-}
-
-/*input[type="file"],
-input[type="email"],
-input[type="password"],
-input[name="recaptcha_response_field"]
-{
-  text-transform: none;
-}*/
-
 /* DATEPICKER -- keep on top */
 #datepicker,
 #monthpicker,
@@ -214,23 +200,46 @@ body {
 
 /*** ADMIN ***/
 
-/* PAGE HEADERS -- prevent headbutt with navbar with #links */
-.page-header:before { 
+/* ANNOUNCEMENT HEADERS -- copy page-header style */
+.announcement-header {
+padding-bottom: 1px;
+margin: 40px 0 10px;
+border-bottom: 1px solid #eee;
+}
+
+/* OUTLINE/ANNOUNCEMENT HEADERS -- prevent headbutt with navbar with #links */
+.page-header:before,
+.announcement-header:before {
   display: block; 
   content: " "; 
   margin-top: -80px; 
-  height: 80px; 
+  height: 70px; 
+  visibility: hidden; 
+}
+.announcement-header:first-of-type:before {
+  display: block; 
+  content: " "; 
+  margin-top: -40px; 
+  height: 30px; 
   visibility: hidden; 
 }
 
-/* PAGE HEADERS -- no margin on top (FIRST CHILD ONLY) */
-.page-header:first-child
-{
-   margin: 0 0 20px;
+/* OUTLINE HEADERS -- no margin on top (FIRST CHILD ONLY) */
+.page-header:first-child {
+  margin-top: 0;
+}
+/* ANNOUNCEMENT HEADERS -- additional padding on top on top (FIRST CHILD ONLY) */
+.announcement-header:first-of-type {
+  padding-top: 20px;
+}
+/* ANNOUNCEMENT HEADERS -- remove divider (hr) (LAST CHILD ONLY) */
+.announcement-divider:last-of-type {
+  display:none;
 }
 
 /* PAGE HEADERS -- prevent line break after h2 */
 .page-header h2,
+.announcement-header h4,
 .col-md-11 input /* ? */
 {
   display: inline;

@@ -64,7 +64,6 @@ class Controller_Admin_Oams extends Controller_Admin {
 	private function new_announcement()
 	{
 		$details = $this->request->post();
-		$details['announcement_ID'] = NULL;
 		$details['date'] = date('Y-m-d H:i:s');
 		
 		$add_success = $this->oams->add_announcement($details);

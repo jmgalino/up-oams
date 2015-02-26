@@ -129,7 +129,7 @@ class Controller_User extends Controller {
 
 		if ($user_details['user_type'] == 'Faculty')
 		{
-			$education = $user->get_education($user_details['user_ID'], NULL);
+			$education = $user->get_education($user_details['user_ID']);
 			$program_details = $univ->get_program_details($user_details['program_ID']);
 			$user_details['program_short'] = $program_details['program_short'];
 

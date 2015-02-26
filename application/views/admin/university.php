@@ -45,7 +45,7 @@ echo View::factory('admin/university/form/vision')
       <a class="show-hover" data-toggle="modal" data-target="#modal_vision" href="#">Edit</a>
     </div>
     <?php
-      echo '<p>', $vision, '</p>';
+      echo '<p style="white-space:pre-wrap;">', $vision, '</p>';
     ?>
 
     <div class="page-header" id="colleges">

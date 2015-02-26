@@ -209,7 +209,6 @@ class Controller_Site extends Controller {
 		}
 	}
 
-
 	/**
 	 * Check for announcements and if reset is needed
 	 */

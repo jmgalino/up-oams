@@ -1,6 +1,3 @@
-ERROR:
-- read/star link on message should not refresh the page but update table & icon (angular?)
-
 TO DO:
 - view all, limit/pagination
 - rch fund source should be > 0
@@ -15,7 +12,15 @@ TO DO:
 - Flag announcements (keep on top)
 - Announcement attachments
 
+ADDITIONAL:
+- (admin) profile table should allow double click to open or one button to open profile
+- (admin) vision should render next line
+- (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon (angular?)
+
 ASSUMPTION:
 - No repetitive accomplishments
 - No program under DHK; No need for faculty & dept chair
 - Fund amount on research accom will be limited to 2 decimal places
+
+FURTHER ENHANCEMENT:
+- Uploaded pictures to be cropped Facebook style
