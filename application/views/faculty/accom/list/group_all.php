@@ -12,7 +12,7 @@ function reuser($user_IDs, $users)
 		{
 			if ($user_IDs == $user['user_ID'])
 			{
-				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
+				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
 				break;
 			}
 		}
@@ -29,7 +29,7 @@ function reuser($user_IDs, $users)
 				{
 					if ($user_ID == $user['user_ID'])
 					{
-						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
+						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
 						break;
 					}
 				}

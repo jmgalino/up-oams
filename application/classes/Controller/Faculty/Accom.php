@@ -216,6 +216,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	private function show_draft()
 	{
 		$accom = new Model_Accom;
+		$univ = new Model_Univ;
 
 		$label = date('F Y', strtotime($this->session->get('accom_details')['yearmonth']));
 		$success = $this->session->get_once('success');
@@ -233,13 +234,20 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 		$accoms = array_merge($pub, $awd, $rch, $ctv, $par, $mat, $oth);
 
+		$university = $univ->get_university();
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		
 		$this->view->content = View::factory('faculty/accom/form/template')
 			->bind('label', $label)
 			->bind('success', $success)
 			->bind('error', $error)
 			->bind('warning', $warning)
 			->bind('session', $this->session)
-			->bind('accom', $accoms);
+			->bind('accom', $accoms)
+			->bind('university', $university)
+			->bind('college_details', $college_details)
+			->bind('department_details', $department_details);
 		$this->response->body($this->view->render());	
 	}
 

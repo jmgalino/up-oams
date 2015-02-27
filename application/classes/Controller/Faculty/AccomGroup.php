@@ -72,7 +72,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		
 		$evaluate = $this->session->get_once('evaluate');
 		$identifier = $this->session->get('identifier');
-		$fullname = $user_details['first_name'].' '.$user_details['middle_name'].'. '.$user_details['last_name'];
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		$evaluate_url = ($identifier == 'dean' ? 'faculty/accom_coll/evaluate/'.$accom_ID : 'faculty/accom_dept/evaluate/'.$accom_ID);
 
 		$this->view->content = View::factory('faculty/accom/view/group')
