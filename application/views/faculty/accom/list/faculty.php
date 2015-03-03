@@ -90,7 +90,7 @@ echo View::factory('faculty/accom/form/initialize')
 		{
 				// Download PDF
 				echo '<li>
-						<a href='.URL::base().'application/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
+						<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
 						<span class="glyphicon glyphicon-download"></span> Download Report</a>
 					</li>';
 		}

@@ -415,7 +415,6 @@ function redate($start, $end)
 <?php endif; ?>
 
 <?php else: ?>
-<div class="alert alert-danger text-center">
-	<p>The list is empty.</p>
-</div>
+<div class="alert alert-danger text-center"><p>The list is empty.</p></div>
+<span class="help-block">Note: Only accomplishments from approved reports will be included.</span>
 <?php endif; ?>

@@ -334,10 +334,7 @@ pre h1 {
   font-size: 18px;
   font-weight: normal;
 }
-pre h2 {
-  margin-top: 0px;
-  font-size: 16px;
-}
+pre h2,
 pre h3 {
   margin-top: 10px;
   font-size: 16px;

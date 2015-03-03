@@ -77,12 +77,6 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 	<div class="col-sm-9">
 		<pre class="center-block">
 			<?php
-				echo '<p class="text-center"><img src="', URL::base().'application/assets/img/upmindanao_logo_small.png', '"></p>';
-				// echo '<img src="', APPPATH.'assets/img/upmindanao_logo.png', '" class="img-responsive">';
-				echo '<h1 class="text-center" style="text-transform:uppercase">', $university, '</h1>';
-				echo '<h1 class="text-center" style="text-transform:uppercase">', $college_details['college'], '</h1>';
-				echo '<h1 class="text-center">', $department_details['department'], '</h1>';
-				echo '<hr style="border-top:1px solid #000; margin: 5px 0 20px;">';
 				echo '<h1 class="text-center">Accomplishment Report</h1>';
 				echo '<h2 class="text-center">', $label, '</h2><br>';
 				// echo '<h2>', $session->get('fullname'), '</h2>';
@@ -98,51 +92,6 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				echo View::factory('faculty/accom/form/fragments/participation')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/material')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/other')->bind('session', $session);
-
-				echo '
-				<table>
-					<tr>
-						<td>
-							<table width="200" style="font-size: 100%;">
-								<tbody>
-									<tr><td>Prepared by:</td></tr>
-									<tr><td> </td></tr>
-									<tr><td> </td></tr>
-									<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
-									<tr><td class="text-center">', $session->get('fullname'), '</td></tr>
-									<tr><td class="text-center">', $session->get('rank'), '</td></tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<table width="200" style="font-size: 100%;">
-								<tbody>
-									<tr><td>Noted by:</td></tr>
-									<tr><td> </td></tr>
-									<tr><td> </td></tr>
-									<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
-									<tr><td class="text-center">', $department_details['rank'], ' ', $department_details['first_name'], ' ', $department_details['middle_name'][0], '. ', $department_details['last_name'], '</td></tr>
-									<tr><td class="text-center">Chair, ', $department_details['short'], '</td></tr>
-								</tbody>
-							</table>
-						</td>
-						<td width="100"></td>
-						<td>
-							<table width="200" style="font-size: 100%;">
-								<tbody>
-									<tr><td>Approved by:</td></tr>
-									<tr><td> </td></tr>
-									<tr><td> </td></tr>
-									<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
-									<tr><td class="text-center">', $college_details['rank'], ' ', $college_details['first_name'], ' ', $college_details['middle_name'][0], '. ', $college_details['last_name'], '</td></tr>
-									<tr><td class="text-center">Dean, ', $college_details['short'], '</td></tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-				</table>';
 			?>
 		</pre>
 	</div>

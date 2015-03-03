@@ -23,7 +23,7 @@
 					<dt>Status</dt>
 					<?php echo ($accom_details['status'] != 'Draft'
 						? '<dd>'.$accom_details['status'].'</dd>'
-						: '<dd style="color:#7b1113;"><em>'.$accom_details['status'].'</em></dd>'); ?>
+						: '<dd style="color:#015d2d;"><em>'.$accom_details['status'].'</em></dd>'); ?>
 				</dl>
 				<dl>
 					<dt>Remarks</dt>

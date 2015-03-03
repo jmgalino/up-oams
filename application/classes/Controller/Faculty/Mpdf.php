@@ -32,21 +32,27 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Show PDF
 	 */
-	private function pdf_preview($template, $filename)
-	{
-		$fullname = $this->session->get('fullname');
-		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
-		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
+	// private function pdf_preview($template, $filename)
+	// {
+	// 	$fullname = $this->session->get('fullname');
+	// 	$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
+	// 	$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
-		$mpdf = new mPDF('', 'A4');
-		$mpdf->SetAuthor($fullname);
-		$mpdf->SetCreator('UP Mindanao OAMS');
-		$mpdf->WriteHTML($bootstrap_css, 1);
-		$mpdf->WriteHTML($mpdf_css, 1);
-		$mpdf->WriteHTML($template);
-		$mpdf->Output($filename, 'I');
-		exit;
-	}
+	// 	ob_start();
+	// 	include_once(APPPATH.'views/mpdf/defaults/header.php');
+	// 	$header = ob_get_contents();
+	// 	ob_get_clean();
+
+	// 	$mpdf = new mPDF('','', 0, '', 25, 25, 55, 25, 6.5, 6.5);
+	// 	$mpdf->SetAuthor($fullname);
+	// 	$mpdf->SetCreator('UP Mindanao OAMS');
+	// 	$mpdf->WriteHTML($bootstrap_css, 1);
+	// 	$mpdf->WriteHTML($mpdf_css, 1);
+	// 	$mpdf->SetHTMLHeader($header);
+	// 	$mpdf->WriteHTML($template);
+	// 	$mpdf->Output($filename, 'I');
+	// 	exit;
+	// }
 
 	/**
 	 * Download PDF
@@ -57,11 +63,17 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
 		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
-		$mpdf = new mPDF('', 'A4');
+		ob_start();
+		include_once(APPPATH.'views/mpdf/defaults/header.php');
+		$header = ob_get_contents();
+		ob_get_clean();
+
+		$mpdf = new mPDF('','', 0, '', 25, 25, 55, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
 		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->SetHTMLHeader($header);
 		$mpdf->WriteHTML($template);
 		$mpdf->Output($filename, 'D');
 		exit;
@@ -76,11 +88,17 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
 		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
-		$mpdf = new mPDF('', 'A4');
+		ob_start();
+		include_once(APPPATH.'views/mpdf/defaults/header.php');
+		$header = ob_get_contents();
+		ob_get_clean();
+
+		$mpdf = new mPDF('','', 0, '', 25, 25, 55, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
 		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->SetHTMLHeader($header);
 		$mpdf->WriteHTML($template);
 		$mpdf->Output($filepath, 'F');
 	}
@@ -91,6 +109,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	private function accom_pdf($accom_ID, $type, $purpose)
 	{
 		$accom = new Model_Accom;
+		$univ = new Model_Univ;
 		
 		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
 		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
@@ -101,20 +120,24 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
 		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 		$this->session->set('accom_type', 'faculty');
+
+		$university = $univ->get_university(); $this->session->set('university', $university);
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID')); $this->session->set('college_details', $college_details);
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID')); $this->session->set('department_details', $department_details);
 		
 		// Consolidate Accomplishment Reports
 		if ($purpose == 'consolidate')
 		{
-			$data = $this->session->get_once('consolidate_data');
-			$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
-			$period = $this->redate($data['start'], $data['end'], FALSE);
+			$consolidate_data = $this->session->get_once('consolidate_data');
+			$this->session->set('accom_period', $this->redate($consolidate_data['start'], $consolidate_data['end'], TRUE));
+			$period = $this->redate($consolidate_data['start'], $consolidate_data['end'], FALSE);
 			$filename = $this->session->get('employee_code').'['.$period.'].pdf';
 
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/consolidated.php');
 			$template = ob_get_contents();
 			ob_get_clean();
-
+			
 			$this->pdf_download($template, $filename);
 		}
 
@@ -124,6 +147,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$accom_details = $accom->get_details($accom_ID);
 			$date = date_format(date_create($accom_details['yearmonth']), 'my');
 			$filename = $this->session->get('employee_code').$date.'.pdf';
+			$label = date('F Y', strtotime($accom_details['yearmonth']));
 
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/basic.php');
@@ -134,7 +158,15 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			if ($purpose == 'download')
 				$this->pdf_download($template, $filename);
 			
-			// Generate PDF to preview
+			// Generate PDF for draft
+			// elseif ($purpose == 'draft')
+			// {
+			// 	$filepath = DOCROOT.'files/tmp/'.$filename;
+			// 	$this->pdf_save($template, $filepath);
+			// 	return $filename;
+			// }
+			
+			// Generate PDF for preview
 			elseif ($purpose == 'preview')
 			{
 				$filepath = DOCROOT.'files/tmp/'.$filename;
@@ -143,7 +175,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				$this->redirect('faculty/accom/preview/'.$accom_ID);
 			}
 			
-			// Generate PDF to be submitted
+			// Generate PDF to submit
 			elseif ($purpose == 'submit')
 			{
 				$filepath = DOCROOT.'files/document_accom/'.$filename;
@@ -165,12 +197,18 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	 */
 	private function accom_group_pdf()
 	{
+		$univ = new Model_Univ;
+
 		$data = $this->session->get_once('consolidate_data');
 		$this->session->set('accom_type', 'group');
 		$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
 		$period = $this->redate($data['start'], $data['end'], FALSE);
 		$filename = $this->session->get('employee_code').'['.$period.'].pdf';
 
+		$university = $univ->get_university(); $this->session->set('university', $university);
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID')); $this->session->set('college_details', $college_details);
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID')); $this->session->set('department_details', $department_details);
+		
 		ob_start();
 		include_once(APPPATH.'views/mpdf/accom/consolidated.php');
 		$template = ob_get_contents();
@@ -221,7 +259,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$template = ob_get_contents();
 		ob_get_clean();	
 		
-		// Generate PDF to preview
+		// Generate PDF for preview
 		if ($purpose == 'preview')
 		{}
 
@@ -290,7 +328,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$template = ob_get_contents();
 		ob_get_clean();	
 		
-		// Generate PDF to preview
+		// Generate PDF for preview
 		if ($purpose == 'preview')
 		{}
 

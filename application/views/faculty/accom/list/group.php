@@ -76,7 +76,7 @@ echo View::factory('faculty/accom/form/consolidate')
 							<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href='.URL::site('faculty/accom/download/'.$accom['accom_ID']).'>
+									<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $user['last_name'],' - ' , date_format(date_create($accom['yearmonth']), 'F Y'), '">
 									<span class="glyphicon glyphicon-download"></span> Download Report</a>
 								</li>
 								<li>

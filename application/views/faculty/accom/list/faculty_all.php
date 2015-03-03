@@ -321,8 +321,15 @@ function redate($start, $end)
 <?php endif; ?>
 
 <?php else: ?>
+<div class="row">
+	<div class="col-md-offset-6 col-md-6">
+	<a class="btn btn-default pull-right" href="<?php echo URL::site('faculty/accom'); ?>" role="button">
+	<span class="glyphicon glyphicon-arrow-left"></span> Back</a></div>
+</div><br>
+
 <div class="alert alert-danger text-center">
 	<p>The list is empty.</p>
 </div>
-<span class="help-block">Note: Only accomplishments from submitted report will be included.</span>
 <?php endif; ?>
+
+<span class="help-block">Note: Only accomplishments from <?php echo ($identifier == 'dean' ? 'saved' : 'approved')?> reports will be included.</span>

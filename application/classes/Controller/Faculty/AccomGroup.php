@@ -123,11 +123,13 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		if ($this->session->get('identifier') == 'dept_chair')
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+			$this->session->set('level', 'department');
 			$this->session->set('unit', $department['short']);
 		}
 		elseif ($this->session->get('identifier') == 'dean')
 		{
 			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+			$this->session->set('level', 'college');
 			$this->session->set('unit', $college['short']);
 		}
 
@@ -163,7 +165,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$identifier = $this->session->get('identifier');
 		$programs = $univ->get_programs();
 
-		$accom_reports = $accom->get_group_accom($users['user_IDs'], NULL, NULL);
+		$accom_reports = $accom->get_group_accom($users['user_IDs'], NULL, NULL, FALSE);
 		
 		$this->view->content = View::factory('faculty/accom/list/group')
 			->bind('identifier', $identifier)
@@ -215,7 +217,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	private function get_group_accom($users, $start, $end)
 	{
 		$accom = new Model_Accom;
-		$accom_reports = $accom->get_group_accom($users, $start, $end);
+		$accom_reports = $accom->get_group_accom($users, $start, $end, TRUE);
 
 		if ($start AND $end)
 			$accom_IDs = $accom_reports;

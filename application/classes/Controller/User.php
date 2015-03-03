@@ -121,7 +121,7 @@ class Controller_User extends Controller {
 		$update = $this->session->get_once('update');
 		$name = $this->session->get('fullname2');
 		$user_details = $user->get_details($this->session->get('user_ID'), NULL);		
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL);
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, TRUE);
 
 		if ($user_details['user_type'] == 'Faculty')
 		{
@@ -219,20 +219,20 @@ class Controller_User extends Controller {
 	 */
 	protected function action_delete_session()
 	{
-		$this->session->delete('accom_pub');
-		$this->session->delete('accom_awd');
-		$this->session->delete('accom_rch');
-		$this->session->delete('accom_ppr');
-		$this->session->delete('accom_ctv');
-		$this->session->delete('accom_par');
-		$this->session->delete('accom_mat');
-		$this->session->delete('accom_oth');
-		$this->session->delete('attachment');
-		$this->session->delete('accom_details');
-		$this->session->delete('ipcr_details');
-		$this->session->delete('department');
-		$this->session->delete('title');
-		$this->session->delete('opcr_details');
+		// $this->session->delete('accom_pub');
+		// $this->session->delete('accom_awd');
+		// $this->session->delete('accom_rch');
+		// $this->session->delete('accom_ppr');
+		// $this->session->delete('accom_ctv');
+		// $this->session->delete('accom_par');
+		// $this->session->delete('accom_mat');
+		// $this->session->delete('accom_oth');
+		// $this->session->delete('attachment');
+		// $this->session->delete('accom_details');
+		// $this->session->delete('ipcr_details');
+		// $this->session->delete('department');
+		// $this->session->delete('title');
+		// $this->session->delete('opcr_details');
 	}
 
 	/**

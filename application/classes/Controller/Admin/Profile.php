@@ -83,11 +83,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 			}
-			// $accom_rows = $accom->get_faculty_accom($user['user_ID']);
-			// $ipcr_rows = NULL;
-			// $opcr_rows = NULL;
-			// $cuma_rows = NULL;
-
+			
 			$this->view->content = View::factory('admin/profile/template')
 				->bind('user', $user_details)
 				// ->bind('accom_rows', $accom_rows)
