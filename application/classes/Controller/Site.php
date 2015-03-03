@@ -182,8 +182,8 @@ class Controller_Site extends Controller {
 		$session->set('employee_code', $employee_code);
     	$session->set('user_ID', $user_details['user_ID']);
 		$session->set('fname', $user_details['first_name']);
-		$session->set('fullname', $user_details['first_name'].' '.$user_details['middle_name'].'. '.$user_details['last_name']);
-		$session->set('fullname2', $user_details['last_name'].', '.$user_details['first_name'].' '.$user_details['middle_name'].'.');
+		$session->set('fullname', $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name']);
+		$session->set('fullname2', $user_details['last_name'].', '.$user_details['first_name'].' '.$user_details['middle_name'][0].'.');
 		
 		// Admin
 		if ($user_details['user_type'] == 'Admin')

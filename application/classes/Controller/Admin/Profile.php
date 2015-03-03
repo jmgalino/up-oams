@@ -125,7 +125,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 				$oth = NULL;
 				$education = NULL;
 			}
- 
+			
 			$this->view->content = View::factory('admin/profile/template')
 				->bind('user', $user_details)
 				->bind('education', $education)
@@ -139,8 +139,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 				->bind('accom_mat', $mat)
 				->bind('accom_oth', $oth)
 				->bind('upload', $upload)
-				->bind('success', $success)
 				->bind('update', $update)
+				->bind('success', $success)
 				->bind('error', $error)
 				->bind('programs', $programs);
 			$this->response->body($this->view->render());

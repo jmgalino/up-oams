@@ -34,39 +34,71 @@ function redate($start, $end)
 }
 
 $array = array();
-$session = Session::instance();
-$session->set('attachment', 0);
-$session->set('attachments', $array);
+$this->session->set('attachment', 0);
+$this->session->set('attachments', $array);
 
 echo '<h1 class="text-center">Accomplishment Report</h1>';
-echo '<h2 class="text-center">', date('F Y', strtotime($accom_details['yearmonth'])), '</h2><br>';
-echo '<h2>', $session->get('fullname'), '</h2>';
-echo '<h3>', $session->get('rank'), '</h3>';
+echo '<h2 class="text-center">', $label, '</h2><br>';
 echo '<br>';
 
-echo View::factory('mpdf/accom/fragments/publication')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/award')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/research')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/paper')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/creative')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/participation')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/material')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/other')->bind('session', $session);
+echo View::factory('mpdf/accom/fragments/publication')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/award')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/research')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/paper')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/creative')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/participation')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/material')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/other')->bind('session', $this->session);
 
 echo '<br><br><br>
-<table width="200" align="right">
-	<tbody>
-		<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
-		<tr><td class="text-center">', $session->get('fullname'), '</td></tr>
-	</tbody>
+<table>
+	<tr>
+		<td>
+			<table width="200">
+				<tbody>
+					<tr><td>Prepared by:</td></tr>
+					<tr><td height="50"></td></tr>
+					<tr><td class="text-center" style="border-bottom:0.25px solid black;"></td></tr>
+					<tr><td class="text-center">', $this->session->get('fullname'), '</td></tr>
+					<tr><td class="text-center">', $this->session->get('rank'), '</td></tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+	<tr><td height="50"></td></tr>
+	<tr>
+		<td>
+			<table width="200">
+				<tbody>
+					<tr><td>Noted by:</td></tr>
+					<tr><td height="50"></td></tr>
+					<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+					<tr><td class="text-center">', $department_details['title'], ' ', $department_details['first_name'], ' ', $department_details['middle_name'][0], '. ', $department_details['last_name'], '</td></tr>
+					<tr><td class="text-center">Chair, ', $department_details['short'], '</td></tr>
+				</tbody>
+			</table>
+		</td>
+		<td width="200"></td>
+		<td>
+			<table width="200">
+				<tbody>
+					<tr><td>Approved by:</td></tr>
+					<tr><td height="50"></td></tr>
+					<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+					<tr><td class="text-center">', $college_details['title'], ' ', $college_details['first_name'], ' ', $college_details['middle_name'][0], '. ', $college_details['last_name'], '</td></tr>
+					<tr><td class="text-center">Dean, ', $college_details['short'], '</td></tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
 </table>';
 
-$attachment = $session->get_once('attachment');
+$attachment = $this->session->get_once('attachment');
 if ($attachment)
 {
 	echo '<pagebreak />';
 
-	$attachments = $session->get_once('attachments');
+	$attachments = $this->session->get_once('attachments');
 
 	echo '<h2>Attachments</h2><br>';
 

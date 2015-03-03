@@ -12,7 +12,7 @@ function reuser($user_IDs, $users)
 		{
 			if ($user_IDs == $user['user_ID'])
 			{
-				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
+				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
 				break;
 			}
 		}
@@ -29,7 +29,7 @@ function reuser($user_IDs, $users)
 				{
 					if ($user_ID == $user['user_ID'])
 					{
-						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
+						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
 						break;
 					}
 				}
@@ -113,43 +113,64 @@ function redate($start, $end)
 }
 
 $array = array();
-$session = Session::instance();
-$session->set('attachment', 0);
-$session->set('attachments', $array);
+$this->session->set('attachment', 0);
+$this->session->set('attachments', $array);
 
 echo '<h1 class="text-center">Accomplishment Report</h1>';
-echo '<h2 class="text-center">', $session->get('accom_period'), '</h2><br>';
-echo '<h2>', $session->get('fullname'), '</h2>';
+echo '<h2 class="text-center">', $this->session->get('accom_period'), '</h2><br>';
+// echo '<h2>', $this->session->get('fullname'), '</h2>';
 
-if ($session->get('accom_type') == 'faculty')
-	echo '<h3>', $session->get('rank'), '</h3>';
-else
-	echo '<h3> Unit Head, ', $session->get_once('unit'), '</h3>';
-echo '<br>';
+// if ($this->session->get('accom_type') == 'faculty')
+// 	echo '<h3>', $this->session->get('rank'), '</h3>';
+// else
+// 	echo '<h3> Unit Head, ', $this->session->get_once('unit'), '</h3>';
+// echo '<br>';
 
-echo View::factory('mpdf/accom/fragments/publication')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/award')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/research')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/paper')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/creative')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/participation')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/material')->bind('session', $session);
-echo View::factory('mpdf/accom/fragments/other')->bind('session', $session);
+echo View::factory('mpdf/accom/fragments/publication')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/award')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/research')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/paper')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/creative')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/participation')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/material')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/other')->bind('session', $this->session);
 
 echo '<br><br><br>
-<table width="200" align="right">
-	<tbody>
-		<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
-		<tr><td class="text-center">', $session->get('fullname'), '</td></tr>
-	</tbody>
+<table>
+	<tr>
+		<td>
+			<table width="200">
+				<tbody>
+					<tr><td>Prepared by:</td></tr>
+					<tr><td height="50"></td></tr>
+					<tr><td class="text-center" style="border-bottom:0.25px solid black;"></td></tr>
+					<tr><td class="text-center">', $this->session->get('fullname'), '</td></tr>
+					<tr><td class="text-center">', $this->session->get('rank'), '</td></tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+	<tr><td height="50"></td></tr>
+	<tr>
+		<table width="200">
+				<tbody>
+					<tr><td>Approved by:</td></tr>
+					<tr><td height="50"></td></tr>
+					<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+					<tr><td class="text-center">', $this->session->get('college_details')['title'], ' ', $this->session->get('college_details')['first_name'], ' ', $this->session->get('college_details')['middle_name'][0], '. ', $this->session->get('college_details')['last_name'], '</td></tr>
+					<tr><td class="text-center">Dean, ', $this->session->get('college_details')['short'], '</td></tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
 </table>';
 
-$attachment = $session->get_once('attachment');
+$attachment = $this->session->get_once('attachment');
 if ($attachment)
 {
 	echo '<pagebreak />';
 
-	$attachments = $session->get_once('attachments');
+	$attachments = $this->session->get_once('attachments');
 
 	echo '<h2>Attachments</h2><br>';
 

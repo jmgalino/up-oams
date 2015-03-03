@@ -5,18 +5,23 @@ body {
 
 /* Accomplishment Report */
 h1 {
-	margin-top: -20px;
-	font-size: 20px;
+	margin: 0 0 5px;
+	font-size: 16px;
+	font-weight: normal;
 }
 
 h2 {
 	margin-top: 0px;
-	font-size: 18px;
+	font-size: 14px;
 }
 
 h3 {
 	margin-top: 10px;
-	font-size: 16px;
+	font-size: 14px;
+}
+
+table {
+	font-size: 14px;
 }
 
 /* OPCR Form */

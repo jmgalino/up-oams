@@ -72,7 +72,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		
 		$evaluate = $this->session->get_once('evaluate');
 		$identifier = $this->session->get('identifier');
-		$fullname = $user_details['first_name'].' '.$user_details['middle_name'].'. '.$user_details['last_name'];
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		$evaluate_url = ($identifier == 'dean' ? 'faculty/accom_coll/evaluate/'.$accom_ID : 'faculty/accom_dept/evaluate/'.$accom_ID);
 
 		$this->view->content = View::factory('faculty/accom/view/group')
@@ -128,6 +128,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		elseif ($this->session->get('identifier') == 'dean')
 		{
 			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+			$this->session->set('level', 'college');
 			$this->session->set('unit', $college['short']);
 		}
 
@@ -163,7 +164,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$identifier = $this->session->get('identifier');
 		$programs = $univ->get_programs();
 
-		$accom_reports = $accom->get_group_accom($users['user_IDs'], NULL, NULL);
+		$accom_reports = $accom->get_group_accom($users['user_IDs'], NULL, NULL, FALSE);
 		
 		$this->view->content = View::factory('faculty/accom/list/group')
 			->bind('identifier', $identifier)
@@ -215,7 +216,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	private function get_group_accom($users, $start, $end)
 	{
 		$accom = new Model_Accom;
-		$accom_reports = $accom->get_group_accom($users, $start, $end);
+		$accom_reports = $accom->get_group_accom($users, $start, $end, TRUE);
 
 		if ($start AND $end)
 			$accom_IDs = $accom_reports;

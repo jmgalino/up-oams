@@ -309,8 +309,11 @@ function redate($start, $end)
 		<?php endif; ?>
 
 		<?php else: ?>
-		<div class="alert alert-danger text-center"><p>The list is empty.</p></div>
-		<span class="help-block">Note: Only accomplishments from submitted report will be included.</span>
+		<div class="alert alert-danger text-center">
+			<p>The list is empty.</p>
+		</div>
 		<?php endif; ?>
+
+		<span class="help-block">Note: Only accomplishments from <?php echo ($user['position'] == 'dean' ? 'saved' : 'approved')?> reports will be included.</span>
 	</div>
 </div>

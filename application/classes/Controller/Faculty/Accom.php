@@ -14,7 +14,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL);
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, FALSE);
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
 			->bind('submit', $submit)
@@ -32,7 +32,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom = new Model_Accom;
 
 		$name = $this->session->get('fullname2');
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL);
+		$identifier = $this->session->get('identifier');
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, TRUE);
 
 		if ($accom_reports)
 		{
@@ -70,7 +71,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			->bind('accom_ctv', $ctv)
 			->bind('accom_par', $par)
 			->bind('accom_mat', $mat)
-			->bind('accom_oth', $oth);
+			->bind('accom_oth', $oth)
+			->bind('identifier', $identifier);
 		$this->response->body($this->view->render());
 	}
 
@@ -111,7 +113,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		{
 			$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 			$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
-			$consolidate_data['accom_ID'] = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end);
+			$consolidate_data['accom_ID'] = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end, TRUE);
 			$consolidate_data['start'] = $start;
 			$consolidate_data['end'] = $end;
 			$this->session->set('consolidate_data', $consolidate_data);
@@ -216,6 +218,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	private function show_draft()
 	{
 		$accom = new Model_Accom;
+		$univ = new Model_Univ;
 
 		$label = date('F Y', strtotime($this->session->get('accom_details')['yearmonth']));
 		$success = $this->session->get_once('success');
@@ -233,6 +236,10 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 		$accoms = array_merge($pub, $awd, $rch, $ctv, $par, $mat, $oth);
 
+		// $university = $univ->get_university();
+		// $college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		// $department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		
 		$this->view->content = View::factory('faculty/accom/form/template')
 			->bind('label', $label)
 			->bind('success', $success)
@@ -240,6 +247,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			->bind('warning', $warning)
 			->bind('session', $this->session)
 			->bind('accom', $accoms);
+			// ->bind('university', $university)
+			// ->bind('college_details', $college_details)
+			// ->bind('department_details', $department_details);
 		$this->response->body($this->view->render());	
 	}
 

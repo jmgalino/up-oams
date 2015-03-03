@@ -325,23 +325,25 @@ border-bottom: 1px solid #eee;
 
 /* DRAFT DEFAULTS */
 pre {
-  padding: 100px;
+  padding: 50px 100px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: inherit;
   background-color: #ffffff;
 }
+
 .pre-scrollable {
   max-height: 500px;
   padding: 50px;
 }
-pre h1 {
+pre h1:first-child {
   margin-top: -20px;
-  font-size: 20px;
 }
-pre h2 {
-  margin-top: 0px;
+pre h1 {
+  margin: 0 0 5px;
   font-size: 18px;
+  font-weight: normal;
 }
+pre h2,
 pre h3 {
   margin-top: 10px;
   font-size: 16px;

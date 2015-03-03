@@ -79,8 +79,8 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 			<?php
 				echo '<h1 class="text-center">Accomplishment Report</h1>';
 				echo '<h2 class="text-center">', $label, '</h2><br>';
-				echo '<h2>', $session->get('fullname'), '</h2>';
-				echo '<h3>', $session->get('rank'), '</h3>';
+				// echo '<h2>', $session->get('fullname'), '</h2>';
+				// echo '<h3>', $session->get('rank'), '</h3>';
 				echo '<br>';
 				$session->set('attachment', 0);
 
@@ -92,14 +92,6 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				echo View::factory('faculty/accom/form/fragments/participation')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/material')->bind('session', $session);
 				echo View::factory('faculty/accom/form/fragments/other')->bind('session', $session);
-
-				echo '<br><br><br>
-				<table width="200" align="right">
-					<tbody>
-						<tr><td class="text-center" style="border-bottom:1pt solid black"></td></tr>
-						<tr><td class="text-center">', $session->get('fullname'), '</td></tr>
-					</tbody>
-				</table>';
 			?>
 		</pre>
 	</div>

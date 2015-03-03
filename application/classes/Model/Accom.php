@@ -5,18 +5,33 @@ class Model_Accom extends Model {
 	/**
 	 * Get reports (by faculty)
 	 */
-	public function get_faculty_accom($user_ID, $start, $end)
+	public function get_faculty_accom($user_ID, $start, $end, $strict)
 	{
 		if ($start AND $end)
 		{
-			$accom_IDs = DB::select('accom_ID')
-				->from('accomtbl')
-				->where('user_ID', '=', $user_ID)
-				->where('yearmonth', '>=', $start)
-				->where('yearmonth', '<=', $end)
-				->order_by('yearmonth', 'DESC')
-				->execute()
-				->as_array();
+			if ($strict)
+			{
+				$accom_IDs = DB::select('accom_ID')
+					->from('accomtbl')
+					->where('user_ID', '=', $user_ID)
+					->where('status', 'IN', array('Approved', 'Saved'))
+					->where('yearmonth', '>=', $start)
+					->where('yearmonth', '<=', $end)
+					->order_by('yearmonth', 'DESC')
+					->execute()
+					->as_array();
+			}
+			else
+			{
+				$accom_IDs = DB::select('accom_ID')
+					->from('accomtbl')
+					->where('user_ID', '=', $user_ID)
+					->where('yearmonth', '>=', $start)
+					->where('yearmonth', '<=', $end)
+					->order_by('yearmonth', 'DESC')
+					->execute()
+					->as_array();
+			}
 
 			$accom_reports = array();
 			foreach ($accom_IDs as $accom_ID)
@@ -29,11 +44,23 @@ class Model_Accom extends Model {
 		}
 		else
 		{
-			$accom_reports = DB::select()
-				->from('accomtbl')
-				->where('user_ID', '=', $user_ID)
-				->execute()
-				->as_array();
+			if ($strict)
+			{
+				$accom_reports = DB::select()
+					->from('accomtbl')
+					->where('user_ID', '=', $user_ID)
+					->where('status', 'IN', array('Approved', 'Saved'))
+					->execute()
+					->as_array();
+			}
+			else
+			{
+				$accom_reports = DB::select()
+					->from('accomtbl')
+					->where('user_ID', '=', $user_ID)
+					->execute()
+					->as_array();
+			}
 		}
 
 		return $accom_reports;
@@ -41,20 +68,39 @@ class Model_Accom extends Model {
 
 	/**
 	 * Get reports (by department/college)
+	 * Strict - Pending not included
 	 */
-	public function get_group_accom($userIDs, $start, $end)
+	public function get_group_accom($userIDs, $start, $end, $strict)
 	{
+		/**
+		 * With time range
+		 */
 		if ($start AND $end)
 		{
-			$accom_IDs = DB::select('accom_ID')
-				->from('accomtbl')
-				->where('user_ID', 'IN', $userIDs)
-				->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
-				->where('yearmonth', '>=', $start)
-				->where('yearmonth', '<=', $end)
-				->order_by('yearmonth', 'DESC')
-				->execute()
-				->as_array();
+			if ($strict)
+			{
+				$accom_IDs = DB::select('accom_ID')
+					->from('accomtbl')
+					->where('user_ID', 'IN', $userIDs)
+					->where('status', 'IN', array('Approved', 'Saved'))
+					->where('yearmonth', '>=', $start)
+					->where('yearmonth', '<=', $end)
+					->order_by('yearmonth', 'DESC')
+					->execute()
+					->as_array();
+			}
+			else
+			{
+				$accom_IDs = DB::select('accom_ID')
+					->from('accomtbl')
+					->where('user_ID', 'IN', $userIDs)
+					->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
+					->where('yearmonth', '>=', $start)
+					->where('yearmonth', '<=', $end)
+					->order_by('yearmonth', 'DESC')
+					->execute()
+					->as_array();
+			}
 
 			$accom_reports = array();
 			foreach ($accom_IDs as $accom_ID)
@@ -65,14 +111,29 @@ class Model_Accom extends Model {
 				}	
 			}
 		}
+		/**
+		 * Without time range
+		 */
 		else
 		{
-			$accom_reports = DB::select()
-			->from('accomtbl')
-			->where('user_ID', 'IN', $userIDs)
-			->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
-	 		->execute()
-	 		->as_array();
+			if ($strict)
+			{
+				$accom_reports = DB::select()
+					->from('accomtbl')
+					->where('user_ID', 'IN', $userIDs)
+					->where('status', 'IN', array('Approved', 'Saved'))
+			 		->execute()
+			 		->as_array();
+			}
+			else
+			{
+				$accom_reports = DB::select()
+					->from('accomtbl')
+					->where('user_ID', 'IN', $userIDs)
+					->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
+			 		->execute()
+			 		->as_array();
+			}
 	 	}
 
 	 	return $accom_reports;

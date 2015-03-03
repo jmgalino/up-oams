@@ -37,7 +37,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 		// $period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
 		// $period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
 		// $period = $period_from.' - '.$period_to;
-		// $fullname = $user_details['first_name'].' '.$user_details['middle_name'].'. '.$user_details['last_name'];
+		// $fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		// $evaluate_url = ($identifier == 'dean' ? 'faculty/ipcr_coll/evaluate/'.$ipcr_ID : 'faculty/ipcr_dept/evaluate/'.$ipcr_ID);
 
 		// $this->view->content = View::factory('faculty/ipcr/view/group')

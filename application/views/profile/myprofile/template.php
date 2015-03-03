@@ -105,7 +105,8 @@ echo View::factory('profile/myprofile/accomplishments')
 	->bind('accom_ctv', $accom_ctv)
 	->bind('accom_par', $accom_par)
 	->bind('accom_mat', $accom_mat)
-	->bind('accom_oth', $accom_oth);
+	->bind('accom_oth', $accom_oth)
+	->bind('user', $user);
 ?>
 
 <?php endif; ?>

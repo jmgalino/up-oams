@@ -82,7 +82,7 @@
               {
                 if ($ipcr['user_ID'] == $user['user_ID'])
                 {
-                  echo $user['first_name'], ' ', $user['middle_name'], '. ', $user['last_name'];
+                  echo $user['first_name'], ' ', $user['middle_name'][0], '. ', $user['last_name'];
                 }
               } // foreach users
 
