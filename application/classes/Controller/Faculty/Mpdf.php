@@ -57,7 +57,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Download PDF
 	 */
-	private function pdf_download($template, $filename)
+	private function pdf_download($template, $filename, $top)
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
@@ -68,7 +68,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$header = ob_get_contents();
 		ob_get_clean();
 
-		$mpdf = new mPDF('','', 0, '', 25, 25, 55, 25, 6.5, 6.5);
+		$mpdf = new mPDF('','', 0, '', 25, 25, $top, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
@@ -138,7 +138,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$template = ob_get_contents();
 			ob_get_clean();
 			
-			$this->pdf_download($template, $filename);
+			$this->pdf_download($template, $filename, 55);
 		}
 
 		// Monthly Accomplishment Report
@@ -156,7 +156,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		
 			// Generate PDF to download
 			if ($purpose == 'download')
-				$this->pdf_download($template, $filename);
+				$this->pdf_download($template, $filename, 55);
 			
 			// Generate PDF for draft
 			// elseif ($purpose == 'draft')
@@ -202,19 +202,22 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$data = $this->session->get_once('consolidate_data');
 		$this->session->set('accom_type', 'group');
 		$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
-		$period = $this->redate($data['start'], $data['end'], FALSE);
-		$filename = $this->session->get('employee_code').'['.$period.'].pdf';
-
+		
 		$university = $univ->get_university(); $this->session->set('university', $university);
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID')); $this->session->set('college_details', $college_details);
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID')); $this->session->set('department_details', $department_details);
 		
+		$period = $this->redate($data['start'], $data['end'], TRUE);
+		$prefix = ($this->session->get('identifier') == 'dean' ? $college_details['short'] : $department_details['short']);
+		$filename = $prefix.' ('.$period.').pdf';
+		$top = ($this->session->get('identifier') == 'dean' ? 45 : 55);
+
 		ob_start();
 		include_once(APPPATH.'views/mpdf/accom/consolidated.php');
 		$template = ob_get_contents();
 		ob_get_clean();
 
-		$this->pdf_download($template, $filename);
+		$this->pdf_download($template, $filename, $top);
 	}
 
 	/**

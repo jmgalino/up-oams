@@ -123,7 +123,6 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		if ($this->session->get('identifier') == 'dept_chair')
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-			$this->session->set('level', 'department');
 			$this->session->set('unit', $department['short']);
 		}
 		elseif ($this->session->get('identifier') == 'dean')
