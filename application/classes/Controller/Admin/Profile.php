@@ -38,20 +38,12 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$details['faculty_code'] = NULL;
 			$details['rank'] = NULL;
 			$details['program_ID'] = NULL;
-			// may become unnecessary
-			$details['department_ID'] = NULL;
 			$details['position'] = NULL;
-		}
-		else
-		{
-			// may become unnecessary
-			$univ = new Model_Univ;
-			$department = $univ->get_program_details($details['program_ID']);
-			$details['department_ID'] = $department['department_ID'];
 		}
 
 		$user = new Model_User;
-		if (!$user->add_user($details)) $this->session->set('success', $user->add_user($details));
+		$success = $details['first_name'].'\'s profile was successfully created.';
+		if ($user->add_user($details)) $this->session->set('success', $success);
 		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 
@@ -167,16 +159,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$details['faculty_code'] = NULL;
 			$details['rank'] = NULL;
 			$details['program_ID'] = NULL;
-			// may become unnecessary
-			$details['department_ID'] = NULL;
 			$details['position'] = NULL;
-		}
-		else
-		{
-			// may become unnecessary
-			$univ = new Model_Univ;
-			$department = $univ->get_program_details($details['program_ID']);
-			$details['department_ID'] = $department['department_ID'];
 		}
  
 		$update_success = ($univ_updated ? $user->update_details($details) : FALSE);
@@ -259,13 +242,17 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$reset_success = $user->reset_password($this->request->param('id'));
+		$user_ID = $this->request->param('id');
+		$reset_success = $user->reset_password($user_ID);
 		$this->session->set('success', $reset_success);
 
 		$referrer = $this->request->referrer();
 		$view = strpos($referrer, 'view');
-		if ($view) 
-			$this->redirect('admin/profile/view/'.$this->request->param('id'), 303);
+		if ($view)
+		{
+			$user_details = $user->get_details($user_ID, NULL);
+			$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
+		}
 		else
 			$this->redirect('admin/profile', 303);
 	}

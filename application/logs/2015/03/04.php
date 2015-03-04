@@ -326,3 +326,62 @@
 #6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
 #8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/User.php:273
+2015-03-04 17:00:52 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '000000001' for key 'employee_code' [ INSERT INTO user_profiletbl (user_type, employee_code, title, first_name, middle_name, last_name, suffix, birthday, faculty_code, rank, program_ID, position) VALUES ('Admin', '000000001', '', 'a', 'a', 'a', '', '2015-03-25', NULL, NULL, NULL, NULL) ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-04 17:00:52 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(2, 'INSERT INTO use...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/User.php(114): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Admin/Profile.php(45): Model_User->add_user(Array)
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Admin_Profile->action_new()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Admin_Profile))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-04 17:04:04 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '000000002' for key 'employee_code' [ INSERT INTO user_profiletbl (user_type, employee_code, title, first_name, middle_name, last_name, suffix, birthday, faculty_code, rank, program_ID, position) VALUES ('Admin', '000000002', '', 'q', 'q', 'q', '', '2015-03-10', NULL, NULL, NULL, NULL) ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-04 17:04:04 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(2, 'INSERT INTO use...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/User.php(114): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Admin/Profile.php(45): Model_User->add_user(Array)
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Admin_Profile->action_new()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Admin_Profile))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-04 17:04:40 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '000000003' for key 'employee_code' [ INSERT INTO user_profiletbl (user_type, employee_code, title, first_name, middle_name, last_name, suffix, birthday, faculty_code, rank, program_ID, position) VALUES ('Admin', '000000003', '', 'q', 'q', 'q', '', '2015-03-24', NULL, NULL, NULL, NULL) ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-04 17:04:40 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(2, 'INSERT INTO use...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/User.php(114): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Admin/Profile.php(45): Model_User->add_user(Array)
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Admin_Profile->action_new()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Admin_Profile))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-04 17:15:36 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected ')' ~ APPPATH/classes/Controller/Admin/Profile.php [ 46 ] in file:line
+2015-03-04 17:15:36 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-03-04 17:20:11 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected '=>' (T_DOUBLE_ARROW) ~ APPPATH/classes/Model/User.php [ 264 ] in file:line
+2015-03-04 17:20:11 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-03-04 17:20:24 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: rows_updated ~ APPPATH/classes/Model/User.php [ 267 ] in /Users/jenny/Sites/up-oams/application/classes/Model/User.php:267
+2015-03-04 17:20:24 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/User.php(267): Kohana_Core::error_handler(8, 'Undefined varia...', '/Users/jenny/Si...', 267, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Admin/Profile.php(245): Model_User->reset_password('2')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Admin_Profile->action_reset()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Admin_Profile))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/User.php:267
+2015-03-04 17:22:55 --- EMERGENCY: ErrorException [ 2 ]: Missing argument 2 for Model_User::get_details(), called in /Users/jenny/Sites/up-oams/application/classes/Controller/Admin/Profile.php on line 253 and defined ~ APPPATH/classes/Model/User.php [ 25 ] in /Users/jenny/Sites/up-oams/application/classes/Model/User.php:25
+2015-03-04 17:22:55 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/User.php(25): Kohana_Core::error_handler(2, 'Missing argumen...', '/Users/jenny/Si...', 25, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Admin/Profile.php(253): Model_User->get_details('47')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Admin_Profile->action_reset()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Admin_Profile))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/User.php:25

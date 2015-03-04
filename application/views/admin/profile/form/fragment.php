@@ -12,6 +12,13 @@
 </div>
 
 <div class="form-group">
+  <label for="title" class="col-sm-4 control-label">Title</label>
+  <div class="col-sm-7">
+    <input type="text" class="form-control" id="title" name="title" placeholder="Assoc. Prof.">
+  </div>
+</div>
+
+<div class="form-group">
   <label for="fname" class="col-sm-4 control-label">First Name</label>
   <div class="col-sm-7">
     <input type="text" class="form-control" id="fname" name="first_name" required>
@@ -29,6 +36,13 @@
   <label for="lname" class="col-sm-4 control-label">Last Name</label>
   <div class="col-sm-7">
     <input type="text" class="form-control" id="lname" name="last_name" required>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="suffix" class="col-sm-4 control-label">Suffix</label>
+  <div class="col-sm-7">
+    <input type="text" class="form-control" id="suffix" name="suffix">
   </div>
 </div>
 

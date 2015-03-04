@@ -12,9 +12,12 @@
 		<div class="row details">
 			<div class="col-xs-6"><strong>User Type</strong></div>
 			<div class="col-xs-6"><?php echo $user['user_type']; ?></div>
-		</div>
-		<br>
+		</div><br>
 
+		<div class="row details">
+			<div class="col-xs-6"><strong>Title</strong></div>
+			<div class="col-xs-6"><?php echo ($user['title'] ? $user['title'] : '-'); ?></div>
+		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>First Name</strong></div>
 			<div class="col-xs-6"><?php echo $user['first_name']; ?></div>
@@ -26,6 +29,10 @@
 		<div class="row details">
 			<div class="col-xs-6"><strong>Last Name</strong></div>
 			<div class="col-xs-6"><?php echo $user['last_name']; ?></div>
+		</div>
+		<div class="row details">
+			<div class="col-xs-6"><strong>Suffix</strong></div>
+			<div class="col-xs-6"><?php echo ($user['suffix'] ? $user['suffix'] : '-'); ?></div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Birthday</strong></div>

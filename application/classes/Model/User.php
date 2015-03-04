@@ -121,9 +121,12 @@ class Model_User extends Model {
 		$success = ($insert_profile[1] == 1 AND $insert_login[1] == 1 ? TRUE : FALSE);
 
 		// University update
-		$user_details['user_ID'] = $insert_profile[0];
-		$univ_updated = $this->update_univ($user_details);
-		$success = ($univ_updated ? $success : FALSE);
+		if (array_key_exists('position', $user_details))
+		{
+			$user_details['user_ID'] = $insert_profile[0];
+			$univ_updated = $this->update_univ($user_details);
+			$success = ($univ_updated ? $success : FALSE);
+		}
 
 		return $success;
  	}
@@ -155,8 +158,11 @@ class Model_User extends Model {
  		}
 
  		// University update
-		$univ_updated = $this->update_univ($new_details);
-		$success =  ($univ_updated ? $success : FALSE);
+		if (array_key_exists('position', $user_details))
+		{
+			$univ_updated = $this->update_univ($user_details);
+			$success = ($univ_updated ? $success : FALSE);
+		}
 
  		if ($success === TRUE) return (array_key_exists('first_name', $new_details) ? $new_details['first_name'] : $user_details['first_name']).'\'s profile was successfully updated.';
  		else return $success;
@@ -208,7 +214,10 @@ class Model_User extends Model {
 		return $success;
  	}
 
- 	public function update_education($education_details)
+ 	/**
+	 * Update educational attainment
+	 */
+	public function update_education($education_details)
  	{
  		$success = FALSE;
 

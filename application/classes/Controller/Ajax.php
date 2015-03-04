@@ -15,19 +15,17 @@ class Controller_Ajax extends Controller {
 	{
 		switch ($this->request->param('id'))
 		{
-			// department_ID may become unnecessary
 			case 'new_user':
 				$table = 'user_profiletbl';
-				$exclude = array('first_name', 'middle_name', 'last_name', 'user_type',
-					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
+				$exclude = array('title', 'first_name', 'middle_name', 'last_name', 'suffix', 'user_type',
+					'faculty_code', 'program_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
 				$max = 0;
 				break;
 
-			// department_ID may become unnecessary
 			case 'edit_user':
 				$table = 'user_profiletbl';
-				$exclude = array('first_name', 'middle_name', 'last_name', 'user_type',
-					'faculty_code', 'program_ID', 'department_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
+				$exclude = array('title', 'first_name', 'middle_name', 'last_name', 'suffix', 'user_type',
+					'faculty_code', 'program_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
 				$max = 1;
 				break;
 
