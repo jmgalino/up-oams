@@ -29,10 +29,12 @@ echo View::factory('faculty/accom/form/evaluate')
 
 	<div class="col-md-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
+			<?php if (!$user_flag): ?>
 			<li> 
 				<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate Report</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
+			<?php endif; ?>
 			<li style="padding:10 15">
 				<dl>
 					<dt>Faculty</dt>

@@ -69,6 +69,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID);
 		$user_details = $user->get_details($accom_details['user_ID'], NULL);
+		$user_flag = ($accom_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
 		
 		$evaluate = $this->session->get_once('evaluate');
 		$identifier = $this->session->get('identifier');
@@ -80,7 +81,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 			->bind('evaluate', $evaluate)
 			->bind('evaluate_url', $evaluate_url)
 			->bind('accom_details', $accom_details)
-			->bind('user', $fullname);
+			->bind('user', $fullname)
+			->bind('user_flag', $user_flag);
 		$this->response->body($this->view->render());
 	}
 

@@ -70,24 +70,19 @@ echo View::factory('faculty/accom/form/consolidate')
 				echo '<td>', $accom['status'], '</td>';
 				echo '<td>', $accom['remarks'], '</td>';
 
-				if ($user['employee_code'] !== $employee_code)
-				{
-					echo '<td class="dropdown">
-							<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $user['last_name'],' - ' , date_format(date_create($accom['yearmonth']), 'F Y'), '">
-									<span class="glyphicon glyphicon-download"></span> Download Report</a>
-								</li>
-								<li>
-					 				<a href='.URL::site('faculty/accom_dept/view/'.$accom['accom_ID']).'>
-									<span class="glyphicon glyphicon-file"></span> View Report</a>
-								</li>
-							</ul>
-						</td>';
-				}
-				else
-					echo '<td>Disabled</td>';
+				echo '<td class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $user['last_name'],' - ' , date_format(date_create($accom['yearmonth']), 'F Y'), '">
+								<span class="glyphicon glyphicon-download"></span> Download Report</a>
+							</li>
+							<li>
+				 				<a href='.URL::site('faculty/accom_dept/view/'.$accom['accom_ID']).'>
+								<span class="glyphicon glyphicon-file"></span> View Report</a>
+							</li>
+						</ul>
+					</td>';
 			}
 		}
 
