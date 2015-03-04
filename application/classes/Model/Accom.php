@@ -530,7 +530,7 @@ class Model_Accom extends Model {
 		}
 		
 		$result = $query->execute()->as_array();
-// echo Debug::vars($result);
+
 		if ($result)
 			$id = $result[0][$name_ID];
 

@@ -27,7 +27,7 @@ if ($announcements)
 
 		// $counter++;
 		// if ($counter < count($announcements))
-		echo '<hr class="announcement-divider" style="border-top:2px dotted #7b1113; padding-bottom:50px">';
+		echo '<hr class="announcement-divider" style="border-top:2px dotted #7b1113; padding-bottom:10px">';
 	}
 }
 ?>

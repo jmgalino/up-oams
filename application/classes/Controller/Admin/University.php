@@ -185,10 +185,15 @@ class Controller_Admin_University extends Controller_Admin {
 
 		if (array_key_exists('user_ID', $update_details))
  		{
- 			$college_details = $univ->get_college_details($update_details['college_ID'], NULL);
+ 			if ($update_details['user_ID'] === "")
+ 				$update_details['user_ID'] = NULL;
+ 			else
+			{
+ 				$college_details = $univ->get_college_details($update_details['college_ID'], NULL);
 
- 			if ($college_details['user_ID'] != $update_details['user_ID'])
- 				$user_updated = $this->update_user($college_details['user_ID'], $update_details['user_ID'], 'dean');
+	 			if ($college_details['user_ID'] != $update_details['user_ID'])
+	 				$user_updated = $this->update_user($college_details['user_ID'], $update_details['user_ID'], 'dean');
+ 			}
  		}
 
 		$update_success = ($user_updated ? $univ->update_college($update_details) : FALSE);
@@ -219,10 +224,15 @@ class Controller_Admin_University extends Controller_Admin {
 
 		if (array_key_exists('user_ID', $update_details))
  		{
- 			$department_details = $univ->get_department_details($update_details['department_ID'], NULL);
+ 			if ($update_details['user_ID'] === "")
+ 				$update_details['user_ID'] = NULL;
+ 			else
+			{
+ 				$department_details = $univ->get_department_details($update_details['department_ID'], NULL);
 
- 			if ($department_details['user_ID'] != $update_details['user_ID'])
- 				$user_updated = $this->update_user($department_details['user_ID'], $update_details['user_ID'], 'dept_chair');
+	 			if ($department_details['user_ID'] != $update_details['user_ID'])
+	 				$user_updated = $this->update_user($department_details['user_ID'], $update_details['user_ID'], 'dept_chair');
+	 		}
  		}
 
 		$update_success = ($user_updated ? $univ->update_department($update_details) : FALSE);
@@ -269,15 +279,19 @@ class Controller_Admin_University extends Controller_Admin {
  		
  		if ($old_user_ID)
  		{
+ 			$user_details = $user->get_details($old_user_ID, NULL);
  			$old_user_updated = $user->update_details(array(
 	 			'user_ID' => $old_user_ID,
+	 			'program_ID' => $user_details['program_ID'],
 	 			'position' => 'none'));
  		}
 
  		if ($new_user_ID)
  		{
+ 			$user_details = $user->get_details($new_user_ID, NULL);
  			$new_user_updated = $user->update_details(array(
 	 			'user_ID' => $new_user_ID,
+	 			'program_ID' => $user_details['program_ID'],
 	 			'position' => $new_position));
  		}
 

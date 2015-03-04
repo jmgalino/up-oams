@@ -224,22 +224,18 @@ border-bottom: 1px solid #eee;
   visibility: hidden; 
 }
 
-/* OUTLINE HEADERS -- no margin on top (FIRST CHILD ONLY) */
-.page-header:first-child {
-  margin-top: 0;
-}
-/* ANNOUNCEMENT HEADERS -- additional padding on top on top (FIRST CHILD ONLY) */
+/* OUTLINE/ANNOUNCEMENT HEADERS -- custom margin on top (FIRST CHILD ONLY) */
+.page-header:first-child,
 .announcement-header:first-of-type {
-  padding-top: 20px;
+  margin-top: 20px;
 }
 /* ANNOUNCEMENT HEADERS -- remove divider (hr) (LAST CHILD ONLY) */
 .announcement-divider:last-of-type {
   display:none;
 }
 
-/* PAGE HEADERS -- prevent line break after h2 */
+/* PAGE HEADERS -- prevent line break after h2 making the edit button inline */
 .page-header h2,
-.announcement-header h4,
 .col-md-11 input /* ? */
 {
   display: inline;

@@ -45,7 +45,7 @@ class Controller_User extends Controller {
 
 				switch ($identifier)
 				{
-					// Faculte
+					// Faculty
 					case 'faculty':
 						$this->view->navbar = View::factory('templates/fragments/faculty')
 							->bind('label', $label)

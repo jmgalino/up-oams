@@ -5,6 +5,7 @@ TO DO:
 - check if unselected radio doesn't collect data
   - /faculty/accom/form/modals/publication
   - /admin/profile/accom/publication*
+- disable faculty_view_all if no approved
 - shorten long filenames for upload files (instance?)
 - remove extra period on consolidated accom group (or not?)
 - change birthday input style (what for?)
@@ -14,7 +15,6 @@ TO DO:
 
 ADDITIONAL:
 - (admin) profile table should allow double click to open or one button to open profile
-- (admin) vision should render next line
 - (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon (angular?)
 
 ASSUMPTION:

@@ -61,7 +61,6 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				break;
 		}
 		
-		// echo Debug::vars($details);
 		$add_success = $accom->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
 		$this->session->set('success', $add_success);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);
