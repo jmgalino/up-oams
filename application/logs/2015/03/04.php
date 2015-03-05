@@ -385,3 +385,110 @@
 #6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
 #8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/User.php:25
+2015-03-04 18:46:00 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:46:00 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(336): Model_Accom->get_accom_details('14', 'undefined', 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:48:31 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:48:31 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(336): Model_Accom->get_accom_details('14', 'undefined', 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:51:44 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:51:44 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(336): Model_Accom->get_accom_details('14', 'undefined', 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:52:15 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:52:15 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(336): Model_Accom->get_accom_details('14', 'undefined', 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:52:53 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 18:52:53 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(336): Model_Accom->get_accom_details('14', 'undefined', 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 22:23:01 --- EMERGENCY: ErrorException [ 8 ]: Undefined property: Controller_Ajax::$session ~ APPPATH/classes/Controller/Ajax.php [ 334 ] in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:334
+2015-03-04 22:23:01 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(334): Kohana_Core::error_handler(8, 'Undefined prope...', '/Users/jenny/Si...', 334, Array)
+#1 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#2 [internal function]: Kohana_Controller->execute()
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#6 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#7 {main} in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:334
+2015-03-04 22:23:42 --- EMERGENCY: ErrorException [ 8 ]: Undefined property: Controller_Ajax::$session ~ APPPATH/classes/Controller/Ajax.php [ 334 ] in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:334
+2015-03-04 22:23:42 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(334): Kohana_Core::error_handler(8, 'Undefined prope...', '/Users/jenny/Si...', 334, Array)
+#1 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#2 [internal function]: Kohana_Controller->execute()
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#6 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#7 {main} in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:334
+2015-03-04 22:24:06 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: accom_ID ~ APPPATH/classes/Controller/Ajax.php [ 335 ] in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:335
+2015-03-04 22:24:06 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(335): Kohana_Core::error_handler(8, 'Undefined varia...', '/Users/jenny/Si...', 335, Array)
+#1 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#2 [internal function]: Kohana_Controller->execute()
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#6 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#7 {main} in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:335
+2015-03-04 22:24:19 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 22:24:19 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(337): Model_Accom->get_accom_details(NULL, NULL, 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 22:31:26 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 22:31:26 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(338): Model_Accom->get_accom_details(NULL, NULL, 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 22:32:22 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-04 22:32:22 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(338): Model_Accom->get_accom_details(NULL, NULL, 'pub')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333

@@ -51,32 +51,32 @@
           </div>
         </div>
 
-        <div class="form-group" ng-controller="ResearchFormController">
+        <div class="form-group">
           <label for="fund_external" class="col-sm-4 control-label">Fund Source</label>
           <div class="col-sm-7">
             
             <div class="checkbox">
               <label>
-                <input type="checkbox" id="fund_source_up" name="form_up" value="up" ng-model="showFormUp"> UP System Research Grant
+                <input type="checkbox" id="fund_source_up" name="form_up" value="up"> UP System Research Grant
               </label>
             </div>
-            <div id="form_up" ng-show="showFormUp">
+            <div id="form_up">
               <div class="input-group">
                 <span class="input-group-addon">Php</span>
-                <input type="text" class="form-control" id="fund_up" name="fund_up" ng-required="showFormUp">
+                <input type="text" class="form-control" id="fund_up" name="fund_up">
               </div>
             </div>
                 
             <div class="checkbox">
               <label>
-                <input type="checkbox" id="fund_source_external" name="form_external" value="external" ng-model="showFormExternal"> Other
+                <input type="checkbox" id="fund_source_external" name="form_external" value="external"> Other
               </label>
             </div>
-            <div id="form_external" ng-show="showFormExternal">
-              <input type="text" class="form-control" id="fund_external" name="fund_external" style="margin-bottom:3px" ng-required="showFormExternal" placeholder="Source">
+            <div id="form_external">
+              <input type="text" class="form-control" id="fund_external" name="fund_external" style="margin-bottom:3px" placeholder="Source">
               <div class="input-group">
                 <span class="input-group-addon">Php</span>
-                <input type="text" class="form-control" id="fund_amount" name="fund_amount" ng-required="showFormExternal">
+                <input type="text" class="form-control" id="fund_amount" name="fund_amount">
               </div>
             </div>
           </div>

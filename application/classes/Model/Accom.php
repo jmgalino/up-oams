@@ -557,65 +557,135 @@ class Model_Accom extends Model {
 	 */
 	private function get_accom_specs($accom_specs, $type)
 	{
+		$additional = NULL;
+		$accom_specIDs = array();
 		$accoms = array();
+		$newAccoms = array();
 
 		switch ($type)
 		{
 			case 'pub':
 				$table = 'accom_pubtbl';
 				$name_ID = 'publication_ID';
+				$additional = array(
+					'type' => 'ASC',
+					'year' => 'DESC',
+					'title' => 'ASC',
+					'journal_volume' => 'DESC',
+					'journal_issue' => 'DESC',
+					'book_publisher' => 'ASC',
+					'book_place' => 'ASC',
+					'page' => 'ASC',);
 				break;
 			
 			case 'awd':
 				$table = 'accom_awdtbl';
 				$name_ID = 'award_ID';
+				$additional = array(
+					'type' => 'ASC',
+					'start' => 'DESC',
+					'end' => 'DESC',
+					'award' => 'ASC',
+					'source' => 'ASC');
 				break;
 			
 			case 'rch':
 				$table = 'accom_rchtbl';
 				$name_ID = 'research_ID';
+				$additional = array(
+					'nature' => 'ASC',
+					'start' => 'DESC',
+					'end' => 'DESC',
+					'title' => 'ASC');
 				break;
 			
 			case 'ppr':
 				$table = 'accom_pprtbl';
 				$name_ID = 'paper_ID';
+				$additional = array(
+					'activity' => 'ASC',
+					'start' => 'DESC',
+					'end' => 'DESC',
+					'author' => 'ASC',
+					'title' => 'ASC');
 				break;
 			
 			case 'ctv':
 				$table = 'accom_ctvtbl';
 				$name_ID = 'creative_ID';
+				$additional = array(
+					'start' => 'DESC',
+					'end' => 'DESC',
+					'author' => 'ASC',
+					'title' => 'ASC');
 				break;
 			
 			case 'par':
 				$table = 'accom_partbl';
 				$name_ID = 'participation_ID';
+				$additional = array(
+					'participation' => 'ASC',
+					'start' => 'DESC',
+					'end' => 'DESC',
+					'title' => 'ASC');
 				break;
 			
 			case 'mat':
 				$table = 'accom_mattbl';
 				$name_ID = 'material_ID';
+				$additional = array(
+					'year' => 'DESC',
+					'author' => 'ASC',
+					'title' => 'ASC');
 				break;
 			
 			case 'oth':
 				$table = 'accom_othtbl';
 				$name_ID = 'other_ID';
+				$additional = array(
+					'participation' => 'ASC',
+					'start' => 'DESC',
+					'end' => 'DESC',
+					'activity' => 'ASC');
 				break;
 		}
 
+		// Retrive accom_specIDs
 		foreach ($accom_specs as $accom_spec)
 		{
-			$details = DB::select()
-				->from($table)
-				->where($name_ID, '=', $accom_spec['accom_specID'])
-				->execute()
-				->as_array();
-
-			if (array_key_exists('attachment', $accom_spec)) $details[0]['attachment'] = $accom_spec['attachment'];	// Add attachment
-			if (array_key_exists('user_ID', $accom_spec)) $details[0]['user_ID'] = $accom_spec['user_ID'];		// Add user_ID
-			$accoms[] = $details[0];
+			$accom_specIDs[] = $accom_spec['accom_specID'];
 		}
 
-		return $accoms;
+		// Retrive accom_spec details
+		$query = DB::select()
+			->from($table)
+			->where($name_ID, 'IN', $accom_specIDs);
+
+			if ($additional)
+			{
+				foreach ($additional as $column => $direction)
+				{
+					$query = $query->order_by($column, $direction);
+				}
+			}
+
+		$accoms = $query->execute()->as_array();
+		
+		foreach ($accoms as $accom)
+		{
+			foreach ($accom_specs as $accom_spec)
+			{
+				if ($accom[$name_ID] == $accom_spec['accom_specID'])
+				{
+					if (array_key_exists('attachment', $accom_spec)) $accom['attachment'] = $accom_spec['attachment'];	// Add attachment	
+					if (array_key_exists('user_ID', $accom_spec)) $accom['user_ID'] = $accom_spec['user_ID'];	// Add user_ID
+					$newAccoms[] = $accom;
+				}
+			}
+
+		}
+		
+		return $newAccoms;
 	}
 
 	/**
