@@ -48,3 +48,183 @@
 #6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
 #7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
 #8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 17:50:22 --- EMERGENCY: ErrorException [ 8 ]: Undefined index: attachment ~ APPPATH/classes/Controller/Faculty/Accomspec.php [ 18 ] in /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php:18
+2015-03-05 17:50:22 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(18): Kohana_Core::error_handler(8, 'Undefined index...', '/Users/jenny/Si...', 18, Array)
+#1 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_add()
+#2 [internal function]: Kohana_Controller->execute()
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#6 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#7 {main} in /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php:18
+2015-03-05 17:55:37 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '7' for key 'PRIMARY' [ INSERT INTO accom_mattbl (material_ID, author, year, title) VALUES ('7', NULL, '2015', 'Family Guys') ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 17:55:37 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(2, 'INSERT INTO acc...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(422): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->add_accom('7', 'material_ID', 'mat', Array, NULL)
+#3 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '7', Array, 'mat', 'material_ID')
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#5 [internal function]: Kohana_Controller->execute()
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#8 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#9 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#10 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:06:27 --- EMERGENCY: ErrorException [ 8 ]: Undefined index: attachment ~ APPPATH/classes/Controller/Ajax.php [ 349 ] in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:349
+2015-03-05 18:06:27 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php(349): Kohana_Core::error_handler(8, 'Undefined index...', '/Users/jenny/Si...', 349, Array)
+#1 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Ajax->action_accom_details()
+#2 [internal function]: Kohana_Controller->execute()
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Ajax))
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#6 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#7 {main} in /Users/jenny/Sites/up-oams/application/classes/Controller/Ajax.php:349
+2015-03-05 18:11:27 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: attachment ~ APPPATH/classes/Model/Accom.php [ 450 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:450
+2015-03-05 18:11:27 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(450): Kohana_Core::error_handler(8, 'Undefined varia...', '/Users/jenny/Si...', 450, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:450
+2015-03-05 18:13:18 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '18' for key 'PRIMARY' [ UPDATE accom_mattbl SET material_ID = '18', author = '', year = '2015', title = 'Test Other' WHERE material_ID = '1' ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:13:18 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(3, 'UPDATE accom_ma...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(453): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:13:47 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '18' for key 'PRIMARY' [ UPDATE accom_mattbl SET material_ID = '18', author = '', year = '2015', title = 'Test Other' WHERE material_ID = '1' ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:13:47 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(3, 'UPDATE accom_ma...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(453): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:14:52 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '18' for key 'PRIMARY' [ UPDATE accom_mattbl SET material_ID = '18', author = '', year = '2015', title = 'Test Other' WHERE material_ID = '1' ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:14:52 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(3, 'UPDATE accom_ma...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(453): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:15:56 --- EMERGENCY: Database_Exception [ 23000 ]: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '18' for key 'PRIMARY' [ UPDATE accom_mattbl SET material_ID = '18', author = '', year = '2015', title = 'Test Other' WHERE material_ID = '1' ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 151 ] in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:15:56 --- DEBUG: #0 /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(3, 'UPDATE accom_ma...', false, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(453): Kohana_Database_Query->execute()
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/modules/database/classes/Kohana/Database/Query.php:251
+2015-03-05 18:33:38 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:33:38 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->get_accom_details('7', NULL, 'mat')
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:35:27 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:35:27 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->get_accom_details('7', NULL, 'mat')
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:35:39 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:35:39 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->get_accom_details('7', NULL, 'mat')
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:36:26 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:36:26 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->get_accom_details('7', NULL, 'mat')
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:37:02 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:37:02 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->get_accom_details('7', NULL, 'mat')
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:37:42 --- EMERGENCY: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/Model/Accom.php [ 333 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:37:42 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(333): Kohana_Core::error_handler(8, 'Undefined offse...', '/Users/jenny/Si...', 333, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(458): Model_Accom->get_accom_details('7', NULL, 'mat')
+#2 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#3 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#8 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#9 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:333
+2015-03-05 18:42:48 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: rows_updated ~ APPPATH/classes/Model/Accom.php [ 463 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:463
+2015-03-05 18:42:48 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(463): Kohana_Core::error_handler(8, 'Undefined varia...', '/Users/jenny/Si...', 463, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '18', Array, 'mat', 'material_ID')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:463
+2015-03-05 19:32:46 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: link_success ~ APPPATH/classes/Model/Accom.php [ 486 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:486
+2015-03-05 19:32:46 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(486): Kohana_Core::error_handler(8, 'Undefined varia...', '/Users/jenny/Si...', 486, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '1', Array, 'mat', 'material_ID')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:486
+2015-03-05 19:38:16 --- EMERGENCY: ErrorException [ 8 ]: Undefined variable: link_success ~ APPPATH/classes/Model/Accom.php [ 490 ] in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:490
+2015-03-05 19:38:16 --- DEBUG: #0 /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php(490): Kohana_Core::error_handler(8, 'Undefined varia...', '/Users/jenny/Si...', 490, Array)
+#1 /Users/jenny/Sites/up-oams/application/classes/Controller/Faculty/Accomspec.php(124): Model_Accom->update_accom('7', '1', Array, 'mat', 'material_ID')
+#2 /Users/jenny/Sites/up-oams/system/classes/Kohana/Controller.php(84): Controller_Faculty_AccomSpec->action_edit()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Faculty_AccomSpec))
+#5 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /Users/jenny/Sites/up-oams/system/classes/Kohana/Request.php(986): Kohana_Request_Client->execute(Object(Request))
+#7 /Users/jenny/Sites/up-oams/index.php(118): Kohana_Request->execute()
+#8 {main} in /Users/jenny/Sites/up-oams/application/classes/Model/Accom.php:490

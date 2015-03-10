@@ -185,7 +185,7 @@ class Controller_Admin_University extends Controller_Admin {
 
 		if (array_key_exists('user_ID', $update_details))
  		{
- 			if ($update_details['user_ID'] === "")
+ 			if ($update_details['user_ID'] === '') // try == ''
  				$update_details['user_ID'] = NULL;
  			else
 			{
@@ -224,7 +224,7 @@ class Controller_Admin_University extends Controller_Admin {
 
 		if (array_key_exists('user_ID', $update_details))
  		{
- 			if ($update_details['user_ID'] === "")
+ 			if ($update_details['user_ID'] === '') // try == ''
  				$update_details['user_ID'] = NULL;
  			else
 			{

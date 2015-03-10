@@ -146,8 +146,8 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			$accom_details = $accom->get_details($accom_ID);
 			$date = date_format(date_create($accom_details['yearmonth']), 'my');
-			$filename = $this->session->get('employee_code').$date.'.pdf';
 			$label = date('F Y', strtotime($accom_details['yearmonth']));
+			$filename = $label.'.pdf';
 
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/basic.php');

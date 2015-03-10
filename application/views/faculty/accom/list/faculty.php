@@ -86,23 +86,39 @@ echo View::factory('faculty/accom/form/initialize')
 						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
 					</li>';
 
-		if ($accom['document'])
+		if ($accom['status'] == 'Rejected')
 		{
-				// Download PDF
-				echo '<li>
-						<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
-						<span class="glyphicon glyphicon-download"></span> Download Report</a>
-					</li>';
+			// Download PDF
+			echo '<li>
+					<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
+					<span class="glyphicon glyphicon-download"></span> Download Report (Rejected)</a>
+				</li>';
+			// Download draft
+			echo '<li>
+					<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
+					<span class="glyphicon glyphicon-download"></span> Download Report (Current)</a>
+				</li>';
 		}
 		else
 		{
-				// Download draft
-				echo '<li>
-						<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
-						<span class="glyphicon glyphicon-download"></span> Download Report</a>
-					</li>';
+			if ($accom['document'])
+			{
+					// Download PDF
+					echo '<li>
+							<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
+							<span class="glyphicon glyphicon-download"></span> Download Report</a>
+						</li>';
+			}
+			else
+			{
+					// Download draft
+					echo '<li>
+							<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
+							<span class="glyphicon glyphicon-download"></span> Download Report</a>
+						</li>';
+			}
 		}
-				
+
 		if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Saved') OR ($accom['status'] == 'Rejected'))
 		{
 			echo 	'<li>

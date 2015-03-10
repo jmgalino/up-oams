@@ -403,31 +403,49 @@ class Model_Accom extends Model {
 	 */
 	public function add_accom($accom_ID, $name_ID, $type, $details, $attachment)
 	{
- 		// Check -- unless live search & js submit to link
-		$accom_specID = $this->check_accom_exist($name_ID, $type, $details);
+		$add_success = FALSE;
 
-		// New
-		if (!$accom_specID)
- 		{
-	 		// Prepare column names and values
-	 		foreach ($details as $column => $value)
-	 		{
-				if ($value == '')
-					$details[$column] = NULL;
+		// Check if linked
+		$linked = $this->check_link($accom_ID, $details[$name_ID], $type);
+
+		// Linked
+		if ($linked)
+		{
+			$session = Session::instance();
+			$session->set('warning', 'Accomplishment is already included in the report');
+		}
+
+		// Not linked
+		else
+		{
+			// Check if existing (unless live search/suggested)
+			$existing_accom_specID = $this->check_accom_exist($name_ID, $type, $details);
+
+			// Existing
+			if ($existing_accom_specID)
+				$add_success = $this->link_accom($accom_ID, $existing_accom_specID, $type, $attachment);
+			
+			// New
+			else
+			{
+				// Set empty values to NULL
+		 		foreach ($details as $column => $value)
+		 		{
+					if ($value == '') $details[$column] = NULL;
+				}
+
+				// Insert into db
+				$insert_accom = DB::insert('accom_'.$type.'tbl')
+					->columns(array_keys($details))
+					->values($details)
+					->execute();
+
+				$accom_specID = $insert_accom[0];
+				$add_success = $this->link_accom($accom_ID, $accom_specID, $type, $attachment);
 			}
+		}
 
-			$insert_accom = DB::insert('accom_'.$type.'tbl')
-				->columns(array_keys($details))
-				->values($details)
-				->execute();
-
-			$accom_specID = $insert_accom[0];
-		}	
-
-		$link_success = $this->link_accom($accom_ID, $accom_specID, $type, $attachment);
-
-		if ($link_success) return "Accomplishment was successfully added";
- 		else return FALSE;
+		return ($add_success ? 'Accomplishment was successfully added' : NULL);
 	}
 
 	/**
@@ -435,30 +453,66 @@ class Model_Accom extends Model {
 	 */
 	public function update_accom($accom_ID, $accom_specID, $details, $type, $name_ID)
 	{
-		// Check for other users
-		$users = $this->check_accom_users($accom_specID, $type);	
+		// $update_success = FALSE;
+
+		// Check for other users 
+		$users = $this->check_accom_users($accom_specID, $type);
+
+		// Has other users
+		if ($users > 1)
+		{
+			// Unlink
+			$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
+
+			// Check if existing (unless live search/suggested)
+			$existing_accom_specID = $this->check_accom_exist($name_ID, $type, $details);
+
+			// Existing
+			if ($existing_accom_specID)
+			{
+				$link_success = $this->add_existing_accom($accom_ID, $existing_accom_specID, $type, $attachment);
+
+				$update_success = ($unlink_success AND $link_success ? 'Accomplishment was successfully updated' : FALSE);
+			}
+			
+			// New entry
+			else
+			{
+				// Set to NULL to create new entry
+				$details[$name_ID] = NULL;
+				$add_success = $this->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
+
+				$update_success = ($unlink_success AND $add_success ? 'Accomplishment was successfully updated' : FALSE);
+			}
+		}
 
 		// No other users
-		if ($users == 1)
-		{
-			$rows_updated = DB::update('accom_'.$type.'tbl')
-	 			->set($details)
-	 			->where($name_ID, '=', $accom_specID)
-	 			->execute();
-
-	 		if ($rows_updated == 1) return "Accomplishment was successfully updated";
-	 		else return FALSE;
-		}
-		// Used by others
 		else
 		{
-			$accom_details = $this->get_accom_details($accom_ID, $accom_specID, $type);
-			$attachment = $accom_details['attachment'];
-			$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
-			$add_success = $this->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
+			// Check if existing (unless live search/suggested)
+			$existing_accom_specID = $this->check_accom_exist($name_ID, $type, $details);
 
-			if ($link_success AND $add_success) return "Accomplishment was successfully updated";
-	 		else return FALSE;
+			// Existing
+			if ($existing_accom_specID)
+			{
+				// Unlink and delete current, then link existing
+				$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
+				$delete_success = $this->delete_accom($accom_ID, $accom_specID, $type, $name_ID);
+				$link_success = $this->add_existing_accom($accom_ID, $existing_accom_specID, $type, $attachment);
+
+				$update_success = ($unlink_success AND $delete_success AND $link_success ? 'Accomplishment was successfully updated' : FALSE);
+			}
+
+			// New
+			else
+			{
+				$rows_updated = DB::update('accom_'.$type.'tbl')
+		 			->set($details)
+		 			->where($name_ID, '=', $accom_specID)
+		 			->execute();
+
+		 		$update_success = ($rows_updated == 1 ? 'Accomplishment was successfully updated' : FALSE);
+			}
 		}
 	}
 
@@ -509,8 +563,6 @@ class Model_Accom extends Model {
 	{
 		$id = NULL;
 		$count = 0;
-		// $columns = array();
-		// $values = array();
 
 		$query = DB::select()->from('accom_'.$type.'tbl');
 
@@ -521,7 +573,6 @@ class Model_Accom extends Model {
 				$count++;
 			else
 			{
-				// echo $key, ",";
 				if ($value == '')
 					$query->where($key, '=', NULL);
 				else
@@ -665,7 +716,7 @@ class Model_Accom extends Model {
 			{
 				foreach ($additional as $column => $direction)
 				{
-					$query = $query->order_by($column, $direction);
+					$query->order_by($column, $direction);
 				}
 			}
 
@@ -688,12 +739,9 @@ class Model_Accom extends Model {
 		return $newAccoms;
 	}
 
-	/**
-	 * Link accomplishment to report
-	 */
-	private function link_accom($accom_ID, $accom_specID, $type, $attachment)
+	private function check_link($accom_ID, $accom_specID, $type)
 	{
-		$check = DB::select()
+		$existing = DB::select()
 			->from('connect_accomtbl')
 			->where('accom_ID', '=', $accom_ID)
 			->where('accom_specID', '=', $accom_specID)
@@ -701,18 +749,21 @@ class Model_Accom extends Model {
 			->execute()
 			->as_array();
 
-		if ($check)
-			Session::instance()->set('warning', 'This accomplishment is already included.');
-		else
-		{
-			$insert_accom = DB::insert('connect_accomtbl')
-				->columns(array('accom_ID', 'accom_specID', 'type', 'attachment'))
-				->values(array($accom_ID, $accom_specID, $type, $attachment))
-				->execute();
+		return $existing;
+	}
 
-			if ($insert_accom[1] == 1) return TRUE;
-	 		else return FALSE;
-		}
+	/**
+	 * Link accomplishment to report
+	 */
+	private function link_accom($accom_ID, $accom_specID, $type, $attachment)
+	{
+		$insert_accom = DB::insert('connect_accomtbl')
+			->columns(array('accom_ID', 'accom_specID', 'type', 'attachment'))
+			->values(array($accom_ID, $accom_specID, $type, $attachment))
+			->execute();
+
+		if ($insert_accom[1] == 1) return TRUE;
+ 		else return FALSE;
 	}
 
 	/**

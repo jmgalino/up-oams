@@ -14,8 +14,8 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$type = $this->request->param('key');
 		$attachment = NULL;
 		
-		// No attachments for publication
-		if ($type !== 'pub' AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
+		// Accom. attachment except for pub
+		if ($type !== 'pub' AND $_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
         	$attachment = $this->set_attachment($_FILES['attachment'], $accom_ID, $type);
         
         if (($type !== 'pub') AND ($type !== 'mat'))
