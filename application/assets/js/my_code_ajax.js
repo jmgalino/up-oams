@@ -462,17 +462,18 @@ $(document).ready(function () {
 
 	/* PUBLICATION FORM (UPDATE) -- Set form for editing */
 	$("a#updatePublication").click(function () {
-		var url = $(this).attr("url");
-		var publication_ID = $(this).attr("publication-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("action-url");
+		var accomID = $(this).attr("accom-id");
+		var publicationID = $(this).attr("publication-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/pub",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + publication_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + publicationID,
 			dataType: "json",
 			success:function (details) {
-				$("#publicationForm").attr("action", url); //change to "url" if needs ajax validation
+				$("#publicationForm").attr("action", actionUrl); //change to "url" if needs ajax validation
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -532,17 +533,18 @@ $(document).ready(function () {
 
 	/* AWARD FORM (UPDATE) -- Set form for editing */
 	$("a#updateAward").click(function () {
-		var url = $(this).attr("url");
-		var award_ID = $(this).attr("award-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("action-url");
+		var accomID = $(this).attr("accom-id");
+		var awardID = $(this).attr("award-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/awd",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + award_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + awardID,
 			dataType: "json",
 			success:function (details) {
-				$("#awardForm").attr("url", url);
+				$("#awardForm").attr("url", actionUrl);
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -565,10 +567,11 @@ $(document).ready(function () {
 	/* AWARD FORM (VALIDATE) -- Check if date range is correct */
 	$("#awardForm").on("submit", function (event) {
 		event.preventDefault();
+		var ajaxUrl = $(this).attr("ajax-url");
 		
 		$.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/check_date",
+            url: ajaxUrl,
             data: $("#awardForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -581,17 +584,18 @@ $(document).ready(function () {
 
 	/* RESEARCH FORM (UPDATE) -- Set form for editing */
 	$("a#updateResearch").click(function () {
-		var url = $(this).attr("url");
-		var research_ID = $(this).attr("research-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("url");
+		var accomID = $(this).attr("accom-id");
+		var researchID = $(this).attr("research-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/rch",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + research_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + researchID,
 			dataType: "json",
 			success:function (details) {
-				$("#researchForm").attr("url", url);
+				$("#researchForm").attr("url", actionUrl);
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -625,12 +629,13 @@ $(document).ready(function () {
 	/* RESEARCH FORM (VALIDATE) -- Check if fund source is entered and date range is correct */
 	$("#researchForm").on("submit", function (event) {
 		event.preventDefault();
+		var ajaxUrl = $(this).attr("ajax-url");
 		
 		var selected = $("input:checkbox:checked").length;
 		if(selected > 0) {
 			$.ajax({
 	            type: "POST",
-	            url: "/up-oams/index.php/ajax/check_date",
+	            url: ajaxUrl,
 	            data: $("#researchForm").serialize(),
 	            success: function (valid) {
 	            	if (valid == 1) {
@@ -646,22 +651,22 @@ $(document).ready(function () {
 			$("p#accom-alert").text("Choose at least one fund source").parent().show();
 			$("#fund_source_up").focus();
 		}
-
 	});
 
 	/* PAPER FORM (UPDATE) -- Set form for editing */
 	$("a#updatePaper").click(function () {
-		var url = $(this).attr("url");
-		var paper_ID = $(this).attr("paper-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("url");
+		var accomID = $(this).attr("accom-id");
+		var paperID = $(this).attr("paper-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/ppr",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + paper_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + paperID,
 			dataType: "json",
 			success:function (details) {
-				$("#paperForm").attr("url", url);
+				$("#paperForm").attr("url", actionUrl);
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -685,10 +690,11 @@ $(document).ready(function () {
 	/* PAPER FORM (VALIDATE) -- Check if date range is correct */
 	$("#paperForm").on("submit", function (event) {
 		event.preventDefault();
+		var ajaxUrl = $(this).attr("ajax-url");
 		
 		$.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/check_date",
+            url: ajaxUrl,
             data: $("#paperForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -701,17 +707,18 @@ $(document).ready(function () {
 
 	/* CREATIVE FORM (UPDATE) -- Set form for editing */
 	$("a#updateCreative").click(function () {
-		var url = $(this).attr("url");
-		var creative_ID = $(this).attr("creative-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("url");
+		var accomID = $(this).attr("accom-id");
+		var creativeID = $(this).attr("creative-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/ctv",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + creative_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + creativeID,
 			dataType: "json",
 			success:function (details) {
-				$("#creativeForm").attr("url", url);
+				$("#creativeForm").attr("url", actionUrl);
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -734,10 +741,11 @@ $(document).ready(function () {
 	/* CREATIVE FORM (VALIDATE) -- Check if date range is correct */
 	$("#creativeForm").on("submit", function (event) {
 		event.preventDefault();
+		var ajaxUrl = $(this).attr("ajax-url");
 		
 		$.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/check_date",
+            url: ajaxUrl,
             data: $("#creativeForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -750,17 +758,18 @@ $(document).ready(function () {
 
 	/* PARTICIPATION FORM (UPDATE) -- Set form for editing */
 	$("a#updateParticipation").click(function () {
-		var url = $(this).attr("url");
-		var participation_ID = $(this).attr("participation-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("url");
+		var accomID = $(this).attr("accom-id");
+		var participationID = $(this).attr("participation-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/par",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + participation_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + participationID,
 			dataType: "json",
 			success:function (details) {
-				$("#participationForm").attr("url", url);
+				$("#participationForm").attr("url", actionUrl);
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -783,10 +792,11 @@ $(document).ready(function () {
 	/* PARTICIPATION FORM (VALIDATE) -- Check if date range is correct */
 	$("#participationForm").on("submit", function (event) {
 		event.preventDefault();
+		var ajaxUrl = $(this).attr("ajax-url");
 		
 		$.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/check_date",
+            url: ajaxUrl,
             data: $("#participationForm").serialize(),
             success: function (valid) {
             	if (valid == 1)
@@ -799,17 +809,18 @@ $(document).ready(function () {
 
 	/* MATERIAL FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
 	$("a#updateMaterial").click(function () {
-		var url = $(this).attr("url");
-		var material_ID = $(this).attr("material-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("url");
+		var accomID = $(this).attr("accom-id");
+		var materialID = $(this).attr("material-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/mat",
-			data: 'accom_ID=' + accom_ID + '&accom_specID=' + material_ID,
+			url: ajaxUrl,
+			data: 'accom_ID=' + accomID + '&accom_specID=' + materialID,
 			dataType: "json",
 			success:function (details) {
-				$("#materialForm").attr("action", url); //change to "url" if needs ajax validation
+				$("#materialForm").attr("action", actionUrl); //change to "url" if needs ajax validation
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -859,17 +870,18 @@ $(document).ready(function () {
 
 	/* OTHER FORM (UPDATE) -- Set form for editing */
 	$("a#updateOther").click(function () {
-		var url = $(this).attr("url");
-		var other_ID = $(this).attr("other-id");
-		var accom_ID = $(this).attr("accom-id");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var actionUrl = $(this).attr("url");
+		var accomID = $(this).attr("accom-id");
+		var otherID = $(this).attr("other-id");
 		
 		$.ajax({
 			type: "POST",
-			url: "/up-oams/index.php/ajax/accom_details/oth",
-			data: "accom_ID=" + accom_ID + "&accom_specID=" + other_ID,
+			url: ajaxUrl,
+			data: "accom_ID=" + accomID + "&accom_specID=" + otherID,
 			dataType: "json",
 			success:function (details) {
-				$("#otherForm").attr("url", url);
+				$("#otherForm").attr("url", actionUrl);
 				$("h4#accom-label").text("Edit Accomplishment");
 				$("p#accom-alert").parent().hide();
 				$("button#back-button").hide();
@@ -892,10 +904,11 @@ $(document).ready(function () {
 	/* OTHER FORM (VALIDATE) -- Check if date range is correct */
 	$("#otherForm").on("submit", function (event) {
 		event.preventDefault();
+		var ajaxUrl = $(this).attr("ajax-url");
 		
 		$.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/check_date",
+            url: ajaxUrl,
             data: $("#otherForm").serialize(),
             success: function (valid) {
             	if (valid == 1)

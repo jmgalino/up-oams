@@ -30,7 +30,7 @@ if ($session->get('accom_oth'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		echo '<a class="btn btn-default" id="updateOther" other-id="', $oth['other_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_other" role="button" href="" url="', URL::site('faculty/accom/edit/oth/'.$oth['other_ID']), '">
+		echo '<a class="btn btn-default" id="updateOther" other-id="', $oth['other_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_other" role="button" href="" action-url="', URL::site('faculty/accom/edit/oth/'.$oth['other_ID']), '" ajax-url="', URL::site('ajax/accom_details/oth'), '">
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/oth/'.$oth['other_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';

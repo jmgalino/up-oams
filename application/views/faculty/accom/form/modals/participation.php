@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="accom-label"></h4>
       </div>
 
-      <?php print Form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'id'=>'participationForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
+      <?php print Form::open('faculty/accom/add/par', array('class'=>'form-horizontal', 'id'=>'participationForm', 'enctype'=>'multipart/form-data', 'role'=>'form', 'ajax-url'=>URL::site('ajax/check_date'))); ?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="accom-alert"></p>
