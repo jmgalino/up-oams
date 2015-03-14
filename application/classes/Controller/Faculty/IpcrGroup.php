@@ -105,8 +105,8 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 
 		// $opcr_ID = ($this->request->post('opcr_ID') ? $this->request->post('opcr_ID') : $this->request->param('id'));
 		// $opcr_details = $opcr->get_details($opcr_ID);
-		// $period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
-		// $period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
+		// $period_from = date('Y-m-d', strtotime($opcr_details['period_from']));
+		// $period_to = date('Y-m-d', strtotime($opcr_details['period_to']));
 			
 		// if ($this->session->get('identifier') == 'dean')
 		// {
@@ -172,7 +172,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		}
 
 		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
-		$opcr_forms = $opcr->get_department_opcr($this->session->get('user_ID'));
+		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'));
 		
 		$this->view->content = View::factory('faculty/ipcr/list/group')
 			->bind('identifier', $identifier)

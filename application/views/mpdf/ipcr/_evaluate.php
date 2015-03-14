@@ -25,7 +25,7 @@ echo '<table width="200" align="right">
 
 	if ($user[0]->position == 'none')
 		echo 'Faculty, ', $dept->short;
-	elseif ($user[0]->position == 'dept_chair')
+	elseif ($user[0]->position == 'chair')
 		echo 'Unit Head, ', $dept->short;
 	else
 		echo $college[0]->short;

@@ -45,9 +45,9 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 		{
 			if ($ipcr['opcr_ID'] == $opcr['opcr_ID'])
 			{
-				$period_from = DateTime::createFromFormat('Y-m-d', $opcr['period_from']);
-				$period_to = DateTime::createFromFormat('Y-m-d', $opcr['period_to']);
-				$period = $period_from->format('F Y').' - '.$period_to->format('F Y');
+				$period_from = date('F Y', strtotime($opcr['period_from']));
+				$period_to = date('F Y', strtotime($opcr['period_to']));
+				$period = $period_from.' - '.$period_to;
 
 				echo '<tr>';
 				echo '<td>', $period, '</a></td>';
@@ -64,7 +64,7 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 								echo '<td>', $program['short'], '</td>';	
 						}
 
-						echo '<td>', date_format(date_create($ipcr['date_submitted']), 'F d, Y'), '</td>';
+						echo '<td>', date('F d, Y', strtotime($ipcr['date_submitted'])), '</td>';
 						echo '<td>', $ipcr['status'], '</td>';
 						echo '<td>', $ipcr['remarks'], '</td>';
 

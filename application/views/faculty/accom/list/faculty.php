@@ -69,8 +69,10 @@ echo View::factory('faculty/accom/form/initialize')
 	<tbody>
 	<?php foreach ($accom_reports as $accom)
 	{
+		$yearmonth = date('F Y', strtotime($accom['yearmonth']));
+
 		echo '<tr>';
-		echo '<td>', date_format(date_create($accom['yearmonth']), 'F Y'), '</td>';
+		echo '<td>', $yearmonth, '</td>';
 		
 		echo ($accom['date_submitted']
 			? '<td>'.date_format(date_create($accom['date_submitted']), 'F d, Y').'</td>'
@@ -83,14 +85,14 @@ echo View::factory('faculty/accom/form/initialize')
 				<ul class="dropdown-menu">
 					<li>
 						<a href='.URL::site('faculty/accom/preview/'.$accom['accom_ID']).'>
-						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
+						<span class="glyphicon glyphicon-file"></span> Preview Report</a>
 					</li>';
 
 		if ($accom['status'] == 'Rejected')
 		{
 			// Download PDF
 			echo '<li>
-					<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
+					<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $yearmonth, '">
 					<span class="glyphicon glyphicon-download"></span> Download Report (Rejected)</a>
 				</li>';
 			// Download draft
@@ -103,19 +105,19 @@ echo View::factory('faculty/accom/form/initialize')
 		{
 			if ($accom['document'])
 			{
-					// Download PDF
-					echo '<li>
-							<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', date_format(date_create($accom['yearmonth']), 'F Y'), '">
-							<span class="glyphicon glyphicon-download"></span> Download Report</a>
-						</li>';
+				// Download PDF
+				echo '<li>
+						<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $yearmonth, '">
+						<span class="glyphicon glyphicon-download"></span> Download Report</a>
+					</li>';
 			}
 			else
 			{
-					// Download draft
-					echo '<li>
-							<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
-							<span class="glyphicon glyphicon-download"></span> Download Report</a>
-						</li>';
+				// Download draft
+				echo '<li>
+						<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
+						<span class="glyphicon glyphicon-download"></span> Download Report</a>
+					</li>';
 			}
 		}
 

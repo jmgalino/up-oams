@@ -919,6 +919,36 @@ $(document).ready(function () {
         });
 	});
 
+	/* OUTPUT FORM -- List of output depends on selected category */
+	$("#category-id").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var category_ID = $(this).val();
+        var opcr_ID = $(this).attr("opcr-id");
+
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: "category_ID=" + category_ID + "&opcr_ID=" + opcr_ID,
+			dataType: "json",
+            success:function (options) {
+            	if (options.length == 0) {
+            		$("#output-id").html("").prop("disabled", true);
+            		$("#output-submit").prop("disabled", true);
+            	}
+            	else {
+	        		var newOptions = "";
+
+					for (var i = 0; i < options.length; i++) {
+						newOptions += "<option value=\"" + options[i].output_ID + "\">" + options[i].output + "</option>";
+					}
+
+					$("#output-id").html(newOptions).prop("disabled", false);
+					$("#output-submit").prop("disabled", false);
+            	}
+            }
+        });
+	});
+
 	// Success indicator style
 	$("#style a").click(function ()
 	{
@@ -986,40 +1016,27 @@ $(document).ready(function () {
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
      });
-
-	$('#category').change(function ()
-	{
-		var categoryId = $(this).val();
-		var len = document.getElementById("category").length;
-
-		for (i = 1; i <= len; i++) { 
-			if (i == categoryId)
-				$('.change-output').find('[category="' + i + '"]').prop('disabled', false);
-			else
-				$('.change-output').find('[category="' + i + '"]').prop('disabled', true);
-		}
-    });
-
-	// IPCR Rate Form
-	$("#category_ID").change(function () {
-		var ipcr_ID = $(this).attr("ipcr-id");
-        var category_ID = $(this).val();
+	
+	
+	// $("#category_ID").change(function () {
+	// 	var ipcr_ID = $(this).attr("ipcr-id");
+ //        var category_ID = $(this).val();
         
-        $.ajax({
-            type: "POST",
-            url: "/up-oams/index.php/ajax/category_targets",
-            data: 'category_ID=' + category_ID + '&ipcr_ID=' + ipcr_ID,
-		    dataType: "json",
-            success:function (options){
-                var newOptions = '';
-				for (var i = 0; i < options.length; i++)
-				{
-					newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
-				}
-				$("#target_ID").html(newOptions);
-            }
-        });
-    });
+ //        $.ajax({
+ //            type: "POST",
+ //            url: "/up-oams/index.php/ajax/category_targets",
+ //            data: 'category_ID=' + category_ID + '&ipcr_ID=' + ipcr_ID,
+	// 	    dataType: "json",
+ //            success:function (options){
+ //                var newOptions = '';
+	// 			for (var i = 0; i < options.length; i++)
+	// 			{
+	// 				newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
+	// 			}
+	// 			$("#target_ID").html(newOptions);
+ //            }
+ //        });
+ //    });
 
 	$("#target_ID").change(function () {
         var target_ID = $(this).val();

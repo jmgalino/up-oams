@@ -37,6 +37,7 @@
 // Init Modal
 echo View::factory('faculty/opcr/form/modals/initialize')
 	->bind('identifier', $identifier)
+	->bind('ipcr_forms', $ipcr_forms)
 	->bind('opcr_forms', $opcr_forms);
 ?>
 
@@ -56,46 +57,64 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 	<tbody>
 	<?php foreach ($opcr_forms as $opcr)
 	{
-		$period_from = DateTime::createFromFormat('Y-m-d', $opcr['period_from']);
-		$period_to = DateTime::createFromFormat('Y-m-d', $opcr['period_to']);
-		$period = $period_from->format('F Y').' - '.$period_to->format('F Y');
+		$period_from = date('F Y', strtotime($opcr['period_from']));
+		$period_to = date('F Y', strtotime($opcr['period_to']));
+		$period = $period_from.' - '.$period_to;
 
 		echo '<tr>';
 		echo '<td>', $period, '</a></td>';
 
 		echo ($opcr['date_published']
-			? '<td>'.date_format(date_create($opcr['date_published']), 'F d, Y').'</td>'
+			? '<td>'.date('F d, Y', strtotime($opcr['date_published'])).'</td>'
 			: '<td>Not published</td>');
 
 		echo ($opcr['date_submitted']
-			? '<td>'.date_format(date_create($opcr['date_submitted']), 'F d, Y').'</td>'
+			? '<td>'.date('F d, Y', strtotime($opcr['date_submitted'])).'</td>'
 			: '<td>Not submitted</td>');
 
 		echo '<td>', $opcr['status'], '</td>';
 		echo '<td>', $opcr['remarks'], '</td>';
 		echo '<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-				<ul class="dropdown-menu">';
-
-		if ($opcr['document'])
-		{
-				echo '<li>
-						<a href='.URL::site('faculty/opcr/preview/'.$opcr['opcr_ID']).'>
-						<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
-					</li>
+				<ul class="dropdown-menu">
 					<li>
-						<a href='.URL::base().'application/'.$opcr['document'].' download=', $period, '>
-						<span class="glyphicon glyphicon-download"></span> Download Form</a>
+						<a href='.URL::site('faculty/opcr/preview/'.$opcr['opcr_ID']).'>
+						<span class="glyphicon glyphicon-file"></span> Preview Report</a>
 					</li>';
+
+		if ($opcr['status'] == 'Rejected')
+		{
+			// Download PDF
+			echo '<li>
+					<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $period, '">
+					<span class="glyphicon glyphicon-download"></span> Download Form (Rejected)', $period, '</a>
+				</li>';
+			// Download draft
+			echo '<li>
+					<a href='.URL::site('faculty/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
+					<span class="glyphicon glyphicon-download"></span> Download Form (Current)</a>
+				</li>';
+
 		}
 		else
 		{
+			if ($opcr['document'])
+			{
+				// Download PDF
 				echo '<li>
-						<a href='.URL::site('faculty/opcr/download/'.$opcr['opcr_ID']).'>
-						<span class="glyphicon glyphicon-download"></span> Download PDF</a>
+						<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $period, '">
+						<span class="glyphicon glyphicon-download"></span> Download Form</a>
 					</li>';
+			}
+			else
+			{
+				// Download draft
+				echo '<li>
+						<a href='.URL::site('faculty/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
+						<span class="glyphicon glyphicon-download"></span> Download Form</a>
+					</li>';
+			}
 		}
-
 		if ($opcr['status'] == 'Draft')
 		{
 			echo 	'<li>
@@ -107,12 +126,18 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 						<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
 					</li>';
 		}
-		else// if ($opcr['status'] == 'Published')
+		elseif ($opcr['status'] == 'Published')
 		{
-			echo 	'<li>
+			$ipcr = new Model_Ipcr;
+			$ipcr_forms = $ipcr->get_opcr_ipcr($opcr['opcr_ID']);
+
+			if ($ipcr_forms)
+			{
+				echo '<li>
 						<a href='.URL::site('faculty/ipcr_dept/consolidate/'.$opcr['opcr_ID']).'>
 						<span class="glyphicon glyphicon-link"></span> Consolidate Form</a>
 					</li>';
+			}
 		}
 
 		echo '	</ul>

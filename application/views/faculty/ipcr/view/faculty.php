@@ -7,7 +7,9 @@
 
 <div class="row">
 	<div class="col-md-9">
-		<embed src="<?php echo URL::base().'files/document_ipcr/'.$ipcr_details['document']; ?>" style="width:100%; height:500px">
+		<embed src="<?php echo ($ipcr_details['document']
+			? URL::base().'files/document_ipcr/'.$ipcr_details['document']
+			: URL::base().'files/tmp/'.$ipcr_details['draft']);?>" style="width:100%; height:500px">
 	</div>
 
 	<div class="col-md-3" role="complementary">
@@ -19,7 +21,9 @@
 				</dl>
 				<dl>
 					<dt>Status</dt>
-					<dd><?php echo $ipcr_details['status']; ?></dd>
+					<?php echo ($ipcr_details['status'] != 'Draft'
+						? '<dd>'.$ipcr_details['status'].'</dd>'
+						: '<dd style="color:#015d2d;"><em>'.$ipcr_details['status'].'</em></dd>'); ?>
 				</dl>
 				<dl>
 					<dt>Remarks</dt>

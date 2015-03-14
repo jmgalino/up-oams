@@ -10,7 +10,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		$this->action_delete_session();
+		// $this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');

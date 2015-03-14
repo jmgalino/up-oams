@@ -1,5 +1,5 @@
-<table class="table table-bordered">
-  <tbody class="padded">
+<table class="table table-bordered padded">
+  <tbody>
     <tr>
       <td style="background-color:#f5f5f5;">Approved by:</td>
       <td class="text-center" width="75" style="background-color:#f5f5f5;">Date</td>
@@ -9,17 +9,17 @@
       <td></td>
     </tr>
     <tr>
-      <td class="text-center" colspan="2"><strong>Name and Signature of Head of Agency</<strong></td>
+      <td class="text-center" colspan="2"><strong>Name and Signature of Head of Agency</strong></td>
     </tr>
   </tbody>
 </table>
 
-<table class="table table-bordered">
+<table class="table table-bordered padded">
   <thead>
-    <tr class="padded">
+    <tr>
       <th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">MFO/PAP</th>
       <th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">Success Indicators<br>(Targets + Measures)</th>
-      <th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Divisions/Individuals<br>Accountable</th>
+      <th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Divisions/<br>Individuals<br>Accountable</th>
       <th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Actual Accomplishments</th>
       <th class="template-header" colspan="4" style="background-color:#f5f5f5;">Rating</th>
       <th class="template-header" rowspan="2" width="55" style="background-color:#f5f5f5;">Remarks</th>
@@ -31,7 +31,7 @@
       <th class="template-header" width="20" style="background-color:#f5f5f5;">A<sup>4</sup></th>
     </tr>
   </thead>
-  <tbody class="padded">
+  <tbody>
   <?php
   foreach ($categories as $category)
   {
@@ -164,9 +164,9 @@
       <td rowspan="2"></td>
     </tr>
     <tr>
-      <td class="text-center">Planning Office</td>
-      <td class="text-center">PMT</td>
-      <td class="text-center">Head of Agency</td>
+      <td class="text-center" width="150">Planning Office</td>
+      <td class="text-center" width="150">PMT</td>
+      <td class="text-center" width="150">Head of Agency</td>
     </tr>
   </tbody>
 </table>

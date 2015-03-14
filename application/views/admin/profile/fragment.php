@@ -57,7 +57,7 @@
 			<div class="col-xs-6"><strong>Position</strong></div>
 			<?php
 			if ($user['position'] == 'none') echo '<div class="col-xs-6">Not Applicable</div>';
-			elseif ($user['position'] == 'dept_chair') echo '<div class="col-xs-6">Department Chair</div>';
+			elseif ($user['position'] == 'chair') echo '<div class="col-xs-6">Department Chair</div>';
 			else echo '<div class="col-xs-6">College Dean</div>';
 			?>
 		</div>

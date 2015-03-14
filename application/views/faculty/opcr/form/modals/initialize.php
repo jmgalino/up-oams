@@ -9,7 +9,7 @@
 
       <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
       <div class="modal-body">
-        <?php if ($opcr_forms AND $identifier == 'dean'): ?>
+        <?php if ($ipcr_forms AND $opcr_forms): // AND $identifier == 'dean' ?>
         <div class="form-group">
           <label for="form_type" class="col-sm-4 control-label">Form Type</label>
           <div class="col-sm-6">
@@ -17,6 +17,17 @@
               <option value="new">New</option>
               <option value="consolidated">Consolidated</option>
             </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="period" class="col-sm-4 control-label">Period</label>
+          <div class="col-sm-6" id="period">
+            <div class="input-daterange input-group">
+              <input type="text" class="form-control" name="start" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="end" required>
+            </div>
           </div>
         </div>
 
@@ -35,8 +46,9 @@
             </select>
           </div>
         </div>
-        <?php endif; ?>
 
+        <?php else: ?>
+        <input name="form_type" value="new" hidden>
         <div class="form-group">
           <label for="period" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6" id="period">
@@ -47,6 +59,8 @@
             </div>
           </div>
         </div>
+        <?php endif; ?>
+
       </div>
 
       <div class="modal-footer">

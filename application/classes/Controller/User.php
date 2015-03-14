@@ -53,8 +53,8 @@ class Controller_User extends Controller {
 						break;
 					
 					// Dept. Chair
-					case 'dept_chair':
-						$this->view->navbar = View::factory('templates/fragments/dept_chair')
+					case 'chair':
+						$this->view->navbar = View::factory('templates/fragments/chair')
 							->bind('label', $label)
 							->bind('fcode', $fcode);
 						break;
@@ -238,20 +238,20 @@ class Controller_User extends Controller {
 	 */
 	protected function action_delete_session()
 	{
-		// $this->session->delete('accom_pub');
-		// $this->session->delete('accom_awd');
-		// $this->session->delete('accom_rch');
-		// $this->session->delete('accom_ppr');
-		// $this->session->delete('accom_ctv');
-		// $this->session->delete('accom_par');
-		// $this->session->delete('accom_mat');
-		// $this->session->delete('accom_oth');
-		// $this->session->delete('attachment');
-		// $this->session->delete('accom_details');
-		// $this->session->delete('ipcr_details');
-		// $this->session->delete('department');
-		// $this->session->delete('title');
-		// $this->session->delete('opcr_details');
+		$this->session->delete('accom_pub');
+		$this->session->delete('accom_awd');
+		$this->session->delete('accom_rch');
+		$this->session->delete('accom_ppr');
+		$this->session->delete('accom_ctv');
+		$this->session->delete('accom_par');
+		$this->session->delete('accom_mat');
+		$this->session->delete('accom_oth');
+		$this->session->delete('attachment');
+		$this->session->delete('accom_details');
+		$this->session->delete('ipcr_details');
+		$this->session->delete('department');
+		$this->session->delete('title');
+		$this->session->delete('opcr_details');
 	}
 
 	/**

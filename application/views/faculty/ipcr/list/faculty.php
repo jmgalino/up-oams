@@ -56,55 +56,74 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach ($ipcr_forms as $ipcr)
+	<?php
+	foreach ($ipcr_forms as $ipcr)
 	{
 		foreach ($opcr_forms as $opcr)
 		{
 			if ($ipcr['opcr_ID'] == $opcr['opcr_ID'])
 			{
-				$period_from = DateTime::createFromFormat('Y-m-d', $opcr['period_from']);
-				$period_to = DateTime::createFromFormat('Y-m-d', $opcr['period_to']);
-				$period = $period_from->format('F Y').' - '.$period_to->format('F Y');
+				$period_from = date('F Y', strtotime($opcr['period_from']));
+				$period_to = date('F Y', strtotime($opcr['period_to']));
+				$period = $period_from.' - '.$period_to;
 
-				echo '<tr>';
-				echo '<td>', $period, '</a></td>';
+				echo '<tr>
+					<td>', $period, '</a></td>';
 
 				echo ($ipcr['date_submitted']
-					? '<td>'.date_format(date_create($ipcr['date_submitted']), 'F d, Y').'</td>'
+					? '<td>'.date('F d, Y', strtotime($ipcr['date_submitted'])).'</td>'
 					: '<td>Not submitted</td>');
 
-				echo '<td>', $ipcr['status'], '</td>';
-				echo '<td>', $ipcr['remarks'], '</td>';
-				echo '<td class="dropdown">
+				echo '<td>', $ipcr['status'], '</td>
+					<td>', $ipcr['remarks'], '</td>
+					<td class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-						<ul class="dropdown-menu">';
-
-				if ($ipcr['document'])
-				{
-						echo '<li>
-								<a href='.URL::site('faculty/ipcr/preview/'.$ipcr['ipcr_ID']).'>
-								<span class="glyphicon glyphicon-file"></span> Preview PDF</a>
-							</li>
+						<ul class="dropdown-menu">
 							<li>
-								<a href='.URL::base().'application/'.$ipcr['document'].' download=', $period, '>
-								<span class="glyphicon glyphicon-download"></span> Download Form</a>
+								<a href='.URL::site('faculty/ipcr/preview/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-file"></span> Preview Form</a>
 							</li>';
+
+				if ($ipcr['status'] == 'Rejected')
+				{
+					// Download PDF
+					echo '<li>
+							<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $period, '">
+							<span class="glyphicon glyphicon-download"></span> Download Form (Rejected)</a>
+						</li>';
+					// Download draft
+					echo '<li>
+							<a href='.URL::site('faculty/mpdf/download/ipcr/'.$ipcr['ipcr_ID']).'>
+							<span class="glyphicon glyphicon-download"></span> Download Form (Current)</a>
+						</li>';
 				}
 				else
 				{
+					if ($ipcr['document'])
+					{
+						// Download PDF
 						echo '<li>
-								<a href='.URL::site('faculty/ipcr/download/'.$ipcr['ipcr_ID']).'>
-								<span class="glyphicon glyphicon-download"></span> Download PDF</a>
+								<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $period, '">
+								<span class="glyphicon glyphicon-download"></span> Download Form</a>
 							</li>';
+					}
+					else
+					{
+						// Download draft
+						echo '<li>
+								<a href='.URL::site('faculty/mpdf/download/ipcr/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-download"></span> Download Form</a>
+							</li>';
+					}
 				}
 
-				if (($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Accepted') OR (($ipcr['status'] == 'Pending') AND ($session->get('identifier') == 'dept_chair')))
-				{
-					echo 	'<li>
-								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
-								<span class="glyphicon glyphicon-star"></span> Rate Outputs</a>
-							</li>';
-				}
+				// if (($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Accepted') OR (($ipcr['status'] == 'Pending') AND ($session->get('identifier') == 'chair')))
+				// {
+				// 	echo 	'<li>
+				// 				<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
+				// 				<span class="glyphicon glyphicon-star"></span> Rate Outputs</a>
+				// 			</li>';
+				// }
 
 				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Rejected'))
 				{

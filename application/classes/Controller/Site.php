@@ -195,6 +195,8 @@ class Controller_Site extends Controller {
 		//	Faculty
 		else
 		{
+			$session->set('title', $user_details['title']);
+			$session->set('suffix', $user_details['suffix']);
 			$session->set('fcode', $user_details['faculty_code']);
 			$session->set('program_ID', $user_details['program_ID']);
 			$session->set('rank', $user_details['rank']);

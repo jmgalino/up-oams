@@ -159,7 +159,7 @@ class Model_Accom extends Model {
 	public function initialize($details)
 	{
 		// Check
-		$result = DB::select()
+		$check = DB::select()
 			->from('accomtbl')
 			->where('user_ID', '=', $details['user_ID'])
 			->where('yearmonth', '=', $details['yearmonth'])
@@ -167,15 +167,15 @@ class Model_Accom extends Model {
 	 		->as_array();
 
 		// Existing
-		if ($result)
+		if ($check)
  		{
- 			if (($result[0]['status'] == 'Approved') OR ($result[0]['status'] == 'Pending'))
+ 			if (($check[0]['status'] == 'Approved') OR ($check[0]['status'] == 'Pending'))
  			{
  				return 'Accomplishment Report is locked for editing.';
  			}
  			else
  			{
- 				return array('accom_ID' => $result[0]['accom_ID'], 'message' => 'This report has been generated.');
+ 				return array('accom_ID' => $check[0]['accom_ID'], 'message' => 'This report has been generated.');
  			}
  		}
  		else

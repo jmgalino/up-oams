@@ -65,7 +65,7 @@ class Model_Ipcr extends Model {
 	public function initialize($details)
 	{
 		// Check
-		$ipcr = DB::select()
+		$check = DB::select()
 			->from('ipcrtbl')
 			->where('opcr_ID', '=', $details['opcr_ID'])
 			->where('user_ID', '=', $details['user_ID'])
@@ -73,15 +73,15 @@ class Model_Ipcr extends Model {
 			->as_array();
 
 		// Existing
-		if ($ipcr)
+		if ($check)
  		{
- 			if (($ipcr[0]['status'] == 'Checked') OR ($ipcr[0]['status'] == 'Accepted') OR ($ipcr[0]['status'] == 'Pending'))
+ 			if (($check[0]['status'] == 'Checked') OR ($check[0]['status'] == 'Accepted') OR ($check[0]['status'] == 'Pending'))
  			{
  				return 'IPCR Form is locked for editing.';
  			}
  			else
  			{
- 				return array('ipcr_ID' => $ipcr[0]['ipcr_ID'], 'message' => 'This form has been generated.');
+ 				return array('ipcr_ID' => $check[0]['ipcr_ID'], 'message' => 'This form has been generated.');
  			}
  		}
  		else
@@ -112,27 +112,41 @@ class Model_Ipcr extends Model {
 	/**
 	 * Evaluate report
 	 */
-	public function evaluate($ipcr_ID, $details)
-	{
-		$ipcr = $this->get_details($ipcr_ID);
+	// public function evaluate($ipcr_ID, $details)
+	// {
+	// 	$ipcr = $this->get_details($ipcr_ID);
 
-		if($ipcr['remarks'] != 'None')
-			$details['remarks'] = $details['remarks'].'<br>'.$ipcr['remarks'];
+	// 	if($ipcr['remarks'] != 'None')
+	// 		$details['remarks'] = $details['remarks'].'<br>'.$ipcr['remarks'];
 		
-		$rows_updated = DB::update('ipcrtbl')
- 			->set($details)
- 			->where('ipcr_ID', '=', $ipcr_ID)
- 			->execute();
+	// 	$rows_updated = DB::update('ipcrtbl')
+ // 			->set($details)
+ // 			->where('ipcr_ID', '=', $ipcr_ID)
+ // 			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
-	}
+ // 		if ($rows_updated == 1) return TRUE;
+ // 		else return FALSE; //do something
+	// }
 
 	/**
 	 * Delete form
 	 */
 	public function delete($ipcr_ID)
 	{
+		$delete_success = TRUE;
+		$targets = $this->get_targets($ipcr_ID);
+
+		if ($targets)
+		{
+			foreach ($targets as $target)
+			{
+				$success = $this->delete_target($target['target_ID']);
+
+				if (!$success)
+					return FALSE;
+			}
+		}
+
 		$rows_deleted = DB::delete('ipcrtbl')
 			->where('ipcr_ID', '=', $ipcr_ID)
 	 		->execute();
@@ -177,33 +191,39 @@ class Model_Ipcr extends Model {
 	 */
 	public function get_output_targets($outputs)
 	{
-		$outputIDs = array();
-		foreach ($outputs as $output) {
-			$outputIDs[] = $output['output_ID'];
+		if ($outputs)
+		{
+			$outputIDs = array();
+			foreach ($outputs as $output)
+			{
+				$outputIDs[] = $output['output_ID'];
+			}
+
+			$output_targets = DB::select()
+				->from('ipcr_targettbl')
+				->where('output_ID', 'IN', $outputIDs)
+				->execute()
+				->as_array();
+
+		 	return $output_targets;
 		}
-
-		$output_targets = DB::select()
-			->from('ipcr_targettbl')
-			->where('output_ID', 'IN', $outputIDs)
-			->execute()
-			->as_array();
-
-	 	return $output_targets;
+		else
+			return NULL;
 	}
 
 	/**
 	 * Get target details
 	 */
-	public function get_target_details($target_ID)
-	{
-    	$target_details = DB::select()
-			->from('ipcr_targettbl')
-			->where('target_ID', '=', $target_ID)
-			->execute()
-			->as_array();
+	// public function get_target_details($target_ID)
+	// {
+ //    	$target_details = DB::select()
+	// 		->from('ipcr_targettbl')
+	// 		->where('target_ID', '=', $target_ID)
+	// 		->execute()
+	// 		->as_array();
 
- 		return $target_details[0];
-	}
+ // 		return $target_details[0];
+	// }
 
 	/**
 	 * Add target
@@ -228,7 +248,7 @@ class Model_Ipcr extends Model {
 		else
 		{
 			$session = Session::instance();
-			$session->set('error', 'Error: Output is already included.');
+			$session->set('warning', 'Warning: Output is already included.');
 		}
 		// return $insert_target[0]; -- target_ID
 	}
@@ -256,8 +276,8 @@ class Model_Ipcr extends Model {
 			->where('target_ID', '=', $target_ID)
 	 		->execute();
 
- 		// if ($rows_deleted == 1) return TRUE;
- 		// else return FALSE; //do something
+ 		if ($rows_deleted == 1) return TRUE;
+ 		else return FALSE; //do something
 	}
 
 } // End Ipcr

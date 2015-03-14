@@ -31,10 +31,12 @@ function programDetails (d) {
 
 $(document).ready(function () {
 
-	/****************************************
+	/* ==================================== *
     *                                       *
     *               DATATABLE               *  
     *           Initialize tables           *
+    *                                       *
+    * ===================================== *
     *                                       *
     *   1. User Table (Admin)               *
     *   2. College Table (Admin)            *
@@ -45,9 +47,14 @@ $(document).ready(function () {
     *   7. Education Table                  *
     *   8. Accomplishment Table (Faculty)   *
     *   9. Accomplishment Group Table       *
-    *       (Faculty - Dept. Chair/Dean)    *
-    *****************************************/
-
+    *       (Department/College)            *
+    *   10. IPCR Table (Faculty)            *
+    *   11. IPCR Group Table                *
+    *       (Department/College)            *
+    *   11. OPCR Table (Faculty)            *
+    *   12. OPCR Group Table (College)      *
+    *                                       *
+    * * * * * * * * * * * * * * * * * * * * */
     
 	// 1. User Table (Admin)
     $('#user_table').DataTable({
@@ -318,7 +325,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
 	
-    // 9. Accomplishment Group Table (Faculty - Dept. Chair/Dean)
+    // 9. Accomplishment Group Table (Department/College)
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
 		    // Period column is searchable but hidden; used as group header
@@ -371,7 +378,7 @@ $(document).ready(function () {
         all_table.search($(this).val()).draw();
     });
     
-    /* DATATABLE -- Initialize faculty ipcr table */
+    // 10. IPCR Table (Faculty)
     $('#ipcr_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -383,7 +390,7 @@ $(document).ready(function () {
 		]
     });
     
-    /* DATATABLE -- Initialize group ipcr table */
+    // 11. IPCR Group Table (College)
 	var ipcr_group_table = $('#ipcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -408,7 +415,6 @@ $(document).ready(function () {
             });
         }
     });
- 
     // Order by the period
     $('#ipcr_group_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = ipcr_group_table.order()[0];
@@ -419,7 +425,7 @@ $(document).ready(function () {
 		}
     });
 
-    /* DATATABLE -- Initialize faculty opcr table */
+    // 12. OPCR Table (Faculty)
     $('#opcr_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -430,6 +436,41 @@ $(document).ready(function () {
 		    { "visible": false },
 		    { "searchable": false, "orderable": false }
 		]
+    });
+    
+    // 13. OPCR Group Table (Faculty - Dean)
+    var opcr_group_table = $('#opcr_college_table').DataTable({
+        "order": [[ 0, "desc" ]],
+        "columns": [
+            { "visible": false },
+            null,
+            null,
+            null,
+            null,
+            { "visible": false },
+            { "searchable": false, "orderable": false }
+        ],
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({page:'current'}).nodes();
+            var last = null;
+ 
+            api.column(0, {page:'current'}).data().each(function (group, i) {
+                if (last !== group) {
+                    $(rows).eq(i).before('<tr class="group"><td colspan="6">'+group+'</td></tr>');
+                    last = group;
+                }
+            });
+        }
+    });
+    // Order by the period
+    $('#opcr_group_table tbody').on('click', 'tr.group', function () {
+        var currentOrder = ipcr_group_table.order()[0];
+        if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
+            ipcr_group_table.order([0, 'desc']).draw();
+        } else {
+            ipcr_group_table.order([0, 'asc']).draw();
+        }
     });
 
     /* DOCUMENT FORM -- Show necessary fields depending on doument type */
@@ -468,6 +509,9 @@ $(document).ready(function () {
         $("#report_type, #form_type").val("new").trigger("change");
         $("#yearmonth .input-group.date, #period input").datepicker("setDate", null);
         $("#opcr").val("");
+    });
+    $("#consolidate-report").click(function () {
+        $("#period input").datepicker("setDate", null);
     });
 
     /* RESEARCH FORM -- Reformat numbers */

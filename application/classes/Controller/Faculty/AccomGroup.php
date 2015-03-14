@@ -10,7 +10,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$this->action_delete_session();
+		// $this->action_delete_session();
 		$users = $this->get_group_users($this->session->get('identifier'));
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$consolidate_url = 'faculty/accom_dept/consolidate';
@@ -26,7 +26,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$this->action_delete_session();
+		// $this->action_delete_session();
 		$users = $this->get_group_users($this->session->get('identifier'));
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$consolidate_url = 'faculty/accom_coll/consolidate';
@@ -122,7 +122,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
 
-		if ($this->session->get('identifier') == 'dept_chair')
+		if ($this->session->get('identifier') == 'chair')
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 			$this->session->set('unit', $department['short']);
@@ -193,7 +193,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 			$programIDs = $univ->get_college_programIDs($college['college_ID']);
 			$users = $user->get_user_group($programIDs, NULL);
 		}
-		elseif ($identifier == 'dept_chair')
+		elseif ($identifier == 'chair')
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 			$programIDs = $univ->get_department_programIDs($department['department_ID']);

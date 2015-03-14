@@ -2,18 +2,18 @@
 echo '<h1 class="text-center">Individual Performance Commitment and Review (IPCR)</h1>';
 echo '<br>';
 
-echo '<p style="text-indent: 20px;">I, <span style="text-decoration: underline;">', $this->session->get('fullname'), '</span>',
-	 ' of the <span style="text-decoration: underline;">', $department['department'], '</span>',
+echo '<p style="text-indent: 20px;">I, <span style="text-decoration: underline;">', $fullname, '</span>',
+	 ' of the <span style="text-decoration: underline;">', $department, '</span>',
 	' commit to deliver and agree to be rated on the attainment of the following targets in accordance with the indicated measures for the period ',
-	'<span style="text-decoration: underline;">', $period_from->format('F Y'), '</span> to ',
-	'<span style="text-decoration: underline;">', $period_to->format('F Y'), '</span>.</p>';
+	'<span style="text-decoration: underline;">', date('F Y', strtotime($opcr_details['period_from'])), '</span> to ',
+	'<span style="text-decoration: underline;">', date('F Y', strtotime($opcr_details['period_to'])), '</span>.</p>';
 echo '<br>';
 
 echo '<table width="200" align="right">
 	<tbody>
-		<tr><td class="text-center" style="border-bottom:1pt solid black">', $this->session->get('fullname'), '</td></tr>
-		<tr><td class="text-center">', $label, '</td></tr>
-		<tr><td class="text-center">Date: ', date_format(date_create($opcr_details['date_published']), 'F d, Y'), '</td></tr>
+		<tr><td class="text-center" style="border-bottom:1px solid black">', $fullname, '</td></tr>
+		<tr><td class="text-center">', $title, '</td></tr>
+		<tr><td class="text-center">Date: ', date('F d, Y', strtotime($opcr_details['date_published'])), '</td></tr>
 	</tbody>
 </table><br>';
 ?>

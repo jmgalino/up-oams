@@ -92,7 +92,7 @@
     <select class="form-control faculty_info" id="position" name="position">
       <option value="">Select</option>
       <option value="dean">College Dean</option>
-      <option value="dept_chair">Department Chair</option>
+      <option value="chair">Department Chair</option>
       <option value="none">Not Applicable</option>
     </select>
 </div>

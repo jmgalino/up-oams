@@ -231,7 +231,7 @@ class Controller_Admin_University extends Controller_Admin {
  				$department_details = $univ->get_department_details($update_details['department_ID'], NULL);
 
 	 			if ($department_details['user_ID'] != $update_details['user_ID'])
-	 				$user_updated = $this->update_user($department_details['user_ID'], $update_details['user_ID'], 'dept_chair');
+	 				$user_updated = $this->update_user($department_details['user_ID'], $update_details['user_ID'], 'chair');
 	 		}
  		}
 

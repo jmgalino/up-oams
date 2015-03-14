@@ -9,14 +9,13 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
-		$univ = new Model_Univ;
 
-		$this->action_delete_session();
+		// $this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
 		$ipcr_forms = $ipcr->get_faculty_ipcr($this->session->get('user_ID'));
-		$opcr_forms = $opcr->get_department_opcr($this->session->get('user_ID'));
+		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'));
 
 		$this->view->content = View::factory('faculty/ipcr/list/faculty')
 			->bind('submit', $submit)
@@ -35,23 +34,21 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 
-		$details['opcr_ID'] = $this->request->post();
-		$details['user_ID'] = $this->session->get('user_ID');
+		$ipcr_details['opcr_ID'] = $this->request->post('period');
+		$ipcr_details['user_ID'] = $this->session->get('user_ID');
 
-		$insert_success = $ipcr->initialize($details);
+		$insert_success = $ipcr->initialize($ipcr_details);
 
 		if (is_numeric($insert_success))
 		{
-			$details['ipcr_ID'] = $insert_success;
-			$this->session->set('ipcr_details', $details);
-			$this->show_draft();
+			$ipcr_details['ipcr_ID'] = $insert_success;
+			$this->show_draft($ipcr_details);
 		}
 		elseif (is_array($insert_success))
 		{
-			$details['ipcr_ID'] = $insert_success['ipcr_ID'];
-			$this->session->set('ipcr_details', $details);
+			$ipcr_details['ipcr_ID'] = $insert_success['ipcr_ID'];
 			$this->session->set('warning', $insert_success['message']);
-			$this->show_draft();
+			$this->show_draft($ipcr_details);
 		}
 		else // Error
 		{
@@ -70,17 +67,24 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		
 		$ipcr_ID = $this->request->param('id');
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
-
-		if ($ipcr_details['document'])
+			
+		if (!$ipcr_details['document'])
 		{
-			// Show PDF
-			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
-			$this->show_pdf($ipcr_details, $opcr_details);
+			$draft = $this->session->get_once('pdf_draft');
+			
+			if ($draft)
+			{
+				$ipcr_details['draft'] = $draft;
+				$this->show_pdf($ipcr_details, $opcr_details);
+			}
+			else
+				$this->redirect('faculty/mpdf/preview/ipcr/'.$ipcr_ID, 303);
 		}
 		else
 		{
-			// Create from draft
+			$this->show_pdf($ipcr_details, $opcr_details);
 		}
 	}
 
@@ -101,8 +105,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		}
 		else
 		{
-			$this->session->set('ipcr_details', $ipcr_details);
-			$this->show_draft();
+			$this->show_draft($ipcr_details);
 		}
 	}
 
@@ -183,7 +186,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		// }
 		// else
 		// {
-		// 	$title = ($this->session->get('identifier') == 'dept_chair'
+		// 	$title = ($this->session->get('identifier') == 'chair'
 		// 		? 'Unit Head, '.$department['short']
 		// 		: 'Faculty, '.$department['short']);
 		// }
@@ -230,14 +233,9 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 
-		if ($this->request->post('output_ID')){
-			$details['output_ID'] = $this->request->post('output_ID');
-			$details['ipcr_ID'] = $ipcr_ID;
-			$ipcr->add_target($details);
-		}
-			
-		else
-			$this->session->set('error', 'Error: Invalid output.');
+		$details['output_ID'] = $this->request->post('output_ID');
+		$details['ipcr_ID'] = $ipcr_ID;
+		$ipcr->add_target($details);
 		
 		$this->redirect('faculty/ipcr/update/'.$ipcr_ID, 303);
 	}
@@ -298,31 +296,33 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$period = $period_from.' - '.$period_to;
 
 		$this->view->content = View::factory('faculty/ipcr/view/faculty')
-			->bind('period', $period)
 			->bind('ipcr_details', $ipcr_details)
-			->bind('session', $this->session);
+			->bind('period', $period);
 		$this->response->body($this->view->render());
 	}
 
 	/**
 	 * IPCR Form - Draft
 	 */
-	private function show_draft()
+	private function show_draft($ipcr_details)
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 
-		$opcr_details = $opcr->get_details($this->session->get('ipcr_details')['opcr_ID']);
-		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
-		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
-		$label = $period_from.' - '.$period_to;
-
 		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
-		$targets = $ipcr->get_targets($this->session->get('ipcr_details')['ipcr_ID']);
-		$outputs = $opcr->get_outputs($this->session->get('ipcr_details')['opcr_ID']);
+
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
+		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
+		
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$label = $period_from.' - '.$period_to;
+		
 		$categories = $this->oams->get_categories();
+
 		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
 		// if ($this->session->get('identifier') == 'dean')
@@ -332,7 +332,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		// }
 		// else
 		// {
-		// 	$title = ($this->session->get('identifier') == 'dept_chair'
+		// 	$title = ($this->session->get('identifier') == 'chair'
 		// 		? 'Unit Head, '.$department['short']
 		// 		: 'Faculty, '.$department['short']);
 		// }
@@ -342,7 +342,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			->bind('error', $error)
 			->bind('warning', $warning)
 			->bind('session', $this->session)
-			->bind('ipcr_ID', $this->session->get('ipcr_details')['ipcr_ID'])
+			->bind('ipcr_details', $ipcr_details)
 			->bind('categories', $categories)
 			->bind('outputs', $outputs)
 			// ->bind('department', $department['short'])

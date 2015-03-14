@@ -25,13 +25,12 @@ class Model_Opcr extends Model {
 	/**
 	 * Get forms (foreach department - as template for faculty)
 	 */
-	public function get_department_opcr($user_ID)
+	public function get_department_opcr($program_ID)
 	{
 		$user = new Model_User;
 		$univ = new Model_Univ;
 
-		$program = $user->get_details($user_ID, NULL);
-		$department = $univ->get_department_details(NULL, $program['program_ID']);
+		$department = $univ->get_department_details(NULL, $program_ID);
 
 		$opcr_forms = DB::select()
 			->from('opcrtbl')
@@ -46,8 +45,8 @@ class Model_Opcr extends Model {
 	/**
 	 * Get forms (by college)
 	 */
-	// public function get_group_opcr($userIDs)
-	// {}
+	public function get_group_opcr($userIDs)
+	{}
 
 	/**
 	 * Get form details
@@ -175,19 +174,28 @@ class Model_Opcr extends Model {
 	 */
 	public function get_outputs($opcr_ID)
 	{
-    	$result = DB::select()
+    	$opcr_outputs = DB::select()
 			->from('opcr_outputtbl')
 			->where('opcr_ID', '=', $opcr_ID)
 			->execute()
 			->as_array();
-	 	
-		$outputs = array();
-		foreach ($result as $output)
-		{
-			$outputs[] = $output;
-		}
 
- 		return $outputs;
+ 		return $opcr_outputs;
+	}
+
+	/**
+	 * Get outputs (by category)
+	 */
+	public function get_category_outputs($opcr_ID, $category_ID)
+	{
+		$category_outputs = DB::select('opcr_outputtbl.output_ID', 'opcr_outputtbl.output')
+			->from('opcr_outputtbl')
+			->where('opcr_ID', '=', $opcr_ID)
+			->where('category_ID', '=', $category_ID)
+			->execute()
+			->as_array();
+
+		return $category_outputs;
 	}
 
 	/**

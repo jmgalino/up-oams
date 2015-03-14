@@ -13,7 +13,7 @@
 		<?php if ($accom_reports): ?>
 		<div class="col-md-3">
 			<div class="btn-group pull-right">
-		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate">Consolidate Reports</button>
+		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate" id="consolidate-report">Consolidate Reports</button>
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
 		        <ul class="dropdown-menu">
 					<li><a href="<?php echo ($identifier == 'dean'
@@ -51,8 +51,10 @@ echo View::factory('faculty/accom/form/consolidate')
 	<tbody>
 	<?php foreach ($accom_reports as $accom)
 	{
+		$yearmonth = date('F Y', strtotime($accom['yearmonth']));
+
 		echo '<tr>';
-		echo '<td>', date('F Y', strtotime($accom['yearmonth'])), '</td>';
+		echo '<td>', $yearmonth, '</td>';
 		
 		foreach ($users as $user)
 		{
@@ -66,7 +68,7 @@ echo View::factory('faculty/accom/form/consolidate')
 						echo '<td>', $program['short'], '</td>';	
 				}
 
-				echo '<td>', date_format(date_create($accom['date_submitted']), 'F d, Y'), '</td>';
+				echo '<td>', date('F d, Y', strtotime($accom['date_submitted'])), '</td>';
 				echo '<td>', $accom['status'], '</td>';
 				echo '<td>', $accom['remarks'], '</td>';
 
@@ -74,7 +76,7 @@ echo View::factory('faculty/accom/form/consolidate')
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $user['last_name'],' - ' , date_format(date_create($accom['yearmonth']), 'F Y'), '">
+								<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $user['last_name'],' - ' , $yearmonth, '">
 								<span class="glyphicon glyphicon-download"></span> Download Report</a>
 							</li>
 							<li>

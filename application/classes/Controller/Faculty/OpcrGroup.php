@@ -7,15 +7,15 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 	 */
 	public function action_coll()
 	{
-		// $univ = new Model_Univ;
-		// $user = new Model_User;
+		$univ = new Model_Univ;
+		$user = new Model_User;
 
-		// $college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		// $programIDs = $univ->get_college_programIDs($college['college_ID']);
-		// $users = $user->get_user_group($programIDs, NULL);
-		// $consolidate_url = 'faculty/ipcr_coll/consolidate';
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
+		$users = $user->get_user_group($programIDs, NULL);
+		$consolidate_url = 'faculty/opcr_coll/consolidate';
 
-		// $this->view_group($college['college'], $programIDs, $users, $consolidate_url);
+		$this->view_group($college_details['college'], $programIDs, $users, $consolidate_url);
 	}
 
 	/**
@@ -89,8 +89,8 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 
 		// $opcr_ID = ($this->request->post('opcr_ID') ? $this->request->post('opcr_ID') : $this->request->param('id'));
 		// $opcr_details = $opcr->get_details($opcr_ID);
-		// $period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
-		// $period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
+		// $period_from = date('Y-m-d', strtotime($opcr_details['period_from']));
+		// $period_to = date('Y-m-d', strtotime($opcr_details['period_to']));
 			
 		// if ($this->session->get('identifier') == 'dean')
 		// {
@@ -135,39 +135,38 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 	}
 
 	/**
-	 * OPCR Forms (Department/College)
+	 * OPCR Forms (College)
 	 */
-	private function view_group($group, $programIDs, $users, $consolidate_url)
+	private function view_group($college, $programIDs, $users, $consolidate_url)
 	{
-		// $ipcr = new Model_Ipcr;
-		// $opcr = new Model_Opcr;
-		// $univ = new Model_Univ;
-		// $user = new Model_User;
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
 
-		// $employee_code = $this->session->get('employee_code');
-		// $identifier = $this->session->get('identifier');
+		$employee_code = $this->session->get('employee_code');
+		$identifier = $this->session->get('identifier');
 
-		// $programs = $univ->get_programs();
+		$programs = $univ->get_programs();
 
-		// $userIDs = array();
-		// foreach ($users as $user)
-		// {
-		// 	$userIDs[] = $user['user_ID'];
-		// }
+		$userIDs = array();
+		foreach ($users as $user)
+		{
+			$userIDs[] = $user['user_ID'];
+		}
 
-		// $ipcr_forms = $ipcr->get_group_ipcr($userIDs);
-		// $opcr_forms = $opcr->get_department_opcr($this->session->get('user_ID'));
+		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
+		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'));
 		
-		// $this->view->content = View::factory('faculty/ipcr/list/group')
-		// 	->bind('identifier', $identifier)
-		// 	->bind('group', $group)
-		// 	->bind('consolidate_url', $consolidate_url)
-		// 	->bind('ipcr_forms', $ipcr_forms)
-		// 	->bind('opcr_forms', $opcr_forms)
-		// 	->bind('users', $users)
-		// 	->bind('programs', $programs)
-		// 	->bind('employee_code', $employee_code);
-		// $this->response->body($this->view->render());
+		$this->view->content = View::factory('faculty/opcr/list/college')
+			->bind('identifier', $identifier)
+			->bind('college', $college)
+			->bind('consolidate_url', $consolidate_url)
+			->bind('ipcr_forms', $ipcr_forms)
+			->bind('opcr_forms', $opcr_forms)
+			->bind('users', $users)
+			->bind('programs', $programs)
+			->bind('employee_code', $employee_code);
+		$this->response->body($this->view->render());
 	}
 
 } // End OpcrGroup

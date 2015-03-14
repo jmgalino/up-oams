@@ -403,48 +403,63 @@ class Controller_Ajax extends Controller {
 	}
 
 	/**
-	 * Get targets based on category
+	 * Get outputs based on category
 	 */
-	public function action_category_targets()
+	public function action_category_outputs()
 	{
-		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
 
 		$category_ID = $this->request->post('category_ID');
-		$ipcr_ID = $this->request->post('ipcr_ID');
-		$targets = $ipcr->get_category_targets($ipcr_ID, $category_ID);
+		$opcr_ID = $this->request->post('opcr_ID');
+		$outputs = $opcr->get_category_outputs($opcr_ID, $category_ID);
 
-		$arr = array();
-		foreach ($targets as $target)
-        {
-        	$tmp['optionValue'] = $target['target_ID'];
-        	$tmp['optionText'] = $target['target'];
-        	$arr[] = $tmp;
-        }
-
-        echo json_encode($arr);
+        echo json_encode($outputs);
         exit();
 	}
 
 	/**
-	 * Get target details
+	 * Get targets based on category
 	 */
-	public function action_target_details()
-	{
-		$ipcr = new Model_Ipcr;
+	// public function action_category_targets()
+	// {
+	// 	$ipcr = new Model_Ipcr;
 
-		$target_ID = $this->request->post('target_ID');
-		$target_details = $ipcr->get_target_details($target_ID);
+	// 	$category_ID = $this->request->post('category_ID');
+	// 	$ipcr_ID = $this->request->post('ipcr_ID');
+	// 	$targets = $ipcr->get_category_targets($ipcr_ID, $category_ID);
+
+	// 	$arr = array();
+	// 	foreach ($targets as $target)
+ //        {
+ //        	$tmp['optionValue'] = $target['target_ID'];
+ //        	$tmp['optionText'] = $target['target'];
+ //        	$arr[] = $tmp;
+ //        }
+
+ //        echo json_encode($arr);
+ //        exit();
+	// }
+
+	// /**
+	//  * Get target details
+	//  */
+	// public function action_target_details()
+	// {
+	// 	$ipcr = new Model_Ipcr;
+
+	// 	$target_ID = $this->request->post('target_ID');
+	// 	$target_details = $ipcr->get_target_details($target_ID);
 		
-		$arr = array();
-		$arr['indicators'] = $target_details['indicators'];
-		$arr['actual_accom'] = ($target_details['actual_accom'] ? $target_details['actual_accom'] : '');
-		$arr['r_quantity'] = $target_details['r_quantity'];
-		$arr['r_efficiency'] = $target_details['r_efficiency'];
-		$arr['r_timeliness'] = $target_details['r_timeliness'];
-		$arr['remarks'] = $target_details['remarks'];
+	// 	$arr = array();
+	// 	$arr['indicators'] = $target_details['indicators'];
+	// 	$arr['actual_accom'] = ($target_details['actual_accom'] ? $target_details['actual_accom'] : '');
+	// 	$arr['r_quantity'] = $target_details['r_quantity'];
+	// 	$arr['r_efficiency'] = $target_details['r_efficiency'];
+	// 	$arr['r_timeliness'] = $target_details['r_timeliness'];
+	// 	$arr['remarks'] = $target_details['remarks'];
 
-		echo json_encode($arr);
-		exit();
-	}
+	// 	echo json_encode($arr);
+	// 	exit();
+	// }
 
 } // End Ajax

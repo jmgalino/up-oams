@@ -20,10 +20,6 @@ h3 {
 	font-size: 14px;
 }
 
-table {
-	font-size: 14px;
-}
-
 a {
 	color: #000000;
 }
@@ -47,9 +43,9 @@ a {
 	text-transform: uppercase;
 }
 
-.form-rows {
+/*.form-rows {
 	font-size: 11px;
 	vertical-align: top;
 	padding: 5 2;
-  /*word-wrap: break-word;*/
-}
+  word-wrap: break-word;
+}*/

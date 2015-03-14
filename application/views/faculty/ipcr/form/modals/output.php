@@ -7,12 +7,13 @@
         <h4 class="modal-title" id="myModalLabel">Add Output</h4>
       </div>
 
-      <?php print Form::open('faculty/ipcr/add/'.$ipcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/ipcr/add/'.$ipcr_details['ipcr_ID'], array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="category" class="col-sm-4 control-label">Category</label>
           <div class="col-sm-7">
-            <select class="form-control" id="category" name="category_ID">
+            <select class="form-control" id="category-id" name="category_ID" opcr-id="<?php echo $ipcr_details['opcr_ID']; ?>" ajax-url="<?php echo URL::site('ajax/category_outputs');?>" required>
+              <option value="">Select</option>
               <?php
               foreach ($categories as $category)
               {
@@ -26,26 +27,7 @@
         <div class="form-group">
           <label for="output" class="col-sm-4 control-label">Output</label>
           <div class="col-sm-7">
-            <select class="form-control change-output required" name="output_ID">
-              <?php
-              $i = $categories[0]['category_ID'];
-              foreach ($categories as $category)
-              {
-                foreach ($outputs as $output)
-                {
-                  if ($category['category_ID'] == $output['category_ID'])
-                  {
-                    echo '<option category="'.$category['category_ID'].'" value="'.$output['output_ID'].'"';
-
-                    if ($i > 1) echo ' disabled="disabled"';
-
-                    echo '>'.$output['output'].'</option>';
-                  }
-                }
-                $i++;
-              }
-              ?>
-            </select>
+            <select class="form-control" id="output-id" name="output_ID" disabled required></select>
           </div>
         </div>
 
@@ -73,7 +55,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'output-submit', 'disabled'=>'true')); ?>
       </div>
 
       <?php print Form::close();?>

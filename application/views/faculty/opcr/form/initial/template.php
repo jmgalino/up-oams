@@ -23,7 +23,7 @@
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong><?php echo (($session->get('position') == 'dean') ? 'save' : 'publish'); ?></strong>.
+		Don't forget to <strong><?php echo (($session->get('identifier') == 'chair') ? 'save' : 'publish'); //dean ?></strong>.
 	</p>
 </div>
 <?php endif; ?>
@@ -57,7 +57,7 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 			<hr>
 			<li> 
 				<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>
-				<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Publish'); ?>
+				<?php echo (($session->get('identifier') == 'chair') ? 'Save' : 'Publish'); // dean ?>
 				</a>
 			</li>
 			<li>

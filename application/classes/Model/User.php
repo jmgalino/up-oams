@@ -274,7 +274,7 @@ class Model_User extends Model {
  	{
  		$user_details = $this->get_details($user_ID, NULL);
 
- 		$positions = array('dean', 'dept_chair');
+ 		$positions = array('dean', 'chair');
 		if (in_array($user_details['position'], $positions))
 		{
 			$user_details['position'] = 'none';	
@@ -344,7 +344,7 @@ class Model_User extends Model {
 				return ($user_updated AND $college_updated);
 			}
 		}
-		elseif ($user_details['position'] == 'dept_chair')
+		elseif ($user_details['position'] == 'chair')
 		{
 			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
 			if ($department_details['user_ID'] == $user_details['user_ID'])

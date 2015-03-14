@@ -101,7 +101,7 @@ class Model_Univ extends Model {
  		}
 		
 		$details = DB::select('univ_collegetbl.*',
-			'user_profiletbl.first_name', 'user_profiletbl.middle_name', 'user_profiletbl.last_name', 'user_profiletbl.title')
+			'user_profiletbl.title', 'user_profiletbl.first_name', 'user_profiletbl.middle_name', 'user_profiletbl.last_name', 'user_profiletbl.suffix')
 			->from('univ_collegetbl')
 			->join('user_profiletbl', 'LEFT')
 			->on('univ_collegetbl.user_ID', '=', 'user_profiletbl.user_ID')
@@ -186,7 +186,7 @@ class Model_Univ extends Model {
  		}
 		
 		$details = DB::select('univ_departmenttbl.*', 'univ_collegetbl.college',
-			'user_profiletbl.first_name', 'user_profiletbl.middle_name', 'user_profiletbl.last_name', 'user_profiletbl.title')
+			'user_profiletbl.title', 'user_profiletbl.first_name', 'user_profiletbl.middle_name', 'user_profiletbl.last_name', 'user_profiletbl.suffix')
 			->from('univ_departmenttbl')
 			->join('univ_collegetbl')
 			->on('univ_departmenttbl.college_ID', '=', 'univ_collegetbl.college_ID')

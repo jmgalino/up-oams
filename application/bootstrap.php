@@ -261,10 +261,21 @@ Route::set('opcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
 		'controller'=> 'opcr',
-		// 'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'
+		'action'	=> '(new|preview|update|delete|publish|submit|download|consolidate|add|edit|remove)'
 	))
 	->defaults(array(
 	    'action'     => 'index'
+	));
+
+// opcr_coll
+Route::set('ocpr_coll-functions', '<directory>/opcr_coll(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		'action'	=> '(coll|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'opcrgroup',
+		'action'	=> 'coll'
 	));
 
 // mpdf

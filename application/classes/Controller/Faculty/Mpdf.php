@@ -5,26 +5,29 @@ class Controller_Faculty_Mpdf extends Controller_User {
 
 	public function action_index()
 	{
+		$univ = new Model_Univ;
+
 		$id = $this->request->param('id');
 		$type = $this->request->param('type');
 		$purpose = $this->request->param('purpose');
 
+		$header['university'] = $univ->get_university();
+		$header['college'] = $univ->get_college_details(NULL, $this->session->get('program_ID'))['college'];
+		$header['department'] = $univ->get_department_details(NULL, $this->session->get('program_ID'))['department'];
+
 		switch ($type)
 		{
 			case 'accom':
-				if ($purpose == 'consolidate')
-					$id = $this->session->get('consolidate_data')['accom_ID'];
-				$this->accom_pdf($id, $type, $purpose);
-				break;
 			case 'accom-group':
-				$this->accom_group_pdf();
+				$this->accom_pdf($id, $type, $purpose, $header);
+				break;
 			case 'ipcr':
 			case 'ipcr-consolidated':
-				$this->ipcr_pdf($id, $type, $purpose);
+				$this->ipcr_pdf($id, $type, $purpose, $header);
 				break;
 			case 'opcr':
 			case 'opcr-consolidated':
-				$this->opcr_pdf($id, $type, $purpose);
+				$this->opcr_pdf($id, $type, $purpose, $header);
 				break;
 		}
 	}
@@ -32,32 +35,32 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Show PDF
 	 */
-	// private function pdf_preview($template, $filename)
-	// {
-	// 	$fullname = $this->session->get('fullname');
-	// 	$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
-	// 	$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
+	private function pdf_preview($template, $filename, $top, $header_contents)
+	{
+		$fullname = $this->session->get('fullname');
+		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
+		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
-	// 	ob_start();
-	// 	include_once(APPPATH.'views/mpdf/defaults/header.php');
-	// 	$header = ob_get_contents();
-	// 	ob_get_clean();
+		ob_start();
+		include_once(APPPATH.'views/mpdf/defaults/header.php');
+		$header = ob_get_contents();
+		ob_get_clean();
 
-	// 	$mpdf = new mPDF('','', 0, '', 25, 25, 55, 25, 6.5, 6.5);
-	// 	$mpdf->SetAuthor($fullname);
-	// 	$mpdf->SetCreator('UP Mindanao OAMS');
-	// 	$mpdf->WriteHTML($bootstrap_css, 1);
-	// 	$mpdf->WriteHTML($mpdf_css, 1);
-	// 	$mpdf->SetHTMLHeader($header);
-	// 	$mpdf->WriteHTML($template);
-	// 	$mpdf->Output($filename, 'I');
-	// 	exit;
-	// }
+		$mpdf = new mPDF('','', 0, '', 25, 25, $top, 25, 6.5, 6.5);
+		$mpdf->SetAuthor($fullname);
+		$mpdf->SetCreator('UP Mindanao OAMS');
+		$mpdf->WriteHTML($bootstrap_css, 1);
+		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->SetHTMLHeader($header);
+		$mpdf->WriteHTML($template);
+		$mpdf->Output($filename, 'I');
+		exit;
+	}
 
 	/**
 	 * Download PDF
 	 */
-	private function pdf_download($template, $filename, $top)
+	private function pdf_download($template, $filename, $top, $header_contents)
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
@@ -82,7 +85,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Save PDF to local file
 	 */
-	private function pdf_save($template, $filepath)
+	private function pdf_save($template, $filepath, $top, $header_contents)
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
@@ -93,7 +96,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$header = ob_get_contents();
 		ob_get_clean();
 
-		$mpdf = new mPDF('','', 0, '', 25, 25, 55, 25, 6.5, 6.5);
+		$mpdf = new mPDF('','', 0, '', 25, 25, $top, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
@@ -106,49 +109,51 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Accomplishment Reports - Faculty
 	 */
-	private function accom_pdf($accom_ID, $type, $purpose)
+	private function accom_pdf($accom_ID, $type, $purpose, $header)
 	{
 		$accom = new Model_Accom;
 		$univ = new Model_Univ;
 		
-		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
-		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
-		$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
-		$ppr = $accom->get_accoms($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
-		$ctv = $accom->get_accoms($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
-		$par = $accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
-		$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
-		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
-		$this->session->set('accom_type', 'faculty');
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
-		$university = $univ->get_university(); $this->session->set('university', $university);
-		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID')); $this->session->set('college_details', $college_details);
-		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID')); $this->session->set('department_details', $department_details);
-		
 		// Consolidate Accomplishment Reports
 		if ($purpose == 'consolidate')
 		{
-			$consolidate_data = $this->session->get_once('consolidate_data');
-			$this->session->set('accom_period', $this->redate($consolidate_data['start'], $consolidate_data['end'], TRUE));
-			$period = $this->redate($consolidate_data['start'], $consolidate_data['end'], FALSE);
-			$filename = $this->session->get('employee_code').'['.$period.'].pdf';
-
+			$this->session->set('accom_type', 'group');
+			$consolidate_data = $this->session->get('consolidate_data');
+			$period = $this->redate($consolidate_data['start'], $consolidate_data['end'], TRUE);
+			
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/consolidated.php');
 			$template = ob_get_contents();
 			ob_get_clean();
-			
-			$this->pdf_download($template, $filename, 55);
+
+			$prefix = ($this->session->get('identifier') == 'dean' ? $college_details['short'] : $department_details['short']);
+			$filename = $prefix.' ('.$period.').pdf';
+			$top = ($this->session->get('identifier') == 'dean' ? 45 : 55);
+			$header['level'] = $this->session->get('level');
+		
+			$this->pdf_download($template, $filename, $top, $header);
 		}
 
 		// Monthly Accomplishment Report
 		else
 		{
+			$this->session->set('accom_type', 'faculty');
+			$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
+			$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
+			$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
+			$ppr = $accom->get_accoms($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
+			$ctv = $accom->get_accoms($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
+			$par = $accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
+			$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
+			$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 			$accom_details = $accom->get_details($accom_ID);
-			$date = date_format(date_create($accom_details['yearmonth']), 'my');
-			$label = date('F Y', strtotime($accom_details['yearmonth']));
-			$filename = $label.'.pdf';
-
+			
+			$yearmonth = date('my', strtotime($accom_details['yearmonth']));
+			$filename = $this->session->get('employee_code').$yearmonth.'.pdf';
+				
 			ob_start();
 			include_once(APPPATH.'views/mpdf/accom/basic.php');
 			$template = ob_get_contents();
@@ -156,21 +161,16 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		
 			// Generate PDF to download
 			if ($purpose == 'download')
-				$this->pdf_download($template, $filename, 55);
-			
-			// Generate PDF for draft
-			// elseif ($purpose == 'draft')
-			// {
-			// 	$filepath = DOCROOT.'files/tmp/'.$filename;
-			// 	$this->pdf_save($template, $filepath);
-			// 	return $filename;
-			// }
+			{	
+				$filename = date('F Y', strtotime($accom_details['yearmonth'])).'.pdf';
+				$this->pdf_download($template, $filename, 55, $header);
+			}
 			
 			// Generate PDF for preview
 			elseif ($purpose == 'preview')
 			{
 				$filepath = DOCROOT.'files/tmp/'.$filename;
-				$this->pdf_save($template, $filepath);
+				$this->pdf_save($template, $filepath, 55, $header);
 				$this->session->set('pdf_draft', $filename);
 				$this->redirect('faculty/accom/preview/'.$accom_ID);
 			}
@@ -179,7 +179,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			elseif ($purpose == 'submit')
 			{
 				$filepath = DOCROOT.'files/document_accom/'.$filename;
-				$this->pdf_save($template, $filepath);
+				$this->pdf_save($template, $filepath, 55, $header);
 
 				$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 				$details['document'] = $filename;
@@ -193,83 +193,83 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	}
 
 	/**
-	 * Accomplishment Reports - College/Department
-	 */
-	private function accom_group_pdf()
-	{
-		$univ = new Model_Univ;
-
-		$data = $this->session->get_once('consolidate_data');
-		$this->session->set('accom_type', 'group');
-		$this->session->set('accom_period', $this->redate($data['start'], $data['end'], TRUE));
-		
-		$university = $univ->get_university(); $this->session->set('university', $university);
-		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID')); $this->session->set('college_details', $college_details);
-		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID')); $this->session->set('department_details', $department_details);
-		
-		$period = $this->redate($data['start'], $data['end'], TRUE);
-		$prefix = ($this->session->get('identifier') == 'dean' ? $college_details['short'] : $department_details['short']);
-		$filename = $prefix.' ('.$period.').pdf';
-		$top = ($this->session->get('identifier') == 'dean' ? 45 : 55);
-
-		ob_start();
-		include_once(APPPATH.'views/mpdf/accom/consolidated.php');
-		$template = ob_get_contents();
-		ob_get_clean();
-
-		$this->pdf_download($template, $filename, $top);
-	}
-
-	/**
 	 * IPCR Forms
 	 */
-	private function ipcr_pdf($ipcr_ID, $type, $purpose)
+	private function ipcr_pdf($ipcr_ID, $type, $purpose, $header)
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
+		$oams = new Model_Oams;
 		$univ = new Model_Univ;
 
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
-		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
-		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
-		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
-		$filepath = DOCROOT.'files/document_ipcr/'.$filename;
-		
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 
-		$label = ($this->session->get('identifier') == 'dean'
-			? 'Unit Head, '.$college['short']
-			: $this->session->get('identifier') == 'dept_chair'
-				? 'Unit Head, '.$department['short']
-				: 'Faculty, '.$department['short']);
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+
+		$fullname = $this->session->get('fullname');
+		$title = ($this->session->get('identifier') == 'dean'
+			? 'Unit Head, '.$college_details['short']
+			: $this->session->get('identifier') == 'chair'
+				? 'Unit Head, '.$department_details['short']
+				: 'Faculty, '.$department_details['short']);
 
 		ob_start();
-		include_once(APPPATH.'views/mpdf/ipcr/header.php');
+		echo View::factory('mpdf/ipcr/header')
+			->bind('fullname', $fullname)
+			->bind('department', $department_details['department'])
+			->bind('opcr_details', $opcr_details)
+			->bind('title', $title);
 
 			// IPCR (Individual) - For faculty members
 			if ($type == 'ipcr')
-				include_once(APPPATH.'views/mpdf/ipcr/basic.php');
-
-			// IPCR (Consolidated) - For department chairs
-			elseif ($type == 'opcr-consolidated')
 			{
-				include_once(APPPATH.'views/mpdf/ipcr/consolidated.php');
-				include_once(APPPATH.'views/mpdf/ipcr/legend.php');
+				$categories = $oams->get_categories();
+				$targets = $ipcr->get_targets($ipcr_ID);
+				$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
+
+				echo View::factory('mpdf/ipcr/basic')
+					->bind('categories', $categories)
+					->bind('targets', $targets)
+					->bind('outputs', $outputs);
 			}
 
+			// IPCR (Consolidated) - For department chairs
+			elseif ($type == 'ipcr-consolidated')
+			{
+				echo View::factory('mpdf/ipcr/consolidated.php');
+				echo View::factory('mpdf/ipcr/legend.php');
+			}
+
+		echo View::factory('mpdf/ipcr/legend');
 		$template = ob_get_contents();
 		ob_get_clean();	
 		
+		// Generate PDF to download
+		if ($purpose == 'download')
+		{
+			$period = date('F Y', strtotime($opcr_details['period_from'])).' - '.date('F Y', strtotime($opcr_details['period_to']));
+			$filename = $period.'.pdf';
+			$this->pdf_download($template, $filename, 25, NULL);
+		}
+		
 		// Generate PDF for preview
 		if ($purpose == 'preview')
-		{}
+		{
+			$filename = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to'])).'.pdf';
+			$filepath = DOCROOT.'files/tmp/'.$filename;
+			$this->pdf_save($template, $filepath, 25, NULL);
+			$this->session->set('pdf_draft', $filename);
+			$this->redirect('faculty/ipcr/preview/'.$ipcr_ID);
+		}
 
 		// Generate PDF to publish/submit
 		elseif ($purpose == 'submit')
 		{
-			$this->pdf_save($template, $filepath);
+			$filename = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to'])).'.pdf';
+			$filepath = DOCROOT.'files/document_ipcr/'.$filename;
+			$this->pdf_save($template, $filepath, 25, NULL);
 
 			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
 			$details['document'] = $filename;
@@ -283,62 +283,87 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * OPCR Forms
 	 */
-	private function opcr_pdf($opcr_ID, $type, $purpose)
+	private function opcr_pdf($opcr_ID, $type, $purpose, $header)
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$opcr_details = $opcr->get_details($opcr_ID);
-		$period_from = DateTime::createFromFormat('Y-m-d', $opcr_details['period_from']);
-		$period_to = DateTime::createFromFormat('Y-m-d', $opcr_details['period_to']);
-		$filename = $this->session->get('employee_code').$period_from->format('my').$period_to->format('my').'.pdf';
-		$filepath = DOCROOT.'files/document_opcr/'.$filename;
-			
 		if ($this->session->get('identifier') == 'dean')
 		{
-			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-			$label = $college['short'];
-			$programIDs = $univ->get_college_programIDs($college['college_ID']);
+			$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+			$title = $college_details['short'];
+			$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
 			$users = $user->get_user_group($programIDs, NULL);
 		}
 		else
 		{
-			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-			$label = $department['short'];
-			$programIDs = $univ->get_department_programIDs($department['department_ID']);
+			$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+			$title = $department_details['short'];
+			$programIDs = $univ->get_department_programIDs($department_details['department_ID']);
 			$users = $user->get_user_group($programIDs, 'dean');
 		}
 
+		$opcr_details = $opcr->get_details($opcr_ID);
+		$date_published = ($opcr_details['date_published'] ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
 		$outputs = $opcr->get_outputs($opcr_ID);
 		$targets = $ipcr->get_output_targets($outputs);
 		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		$categories = $this->oams->get_categories();
+		$fullname = $this->session->get('fullname');
 
 		ob_start();
-		include_once(APPPATH.'views/mpdf/opcr/template.php');
-
+		echo View::factory('mpdf/opcr/header')
+			->bind('fullname', $fullname)
+			->bind('department_details', $department_details)
+			->bind('opcr_details', $opcr_details)
+			->bind('title', $title)
+			->bind('date_published', $date_published);
+		
 			// OPCR - template for faculty
-			if ($type == 'opcr')
-				include_once(APPPATH.'views/mpdf/opcr/basic.php');
+			// if ($type == 'opcr')
+				echo View::factory('mpdf/opcr/basic')
+					->bind('categories', $categories)
+					->bind('outputs', $outputs)
+					->bind('ipcr_forms', $ipcr_forms)
+					->bind('targets', $targets)
+					->bind('users', $users);
 
 			// OPCR - consolidated for dean
 			// elseif ($type == 'opcr-consolidated')
 			// 	include_once(APPPATH.'views/mpdf/opcr/consolidated.php');
 
-		include_once(APPPATH.'views/mpdf/opcr/legend.php');
+		echo View::factory('mpdf/opcr/legend');
 		$template = ob_get_contents();
 		ob_get_clean();	
 		
+		// Generate PDF to download
+		if ($purpose == 'download')
+		{
+			$period = date('F Y', strtotime($opcr_details['period_from'])).' - '.date('F Y', strtotime($opcr_details['period_to']));
+			$filename = $period.'.pdf';
+			$this->pdf_download($template, $filename, 25, NULL);
+		}
+		
 		// Generate PDF for preview
 		if ($purpose == 'preview')
-		{}
+		{
+			$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
+			$filename = $this->session->get('employee_code').$period.'.pdf';
+			$filepath = DOCROOT.'files/tmp/'.$filename;
+			$this->pdf_save($template, $filepath, 25, NULL);
+			$this->session->set('pdf_draft', $filename);
+			$this->redirect('faculty/opcr/preview/'.$opcr_ID);
+		}
 
 		// Generate PDF to publish/submit
 		elseif ($purpose == 'submit')
 		{
-			$this->pdf_save($template, $filepath);
+			$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
+			$filename = $this->session->get('employee_code').$period.'.pdf';
+			$filepath = DOCROOT.'files/document_opcr/'.$filename;
+			$this->pdf_save($template, $filepath, 25, NULL);
 
 			if ($opcr_details['status'] == 'Draft')
 			{

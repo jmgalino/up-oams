@@ -3,12 +3,16 @@ TO DO:
 - rch fund source should be > 0
 - no pagebreak before signature
 - check if unselected radio doesn't collect data
-  - /faculty/accom/form/modals/publication
-  - /admin/profile/accom/publication*
+  > /faculty/accom/form/modals/publication
+  > /admin/profile/accom/publication*
 - disable faculty_view_all if no approved
-- shorten long filenames for upload files (instance?)
+- shorten long filenames for upload files (goes beyond modal)
 - remove extra period on consolidated accom group (or not?)
+
+- update filenames ipcr/opcr download (add surname, dept/college)
+
 - change birthday input style (what for?)
+
 - Dept chair/dean announcement to be seen by subtituents only
 - Flag announcements (keep on top)
 - Announcement attachments

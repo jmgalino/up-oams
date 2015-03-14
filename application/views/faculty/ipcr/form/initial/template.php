@@ -31,9 +31,8 @@
 <?php
 // Add output
 echo View::factory('faculty/ipcr/form/modals/output')
-	->bind('ipcr_ID', $ipcr_ID)
-	->bind('categories', $categories)
-	->bind('outputs', $outputs);
+	->bind('ipcr_details', $ipcr_details)
+	->bind('categories', $categories);
 ?>
 
 <div class="row">
@@ -74,7 +73,7 @@ echo View::factory('faculty/ipcr/form/modals/output')
 			<?php if ($targets): ?>
 			<hr>
 			<li>
-				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
+				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_details['ipcr_ID']); ?>>
 				<?php echo (($session->get('identifier') == 'dean') ? 'Save' : 'Submit'); ?>
 				</a>
 			</li>

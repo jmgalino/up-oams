@@ -117,7 +117,7 @@ $this->session->set('attachment', 0);
 $this->session->set('attachments', $array);
 
 echo '<h1 class="text-center">Accomplishment Report</h1>';
-echo '<h2 class="text-center">', $this->session->get('accom_period'), '</h2><br>';
+echo '<h2 class="text-center">', $period, '</h2><br>';
 // echo '<h2>', $this->session->get('fullname'), '</h2>';
 
 // if ($this->session->get('accom_type') == 'faculty')
@@ -144,26 +144,31 @@ echo '<br><br><br>
 					<tr><td>Prepared by:</td></tr>
 					<tr><td height="50"></td></tr>
 					<tr><td class="text-center" style="border-bottom:0.25px solid black;"></td></tr>
-					<tr><td class="text-center">', $this->session->get('fullname'), '</td></tr>
+					<tr><td class="text-center">', $this->session->get('title'), ' ', $this->session->get('fullname'), $this->session->get('suffix'), '</td></tr>
 					<tr><td class="text-center">', $this->session->get('rank'), '</td></tr>
 				</tbody>
 			</table>
 		</td>
-	</tr>
-	<tr><td height="50"></td></tr>
-	<tr>
-		<table width="200">
-				<tbody>
-					<tr><td>Approved by:</td></tr>
-					<tr><td height="50"></td></tr>
-					<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
-					<tr><td class="text-center">', $this->session->get('college_details')['title'], ' ', $this->session->get('college_details')['first_name'], ' ', $this->session->get('college_details')['middle_name'][0], '. ', $this->session->get('college_details')['last_name'], '</td></tr>
-					<tr><td class="text-center">Dean, ', $this->session->get('college_details')['short'], '</td></tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-</table>';
+	</tr>';
+
+	if ($this->session->get('identifier') == 'chair')
+	{
+		echo '<tr><td height="50"></td></tr>
+			<tr>
+				<table width="200">
+						<tbody>
+							<tr><td>Approved by:</td></tr>
+							<tr><td height="50"></td></tr>
+							<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+							<tr><td class="text-center">', $this->session->get('college_details')['title'], ' ', $this->session->get('college_details')['first_name'], ' ', $this->session->get('college_details')['middle_name'][0], '. ', $this->session->get('college_details')['last_name'], $this->session->get('college_details')['suffix'], '</td></tr>
+							<tr><td class="text-center">Dean, ', $this->session->get('college_details')['short'], '</td></tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>';
+	}
+
+echo '</table>';
 
 $attachment = $this->session->get_once('attachment');
 if ($attachment)
