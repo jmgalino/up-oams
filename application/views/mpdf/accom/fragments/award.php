@@ -1,10 +1,8 @@
 <?php
 echo '<h3>II. Award/Grants Received</h3>';
 
-if ($session->get('accom_awd'))
+if ($accom_awd)
 {
-	$accom_awd = $session->get('accom_awd');
-	
 	foreach ($accom_awd as $awd)
 	{
 		echo '<p style="padding-left:20px;">';

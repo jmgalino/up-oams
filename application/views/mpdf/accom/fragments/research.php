@@ -1,10 +1,8 @@
 <?php
 echo '<h3>III. Research Grants/Fellowships Received</h3>';
 	
-if ($session->get('accom_rch'))
+if ($accom_rch)
 {
-	$accom_rch = $session->get('accom_rch');
-
 	foreach ($accom_rch as $rch)
 	{
 		echo '<p style="padding-left:20px;">';

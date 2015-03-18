@@ -1,10 +1,8 @@
 <?php
 echo '<h3>V. Presentation of Creative Work Output</h3>';
 
-if ($session->get('accom_ctv'))
+if ($accom_ctv)
 {
-	$accom_ctv = $session->get('accom_ctv');
-	
 	foreach ($accom_ctv as $ctv)
 	{
 		echo '<p style="padding-left:20px;">';

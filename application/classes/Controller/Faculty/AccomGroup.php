@@ -137,18 +137,11 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$user_details = $this->get_group_users($this->session->get('identifier'));
 		$accoms = $this->get_group_accom($user_details['user_IDs'], $start, $end);
 		
-		$this->session->set('users', $user_details['users']);
-		$this->session->set('accom_pub', $accoms['pub']);
-		$this->session->set('accom_awd', $accoms['awd']);
-		$this->session->set('accom_rch', $accoms['rch']);
-		$this->session->set('accom_ppr', $accoms['ppr']);
-		$this->session->set('accom_ctv', $accoms['ctv']);
-		$this->session->set('accom_par', $accoms['par']);
-		$this->session->set('accom_mat', $accoms['mat']);
-		$this->session->set('accom_oth', $accoms['oth']);
-
+		$consolidate_data['accoms'] = $accoms;
 		$consolidate_data['start'] = $start;
 		$consolidate_data['end'] = $end;
+		$this->session->set('accom_type', 'group');
+		$this->session->set('users', $user_details['users']);
 		$this->session->set('consolidate_data', $consolidate_data);
 		$this->redirect('faculty/mpdf/consolidate/accom-group');
 	}

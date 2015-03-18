@@ -1,10 +1,8 @@
 <?php
 echo '<h3>VIII. Other Accomplishments</h3>';
 
-if ($session->get('accom_oth'))
+if ($accom_oth)
 {
-	$accom_oth = $session->get('accom_oth');
-	
 	foreach ($accom_oth as $oth)
 	{
 		echo '<p style="padding-left:20px;">';

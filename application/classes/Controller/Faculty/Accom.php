@@ -111,13 +111,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		}
 		else
 		{
-			$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
-			$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
-			$consolidate_data['accom_ID'] = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end, TRUE);
-			$consolidate_data['start'] = $start;
-			$consolidate_data['end'] = $end;
-			$this->session->set('consolidate_data', $consolidate_data);
-			$this->redirect('faculty/mpdf/consolidate/accom');
+			$this->consolidate_accoms();
 		}
 	}
 
@@ -209,6 +203,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
+		$this->session->set('accom_type', 'faculty');
 		$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
 	}
 
@@ -251,6 +246,33 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			// ->bind('college_details', $college_details)
 			// ->bind('department_details', $department_details);
 		$this->response->body($this->view->render());	
+	}
+
+	/**
+	 * Consolidate Accomplishment Reports
+	 */
+	private function consolidate_accoms()
+	{
+		$accom = new Model_Accom;
+
+		$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
+		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
+		$accom_ID = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end, TRUE);
+
+		$consolidate_data['accoms']['pub'] = $accom->get_accoms($accom_ID, 'pub');
+		$consolidate_data['accoms']['awd'] = $accom->get_accoms($accom_ID, 'awd');
+		$consolidate_data['accoms']['rch'] = $accom->get_accoms($accom_ID, 'rch');
+		$consolidate_data['accoms']['ppr'] = $accom->get_accoms($accom_ID, 'ppr');
+		$consolidate_data['accoms']['ctv'] = $accom->get_accoms($accom_ID, 'ctv');
+		$consolidate_data['accoms']['par'] = $accom->get_accoms($accom_ID, 'par');
+		$consolidate_data['accoms']['mat'] = $accom->get_accoms($accom_ID, 'mat');
+		$consolidate_data['accoms']['oth'] = $accom->get_accoms($accom_ID, 'oth');
+
+		$consolidate_data['start'] = $start;
+		$consolidate_data['end'] = $end;
+		$this->session->set('consolidate_data', $consolidate_data);
+		$this->session->set('accom_type', 'faculty');
+		$this->redirect('faculty/mpdf/consolidate/accom');
 	}
 
 } // End Accom

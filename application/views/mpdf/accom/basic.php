@@ -34,24 +34,48 @@ function redate($start, $end)
 }
 
 $array = array();
-$this->session->set('attachment', 0);
-$this->session->set('attachments', $array);
+$session->set('attachment', 0);
+$session->set('attachments', $array);
 
 echo '<h1 class="text-center">Accomplishment Report</h1>';
-echo '<h2 class="text-center">', date('F Y', strtotime($accom_details['yearmonth'])), '</h2><br>';
+echo '<h2 class="text-center">', $yearmonth, '</h2><br>';
 echo '<br>';
 
-echo View::factory('mpdf/accom/fragments/publication')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/award')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/research')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/paper')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/creative')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/participation')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/material')->bind('session', $this->session);
-echo View::factory('mpdf/accom/fragments/other')->bind('session', $this->session);
+echo View::factory('mpdf/accom/fragments/publication')
+	->bind('accom_pub', $pub)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/award')
+	->bind('accom_awd', $awd)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/research')
+	->bind('accom_rch', $rch)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/paper')
+	->bind('accom_ppr', $ppr)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/creative')
+	->bind('accom_ctv', $ctv)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/participation')
+	->bind('accom_par', $par)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/material')
+	->bind('accom_mat', $mat)
+	->bind('session', $session);
+
+echo View::factory('mpdf/accom/fragments/other')
+	->bind('accom_oth', $oth)
+	->bind('session', $session);
+
 
 echo '<br><br><br>
-<table>
+<table class="signatures">
 	<tr>
 		<td>
 			<table width="200">
@@ -59,8 +83,8 @@ echo '<br><br><br>
 					<tr><td>Prepared by:</td></tr>
 					<tr><td height="50"></td></tr>
 					<tr><td class="text-center" style="border-bottom:0.25px solid black;"></td></tr>
-					<tr><td class="text-center">', $this->session->get('title'), ' ', $this->session->get('fullname'), $this->session->get('suffix'), '</td></tr>
-					<tr><td class="text-center">', $this->session->get('rank'), '</td></tr>
+					<tr><td class="text-center">', $session->get('title'), ' ', $session->get('fullname'), $session->get('suffix'), '</td></tr>
+					<tr><td class="text-center">', $session->get('rank'), '</td></tr>
 				</tbody>
 			</table>
 		</td>
@@ -93,12 +117,12 @@ echo '<br><br><br>
 	</tr>
 </table>';
 
-$attachment = $this->session->get_once('attachment');
+$attachment = $session->get_once('attachment');
 if ($attachment)
 {
 	echo '<pagebreak />';
 
-	$attachments = $this->session->get_once('attachments');
+	$attachments = $session->get_once('attachments');
 
 	echo '<h2>Attachments</h2><br>';
 

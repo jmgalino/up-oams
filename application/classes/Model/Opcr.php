@@ -112,11 +112,12 @@ class Model_Opcr extends Model {
 
  		if ($rows_updated == 1)
  		{
- 			$message = ($details['status'] == 'Saved'
- 				? 'OPCR was successfully saved.'
- 				: $details['status'] == 'Published'
- 					? 'OPCR was successfully published.'
- 					: 'OPCR was successfully submitted.');
+ 			if ($details['status'] == 'Saved')
+ 				$message = 'OPCR was successfully saved.';
+ 			elseif ($details['status'] == 'Published')
+ 				$message = 'OPCR was successfully published.';
+ 			else
+ 				$message = 'OPCR was successfully submitted.';
 
  			return $message;
  		}

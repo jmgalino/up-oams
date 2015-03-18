@@ -1,10 +1,8 @@
 <?php
 echo'<h3>VII. Authorship of Audio-Visual Materials/Learning Objects/Laboratory or Lecture Manuals</h3>';
 
-if ($session->get('accom_mat'))
+if ($accom_mat)
 {
-	$accom_mat = $session->get('accom_mat');
-	
 	foreach ($accom_mat as $mat)
 	{
 		echo '<p style="padding-left:20px;">';

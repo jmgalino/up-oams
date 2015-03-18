@@ -42,7 +42,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
 		ob_start();
-		include_once(APPPATH.'views/mpdf/defaults/header.php');
+		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
 		$header = ob_get_contents();
 		ob_get_clean();
 
@@ -67,7 +67,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
 		ob_start();
-		include_once(APPPATH.'views/mpdf/defaults/header.php');
+		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
 		$header = ob_get_contents();
 		ob_get_clean();
 
@@ -92,7 +92,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
 		ob_start();
-		include_once(APPPATH.'views/mpdf/defaults/header.php');
+		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
 		$header = ob_get_contents();
 		ob_get_clean();
 
@@ -120,49 +120,84 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// Consolidate Accomplishment Reports
 		if ($purpose == 'consolidate')
 		{
-			$this->session->set('accom_type', 'group');
-			$consolidate_data = $this->session->get('consolidate_data');
+			$consolidate_data = $this->session->get_once('consolidate_data');
+			$header['level'] = $consolidate_data['level'];
 			$period = $this->redate($consolidate_data['start'], $consolidate_data['end'], TRUE);
 			
+			$pub = $consolidate_data['accoms']['pub'];
+			$awd = $consolidate_data['accoms']['awd'];
+			$rch = $consolidate_data['accoms']['rch'];
+			$ppr = $consolidate_data['accoms']['ppr'];
+			$ctv = $consolidate_data['accoms']['ctv'];
+			$par = $consolidate_data['accoms']['par'];
+			$mat = $consolidate_data['accoms']['mat'];
+			$oth = $consolidate_data['accoms']['oth'];
+
 			ob_start();
-			include_once(APPPATH.'views/mpdf/accom/consolidated.php');
+			echo View::factory('mpdf/accom/consolidated')
+				->bind('period', $period)
+				->bind('pub', $pub)
+				->bind('awd', $awd)
+				->bind('rch', $rch)
+				->bind('ppr', $ppr)
+				->bind('ctv', $ctv)
+				->bind('par', $par)
+				->bind('mat', $mat)
+				->bind('oth', $oth)
+				->bind('department_details', $department_details)
+				->bind('college_details', $college_details)
+				->bind('session', $this->session);
 			$template = ob_get_contents();
 			ob_get_clean();
 
-			$prefix = ($this->session->get('identifier') == 'dean' ? $college_details['short'] : $department_details['short']);
-			$filename = $prefix.' ('.$period.').pdf';
+			$filename = ($this->session->get('accom_type') == 'group'
+				? $this->session->get('identifier') == 'dean'
+					? $college_details['short'].' ('.$period.').pdf'
+					: $department_details['short'].' ('.$period.').pdf'
+				: $period.'.pdf');
 			$top = ($this->session->get('identifier') == 'dean' ? 45 : 55);
-			$header['level'] = $this->session->get('level');
-		
 			$this->pdf_download($template, $filename, $top, $header);
 		}
 
 		// Monthly Accomplishment Report
 		else
 		{
-			$this->session->set('accom_type', 'faculty');
-			$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
-			$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
-			$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
-			$ppr = $accom->get_accoms($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
-			$ctv = $accom->get_accoms($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
-			$par = $accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
-			$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
-			$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
+			$pub = $accom->get_accoms($accom_ID, 'pub');
+			$awd = $accom->get_accoms($accom_ID, 'awd');
+			$rch = $accom->get_accoms($accom_ID, 'rch');
+			$ppr = $accom->get_accoms($accom_ID, 'ppr');
+			$ctv = $accom->get_accoms($accom_ID, 'ctv');
+			$par = $accom->get_accoms($accom_ID, 'par');
+			$mat = $accom->get_accoms($accom_ID, 'mat');
+			$oth = $accom->get_accoms($accom_ID, 'oth');
 			$accom_details = $accom->get_details($accom_ID);
 			
-			$yearmonth = date('my', strtotime($accom_details['yearmonth']));
-			$filename = $this->session->get('employee_code').$yearmonth.'.pdf';
-				
+			$yearmonth_words = date('F Y', strtotime($accom_details['yearmonth']));
+			
 			ob_start();
-			include_once(APPPATH.'views/mpdf/accom/basic.php');
+			echo View::factory('mpdf/accom/basic')
+				->bind('yearmonth', $yearmonth_words)
+				->bind('pub', $pub)
+				->bind('awd', $awd)
+				->bind('rch', $rch)
+				->bind('ppr', $ppr)
+				->bind('ctv', $ctv)
+				->bind('par', $par)
+				->bind('mat', $mat)
+				->bind('oth', $oth)
+				->bind('department_details', $department_details)
+				->bind('college_details', $college_details)
+				->bind('session', $this->session);
 			$template = ob_get_contents();
 			ob_get_clean();
 		
+			$yearmonth = date('my', strtotime($accom_details['yearmonth']));
+			$filename = $this->session->get('employee_code').$yearmonth.'.pdf';
+				
 			// Generate PDF to download
 			if ($purpose == 'download')
 			{	
-				$filename = date('F Y', strtotime($accom_details['yearmonth'])).'.pdf';
+				$filename = $yearmonth_words.'.pdf';
 				$this->pdf_download($template, $filename, 55, $header);
 			}
 			

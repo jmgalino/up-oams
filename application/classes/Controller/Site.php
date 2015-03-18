@@ -89,13 +89,12 @@ class Controller_Site extends Controller {
 		if ($user)
 		{
 			// Delete existing tmp files
-			$files = glob(DOCROOT.'files/tmp/{,.}*', GLOB_BRACE);
-			foreach($files as $file)
+			foreach(glob(DOCROOT.'files/tmp/{,.}*', GLOB_BRACE) as $file)
 			{
 				if(is_file($file))
-				unlink($file);
+					unlink($file);
 			}
-
+			
 			$this->start_session($this->request->post('employee_code'));
 		}
 
