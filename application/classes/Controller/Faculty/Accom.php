@@ -126,7 +126,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 
-		if (!$accom_details['document'])
+		if (!$accom_details['document'] OR $accom_details['status'] == 'Rejected')
 		{
 			$draft = $this->session->get_once('pdf_draft');
 

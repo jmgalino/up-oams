@@ -471,7 +471,6 @@ class Model_Accom extends Model {
 			if ($existing_accom_specID)
 			{
 				$link_success = $this->add_existing_accom($accom_ID, $existing_accom_specID, $type, $attachment);
-
 				$update_success = ($unlink_success AND $link_success ? 'Accomplishment was successfully updated' : FALSE);
 			}
 			
@@ -481,7 +480,6 @@ class Model_Accom extends Model {
 				// Set to NULL to create new entry
 				$details[$name_ID] = NULL;
 				$add_success = $this->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
-
 				$update_success = ($unlink_success AND $add_success ? 'Accomplishment was successfully updated' : FALSE);
 			}
 		}
@@ -499,7 +497,6 @@ class Model_Accom extends Model {
 				$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
 				$delete_success = $this->delete_accom($accom_ID, $accom_specID, $type, $name_ID);
 				$link_success = $this->add_existing_accom($accom_ID, $existing_accom_specID, $type, $attachment);
-
 				$update_success = ($unlink_success AND $delete_success AND $link_success ? 'Accomplishment was successfully updated' : FALSE);
 			}
 

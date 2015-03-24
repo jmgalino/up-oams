@@ -464,11 +464,14 @@ tr.shown td.details-control {
   overflow: hidden;
 }
 
-a.link-reverse
+a.link-reverse:link,
+a.link-reverse:visited
 {
   color: inherit;
+  text-decoration: none;
 }
-a.link-reverse:hover
+a.link-reverse:hover,
+a.link-reverse:active
 {
   color: #7b1113;
   text-decoration: none;

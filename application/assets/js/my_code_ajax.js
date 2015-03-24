@@ -585,7 +585,7 @@ $(document).ready(function () {
 	/* RESEARCH FORM (UPDATE) -- Set form for editing */
 	$("a#updateResearch").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
-		var actionUrl = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 		var accomID = $(this).attr("accom-id");
 		var researchID = $(this).attr("research-id");
 		
@@ -656,7 +656,7 @@ $(document).ready(function () {
 	/* PAPER FORM (UPDATE) -- Set form for editing */
 	$("a#updatePaper").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
-		var actionUrl = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 		var accomID = $(this).attr("accom-id");
 		var paperID = $(this).attr("paper-id");
 		
@@ -708,7 +708,7 @@ $(document).ready(function () {
 	/* CREATIVE FORM (UPDATE) -- Set form for editing */
 	$("a#updateCreative").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
-		var actionUrl = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 		var accomID = $(this).attr("accom-id");
 		var creativeID = $(this).attr("creative-id");
 		
@@ -759,7 +759,7 @@ $(document).ready(function () {
 	/* PARTICIPATION FORM (UPDATE) -- Set form for editing */
 	$("a#updateParticipation").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
-		var actionUrl = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 		var accomID = $(this).attr("accom-id");
 		var participationID = $(this).attr("participation-id");
 		
@@ -810,7 +810,7 @@ $(document).ready(function () {
 	/* MATERIAL FORM (UPDATE) -- Load data into input fields, show attachments, and set button text */
 	$("a#updateMaterial").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
-		var actionUrl = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 		var accomID = $(this).attr("accom-id");
 		var materialID = $(this).attr("material-id");
 		

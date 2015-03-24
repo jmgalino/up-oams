@@ -75,8 +75,8 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
 		$accom_specID = $this->request->param('id');
-		$details = $this->request->post();
 		$type = $this->request->param('key');
+		$details = $this->request->post();
 		
 		if (($type !== 'pub') AND ($type !== 'mat'))
 		{
@@ -120,7 +120,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				$name_ID = 'other_ID';
 				break;
 		}
-
+		
 		$update_success = $accom->update_accom($accom_ID, $accom_specID, $details, $type, $name_ID);
 		$this->session->set('success', $update_success);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);

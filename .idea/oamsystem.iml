@@ -7,10 +7,20 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../lib/php" />
+          <root url="file:///usr/local/Cellar/php56/5.6.6/lib/php" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../lib/php" />
+          <root url="file:///usr/local/Cellar/php56/5.6.6/lib/php" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/composer.phar" />
+        </CLASSES>
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/composer.phar" />
         </SOURCES>
       </library>
     </orderEntry>
