@@ -96,10 +96,15 @@ class Model_Ipcr extends Model {
 	}
 
 	/**
-	 * Submit form
+	 * Update form
 	 */
-	public function submit($ipcr_ID, $details)
+	public function update($ipcr_ID, $details)
 	{
+		$ipcr_details = $this->get_details($ipcr_ID);
+
+		if($details['remarks'] AND $ipcr_details['remarks'] !== 'None')
+			$details['remarks'] .= '<br>'.$ipcr_details['remarks'];
+
 		$rows_updated = DB::update('ipcrtbl')
  			->set($details)
  			->where('ipcr_ID', '=', $ipcr_ID)
@@ -189,9 +194,21 @@ class Model_Ipcr extends Model {
 	/**
 	 * Get targets (by output - department)
 	 */
-	public function get_output_targets($outputs)
+	public function get_output_targets($output_ID, $outputs)
 	{
-		if ($outputs)
+		$output_targets = NULL;
+
+		if ($output_ID)
+		{
+			$output_targets = DB::select('ipcr_targettbl.*, ipcrtbl.user_ID')
+				->from('ipcr_targettbl')
+				->join('ipcrtbl', 'LEFT')
+				->on('ipcr_targettbl.ipcr_ID', '=', 'ipcrtbl.ipcr_ID')
+				->where('output_ID', '=', $output_ID)
+				->execute()
+				->as_array();
+		}
+		elseif ($outputs)
 		{
 			$outputIDs = array();
 			foreach ($outputs as $output)
@@ -204,26 +221,26 @@ class Model_Ipcr extends Model {
 				->where('output_ID', 'IN', $outputIDs)
 				->execute()
 				->as_array();
-
-		 	return $output_targets;
 		}
-		else
-			return NULL;
+
+	 	return $output_targets;
 	}
 
 	/**
 	 * Get target details
 	 */
-	// public function get_target_details($target_ID)
-	// {
- //    	$target_details = DB::select()
-	// 		->from('ipcr_targettbl')
-	// 		->where('target_ID', '=', $target_ID)
-	// 		->execute()
-	// 		->as_array();
+	public function get_target_details($target_ID)
+	{
+    	$target_details = DB::select('ipcr_targettbl.*, ipcrtbl.user_ID')
+			->from('ipcr_targettbl')
+			->join('ipcrtbl')
+			->on('ipcr_targettbl.ipcr_ID', '=', 'ipcrtbl.ipcr_ID')
+			->where('target_ID', '=', $target_ID)
+			->execute()
+			->as_array();
 
- // 		return $target_details[0];
-	// }
+ 		return $target_details[0];
+	}
 
 	/**
 	 * Add target

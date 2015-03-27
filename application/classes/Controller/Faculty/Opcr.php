@@ -173,14 +173,83 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * Submit OPCR Form
 	 */
-	// public function action_submit()
-	// {}
+	public function action_submit()
+	{
+		$opcr = new Model_Opcr;
+		
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID);
+		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
+		$this->redirect('faculty/mpdf/submit/ipcr-consolidated/'.$opcr_ID, 303);
+	}
 
 	/**
-	 * Download OPCR Form
+	 * Rate OPCR Form (College)
 	 */
-	// public function action_download()
-	// {}
+	// public function action_rate()
+	// {
+	// 	$opcr = new Model_Opcr;
+	// 	$univ = new Model_Univ;
+
+	// 	$opcr_ID = $this->request->param('id');
+	// 	$opcr_details = $ipcr->get_details($ipcr_ID);
+	// 	$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
+
+	// 	$error = $this->session->get_once('error');
+	// 	$warning = $this->session->get_once('warning');
+	// 	$categories = $this->oams->get_categories();
+
+	// 	$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
+	// 	$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+	// 	$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
+	// 	$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+	// 	$label = $period_from.' - '.$period_to;
+
+	// 	if ($this->session->get('identifier') == 'dean')
+	// 	{
+	// 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+	// 		$title = 'Unit Head, '.$college['short'];
+	// 	}
+	// 	else
+	// 	{
+	// 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+	// 		$title = ($this->session->get('identifier') == 'chair'
+	// 			? 'Unit Head, '.$department['short']
+	// 			: 'Faculty, '.$department['short']);
+	// 	}
+
+	// 	$this->view->content = View::factory('faculty/ipcr/form/final/template')
+	// 		->bind('label', $label)
+	// 		->bind('error', $error)
+	// 		->bind('warning', $warning)
+	// 		->bind('session', $this->session)
+	// 		->bind('ipcr_ID', $ipcr_ID)
+	// 		->bind('categories', $categories)
+	// 		->bind('outputs', $outputs)
+	// 		->bind('department', $department['short'])
+	// 		->bind('title', $title)
+	// 		->bind('targets', $targets);
+	// 	$this->response->body($this->view->render());
+	// }
+
+	/**
+	 * Save output rating
+	 */
+	public function action_save()
+	{
+		$opcr = new Model_Opcr;
+		
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID);
+		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
+		
+		$opcr->update_output($this->request->post());
+		
+		if ($this->session->get('identifier') == 'chair')
+			$this->redirect('faculty/ipcr_dept/consolidate/'.$opcr_ID);
+		elseif ($this->session->get('identifier') == 'dean')
+		{}
+	}
 
 	/**
 	 * Consolidate OPCR Forms
@@ -216,7 +285,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 * Edit output
 	 */
 	public function action_edit()
-	{
+	{// Check session
 		$opcr = new Model_Opcr;
 
 		$post = $this->request->post();
@@ -255,7 +324,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	/**
 	 * OPCR Form - PDF
 	 */
-	private function show_pdf($period, $opcr_details)
+	private function show_pdf($opcr_details)
 	{
 		$ipcr = new Model_Ipcr;
 

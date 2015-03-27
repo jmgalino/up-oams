@@ -3,6 +3,9 @@ include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
 class Controller_Faculty_Mpdf extends Controller_User {
 
+	/**
+	 * Reroute
+	 */
 	public function action_index()
 	{
 		$univ = new Model_Univ;
@@ -236,10 +239,17 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$opcr = new Model_Opcr;
 		$oams = new Model_Oams;
 		$univ = new Model_Univ;
+		$user = new Model_User;
 
-		$ipcr_details = $ipcr->get_details($ipcr_ID);
-		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		if ($type == 'ipcr')
+		{
+			$ipcr_details = $ipcr->get_details($ipcr_ID);
+			$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		}
+		else
+			$opcr_details = $opcr->get_details($ipcr_ID);
 
+		$categories = $oams->get_categories();
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 
@@ -260,7 +270,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			// IPCR (Individual) - For faculty members
 			if ($type == 'ipcr')
 			{
-				$categories = $oams->get_categories();
 				$targets = $ipcr->get_targets($ipcr_ID);
 				$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 
@@ -271,10 +280,21 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			}
 
 			// IPCR (Consolidated) - For department chairs
-			elseif ($type == 'ipcr-consolidated')
+			else
 			{
-				echo View::factory('mpdf/ipcr/consolidated.php');
-				echo View::factory('mpdf/ipcr/legend.php');
+				$programIDs = $univ->get_department_programIDs($department_details['department_ID']);
+				$users = $user->get_user_group($programIDs, 'dean');
+				
+				$outputs = $opcr->get_outputs($ipcr_ID);
+				$targets = $ipcr->get_output_targets(NULL, $outputs);
+				$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
+
+				echo View::factory('mpdf/ipcr/consolidated')
+					->bind('categories', $categories)
+					->bind('outputs', $outputs);
+					// ->bind('ipcr_forms', $ipcr_forms)
+					// ->bind('targets', $targets)
+					// ->bind('users', $users);
 			}
 
 		echo View::factory('mpdf/ipcr/legend');
@@ -303,15 +323,33 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		elseif ($purpose == 'submit')
 		{
 			$filename = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to'])).'.pdf';
-			$filepath = DOCROOT.'files/document_ipcr/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
+			
+			if ($type == 'ipcr')
+			{
+				$filepath = DOCROOT.'files/document_ipcr/'.$filename;
+				$this->pdf_save($template, $filepath, 25, NULL);
 
-			$details['status'] = ($this->session->get('identifier') == 'dean' ? 'Saved' : 'Pending');
-			$details['document'] = $filename;
-			$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
-			$submit_success = $ipcr->submit($ipcr_ID, $details);
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/ipcr', 303);
+				$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
+				$details['document'] = $filename;
+				$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
+				$submit_success = $ipcr->update($ipcr_ID, $details);
+
+				$this->session->set('submit', $submit_success);
+				$this->redirect('faculty/ipcr', 303);
+			}
+			else
+			{
+				$filepath = DOCROOT.'files/document_opcr/'.$filename;
+				$this->pdf_save($template, $filepath, 25, NULL);
+
+				$details['status'] = 'Pending';
+				$details['document'] = $filename;
+				$details['date_submitted'] = date_format(date_create(), 'Y-m-d');
+				$submit_success = $opcr->update($ipcr_ID, $details);
+
+				$this->session->set('submit', 'The OPCR was successfully submitted.');
+				$this->redirect('faculty/opcr', 303);
+			}
 		}
 	}
 
@@ -343,7 +381,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$date_published = ($opcr_details['date_published'] ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
 		$outputs = $opcr->get_outputs($opcr_ID);
-		$targets = $ipcr->get_output_targets($outputs);
+		$targets = $ipcr->get_output_targets(NULL, $outputs);
 		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		$categories = $this->oams->get_categories();
 		$fullname = $this->session->get('fullname');

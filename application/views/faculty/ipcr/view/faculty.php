@@ -7,9 +7,9 @@
 
 <div class="row">
 	<div class="col-md-9">
-		<embed src="<?php echo ($ipcr_details['document']
-			? URL::base().'files/document_ipcr/'.$ipcr_details['document']
-			: URL::base().'files/tmp/'.$ipcr_details['draft']);?>" style="width:100%; height:500px">
+		<embed src="<?php echo ($ipcr_details['draft']
+			? URL::base().'files/tmp/'.$ipcr_details['draft']
+			: URL::base().'files/document_ipcr/'.$ipcr_details['document']);?>" style="width:100%; height:500px">
 	</div>
 
 	<div class="col-md-3" role="complementary">

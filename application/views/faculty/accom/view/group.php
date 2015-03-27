@@ -11,7 +11,7 @@
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Accomplishment Report was successfully evaluated.
+		Accomplishment Report was successfully <?php echo $evaluation; ?>.
 	</p>
 </div>
 <?php endif; ?>
@@ -38,7 +38,7 @@ echo View::factory('faculty/accom/form/evaluate')
 			<li style="padding:10 15">
 				<dl>
 					<dt>Faculty</dt>
-					<dd><?php echo $user; ?></dd>
+					<dd><?php echo $faculty; ?></dd>
 				</dl>
 				<dl>
 					<dt>Period</dt>

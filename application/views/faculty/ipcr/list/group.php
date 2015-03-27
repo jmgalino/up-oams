@@ -68,24 +68,19 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 						echo '<td>', $ipcr['status'], '</td>';
 						echo '<td>', $ipcr['remarks'], '</td>';
 
-						if ($user['employee_code'] !== $employee_code)
-						{
-							echo '<td class="dropdown">
-									<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-									<ul class="dropdown-menu">
-										<li>
-											<a href='.URL::site('faculty/ipcr/download/'.$ipcr['ipcr_ID']).'>
-											<span class="glyphicon glyphicon-download"></span> Download Form</a>
-										</li>
-										<li>
-							 				<a href='.URL::site('faculty/ipcr_dept/view/'.$ipcr['ipcr_ID']).'>
-											<span class="glyphicon glyphicon-file"></span> View Form</a>
-										</li>
-									</ul>
-								</td>';
-						}
-						else
-							echo '<td>Disabled</td>';
+						echo '<td class="dropdown">
+								<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $user['last_name'],' - [' , $period, ']">
+										<span class="glyphicon glyphicon-download"></span> Download Form</a>
+									</li>
+									<li>
+						 				<a href='.URL::site('faculty/ipcr_dept/view/'.$ipcr['ipcr_ID']).'>
+										<span class="glyphicon glyphicon-file"></span> View Form</a>
+									</li>
+								</ul>
+							</td>';
 					}
 				}
 

@@ -16,10 +16,7 @@
 		<ul class="nav nav-pills nav-stacked">
 			<?php if (count($ipcr_forms) > 1): ?>
 			<li>
-				<a href="">Preview Consolidated</a>
-			</li>
-			<li> 
-				<a href="">Consolidate + Submit</a>
+				<a href="<?php echo URL::site('faculty/ipcr_dept/consolidate/'.$opcr_details['opcr_ID']); ?>">Consolidate</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
 			<?php endif; ?>

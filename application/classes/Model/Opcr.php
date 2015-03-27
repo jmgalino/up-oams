@@ -46,7 +46,16 @@ class Model_Opcr extends Model {
 	 * Get forms (by college)
 	 */
 	public function get_group_opcr($userIDs)
-	{}
+	{
+		$group_opcrs = DB::select()
+			->from('opcrtbl')
+			->where('user_ID', 'IN', $userIDs)
+			->where('status', 'IN', array('Checked', 'Accepted', 'Pending', 'Published', 'Saved'))
+	 		->execute()
+	 		->as_array();
+
+	 	return $group_opcrs;
+	}
 
 	/**
 	 * Get form details
@@ -98,6 +107,25 @@ class Model_Opcr extends Model {
 
 	 		return $insert_opcr[0];
  		}
+	}
+
+	/**
+	 * Update form
+	 */
+	public function update($opcr_ID, $details)
+	{
+		$opcr_details = $this->get_details($opcr_ID);
+
+		if($details['remarks'] AND $opcr_details['remarks'] !== 'None')
+			$details['remarks'] .= '<br>'.$ipcr_details['remarks'];
+
+		$rows_updated = DB::update('opcrtbl')
+ 			->set($details)
+ 			->where('opcr_ID', '=', $opcr_ID)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
 	}
 
 	/**

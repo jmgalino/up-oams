@@ -29,9 +29,9 @@
 									<span class="glyphicon glyphicon-remove-circle"></span></a></td>
 								</tr>
 								<tr>
-								<td class="template-output editTarget" id="'.$target['target_ID'].'" style="border-top: dotted 1px #7b1113; padding-left: 25px;">', $target['target'], '</td>
-								<td class="template-output editTargetIndicator" id="'.$target['target_ID'].'" style="border-top: dotted 1px #7b1113; padding-left: 25px;">', $target['indicators'] ,'</td>
-								</tr>';
+								<td class="template-output editTarget" id="'.$target['target_ID'].'" ajax-url="'.URL::site('faculty/ipcr/edit/target').'" style="border-top: dotted 1px #7b1113; padding-left: 25px;">', $target['target'], '</td>
+								<td class="template-output editTargetIndicator" id="'.$target['target_ID'].'" ajax-url="'.URL::site('faculty/ipcr/edit/indicator').'" style="border-top: dotted 1px #7b1113; padding-left: 25px;">', $target['indicators'] ,'</td>
+							</tr>';
 						}
 					}
 				}

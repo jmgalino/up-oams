@@ -2,6 +2,26 @@
 
 return array
 (
+	'default' => array(
+		'type'       => 'PDO',
+		'connection' => array(
+			/**
+			 * The following options are available for PDO:
+			 *
+			 * string   dsn         Data Source Name
+			 * string   username    database username
+			 * string   password    database password
+			 * boolean  persistent  use persistent connections?
+			 */
+			'dsn'        => 'mysql:host=localhost;dbname=oamsdb',
+			'username'   => 'root',
+			'password'   => 'upmin123',
+			'persistent' => TRUE,
+		),
+		'table_prefix' => '',
+		'charset'      => 'utf8',
+		'caching'      => FALSE,
+	),
 	/*'default' => array
 	(
 		'type'       => 'MySQL',
@@ -28,24 +48,4 @@ return array
 		'charset'      => 'utf8',
 		'caching'      => FALSE,
 	),*/
-	'default' => array(
-		'type'       => 'PDO',
-		'connection' => array(
-			/**
-			 * The following options are available for PDO:
-			 *
-			 * string   dsn         Data Source Name
-			 * string   username    database username
-			 * string   password    database password
-			 * boolean  persistent  use persistent connections?
-			 */
-			'dsn'        => 'mysql:host=localhost;dbname=oamsdb',
-			'username'   => 'root',
-			'password'   => 'upmin123',
-			'persistent' => TRUE,
-		),
-		'table_prefix' => '',
-		'charset'      => 'utf8',
-		'caching'      => FALSE,
-	),
 );

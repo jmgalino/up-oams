@@ -11,15 +11,16 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$opcr = new Model_Opcr;
 
 		// $this->action_delete_session();
+		$error = $this->session->get_once('error');
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
-		$error = $this->session->get_once('error');
+		$identifier = $this->session->get('identifier');
 		$ipcr_forms = $ipcr->get_faculty_ipcr($this->session->get('user_ID'));
 		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'));
 
 		$this->view->content = View::factory('faculty/ipcr/list/faculty')
 			->bind('submit', $submit)
-			->bind('session', $this->session)
+			->bind('identifier', $identifier)
 			->bind('delete', $delete)
 			->bind('error', $error)
 			->bind('ipcr_forms', $ipcr_forms)
@@ -70,7 +71,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 			
-		if (!$ipcr_details['document'])
+		if (!$ipcr_details['document'] OR $ipcr_details['status'] == 'Rejected' OR $ipcr_details['status'] == 'Accepted' OR (($ipcr_details['status'] == 'Saved') AND $this->session->get('identifier') != 'faculty'))
 		{
 			$draft = $this->session->get_once('pdf_draft');
 			
@@ -158,69 +159,51 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 
-		$this->session->set('ipcr_details', $ipcr_details);
+		$error = $this->session->get_once('error');
+		$warning = $this->session->get_once('warning');
+		$identifier = $this->session->get('identifier');
+		$categories = $this->oams->get_categories();
+
+		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
 		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
 		$label = $period_from.' - '.$period_to;
 
-		$error = $this->session->get_once('error');
-		$warning = $this->session->get_once('warning');
-		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
-		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
-		$categories = $this->oams->get_categories();
-
 		$flag = 0;
+		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
 		foreach ($targets as $target)
 		{
 			if (!$target['r_quantity'] OR !$target['r_efficiency'] OR !$target['r_timeliness'])
 				$flag++;
 		}
 
-		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-
-		// if ($this->session->get('identifier') == 'dean')
-		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		// 	$title = 'Unit Head, '.$college['short'];
-		// }
-		// else
-		// {
-		// 	$title = ($this->session->get('identifier') == 'chair'
-		// 		? 'Unit Head, '.$department['short']
-		// 		: 'Faculty, '.$department['short']);
-		// }
-
 		$this->view->content = View::factory('faculty/ipcr/form/final/template')
 			->bind('label', $label)
 			->bind('error', $error)
-			->bind('flag', $flag)
 			->bind('warning', $warning)
-			->bind('session', $this->session)
+			->bind('flag', $flag)
+			->bind('identifier', $identifier)
 			->bind('ipcr_ID', $ipcr_ID)
 			->bind('categories', $categories)
 			->bind('outputs', $outputs)
-			// ->bind('department', $department['short'])
-			// ->bind('title', $title)
 			->bind('targets', $targets);
 		$this->response->body($this->view->render());
 	}
 
 	/**
-	 * Save IPCR rating
+	 * Save target rating
 	 */
 	public function action_save()
 	{
 		$ipcr = new Model_Ipcr;
 		
-		$post = $this->request->post();
-		$target_details = $ipcr->get_target_details($post['target_ID']);
-		$ipcr_details = $ipcr->get_details($target_details['ipcr_ID']);
+		$ipcr_ID = $this->request->param('id');
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		$update_success = $ipcr->update_target($post);
-		// add alert
-		$this->redirect('faculty/ipcr/rate/'.$target_details['ipcr_ID']);
+		$update_success = $ipcr->update_target($this->request->post());// add alert (?)
+		$this->redirect('faculty/ipcr/rate/'.$ipcr_ID);
 	}
 
 	/**
@@ -249,24 +232,22 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		
 		$post = $this->request->post();
 		$target_details = $ipcr->get_target_details($post['target_ID']);
-		$this->action_check($this->session->get('ipcr_details')['user_ID']); // Redirects if not the owner
+		$ipcr_details = $ipcr->get_details($target_details['ipcr_ID']);
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 
-		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
+		$edit_success = $ipcr->update_target($post);
+
+		if ($edit_success)
 		{
-			$edit_success = $ipcr->update_target($post);
-
-			if ($edit_success)
-			{
-				if (isset($post['target'])) echo $post['target'];
-				elseif (isset($post['indicators'])) echo $post['indicators'];
-				elseif (isset($post['actual_accom'])) echo $post['actual_accom'];
-			}
-			else
-			{
-				echo "<script>
-					alert('There seems to be an error. Please refresh the page.');
-					</script>";
-			}
+			if (isset($post['target'])) echo $post['target'];
+			elseif (isset($post['indicators'])) echo $post['indicators'];
+			elseif (isset($post['actual_accom'])) echo $post['actual_accom'];
+		}
+		else
+		{
+			echo "<script>
+				alert('There seems to be an error. Please refresh the page.');
+				</script>";
 		}
 	}
 
@@ -278,12 +259,11 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr = new Model_Ipcr;
 		$target_ID = $this->request->param('id');
 		$target_details = $ipcr->get_target_details($target_ID);
+		$ipcr_details = $ipcr->get_details($target_details['ipcr_ID']);
+		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		if ($this->session->get('ipcr_details')['ipcr_ID'] == $target_details['ipcr_ID'])
-		{	
-			$ipcr->delete_target($target_ID);
-			$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID'], 303);
-		}	
+		$ipcr->delete_target($target_ID);
+		$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID'], 303);
 	}
 
 	/**
@@ -312,7 +292,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 
 		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
-
+		$this->session->set('ipcr_details', $ipcr_details); // used for checking 
+		
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
 		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);

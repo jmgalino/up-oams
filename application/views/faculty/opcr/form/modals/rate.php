@@ -1,18 +1,18 @@
-<!-- IPCR - Rate Target Form -->
+<!-- OPCR - Rate Output Form -->
 <div class="modal fade" id="modal_rate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Rate Target</h4>
+        <h4 class="modal-title" id="myModalLabel">Rate Output</h4>
       </div>
 
-      <?php print Form::open('faculty/ipcr/save/'.$ipcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/opcr/save/'.$opcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="category" class="col-sm-3 control-label">Category</label>
           <div class="col-sm-8">
-            <select class="form-control" id="categoryTargetId" ipcr-id="<?php echo $ipcr_ID ?>" ajax-url="<?php echo URL::site('ajax/category_targets'); ?>">
+            <select class="form-control" id="categoryOutputId" opcr-id="<?php echo $opcr_ID ?>" ajax-url="<?php echo URL::site('ajax/category_outputs'); ?>">
               <option value="">Select</option>
               <?php
               foreach ($categories as $category)
@@ -25,18 +25,25 @@
         </div>
 
         <div class="form-group">
-          <label for="target" class="col-sm-3 control-label">Target</label>
+          <label for="target" class="col-sm-3 control-label">MFO/PAP</label>
           <div class="col-sm-8">
-            <select class="form-control" id="targetId" name="target_ID" ajax-url="<?php echo URL::site('ajax/target_details'); ?>" disabled required>
+            <select class="form-control rateOutputId" id="outputId" name="output_ID" ajax-url="<?php echo URL::site('ajax/output_details'); ?>" disabled required>
               <option value="">Select</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="indicators" class="col-sm-3 control-label">Success Indicators</label>
+          <label for="indicators" class="col-sm-3 control-label">Success Indicators<br>(Targets + Measures)</label>
           <div class="col-sm-8">
             <p class="form-control-static" id="indicators" name="indicators"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="actual_accom" class="col-sm-3 control-label">Divisions/Individuals Accountable</label>
+          <div class="col-sm-8">
+            <textarea class="form-control" id="accountable" name="accountable" rows="3" required></textarea>
           </div>
         </div>
 
@@ -78,7 +85,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Save', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'targetSubmit', 'disabled'=>'true')); ?>
+        <?php print Form::submit(NULL, 'Save', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'outputSubmit', 'disabled'=>'true')); ?>
       </div>
 
       <?php print Form::close();?>

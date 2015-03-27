@@ -7,19 +7,26 @@
 	<li class="active">View IPCR Form</li>
 </ol>
 
-<?php if ($evaluation): ?>
+<?php if ($success): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		IPCR Form was successfully <?php echo $evaluation; ?>.
+		IPCR Form was successfully <?php echo $success; ?>.
+	</p>
+</div>
+<?php elseif ($success === FALSE): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Something went wrong, please try again.
 	</p>
 </div>
 <?php endif; ?>
 
 <?php
 // Evaluate Form
-echo View::factory('faculty/ipcr/form/modals/evaluate')
-	->bind('evaluate_url', $evaluate_url);
+// echo View::factory('faculty/ipcr/form/modals/evaluate')
+// 	->bind('evaluate_url', $evaluate_url);
 ?>
 
 <div class="row">
@@ -29,17 +36,24 @@ echo View::factory('faculty/ipcr/form/modals/evaluate')
 
 	<div class="col-md-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
-			<li> 
-				<?php echo (($ipcr_details['status'] == 'Pending' AND $ipcr_details['version'] != '1')
-						? '<a href="">Mark as Checked'
-						: '<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate (Initial)') ?>
-				</a>
-			</li>
-			<hr style="border-top: dotted 1px;">
+			<?php
+			if (!$user_flag AND $ipcr_details['status'] == 'Pending')
+			{
+				echo '<li>';
+
+				if ($ipcr_details['version'] == '1')
+					echo '<a href="'.URL::site().'faculty/ipcrgroup/mark_accepted/'.$ipcr_details['ipcr_ID'].'">Mark as Accepted</a>';
+				else
+					echo '<a href="'.URL::site().'faculty/ipcrgroup/mark_checked/'.$ipcr_details['ipcr_ID'].'">Mark as Checked</a>';
+
+				echo '</li>
+				<hr style="border-top: dotted 1px;">';
+			}
+			?>
 			<li style="padding:10px 15px">
 				<dl>
 					<dt>Faculty</dt>
-					<dd><?php echo $user; ?></dd>
+					<dd><?php echo $faculty; ?></dd>
 				</dl>
 				<dl>
 					<dt>Period</dt>

@@ -33,7 +33,7 @@ $(document).ready(function () {
 
 	/* ==================================== *
     *                                       *
-    *               DATATABLE               *  
+    *               DATATABLE               *
     *           Initialize tables           *
     *                                       *
     * ===================================== *
@@ -51,12 +51,12 @@ $(document).ready(function () {
     *   10. IPCR Table (Faculty)            *
     *   11. IPCR Group Table                *
     *       (Department/College)            *
-    *   11. OPCR Table (Faculty)            *
+    *   11. OPCR Table (Faculty-Chair)      *
     *   12. OPCR Group Table (College)      *
     *                                       *
     * * * * * * * * * * * * * * * * * * * * */
     
-	// 1. User Table (Admin)
+	/* 1. User Table */
     $('#user_table').DataTable({
         "columnDefs": [{
         	"searchable": false,
@@ -66,7 +66,8 @@ $(document).ready(function () {
         // Order table by employee code (column 0), ascending
         "order": [[ 0, "asc" ]]
     });
-    // 2. College Table (Admin)
+
+    /* 2. College Table */
     $('#college_table').DataTable({
         "columnDefs": [{
             "searchable": false,
@@ -76,7 +77,8 @@ $(document).ready(function () {
         // Order table by college (column 0), ascending
         "order": [[ 0, "asc" ]]
     });
-    // 3. Department Table (Admin)
+
+    /* 3. Department Table */
     var department_table = $('#department_table').DataTable({
         "columns": [
 		    // College column is searchable but hidden; used as group header
@@ -103,8 +105,7 @@ $(document).ready(function () {
         // Order table by college (column 0), ascending
         "order": [[ 0, "asc" ]]
     });
-
-    /* DATATABLE -- Add event listener for ordering table by college */
+    // Add event listener for ordering departments by college
 	$('#department_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = department_table.order()[0];
 
@@ -114,7 +115,7 @@ $(document).ready(function () {
 		  department_table.order([0, 'asc']).draw();
     });
 
-    // 4. Program Table (Admin)
+    /* 4. Program Table */
     var ajaxUrl = $("#program_table").attr("ajax-url");
     var program_table = $('#program_table').DataTable({
         "ajax": ajaxUrl,
@@ -174,7 +175,7 @@ $(document).ready(function () {
         // Order table by college (column 1), ascending
         "order": [[1, 'asc']]
     });
-    /* DATATABLE -- Add event listener for ordering program table by college */
+    // Add event listener for ordering programs by college
 	$('#program_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = program_table.order()[0];
 
@@ -183,7 +184,7 @@ $(document).ready(function () {
 		else
 		  program_table.order([1, 'asc']).draw();
     });
-    /* DATATABLE -- Add event listener for opening/closing details */
+    // Add event listener for details toggle
     $('#program_table tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = program_table.row(tr);
@@ -198,7 +199,7 @@ $(document).ready(function () {
             tr.addClass('shown');
         }
     });
-    /* MODAL -- Add event listener for 'Update Program' buttons */
+    // Add event listener for 'Update Program' buttons
     $('#program_table tbody').on('click', 'a#updateProgram', function () {
         var ajaxUrl = $(this).attr("ajax-url");
         var validateUrl = $(this).attr("validate-url");
@@ -233,7 +234,7 @@ $(document).ready(function () {
         });
     });
 
-    // 5. Announcement Table (Admin)
+    /* 5. Announcement Table */
     $('#announcement_table').DataTable({
         "columnDefs": [{
             "orderable": false,
@@ -246,6 +247,7 @@ $(document).ready(function () {
         // Order table by date (column 2), descending
         "order": [[ 2, "desc" ]]
     });
+    // Compressed version for all
     $('#announcement_summary_table').DataTable({
         "columnDefs": [{
             "orderable": false,
@@ -260,7 +262,7 @@ $(document).ready(function () {
         // "order": [[ 2, "desc" ]]
     });
 
-	// 6. Message Table (Admin)
+	/* 6. Message Table */
 	$('#message_table').DataTable({
         "columnDefs": [{
             "visible": false,
@@ -279,6 +281,7 @@ $(document).ready(function () {
         "order": [[ 2, "desc" ]]
     });
       /* MODAL -- Add event listener */
+    // Add event listener for viewing
     $('#message_table tbody').on('click', 'td.message', function () {
         var ajaxUrl = $(this).attr("ajax-url");
         var message_ID = $(this).attr("key");
@@ -301,7 +304,7 @@ $(document).ready(function () {
         });
     });
 
-    // 7. Education Table
+    /* 7. Education Table */
     $('#education_table').DataTable({
         "paging": false,
         "ordering": false,
@@ -310,7 +313,7 @@ $(document).ready(function () {
         "order": [[0, "desc"]],
     })
 
-	// 8. Accomplishment Table (Faculty)
+	/* 8. Accomplishment Table  */
 	$('#accom_table').DataTable({
         "columns": [
             null,
@@ -325,7 +328,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
 	
-    // 9. Accomplishment Group Table (Department/College)
+    /* 9. Accomplishment Group Table */
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
 		    // Period column is searchable but hidden; used as group header
@@ -355,7 +358,7 @@ $(document).ready(function () {
         // Order table by period (column 0), descending
         "order": [[ 0, "desc" ]]
     });
-    /* DATATABLE -- Add event listener for ordering group accomplishment table by period */
+    // Add event listener for ordering group accomplishment table by period
 	$('#accom_group_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = accom_group_table.order()[0];
 		
@@ -364,8 +367,7 @@ $(document).ready(function () {
 		else
 		  accom_group_table.order([0, 'asc']).draw();
     });
-    
-    /* DATATABLE -- Initialize multiple accomplishment tables */
+    // Initialize multiple accomplishment tables for viewing all accomplishments
     var all_table = $("table.display").DataTable({
         "paging": false,
         "ordering": false,
@@ -373,12 +375,12 @@ $(document).ready(function () {
         // Custom table tools: (t)able, p(r)ocessing
         "dom": 'tr',
     });
-    /* DATATABLE -- Add event listener for filtering multiple accomplishment tables */
+    // Add event listener for filtering multiple accomplishment tables
     $("#search").on('keyup', function () {
         all_table.search($(this).val()).draw();
     });
     
-    // 10. IPCR Table (Faculty)
+    /* 10. IPCR Table */
     $('#ipcr_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -390,7 +392,7 @@ $(document).ready(function () {
 		]
     });
     
-    // 11. IPCR Group Table (College)
+    /* 11. IPCR Group Table */
 	var ipcr_group_table = $('#ipcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -415,7 +417,7 @@ $(document).ready(function () {
             });
         }
     });
-    // Order by the period
+    // Order IPCR forms by period
     $('#ipcr_group_table tbody').on('click', 'tr.group', function () {
 		var currentOrder = ipcr_group_table.order()[0];
 		if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
@@ -425,7 +427,7 @@ $(document).ready(function () {
 		}
     });
 
-    // 12. OPCR Table (Faculty)
+    /* 12. OPCR Table */
     $('#opcr_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -437,8 +439,8 @@ $(document).ready(function () {
 		    { "searchable": false, "orderable": false }
 		]
     });
-    
-    // 13. OPCR Group Table (Faculty - Dean)
+
+    /* 13. OPCR Group Table */
     var opcr_group_table = $('#opcr_college_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -463,7 +465,7 @@ $(document).ready(function () {
             });
         }
     });
-    // Order by the period
+    // Order OPCR Forms by period
     $('#opcr_group_table tbody').on('click', 'tr.group', function () {
         var currentOrder = ipcr_group_table.order()[0];
         if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
@@ -473,7 +475,7 @@ $(document).ready(function () {
         }
     });
 
-    /* DOCUMENT FORM -- Show necessary fields depending on doument type */
+    /* DOCUMENT TYPE -- Show necessary fields depending on doument type */
     $("#report_type").change(function () {
         var type = $(this).val();
 
@@ -520,32 +522,33 @@ $(document).ready(function () {
         if (fund) $(this).val($.number(fund, 2));
     });
 
-	// date
-	$("#datepicker .input-group.date").datepicker({
-		// format: "MM dd, yyyy",
-		todayHighlight: true,
-		autoclose: true
-	});
-	$("#award-duration .input-daterange, #research-duration .input-daterange, #paper-dates .input-daterange, #creative-dates .input-daterange, #participation-dates .input-daterange, #other-dates .input-daterange").datepicker({
-		format: "d MM yyyy",
-		todayHighlight: true
-	});
-	$('#period .input-daterange').datepicker({
-		format: "MM yyyy",
-	    viewMode: 1, 
-	    minViewMode: 1,
-	});
-	$("#yearmonth .input-group.date").datepicker({
-		format: "MM yyyy",
-	    viewMode: 1, 
-	    minViewMode: 1,
-		autoclose: true
-	});
-	
 	// Tooltip for author field
 	$('input#author').tooltip();
 	$('.button-tip').tooltip();
 
+    /* Date pickers */
+    $("#datepicker .input-group.date").datepicker({
+        // format: "MM dd, yyyy",
+        todayHighlight: true,
+        autoclose: true
+    });
+    $("#award-duration .input-daterange, #research-duration .input-daterange, #paper-dates .input-daterange, #creative-dates .input-daterange, #participation-dates .input-daterange, #other-dates .input-daterange").datepicker({
+        format: "d MM yyyy",
+        todayHighlight: true
+    });
+    $('#period .input-daterange').datepicker({
+        format: "MM yyyy",
+        viewMode: 1, 
+        minViewMode: 1,
+    });
+    $("#yearmonth .input-group.date").datepicker({
+        format: "MM yyyy",
+        viewMode: 1, 
+        minViewMode: 1,
+        autoclose: true
+    });
+    
+    /* File input */
 	$("#photo").fileinput({
 		previewFileType: "image",
 		browseClass: "btn btn-primary",
@@ -554,7 +557,6 @@ $(document).ready(function () {
 		showRemove: false,
 		showUpload: false
 	});
-
     $("input#accom-attachment").fileinput({
         previewFileType: "image",
         browseClass: "btn btn-primary",
@@ -564,28 +566,28 @@ $(document).ready(function () {
         showUpload: false,
         maxFileCount: 5
     });
-                
 
-    $("#r_quantity").rating({
+    /* Rating input */
+    $("input#r_quantity").rating({
 		step: 1,
 		size: 'xs',
-	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
+	    starCaptions: {1: "Poor", 2: "Unsatisfactory", 3: "Satisfactory", 4: "Very Satisfactory", 5: "Outstanding"},
 	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
 	});
-	$("#r_efficiency").rating({
+	$("input#r_efficiency").rating({
 		step: 1,
 		size: 'xs',
-	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
-	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
+	    starCaptions: {1: "Poor", 2: "Unsatisfactory", 3: "Satisfactory", 4: "Very Satisfactory", 5: "Outstanding"},
+        starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
 	});
-	$("#r_timeliness").rating({
+	$("input#r_timeliness").rating({
 		step: 1,
 		size: 'xs',
-	    starCaptions: {1: "1", 2: "2", 3: "3", 4: "4", 5: "5"},
-	    starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
+	    starCaptions: {1: "Poor", 2: "Unsatisfactory", 3: "Satisfactory", 4: "Very Satisfactory", 5: "Outstanding"},
+        starCaptionClasses: {1: "text-warning", 2: "text-warning", 3: "text-warning", 4: "text-warning", 5: "text-warning"},
 	});
 
-
+    /* Confirmation message */
     $("a#deleteReport").click(function () {
         return confirm('Are you sure you want to delete this report?');
     });
@@ -607,6 +609,8 @@ $(document).ready(function () {
     $("a#deleteMessage").click(function () {
         return confirm('Are you sure you want to delete this message?');
     });
+    
+    /* PROFILE - Toggle views */
     $("#education_toggle_show, #education_toggle_hide").click(function()
     {
         $("#education").toggle("slow");
@@ -633,14 +637,3 @@ $(document).ready(function () {
     });
 
 });
-	// // Refine - filter, sort
-	// $("#refine_list").click(function ()
-	// {
-	// 	$("#refine_form").toggle();
-	// 	$("#display_table").toggleClass("col-md-9");		
-	// });
-
-	// // No auto close
-	// $('#user_filter').collapse({
-	//   toggle: false
-	// })

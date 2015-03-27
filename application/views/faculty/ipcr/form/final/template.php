@@ -19,11 +19,11 @@
 		<?php echo $warning; ?>
 	</p>
 </div>
-<?php elseif ($flag==0): ?>
+<?php elseif ($flag == 0): ?>
 <div class="alert alert-reminder alert-dismissable" id="flag">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong><?php echo (($session->get('identifier') == 'dean') ? 'save' : 'submit'); ?></strong>.
+		Don't forget to <strong><?php echo (($identifier == 'faculty') ? 'submit' : 'save'); ?></strong>.
 	</p>
 </div>
 <?php endif; ?>
@@ -80,12 +80,12 @@ echo View::factory('faculty/ipcr/form/modals/rate')
 			<hr>
 			<li <?php if ($flag > 0) echo 'class="disabled"' ?>>
 				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
-				<?php echo (($session->get('identifier') == 'dean') ? 'Save' : 'Submit'); ?>
+					<?php echo (($identifier == 'faculty') ? 'Submit' : 'Save'); ?>
 				</a>
 			</li>
 			<li style="padding: 10px 15px;">
 				<span class="help-block">
-					Note: You have to rate all targets to enable submit function
+					Note: You have to complete the ratings for all targets to enable the <?php echo (($identifier == 'faculty') ? 'submit' : 'save'); ?> function.
 				</span>
 			</li>
 		</ul>

@@ -18,7 +18,7 @@
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		IPCR was successfully <?php echo (($session->get('identifier') == 'faculty') ? 'submitted' : 'saved'); ?>.
+		IPCR was successfully <?php echo ($identifier == 'faculty' ? 'submitted' : 'saved'); ?>.
 	</p>
 </div>
 <?php elseif ($delete): ?>
@@ -117,23 +117,23 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 					}
 				}
 
-				// if (($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Accepted') OR (($ipcr['status'] == 'Pending') AND ($session->get('identifier') == 'chair')))
-				// {
-				// 	echo 	'<li>
-				// 				<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
-				// 				<span class="glyphicon glyphicon-star"></span> Rate Outputs</a>
-				// 			</li>';
-				// }
-
 				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Rejected'))
 				{
-					echo 	'<li>
+					echo	'<li>
 								<a href='.URL::site('faculty/ipcr/update/'.$ipcr['ipcr_ID']).'>
 								<span class="glyphicon glyphicon-pencil"></span> Edit Form</a>
 							</li>
 							<li>
 								<a id="deleteForm" href='.URL::site('faculty/ipcr/delete/'.$ipcr['ipcr_ID']).'>
 								<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
+							</li>';
+				}
+
+				if (($ipcr['status'] == 'Checked') OR (($ipcr['status'] == 'Saved') AND $identifier != 'faculty'))
+				{
+					echo 	'<li>
+								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-star"></span> Rate Targets</a>
 							</li>';
 				}
 

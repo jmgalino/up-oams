@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+	/* ==================================== *
+    *                                       *
+    *                  ADMIN                *
+    *                                       *
+    * ===================================== */
+
 	/* PROFILE FORM (NEW) -- Reset form */
 	$("#newProfile").click(function () {
 		var url = $(this).attr("url");
@@ -382,6 +389,12 @@ $(document).ready(function () {
 			}
 		});
 	});
+
+	/* ==================================== *
+    *                                       *
+    *         ACCOMPLISHMENT REPORTS        *
+    *                                       *
+    * ===================================== */
 
 	/* ACCOMPLISHMENT FORM -- Reset form */
 	$("#addAccomplishment").click(function () {
@@ -919,37 +932,13 @@ $(document).ready(function () {
         });
 	});
 
-	/* OUTPUT FORM -- List of output depends on selected category */
-	$("#category-id").change(function () {
-		var ajaxUrl = $(this).attr("ajax-url");
-		var category_ID = $(this).val();
-        var opcr_ID = $(this).attr("opcr-id");
+	/* ==================================== *
+    *                                       *
+    *               IPCR-OPCR               *
+    *                                       *
+    * ===================================== */
 
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl,
-            data: "category_ID=" + category_ID + "&opcr_ID=" + opcr_ID,
-			dataType: "json",
-            success:function (options) {
-            	if (options.length == 0) {
-            		$("#output-id").html("").prop("disabled", true);
-            		$("#output-submit").prop("disabled", true);
-            	}
-            	else {
-	        		var newOptions = "";
-
-					for (var i = 0; i < options.length; i++) {
-						newOptions += "<option value=\"" + options[i].output_ID + "\">" + options[i].output + "</option>";
-					}
-
-					$("#output-id").html(newOptions).prop("disabled", false);
-					$("#output-submit").prop("disabled", false);
-            	}
-            }
-        });
-	});
-
-	// Success indicator style
+	/* OUTPUT FORM (NEW) -- Success indicator style selector */
 	$("#style a").click(function ()
 	{
 		var style = $(this).attr("href");
@@ -967,8 +956,12 @@ $(document).ready(function () {
 		}
 	});
 
-	$('td.editOutput').editable('/up-oams/index.php/faculty/opcr/edit/output',
+	/* OUTPUT FORM (UPDATE) -- Set form for editing */
+	$("td.editOutput").editable("",
 	{
+		onsubmit: function (settings) {
+			settings.target = $("td.editOutput").attr("ajax-url");
+		},
 		name		: 'output',
 		id			: 'output_ID',
 		type		: 'textarea',
@@ -977,10 +970,14 @@ $(document).ready(function () {
 		onblur		: 'ignore',
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
-     });
+	});
 
-	$('td.editOutputIndicator').editable('/up-oams/index.php/faculty/opcr/edit/indicator',
+	/* INDICATOR FORM (UPDATE) -- Set form for editing */
+	$("td.editOutputIndicator").editable("",
 	{
+        onsubmit: function (settings) {
+            settings.target = $("td.editOutputIndicator").attr("ajax-url");
+        },
 		name		: 'indicators',
 		id			: 'output_ID',
 		type		: 'textarea',
@@ -989,10 +986,66 @@ $(document).ready(function () {
 		onblur		: 'ignore',
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
-     });
+    });
 
-	$('td.editTarget').editable('/up-oams/index.php/faculty/ipcr/edit/target',
+	/* OUTPUT FORM (IPCR/OPCR) -- List of output depends on selected category */
+	$("select#categoryOutputId").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var categoryId = $(this).val();
+        var opcrId = $(this).attr("opcr-id");
+
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: "category_ID=" + categoryId + "&opcr_ID=" + opcrId,
+			dataType: "json",
+            success:function (options) {
+            	if (options.length == 0) {
+            		$("select#outputId").html("").trigger("change").prop("disabled", true);
+            		$("input#outputSubmit").prop("disabled", true);
+            	}
+            	else {
+	        		var newOptions = "";
+
+					for (var i = 0; i < options.length; i++) {
+						newOptions += "<option value=\"" + options[i].output_ID + "\">" + options[i].output + "</option>";
+					}
+
+					$("select#outputId").html(newOptions).trigger("change").prop("disabled", false);
+					$("input#outputSubmit").prop("disabled", false);
+            	}
+            }
+        });
+	});
+
+	/* OUTPUT-RATE FORM -- Set form for rating/editing */
+	$(".rateOutputId").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+        var outputId = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: 'output_ID=' + outputId,
+		    dataType: "json",
+            success:function (data) {
+            	$("#indicators").text(data['indicators']);
+            	$("#accountable").text(data['accountable']);
+            	$("#actual_accom").text(data['actual_accom']);
+            	$("input#r_quantity").rating('update', data['r_quantity']);
+            	$("input#r_efficiency").rating('update', data['r_efficiency']);
+            	$("input#r_timeliness").rating('update', data['r_timeliness']);
+            	$("#remarks").val(data['remarks']);
+            }
+        });
+	});
+
+	/* TARGET FORM (UPDATE) -- Set form for editing */
+	$("td.editTarget").editable("",
 	{
+        onsubmit: function (settings) {
+            settings.target = $("td.editTarget").attr("ajax-url");
+        },
 		name		: 'target',
 		id			: 'target_ID',
 		type		: 'textarea',
@@ -1002,10 +1055,14 @@ $(document).ready(function () {
 		// style   	: 'width: '+($(this).width()-40),
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
-     });
+	});
 
-	$('td.editTargetIndicator').editable('/up-oams/index.php/faculty/ipcr/edit/indicator',
+	/* INDICATOR FORM (UPDATE) -- Set form for editing */
+	$("td.editTargetIndicator").editable("",
 	{
+        onsubmit: function (settings) {
+            settings.target = $("td.editTarget").attr("ajax-url");
+        }, 
 		name		: 'indicators',
 		id			: 'target_ID',
 		type		: 'textarea',
@@ -1015,42 +1072,54 @@ $(document).ready(function () {
 		// style   	: 'width: '+($(this).width()-40),
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
-     });
+	});
 	
-	
-	// $("#category_ID").change(function () {
-	// 	var ipcr_ID = $(this).attr("ipcr-id");
- //        var category_ID = $(this).val();
+	/* IPCR-RATE FORM -- List of targets depends on selected category */
+	$("#categoryTargetId").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+        var categoryId = $(this).val();
+		var ipcrId = $(this).attr("ipcr-id");
         
- //        $.ajax({
- //            type: "POST",
- //            url: "/up-oams/index.php/ajax/category_targets",
- //            data: 'category_ID=' + category_ID + '&ipcr_ID=' + ipcr_ID,
-	// 	    dataType: "json",
- //            success:function (options){
- //                var newOptions = '';
-	// 			for (var i = 0; i < options.length; i++)
-	// 			{
-	// 				newOptions += '<option value="' + options[i].optionValue + '">' + options[i].optionText + '</option>';
-	// 			}
-	// 			$("#target_ID").html(newOptions);
- //            }
- //        });
- //    });
-
-	$("#target_ID").change(function () {
-        var target_ID = $(this).val();
         $.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/target_details",
-            data: 'target_ID=' + target_ID,
+            url: ajaxUrl,
+            data: 'category_ID=' + categoryId + '&ipcr_ID=' + ipcrId,
 		    dataType: "json",
-            success:function (data){
+            success:function (options) {
+            	if (options.length == 0) {
+            		$("#targetId").html("").trigger("change").prop("disabled", true);
+            		$("#targetSubmit").prop("disabled", true);
+            	}
+            	else {
+	        		var newOptions = "";
+
+					for (var i = 0; i < options.length; i++) {
+						newOptions += "<option value=\"" + options[i].target_ID + "\">" + options[i].target_details + "</option>";
+					}
+
+					$("#targetId").html(newOptions).trigger("change").prop("disabled", false);
+					$("#targetSubmit").prop("disabled", false);
+            	}
+            }
+        });
+    });
+
+	/* IPCR-RATE FORM -- Set form for rating/editing */
+	$("#targetId").change(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+        var targetId = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: 'target_ID=' + targetId,
+		    dataType: "json",
+            success:function (data) {
             	$("#indicators").text(data['indicators']);
             	$("#actual_accom").text(data['actual_accom']);
-            	$("#r_quantity").rating('update', data['r_quantity']);
-            	$("#r_efficiency").rating('update', data['r_efficiency']);
-            	$("#r_timeliness").rating('update', data['r_timeliness']);
+            	$("input#r_quantity").rating('update', data['r_quantity']);
+            	$("input#r_efficiency").rating('update', data['r_efficiency']);
+            	$("input#r_timeliness").rating('update', data['r_timeliness']);
             	$("#remarks").val(data['remarks']);
             }
         });

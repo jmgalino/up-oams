@@ -9,7 +9,7 @@
 
       <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
       <div class="modal-body">
-        <?php if ($ipcr_forms AND $opcr_forms): // AND $identifier == 'dean' ?>
+        <?php if ($ipcr_forms AND $opcr_forms):// AND $identifier == 'dean'): ?>
         <div class="form-group">
           <label for="form_type" class="col-sm-4 control-label">Form Type</label>
           <div class="col-sm-6">
@@ -39,7 +39,7 @@
               <?php 
               foreach ($opcr_forms as $opcr) {
                 echo '<option value=',$opcr['opcr_ID'],'>',
-                   date_format(date_create($opcr['period_from']), 'F Y'), ' - ', date_format(date_create($opcr['period_to']), 'F Y'),
+                   date('F Y', strtotime($opcr['period_from'])), ' - ', date('F Y', strtotime($opcr['period_to'])),
                   '</option>';
               }
               ?>

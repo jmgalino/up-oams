@@ -15,8 +15,8 @@
             <select class="form-control" name="opcr_ID" id="period">
               <?php 
               foreach ($opcr_forms as $opcr) {
-                echo '<option value=',$opcr['opcr_ID'],'>',
-                   date_format(date_create($opcr['period_from']), 'F Y'), ' - ', date_format(date_create($opcr['period_to']), 'F Y'),
+                echo '<option value="',$opcr['opcr_ID'],'">',
+                   date('F Y', strtotime($opcr['period_from'])), ' - ', date('F Y', strtotime($opcr['period_to'])),
                   '</option>';
               }
               ?>

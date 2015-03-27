@@ -420,46 +420,122 @@ class Controller_Ajax extends Controller {
 	/**
 	 * Get targets based on category
 	 */
-	// public function action_category_targets()
-	// {
-	// 	$ipcr = new Model_Ipcr;
+	public function action_category_targets()
+	{
+		$ipcr = new Model_Ipcr;
 
-	// 	$category_ID = $this->request->post('category_ID');
-	// 	$ipcr_ID = $this->request->post('ipcr_ID');
-	// 	$targets = $ipcr->get_category_targets($ipcr_ID, $category_ID);
+		$category_ID = $this->request->post('category_ID');
+		$ipcr_ID = $this->request->post('ipcr_ID');
+		$targets = $ipcr->get_category_targets($ipcr_ID, $category_ID);
 
-	// 	$arr = array();
-	// 	foreach ($targets as $target)
- //        {
- //        	$tmp['optionValue'] = $target['target_ID'];
- //        	$tmp['optionText'] = $target['target'];
- //        	$arr[] = $tmp;
- //        }
+		$arr = array();
+		foreach ($targets as $target)
+        {
+        	$tmp['target_ID'] = $target['target_ID'];
+        	$tmp['target_details'] = $target['target'];
+        	$arr[] = $tmp;
+        }
 
- //        echo json_encode($arr);
- //        exit();
-	// }
+        echo json_encode($arr);
+        exit();
+	}
 
-	// /**
-	//  * Get target details
-	//  */
-	// public function action_target_details()
-	// {
-	// 	$ipcr = new Model_Ipcr;
+	/**
+	 * Get target details
+	 */
+	public function action_target_details()
+	{
+		$ipcr = new Model_Ipcr;
 
-	// 	$target_ID = $this->request->post('target_ID');
-	// 	$target_details = $ipcr->get_target_details($target_ID);
+		$target_ID = $this->request->post('target_ID');
 		
-	// 	$arr = array();
-	// 	$arr['indicators'] = $target_details['indicators'];
-	// 	$arr['actual_accom'] = ($target_details['actual_accom'] ? $target_details['actual_accom'] : '');
-	// 	$arr['r_quantity'] = $target_details['r_quantity'];
-	// 	$arr['r_efficiency'] = $target_details['r_efficiency'];
-	// 	$arr['r_timeliness'] = $target_details['r_timeliness'];
-	// 	$arr['remarks'] = $target_details['remarks'];
+		if (is_numeric($target_ID))
+		{
+			$target_details = $ipcr->get_target_details($target_ID);
+			$target_details['actual_accom'] .= '';
+			echo json_encode($target_details);
+			exit();
+		}
+		else
+		{
+			$arr = array();
+			$arr['indicators'] = '';
+			$arr['actual_accom'] = '';
+			$arr['r_quantity'] = '';
+			$arr['r_efficiency'] = '';
+			$arr['r_timeliness'] = '';
+			$arr['remarks'] = '';
+		}
+	}
 
-	// 	echo json_encode($arr);
-	// 	exit();
-	// }
+	/**
+	 * Get output details
+	 */
+	public function action_output_details()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+		$user = new Model_User;
+
+		$output_ID = $this->request->post('output_ID');
+		
+		if (is_numeric($output_ID))
+		{
+			$output_details = $opcr->get_output_details($output_ID);
+			$output_details['actual_accom'] .= '';
+
+			if (!$output_details['accountable'])
+			{
+				$targets = $ipcr->get_output_targets($output_ID, NULL);
+				if ($targets)
+				{
+					$i = 0;
+					$accountable = count($targets);
+					$session = Session::instance();
+					$college = $univ->get_college_details(NULL, $session->get('program_ID'));
+					$programIDs = $univ->get_college_programIDs($college['college_ID']);
+					$users = $user->get_user_group($programIDs, NULL);
+
+					foreach ($targets as $target)
+					{
+						$i++;
+
+						foreach ($users as $user)
+						{
+							if ($target['user_ID'] == $user['user_ID'])
+							{
+								$output_details['accountable'] .= $user['faculty_code'];
+
+								if ($accountable == 2 AND $i == 1)
+									$output_details['accountable'] .= ' & ';
+								elseif ($accountable > 2)
+								{
+									if ($i == $accountable - 1)
+										$output_details['accountable'] .= ', & ';
+									elseif ($i < $accountable - 2)
+										$output_details['accountable'] .= ', ';
+								}
+							}
+						}
+					}
+				}
+			}
+
+			echo json_encode($output_details);
+			exit();
+		}
+		else
+		{
+			$arr = array();
+			$arr['indicators'] = '';
+			$arr['accountable'] = '';
+			$arr['actual_accom'] = '';
+			$arr['r_quantity'] = '';
+			$arr['r_efficiency'] = '';
+			$arr['r_timeliness'] = '';
+			$arr['remarks'] = '';
+		}
+	}
 
 } // End Ajax

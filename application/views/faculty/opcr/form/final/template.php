@@ -19,18 +19,20 @@
 		<?php echo $warning; ?>
 	</p>
 </div>
-<?php elseif ($outputs): ?>
+<?php elseif (!$flag): ?>
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong>publish</strong>.
+		Don't forget to <strong>submit</strong>.
 	</p>
 </div>
 <?php endif; ?>
 
 <?php
-// Add output
-echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categories);
+// Rate output
+echo View::factory('faculty/opcr/form/modals/rate')
+	->bind('opcr_ID', $opcr_ID)
+	->bind('categories', $categories);
 ?>
 
 <div class="row">
@@ -41,9 +43,12 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 			echo '<h4 class="text-center">(Template for Faculty)</h4>';
 			echo '<br>';
 
-			echo View::factory('faculty/opcr/form/initial/fragment')
+			echo View::factory('faculty/opcr/form/final/fragment')
 				->bind('categories', $categories)
-				->bind('outputs', $outputs);
+				->bind('outputs', $outputs)
+				->bind('ipcr_forms', $ipcr_forms)
+				->bind('targets', $targets)
+				->bind('users', $users);
 		?>
 		</pre>
 	</div>
@@ -51,17 +56,19 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li>
-				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
+				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Output</a>
 			</li>
 			<?php if ($outputs): ?>
 			<hr>
-			<li> 
-				<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>Publish</a>
+			<li <?php if ($flag) echo 'class="disabled"' ?>> 
+				<a href=<?php echo URL::site('faculty/opcr/publish/'.$opcr_ID); ?>>
+					<?php echo (($identifier == 'chair') ? 'Submit' : 'Save'); ?>
+				</a>
 			</li>
 			<li>
 				<span class="help-block" style="padding: 10px 15px;">
-					Note: Double click values to edit; press save to keep the changes;
-					 and press the esc button to cancel.</span>
+					Note: You have to rate all outputs to enable <?php echo (($identifier == 'chair') ? 'submit' : 'save'); ?> function.
+				</span>
 			</li>
 			<?php endif; ?>
 		</ul>

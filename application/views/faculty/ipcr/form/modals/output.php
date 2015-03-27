@@ -12,7 +12,7 @@
         <div class="form-group">
           <label for="category" class="col-sm-4 control-label">Category</label>
           <div class="col-sm-7">
-            <select class="form-control" id="category-id" name="category_ID" opcr-id="<?php echo $ipcr_details['opcr_ID']; ?>" ajax-url="<?php echo URL::site('ajax/category_outputs');?>" required>
+            <select class="form-control" id="categoryOutputId" name="category_ID" opcr-id="<?php echo $ipcr_details['opcr_ID']; ?>" ajax-url="<?php echo URL::site('ajax/category_outputs');?>" required>
               <option value="">Select</option>
               <?php
               foreach ($categories as $category)
@@ -27,35 +27,14 @@
         <div class="form-group">
           <label for="output" class="col-sm-4 control-label">Output</label>
           <div class="col-sm-7">
-            <select class="form-control" id="output-id" name="output_ID" disabled required></select>
+            <select class="form-control" id="outputId" name="output_ID" disabled required></select>
           </div>
         </div>
-
-        <!-- <div class="form-group">
-          <label for="indicators" class="col-sm-4 control-label">Success Indicators (Targets + Measures)</label>
-          
-          <div class="col-sm-7" id="indicators">
-            <ul class="nav nav-pills nav-justified" role="tablist" id="style">
-              <li class="active"><a href="#style1" role="tab" data-toggle="tab">Style 1</a></li>
-              <li><a href="#style2" role="tab" data-toggle="tab">Style 2</a></li>
-            </ul>
-
-            <div class="tab-content" style="padding-top:5px;">
-              <div class="tab-pane active" id="style1">
-                <textarea class="form-control style_1" name="targets" rows="2" placeholder="Targets" required></textarea>
-                <textarea class="form-control style_1" name="measures" rows="2" placeholder="Measures" style="margin-top:5px;" required></textarea>
-              </div>
-              <div class="tab-pane" id="style2">
-                <textarea class="form-control style_2" name="indicators" rows="3" placeholder="Example: 10% done = 3; 20% done = 4; 30% done = 5"></textarea>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'output-submit', 'disabled'=>'true')); ?>
+        <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'outputSubmit', 'disabled'=>'true')); ?>
       </div>
 
       <?php print Form::close();?>

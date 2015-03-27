@@ -81,8 +81,8 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 			->bind('evaluate', $evaluate)
 			->bind('evaluate_url', $evaluate_url)
 			->bind('accom_details', $accom_details)
-			->bind('user', $fullname)
-			->bind('user_flag', $user_flag);
+			->bind('user_flag', $user_flag)
+			->bind('faculty', $fullname);
 		$this->response->body($this->view->render());
 	}
 
@@ -93,7 +93,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		$assessor = $this->session->get('fullname').' '.date_format(date_create(), '(d M Y)');
+		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
 		$accom_ID = $this->request->param('id');
 		$details = $this->request->post();
 		$details['remarks'] = ($details['remarks']
@@ -158,7 +158,6 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$employee_code = $this->session->get('employee_code');
 		$identifier = $this->session->get('identifier');
 		$programs = $univ->get_programs();
-
 		$accom_reports = $accom->get_group_accom($users['user_IDs'], NULL, NULL, FALSE);
 		
 		$this->view->content = View::factory('faculty/accom/list/group')
@@ -167,8 +166,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 			->bind('accom_reports', $accom_reports)
 			->bind('consolidate_url', $consolidate_url)
 			->bind('users', $users['users'])
-			->bind('programs', $programs)
-			->bind('employee_code', $employee_code);
+			->bind('programs', $programs);
 		$this->response->body($this->view->render());
 	}
 
@@ -180,17 +178,17 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		if ($identifier == 'dean')
-		{
-			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-			$programIDs = $univ->get_college_programIDs($college['college_ID']);
-			$users = $user->get_user_group($programIDs, NULL);
-		}
-		elseif ($identifier == 'chair')
+		if ($identifier == 'chair')
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 			$programIDs = $univ->get_department_programIDs($department['department_ID']);
 			$users = $user->get_user_group($programIDs, 'dean');
+		}
+		elseif ($identifier == 'dean')
+		{
+			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+			$programIDs = $univ->get_college_programIDs($college['college_ID']);
+			$users = $user->get_user_group($programIDs, NULL);
 		}
 
 		$user_IDs = array();
