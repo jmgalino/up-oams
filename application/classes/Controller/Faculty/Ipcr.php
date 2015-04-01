@@ -76,17 +76,14 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			$draft = $this->session->get_once('pdf_draft');
 			
 			if ($draft)
-			{
 				$ipcr_details['draft'] = $draft;
-				$this->show_pdf($ipcr_details, $opcr_details);
-			}
 			else
 				$this->redirect('faculty/mpdf/preview/ipcr/'.$ipcr_ID, 303);
 		}
 		else
-		{
-			$this->show_pdf($ipcr_details, $opcr_details);
-		}
+			$ipcr_details['draft'] = NULL;
+
+		$this->show_pdf($ipcr_details, $opcr_details);
 	}
 
 	/**
@@ -166,8 +163,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 
 		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
-		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
-		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$label = $period_from.' - '.$period_to;
 
 		$flag = 0;
@@ -271,8 +268,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	 */
 	private function show_pdf($ipcr_details, $opcr_details)
 	{
-		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
-		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$period = $period_from.' - '.$period_to;
 
 		$this->view->content = View::factory('faculty/ipcr/view/faculty')

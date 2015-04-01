@@ -52,6 +52,19 @@
 					{
 						if ($output['output_ID'] == $target['output_ID'])
 						{
+							if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
+							{
+								$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
+								$target['r_average'] = number_format(array_sum($rating)/3, 1);
+							}
+							else
+							{
+								$target['r_quantity'] = '';
+								$target['r_efficiency'] = '';
+								$target['r_timeliness'] = '';
+								$target['r_average'] = '';
+							}
+
 							echo '<tr>
 								<td class="form-rows">', $target['target'], '</td>
 								<td class="form-rows">', $target['indicators'], '</td>
@@ -59,15 +72,7 @@
 								<td class="form-rows">', $target['r_quantity'], '</td>
 								<td class="form-rows">', $target['r_efficiency'], '</td>
 								<td class="form-rows">', $target['r_timeliness'], '</td>
-								<td class="form-rows">';
-
-							if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
-							{
-								$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
-								echo number_format(array_sum($rating)/3, 1);
-							}
-
-							echo '</td>
+								<td class="form-rows">', $target['r_average'], '</td>
 								<td class="form-rows">', $target['rermarks'], '</td>
 								</tr>';
 						}

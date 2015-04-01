@@ -13,11 +13,13 @@
           <label for="period" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6">
             <select class="form-control" name="period" id="period_ID">
-              <?php 
+              <?php
+              $i = 0;
               foreach ($opcr_forms as $opcr) {
                 echo '<option value="',$opcr['opcr_ID'],'">',
                    date('F Y', strtotime($opcr['period_from'])), ' - ', date('F Y', strtotime($opcr['period_to'])),
                    '</option>';
+                if (++$i == 6) break;
               }
               ?>
             </select>

@@ -38,7 +38,7 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 		<pre class="center-block pre-scrollable">
 		<?php
 			echo '<h1 class="text-center">Office Performance Commitment and Review (OPCR)</h1>';
-			echo '<h4 class="text-center">(Template for Faculty)</h4>';
+			echo '<h4 class="text-center">(Guide for Faculty)</h4>';
 			echo '<br>';
 
 			echo View::factory('faculty/opcr/form/initial/fragment')

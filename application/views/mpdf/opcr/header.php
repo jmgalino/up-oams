@@ -12,7 +12,7 @@ echo '<br>';
 echo '<table width="200" align="right">
   <tbody>
     <tr><td class="text-center" style="border-bottom:1px solid black">', $fullname, '</td></tr>
-    <tr><td class="text-center">Unit Head, ', $title, '</td></tr>
+    <tr><td class="text-center">Unit Head, ', $unit, '</td></tr>
     <tr><td class="text-center">Date: ', $date_published, '</td></tr>
   </tbody>
 </table><br>';

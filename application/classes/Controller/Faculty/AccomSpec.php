@@ -21,8 +21,8 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
         if (($type !== 'pub') AND ($type !== 'mat'))
 		{
 			$details = $this->request->post();
-			$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
-			$details['end'] = date_format(date_create($details['end']), 'Y-m-d');
+			$details['start'] = date('Y-m-d', strtotime($details['start']));
+			$details['end'] = date('Y-m-d', strtotime($details['end']));
 		}
 
 		switch ($type)
@@ -81,8 +81,8 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		if (($type !== 'pub') AND ($type !== 'mat'))
 		{
 			$details = $this->request->post();
-			$details['start'] = date_format(date_create($details['start']), 'Y-m-d');
-			$details['end'] = date_format(date_create($details['end']), 'Y-m-d');
+			$details['start'] = date('Y-m-d', strtotime($details['start']));
+			$details['end'] = date('Y-m-d', strtotime($details['end']));
 		}
 
 		switch ($type)

@@ -9,7 +9,7 @@
 
       <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
       <div class="modal-body">
-        <?php if ($ipcr_forms AND $opcr_forms):// AND $identifier == 'dean'): ?>
+        <?php if ($ipcr_forms AND $opcr_forms): ?>
         <div class="form-group">
           <label for="form_type" class="col-sm-4 control-label">Form Type</label>
           <div class="col-sm-6">

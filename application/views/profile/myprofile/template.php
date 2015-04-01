@@ -57,7 +57,7 @@
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Birthday</strong></div>
-			<div class="col-xs-6"><?php echo date_format(date_create($user['birthday']), 'F d, Y'); ?></div>
+			<div class="col-xs-6"><?php echo date('F d, Y', strtotime($user['birthday'])); ?></div>
 		</div>
 		<br>
 

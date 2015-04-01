@@ -75,7 +75,7 @@ echo View::factory('faculty/accom/form/initialize')
 		echo '<td>', $yearmonth, '</td>';
 		
 		echo ($accom['date_submitted']
-			? '<td>'.date_format(date_create($accom['date_submitted']), 'F d, Y').'</td>'
+			? '<td>'.date('F d, Y', strtotime($accom['date_submitted'])).'</td>'
 			: '<td>Not submitted</td>');
 
 		echo '<td>', $accom['status'], '</td>';

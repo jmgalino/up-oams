@@ -13,7 +13,7 @@ echo '<table width="200" align="right">
   <tbody>
     <tr><td class="text-center" style="border-bottom:1pt solid black">', $session->get('fullname'), '</td></tr>
     <tr><td class="text-center">Unit Head, ', $label, '</td></tr>
-    <tr><td class="text-center">Date: ', date_format(date_create($opcr_details['date_published']), 'F d, Y'), '</td></tr>
+    <tr><td class="text-center">Date: ', date('F d, Y', strtotime($opcr_details['date_published'])), '</td></tr>
   </tbody>
 </table><br>';
 ?>

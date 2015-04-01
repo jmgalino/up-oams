@@ -1,4 +1,9 @@
+ASK:
+- does the dean have to see/consolidate the IPCR?
+
 TO DO:
+- limit department_opcr return to 6 in model
+- update kohana & bs
 - view all, limit/pagination
 - rch fund source should be > 0
 - no pagebreak before signature
@@ -11,6 +16,7 @@ TO DO:
 
 - change birthday input style (what for?)
 
+- Notify submit/approve/reject/check
 - Dept chair/dean announcement to be seen by subtituents only
 - Flag announcements (keep on top)
 - Announcement attachments

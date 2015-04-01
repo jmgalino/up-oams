@@ -42,7 +42,7 @@ echo View::factory('faculty/accom/form/evaluate')
 				</dl>
 				<dl>
 					<dt>Period</dt>
-					<dd><?php echo date_format(date_create($accom_details['yearmonth']), 'F Y'); ?></dd>
+					<dd><?php echo date('F Y', strtotime($accom_details['yearmonth'])); ?></dd>
 				</dl>
 				<dl>
 					<dt>Status</dt>

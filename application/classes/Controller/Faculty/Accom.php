@@ -142,6 +142,8 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 			$accom_details['draft'] = $draft;
 		}
+		else
+			$accom_details['draft'] = NULL;
 
 		$this->view->content = View::factory('faculty/accom/view/faculty')
 			->bind('accom_details', $accom_details);
@@ -259,20 +261,34 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
 		$accom_ID = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end, TRUE);
 
-		$consolidate_data['accoms']['pub'] = $accom->get_accoms($accom_ID, 'pub');
-		$consolidate_data['accoms']['awd'] = $accom->get_accoms($accom_ID, 'awd');
-		$consolidate_data['accoms']['rch'] = $accom->get_accoms($accom_ID, 'rch');
-		$consolidate_data['accoms']['ppr'] = $accom->get_accoms($accom_ID, 'ppr');
-		$consolidate_data['accoms']['ctv'] = $accom->get_accoms($accom_ID, 'ctv');
-		$consolidate_data['accoms']['par'] = $accom->get_accoms($accom_ID, 'par');
-		$consolidate_data['accoms']['mat'] = $accom->get_accoms($accom_ID, 'mat');
-		$consolidate_data['accoms']['oth'] = $accom->get_accoms($accom_ID, 'oth');
+		if ($accom_ID)
+		{
+			$consolidate_data['accoms']['pub'] = $accom->get_accoms($accom_ID, 'pub');
+			$consolidate_data['accoms']['awd'] = $accom->get_accoms($accom_ID, 'awd');
+			$consolidate_data['accoms']['rch'] = $accom->get_accoms($accom_ID, 'rch');
+			$consolidate_data['accoms']['ppr'] = $accom->get_accoms($accom_ID, 'ppr');
+			$consolidate_data['accoms']['ctv'] = $accom->get_accoms($accom_ID, 'ctv');
+			$consolidate_data['accoms']['par'] = $accom->get_accoms($accom_ID, 'par');
+			$consolidate_data['accoms']['mat'] = $accom->get_accoms($accom_ID, 'mat');
+			$consolidate_data['accoms']['oth'] = $accom->get_accoms($accom_ID, 'oth');
 
-		$consolidate_data['start'] = $start;
-		$consolidate_data['end'] = $end;
-		$this->session->set('consolidate_data', $consolidate_data);
-		$this->session->set('accom_type', 'faculty');
-		$this->redirect('faculty/mpdf/consolidate/accom');
+			$consolidate_data['start'] = $start;
+			$consolidate_data['end'] = $end;
+			$this->session->set('consolidate_data', $consolidate_data);
+			$this->session->set('accom_type', 'faculty');
+			$this->redirect('faculty/mpdf/consolidate/accom-consolidated');
+		}
+		else
+		{
+			$period = $this->request->post('start').' - '.$this->request->post('end');
+
+			if ($this->session->get('identifier') == 'faculty')
+				$this->session->set('error', 'There are no approved reports to consolidate in the period '.$period.'.');
+			else
+				$this->session->set('error', 'There are no saved reports to consolidate in the period '.$period.'.');
+
+			$this->redirect('faculty/accom', 303);
+		}
 	}
 
 } // End Accom

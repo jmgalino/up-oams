@@ -29,7 +29,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_college_programIDs($college['college_ID']);
 		$users = $user->get_user_group($programIDs, NULL);
-		$consolidate_url = 'faculty/ipcr_coll/consolidate';
+		$consolidate_url = NULL;//'faculty/ipcr_coll/consolidate';
 
 		$this->view_group($college['college'], $users, $consolidate_url);
 	}
@@ -52,8 +52,8 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$user_details = $user->get_details($ipcr_details['user_ID'], NULL);
 
 		$user_flag = ($ipcr_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
-		$period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
-		$period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$period = $period_from.' - '.$period_to;
 		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		$evaluate_url = ($identifier == 'dean' ? 'faculty/ipcr_coll/evaluate/'.$ipcr_ID : 'faculty/ipcr_dept/evaluate/'.$ipcr_ID);
@@ -97,7 +97,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		else
 			$this->session->set('success', FALSE);
 
-		if ($this->session->get('identifier') == 'chain') 
+		if ($this->session->get('identifier') == 'chair') 
 			$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
 		else
 			$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
@@ -135,7 +135,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	// {
 	// 	$ipcr = new Model_Ipcr;
 
-	// 	$assessor = $this->session->get('fullname').' '.date_format(date_create(), '(d M Y)');
+	// 	$assessor = $this->session->get('fullname').' '.date('(d M Y)');
 	// 	$ipcr_ID = $this->request->param('id');
 	// 	$details = $this->request->post();
 	// 	$details['remarks'] = ($details['remarks']
@@ -145,7 +145,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	// 	$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
 	// 	$this->session->set('evaluate', $evaluate_success);
 
-	// 	if ($this->session->get('identifier') == 'chain') 
+	// 	if ($this->session->get('identifier') == 'chair') 
 	// 		$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
 	// 	else
 	// 		$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
@@ -153,6 +153,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 
 	/**
 	 * Consolidate IPCR Forms
+	 * college level
 	 */
 	public function action_consolidate()
 	{

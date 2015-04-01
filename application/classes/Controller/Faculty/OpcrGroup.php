@@ -34,8 +34,8 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 
 		// $evaluation = $this->session->get_once('evaluation');
 		// $identifier = $this->session->get('identifier');
-		// $period_from = date_format(date_create($opcr_details['period_from']), 'F Y');
-		// $period_to = date_format(date_create($opcr_details['period_to']), 'F Y');
+		// $period_from = date('F Y', strtotime($opcr_details['period_from']));
+		// $period_to = date('F Y', strtotime($opcr_details['period_to']));
 		// $period = $period_from.' - '.$period_to;
 		// $fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		// $evaluate_url = ($identifier == 'dean' ? 'faculty/ipcr_coll/evaluate/'.$ipcr_ID : 'faculty/ipcr_dept/evaluate/'.$ipcr_ID);
@@ -57,7 +57,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 	{
 		// $ipcr = new Model_Ipcr;
 
-		// $assessor = $this->session->get('fullname').' '.date_format(date_create(), '(d M Y)');
+		// $assessor = $this->session->get('fullname').' '.date('(d M Y)');
 		// $ipcr_ID = $this->request->param('id');
 		// $details = $this->request->post();
 		// $details['remarks'] = ($details['remarks']

@@ -36,10 +36,7 @@ class Model_Accom extends Model {
 			$accom_reports = array();
 			foreach ($accom_IDs as $accom_ID)
 			{
-				foreach ($accom_ID as $key => $value)
-				{
-					$accom_reports[] = $value;
-				}	
+				$accom_reports[] = $accom_ID['accom_ID'];
 			}
 		}
 		else

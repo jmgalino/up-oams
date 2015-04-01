@@ -46,8 +46,8 @@ echo View::factory('faculty/ipcr/form/modals/rate')
 			// echo '<p>I, <span style="text-decoration: underline;">', $session->get('fullname'), '</span>',
 			// 	 ' of the <span style="text-decoration: underline;">', $department, '</span>',
 			// 	' commit to deliver and agree to be rated on the attainment of the following targets in accordance with the indicated measures for the period ',
-			// 	'<span style="text-decoration: underline;">', date_format(date_create($session->get('opcr_details')['period_from']), 'F Y'), '</span> to ',
-			// 	'<span style="text-decoration: underline;">', date_format(date_create($session->get('opcr_details')['period_to']), 'F Y'), '</span>.</p>';
+			// 	'<span style="text-decoration: underline;">', date('F Y', strtotime($session->get('opcr_details')['period_from'])), '</span> to ',
+			// 	'<span style="text-decoration: underline;">', date('F Y', strtotime($session->get('opcr_details')['period_to'])), '</span>.</p>';
 			// echo '<br>';
 			
 			// echo '<table style="font-size:14px" width="200" align="right">

@@ -23,7 +23,8 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Get forms (foreach department - as template for faculty)
+	 * Get forms (foreach department - as guide/parent for faculty IPCR)
+	 * limit to 6
 	 */
 	public function get_department_opcr($program_ID)
 	{
@@ -35,7 +36,9 @@ class Model_Opcr extends Model {
 		$opcr_forms = DB::select()
 			->from('opcrtbl')
 			->where('user_ID', '=', $department['user_ID'])
-			->where('status', '=', 'Published')
+			->where('status', 'IN', array('Published', 'Pending', 'Accepted', 'Checked'))
+			->order_by('period_from', 'DESC')
+			->order_by('period_to', 'DESC')
 			->execute()
 			->as_array();
 
@@ -206,6 +209,7 @@ class Model_Opcr extends Model {
     	$opcr_outputs = DB::select()
 			->from('opcr_outputtbl')
 			->where('opcr_ID', '=', $opcr_ID)
+			->order_by('output')
 			->execute()
 			->as_array();
 
@@ -221,6 +225,7 @@ class Model_Opcr extends Model {
 			->from('opcr_outputtbl')
 			->where('opcr_ID', '=', $opcr_ID)
 			->where('category_ID', '=', $category_ID)
+			->order_by('output')
 			->execute()
 			->as_array();
 
