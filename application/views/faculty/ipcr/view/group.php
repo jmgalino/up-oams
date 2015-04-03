@@ -1,9 +1,9 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href=<?php echo ($identifier == 'dean'
-		? URL::site('faculty/ipcr_coll').'>IPCR Forms - College'
-		: URL::site('faculty/ipcr_dept').'>IPCR Forms - Department'); ?></a></li>
+	<li><a href=<?php echo ($identifier == 'chair'
+		? URL::site('faculty/ipcr_dept').'>IPCR Forms - Department'
+		: URL::site('faculty/ipcr_coll').'>IPCR Forms - College'); ?></a></li>
 	<li class="active">View IPCR Form</li>
 </ol>
 

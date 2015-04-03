@@ -7,15 +7,34 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 	 */
 	public function action_coll()
 	{
+		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
-		$user = new Model_User;
 
-		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
-		$users = $user->get_user_group($programIDs, NULL);
-		$consolidate_url = 'faculty/opcr_coll/consolidate';
+		$error = $this->session->get_once('error');
 
-		$this->view_group($college_details['college'], $programIDs, $users, $consolidate_url);
+		$departments = $univ->get_departments();
+		$users = $this->get_college_users();
+		$opcr_forms = $opcr->get_group_opcr($users['user_IDs'], NULL, NULL, TRUE);
+		
+		$periods = array();
+		foreach ($opcr_forms as $opcr_details)
+		{
+			$period_from = date('F Y', strtotime($opcr_details['period_from']));
+			$period_to = date('F Y', strtotime($opcr_details['period_to']));
+			$period = $period_from.' - '.$period_to;
+
+			if (!in_array($period, $periods))
+				$periods[] = $period;
+		}
+
+		$this->view->content = View::factory('faculty/opcr/list/college')
+			->bind('unit', $college_details['college'])
+			->bind('opcr_forms', $opcr_forms)
+			->bind('error', $error)
+			->bind('periods', $periods)
+			->bind('users', $users['users'])
+			->bind('departments', $departments);
+		$this->response->body($this->view->render());
 	}
 
 	/**
@@ -23,150 +42,117 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 	 */
 	public function action_view()
 	{
-		// $ipcr = new Model_Ipcr;
-		// $opcr = new Model_Opcr;
-		// $user = new Model_User;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+		$user = new Model_User;
 
-		// $ipcr_ID = $this->request->param('id');
-		// $ipcr_details = $ipcr->get_details($ipcr_ID);
-		// $opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
-		// $user_details = $user->get_details($ipcr_details['user_ID'], NULL);
+		$success = $this->session->get_once('success');
 
-		// $evaluation = $this->session->get_once('evaluation');
-		// $identifier = $this->session->get('identifier');
-		// $period_from = date('F Y', strtotime($opcr_details['period_from']));
-		// $period_to = date('F Y', strtotime($opcr_details['period_to']));
-		// $period = $period_from.' - '.$period_to;
-		// $fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
-		// $evaluate_url = ($identifier == 'dean' ? 'faculty/ipcr_coll/evaluate/'.$ipcr_ID : 'faculty/ipcr_dept/evaluate/'.$ipcr_ID);
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID);
+		$user_details = $user->get_details($opcr_details['user_ID'], NULL);
+		$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
 
-		// $this->view->content = View::factory('faculty/ipcr/view/group')
-		// 	->bind('identifier', $identifier)
-		// 	->bind('user', $fullname)
-		// 	->bind('period', $period)
-		// 	->bind('evaluation', $evaluation)
-		// 	->bind('evaluate_url', $evaluate_url)
-		// 	->bind('ipcr_details', $ipcr_details);
-		// $this->response->body($this->view->render());
+		$faculty = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+
+		$this->view->content = View::factory('faculty/opcr/view/group')
+			->bind('success', $success)
+			->bind('opcr_details', $opcr_details)
+			->bind('faculty', $faculty)
+			->bind('unit', $college_details['short'])
+			->bind('period', $period);
+		$this->response->body($this->view->render());
 	}
 
 	/**
-	 * Evaluate OPCR Form
+	 * Mark OPCR Form as Checked
 	 */
-	public function action_evaluate()
+	public function action_mark_checked()
 	{
-		// $ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
 
-		// $assessor = $this->session->get('fullname').' '.date('(d M Y)');
-		// $ipcr_ID = $this->request->param('id');
-		// $details = $this->request->post();
-		// $details['remarks'] = ($details['remarks']
-		// 	? $details['remarks'].' - '.$assessor
-		// 	: 'Checked by '.$assessor);
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details['status'] = 'Checked';
+		$opcr_details['remarks'] = 'Checked by '.$this->session->get('fullname').' '.date('(d M Y)');
+		$check_success = $opcr->update($opcr_ID, $opcr_details);
 		
-		// $evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
-		// $this->session->set('evaluate', $evaluate_success);
+		if ($check_success)
+			$this->session->set('success', 'marked as \'Checked\'');
+		else
+			$this->session->set('success', FALSE);
 
-		// $referrer = $this->request->referrer();
-		// $coll = strpos($referrer, 'ipcr_coll');
-
-		// if ($coll) 
-		// 	$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
-		// else
-		// 	$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
+		$this->redirect('faculty/opcr_coll/view/'.$opcr_ID, 303);
 	}
 
 	/**
-	 * Shows consolidated OPCR Forms (OPCR Form) for evaluation
+	 * Consolidated OPCR Forms
 	 */
 	public function action_consolidate()
 	{
-		echo 'Shows consolidated OPCR Forms (college level) for evaluation';
-		// $ipcr = new Model_Ipcr;
-		// $opcr = new Model_Opcr;
-		// $univ = new Model_Univ;
-		// $user = new Model_User;
-
-		// $opcr_ID = ($this->request->post('opcr_ID') ? $this->request->post('opcr_ID') : $this->request->param('id'));
-		// $opcr_details = $opcr->get_details($opcr_ID);
-		// $period_from = date('Y-m-d', strtotime($opcr_details['period_from']));
-		// $period_to = date('Y-m-d', strtotime($opcr_details['period_to']));
-			
-		// if ($this->session->get('identifier') == 'dean')
-		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		// 	$label = $college['short'];
-		// 	$programIDs = $univ->get_college_programIDs($college['college_ID']);
-		// 	$users = $user->get_user_group($programIDs, NULL);
-		// }
-		// else
-		// {
-		// 	$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		// 	$label = $department['short'];
-		// 	$programIDs = $univ->get_department_programIDs($department['department_ID']);
-		// 	$users = $user->get_user_group($programIDs, 'dean');
-		// }
+		$opcr = new Model_Opcr;
 		
-		// $outputs = $opcr->get_outputs($opcr_ID);
-		// $targets = $ipcr->get_output_targets($outputs);
-		// $ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
-		// $categories = $this->oams->get_categories();
-				
-		// $this->view->content = View::factory('faculty/opcr/form/final/basic2')
-		// 	->bind('session', $this->session)
-		// 	->bind('department', $department)
-		// 	->bind('period_to', $period_to)
-		// 	->bind('period_from', $period_from)
-		// 	->bind('label', $label)
-		// 	->bind('opcr_details', $opcr_details)
-		// 	->bind('categories', $categories)
-		// 	->bind('outputs', $outputs)
-		// 	->bind('ipcr_forms', $ipcr_forms)
-		// 	->bind('targets', $targets)
-		// 	->bind('users', $users);
-		// $this->response->body($this->view->render());
+		$start = date('Y-m-d', strtotime('01'.$this->request->post('start')));
+		$end = date('Y-m-d', strtotime('01'.$this->request->post('end')));
+		$users = $this->get_college_users();
+		$opcr_forms = $opcr->get_group_opcr($users['user_IDs'], $start, $end, TRUE);
 
-		// $opcr = new Model_Opcr;
+		if ($opcr_forms)
+		{
+			$opcr_outputs = array();
+			foreach ($opcr_forms as $opcr_details)
+			{
+				$outputs = $opcr->get_outputs($opcr_details['opcr_ID']);
 
-		// $opcr_ID = $this->request->param('id');
-		// $opcr_details = $opcr->get_details($opcr_ID);
-		// $this->action_check($opcr_details['user_ID']); // Redirects if not the owner
-		// $this->redirect('faculty/mpdf/submit/ipcr-consolidated/'.$opcr_ID);
+				if ($outputs)
+				{
+					foreach ($outputs as $output)
+					{
+						$opcr_outputs[] = $output;
+					}
+				}
+			}
+
+			$consolidate_data['start'] = $start;
+			$consolidate_data['end'] = $end;
+			$consolidate_data['opcr_outputs'] = $opcr_outputs;
+			$this->session->set('consolidate_data', $consolidate_data);
+
+			$this->redirect('faculty/mpdf/download/opcr-consolidated/', 303);
+		}
+		else
+		{
+			$period = $this->request->post('start').' - '.$this->request->post('end');
+			$this->session->set('error', 'There are no OPCR Forms to consolidate in the period '.$period.'.');
+
+			$this->redirect('faculty/opcr_coll', 303);
+		}
 	}
 
 	/**
-	 * OPCR Forms (College)
+	 * Get users from user's college
 	 */
-	private function view_group($college, $programIDs, $users, $consolidate_url)
+	private function get_college_users()
 	{
-		$ipcr = new Model_Ipcr;
-		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
+		$user = new Model_User;
 
-		$employee_code = $this->session->get('employee_code');
-		$identifier = $this->session->get('identifier');
-
-		$programs = $univ->get_programs();
-
-		$userIDs = array();
-		foreach ($users as $user)
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
+		$college_users['users'] = $user->get_user_group($programIDs, NULL);
+		
+		$user_IDs = array();
+		foreach ($college_users['users'] as $user)
 		{
-			$userIDs[] = $user['user_ID'];
+			$user_IDs[] = $user['user_ID'];
 		}
 
-		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
-		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'));
-		
-		$this->view->content = View::factory('faculty/opcr/list/college')
-			->bind('identifier', $identifier)
-			->bind('college', $college)
-			->bind('consolidate_url', $consolidate_url)
-			->bind('ipcr_forms', $ipcr_forms)
-			->bind('opcr_forms', $opcr_forms)
-			->bind('users', $users)
-			->bind('programs', $programs)
-			->bind('employee_code', $employee_code);
-		$this->response->body($this->view->render());
+		$college_users['user_IDs'] = $user_IDs;
+
+		return $college_users;
 	}
 
 } // End OpcrGroup

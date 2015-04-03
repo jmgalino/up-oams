@@ -116,9 +116,9 @@ function redate($start, $end)
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li class="active"><?php echo ($identifier == 'dean'
-		? 'Accomplishment Reports - College'
-		: 'Accomplishment Reports - Department'); ?></li>
+	<li class="active"><?php echo ($identifier == 'chair'
+		? 'Accomplishment Reports - Department'
+		: 'Accomplishment Reports - College'); ?></li>
 </ol>
 
 <?php if ($accom_reports): ?>
@@ -132,9 +132,9 @@ function redate($start, $end)
 		</form>
 	</div>
 	<div class="col-md-6">
-		<a class="btn btn-default pull-right" href="<?php echo ($identifier == 'dean'
-		? URL::site('faculty/accom_coll')
-		: URL::site('faculty/accom_dept')); ?>" role="button">
+		<a class="btn btn-default pull-right" href="<?php echo ($identifier == 'chair'
+		? URL::site('faculty/accom_dept')
+		: URL::site('faculty/accom_coll')); ?>" role="button">
 		<span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 	</div>
 </div><br>

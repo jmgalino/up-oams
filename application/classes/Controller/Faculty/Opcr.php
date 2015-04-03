@@ -17,34 +17,27 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
 
-		if ($this->session->get('identifier') == 'chair')
+		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$programIDs = $univ->get_department_programIDs($department['department_ID']);
+		$users = $user->get_user_group($programIDs, 'dean');
+		
+		$userIDs = array();
+		foreach ($users as $user)
 		{
-			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-			$programIDs = $univ->get_department_programIDs($department['department_ID']);
-			$users = $user->get_user_group($programIDs, 'dean');
-			
-			$userIDs = array();
-			foreach ($users as $user)
-			{
-				$userIDs[] = $user['user_ID'];
-			}
-
-			$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
-			$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
-
-			$this->view->content = View::factory('faculty/opcr/list/chair')
-				->bind('submit', $submit)
-				->bind('delete', $delete)
-				->bind('error', $error)
-				->bind('ipcr_forms', $ipcr_forms)
-				->bind('opcr_forms', $opcr_forms)
-				->bind('department', $department['short']);
-			$this->response->body($this->view->render());
+			$userIDs[] = $user['user_ID'];
 		}
-		elseif ($this->session->get('identifier') == 'dean')
-		{
-			// show consolidated OPCRs (how?)
-		}
+
+		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
+		$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
+
+		$this->view->content = View::factory('faculty/opcr/list/chair')
+			->bind('submit', $submit)
+			->bind('delete', $delete)
+			->bind('error', $error)
+			->bind('ipcr_forms', $ipcr_forms)
+			->bind('opcr_forms', $opcr_forms)
+			->bind('department', $department['short']);
+		$this->response->body($this->view->render());
 	}
 
 	/**
@@ -98,7 +91,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 
-		if (!$opcr_details['document'] OR $opcr_details['status'] == 'Rejected' OR $opcr_details['status'] == 'Saved')
+		if (!$opcr_details['document'] OR in_array($opcr_details['status'], array('Published', 'Rejected', 'Saved')))
 		{
 			$draft = $this->session->get_once('pdf_draft');
 			
@@ -207,18 +200,15 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	// 	$period_to = date('F Y', strtotime($opcr_details['period_to']));
 	// 	$label = $period_from.' - '.$period_to;
 
-	// 	if ($this->session->get('identifier') == 'dean')
-	// 	{
+	// if ($this->session->get('identifier') == 'dean')
+	// {
 	// 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 	// 		$title = 'Unit Head, '.$college['short'];
-	// 	}
-	// 	else
-	// 	{
-	// 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-	// 		$title = ($this->session->get('identifier') == 'chair'
-	// 			? 'Unit Head, '.$department['short']
-	// 			: 'Faculty, '.$department['short']);
-	// 	}
+	// }
+	// elseif ($this->session->get('identifier') == 'chair')
+	// 	$title = 'Unit Head, '.$department['short'];
+	// else
+	// 	$title = 'Faculty, '.$department['short'];
 
 	// 	$this->view->content = View::factory('faculty/ipcr/form/final/template')
 	// 		->bind('label', $label)
@@ -258,10 +248,10 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	private function action_consolidate()
 	{
-		if ($this->session->get('identifier') == 'dean')
-		{}
-		elseif ($this->session->get('identifier') == 'chair')
+		if ($this->session->get('identifier') == 'chair')
 			$this->redirect('faculty/ipcr_dept/consolidate/'.$this->request->post('opcr_ID'));
+		elseif ($this->session->get('identifier') == 'dean')
+		{}
 	}
 
 	/**
@@ -330,14 +320,22 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	{
 		$ipcr = new Model_Ipcr;
 
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_details['opcr_ID']);
 		$period_from = date('F Y', strtotime($opcr_details['period_from']));
 		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$period = $period_from.' - '.$period_to;
+
+		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_details['opcr_ID']);
 		
+		$accepted = array();
+		foreach ($ipcr_forms as $ipcr_form)
+		{
+			if ($ipcr_form['status'] == 'Accepted')
+				$accepted[] = $ipcr_form;
+		}
+
 		$this->view->content = View::factory('faculty/opcr/view/faculty')
 			->bind('opcr_details', $opcr_details)
-			->bind('ipcr_forms', $ipcr_forms)
+			->bind('accepted', $accepted)
 			->bind('period', $period);
 		$this->response->body($this->view->render());
 	}

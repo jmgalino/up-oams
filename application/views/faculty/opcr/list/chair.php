@@ -131,8 +131,15 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 		elseif ($opcr['status'] == 'Published')
 		{
 			$ipcr_forms = $ipcr->get_opcr_ipcr($opcr['opcr_ID']);
+			
+			$accepted = array();
+			foreach ($ipcr_forms as $ipcr_form)
+			{
+				if ($ipcr_form['status'] == 'Accepted')
+					$accepted[] = $ipcr_form;
+			}
 
-			if ($ipcr_forms && $opcr['status'] != 'Pending')
+			if ($accepted && $opcr['status'] != 'Pending')
 			{
 				echo '<li>
 						<a href='.URL::site('faculty/ipcr_dept/consolidate/'.$opcr['opcr_ID']).'>

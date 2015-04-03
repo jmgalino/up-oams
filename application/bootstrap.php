@@ -271,7 +271,7 @@ Route::set('opcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 Route::set('ocpr_coll-functions', '<directory>/opcr_coll(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		'action'	=> '(coll|view|evaluate|consolidate)'
+		// 'action'	=> '(coll|view|evaluate|consolidate)'
 	))
 	->defaults(array(
 		'controller'=> 'opcrgroup',

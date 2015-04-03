@@ -10,12 +10,12 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $univ->get_department_programIDs($department['department_ID']);
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$programIDs = $univ->get_department_programIDs($department_details['department_ID']);
 		$users = $user->get_user_group($programIDs, 'dean');
 		$consolidate_url = 'faculty/ipcr_dept/consolidate';
 
-		$this->view_group($department['department'], $users, $consolidate_url);
+		$this->view_group($department_details['department'], $users, $consolidate_url);
 	}
 
 	/**
@@ -26,12 +26,12 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $univ->get_college_programIDs($college['college_ID']);
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
 		$users = $user->get_user_group($programIDs, NULL);
 		$consolidate_url = NULL;//'faculty/ipcr_coll/consolidate';
 
-		$this->view_group($college['college'], $users, $consolidate_url);
+		$this->view_group($college_details['college'], $users, $consolidate_url);
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$period = $period_from.' - '.$period_to;
 		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
-		$evaluate_url = ($identifier == 'dean' ? 'faculty/ipcr_coll/evaluate/'.$ipcr_ID : 'faculty/ipcr_dept/evaluate/'.$ipcr_ID);
+		$evaluate_url = ($identifier == 'chair' ? 'faculty/ipcr_dept/evaluate/'.$ipcr_ID : 'faculty/ipcr_coll/evaluate/'.$ipcr_ID);
 
 		$flag = 0;
 		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
@@ -79,7 +79,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	}
 
 	/**
-	 * Marck IPCR Form as Checked
+	 * Mark IPCR Form as Checked
 	 */
 	public function action_mark_checked()
 	{
@@ -104,7 +104,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	}
 
 	/**
-	 * Marck IPCR Form as Accepted
+	 * Mark IPCR Form as Accepted
 	 */
 	public function action_mark_accepted()
 	{
@@ -186,12 +186,12 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 			$programIDs = $univ->get_department_programIDs($department['department_ID']);
 			$users = $user->get_user_group($programIDs, 'dean');
 		}
-		elseif ($identifier == 'dean')
-		{
-			$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-			$programIDs = $univ->get_college_programIDs($college['college_ID']);
-			$users = $user->get_user_group($programIDs, NULL);
-		}
+		// elseif ($identifier == 'dean')
+		// {
+		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		// 	$programIDs = $univ->get_college_programIDs($college['college_ID']);
+		// 	$users = $user->get_user_group($programIDs, NULL);
+		// }
 
 		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		$targets = $ipcr->get_output_targets(NULL, $outputs);
@@ -207,8 +207,8 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 			->bind('outputs', $outputs)
 			->bind('ipcr_forms', $ipcr_forms)
 			->bind('targets', $targets)
-			->bind('users', $users)
-			->bind('identifier', $identifier);
+			->bind('users', $users);
+			// ->bind('identifier', $identifier);
 		$this->response->body($this->view->render());
 	}
 
@@ -220,7 +220,6 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
-		$user = new Model_User;
 
 		$employee_code = $this->session->get('employee_code');
 		$identifier = $this->session->get('identifier');
@@ -233,7 +232,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 
 		$programs = $univ->get_programs();
 		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
-		$opcr_forms = $opcr->get_group_opcr($userIDs);
+		$opcr_forms = $opcr->get_group_opcr($userIDs, NULL, NULL, FALSE);
 		
 		$this->view->content = View::factory('faculty/ipcr/list/group')
 			->bind('identifier', $identifier)

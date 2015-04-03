@@ -9,6 +9,6 @@ if(isset($error))
 	<div class="jumbotron">
 		<h1><?php echo $title; ?></h1>
 		<p>Welcome! Please sign in to proceed.</p>
-		<a class="btn btn-primary btn-lg" role="button" href=<?php echo url::site('site/about'); ?>>Learn more</a>
+		<a class="btn btn-primary btn-lg" role="button" href=<?php echo URL::site('site/about'); ?>>Learn more</a>
 	</div>
 </div>

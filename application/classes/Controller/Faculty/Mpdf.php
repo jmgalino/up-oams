@@ -36,7 +36,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				$this->opcr_pdf($id, $purpose);
 				break;
 			case 'opcr-consolidated':
-				$this->opcr_consolidated_pdf($id, $type, $purpose);
+				$this->opcr_consolidated_pdf();
 				break;
 		}
 	}
@@ -255,33 +255,29 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$user = new Model_User;
 
 		$opcr_details = $opcr->get_details($opcr_ID);
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		$outputs = $opcr->get_outputs($opcr_ID);
-		$targets = $ipcr->get_output_targets(NULL, $outputs);
-		$date_published = ($opcr_details['date_published'] ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
+		$start = date('F Y', strtotime($opcr_details['period_from']));
+		$end = date('F Y', strtotime($opcr_details['period_to']));
+		$date = ($opcr_details['status'] == 'Published' ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
 		
+		$fullname = $this->session->get('fullname');
 		$categories = $this->oams->get_categories();
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $univ->get_department_programIDs($department_details['department_ID']);
-		$users = $user->get_user_group($programIDs, NULL);
-		$fullname = $this->session->get('fullname');
-		$unit = $department_details['short'];
+		$unit['fullname'] = $department_details['department'];
+		$unit['short'] = $department_details['short'];
 		
 		ob_start();
 
 		echo View::factory('mpdf/opcr/header')
 			->bind('fullname', $fullname)
-			->bind('department_details', $department_details)
-			->bind('opcr_details', $opcr_details)
 			->bind('unit', $unit)
-			->bind('date_published', $date_published);
+			->bind('start', $start)
+			->bind('end', $end)
+			->bind('date', $date);
 		
 		echo View::factory('mpdf/opcr/basic')
 			->bind('categories', $categories)
-			->bind('outputs', $outputs)
-			->bind('ipcr_forms', $ipcr_forms)
-			->bind('targets', $targets)
-			->bind('users', $users);
+			->bind('outputs', $outputs);
 
 		echo View::factory('mpdf/opcr/legend');
 
@@ -405,17 +401,19 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	 */
 	private function ipcr_consolidated_pdf($opcr_ID)
 	{
-		$ipcr = new Model_Ipcr;
+		// $ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
 		$oams = new Model_Oams;
 		$univ = new Model_Univ;
-		$user = new Model_User;
+		// $user = new Model_User;
 
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$outputs = $opcr->get_outputs($opcr_ID);
 		$categories = $oams->get_categories();
 		
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$unit['fullname'] = $department_details['department'];
+		$unit['short'] = $department_details['short'];
 		// $ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		// $targets = $ipcr->get_output_targets(NULL, $outputs);
 		// $programIDs = $univ->get_department_programIDs($department_details['department_ID']);
@@ -425,18 +423,18 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// $title = ($this->session->get('identifier') == 'dean'
 		// 	? $college_details['short']
 		// 	: $department_details['short']);
-		$date_published = ($opcr_details['date_published']
-			? date('F d, Y', strtotime($opcr_details['date_published']))
-			: date('F d, Y'));
+		$start = date('F Y', strtotime($opcr_details['period_from']));
+		$end = date('F Y', strtotime($opcr_details['period_to']));
+		$date = date('F d, Y');
 		
 		ob_start();
 
 		echo View::factory('mpdf/opcr/header')
 			->bind('fullname', $fullname)
-			->bind('department_details', $department_details)
-			->bind('opcr_details', $opcr_details)
-			->bind('unit', $department_details['short'])
-			->bind('date_published', $date_published);
+			->bind('unit', $unit)
+			->bind('start', $start)
+			->bind('end', $end)
+			->bind('date', $date);
 
 		echo View::factory('mpdf/ipcr/consolidated')
 			->bind('categories', $categories)
@@ -468,102 +466,42 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * OPCR Form - Consolidated OPCR forms for college
 	 */
-	private function opcr_consolidated_pdf($opcr_ID, $purpose)
+	private function opcr_consolidated_pdf()
 	{
-		$ipcr = new Model_Ipcr;
-		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
-		$user = new Model_User;
+		
+		$consolidate_data = $this->session->get('consolidate_data');
+		$start = date('F Y', strtotime($consolidate_data['start']));
+		$end = date('F Y', strtotime($consolidate_data['end']));
+		$period = $start.' - '.$end;
 
-		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$title = $department_details['short'];
-		$programIDs = $univ->get_department_programIDs($department_details['department_ID']);
-		$users = $user->get_user_group($programIDs, 'dean');
-
-		$opcr_details = $opcr->get_details($opcr_ID);
-		$date_published = ($opcr_details['date_published'] ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
-		$outputs = $opcr->get_outputs($opcr_ID);
-		$targets = $ipcr->get_output_targets(NULL, $outputs);
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		$categories = $this->oams->get_categories();
 		$fullname = $this->session->get('fullname');
-
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$unit['fullname'] = $college_details['college'];
+		$unit['short'] = $college_details['short'];
+		$date = date('F d, Y');
+		
 		ob_start();
 
 		echo View::factory('mpdf/opcr/header')
 			->bind('fullname', $fullname)
-			->bind('department_details', $department_details)
-			->bind('opcr_details', $opcr_details)
-			->bind('unit', $title)
-			->bind('date_published', $date_published);
-		
-		echo View::factory('mpdf/opcr/basic')
+			->bind('unit', $unit)
+			->bind('start', $start)
+			->bind('end', $end)
+			->bind('date', $date);
+
+		echo View::factory('mpdf/opcr/consolidated')
 			->bind('categories', $categories)
-			->bind('outputs', $outputs)
-			->bind('ipcr_forms', $ipcr_forms)
-			->bind('targets', $targets)
-			->bind('users', $users);
+			->bind('outputs', $consolidate_data['opcr_outputs']);
 
 		echo View::factory('mpdf/opcr/legend');
 
 		$template = ob_get_contents();
-		ob_get_clean();	
-		
-		// Generate PDF to download
-		if ($purpose == 'download')
-		{
-			$period = date('F Y', strtotime($opcr_details['period_from'])).' - '.date('F Y', strtotime($opcr_details['period_to']));
-			$filename = $period.'.pdf';
-			$this->pdf_download($template, $filename, 25, NULL);
-		}
-		
-		// Generate PDF for preview
-		if ($purpose == 'preview')
-		{
-			$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
-			$filename = $this->session->get('employee_code').$period.'.pdf';
-			$filepath = DOCROOT.'files/tmp/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
-			$this->session->set('pdf_draft', $filename);
-			$this->redirect('faculty/opcr/preview/'.$opcr_ID);
-		}
+		ob_get_clean();
 
-		// Generate PDF to publish/submit
-		elseif ($purpose == 'submit')
-		{
-			$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
-			$filename = $this->session->get('employee_code').$period.'.pdf';
-			$filepath = DOCROOT.'files/document_opcr/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
-
-			if ($opcr_details['status'] == 'Draft')
-			{
-				$position = $this->session->get('position');
-
-				// OPCR is saved
-				if ($position == 'dean')
-					$details['status'] = 'Saved';
-
-				// OPCR is published for faculty use - as template for IPCRs
-				else
-				{
-					$details['status'] = 'Published';
-					$details['date_published'] = date('Y-m-d');
-				}
-			}
-
-			// OPCR by a department is submitted to the dean
-			else
-			{
-				$details['status'] = 'Pending';
-				$details['date_submitted'] = date('Y-m-d');
-			}
-
-			$details['document'] = $filename;
-			$submit_success = $opcr->submit($opcr_ID, $details);
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/opcr', 303);
-		}
+		$filename = $college_details['short'].' ('.$period.').pdf';
+		$this->pdf_download($template, $filename, 25, NULL);
 	}
 
 	/**

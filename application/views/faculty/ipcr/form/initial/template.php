@@ -71,7 +71,7 @@ echo View::factory('faculty/ipcr/form/modals/output')
 				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
 			</li>
 			<?php if ($targets): ?>
-			<hr>
+			<hr style="border-top: dotted 1px;">
 			<li>
 				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_details['ipcr_ID']); ?>>
 				<?php echo (($session->get('identifier') == 'faculty') ? 'Submit' : 'Save'); ?>

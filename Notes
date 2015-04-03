@@ -1,8 +1,9 @@
 ASK:
 - does the dean have to see/consolidate the IPCR?
+- consolidate OPCR college level limited to periods covered by opcr or dynamic? strict/not (use and/or)?
 
 TO DO:
-- limit department_opcr return to 6 in model
+- order ar/ipcr/opcr by date desc
 - update kohana & bs
 - view all, limit/pagination
 - rch fund source should be > 0

@@ -102,7 +102,7 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				<a id="addAccomplishment" data-toggle="modal" data-target="#modal_accom" role="button" href="">Add Accomplishment</a>
 			</li>
 			<?php if ($accom): ?>
-			<hr>
+			<hr style="border-top: dotted 1px;">
 			<li> 
 				<a href=<?php echo URL::site('faculty/accom/submit/'.$session->get('accom_details')['accom_ID']); ?>>
 				<?php echo (($session->get('position') == 'dean') ? 'Save' : 'Submit'); ?>

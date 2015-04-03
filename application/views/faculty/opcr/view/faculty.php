@@ -14,7 +14,7 @@
 
 	<div class="col-md-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
-			<?php if (count($ipcr_forms) > 1 && $opcr_details['status'] == 'Published'): ?>
+			<?php if ($accepted && $opcr_details['status'] == 'Published'): ?>
 			<li>
 				<a href="<?php echo URL::site('faculty/ipcr_dept/consolidate/'.$opcr_details['opcr_ID']); ?>">Consolidate</a>
 			</li>

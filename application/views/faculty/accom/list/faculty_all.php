@@ -332,4 +332,4 @@ function redate($start, $end)
 </div>
 <?php endif; ?>
 
-<span class="help-block">Note: Only accomplishments from <?php echo ($identifier == 'dean' ? 'saved' : 'approved')?> reports will be included.</span>
+<span class="help-block">Note: Only accomplishments from <?php echo ($identifier == 'faculty' ? 'approved' : 'saved')?> reports will be included.</span>

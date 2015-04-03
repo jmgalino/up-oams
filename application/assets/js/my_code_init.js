@@ -51,8 +51,8 @@ $(document).ready(function () {
     *   10. IPCR Table (Faculty)            *
     *   11. IPCR Group Table                *
     *       (Department/College)            *
-    *   11. OPCR Table (Faculty-Chair)      *
-    *   12. OPCR Group Table (College)      *
+    *   12. OPCR Table (Faculty-Chair)      *
+    *   13. OPCR Group Table (College)      *
     *                                       *
     * * * * * * * * * * * * * * * * * * * * */
     
@@ -441,9 +441,10 @@ $(document).ready(function () {
     });
 
     /* 13. OPCR Group Table */
-    var opcr_group_table = $('#opcr_college_table').DataTable({
+    var opcr_group_table = $('#opcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
+            { "visible": false },
             { "visible": false },
             null,
             null,
@@ -457,7 +458,7 @@ $(document).ready(function () {
             var rows = api.rows({page:'current'}).nodes();
             var last = null;
  
-            api.column(0, {page:'current'}).data().each(function (group, i) {
+            api.column(1, {page:'current'}).data().each(function (group, i) {
                 if (last !== group) {
                     $(rows).eq(i).before('<tr class="group"><td colspan="6">'+group+'</td></tr>');
                     last = group;
@@ -467,11 +468,11 @@ $(document).ready(function () {
     });
     // Order OPCR Forms by period
     $('#opcr_group_table tbody').on('click', 'tr.group', function () {
-        var currentOrder = ipcr_group_table.order()[0];
-        if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
-            ipcr_group_table.order([0, 'desc']).draw();
+        var currentOrder = opcr_group_table.order()[0];
+        if (currentOrder[0] === 1 && currentOrder[1] === 'asc') {
+            opcr_group_table.order([1, 'desc']).draw();
         } else {
-            ipcr_group_table.order([0, 'asc']).draw();
+            opcr_group_table.order([1, 'asc']).draw();
         }
     });
 

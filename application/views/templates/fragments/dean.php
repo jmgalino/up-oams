@@ -26,13 +26,7 @@
 						<li><a href=<?php echo URL::site('faculty/ipcr_coll'); ?>>View College</a></li>
 					</ul>
 				</li>
-				<li class="dropdown">
-					<a href="" class="dropdown-toggle" data-toggle="dropdown">OPCR <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href=<?php echo URL::site('faculty/opcr'); ?>>View Own</a></li>
-						<li><a href=<?php echo URL::site('faculty/opcr_coll'); ?>>View College</a></li>
-					</ul>
-				</li>
+				<li><a href=<?php echo URL::site('faculty/opcr_coll'); ?>>OPCR</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href=<?php echo URL::site('faculty/announcements'); ?>><span class="glyphicon glyphicon-home"></span></a></li>

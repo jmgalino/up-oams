@@ -1,71 +1,93 @@
 <ol class="breadcrumb">
-	<li><a href=<?php echo url::site('faculty/index'); ?>>Home</a></li>
-	<li class="active">College's OPCR Forms</li>
+	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
+	<li class="active">OPCR Forms - College</li>
 </ol>
 
 <h3>
-	OPCR Forms <small><?php echo $college; ?></small>
+	OPCR Forms <small><?php echo $unit; ?></small>
 	<button type="button"
 	<?php echo ($opcr_forms
 		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate"'
-		: 'class="btn btn-default pull-right disabled button-tip" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR available"');
+		: 'class="btn btn-default pull-right disabled button-tip" data-toggle="tooltip" data-placement="bottom" title="No OPCR Form available"');
 	?>>Consolidate Forms</button>
 </h3>
 <br>
 
+<?php if ($error): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $error; ?>
+	</p>
+</div>
+<?php endif; ?>
+
 <?php
 // Consolidate Form
-// echo View::factory('faculty/opcr/form/modals/consolidate')
-// 	->bind('consolidate_url', $consolidate_url)
-// 	->bind('opcr_forms', $opcr_forms);
+echo View::factory('faculty/opcr/form/modals/consolidate')
+	->bind('periods', $periods);
 ?>
 
 <?php if ($opcr_forms): ?>
 <!-- Table -->
-<table class="table table-hover" id="opcr_college_table">
+<table class="table table-hover" id="opcr_group_table">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Period</th>
-			<th>Author</th>
+			<th>Unit Head</th>
 			<th>Department</th>
+			<th>Date Submitted</td>
+			<th>Status</th>
+			<th>Remarks</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach ($opcr_college as $opcr)
+	<?php
+	foreach ($opcr_forms as $opcr)
 	{
-		if (($opcr['status'] == 'Pending') OR ($opcr['status'] == 'Approved'))
+		$period_from = date('F Y', strtotime($opcr['period_from']));
+		$period_to = date('F Y', strtotime($opcr['period_to']));
+		$period = $period_from.' - '.$period_to;
+
+		echo '<tr>
+			<td>', $opcr['period_from'], '</td>
+			<td>',$period, '</td>';
+
+		foreach ($users as $user)
 		{
-			$period_from = date('F Y', strtotime($opcr['period_from']));
-			$period_to = date('F Y', strtotime($opcr['period_to']));
-			$period = $period_from.' - '.$period_to;
-
-			echo '<tr>';
-			echo '<td><a href='.URL::site('opcr/view_college/'.$opcr->opcr_ID).'>', $pfrom->format('F Y'), ' - ', $pto->format('F Y').'</a></td>';
-			
-			foreach ($users as $user)
+			if ($opcr['user_ID'] == $user['user_ID'])
 			{
-				if ($user->user_ID == $opcr->user_ID)
+				foreach ($departments as $department)
 				{
-					echo '<td>'.$user->faculty_code.'</td>';
-
-					foreach ($programs as $program)
-					{
-						if($user->program_ID == $program->program_ID)
-							echo '<td>'.$program->short.'</td>';	
-					}
+					if($user['user_ID'] == $department['user_ID'])
+						$unit = $department['short'];
 				}
+
+				echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>
+				<td>', $unit, '</td>
+				<td>', date('F d, Y', strtotime($opcr['date_submitted'])), '</td>
+				<td>', $opcr['status'], '</td>
+				<td>', $opcr['remarks'], '</td>
+
+				<td class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $unit,' [' , $period, ']">
+							<span class="glyphicon glyphicon-download"></span> Download Form</a>
+						</li>
+						<li>
+			 				<a href='.URL::site('faculty/opcr_coll/view/'.$opcr['opcr_ID']).'>
+							<span class="glyphicon glyphicon-file"></span> View Form</a>
+						</li>
+					</ul>
+				</td>';
 			}
-
-			echo '<td>', date('F d, Y', strtotime($opcr['date_submitted'])), '</td>';
-			echo '<td>', $opcr->status, '</td>';
-
-			if ($opcr->comment !== NULL)
-				echo '<td>', $opcr->comment, '</td>';
-			else
-				echo '<td>None</td>';
-
-			echo '</tr>';
 		}
+
+		echo '</tr>';
 	}
 	?>
 	</tbody>

@@ -24,7 +24,6 @@ class Model_Opcr extends Model {
 
 	/**
 	 * Get forms (foreach department - as guide/parent for faculty IPCR)
-	 * limit to 6
 	 */
 	public function get_department_opcr($program_ID)
 	{
@@ -46,16 +45,48 @@ class Model_Opcr extends Model {
 	}
 
 	/**
-	 * Get forms (by college)
+	 * Get forms
 	 */
-	public function get_group_opcr($userIDs)
+	public function get_group_opcr($userIDs, $start, $end, $strict)
 	{
-		$group_opcrs = DB::select()
-			->from('opcrtbl')
-			->where('user_ID', 'IN', $userIDs)
-			->where('status', 'IN', array('Checked', 'Accepted', 'Pending', 'Published', 'Saved'))
-	 		->execute()
-	 		->as_array();
+		if ($start AND $end)
+		{
+			$group_opcrs = DB::select()
+				->from('opcrtbl')
+				->where('user_ID', 'IN', $userIDs)
+				->where('status', 'IN', array('Checked', 'Accepted', 'Pending'))
+				->where('period_from', '>=', $start)
+				->where('period_to', '<=', $end)
+				->order_by('period_from', 'DESC')
+				->order_by('period_to', 'DESC')
+		 		->execute()
+		 		->as_array();
+		}
+		else
+		{
+			if ($strict)
+			{
+				$group_opcrs = DB::select()
+					->from('opcrtbl')
+					->where('user_ID', 'IN', $userIDs)
+					->where('status', 'IN', array('Checked', 'Accepted', 'Pending'))
+					->order_by('period_from', 'DESC')
+					->order_by('period_to', 'DESC')
+			 		->execute()
+			 		->as_array();
+			}
+			else
+			{
+				$group_opcrs = DB::select()
+					->from('opcrtbl')
+					->where('user_ID', 'IN', $userIDs)
+					->where('status', 'IN', array('Checked', 'Accepted', 'Pending', 'Published'))
+					->order_by('period_from', 'DESC')
+					->order_by('period_to', 'DESC')
+			 		->execute()
+			 		->as_array();
+			}
+		}
 
 	 	return $group_opcrs;
 	}

@@ -70,8 +70,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
-			
-		if (!$ipcr_details['document'] OR $ipcr_details['status'] == 'Rejected' OR $ipcr_details['status'] == 'Accepted' OR (($ipcr_details['status'] == 'Saved') AND $this->session->get('identifier') != 'faculty'))
+		
+		if (!$ipcr_details['document'] OR in_array($ipcr_details['status'], array('Rejected', 'Accepted')) OR (($ipcr_details['status'] == 'Saved') AND $this->session->get('identifier') != 'faculty'))
 		{
 			$draft = $this->session->get_once('pdf_draft');
 			
@@ -305,15 +305,13 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 
 		// if ($this->session->get('identifier') == 'dean')
 		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		// 	$title = 'Unit Head, '.$college['short'];
+		// 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		// 		$title = 'Unit Head, '.$college['short'];
 		// }
+		// elseif ($this->session->get('identifier') == 'chair')
+		// 	$title = 'Unit Head, '.$department['short'];
 		// else
-		// {
-		// 	$title = ($this->session->get('identifier') == 'chair'
-		// 		? 'Unit Head, '.$department['short']
-		// 		: 'Faculty, '.$department['short']);
-		// }
+		// 	$title = 'Faculty, '.$department['short'];
 
 		$this->view->content = View::factory('faculty/ipcr/form/initial/template')
 			->bind('label', $label)

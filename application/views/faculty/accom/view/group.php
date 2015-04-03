@@ -1,9 +1,9 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href=<?php echo ($identifier == 'dean'
-		? URL::site('faculty/accom_coll').'>Accomplishment Reports - College'
-		: URL::site('faculty/accom_dept').'>Accomplishment Reports - Department'); ?></a></li>
+	<li><a href=<?php echo ($identifier == 'chair'
+		? URL::site('faculty/accom_dept').'>Accomplishment Reports - Department'
+		: URL::site('faculty/accom_coll').'>Accomplishment Reports - College'); ?></a></li>
 	<li class="active">View Accomplishment Report</li>
 </ol>
 

@@ -1,18 +1,20 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li class="active"><?php echo ($identifier == 'dean'
-		? 'IPCR Forms - College'
-		: 'IPCR Forms - Department'); ?></li>
+	<li class="active"><?php echo ($identifier == 'chair'
+		? 'IPCR Forms - Department'
+		: 'IPCR Forms - College'); ?></li>
 </ol>
 
 <h3>
 	IPCR Forms <small><?php echo $group; ?></small>
+	<?php if ($identifier == 'chair'): ?>
 	<button type="button"
 	<?php echo (($opcr_forms AND $ipcr_forms)
 		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate"'
-		: 'class="btn btn-default pull-right disabled button-tip" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR available"');
+		: 'class="btn btn-default pull-right disabled button-tip" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available"');
 	?>>Consolidate Forms</button>
+	<?php endif; ?>
 </h3>
 <br>
 
@@ -22,7 +24,6 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 	->bind('consolidate_url', $consolidate_url)
 	->bind('opcr_forms', $opcr_forms);
 ?>
-
 
 <?php if ($ipcr_forms): ?>
 <!-- Table -->

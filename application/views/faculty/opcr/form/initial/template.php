@@ -53,8 +53,11 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 			<li>
 				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
 			</li>
+			<hr style="border-top: dotted 1px;">
+			<li>
+				<a href="<?php echo URL::site('faculty/opcr/preview/'.$session->get('opcr_details')['opcr_ID']); ?>">Preview</a>
+			</li>
 			<?php if ($outputs): ?>
-			<hr>
 			<li> 
 				<a href=<?php echo URL::site('faculty/opcr/publish/'.$session->get('opcr_details')['opcr_ID']); ?>>Publish</a>
 			</li>

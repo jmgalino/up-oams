@@ -77,7 +77,7 @@ echo View::factory('faculty/ipcr/form/modals/rate')
 			<li>
 				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Target</a>
 			</li>
-			<hr>
+			<hr style="border-top: dotted 1px;">
 			<li <?php if ($flag > 0) echo 'class="disabled"' ?>>
 				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_ID); ?>>
 					<?php echo (($identifier == 'faculty') ? 'Submit' : 'Save'); ?>

@@ -1,9 +1,9 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li class="active"><?php echo ($identifier == 'dean'
-		? 'Accomplishment Reports - College'
-		: 'Accomplishment Reports - Department'); ?></li>
+	<li class="active"><?php echo ($identifier == 'chair'
+		? 'Accomplishment Reports - Department'
+		: 'Accomplishment Reports - College'); ?></li>
 </ol>
 
 <h3>
@@ -16,9 +16,9 @@
 		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate" id="consolidate-report">Consolidate Reports</button>
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
 		        <ul class="dropdown-menu">
-					<li><a href="<?php echo ($identifier == 'dean'
-						? URL::site('faculty/accom_coll/all')
-						: URL::site('faculty/accom_dept/all')); ?>">View All Accomplishments</a></li>
+					<li><a href="<?php echo ($identifier == 'chair'
+						? URL::site('faculty/accom_dept/all')
+						: URL::site('faculty/accom_coll/all')); ?>">View All Accomplishments</a></li>
 		        </ul>
 			</div>
 		</div>

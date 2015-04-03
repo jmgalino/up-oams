@@ -59,7 +59,7 @@ echo View::factory('faculty/opcr/form/modals/rate')
 				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Output</a>
 			</li>
 			<?php if ($outputs): ?>
-			<hr>
+			<hr style="border-top: dotted 1px;">
 			<li <?php if ($flag) echo 'class="disabled"' ?>> 
 				<a href=<?php echo URL::site('faculty/opcr/publish/'.$opcr_ID); ?>>
 					<?php echo (($identifier == 'chair') ? 'Submit' : 'Save'); ?>

@@ -11,20 +11,16 @@ function adjectival_rating($value)
 <table class="table table-bordered padded">
 	<tbody>
 		<tr>
-			<td style="background-color:#f5f5f5">Reviewed by:</td>
-			<td class="text-center" width="75" style="background-color:#f5f5f5">Date</td>
 			<td style="background-color:#f5f5f5">Approved by:</td>
 			<td class="text-center" width="75" style="background-color:#f5f5f5">Date</td>
 		</tr>
 		<tr>
 			<td><br><br><br></td>
-			<td rowspan="2"></td>
 			<td></td>
-			<td rowspan="2"></td>
 		</tr>
 		<tr>
-			<td class="text-center">Immediate Supervisor</td>
-			<td class="text-center">Head of Office</td>
+			<td class="text-center">Name and Signature of Head of Agency</td>
+			<td></td>
 		</tr>
 	</tbody>
 </table>
@@ -32,12 +28,12 @@ function adjectival_rating($value)
 <table class="table table-bordered padded">
 	<thead>
 		<tr>
-      <th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">MFO/PAP</th>
-      <th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">Success Indicators<br>(Targets + Measures)</th>
-      <th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Divisions/<br>Individuals<br>Accountable</th>
-      <th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Actual Accomplishments</th>
-      <th class="template-header" colspan="4" style="background-color:#f5f5f5;">Rating</th>
-      <th class="template-header" rowspan="2" width="55" style="background-color:#f5f5f5;">Remarks</th>
+			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">MFO/PAP</th>
+			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">SUNCCESS INDICATORS<br>(TARGETS + MEASURES)</th>
+			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Divisions/<br>Individuals<br>Accountable</th>
+			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Actual Accomplishments</th>
+			<th class="template-header" colspan="4" style="background-color:#f5f5f5;">Rating</th>
+			<th class="template-header" rowspan="2" width="55" style="background-color:#f5f5f5;">Remarks</th>
 		</tr>
 		<tr>
 			<th class="template-header" width="20" style="background-color:#f5f5f5;">Q<sup>1</sup></th>
@@ -61,29 +57,16 @@ function adjectival_rating($value)
 		{
 			if ($category['category_ID'] == $output['category_ID'])
 			{
-				echo '<tr>
-				<td class="form-rows">', $output['output'], '</td>
-				<td class="form-rows">';
-
+				// Set indicators
 				$style1 = strpos($output['indicators'], 'Targets:');
 				if ($style1 !== FALSE)
 				{
 					list($indicator, $imeasures) = explode('Measures:', $output['indicators']);
 					list($nothingness, $itargets) = explode('Targets:', $indicator);
-					echo '<strong>Targets</strong>:', $itargets;
-					echo '<strong>Measures</strong>: ', $imeasures;
+					$output['indicators'] = '<strong>Targets</strong>:'.$itargets.'<strong>Measures</strong>: '.$imeasures;
 				}
-				else
-					echo $output['indicators'];
 
-				echo '</td>
-				<td class="form-rows">', $output['accountable'], '</td>
-				<td class="form-rows">', $output['actual_accom'], '</td>
-				<td class="form-rows">', $output['r_quantity'], '</td>
-				<td class="form-rows">', $output['r_efficiency'], '</td>
-				<td class="form-rows">', $output['r_timeliness'], '</td>
-				<td class="form-rows">';
-
+				// Set ratings
 				if ($output['r_quantity'] AND $output['r_efficiency'] AND $output['r_timeliness'])
 				{
 					$r_quantity[] = $output['r_quantity'];
@@ -91,14 +74,27 @@ function adjectival_rating($value)
 					$r_timeliness[] = $output['r_timeliness'];
 					
 					$rating = array($output['r_quantity'], $output['r_efficiency'], $output['r_timeliness']);
-					$r_average[] = number_format(array_sum($rating)/3, 1);
-					echo number_format(array_sum($rating)/3, 1);
+					$output['r_average'] = number_format(array_sum($rating)/3, 1);
+					$r_average[] = $output['r_average'];
 				}
 				else
-					echo 'Inc';
+				{
+					$output['r_quantity'] = '';
+					$output['r_efficiency'] = '';
+					$output['r_timeliness'] = '';
+					$output['r_average'] = 'Inc';
+				}
 
-				echo '</td>
-				<td class="form-rows">', $output['remarks'], '</td>
+				echo '<tr>
+					<td class="form-rows">', $output['output'], '</td>
+					<td class="form-rows">', $output['indicators'], '</td>
+					<td class="form-rows">', $output['accountable'], '</td>
+					<td class="form-rows">', $output['actual_accom'], '</td>
+					<td class="form-rows">', $output['r_quantity'], '</td>
+					<td class="form-rows">', $output['r_efficiency'], '</td>
+					<td class="form-rows">', $output['r_timeliness'], '</td>
+					<td class="form-rows">', $output['r_average'], '</td>
+					<td class="form-rows">', $output['remarks'], '</td>
 				</tr>';
 
 				// foreach ($ipcr_forms as $ipcr)
@@ -107,39 +103,42 @@ function adjectival_rating($value)
 				// 	{
 				// 		if (($ipcr['ipcr_ID'] == $target['ipcr_ID']) AND ($output['output_ID'] == $target['output_ID']))
 				// 		{
-				// 	          // echo targets if targets belongs to ipcr
-				// 			echo '<tr>
-				// 			<td class="form-rows" style="padding-left: 25px;">', $target['target'], '</td>
-				// 			<td class="form-rows" style="padding-left: 25px;">', $target['indicators'], '</td>
-				// 			<td class="form-rows">';
 
 				// 			foreach ($users as $user)
 				// 			{
 				// 				if ($ipcr['user_ID'] == $user['user_ID'])
-				// 				{
-				// 					echo $user['first_name'], ' ', $user['middle_name'][0], '. ', $user['last_name'];
-				// 				}
+				// 					$user = $user['first_name'], ' ', $user['middle_name'][0], '. ', $user['last_name'];
 				// 			} // foreach users
-
-				// 			echo '</td>
-				// 			<td class="form-rows">', $target['actual_accom'], '</td>
-				// 			<td class="form-rows">', $target['r_quantity'], '</td>
-				// 			<td class="form-rows">', $target['r_efficiency'], '</td>
-				// 			<td class="form-rows">', $target['r_timeliness'], '</td>
-				// 			<td class="form-rows">';
 
 				// 			if ($target['r_quantity'] AND $target['r_efficiency'] AND $target['r_timeliness'])
 				// 			{
 				// 				$rating = array($target['r_quantity'], $target['r_efficiency'], $target['r_timeliness']);
-				// 				echo number_format(array_sum($rating)/3, 1);
+				// 				$target['r_average'] = number_format(array_sum($rating)/3, 1);
 				// 			}
-
-				// 			echo '</td>
-				// 			<td class="form-rows">', $target['remarks'], '</td>
+				// 			else
+				// 			{
+				// 				$target['r_quantity'] = '';
+				// 				$target['r_efficiency'] = '';
+				// 				$target['r_timeliness'] = '';
+				// 				$target['r_average'] = '';
+				// 			}
+				// 			// echo targets if targets belongs to ipcr
+				// 			echo '<tr>
+				// 				<td class="form-rows" style="padding-left: 25px;">', $target['target'], '</td>
+				// 				<td class="form-rows" style="padding-left: 25px;">', $target['indicators'], '</td>
+				// 				<td class="form-rows">', $user, '</td>
+				// 				<td class="form-rows">', $target['actual_accom'], '</td>
+				// 				<td class="form-rows">', $target['r_quantity'], '</td>
+				// 				<td class="form-rows">', $target['r_efficiency'], '</td>
+				// 				<td class="form-rows">', $target['r_timeliness'], '</td>
+				// 				<td class="form-rows">', $target['r_average'], '</td>
+				// 				<td class="form-rows">', $target['r_timeliness'], '</td>
 				// 			</tr>';
+
 				// 		} // if target in under output and ipcr
 				// 	} // foreach targets
-			 //    } // foreach ipcrs
+				// } // foreach ipcrs
+
 			} // if output is under categories
 		} // foreach outputs
 	} // foreach categories
@@ -193,33 +192,24 @@ Average Rating
 
 <table class="table table-bordered padded">
 	<tbody>
-		<tr><td colspan="6" style="background-color:#f5f5f5">Comments and Recommendations for Development Purposes</td></tr>
 		<tr>
-			<td colspan="6"><br><br><br><br></td>
-		</tr>
-		<tr>
-			<td class="text-center" width="150">Discussed with</td>
-			<td class="text-center" width="75">Date</td>
 			<td class="text-center" width="150">Assessed by:</td>
 			<td class="text-center" width="75">Date</td>
 			<td class="text-center" width="150">Final Rating by:</td>
 			<td class="text-center" width="75">Date</td>
 		</tr>
 		<tr>
+			<td></td>
 			<td rowspan="2"></td>
-			<td rowspan="3"></td>
-			<td class="text-center" style="font-size:12px">
-				I certify that I discussed my assessment of the performance with the employee
-			</td>
-			<td rowspan="3"></td>
+			<td></td>
 			<td rowspan="2"></td>
-			<td rowspan="3"></td>
+			<td></td>
+			<td rowspan="2"></td>
 		</tr>
-		<tr><td><br><br></td></tr>
 		<tr>
-			<td class="text-center">Employee</td>
-			<td class="text-center">Supervisor</td>
-			<td class="text-center">Head of Office</td>
+			<td class="text-center">Planning Office</td>
+			<td class="text-center">PMT</td>
+			<td class="text-center">Head of Agency</td>
 		</tr>
 	</tbody>
 </table>
