@@ -15,11 +15,7 @@ if ($accom_pub)
 			if ($pub['author']) echo ' and ', $pub['author'];
 			echo '. ';
 		}
-		else
-		{
-			if ($pub['author']) echo $pub['author'];
-			echo '. ';
-		}
+		elseif ($pub['author']) echo $pub['author'], '. ';
 
 		echo $pub['year'], '. ';
 		echo $pub['title'], '. ';

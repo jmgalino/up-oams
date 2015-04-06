@@ -1,5 +1,5 @@
 <?php
-echo '<h1 class="text-center">Individual Performance Commitment and Review (IPCR)</h1>';
+echo '<h1 class="text-center">INDIVIDUAL PERFORMANCE COMMITMENT REPORT (IPCR)</h1>';
 echo '<br>';
 
 echo '<p style="text-indent: 20px;">I, <span style="text-decoration: underline;">', $fullname, '</span>',
@@ -11,7 +11,7 @@ echo '<br>';
 
 echo '<table width="200" align="right">
 	<tbody>
-		<tr><td class="text-center" style="border-bottom:1px solid black">', $fullname, '</td></tr>
+		<tr><td class="text-center" style="border-bottom:1px solid #000;">', $fullname, '</td></tr>
 		<tr><td class="text-center">', $title, '</td></tr>
 		<tr><td class="text-center">Date: ', date('F d, Y', strtotime($opcr_details['date_published'])), '</td></tr>
 	</tbody>

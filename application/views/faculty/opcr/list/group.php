@@ -53,7 +53,7 @@ echo View::factory('faculty/opcr/form/modals/consolidate')
 
 		echo '<tr>
 			<td>', $opcr['period_from'], '</td>
-			<td>',$period, '</td>';
+			<td>', $period, '</td>';
 
 		foreach ($users as $user)
 		{

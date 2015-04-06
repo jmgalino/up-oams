@@ -40,7 +40,6 @@ echo View::factory('faculty/opcr/form/modals/rate')
 		<pre class="center-block pre-scrollable">
 		<?php
 			echo '<h1 class="text-center">Office Performance Commitment and Review (OPCR)</h1>';
-			echo '<h4 class="text-center">(Template for Faculty)</h4>';
 			echo '<br>';
 
 			echo View::factory('faculty/opcr/form/final/fragment')
@@ -58,16 +57,17 @@ echo View::factory('faculty/opcr/form/modals/rate')
 			<li>
 				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Output</a>
 			</li>
-			<?php if ($outputs): ?>
 			<hr style="border-top: dotted 1px;">
+			<li>
+				<a href="<?php echo URL::site('faculty/opcr/preview/'.$opcr_ID); ?>">Preview</a>
+			</li>
+			<?php if ($outputs): ?>
 			<li <?php if ($flag) echo 'class="disabled"' ?>> 
-				<a href=<?php echo URL::site('faculty/opcr/publish/'.$opcr_ID); ?>>
-					<?php echo (($identifier == 'chair') ? 'Submit' : 'Save'); ?>
-				</a>
+				<a href="<?php echo URL::site('faculty/opcr/submit/'.$opcr_ID); ?>">Submit</a>
 			</li>
 			<li>
 				<span class="help-block" style="padding: 10px 15px;">
-					Note: You have to rate all outputs to enable <?php echo (($identifier == 'chair') ? 'submit' : 'save'); ?> function.
+					Note: You have to complete the ratings for all outputs to enable submit function.
 				</span>
 			</li>
 			<?php endif; ?>

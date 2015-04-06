@@ -30,7 +30,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
 		$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
 
-		$this->view->content = View::factory('faculty/opcr/list/chair')
+		$this->view->content = View::factory('faculty/opcr/list/faculty')
 			->bind('submit', $submit)
 			->bind('delete', $delete)
 			->bind('error', $error)
@@ -91,7 +91,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 
-		if (!$opcr_details['document'] OR in_array($opcr_details['status'], array('Published', 'Rejected', 'Saved')))
+		if (!$opcr_details['document'] OR in_array($opcr_details['status'], array('Draft', 'Published', 'Rejected', 'Saved')))
 		{
 			$draft = $this->session->get_once('pdf_draft');
 			

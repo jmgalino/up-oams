@@ -53,8 +53,8 @@ echo View::factory('faculty/accom/form/consolidate')
 	{
 		$yearmonth = date('F Y', strtotime($accom['yearmonth']));
 
-		echo '<tr>';
-		echo '<td>', $yearmonth, '</td>';
+		echo '<tr>
+			<td>', $yearmonth, '</td>';
 		
 		foreach ($users as $user)
 		{

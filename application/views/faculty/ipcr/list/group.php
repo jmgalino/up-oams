@@ -30,6 +30,7 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 <table class="table table-hover" id="ipcr_group_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Period</th>
 			<th>Faculty</th>
 			<th>Degree Program</th>
@@ -50,9 +51,10 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 				$period_to = date('F Y', strtotime($opcr['period_to']));
 				$period = $period_from.' - '.$period_to;
 
-				echo '<tr>';
-				echo '<td>', $period, '</a></td>';
-		
+				echo '<tr>
+					<td>', $opcr['period_from'], '</td>
+					<td>', $period, '</td>';
+					
 				foreach ($users as $user)
 				{
 					if ($ipcr['user_ID'] == $user['user_ID'])

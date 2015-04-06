@@ -42,21 +42,6 @@ echo View::factory('faculty/ipcr/form/modals/output')
 			echo '<h1 class="text-center">Individual Performance Commitment and Review (IPCR)</h1>';
 			echo '<br>';
 
-			// echo '<p>I, <span style="text-decoration: underline;">', $session->get('fullname'), '</span>',
-			// 	 ' of the <span style="text-decoration: underline;">', $department, '</span>',
-			// 	' commit to deliver and agree to be rated on the attainment of the following targets in accordance with the indicated measures for the period ',
-			// 	'<span style="text-decoration: underline;">', date('F Y', strtotime($session->get('opcr_details')['period_from'])), '</span> to ',
-			// 	'<span style="text-decoration: underline;">', date('F Y', strtotime($session->get('opcr_details')['period_to'])), '</span>.</p>';
-			// echo '<br>';
-			
-			// echo '<table style="font-size:14px" width="200" align="right">
-			// 	<tbody>
-			// 		<tr><td class="text-center" style="border-bottom:1pt solid black">', $session->get('fullname'), '</td></tr>
-			// 		<tr><td class="text-center">','Unit Head, ', $title, '</td></tr>
-			// 		<tr><td class="text-center">Date: ', date('F d, Y'), '</td></tr>
-			// 	</tbody>
-			// </table><br><br><br><br>';
-
 			echo View::factory('faculty/ipcr/form/initial/fragment')
 				->bind('categories', $categories)
 				->bind('targets', $targets)
@@ -70,10 +55,13 @@ echo View::factory('faculty/ipcr/form/modals/output')
 			<li>
 				<a data-toggle="modal" data-target="#modal_output" role="button" href="">Add Output</a>
 			</li>
-			<?php if ($targets): ?>
 			<hr style="border-top: dotted 1px;">
 			<li>
-				<a href=<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_details['ipcr_ID']); ?>>
+				<a href="<?php echo URL::site('faculty/ipcr/preview/'.$ipcr_details['ipcr_ID']); ?>">Preview</a>
+			</li>
+			<?php if ($targets): ?>
+			<li>
+				<a href="<?php echo URL::site('faculty/ipcr/submit/'.$ipcr_details['ipcr_ID']); ?>">
 				<?php echo (($session->get('identifier') == 'faculty') ? 'Submit' : 'Save'); ?>
 				</a>
 			</li>

@@ -71,8 +71,8 @@ echo View::factory('faculty/accom/form/initialize')
 	{
 		$yearmonth = date('F Y', strtotime($accom['yearmonth']));
 
-		echo '<tr>';
-		echo '<td>', $yearmonth, '</td>';
+		echo '<tr>
+			<td>', $yearmonth, '</td>';
 		
 		echo ($accom['date_submitted']
 			? '<td>'.date('F d, Y', strtotime($accom['date_submitted'])).'</td>'

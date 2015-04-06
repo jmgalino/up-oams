@@ -1,10 +1,11 @@
 ASK:
 - does the dean have to see/consolidate the IPCR?
-- consolidate OPCR college level limited to periods covered by opcr or dynamic? strict/not (use and/or)?
+- consolidate OPCR college level dynamic, ok? strict: should be in the range.
 
 TO DO:
-- order ar/ipcr/opcr by date desc
 - update kohana & bs
+
+>> ACCOM
 - view all, limit/pagination
 - rch fund source should be > 0
 - no pagebreak before signature
@@ -13,16 +14,14 @@ TO DO:
   > /admin/profile/accom/publication*
 - disable faculty_view_all if no approved
 - shorten long filenames for upload files (goes beyond modal)
-- remove extra period on consolidated accom group (or not?)
+- remove extra period on consolidated accom group "e.g. Galino, Jenny M.." (or not?)
 
-- change birthday input style (what for?)
-
+ADDITIONAL:
 - Notify submit/approve/reject/check
 - Dept chair/dean announcement to be seen by subtituents only
 - Flag announcements (keep on top)
 - Announcement attachments
 
-ADDITIONAL:
 - (admin) profile table should allow double click to open or one button to open profile
 - (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon (angular?)
 
@@ -32,4 +31,4 @@ ASSUMPTION:
 - Fund amount on research accom will be limited to 2 decimal places
 
 FURTHER ENHANCEMENT:
-- Uploaded pictures to be cropped Facebook style
+- Uploaded pictures to be cropped user (Facebook style)

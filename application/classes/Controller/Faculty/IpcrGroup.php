@@ -197,7 +197,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		$targets = $ipcr->get_output_targets(NULL, $outputs);
 		$categories = $this->oams->get_categories();
 		
-		$this->view->content = View::factory('faculty/opcr/form/chair/template')
+		$this->view->content = View::factory('faculty/opcr/form/final/template')
 			->bind('label', $label)
 			->bind('error', $error)
 			->bind('warning', $warning)

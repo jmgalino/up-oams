@@ -1,7 +1,12 @@
 # Dependencies #
 ############
 vendor/**
- 
+
+# Logs #
+######################
+application/logs/**
+*.log
+
 # OS generated files #
 ######################
 .DS_Store

@@ -160,7 +160,7 @@ echo '<br><br><br>
 				<tbody>
 					<tr><td>Prepared by:</td></tr>
 					<tr><td height="50"></td></tr>
-					<tr><td class="text-center" style="border-bottom:0.25px solid black;"></td></tr>
+					<tr><td style="border-bottom:1px solid #000;"></td></tr>
 					<tr><td class="text-center">', $session->get('title'), ' ', $session->get('fullname'), $session->get('suffix'), '</td></tr>
 					<tr><td class="text-center">', $session->get('rank'), '</td></tr>
 				</tbody>
@@ -177,9 +177,9 @@ echo '<br><br><br>
 						<tbody>
 							<tr><td>Noted by:</td></tr>
 							<tr><td height="50"></td></tr>
-							<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+							<tr><td style="border-bottom:1px solid #000;"></td></tr>
 							<tr><td class="text-center">', $department_details['title'], ' ', $department_details['first_name'], ' ', $department_details['middle_name'][0], '. ', $department_details['last_name'], ' ', $department_details['suffix'], '</td></tr>
-							<tr><td class="text-center">Department Chair, ', $department_details['short'], '</td></tr>
+							<tr><td class="text-center">Chair, ', $department_details['short'], '</td></tr>
 						</tbody>
 					</table>
 				</td>
@@ -189,7 +189,7 @@ echo '<br><br><br>
 						<tbody>
 							<tr><td>Approved by:</td></tr>
 							<tr><td height="50"></td></tr>
-							<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+							<tr><td style="border-bottom:1px solid #000;"></td></tr>
 							<tr><td class="text-center">', $college_details['title'], ' ', $college_details['first_name'], ' ', $college_details['middle_name'][0], '. ', $college_details['last_name'], ' ', $college_details['suffix'], '</td></tr>
 							<tr><td class="text-center">Dean, ', $college_details['short'], '</td></tr>
 						</tbody>
@@ -207,7 +207,7 @@ echo '<br><br><br>
 						<tbody>
 							<tr><td>Approved by:</td></tr>
 							<tr><td height="50"></td></tr>
-							<tr><td class="text-center" style="border-bottom:0.25px solid black"></td></tr>
+							<tr><td style="border-bottom:1px solid #000;"></td></tr>
 							<tr><td class="text-center">', $college_details['title'], ' ', $college_details['first_name'], ' ', $college_details['middle_name'][0], '. ', $college_details['last_name'], ' ', $college_details['suffix'], '</td></tr>
 							<tr><td class="text-center">Dean, ', $college_details['short'], '</td></tr>
 						</tbody>

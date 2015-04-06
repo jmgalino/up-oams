@@ -48,6 +48,7 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 <table class="table table-hover" id="ipcr_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Period</th>
 			<th>Date Submitted</td>
 			<th>Status</th>
@@ -68,7 +69,8 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 				$period = $period_from.' - '.$period_to;
 
 				echo '<tr>
-					<td>', $period, '</a></td>';
+					<td>', $opcr['period_from'], '</td>
+					<td>', $period, '</td>';
 
 				echo ($ipcr['date_submitted']
 					? '<td>'.date('F d, Y', strtotime($ipcr['date_submitted'])).'</td>'

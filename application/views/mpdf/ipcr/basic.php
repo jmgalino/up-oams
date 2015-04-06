@@ -1,10 +1,10 @@
-<table class="table table-bordered padded">
+<table class="table table-bordered">
 	<tbody>
 		<tr>
-			<td style="background-color:#f5f5f5">Reviewed by:</td>
-			<td class="text-center" width="75" style="background-color:#f5f5f5">Date</td>
-			<td style="background-color:#f5f5f5">Approved by:</td>
-			<td class="text-center" width="75" style="background-color:#f5f5f5">Date</td>
+			<td class="active" style="text-align:left">Reviewed by:</td>
+			<td class="active" width="75">Date</td>
+			<td class="active" style="text-align:left">Approved by:</td>
+			<td class="active" width="75">Date</td>
 		</tr>
 		<tr>
 			<td><br><br><br></td>
@@ -19,28 +19,25 @@
 	</tbody>
 </table>
 
-<table class="table table-bordered padded">
-	<thead>
-		<tr>
-			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">Output</th>
-			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">Success Indicators<br>(Targets + Measures)</th>
-			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5;">Actual Accomplishments</th>
-			<th class="template-header" colspan="4" style="background-color:#f5f5f5;">Rating</th>
-			<th class="template-header" rowspan="2" width="55" style="background-color:#f5f5f5;">Remarks</th>
-		</tr>
-		<tr>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">Q<sup>1</sup></th>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">E<sup>2</sup></th>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">T<sup>3</sup></th>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">A<sup>4</sup></th>
-		</tr>
-	</thead>
-	<tbody>
+<table class="table table-bordered">
+	<tr>
+		<td class="active" rowspan="2" width="150">Output</td>
+		<td class="active" rowspan="2" width="150">Success Indicators<br>(Targets + Measures)</td>
+		<td class="active" rowspan="2" width="80">Actual Accomplishments</td>
+		<td class="active" colspan="4">Rating</td>
+		<td class="active" rowspan="2" width="55">Remarks</td>
+	</tr>
+	<tr>
+		<td class="active" width="20">Q<sup>1</sup></td>
+		<td class="active" width="20">E<sup>2</sup></td>
+		<td class="active" width="20">T<sup>3</sup></td>
+		<td class="active" width="20">A<sup>4</sup></td>
+	</tr>
 	<?php
 
 	foreach ($categories as $category)
 	{
-		echo '<tr><td class="category" colspan="8">', $category['category'], '</td></tr>';
+		echo '<tr><th class="category" colspan="8">', $category['category'], '</th></tr>';
 			
 		if ($targets)
 		{	
@@ -59,10 +56,10 @@
 							}
 							else
 							{
-								$target['r_quantity'] = '';
-								$target['r_efficiency'] = '';
-								$target['r_timeliness'] = '';
-								$target['r_average'] = '';
+								$target['r_quantity'] = ($target['r_quantity'] ? $target['r_quantity']: '');
+								$target['r_efficiency'] = ($target['r_efficiency'] ? $target['r_efficiency']: '');
+								$target['r_timeliness'] = ($target['r_timeliness'] ? $target['r_timeliness']: '');
+								$target['r_average'] = ($target['r_quantity'] OR $target['r_efficiency'] OR $target['r_timeliness'] ? 'Inc' : '');
 							}
 
 							echo '<tr>
@@ -82,12 +79,11 @@
 		}
 	}
 	?>
-	</tbody>
 </table>
 
-<table class="table table-bordered padded">
+<table class="table table-bordered">
 	<tbody>
-		<tr><td colspan="6" style="background-color:#f5f5f5">Comments and Recommendations for Development Purposes</td></tr>
+		<td class="active" style="text-align:left">colspan="6">Comments and Recommendations for Development Purposes</td></tr>
 		<tr>
 			<td colspan="6"><br><br><br><br></td>
 		</tr>
@@ -102,7 +98,7 @@
 		<tr>
 			<td rowspan="2"></td>
 			<td rowspan="3"></td>
-			<td class="text-center" style="font-size:12px">
+			<td class="text-center">
 				I certify that I discussed my assessment of the performance with the employee
 			</td>
 			<td rowspan="3"></td>

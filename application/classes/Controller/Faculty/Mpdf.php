@@ -3,6 +3,8 @@ include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
 class Controller_Faculty_Mpdf extends Controller_User {
 
+	private $mpdf_css;
+
 	/**
 	 * Reroute
 	 */
@@ -21,22 +23,23 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		switch ($type)
 		{
 			case 'accom':
-				$this->accom_pdf($id, $purpose, $header);
-				break;
 			case 'accom-consolidated':
-				$this->accom_consolidated_pdf($header);
+				$this->mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf-accom.css');
+				
+				if ($type == 'accom') $this->accom_pdf($id, $purpose, $header);
+				else $this->accom_consolidated_pdf($header);
 				break;
+				
 			case 'ipcr':
-				$this->ipcr_pdf($id, $purpose);
-				break;
 			case 'ipcr-consolidated':
-				$this->ipcr_consolidated_pdf($id);
-				break;
 			case 'opcr':
-				$this->opcr_pdf($id, $purpose);
-				break;
 			case 'opcr-consolidated':
-				$this->opcr_consolidated_pdf();
+				$this->mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf-ipcr_opcr.css');
+				
+				if ($type == 'ipcr') $this->ipcr_pdf($id, $purpose);
+				elseif ($type == 'ipcr-consolidated') $this->ipcr_consolidated_pdf($id);
+				elseif ($type == 'opcr') $this->opcr_pdf($id, $purpose);
+				else $this->opcr_consolidated_pdf();
 				break;
 		}
 	}
@@ -48,7 +51,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
-		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
 		ob_start();
 		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
@@ -59,7 +61,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
-		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->WriteHTML($this->mpdf_css, 1);
 		$mpdf->SetHTMLHeader($header);
 		$mpdf->WriteHTML($template);
 		$mpdf->Output($filename, 'I');
@@ -73,7 +75,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
-		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
 		ob_start();
 		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
@@ -84,7 +85,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
-		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->WriteHTML($this->mpdf_css, 1);
 		$mpdf->SetHTMLHeader($header);
 		$mpdf->WriteHTML($template);
 		$mpdf->Output($filename, 'D');
@@ -98,7 +99,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
-		$mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf.css');
 
 		ob_start();
 		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
@@ -109,7 +109,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
-		$mpdf->WriteHTML($mpdf_css, 1);
+		$mpdf->WriteHTML($this->mpdf_css, 1);
 		$mpdf->SetHTMLHeader($header);
 		$mpdf->WriteHTML($template);
 		$mpdf->Output($filepath, 'F');

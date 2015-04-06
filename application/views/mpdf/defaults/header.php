@@ -7,13 +7,13 @@ if ($header_contents)
 	if ($header_contents['level'] == 'college')
 	{
 		echo '<h1 class="text-center">', $header_contents['college'], '</h1>';
-		echo '<hr style="border-top:1px solid #000; margin: 0 0 20px;">';
+		echo '<p style="border-top:1px solid #000; margin: 0 0 20px;"></p>';
 	}
 	else
 	{
 		echo '<h1 class="text-center" style="text-transform:uppercase">', $header_contents['college'], '</h1>';
 		echo '<h1 class="text-center">', $header_contents['department'], '</h1>';
-		echo '<hr style="border-top:1px solid #000; margin: 5px 0 20px;">';
+		echo '<p style="border-top:1px solid #000; margin: 5px 0 20px;"></p>';
 	}
 }
 ?>

@@ -331,7 +331,7 @@ $(document).ready(function () {
     /* 9. Accomplishment Group Table */
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
-		    // Period column is searchable but hidden; used as group header
+            // Period column is searchable but hidden; used as group header
             { "visible": false },
 		    null,
 		    null,
@@ -382,9 +382,10 @@ $(document).ready(function () {
     
     /* 10. IPCR Table */
     $('#ipcr_table').DataTable({
-        "order": [[ 0, "desc" ]],
+        "order": [[ 1, "desc" ]],
         "columns": [
-		    null,
+            { "searchable": false, "visible": false },
+		    { "iDataSort": 0 },
 		    null,
 		    null,
 		    { "visible": false },
@@ -396,7 +397,8 @@ $(document).ready(function () {
 	var ipcr_group_table = $('#ipcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
-		    { "visible": false },
+            { "searchable": false, "visible": false },
+		    { "visible": false, "iDataSort": 0 },
 		    null,
 		    null,
 		    null,
@@ -409,7 +411,7 @@ $(document).ready(function () {
             var rows = api.rows({page:'current'}).nodes();
             var last = null;
  
-            api.column(0, {page:'current'}).data().each(function (group, i) {
+            api.column(1, {page:'current'}).data().each(function (group, i) {
                 if (last !== group) {
                     $(rows).eq(i).before('<tr class="group"><td colspan="6">'+group+'</td></tr>');
                     last = group;
@@ -429,12 +431,13 @@ $(document).ready(function () {
 
     /* 12. OPCR Table */
     $('#opcr_table').DataTable({
-        "order": [[ 0, "desc" ]],
+        "order": [[ 1, "desc" ]],
         "columns": [
+		    { "searchable": false, "visible": false },
+            { "iDataSort": 0 },
 		    null,
 		    null,
-		    null,
-		    null,
+            null,
 		    { "visible": false },
 		    { "searchable": false, "orderable": false }
 		]
@@ -444,8 +447,8 @@ $(document).ready(function () {
     var opcr_group_table = $('#opcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
-            { "visible": false },
-            { "visible": false },
+            { "searchable": false, "visible": false },
+            { "visible": false, "iDataSort": 0 },
             null,
             null,
             null,
@@ -469,10 +472,10 @@ $(document).ready(function () {
     // Order OPCR Forms by period
     $('#opcr_group_table tbody').on('click', 'tr.group', function () {
         var currentOrder = opcr_group_table.order()[0];
-        if (currentOrder[0] === 1 && currentOrder[1] === 'asc') {
-            opcr_group_table.order([1, 'desc']).draw();
+        if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
+            opcr_group_table.order([0, 'desc']).draw();
         } else {
-            opcr_group_table.order([1, 'asc']).draw();
+            opcr_group_table.order([0, 'asc']).draw();
         }
     });
 

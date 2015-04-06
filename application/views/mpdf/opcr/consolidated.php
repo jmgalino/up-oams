@@ -8,11 +8,11 @@ function adjectival_rating($value)
 	else return 'Poor';
 }
 ?>
-<table class="table table-bordered padded">
+<table class="table table-bordered">
 	<tbody>
 		<tr>
-			<td style="background-color:#f5f5f5">Approved by:</td>
-			<td class="text-center" width="75" style="background-color:#f5f5f5">Date</td>
+			<td class="active" style="text-align:left">Approved by:</td>
+			<td class="active" width="75">Date</td>
 		</tr>
 		<tr>
 			<td><br><br><br></td>
@@ -24,24 +24,21 @@ function adjectival_rating($value)
 	</tbody>
 </table>
 
-<table class="table table-bordered padded">
-	<thead>
-		<tr>
-			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">MFO/PAP</th>
-			<th class="template-header" rowspan="2" width="150" style="background-color:#f5f5f5;">SUNCCESS INDICATORS<br>(TARGETS + MEASURES)</th>
-			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Divisions/<br>Individuals<br>Accountable</th>
-			<th class="template-header" rowspan="2" width="80" style="background-color:#f5f5f5; font-size:10px;">Actual Accomplishments</th>
-			<th class="template-header" colspan="4" style="background-color:#f5f5f5;">Rating</th>
-			<th class="template-header" rowspan="2" width="55" style="background-color:#f5f5f5;">Remarks</th>
-		</tr>
-		<tr>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">Q<sup>1</sup></th>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">E<sup>2</sup></th>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">T<sup>3</sup></th>
-			<th class="template-header" width="20" style="background-color:#f5f5f5;">A<sup>4</sup></th>
-		</tr>
-	</thead>
-	<tbody>
+<table class="table table-bordered">
+  <tr>
+    <td class="active" rowspan="2" width="150">MFO/PAP</td>
+    <td class="active" rowspan="2" width="150">Success Indicators<br>(Targets + Measures)</td>
+    <td class="active" rowspan="2" width="80">Divisions/<br>Individuals<br>Accountable</td>
+    <td class="active" rowspan="2" width="80">Actual Accomplishments</td>
+    <td class="active" colspan="4">Rating</td>
+    <td class="active" rowspan="2" width="55">Remarks</td>
+  </tr>
+  <tr>
+    <td class="active" width="20">Q<sup>1</sup></td>
+    <td class="active" width="20">E<sup>2</sup></td>
+    <td class="active" width="20">T<sup>3</sup></td>
+    <td class="active" width="20">A<sup>4</sup></td>
+  </tr>
 	<?php
 	$r_quantity = array();
 	$r_efficiency = array();
@@ -50,7 +47,7 @@ function adjectival_rating($value)
 
 	foreach ($categories as $category)
 	{
-		echo '<tr><td class="category" colspan="9">', $category['category'], '</td></tr>';
+		echo '<tr><th class="category" colspan="9">', $category['category'], '</th></tr>';
 
 		// foreach ($opcr_forms as $opcr_form)
 		// {
@@ -80,10 +77,10 @@ function adjectival_rating($value)
 					}
 					else
 					{
-						$output['r_quantity'] = '';
-						$output['r_efficiency'] = '';
-						$output['r_timeliness'] = '';
-						$output['r_average'] = 'Inc';
+						$output['r_quantity'] = ($output['r_quantity'] ? $output['r_quantity'] : '');
+						$output['r_efficiency'] = ($output['r_efficiency'] ? $output['r_efficiency'] : '');
+						$output['r_timeliness'] = ($output['r_timeliness'] ? $output['r_timeliness'] : '');
+						$output['r_average'] = ($output['r_quantity'] OR $output['r_efficiency'] OR $output['r_timeliness'] ? 'Inc' : '');
 					}
 
 					echo '<tr>
@@ -103,7 +100,6 @@ function adjectival_rating($value)
 		// } // foreach opcr
 	} // foreach categories
 	?>
-	</tbody>
 </table>
 
 <?php
@@ -115,7 +111,7 @@ $final_average = number_format(array_sum($r_average)/count($r_average), 1);
 
 Average Rating
 
-<table class="table table-bordered padded">
+<table class="table table-bordered">
   <tbody>
     <tr>
       <td>Total Rating</td>
@@ -140,17 +136,17 @@ Average Rating
     <tr>
       <td>Adjectival Rating</td>
       <?php echo 
-      '<td width="20" style="font-size:10px">', adjectival_rating($final_quantity), '</td>
-      <td width="20" style="font-size:10px">', adjectival_rating($final_efficiency), '</td>
-      <td width="20" style="font-size:10px">', adjectival_rating($final_timeliness), '</td>
-      <td width="20" style="font-size:10px">', adjectival_rating($final_average), '</td>';
+      '<td width="20">', adjectival_rating($final_quantity), '</td>
+      <td width="20">', adjectival_rating($final_efficiency), '</td>
+      <td width="20">', adjectival_rating($final_timeliness), '</td>
+      <td width="20">', adjectival_rating($final_average), '</td>';
       ?>
       <td width="55"></td>
     </tr>
   </tbody>
 </table>
 
-<table class="table table-bordered padded">
+<table class="table table-bordered">
 	<tbody>
 		<tr>
 			<td colspan="4">Assessed by:</td>

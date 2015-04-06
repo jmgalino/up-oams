@@ -27,7 +27,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 				$periods[] = $period;
 		}
 
-		$this->view->content = View::factory('faculty/opcr/list/college')
+		$this->view->content = View::factory('faculty/opcr/list/group')
 			->bind('unit', $college_details['college'])
 			->bind('opcr_forms', $opcr_forms)
 			->bind('error', $error)

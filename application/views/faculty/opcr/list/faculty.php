@@ -36,7 +36,6 @@
 <?php
 // Init Modal
 echo View::factory('faculty/opcr/form/modals/initialize')
-	->bind('identifier', $identifier)
 	->bind('ipcr_forms', $ipcr_forms)
 	->bind('opcr_forms', $opcr_forms);
 ?>
@@ -46,6 +45,7 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 <table class="table table-hover" id="opcr_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Period</th>
 			<th>Date Published</td>
 			<th>Date Submitted</td>
@@ -55,14 +55,18 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach ($opcr_forms as $opcr)
+	<?php
+	$ipcr = new Model_Ipcr;
+	
+	foreach ($opcr_forms as $opcr)
 	{
 		$period_from = date('F Y', strtotime($opcr['period_from']));
 		$period_to = date('F Y', strtotime($opcr['period_to']));
 		$period = $period_from.' - '.$period_to;
 
-		echo '<tr>';
-		echo '<td>', $period, '</a></td>';
+		echo '<tr>
+			<td>', $opcr['period_from'], '</td>
+			<td>', $period, '</td>';
 
 		echo ($opcr['date_published']
 			? '<td>'.date('F d, Y', strtotime($opcr['date_published'])).'</td>'
@@ -72,9 +76,9 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 			? '<td>'.date('F d, Y', strtotime($opcr['date_submitted'])).'</td>'
 			: '<td>Not submitted</td>');
 
-		echo '<td>', $opcr['status'], '</td>';
-		echo '<td>', $opcr['remarks'], '</td>';
-		echo '<td class="dropdown">
+		echo '<td>', $opcr['status'], '</td>
+			<td>', $opcr['remarks'], '</td>
+			<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li>
@@ -86,8 +90,8 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 		{
 			// Download PDF
 			echo '<li>
-					<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $period, '">
-					<span class="glyphicon glyphicon-download"></span> Download Form (Rejected)', $period, '</a>
+					<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $department, ' [', $period, ']">
+					<span class="glyphicon glyphicon-download"></span> Download Form (Rejected)</a>
 				</li>';
 			// Download draft
 			echo '<li>
@@ -102,7 +106,7 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 			{
 				// Download PDF
 				echo '<li>
-						<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $period, '">
+						<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $department, ' [', $period, ']">
 						<span class="glyphicon glyphicon-download"></span> Download Form</a>
 					</li>';
 			}
@@ -128,10 +132,16 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 		}
 		elseif ($opcr['status'] == 'Published')
 		{
-			$ipcr = new Model_Ipcr;
 			$ipcr_forms = $ipcr->get_opcr_ipcr($opcr['opcr_ID']);
+			
+			$accepted = array();
+			foreach ($ipcr_forms as $ipcr_form)
+			{
+				if ($ipcr_form['status'] == 'Accepted')
+					$accepted[] = $ipcr_form;
+			}
 
-			if ($ipcr_forms)
+			if ($accepted && $opcr['status'] != 'Pending')
 			{
 				echo '<li>
 						<a href='.URL::site('faculty/ipcr_dept/consolidate/'.$opcr['opcr_ID']).'>
