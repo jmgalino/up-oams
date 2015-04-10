@@ -7,11 +7,11 @@
 	<li class="active">View Accomplishment Report</li>
 </ol>
 
-<?php if ($evaluate): ?>
+<?php if ($evaluation): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Accomplishment Report was successfully <?php echo $evaluation; ?>.
+		Accomplishment Report was successfully <?php echo strtolower($evaluation); ?>.
 	</p>
 </div>
 <?php endif; ?>

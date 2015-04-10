@@ -396,6 +396,48 @@ $(document).ready(function () {
     *                                       *
     * ===================================== */
 
+	/* ACOMM REPORT FORM (VALIDATE) -- Check if date range is correct */
+	$("#newReport").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		
+		if ($("#report_type").val() == "consolidated")
+		{
+			
+			$.ajax({
+	            type: "POST",
+	            url: ajaxUrl,
+	            data: $("#newReport").serialize(),
+	            success: function (valid) {
+	            	if (valid == 1)
+	            		$("#newReport").attr("action", actionUrl).unbind("submit").trigger("submit");
+	            	else
+	            		$("#invalidMessage").text(valid).parent().show();
+	            }
+	        });
+		}
+		else
+			$("#newReport").attr("action", actionUrl).unbind("submit").trigger("submit");
+	})
+	$("#consolidateReport").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#consolidateReport").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#consolidateReport").attr("action", actionUrl).unbind("submit").trigger("submit");
+            	else
+            		$("#invalidMessage").text(valid).parent().show();
+            }
+        });
+	})
+
 	/* ACCOMPLISHMENT FORM -- Reset form */
 	$("#addAccomplishment").click(function () {
 		$("input[name=accom_type]").prop("checked", false);
@@ -622,12 +664,13 @@ $(document).ready(function () {
 				
 				if (details["fund_up"])
 				{
-					$("#fund_source_up").prop('checked', true);
-					$("#fund_up").val(details["fund_up"]);
+					$("#fund_source_up").prop('checked', true).trigger("change");
+					$("#fund_up").val(details["fund_up"]).attr("required", "");
 				}
 				if (details["fund_amount"])
 				{
-					$("#fund_source_external").prop('checked', true);
+					$("#fund_source_external").prop('checked', true).trigger("change");
+		            $("#fund_external, #fund_amount").attr("required", "");
 					$("#fund_external").val(details["fund_external"]);
 					$("#fund_amount").val(details["fund_amount"]);
 				}
@@ -643,22 +686,41 @@ $(document).ready(function () {
 	$("#researchForm").on("submit", function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
-		
 		var selected = $("input:checkbox:checked").length;
+
 		if(selected > 0) {
-			$.ajax({
-	            type: "POST",
-	            url: ajaxUrl,
-	            data: $("#researchForm").serialize(),
-	            success: function (valid) {
-	            	if (valid == 1) {
-	            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
-		            } else {
-	            		$("p#accom-alert").text(valid).parent().show();
-	            		$("#research-start").focus();
-	            	}
-	            }
-	        });
+			var flag = false;
+
+			if ($("#fund_source_up").is(":checked")) {
+				if (parseFloat($("#fund_up").val()) <= 0) {
+					flag = $("#fund_up");
+				}
+			}
+			if ($("#fund_source_external").is(":checked")) {
+				if (parseFloat($("#fund_amount").val()) <= 0) {
+					if (!flag)
+						flag = $("#fund_amount");
+				}
+			}
+
+			if (flag) {
+				$("p#accom-alert").text("Amount is invalid.").parent().show();
+				flag.focus();
+			} else {
+				$.ajax({
+		            type: "POST",
+		            url: ajaxUrl,
+		            data: $("#researchForm").serialize(),
+		            success: function (valid) {
+		            	if (valid == 1) {
+		            		$("#researchForm").attr("action", $("#researchForm").attr("url")).unbind("submit").trigger("submit");
+			            } else {
+		            		$("p#accom-alert").text(valid).parent().show();
+		            		$("#research-start").focus();
+		            	}
+		            }
+		        });
+			}
 		}
 		else {
 			$("p#accom-alert").text("Choose at least one fund source").parent().show();
@@ -938,39 +1000,141 @@ $(document).ready(function () {
     *                                       *
     * ===================================== */
 
-	/* OUTPUT FORM (NEW) -- Success indicator style selector */
+    /* OPCR FORM (NEW) -- Reset form */
+    $("#new-form").click(function () {
+    	$("#invalidMessage").text("").parent().hide();
+    	$("#form_type").val("new").trigger("change");
+    	$("input[name='start'], input[name='end'], #opcr").val("");
+    });
+
+	/* OPCR FORM (VALIDATE) -- Check if date range is correct */
+	$("#newForm").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		
+		if ($("#form_type").val() == "new")
+		{
+			
+			$.ajax({
+	            type: "POST",
+	            url: ajaxUrl,
+	            data: $("#newForm").serialize(),
+	            success: function (valid) {
+	            	if (valid == 1)
+	            		$("#newForm").attr("action", actionUrl).unbind("submit").trigger("submit");
+	            	else
+	            		$("#invalidMessage").text(valid).parent().show();
+	            }
+	        });
+		}
+		else
+			$("#newForm").attr("action", actionUrl).unbind("submit").trigger("submit");
+	})
+
+	/* OUTPUT FORM (NEW) -- Reset form */
+	$("#addOutput").click(function () {
+		var actionUrl = $(this).attr("action-url");
+		var validateUrl = $(this).attr("validate-url");
+
+		$("#outputModalLabel").text("New Output");
+		$("#outputForm").attr("action-url", actionUrl).attr("ajax-url", validateUrl);
+    	$("#invalidMessage").text("").parent().hide();
+    	$("#output-id").removeAttr("name");
+		$("#category, #output, .style_1, .style_2").val("");
+		$("#deleteOutput").hide();
+		$("input[type=submit]").val("Add");
+
+		$("a[href='#style1']").parent().addClass("active");
+		$("#style1").addClass("active");
+		$(".style_1").attr("required", "");
+		$("a[href='#style2']").parent().removeClass("active");
+		$("#style2").removeClass("active");
+		$(".style_2").val("").removeAttr("required");
+	});
+
+	/* OUTPUT FORM  (UPDATE) -- Set form for editing */
+	$("a#updateOutput").click(function () {
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		var validateUrl = $(this).attr("validate-url");
+		var outputId = $(this).attr("output-id");
+
+		$.ajax({
+			type: "POST",
+			url: ajaxUrl,
+			data: "output_ID=" + outputId,
+			dataType: "json",
+			success:function (data) {
+				$("#outputModalLabel").text("Edit Output");
+				$("#outputForm").attr("action-url", actionUrl).attr("ajax-url", validateUrl);
+				$("#invalidMessage").parent().hide();
+				$("#output-id").attr("name", "output_ID").val(data["output_ID"]);
+				$("#category").val(data["category_ID"]);
+				$("#output").val(data["output"]);
+				$("#deleteOutput").attr("output-id", data["output_ID"]).show();
+				$("input[type=submit]").val("Save");
+
+				if (data["indicators"])
+				{
+					$("a[href='#style2']").parent().addClass("active");
+					$("#style2").addClass("active");
+					$(".style_2").val(data["indicators"]).attr("required", "");
+
+					$("a[href='#style1']").parent().removeClass("active");
+					$("#style1").removeClass("active");
+					$(".style_1").val("").removeAttr("required");
+				}
+				else
+				{
+					$("a[href='#style1']").parent().addClass("active");
+					$("#style1").addClass("active");
+					$("textarea[name='targets']").val(data['targets']);
+					$("textarea[name='measures']").val(data['measures']);
+					$(".style_1").attr("required", "");
+
+					$("a[href='#style2']").parent().removeClass("active");
+					$("#style2").removeClass("active");
+					$(".style_2").val("").removeAttr("required");
+				}
+			}
+		});
+	});
+
+	/* OUTPUT FORM -- Success indicator style selector */
 	$("#style a").click(function ()
 	{
 		var style = $(this).attr("href");
-		if (style == "#style2")
+		if (style == "#style1")
 		{
-			$(".style_2").attr("required", "");
-			$(".style_1").removeAttr("required");
-			$(".style_1").val("");
+			$(".style_1").attr("required", "");
+			$(".style_2").val("").removeAttr("required");
 		}
 		else
 		{
-			$(".style_1").attr("required", "");
-			$(".style_2").removeAttr("required");
-			$(".style_2").val("");
+			$(".style_2").attr("required", "");
+			$(".style_1").val("").removeAttr("required");
 		}
 	});
 
-	/* OUTPUT FORM (UPDATE) -- Set form for editing */
-	$("td.editOutput").editable("",
-	{
-		onsubmit: function (settings) {
-			settings.target = $("td.editOutput").attr("ajax-url");
-		},
-		name		: 'output',
-		id			: 'output_ID',
-		type		: 'textarea',
-		submit		: 'Save',
-		event		: 'dblclick',
-		onblur		: 'ignore',
-		cssclass	: 'edit_output',
-		tooltip		: 'Double click to edit',
-	});
+	/* OUTPUT FORM (VALIDATE) -- Check if unique */
+	$("#outputForm").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#outputForm").serialize(),
+            success: function (valid) {
+				if (valid == 1)
+            		$("#outputForm").attr("action", actionUrl).unbind("submit").trigger("submit");
+            	else
+            		$("#invalidMessage").text("This output seems to be a duplicate.").parent().show();
+            }
+        });
+	})
 
 	/* INDICATOR FORM (UPDATE) -- Set form for editing */
 	$("td.editOutputIndicator").editable("",

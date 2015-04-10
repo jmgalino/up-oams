@@ -520,6 +520,26 @@ $(document).ready(function () {
         $("#period input").datepicker("setDate", null);
     });
 
+    /* RESEARCH FORM -- Mini forms */
+    $("#fund_source_up").change(function () {
+        if ($("#fund_source_up").is(":checked")) {
+            $("#form_up").show();
+            $("#fund_up").attr("required", "");
+        } else {
+            $("#form_up").hide();
+            $("#fund_up").removeAttr("required");
+        }
+    });
+    $("#fund_source_external").change(function () {
+        if ($("#fund_source_external").is(":checked")) {
+            $("#form_external").show();
+            $("#fund_external, #fund_amount").attr("required", "");
+        } else {
+            $("#form_external").hide();
+            $("#fund_external, #fund_amount").removeAttr("required");
+        }
+    });
+
     /* RESEARCH FORM -- Reformat numbers */
     $("#fund_up, #fund_amount").focusout(function () {
         var fund = $(this).val();
@@ -527,8 +547,7 @@ $(document).ready(function () {
     });
 
 	// Tooltip for author field
-	$('input#author').tooltip();
-	$('.button-tip').tooltip();
+    $("input[data-toggle='tooltip']").tooltip();
 
     /* Date pickers */
     $("#datepicker .input-group.date").datepicker({
@@ -601,8 +620,17 @@ $(document).ready(function () {
     $("a#deleteForm").click(function () {
         return confirm('Are you sure you want to delete this form?');
     });
-    $("a#deleteOutput").click(function () {
-        return confirm('Are you sure you want to remove this?');
+    $("#deleteOutput").click(function () {
+        if (confirm('Are you sure you want to delete this output?')) {
+            var outputId = $(this).attr("output-id");
+            var href = $(this).attr("action-url") + "/" + outputId;
+
+            $("#outputForm").removeAttr("action");
+            window.location.href = href;
+        }
+        else {
+            return false;
+        }
     });
     $("a#resetPassword").click(function () {
         return confirm('Are you sure you want to reset the password?');

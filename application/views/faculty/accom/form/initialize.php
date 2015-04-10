@@ -7,8 +7,11 @@
         <h4 class="modal-title" id="myModalLabel">New Accomplishment Report</h4>
       </div>
 
-      <?php print Form::open('faculty/accom/new', array('class'=>'form-horizontal', 'id' => 'newReport', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id' => 'newReport', 'role'=>'form', 'action-url' => URL::site('faculty/accom/new'), 'ajax-url' => URL::site('ajax/check_date')));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="invalidMessage"></p>
+        </div>
 
         <?php if (count($accom_reports) > 1): ?>
         <div class="form-group">

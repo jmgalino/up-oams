@@ -5,19 +5,29 @@ class Model_Oams extends Model {
 	/**
 	 * Check for duplicates/uniquess
 	 */
-	public static function unique_record($details, $table, $exclude)
+	public static function unique_record($details, $table, $exclude, $strict)
 	{
 		$query = DB::select()->from($table);
 		
-		foreach ($details as $key => $value)
+		if ($strict)
 		{
-			if (!in_array($key, $exclude))
-				$query->or_where($key, '=', $value); // shows record that matches any value
+			foreach ($details as $key => $value)
+			{
+				if (!in_array($key, $exclude))
+					$query->where($key, '=', $value); // shows record that matches any value
+			}
 		}
-		
-		$result = $query->execute()->as_array();
-		
-		return count($result);
+		else
+		{
+			foreach ($details as $key => $value)
+			{
+				if (!in_array($key, $exclude))
+					$query->or_where($key, '=', $value); // shows record that matches any value
+			}
+		}
+		// echo $query;
+		$results = $query->execute()->as_array();
+		return $results;
 	}
 
 	/**

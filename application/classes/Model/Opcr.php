@@ -315,8 +315,8 @@ class Model_Opcr extends Model {
 			->where('output_ID', '=', $output_ID)
 	 		->execute();
 
- 		// if ($rows_deleted == 1) return TRUE;
- 		// else return FALSE; //do something
+ 		if ($rows_deleted == 1) return TRUE;
+ 		else return FALSE;
 	}
 
 	/**

@@ -60,10 +60,10 @@
                 <input type="checkbox" id="fund_source_up" name="form_up" value="up"> UP System Research Grant
               </label>
             </div>
-            <div id="form_up">
+            <div id="form_up" style="display:none;">
               <div class="input-group">
                 <span class="input-group-addon">Php</span>
-                <input type="text" class="form-control" id="fund_up" name="fund_up">
+                <input type="text" class="form-control" id="fund_up" name="fund_up" data-toggle="tooltip" title="Allows up to 2 decimal places only.">
               </div>
             </div>
                 
@@ -72,11 +72,11 @@
                 <input type="checkbox" id="fund_source_external" name="form_external" value="external"> Other
               </label>
             </div>
-            <div id="form_external">
+            <div id="form_external" style="display:none;">
               <input type="text" class="form-control" id="fund_external" name="fund_external" style="margin-bottom:3px" placeholder="Source">
               <div class="input-group">
                 <span class="input-group-addon">Php</span>
-                <input type="text" class="form-control" id="fund_amount" name="fund_amount">
+                <input type="text" class="form-control" id="fund_amount" name="fund_amount" data-toggle="tooltip" title="Allows up to 2 decimal places only.">
               </div>
             </div>
           </div>

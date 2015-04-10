@@ -9,7 +9,7 @@
 	<button type="button"
 	<?php echo ($opcr_forms
 		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_ipcr"'
-		: 'class="btn btn-default pull-right disabled button-tip" data-toggle="tooltip" data-placement="bottom" title="No OPCR Form available"');
+		: 'class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR Form available"');
 	?>>New Form</button>
 </h3>
 <br>

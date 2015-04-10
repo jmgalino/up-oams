@@ -19,10 +19,10 @@
 				if ($category['category_ID'] == $output['category_ID'])
 				{
 					echo '<tr>
-						<td class="template-output editOutput" id="'.$output['output_ID'].'" ajax-url="'.URL::site('faculty/opcr/edit/target').'">', $output['output'], '</td>
-						<td class="template-output editOutputIndicator" id="'.$output['output_ID'].'" ajax-url="'.URL::site('faculty/opcr/edit/indicator').'">', $output['indicators'] , '</td>
-						<td><a class="btn" id="deleteOutput" href='.URL::site('faculty/opcr/remove/'.$output['output_ID']).'>
-							<span class="glyphicon glyphicon-remove-circle"></span></a></td>
+						<td>', $output['output'], '</td>
+						<td>', $output['indicators'] , '</td>
+						<td><a class="btn btn-default" id="updateOutput" output-id="', $output['output_ID'], '" data-toggle="modal" data-target="#modal_output" role="button" href="" action-url="', URL::site('faculty/opcr/edit/'.$output['output_ID']), '" ajax-url="', URL::site('ajax/output_details'), '" validate-url="', URL::site('ajax/unique/edit_output'), '">
+							<span class="glyphicon glyphicon-pencil"></span></a></td>
 						</tr>';
 				}
 			}

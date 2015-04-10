@@ -208,14 +208,23 @@ class Model_Accom extends Model {
 		$accom = $this->get_details($accom_ID);
 
 		if($accom['remarks'] !== 'None')
+		{
 			$details['remarks'] .= '<br>'.$accom['remarks'];
+
+			// Check if remarks is not over 255 chars
+			while(strlen($details['remarks']) > 255)
+			{
+				$last_remark = strrpos($details['remarks'], '<br>');
+				$details['remarks'] = substr($details['remarks'], 0, $last_remark);
+			}
+		}
 
 		$rows_updated = DB::update('accomtbl')
  			->set($details)
  			->where('accom_ID', '=', $accom_ID)
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
+ 		if ($rows_updated == 1) return $details['status'];
  		else return FALSE; //do something
 	}
 
@@ -326,7 +335,7 @@ class Model_Accom extends Model {
 			->as_array();
 
 		// Add attachments if any
-		if ($attachment) $details[0]['attachment'] = $attachment[0]['attachment'];
+		$details[0]['attachment'] = ($attachment ? $attachment[0]['attachment'] : NULL);
 		return $details[0];
 	}
 
@@ -451,6 +460,7 @@ class Model_Accom extends Model {
 	public function update_accom($accom_ID, $accom_specID, $details, $type, $name_ID)
 	{
 		// $update_success = FALSE;
+		$accom_spec_details = $this->get_accom_details($accom_ID, $accom_specID, $type);
 
 		// Check for other users 
 		$users = $this->check_accom_users($accom_specID, $type);
@@ -467,7 +477,7 @@ class Model_Accom extends Model {
 			// Existing
 			if ($existing_accom_specID)
 			{
-				$link_success = $this->add_existing_accom($accom_ID, $existing_accom_specID, $type, $attachment);
+				$link_success = $this->link_accom($accom_ID, $existing_accom_specID, $type, $accom_spec_details['attachment']);
 				$update_success = ($unlink_success AND $link_success ? 'Accomplishment was successfully updated' : FALSE);
 			}
 			
@@ -476,7 +486,7 @@ class Model_Accom extends Model {
 			{
 				// Set to NULL to create new entry
 				$details[$name_ID] = NULL;
-				$add_success = $this->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
+				$add_success = $this->add_accom($accom_ID, $name_ID, $type, $details, $accom_spec_details['attachment']);
 				$update_success = ($unlink_success AND $add_success ? 'Accomplishment was successfully updated' : FALSE);
 			}
 		}
@@ -493,7 +503,7 @@ class Model_Accom extends Model {
 				// Unlink and delete current, then link existing
 				$unlink_success = $this->unlink_accom($accom_ID, $accom_specID, $type);
 				$delete_success = $this->delete_accom($accom_ID, $accom_specID, $type, $name_ID);
-				$link_success = $this->add_existing_accom($accom_ID, $existing_accom_specID, $type, $attachment);
+				$link_success = $this->link_accom($accom_ID, $existing_accom_specID, $type, $accom_spec_details['attachment']);
 				$update_success = ($unlink_success AND $delete_success AND $link_success ? 'Accomplishment was successfully updated' : FALSE);
 			}
 

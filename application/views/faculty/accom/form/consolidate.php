@@ -7,8 +7,12 @@
         <h4 class="modal-title" id="myModalLabel">Consolidate Reports</h4>
       </div>
 
-      <?php print Form::open($consolidate_url, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id' => 'consolidateReport', 'role'=>'form', 'action-url' => URL::site($consolidate_url), 'ajax-url' => URL::site('ajax/check_date')));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="invalidMessage"></p>
+        </div>
+
         <div class="form-group">
           <label for="period" class="col-sm-4 control-label">Period</label>
           <div class="col-sm-6" id="period">

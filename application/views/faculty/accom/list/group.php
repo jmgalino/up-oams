@@ -35,6 +35,14 @@ echo View::factory('faculty/accom/form/consolidate')
 ?>
 
 <?php if ($accom_reports): ?>
+<?php if ($error): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $error; ?>
+	</p>
+</div>
+<?php endif; ?>
 <!-- Table -->
 <table class="table table-hover" id="accom_group_table">
 	<thead>

@@ -1,18 +1,25 @@
-<!-- OPCR - Output Form -->
+<!-- Add/Edit Output Form -->
 <div class="modal fade" id="modal_output" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add MFO/PAP</h4>
+        <h4 class="modal-title" id="outputModalLabel"></h4>
       </div>
 
-      <?php print Form::open('faculty/opcr/add', array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id' => 'outputForm', 'role'=>'form'));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="invalidMessage"></p>
+        </div>
+
+        <input type="text" id="output-id" name="output_ID" hidden>
+
         <div class="form-group">
           <label for="category" class="col-sm-4 control-label">Category</label>
           <div class="col-sm-7">
-            <select class="form-control" id="category" name="category_ID">
+            <select class="form-control" id="category" name="category_ID" required>
+              <option value="">Select</option>
               <?php
               foreach ($categories as $category)
               {
@@ -60,11 +67,12 @@
       </div>
 
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="deleteOutput" output-id="" action-url="<?php echo URL::site('faculty/opcr/remove'); ?>" style="float:left">Delete</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php print Form::submit(NULL, 'Add', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>
 
-      <?php print Form::close();?>
+      <?php print Form::close(); ?>
     </div>
   </div>
 </div>

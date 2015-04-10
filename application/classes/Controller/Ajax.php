@@ -13,67 +13,81 @@ class Controller_Ajax extends Controller {
 	 */
 	public function action_unique()
 	{
-		switch ($this->request->param('id'))
+		$oams = new Model_Oams;
+		
+		$post = $this->request->post();
+		$key = $this->request->param('id');
+		$unique = TRUE;
+
+		switch ($key)
 		{
 			case 'new_user':
-				$table = 'user_profiletbl';
-				$exclude = array('title', 'first_name', 'middle_name', 'last_name', 'suffix', 'user_type',
-					'faculty_code', 'program_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
-				$max = 0;
-				break;
-
 			case 'edit_user':
 				$table = 'user_profiletbl';
 				$exclude = array('title', 'first_name', 'middle_name', 'last_name', 'suffix', 'user_type',
 					'faculty_code', 'program_ID', 'rank', 'position', 'birthday', 'pic', 'deleted');
-				$max = 1;
+				$strict = FALSE;
+				$max = ($key == 'new_user' ? 0 : 1);
 				break;
 
 			case 'new_college':
-				$table = 'univ_collegetbl';
-				$exclude = ($this->request->post('user_ID') ? array() : array('user_ID'));
-				$max = 0;
-				break;
-
 			case 'edit_college':
 				$table = 'univ_collegetbl';
 				$exclude = ($this->request->post('user_ID') ? array() : array('user_ID'));
-				$max = 1;
+				$strict = FALSE;
+				$max = ($key == 'new_college' ? 0 : 1);
 				break;
 
 			case 'new_department':
-				$table = 'univ_departmenttbl';
-				$exclude = ($this->request->post('user_ID') ? array('college_ID') : array('college_ID', 'user_ID'));
-				$max = 0;
-				break;
-
 			case 'edit_department':
 				$table = 'univ_departmenttbl';
 				$exclude = ($this->request->post('user_ID') ? array('college_ID') : array('college_ID', 'user_ID'));
-				$max = 1;
+				$strict = FALSE;
+				$max = ($key == 'new_department' ? 0 : 1);
 				break;
 
 			case 'new_program':
-				$table = 'univ_programtbl';
-				$exclude = array('college_ID', 'department_ID', 'type', 'date_instituted', 'vision', 'goals');
-				$max = 0;
-				break;
-
 			case 'edit_program':
 				$table = 'univ_programtbl';
 				$exclude = array('college_ID', 'department_ID', 'type', 'date_instituted', 'vision', 'goals');
-				$max = 1;
+				$strict = FALSE;
+				$max = ($key == 'new_program' ? 0 : 1);
+				break;
+
+			case 'new_output':
+			case 'edit_output':
+				$table = 'opcr_outputtbl';
+				$exclude = array('output_ID', 'accountable', 'actual_accom', 'r_quantity', 'r_efficiency', 'r_timeliness', 'remarks');
+				$strict = TRUE;
+				$max = ($key == 'new_output' ? 0 : 1);
+				
+				$post['indicators'] = ($post['indicators'] != ''
+					? $post['indicators']
+					: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
+				
+				unset($post['targets'], $post['measures']);
 				break;
 		}
 
-		$oams = new Model_Oams;
-		$post = $this->request->post();
-		$record = $oams->unique_record($post, $table, $exclude);
+		$record = $oams->unique_record($post, $table, $exclude, $strict);
 
-		if ($record <= $max)
-			echo TRUE;
-		else
-			echo FALSE;
+		if (count($record) > $max)
+			$unique = FALSE;
+
+		if ($key == 'edit_output')
+		{
+			foreach ($record as $duplicate)
+			{
+				if ($duplicate['output_ID'] != $post['output_ID'])
+				{
+					$unique = FALSE;
+					break;
+				}
+			}
+		}
+
+		
+		echo $unique;
 	}
 
 	/**
@@ -379,30 +393,6 @@ class Controller_Ajax extends Controller {
 	}
 
 	/**
-	 * Check if amount is valid
-	 */
-	public function action_check_amount()
-	{
-		$arr = array();
-		$post = $this->request->post();
-
-		foreach ($post as $key => $value) {
-			if ($key == 'fund_amount' OR $key == 'fund_up')
-			{
-				if ($value == '0.00')
-				{
-					$id = '#'.$key;
-					$arr['invalid'] = array('key' => $id);
-					break;
-				}
-			}
-		}
-
-		echo json_encode($arr);
-        exit();
-	}
-
-	/**
 	 * Get outputs based on category
 	 */
 	public function action_category_outputs()
@@ -448,24 +438,10 @@ class Controller_Ajax extends Controller {
 		$ipcr = new Model_Ipcr;
 
 		$target_ID = $this->request->post('target_ID');
-		
-		if (is_numeric($target_ID))
-		{
-			$target_details = $ipcr->get_target_details($target_ID);
-			$target_details['actual_accom'] .= '';
-			echo json_encode($target_details);
-			exit();
-		}
-		else
-		{
-			$arr = array();
-			$arr['indicators'] = '';
-			$arr['actual_accom'] = '';
-			$arr['r_quantity'] = '';
-			$arr['r_efficiency'] = '';
-			$arr['r_timeliness'] = '';
-			$arr['remarks'] = '';
-		}
+		$target_details = $ipcr->get_target_details($target_ID);
+		$target_details['actual_accom'] .= '';
+		echo json_encode($target_details);
+		exit();
 	}
 
 	/**
@@ -473,69 +449,23 @@ class Controller_Ajax extends Controller {
 	 */
 	public function action_output_details()
 	{
-		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
-		$univ = new Model_Univ;
-		$user = new Model_User;
 
 		$output_ID = $this->request->post('output_ID');
-		
-		if (is_numeric($output_ID))
+		$output_details = $opcr->get_output_details($output_ID);
+
+		$style1 = strpos($output_details['indicators'], 'Targets:');
+		if ($style1 !== FALSE)
 		{
-			$output_details = $opcr->get_output_details($output_ID);
-			$output_details['actual_accom'] .= '';
-
-			if (!$output_details['accountable'])
-			{
-				$targets = $ipcr->get_output_targets($output_ID, NULL);
-				if ($targets)
-				{
-					$i = 0;
-					$accountable = count($targets);
-					$session = Session::instance();
-					$college = $univ->get_college_details(NULL, $session->get('program_ID'));
-					$programIDs = $univ->get_college_programIDs($college['college_ID']);
-					$users = $user->get_user_group($programIDs, NULL);
-
-					foreach ($targets as $target)
-					{
-						$i++;
-
-						foreach ($users as $user)
-						{
-							if ($target['user_ID'] == $user['user_ID'])
-							{
-								$output_details['accountable'] .= $user['faculty_code'];
-
-								if ($accountable == 2 AND $i == 1)
-									$output_details['accountable'] .= ' & ';
-								elseif ($accountable > 2)
-								{
-									if ($i == $accountable - 1)
-										$output_details['accountable'] .= ', & ';
-									elseif ($i < $accountable - 2)
-										$output_details['accountable'] .= ', ';
-								}
-							}
-						}
-					}
-				}
-			}
-
-			echo json_encode($output_details);
-			exit();
+			list($indicator, $imeasures) = explode('Measures:', $output_details['indicators']);
+			list($nothingness, $itargets) = explode('Targets:', $indicator);
+			$output_details['targets'] = $itargets;
+			$output_details['measures'] = $imeasures;
+			$output_details['indicators'] = NULL;
 		}
-		else
-		{
-			$arr = array();
-			$arr['indicators'] = '';
-			$arr['accountable'] = '';
-			$arr['actual_accom'] = '';
-			$arr['r_quantity'] = '';
-			$arr['r_efficiency'] = '';
-			$arr['r_timeliness'] = '';
-			$arr['remarks'] = '';
-		}
+
+		echo json_encode($output_details);
+		exit();
 	}
 
 } // End Ajax

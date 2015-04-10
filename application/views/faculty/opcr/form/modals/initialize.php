@@ -7,8 +7,12 @@
         <h4 class="modal-title" id="myModalLabel">New Office Performance Commitment and Review Form</h4>
       </div>
 
-      <?php print Form::open('faculty/opcr/new', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form', 'action-url' => URL::site('faculty/opcr/new'), 'ajax-url' => URL::site('ajax/check_date')));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="invalidMessage"></p>
+        </div>
+
         <?php if ($ipcr_forms AND $opcr_forms): ?>
         <div class="form-group">
           <label for="form_type" class="col-sm-4 control-label">Form Type</label>

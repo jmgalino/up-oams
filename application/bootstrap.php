@@ -148,7 +148,7 @@ Route::set('session', '<action>',
 Route::set('user-functions', '<controller>/<action>',
 	array(
 		'controller'=> '(user|admin|faculty)',
-		'action'	=> '(index|myprofile|password|about|manual)'
+		'action'	=> '(index|error|announcements|myprofile|password|about|manual|)'
 	))
 	->defaults(array(
 		'action'	=> 'index'
@@ -170,10 +170,10 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<docume
 /**
  * Routes for Faculty Users
  */
-Route::set('faculty-functions', '<controller>/myprofile/<action>/<id>',
+Route::set('faculty-functions', '<controller>/<action>(/<id>)',
 	array(
 		'controller'=> 'faculty',
-		// 'action'	=> ''
+		'action'	=> '(index|contact)'
 	))
 	->defaults(array(
 		'action'	=> 'index'

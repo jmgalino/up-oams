@@ -179,52 +179,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	}
 
 	/**
-	 * Rate OPCR Form (College)
-	 */
-	// public function action_rate()
-	// {
-	// 	$opcr = new Model_Opcr;
-	// 	$univ = new Model_Univ;
-
-	// 	$opcr_ID = $this->request->param('id');
-	// 	$opcr_details = $ipcr->get_details($ipcr_ID);
-	// 	$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
-
-	// 	$error = $this->session->get_once('error');
-	// 	$warning = $this->session->get_once('warning');
-	// 	$categories = $this->oams->get_categories();
-
-	// 	$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
-	// 	$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
-	// 	$period_from = date('F Y', strtotime($opcr_details['period_from']));
-	// 	$period_to = date('F Y', strtotime($opcr_details['period_to']));
-	// 	$label = $period_from.' - '.$period_to;
-
-	// if ($this->session->get('identifier') == 'dean')
-	// {
-	// 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-	// 		$title = 'Unit Head, '.$college['short'];
-	// }
-	// elseif ($this->session->get('identifier') == 'chair')
-	// 	$title = 'Unit Head, '.$department['short'];
-	// else
-	// 	$title = 'Faculty, '.$department['short'];
-
-	// 	$this->view->content = View::factory('faculty/ipcr/form/final/template')
-	// 		->bind('label', $label)
-	// 		->bind('error', $error)
-	// 		->bind('warning', $warning)
-	// 		->bind('session', $this->session)
-	// 		->bind('ipcr_ID', $ipcr_ID)
-	// 		->bind('categories', $categories)
-	// 		->bind('outputs', $outputs)
-	// 		->bind('department', $department['short'])
-	// 		->bind('title', $title)
-	// 		->bind('targets', $targets);
-	// 	$this->response->body($this->view->render());
-	// }
-
-	/**
 	 * Save output rating
 	 */
 	public function action_save()
@@ -265,7 +219,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$details['category_ID'] = $post['category_ID'];
 		$details['opcr_ID'] = $this->session->get('opcr_details')['opcr_ID'];
 		$details['output'] = $post['output'];
-		$details['indicators'] = ($post['indicators']
+		$details['indicators'] = ($post['indicators'] != ''
 			? $post['indicators']
 			: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
 		
@@ -277,29 +231,21 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 * Edit output
 	 */
 	public function action_edit()
-	{// Check session
+	{
 		$opcr = new Model_Opcr;
 
 		$post = $this->request->post();
 		$output_details = $opcr->get_output_details($post['output_ID']);
 		$this->action_check($output_details['user_ID']); // Redirects if not the owner
 		
-		if ($this->session->get('opcr_details')['opcr_ID'] == $output_details['opcr_ID'])
-		{
-			$edit_success = $opcr->update_output($post);
+		$post['indicators'] = ($post['indicators'] != ''
+			? $post['indicators']
+			: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
+		
+		unset($post['targets'], $post['measures']);
+		$edit_success = $opcr->update_output($post);
 
-			if ($edit_success)
-			{
-				if (isset($post['output'])) echo $post['output'];
-				elseif (isset($post['indicators'])) echo $post['indicators'];
-			}
-			else
-			{
-				echo "<script>
-					alert('There seems to be an error. Please refresh the page.');
-					</script>";
-			}
-		}
+		$this->redirect('faculty/opcr/update/'.$output_details['opcr_ID'], 303);
 	}
 
 	/**
@@ -309,7 +255,9 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	{
 		$opcr = new Model_Opcr;
 		$output_ID = $this->request->param('id');
-		$opcr->delete_output($output_ID);
+		$delete_success = $opcr->delete_output($output_ID);
+		
+		if (!$delete_success) $this->session->set('error', 'Something went wrong. Please try again.');
 		$this->redirect('faculty/opcr/update/'.$this->session->get('opcr_details')['opcr_ID'], 303);
 	}
 
