@@ -41,37 +41,42 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				elseif ($type == 'opcr') $this->opcr_pdf($id, $purpose);
 				else $this->opcr_consolidated_pdf();
 				break;
+
+			case 'cuma':
+				$this->mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf-accom.css');
+				$this->cuma_pdf($id, $purpose);
+				break;
 		}
 	}
 
 	/**
 	 * Show PDF
 	 */
-	private function pdf_preview($template, $filename, $top, $header_contents)
-	{
-		$fullname = $this->session->get('fullname');
-		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
+	// private function pdf_preview($template, $filename, $format, $top, $header_contents)
+	// {
+	// 	$fullname = $this->session->get('fullname');
+	// 	$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
 
-		ob_start();
-		echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
-		$header = ob_get_contents();
-		ob_get_clean();
+	// 	ob_start();
+	// 	echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
+	// 	$header = ob_get_contents();
+	// 	ob_get_clean();
 
-		$mpdf = new mPDF('','', 0, '', 25, 25, $top, 25, 6.5, 6.5);
-		$mpdf->SetAuthor($fullname);
-		$mpdf->SetCreator('UP Mindanao OAMS');
-		$mpdf->WriteHTML($bootstrap_css, 1);
-		$mpdf->WriteHTML($this->mpdf_css, 1);
-		$mpdf->SetHTMLHeader($header);
-		$mpdf->WriteHTML($template);
-		$mpdf->Output($filename, 'I');
-		exit;
-	}
+	// 	$mpdf = new mPDF($format,'', 0, '', 25, 25, $top, 25, 6.5, 6.5);
+	// 	$mpdf->SetAuthor($fullname);
+	// 	$mpdf->SetCreator('UP Mindanao OAMS');
+	// 	$mpdf->WriteHTML($bootstrap_css, 1);
+	// 	$mpdf->WriteHTML($this->mpdf_css, 1);
+	// 	$mpdf->SetHTMLHeader($header);
+	// 	$mpdf->WriteHTML($template);
+	// 	$mpdf->Output($filename, 'I');
+	// 	exit;
+	// }
 
 	/**
 	 * Download PDF
 	 */
-	private function pdf_download($template, $filename, $top, $header_contents)
+	private function pdf_download($template, $filename, $format, $top, $header_contents)
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
@@ -81,7 +86,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$header = ob_get_contents();
 		ob_get_clean();
 
-		$mpdf = new mPDF('','', 0, '', 25, 25, $top, 25, 6.5, 6.5);
+		$mpdf = new mPDF($format,'', 0, '', 25, 25, $top, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
@@ -95,7 +100,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * Save PDF to local file
 	 */
-	private function pdf_save($template, $filepath, $top, $header_contents)
+	private function pdf_save($template, $filepath, $format, $top, $header_contents)
 	{
 		$fullname = $this->session->get('fullname');
 		$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
@@ -105,7 +110,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$header = ob_get_contents();
 		ob_get_clean();
 
-		$mpdf = new mPDF('','', 0, '', 25, 25, $top, 25, 6.5, 6.5);
+		$mpdf = new mPDF($format,'', 0, '', 25, 25, $top, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
@@ -164,14 +169,14 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		if ($purpose == 'download')
 		{	
 			$filename = $yearmonth_words.'.pdf';
-			$this->pdf_download($template, $filename, 55, $header);
+			$this->pdf_download($template, $filename, 'A4', 55, $header);
 		}
 		
 		// Generate PDF for preview
 		elseif ($purpose == 'preview')
 		{
 			$filepath = DOCROOT.'files/tmp/'.$filename;
-			$this->pdf_save($template, $filepath, 55, $header);
+			$this->pdf_save($template, $filepath, 'A4', 55, $header);
 
 			$this->session->set('pdf_draft', $filename);
 			$this->redirect('faculty/accom/preview/'.$accom_ID);
@@ -181,7 +186,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		elseif ($purpose == 'submit')
 		{
 			$filepath = DOCROOT.'files/document_accom/'.$filename;
-			$this->pdf_save($template, $filepath, 55, $header);
+			$this->pdf_save($template, $filepath, 'A4', 55, $header);
 
 			$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
 			$details['document'] = $filename;
@@ -241,7 +246,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				: $department_details['short'].' ('.$period.').pdf'
 			: $period.'.pdf');
 		$top = ($this->session->get('identifier') == 'dean' ? 45 : 55);
-		$this->pdf_download($template, $filename, $top, $header);
+		$this->pdf_download($template, $filename, 'A4', $top, $header);
 	}
 
 	/**
@@ -289,7 +294,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			$period = date('F Y', strtotime($opcr_details['period_from'])).' - '.date('F Y', strtotime($opcr_details['period_to']));
 			$filename = $unit.' ['.$period.'].pdf';
-			$this->pdf_download($template, $filename, 25, NULL);
+			$this->pdf_download($template, $filename, 'A4', 25, NULL);
 		}
 		
 		$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
@@ -299,7 +304,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		if ($purpose == 'preview')
 		{
 			$filepath = DOCROOT.'files/tmp/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
+			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
 			$this->session->set('pdf_draft', $filename);
 			$this->redirect('faculty/opcr/preview/'.$opcr_ID);
@@ -309,7 +314,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		elseif ($purpose == 'submit')
 		{
 			$filepath = DOCROOT.'files/document_opcr/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
+			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
 			$details['status'] = 'Published';
 			$details['date_published'] = date('Y-m-d');
@@ -364,7 +369,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		{
 			$period = date('F Y', strtotime($opcr_details['period_from'])).' - '.date('F Y', strtotime($opcr_details['period_to']));
 			$filename = $period.'.pdf';
-			$this->pdf_download($template, $filename, 25, NULL);
+			$this->pdf_download($template, $filename, 'A4', 25, NULL);
 		}
 		
 		$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
@@ -374,7 +379,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		if ($purpose == 'preview')
 		{
 			$filepath = DOCROOT.'files/tmp/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
+			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
 			$this->session->set('pdf_draft', $filename);
 			$this->redirect('faculty/ipcr/preview/'.$ipcr_ID);
@@ -384,7 +389,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		elseif ($purpose == 'submit')
 		{
 			$filepath = DOCROOT.'files/document_ipcr/'.$filename;
-			$this->pdf_save($template, $filepath, 25, NULL);
+			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
 			$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
 			$details['document'] = $filename;
@@ -452,7 +457,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$filename = $this->session->get('employee_code').$period.'.pdf';
 		// $filename = $department_details['short'].' ('.$period.').pdf';
 		$filepath = DOCROOT.'files/document_opcr/'.$filename;
-		$this->pdf_save($template, $filepath, 25, NULL);
+		$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
 		$details['status'] = 'Pending';
 		$details['document'] = $filename;
@@ -501,7 +506,36 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		ob_get_clean();
 
 		$filename = $college_details['short'].' ('.$period.').pdf';
-		$this->pdf_download($template, $filename, 25, NULL);
+		$this->pdf_download($template, $filename, 'A4', 25, NULL);
+	}
+
+	/**
+	 * CUMA Form
+	 */
+	private function cuma_pdf($cuma_ID, $purpose)
+	{
+		$cuma = new Model_Cuma;
+
+		$cuma_details = $cuma->get_details($cuma_ID);
+		
+		ob_start();
+		echo View::factory('mpdf/cuma/template');
+		$template = ob_get_contents();
+		ob_get_clean();
+
+		$start = date('Y', strtotime($cuma_details['period_from']));
+		$end = date('Y', strtotime($cuma_details['period_to']));
+		$filename = $this->session->get('employee_code').$start.$end.'.pdf';
+		
+		// Generate PDF for preview
+		if ($purpose == 'preview')
+		{
+			$filepath = DOCROOT.'files/tmp/'.$filename;
+			$this->pdf_save($template, $filepath, 'A4-L', 25, NULL);
+
+			$cuma->update(array('cuma_ID' => $cuma_ID, 'document' => $filename));
+			$this->response->body = $filename;
+		}
 	}
 
 	/**

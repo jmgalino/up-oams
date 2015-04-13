@@ -278,6 +278,17 @@ Route::set('ocpr_coll-functions', '<directory>/opcr_coll(/<action>(/<id>))',
 		'action'	=> 'coll'
 	));
 
+// cuma
+Route::set('cuma-functions', '<directory>/<controller>(/<action>(/<id>))',
+	array(
+		'directory' => 'faculty',
+		// 'action'	=> '(coll|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'cuma',
+		'action'	=> 'index'
+	));
+
 // mpdf
 Route::set('mpdf', '<directory>/<controller>/<purpose>/<type>(/<id>)',
 	array(

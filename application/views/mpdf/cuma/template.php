@@ -1,6 +1,5 @@
 <?php
-echo '
-<h5>Annex D - CU Management Aseessment Form</h5>
-<h5>University of the Philippines</h5>
-<h5>OFFICE OF THE VICE PRESIDENT FOR ACADEMIC AFFAIRS</h5>';
+echo '<p><strong>Annex D - CU Management Aseessment Form</strong></p>
+<p class="text-center"><strong>University of the Philippines</strong></p>
+<p class="text-center"><strong>OFFICE OF THE VICE PRESIDENT FOR ACADEMIC AFFAIRS</strong></p>';
 ?>

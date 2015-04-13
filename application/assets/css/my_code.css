@@ -158,6 +158,7 @@ td.dropdown ul.dropdown-menu > li > a:focus
 #monthpicker,
 #yearmonth,
 #period,
+#cuma-period,
 #award-duration,
 #research-duration,
 #paper-dates,
@@ -165,7 +166,7 @@ td.dropdown ul.dropdown-menu > li > a:focus
 #participation-dates,
 #other-dates
 {
-  z-index:1151;
+  z-index:1500;
 }
 
 /* PROFILE -- fragment */

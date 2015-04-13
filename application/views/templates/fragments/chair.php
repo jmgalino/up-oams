@@ -27,6 +27,7 @@
 					</ul>
 				</li>
 				<li><a href=<?php echo URL::site('faculty/opcr'); ?>>OPCR</a></li>
+				<li><a href=<?php echo URL::site('faculty/cuma'); ?>>CUMA</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href=<?php echo URL::site('faculty/announcements'); ?>><span class="glyphicon glyphicon-home"></span></a></li>

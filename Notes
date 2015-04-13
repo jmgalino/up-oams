@@ -1,13 +1,8 @@
-ASK:
-- does the dean have to see/consolidate the IPCR?
-- consolidate OPCR college level dynamic, ok? strict: should be in the range.
-
 TO DO:
-- update kohana & bs
+- update kohana, bs, mpdf
 
 >> ACCOM
 - view all, limit/pagination
-- rch fund source should be > 0
 - no pagebreak before signature
 - check if unselected radio doesn't collect data
   > /faculty/accom/form/modals/publication

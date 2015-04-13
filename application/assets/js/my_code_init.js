@@ -53,6 +53,7 @@ $(document).ready(function () {
     *       (Department/College)            *
     *   12. OPCR Table (Faculty-Chair)      *
     *   13. OPCR Group Table (College)      *
+    *   14. CUMA Table (Faculty-Chair)      *
     *                                       *
     * * * * * * * * * * * * * * * * * * * * */
     
@@ -479,6 +480,19 @@ $(document).ready(function () {
         }
     });
 
+    /* 14. CUMA Table  */
+    $('#cuma_table').DataTable({
+        "columns": [
+            null,
+            null,
+            null,
+            // Action column is neither searchable nor orderable
+            { "searchable": false, "orderable": false }
+        ],
+        // Order table by period (column 0), descending
+        "order": [[ 0, "desc" ]]
+    });
+
     /* DOCUMENT TYPE -- Show necessary fields depending on doument type */
     $("#report_type").change(function () {
         var type = $(this).val();
@@ -559,15 +573,18 @@ $(document).ready(function () {
         format: "d MM yyyy",
         todayHighlight: true
     });
-    $('#period .input-daterange').datepicker({
-        format: "MM yyyy",
-        viewMode: 1, 
-        minViewMode: 1,
-    });
     $("#yearmonth .input-group.date").datepicker({
         format: "MM yyyy",
-        viewMode: 1, 
         minViewMode: 1,
+    });
+    $('#period .input-daterange').datepicker({
+        format: "MM yyyy",
+        minViewMode: 1,
+        autoclose: true
+    });
+    $("#cuma-period .input-daterange").datepicker({
+        format: "yyyy",
+        minViewMode: 2,
         autoclose: true
     });
     

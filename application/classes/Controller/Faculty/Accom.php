@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
 class Controller_Faculty_Accom extends Controller_Faculty {
 
