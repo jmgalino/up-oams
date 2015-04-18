@@ -18,7 +18,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$univ = new Model_Univ;
 
-		// $publish = $this->request->post('publish');
+		$publish = $this->session->get_once('publish');
 		$delete = $this->request->post('delete');
 		$error = $this->request->post('error');
 		$cuma_forms = $this->cuma->get_faculty_cuma($this->session->get('user_ID'));
@@ -38,23 +38,23 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	 */
 	public function action_new()
 	{
-		$details['user_ID'] = $this->session->get('user_ID');
-		$details['period_from'] = date('Y-m-d', strtotime($this->request->post('start').'-01-01'));
-		$details['period_to'] = date('Y-m-d', strtotime($this->request->post('end').'-01-01'));
+		$cuma_details['user_ID'] = $this->session->get('user_ID');
+		$cuma_details['period_from'] = date('Y-m-d', strtotime($this->request->post('start').'-01-01'));
+		$cuma_details['period_to'] = date('Y-m-d', strtotime($this->request->post('end').'-01-01'));
 		
-		$insert_success = $this->cuma->initialize($details);
+		$insert_success = $this->cuma->initialize($cuma_details);
 
 		if (is_numeric($insert_success))
 		{
 			// Post 'cuma_ID'
-			$this->response = Request::factory('faculty/cuma/show_draft')
+			$this->response = Request::factory('faculty/cuma/draft')
 				->post($insert_success)
 				->execute();
 		}
 		elseif (is_array($insert_success))
 		{
 			// Post 'cuma_ID' & 'warning'
-			$this->response = Request::factory('faculty/cuma/show_draft')
+			$this->response = Request::factory('faculty/cuma/draft')
 				->post($insert_success)
 				->execute();
 		}
@@ -74,15 +74,10 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$cuma_ID = $this->request->param('id');
 		$cuma_details = $this->cuma->get_details($cuma_ID);
-		$this->action_check($cuma_details['user_ID']); // Redirects if not the owner
+		$cuma_details['draft'] = ($this->can_be_modified($cuma_ID)
+			? Request::factory('faculty/mpdf/preview/cuma/'.$cuma_ID)->execute()->body
+			: NULL);
 		
-		if ($cuma_details['status'] == 'Draft')
-		{
-			$response = Request::factory('faculty/mpdf/preview/cuma/'.$cuma_ID)->execute()->body;
-		}
-		else
-			$cuma_details['draft'] = NULL;
-
 		$this->view->content = View::factory('faculty/cuma/view/faculty')
 			->bind('cuma_details', $cuma_details);
 		$this->response->body($this->view->render());
@@ -97,8 +92,14 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 		
 		if ($this->can_be_modified($cuma_ID))
 		{
-			$this->response = Request::factory('faculty/cuma/show_draft')
+			$this->response = Request::factory('faculty/cuma/draft')
 				->post(array('cuma_ID' => $cuma_ID))
+				->execute();
+		}
+		else
+		{
+			$this->response = Request::factory('faculty/cuma')
+				->post(array('error' => 'Accomplishment Report is locked for editing.'))
 				->execute();
 		}
 	}
@@ -117,53 +118,85 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 				->post(array('delete' => $delete_success))
 				->execute();
 		}
+		else
+		{
+			$this->response = Request::factory('faculty/cuma')
+				->post(array('error' => 'Accomplishment Report is locked for editing.'))
+				->execute();
+		}
 	}
 
 	/**
 	 * Publish CUMA Form
 	 */
 	public function action_publish()
-	{}
+	{
+		$cuma_ID = $this->request->param('id');
+		
+		if ($this->can_be_modified($cuma_ID))
+		{
+			$publish_success = $this->cuma->update(array(
+				'cuma_ID' => $cuma_ID,
+				'date_assessed' => date('Y-m-d'),
+				'status' => 'Published'));
+			
+			$this->session->set('publish', $publish_success);
+			$this->redirect('faculty/cuma');
+		}
+		else
+		{
+			$this->response = Request::factory('faculty/cuma')
+				->post(array('error' => 'Accomplishment Report is locked for editing.'))
+				->execute();
+		}
+	}
 
 	/**
 	 * View CUMA Form (Draft)
 	 */
-	protected function action_show_draft()
+	protected function action_draft()
 	{
+		$univ = new Model_Univ;
+
 		$error = $this->request->post('error');
 		$warning = $this->request->post('warning');
 
 		$cuma_ID = $this->request->post('cuma_ID');
 		$cuma_details = $this->cuma->get_details($cuma_ID);
-		$cuma_details['document'] = ($cuma_details['document']
-			? $cuma_details['document']
-			: Request::factory('faculty/mpdf/preview/cuma/'.$cuma_ID)->execute()->body);
 
 		$start = date('Y', strtotime($cuma_details['period_from']));
 		$end = date('Y', strtotime($cuma_details['period_to']));
-		$label = 'AY '.$start.' - '.$end;
+		$period = 'AY '.$start.' - '.$end;
+
+		$this->session->set('cuma_details', $cuma_details);
+		$this->session->set('period', $period);
 
 		$this->view->content = View::factory('faculty/cuma/form/template')
-			->bind('label', $label)
+			->bind('label', $period)
 			->bind('error', $error)
 			->bind('warning', $warning)
 			->bind('cuma_details', $cuma_details);
 		$this->response->body($this->view->render());	
 	}
 
+	/**
+	 * Load part of CUMA Form (Draft)
+	 */
+	public function action_view()
+	{
+		$page = $this->request->param('id');
+		echo View::factory('faculty/cuma/form/'.$page);
+	}
+
+	/**
+	 * Checks if CUMA is modifiable i.e. status is 'Draft'
+	 */
 	private function can_be_modified($cuma_ID)
 	{
 		$cuma_details = $this->cuma->get_details($cuma_ID);
 		$this->action_check($cuma_details['user_ID']); // Redirects if not the owner
 		
-		if ($cuma_details['status'] == 'Published')
-		{
-			$this->response = Request::factory('faculty/cuma')
-				->post(array('error' => 'Accomplishment Report is locked for editing.'))
-				->execute();
-		}
-
-		return TRUE;
+		return ($cuma_details['status'] == 'Draft');
 	}
 
 } // End Cuma

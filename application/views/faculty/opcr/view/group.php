@@ -1,7 +1,7 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
-	<li><a href="<?php echo URL::site('faculty/opcr_college'); ?>">OPCR Forms - College</a></li>
+	<li><a href="<?php echo URL::site('faculty/opcr_coll'); ?>">OPCR Forms - College</a></li>
 	<li class="active">View OPCR Form</li>
 </ol>
 

@@ -684,5 +684,4 @@ $(document).ready(function () {
         else
             event.preventDefault();
     });
-
 });

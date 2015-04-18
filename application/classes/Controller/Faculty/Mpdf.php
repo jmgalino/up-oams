@@ -86,7 +86,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$header = ob_get_contents();
 		ob_get_clean();
 
-		$mpdf = new mPDF($format,'', 0, '', 25, 25, $top, 25, 6.5, 6.5);
+		$mpdf = new mPDF('', $format, 0, '', 25, 25, $top, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
@@ -110,7 +110,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$header = ob_get_contents();
 		ob_get_clean();
 
-		$mpdf = new mPDF($format,'', 0, '', 25, 25, $top, 25, 6.5, 6.5);
+		$mpdf = new mPDF('', $format, 0, '', 25, 25, $top, 25, 6.5, 6.5);
 		$mpdf->SetAuthor($fullname);
 		$mpdf->SetCreator('UP Mindanao OAMS');
 		$mpdf->WriteHTML($bootstrap_css, 1);
@@ -355,6 +355,10 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			->bind('title', $title);
 
 		echo View::factory('mpdf/ipcr/basic')
+			->bind('fullname', $fullname)
+			->bind('department', $department_details['department'])
+			->bind('opcr_details', $opcr_details)
+			->bind('title', $title)
 			->bind('categories', $categories)
 			->bind('targets', $targets)
 			->bind('outputs', $outputs);
@@ -515,11 +519,34 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	private function cuma_pdf($cuma_ID, $purpose)
 	{
 		$cuma = new Model_Cuma;
+		$univ = new Model_Univ;
 
 		$cuma_details = $cuma->get_details($cuma_ID);
+		$start = date('Y', strtotime($cuma_details['period_from']));
+		$end = date('Y', strtotime($cuma_details['period_to']));
+		$period = 'AY '.$start.' - '.$end;
+
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$department_programs = $univ->get_department_programIDs($department_details['department_ID']);
+		$programs = $univ->get_programs();
+
+		$program_IDs = array();
+		foreach ($department_programs as $program) {
+			$program_IDs[] = $program['program_ID'];
+		}
+		
+		$university['mission'] = $univ->get_mission();
+		$university['vision'] = $univ->get_vision();
 		
 		ob_start();
-		echo View::factory('mpdf/cuma/template');
+
+		echo View::factory('mpdf/cuma/template')
+			->bind('period', $period)
+			->bind('department_details', $department_details)
+			->bind('university', $university)
+			->bind('programs', $programs)
+			->bind('program_IDs', $program_IDs);
+
 		$template = ob_get_contents();
 		ob_get_clean();
 
@@ -530,9 +557,9 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// Generate PDF for preview
 		if ($purpose == 'preview')
 		{
-			$filepath = DOCROOT.'files/tmp/'.$filename;
+			$filepath = DOCROOT.'files/document_cuma/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4-L', 25, NULL);
-
+			// $this->pdf_download($template, $filename, 'A4-L', 25, NULL);
 			$cuma->update(array('cuma_ID' => $cuma_ID, 'document' => $filename));
 			$this->response->body = $filename;
 		}

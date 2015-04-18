@@ -468,4 +468,23 @@ class Controller_Ajax extends Controller {
 		exit();
 	}
 
+	public function action_update_current()
+	{
+		$cuma = new Model_Cuma;
+
+		$type = $this->request->param('id');
+		$post = $this->request->post();
+
+		if ($post['current'] <= 8)
+		{
+			$cuma->update($post);
+			echo URL::site('faculty/cuma/view/part_'.$post['current']);
+		}
+		else
+		{
+			$response = Request::factory('faculty/mpdf/preview/cuma/'.$post['cuma_ID'])->execute();
+			echo $response->body;
+		}
+	}
+
 } // End Ajax

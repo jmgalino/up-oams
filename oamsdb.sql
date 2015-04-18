@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2015 at 04:12 PM
+-- Generation Time: Apr 18, 2015 at 09:08 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -307,15 +307,16 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
   `period_to` date NOT NULL,
   `date_assessed` date DEFAULT NULL,
   `status` enum('Published','Draft') NOT NULL DEFAULT 'Draft',
-  `document` varchar(255) DEFAULT NULL
+  `document` varchar(255) DEFAULT NULL,
+  `current` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cumatbl`
 --
 
-INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`) VALUES
-(2, 12, '2000-01-01', '2002-01-01', NULL, 'Draft', '12340000820002002.pdf');
+INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`, `current`) VALUES
+(2, 12, '2000-01-01', '2002-01-01', '2015-04-18', 'Published', '12340000820002002.pdf', 8);
 
 -- --------------------------------------------------------
 
@@ -583,11 +584,7 @@ CREATE TABLE IF NOT EXISTS `univ_collegetbl` (
 INSERT INTO `univ_collegetbl` (`college_ID`, `user_ID`, `college`, `short`) VALUES
 (1, 4, ' College of Humanities and Social Sciences', 'CHSS'),
 (2, 5, 'College of Science and Mathematics', 'CSM'),
-(3, 6, 'School of Management', 'SOM'),
-(4, 31, 'College Test', 'CT'),
-(5, NULL, 'New College', 'NC'),
-(6, 0, 'College of Home Economics', 'CHE'),
-(7, NULL, 'hey', 'h');
+(3, 6, 'School of Management', 'SOM');
 
 -- --------------------------------------------------------
 
@@ -601,7 +598,7 @@ CREATE TABLE IF NOT EXISTS `univ_departmenttbl` (
   `user_ID` int(11) DEFAULT NULL,
   `department` varchar(100) NOT NULL,
   `short` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `univ_departmenttbl`
@@ -614,12 +611,7 @@ INSERT INTO `univ_departmenttbl` (`department_ID`, `college_ID`, `user_ID`, `dep
 (4, 1, 9, 'Department of Social Sciences', 'DSS'),
 (5, 2, 10, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
 (6, 2, 11, 'Department of Food Science and Chemistry', 'DFSC'),
-(7, 2, 12, 'Department of Mathematics, Physics and Computer Science', 'DMPCS'),
-(8, 4, 31, 'Department Test', 'DT'),
-(9, 4, 27, 'Department Again', 'DAg'),
-(10, 5, 0, 'New Department', 'ND'),
-(11, 6, NULL, 'Department of Clothing, Textiles & Interior Design', 'CTID'),
-(12, 7, NULL, 'ho', 'o');
+(7, 2, 12, 'Department of Mathematics, Physics and Computer Science', 'DMPCS');
 
 -- --------------------------------------------------------
 
@@ -637,28 +629,25 @@ CREATE TABLE IF NOT EXISTS `univ_programtbl` (
   `date_instituted` date NOT NULL,
   `type` enum('Undergraduate','Graduate','Certificate','Diploma') NOT NULL,
   `vision` text NOT NULL,
-  `goals` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+  `goals` text NOT NULL,
+  `accreditation` text
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `univ_programtbl`
 --
 
-INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `program`, `program_short`, `short`, `date_instituted`, `type`, `vision`, `goals`) VALUES
-(1, 1, 1, 'Bachelor of Science in Architecture', 'BS Architecture', 'BSA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(2, 1, 2, 'Bachelor of Arts in Communication Arts', 'BA Communication Arts', 'BACA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(3, 1, 2, 'Bachelor of Arts in English', 'BA English', 'BAE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(4, 1, 1, 'Bachelor of Arts in Anthropology', 'BA Anthropology', 'BAA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(5, 2, 5, 'Bachelor of Science in Biology', 'BS Biology', 'BSB', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(6, 2, 6, 'Bachelor of Science in Food Technology', 'BS Food Technology', 'BSFT', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(7, 2, 7, 'Bachelor of Science in Applied Mathematics', 'BS Applied Mathematics', 'BSAM', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(8, 2, 7, 'Bachelor of Science in Computer Science', 'BS Computer Science', 'BSCS', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(9, 3, NULL, 'Bachelor of Science in Agribusiness Economics', 'BS Agribusiness Economics', 'BSABE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(10, 3, NULL, 'Master in Management', 'Master in Management', 'MM', '1995-02-20', 'Graduate', 'Sample vision', 'Sample goals'),
-(11, 4, 8, 'Degree Program Test', 'DP Test', 'DPT', '2014-09-11', 'Undergraduate', 'Sample vision', 'Sample goals'),
-(13, 5, 10, 'Degree Program New Program', 'DG New Program', 'DGNP', '2014-11-02', 'Certificate', 'SampleV', 'SampleG'),
-(14, 6, 11, 'Bachelor of Science Interior Design', 'BS Interior Design', 'BSID', '1973-11-22', 'Undergraduate', 'Sample', 'Sample'),
-(15, 7, 12, 'b', 'a', 'c', '2015-02-24', 'Graduate', 'a', 'a');
+INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `program`, `program_short`, `short`, `date_instituted`, `type`, `vision`, `goals`, `accreditation`) VALUES
+(1, 1, 1, 'Bachelor of Science in Architecture', 'BS Architecture', 'BSA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(2, 1, 2, 'Bachelor of Arts in Communication Arts', 'BA Communication Arts', 'BACA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(3, 1, 2, 'Bachelor of Arts in English', 'BA English', 'BAE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(4, 1, 1, 'Bachelor of Arts in Anthropology', 'BA Anthropology', 'BAA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(5, 2, 5, 'Bachelor of Science in Biology', 'BS Biology', 'BSB', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(6, 2, 6, 'Bachelor of Science in Food Technology', 'BS Food Technology', 'BSFT', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(7, 2, 7, 'Bachelor of Science in Applied Mathematics', 'BS Applied Mathematics', 'BSAM', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(8, 2, 7, 'Bachelor of Science in Computer Science', 'BS Computer Science', 'BSCS', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(9, 3, NULL, 'Bachelor of Science in Agribusiness Economics', 'BS Agribusiness Economics', 'BSABE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
+(10, 3, NULL, 'Master in Management', 'Master in Management', 'MM', '1995-02-20', 'Graduate', 'Sample vision', 'Sample goals', '');
 
 -- --------------------------------------------------------
 
@@ -833,9 +822,7 @@ INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`
 (46, '123400038', NULL, 'Lisa', 'A', 'Gray', NULL, 'Faculty', 'LAGray', 10, '-', 'none', '1985-06-21', NULL, 0),
 (47, '000312345', NULL, 'Lori', 'K', 'Shoffner', NULL, 'Admin', NULL, NULL, NULL, NULL, '1982-02-24', NULL, 0),
 (48, '123400039', NULL, 'New', 'Sample', 'User', NULL, 'Faculty', 'NSUser', 13, '-', 'none', '2014-11-02', NULL, 0),
-(49, '000412345', NULL, 'George', 'Lee', 'Sanchez', NULL, 'Admin', NULL, NULL, NULL, NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0),
-(50, '123400040', NULL, 'Shyn Marie', 'S', 'Ebol', NULL, 'Faculty', 'SMSEbol', 14, '-', 'none', '1993-02-18', NULL, 0),
-(51, '111122222', NULL, 'Aa', 'qq', 'q', NULL, 'Admin', NULL, NULL, NULL, NULL, '2015-02-04', 'bcdxxskakc5seginvlaqq.jpg', 1);
+(49, '000412345', NULL, 'George', 'Lee', 'Sanchez', NULL, 'Admin', NULL, NULL, NULL, NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0);
 
 --
 -- Indexes for dumped tables
@@ -1106,12 +1093,12 @@ ALTER TABLE `univ_collegetbl`
 -- AUTO_INCREMENT for table `univ_departmenttbl`
 --
 ALTER TABLE `univ_departmenttbl`
-  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `univ_programtbl`
 --
 ALTER TABLE `univ_programtbl`
-  MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `user_educationtbl`
 --
@@ -1157,18 +1144,6 @@ ADD CONSTRAINT `opcr_outputtbl_ibfk_2` FOREIGN KEY (`category_ID`) REFERENCES `o
 --
 ALTER TABLE `univ_departmenttbl`
 ADD CONSTRAINT `univ_departmenttbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`);
-
---
--- Constraints for table `univ_programtbl`
---
-ALTER TABLE `univ_programtbl`
-ADD CONSTRAINT `univ_programtbl_ibfk_1` FOREIGN KEY (`college_ID`) REFERENCES `univ_collegetbl` (`college_ID`);
-
---
--- Constraints for table `user_profiletbl`
---
-ALTER TABLE `user_profiletbl`
-ADD CONSTRAINT `user_profiletbl_ibfk_2` FOREIGN KEY (`program_ID`) REFERENCES `univ_programtbl` (`program_ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

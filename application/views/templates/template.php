@@ -39,6 +39,7 @@
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/angular.min.js"></script> <!-- https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery.min.js"></script> <!-- http://code.jquery.com/jquery-1.11.1.min.js -->
+	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-blockUI.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-datatables.min.js"></script> <!-- http://cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js -->
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-jeditable.min.js"></script>
 	<script type="text/javascript" src="<?php echo URL::base(); ?>application/assets/js/jquery-number.min.js"></script>

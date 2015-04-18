@@ -1289,6 +1289,37 @@ $(document).ready(function () {
         });
 	});
 
+	/* ==================================== *
+    *                                       *
+    *                  CUMA                 *
+    *                                       *
+    * ===================================== */
+
+	/* CUMA FORM (NEW) -- Reset form */
+    $("#new-cuma").click(function () {
+    	$("#invalidMessage").text("").parent().hide();
+    	$("input[name='start'], input[name='end']").val("");
+    });
+
+	/* CUMA FORM (VALIDATE) -- Check if date range is correct */
+	$("#newCumaForm").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#newCumaForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#newCumaForm").attr("action", actionUrl).unbind("submit").trigger("submit");
+            	else
+            		$("#invalidMessage").text(valid).parent().show();
+            }
+        });
+	})
+
 	// Character counter for message
 	$('#message').keyup(function () {
 		var max = 255;
@@ -1386,6 +1417,99 @@ $(document).ready(function () {
 	$("body").on("click", ".removeCategory", function () //user click on remove text
 	{
 		$(this).parent().parent().parent().remove(); //remove input field
+	});
+
+	$("#prev").click(function () {
+		var ajaxUrl = $("#inputData").attr("ajax-url");
+		var cumaId = $("#inputData").attr("cuma-id");
+		var current = $("#inputData").attr("current");
+		var next = parseInt(current, 10) - 1;
+		var percent = ((next-1) / 8) * 100;
+
+		$(".form pre").block({
+			message: "<h4>Please wait</h4>",
+			css: { 
+	            border: 'none', 
+	            padding: '5px', 
+	            backgroundColor: '#000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .5, 
+	            color: '#fff' 
+	        }
+    	});
+		
+		$.ajax({
+			type: "POST",
+			url: ajaxUrl,
+			data: "cuma_ID=" + cumaId + "&current=" + next,
+			dataType: "text",
+			success:function (data) {
+				if (next == 1)
+					$("#prev").parent().addClass("disabled");
+				if (next == 8)
+				{
+					$(".publish").hide();
+					$(".form").show();
+					$("#next").parent().removeClass("disabled");
+				}
+
+				$(".progress-bar").attr("aria-valuenow", percent).attr("style", "width:" + percent + "%").text(percent + "%");
+				$("#inputData").attr("current", next);
+				$("pre.form").load(data);
+				$(".form pre").unblock();
+			}
+		});
+	});
+
+	$("#next").click(function () {
+		var ajaxUrl = $("#inputData").attr("ajax-url");
+		var cumaId = $("#inputData").attr("cuma-id");
+		var current = $("#inputData").attr("current");
+		var next = parseInt(current, 10) + 1;
+		var percent = ((next-1) / 8) * 100;
+
+		$(".form pre").block({
+			message: "<h4>Please wait</h4>",
+			css: { 
+	            border: 'none', 
+	            padding: '5px', 
+	            backgroundColor: '#000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .5, 
+	            color: '#fff' 
+	        }
+    	});
+
+		$.ajax({
+			type: "POST",
+			url: ajaxUrl,
+			data: "cuma_ID=" + cumaId + "&current=" + next,
+			dataType: "text",
+			success:function (data) {
+				if (next == 2)
+					$("#prev").parent().removeClass("disabled");
+				else if (next > 8)
+					$("#next").parent().addClass("disabled");
+
+				$("#inputData").attr("current", next);
+				$(".progress-bar").attr("aria-valuenow", percent).attr("style", "width:" + percent + "%").text(percent + "%");
+				
+				if (next <= 8)
+					$("pre.form").load(data);
+				else
+				{
+					$(".form").hide();
+					$(".publish").show();
+
+					var pdf = $("#next").attr("final") + data;
+					$("div.publish").html("<embed src=" + pdf + " style=\"width:100%; height:500px\">");
+				}
+
+				$(".form pre").unblock();
+			}
+		});
 	});
 
 });

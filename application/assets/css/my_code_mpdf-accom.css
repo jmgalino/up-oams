@@ -27,3 +27,13 @@ a {
 table.signatures td {
 	font-size: 14px;
 }
+
+table.table-bordered tr th,
+table.table-bordered tr td {
+	border: 1px solid #000000;
+	padding: 5px;
+}
+table.table-bordered tr td.active{
+	text-align: center;
+	background-color:#c0c0c0;
+}

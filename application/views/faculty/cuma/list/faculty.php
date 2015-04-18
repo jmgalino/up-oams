@@ -7,7 +7,7 @@
 <!-- Header -->
 <h3>
 	My CU Management Assessment Forms
-	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_cuma">New Form</button>
+	<button type="button" class="btn btn-default pull-right" id="new-cuma" data-toggle="modal" data-target="#modal_cuma">New Form</button>
 </h3>
 <br>
 

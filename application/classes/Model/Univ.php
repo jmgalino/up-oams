@@ -268,6 +268,8 @@ class Model_Univ extends Model {
 			->on('univ_programtbl.department_ID', '=', 'univ_departmenttbl.department_ID')
 			->join('univ_collegetbl')
 			->on('univ_programtbl.college_ID', '=', 'univ_collegetbl.college_ID')
+			->order_by('univ_collegetbl.college')
+			->order_by('univ_departmenttbl.department')
 			->order_by('program_short')
 			->execute()
 			->as_array();
