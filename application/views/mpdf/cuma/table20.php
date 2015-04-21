@@ -1,3 +1,4 @@
+<pagebreak />
 <p><strong>2. Relevance and flexibility of programs to respond to new developments</strong></p>
 
 Table 2.1
@@ -5,10 +6,10 @@ Table 2.1
 	<thead>
 		<tr>
 			<th rowspan="2">Academic Programs</th>
-			<th rowspan="2">Date<br>Instituted</th>
-			<th rowspan="2">Date last<br>reviewed</th>
+			<th rowspan="2">Date Instituted</th>
+			<th rowspan="2">Date last reviewed</th>
 			<th rowspan="2">No. of times<br>reviewed</th>
-			<th colspan="3">% passing<br>(Licensure<br>exams,<br>if applicable)</th>
+			<th colspan="3">% passing<br>(Licensure exams,<br>if applicable)</th>
 			<th rowspan="2">Describe revisions made and why</th>
 		</tr>
 		<tr>
@@ -49,13 +50,13 @@ Table 2.2
 			<th rowspan="2">Describe institutions where<br>graduates are employed</th>
 		</tr>
 		<tr>
-			<th>No. in<br>Phil. Univ.</th>
-			<th>No. in<br>Foregin. Univ.</th>
+			<th>No. in<br>Philippine Univ.</th>
+			<th>No. in<br>Foreign Univ.</th>
 			<th>Academe</th>
 			<th>Industry</th>
 			<th>Research<br>Institutions</th>
 			<th>KPO</th>
-			<th>Contact<br>Centers</th>
+			<th>Contact Centers</th>
 		</tr>
 	</thead>
 	<tbody>

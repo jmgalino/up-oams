@@ -16,33 +16,44 @@
 	</tr>
 </table>
 
-<?php
-echo '
-<p>Constituent Unit: ', $department_details['department'], '</p>
-<p>Date of Assessment: ', date('F d, Y'), '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Period: ', $period, '</p>
-<p><strong>Mission/Vision of the CU:</strong></p>
-<p style="margin:-25px 0 0 15px">', $university['mission'], '</p>
-<p><strong>Vision:</strong></p>
-<p style="margin:-25px 0 0 15px; white-space:pre-wrap;">', $university['vision'], '</p>
-';
+<p>Constituent Unit: <?php echo $department_details['department']; ?> </p>
 
+<p>Date of Assessment: <?php echo date('F d, Y'); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Period: <?php echo $period; ?> </p>
+
+<p><strong>Mission/Vision of the CU:</strong></p>
+<p style="margin:-25px 0 0 15px"> <?php echo $university['mission']; ?> </p>
+
+<p><strong>Vision:</strong></p>
+<p style="margin:-25px 0 0 15px; white-space:pre-wrap;"> <?php echo $university['vision']; ?> </p>
+
+<?php
 echo View::factory('mpdf/cuma/table11')
 	->bind('programs', $programs)
 	->bind('program_IDs', $program_IDs);
 
 echo View::factory('mpdf/cuma/table12')
 	->bind('programs', $programs)
-	->bind('program_IDs', $program_IDs);
+	->bind('program_IDs', $program_IDs)
+	->bind('department_users', $department_users)
+	->bind('accom', $accom)
+	->bind('cuma_details', $cuma_details);
 
 echo View::factory('mpdf/cuma/table13')
 	->bind('programs', $programs)
 	->bind('program_IDs', $program_IDs)
-	->bind('period', $period);
+	->bind('period', $period)
+	->bind('department_users', $department_users)
+	->bind('user', $user)
+	->bind('accom', $accom)
+	->bind('cuma_details', $cuma_details);
 
 echo View::factory('mpdf/cuma/table14')
 	->bind('programs', $programs)
 	->bind('program_IDs', $program_IDs)
-	->bind('period', $period);
+	->bind('period', $period)
+	->bind('department_users', $department_users)
+	->bind('accom', $accom)
+	->bind('cuma_details', $cuma_details);
 
 echo View::factory('mpdf/cuma/table15')
 	->bind('programs', $programs)
@@ -51,20 +62,20 @@ echo View::factory('mpdf/cuma/table15')
 echo View::factory('mpdf/cuma/table20')
 	->bind('programs', $programs)
 	->bind('program_IDs', $program_IDs);
+?>
 
-echo '<p style="white-space:normal; word-wrap:normal;">
+<p style="white-space:normal; word-wrap:normal;">
 	Personnel (faculty and staff) should be computed as average man hours devoted to the program X salary/hour including overload
-</p>',
+</p>
 '**attach all computations as appendix
 ***utilities include water, electricity, telephone, IT
 <br>
-',
-'QUALITIVE
+
+QUALITIVE
 <p style="white-space:normal; word-wrap:normal;">
 	Show the development plans of the CU for the next 3 years in relation to its programs, research and extension services.
 	How relevant will be the programs in relation to the development plans of the CU, and national and international changes.
-</p>';
-?>
+</p>
 
 
 

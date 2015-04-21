@@ -518,7 +518,9 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	 */
 	private function cuma_pdf($cuma_ID, $purpose)
 	{
+		$accom = new Model_Accom;
 		$cuma = new Model_Cuma;
+		$user = new Model_User;
 		$univ = new Model_Univ;
 
 		$cuma_details = $cuma->get_details($cuma_ID);
@@ -528,6 +530,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$department_programs = $univ->get_department_programIDs($department_details['department_ID']);
+		$department_users = $user->get_user_group($department_programs, NULL);
 		$programs = $univ->get_programs();
 
 		$program_IDs = array();
@@ -541,11 +544,15 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		ob_start();
 
 		echo View::factory('mpdf/cuma/template')
-			->bind('period', $period)
 			->bind('department_details', $department_details)
+			->bind('period', $period)
 			->bind('university', $university)
 			->bind('programs', $programs)
-			->bind('program_IDs', $program_IDs);
+			->bind('program_IDs', $program_IDs)
+			->bind('department_users', $department_users)
+			->bind('accom', $accom)
+			->bind('cuma_details', $cuma_details)
+			->bind('user', $user);
 
 		$template = ob_get_contents();
 		ob_get_clean();

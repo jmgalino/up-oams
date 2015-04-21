@@ -53,6 +53,7 @@ foreach ($programs as $program)
 
 			if ($program['program_ID'] == $department_user['program_ID'])
 			{
+				// Education
 				$education = $user->get_education($department_user['user_ID'], 1);
 				if ($education)
 				{
@@ -68,12 +69,12 @@ foreach ($programs as $program)
 					$education['continuing'] = 'N/A';
 				}
 
+				// Publication
 				$accom_IDs = $accom->get_faculty_accom($department_user['user_ID'], $cuma_details['period_from'], $cuma_details['period_to'], TRUE);
 				if ($accom_IDs)
 				{
 					$accom_pub = $accom->get_accoms($accom_IDs, 'pub');
 					
-					// Publication
 					if ($accom_pub)
 					{
 						foreach ($accom_pub as $pub)

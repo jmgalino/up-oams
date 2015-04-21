@@ -37,3 +37,17 @@ table.table-bordered tr td.active{
 	text-align: center;
 	background-color:#c0c0c0;
 }
+
+table.cuma-table thead>tr>th
+{
+  vertical-align: middle;
+}
+table.cuma-table tr th,
+table.cuma-table tr td
+{
+  text-align: center; 
+}
+table.cuma-table tbody>tr>td:first-child
+{
+  text-align: left; 
+}

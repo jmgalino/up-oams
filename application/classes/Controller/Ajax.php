@@ -482,7 +482,7 @@ class Controller_Ajax extends Controller {
 			$cuma->update($post);
 			echo URL::site('faculty/cuma/view/part_'.$post['current']);
 		}
-		else
+		else if ($post['current'] == 9)
 		{
 			$response = Request::factory('faculty/mpdf/preview/cuma/'.$post['cuma_ID'])->execute();
 			echo $response->body;

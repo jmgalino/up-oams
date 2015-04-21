@@ -1,3 +1,6 @@
+<pagebreak />
+<p><strong>QUANTITATIVE</strong></p>
+<p><strong>1. Quality of programs</strong></p>
 Table 1.1
 <table class="table table-bordered table-condensed cuma-table" width="100%">
 	<thead>
