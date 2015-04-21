@@ -77,6 +77,11 @@ class Controller_Admin_Profile extends Controller_Admin {
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 
+				if ($user_details['rank'] == 'Prof.') $user_details['rank'] = 'Professor';
+				elseif ($user_details['rank'] == 'Assoc. Prof.') $user_details['rank'] = 'Associate Professor';
+				elseif ($user_details['rank'] == 'Asst. Prof.') $user_details['rank'] = 'Assistant Professor';
+				else $user_details['rank'] = 'Instructor';
+
 				if ($accom_reports)
 				{
 					$reports = array();

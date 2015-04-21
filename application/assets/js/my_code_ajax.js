@@ -13,7 +13,7 @@ $(document).ready(function () {
 		$("#modalProfileLabel").text("New Profile");
 		$("#invalidMessage").parent().hide();
 		$("#adminType, #facultyType").prop("checked", false);
-		$("#user-id, #empcode, #fname, #mname, #lname, #datepicker .input-group.date, #fcode, #rank, #program-id, #position").val("");
+		$("#user-id, #empcode, #title, #fname, #mname, #lname, #suffix, #datepicker .input-group.date, #fcode, #rank, #program-id, #position").val("");
 		$("#user-id").removeAttr("name");
 		$("input[type=submit]").val("Add");
         $("#profileForm").attr("url", url);
@@ -36,10 +36,12 @@ $(document).ready(function () {
 				$("#invalidMessage").parent().hide();
 				$("#user-id").attr("name", "user_ID").val(data["user_ID"]);
 				$("#empcode").val(data["empcode"]);
+				$("#title").val(data["title"]);
 				$("#fname").val(data["fname"]);
 				$("#mname").val(data["mname"]);
 				$("#lname").val(data["lname"]);
 				$("#datepicker .input-group.date").datepicker("setDate", data["birthday"]).datepicker("fill");
+				$("#suffix").val(data["suffix"]);
 				$("input[type=submit]").val("Save");
 				$("#profileForm").attr("url", url).attr("ajax-url", validateUrl);
 

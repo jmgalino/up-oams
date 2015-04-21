@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 18, 2015 at 09:08 AM
+-- Generation Time: Apr 21, 2015 at 08:12 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
 --
 
 INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`, `current`) VALUES
-(2, 12, '2000-01-01', '2002-01-01', '2015-04-18', 'Published', '12340000820002002.pdf', 8);
+(2, 12, '2000-01-01', '2002-01-01', '2015-04-18', 'Draft', '12340000820002002.pdf', 3);
 
 -- --------------------------------------------------------
 
@@ -575,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `univ_collegetbl` (
   `user_ID` int(11) DEFAULT NULL,
   `college` varchar(100) NOT NULL,
   `short` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `univ_collegetbl`
@@ -631,7 +631,7 @@ CREATE TABLE IF NOT EXISTS `univ_programtbl` (
   `vision` text NOT NULL,
   `goals` text NOT NULL,
   `accreditation` text
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `univ_programtbl`
@@ -765,64 +765,64 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `user_type` enum('Faculty','Admin') NOT NULL,
   `faculty_code` varchar(30) DEFAULT NULL,
   `program_ID` int(11) DEFAULT NULL,
-  `rank` varchar(50) DEFAULT NULL,
+  `rank` enum('Prof.','Assoc. Prof.','Asst. Prof.','Inst.') NOT NULL,
   `position` enum('dean','chair','none') DEFAULT NULL,
   `birthday` date NOT NULL,
   `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_profiletbl`
 --
 
 INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
-(1, '000012345', NULL, 'Jenny', 'M', 'Galino', NULL, 'Admin', NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
-(2, '000112345', NULL, 'Catherine', 'Kay', 'Gastone', NULL, 'Admin', NULL, NULL, NULL, NULL, '1963-12-14', NULL, 0),
-(3, '000212345', NULL, 'John', 'E', 'Parsons', NULL, 'Admin', NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),
-(4, '123400000', NULL, 'Kiyoko', 'B', 'Blantons', NULL, 'Faculty', 'KBBlanton', 2, '-', 'dean', '1982-01-06', NULL, 0),
-(5, '123400001', 'Assoc. Prof.', 'Troy', 'E', 'Keller', NULL, 'Faculty', 'TEKeller', 5, '-', 'dean', '1962-02-24', NULL, 0),
-(6, '123400002', NULL, 'Martha', 'K', 'Stutts', NULL, 'Faculty', 'MKStutts', 9, '-', 'dean', '1991-02-01', NULL, 0),
-(7, '123400003', NULL, 'Evan', 'L', 'Woodrow', NULL, 'Faculty', 'ELWoodrow', 1, '-', 'chair', '1964-02-18', NULL, 0),
-(8, '123400004', NULL, 'Karen', 'T', 'Brickey', NULL, 'Faculty', 'KTBrickey', 2, '-', 'chair', '1967-08-10', NULL, 0),
-(9, '123400005', NULL, 'Jacqueline', 'A', 'Morales', NULL, 'Faculty', 'JAMorales', 4, '-', 'chair', '1987-03-22', NULL, 0),
-(10, '123400006', NULL, 'Sharon', 'D', 'Call', NULL, 'Faculty', 'SDCall', 5, '-', 'chair', '1970-12-07', NULL, 0),
-(11, '123400007', NULL, 'Pedro', 'R', 'Morales', NULL, 'Faculty', 'PRMorales', 6, '-', 'none', '1971-01-01', NULL, 0),
-(12, '123400008', '', 'Thomas', 'W', 'Seay', '', 'Faculty', 'TWSeay', 8, '-', 'chair', '1974-03-03', NULL, 0),
-(13, '123400009', NULL, 'Albert', 'A', 'Russell', NULL, 'Faculty', 'AARussell', 1, '-', 'none', '1977-08-10', NULL, 0),
-(14, '123400010', NULL, 'Dianne', 'A', 'Farias', NULL, 'Faculty', 'DAFarias', 1, '-', 'none', '1993-04-15', NULL, 0),
-(15, '123400011', NULL, 'Daniel', 'C', 'Daly', NULL, 'Faculty', 'DCDaly', 1, '-', 'none', '1975-12-31', NULL, 0),
-(16, '123400012', NULL, 'Kristin', 'B', 'Morford', NULL, 'Faculty', 'KBMorford', 2, '-', 'none', '1983-10-16', NULL, 0),
-(17, '123400013', NULL, 'Gloria', 'V', 'Hubbard', NULL, 'Faculty', 'GVHubbard', 2, 'Some rank', 'none', '1991-03-04', NULL, 0),
-(18, '123400014', NULL, 'Anthony', 'C', 'Whitehill', NULL, 'Faculty', 'ACWhitehill', 2, '-', 'none', '1967-02-11', NULL, 0),
-(19, '123400015', NULL, 'Richard', 'A', 'Savage', NULL, 'Faculty', 'RASavage', 3, '-', 'none', '1994-07-26', NULL, 0),
-(20, '123400016', NULL, 'Dominic', 'R', 'Martinez', NULL, 'Faculty', 'DRMartinez', 3, '-', 'none', '1982-01-31', NULL, 0),
-(21, '123400017', NULL, 'Lillian', 'R', 'Laberge', NULL, 'Faculty', 'LRLaberge', 3, '-', 'none', '1968-07-03', NULL, 0),
-(22, '123400018', NULL, 'Jack', 'A', 'Hansen', NULL, 'Faculty', 'JAHansen', 4, '-', 'none', '1984-01-29', NULL, 0),
-(23, '123400019', NULL, 'Peggy', 'L', 'Benedetto', NULL, 'Faculty', 'PLBenedetto', 4, '-', 'none', '2014-07-22', NULL, 0),
-(24, '123400020', NULL, 'Jeffrey', 'K', 'Barraza', NULL, 'Faculty', 'JKBarraza', 4, '-', 'none', '1992-10-29', NULL, 0),
-(25, '123400021', NULL, 'Carole', 'C', 'Brown', NULL, 'Faculty', 'CCBrown', 5, '-', 'none', '1966-08-12', NULL, 0),
-(26, '123400023', NULL, 'Ben', 'P', 'Banks', NULL, 'Faculty', 'BPBanks', 5, '-', 'none', '1959-01-09', NULL, 0),
-(27, '123400024', NULL, 'Hilda', 'D', 'Jones', NULL, 'Faculty', 'HDJones', 6, '-', 'none', '1986-12-25', NULL, 0),
-(31, '143860113', NULL, 'Armacheska', 'River', 'Mesa', NULL, 'Faculty', 'Armesa', 8, 'Intructor', 'none', '2014-09-09', NULL, 1),
-(32, '123400026', NULL, 'Ryan', 'C', 'Clark', NULL, 'Faculty', 'RCClark', 6, '-', 'none', '1983-06-18', NULL, 0),
-(33, '123400028', NULL, 'Gwyn', 'J', 'Johnson', NULL, 'Faculty', 'GJJohnson', 7, '-', 'none', '1985-02-18', NULL, 0),
-(34, '123400025', NULL, 'Ralph', 'J', 'Harris', NULL, 'Faculty', 'RJHarris', 6, '-', 'none', '1972-03-12', NULL, 0),
-(35, '123400027', NULL, 'Phyllis', 'K', 'May', NULL, 'Faculty', 'PKMay', 7, '-', 'none', '1990-04-03', NULL, 0),
-(36, '123400029', NULL, 'Susan', 'J', 'Anderson', NULL, 'Faculty', 'SJAnderson', 7, '-', 'none', '1981-02-13', NULL, 0),
-(37, '123400022', NULL, 'Allen', 'D', 'Katz', NULL, 'Faculty', 'ADKatz', 5, '-', 'none', '1975-02-02', NULL, 0),
-(38, '123400030', '', 'Richard', 'T', 'Ferrell', '', 'Faculty', 'RTFerrell', 8, 'Instructor 1', 'none', '1975-12-20', NULL, 0),
-(39, '123400031', NULL, 'Allison', 'M', 'McLain', NULL, 'Faculty', 'AMMcLain', 8, '-', 'none', '1965-04-03', NULL, 0),
-(40, '123400032', NULL, 'Johnny', 'B', 'Mitchell', NULL, 'Faculty', 'JBMitchell', 8, '-', 'none', '1960-04-03', NULL, 0),
-(41, '123400034', NULL, 'Deborah', 'H', 'Jensen', NULL, 'Faculty', 'DHJensen', 9, '-', 'none', '1976-01-17', NULL, 0),
-(42, '123400035', NULL, 'Kathleen', 'M', 'Thomas', NULL, 'Faculty', 'KMThomas', 9, '-', 'none', '1985-04-01', NULL, 0),
-(43, '123400033', NULL, 'Hilda', 'K', 'Martinez', NULL, 'Faculty', 'HKMartinez', 9, '-', 'none', '1977-06-04', NULL, 0),
-(44, '123400036', NULL, 'Joyce', 'D', 'Carter', NULL, 'Faculty', 'JDCarter', 10, '-', 'none', '1992-04-12', NULL, 0),
-(45, '123400037', NULL, 'Joseph', 'L', 'Duke', NULL, 'Faculty', 'JLDuke', 10, '-', 'none', '1993-12-23', NULL, 0),
-(46, '123400038', NULL, 'Lisa', 'A', 'Gray', NULL, 'Faculty', 'LAGray', 10, '-', 'none', '1985-06-21', NULL, 0),
-(47, '000312345', NULL, 'Lori', 'K', 'Shoffner', NULL, 'Admin', NULL, NULL, NULL, NULL, '1982-02-24', NULL, 0),
-(48, '123400039', NULL, 'New', 'Sample', 'User', NULL, 'Faculty', 'NSUser', 13, '-', 'none', '2014-11-02', NULL, 0),
-(49, '000412345', NULL, 'George', 'Lee', 'Sanchez', NULL, 'Admin', NULL, NULL, NULL, NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0);
+(1, '000012345', NULL, 'Jenny', 'M', 'Galino', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1994-07-08', NULL, 0),
+(2, '000112345', NULL, 'Catherine', 'Kay', 'Gastone', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1963-12-14', NULL, 0),
+(3, '000212345', NULL, 'John', 'E', 'Parsons', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1968-02-18', NULL, 0),
+(4, '123400000', NULL, 'Kiyoko', 'B', 'Blantons', NULL, 'Faculty', 'KBBlanton', 2, 'Inst.', 'dean', '1982-01-06', NULL, 0),
+(5, '123400001', 'Assoc. Prof.', 'Troy', 'E', 'Keller', NULL, 'Faculty', 'TEKeller', 5, 'Inst.', 'dean', '1962-02-24', NULL, 0),
+(6, '123400002', NULL, 'Martha', 'K', 'Stutts', NULL, 'Faculty', 'MKStutts', 9, 'Inst.', 'dean', '1991-02-01', NULL, 0),
+(7, '123400003', NULL, 'Evan', 'L', 'Woodrow', NULL, 'Faculty', 'ELWoodrow', 1, 'Inst.', 'chair', '1964-02-18', NULL, 0),
+(8, '123400004', NULL, 'Karen', 'T', 'Brickey', NULL, 'Faculty', 'KTBrickey', 2, 'Inst.', 'chair', '1967-08-10', NULL, 0),
+(9, '123400005', NULL, 'Jacqueline', 'A', 'Morales', NULL, 'Faculty', 'JAMorales', 4, 'Inst.', 'chair', '1987-03-22', NULL, 0),
+(10, '123400006', NULL, 'Sharon', 'D', 'Call', NULL, 'Faculty', 'SDCall', 5, 'Inst.', 'chair', '1970-12-07', NULL, 0),
+(11, '123400007', NULL, 'Pedro', 'R', 'Morales', NULL, 'Faculty', 'PRMorales', 6, 'Inst.', 'none', '1971-01-01', NULL, 0),
+(12, '123400008', '', 'Thomas', 'W', 'Seay', '', 'Faculty', 'TWSeay', 8, 'Prof.', 'chair', '1974-03-03', NULL, 0),
+(13, '123400009', NULL, 'Albert', 'A', 'Russell', NULL, 'Faculty', 'AARussell', 1, 'Inst.', 'none', '1977-08-10', NULL, 0),
+(14, '123400010', NULL, 'Dianne', 'A', 'Farias', NULL, 'Faculty', 'DAFarias', 1, 'Inst.', 'none', '1993-04-15', NULL, 0),
+(15, '123400011', NULL, 'Daniel', 'C', 'Daly', NULL, 'Faculty', 'DCDaly', 1, 'Inst.', 'none', '1975-12-31', NULL, 0),
+(16, '123400012', NULL, 'Kristin', 'B', 'Morford', NULL, 'Faculty', 'KBMorford', 2, 'Inst.', 'none', '1983-10-16', NULL, 0),
+(17, '123400013', NULL, 'Gloria', 'V', 'Hubbard', NULL, 'Faculty', 'GVHubbard', 2, 'Inst.', 'none', '1991-03-04', NULL, 0),
+(18, '123400014', NULL, 'Anthony', 'C', 'Whitehill', NULL, 'Faculty', 'ACWhitehill', 2, 'Inst.', 'none', '1967-02-11', NULL, 0),
+(19, '123400015', NULL, 'Richard', 'A', 'Savage', NULL, 'Faculty', 'RASavage', 3, 'Inst.', 'none', '1994-07-26', NULL, 0),
+(20, '123400016', NULL, 'Dominic', 'R', 'Martinez', NULL, 'Faculty', 'DRMartinez', 3, 'Inst.', 'none', '1982-01-31', NULL, 0),
+(21, '123400017', NULL, 'Lillian', 'R', 'Laberge', NULL, 'Faculty', 'LRLaberge', 3, 'Inst.', 'none', '1968-07-03', NULL, 0),
+(22, '123400018', NULL, 'Jack', 'A', 'Hansen', NULL, 'Faculty', 'JAHansen', 4, 'Inst.', 'none', '1984-01-29', NULL, 0),
+(23, '123400019', NULL, 'Peggy', 'L', 'Benedetto', NULL, 'Faculty', 'PLBenedetto', 4, 'Inst.', 'none', '2014-07-22', NULL, 0),
+(24, '123400020', NULL, 'Jeffrey', 'K', 'Barraza', NULL, 'Faculty', 'JKBarraza', 4, 'Inst.', 'none', '1992-10-29', NULL, 0),
+(25, '123400021', NULL, 'Carole', 'C', 'Brown', NULL, 'Faculty', 'CCBrown', 5, 'Inst.', 'none', '1966-08-12', NULL, 0),
+(26, '123400023', NULL, 'Ben', 'P', 'Banks', NULL, 'Faculty', 'BPBanks', 5, 'Inst.', 'none', '1959-01-09', NULL, 0),
+(27, '123400024', NULL, 'Hilda', 'D', 'Jones', NULL, 'Faculty', 'HDJones', 6, 'Inst.', 'none', '1986-12-25', NULL, 0),
+(31, '143860113', NULL, 'Armacheska', 'River', 'Mesa', NULL, 'Faculty', 'Armesa', 8, 'Inst.', 'none', '2014-09-09', NULL, 1),
+(32, '123400026', NULL, 'Ryan', 'C', 'Clark', NULL, 'Faculty', 'RCClark', 6, 'Inst.', 'none', '1983-06-18', NULL, 0),
+(33, '123400028', '', 'Gwyn', 'J', 'Johnson', '', 'Faculty', 'GJJohnson', 7, 'Assoc. Prof.', 'none', '1985-02-18', NULL, 0),
+(34, '123400025', NULL, 'Ralph', 'J', 'Harris', NULL, 'Faculty', 'RJHarris', 6, 'Inst.', 'none', '1972-03-12', NULL, 0),
+(35, '123400027', '', 'Phyllis', 'K', 'May', '', 'Faculty', 'PKMay', 7, 'Inst.', 'none', '1990-04-03', NULL, 0),
+(36, '123400029', '', 'Susan', 'J', 'Anderson', '', 'Faculty', 'SJAnderson', 7, 'Assoc. Prof.', 'none', '1981-02-13', NULL, 0),
+(37, '123400022', NULL, 'Allen', 'D', 'Katz', NULL, 'Faculty', 'ADKatz', 5, 'Inst.', 'none', '1975-02-02', NULL, 0),
+(38, '123400030', '', 'Richard', 'T', 'Ferrell', '', 'Faculty', 'RTFerrell', 8, 'Prof.', 'none', '1975-12-20', NULL, 0),
+(39, '123400031', '', 'Allison', 'M', 'McLain', '', 'Faculty', 'AMMcLain', 8, 'Prof.', 'none', '1965-04-03', NULL, 0),
+(40, '123400032', '', 'Johnny', 'B', 'Mitchell', '', 'Faculty', 'JBMitchell', 8, 'Prof.', 'none', '1960-04-03', NULL, 0),
+(41, '123400034', NULL, 'Deborah', 'H', 'Jensen', NULL, 'Faculty', 'DHJensen', 9, 'Inst.', 'none', '1976-01-17', NULL, 0),
+(42, '123400035', NULL, 'Kathleen', 'M', 'Thomas', NULL, 'Faculty', 'KMThomas', 9, 'Inst.', 'none', '1985-04-01', NULL, 0),
+(43, '123400033', NULL, 'Hilda', 'K', 'Martinez', NULL, 'Faculty', 'HKMartinez', 9, 'Inst.', 'none', '1977-06-04', NULL, 0),
+(44, '123400036', NULL, 'Joyce', 'D', 'Carter', NULL, 'Faculty', 'JDCarter', 10, 'Inst.', 'none', '1992-04-12', NULL, 0),
+(45, '123400037', NULL, 'Joseph', 'L', 'Duke', NULL, 'Faculty', 'JLDuke', 10, 'Inst.', 'none', '1993-12-23', NULL, 0),
+(46, '123400038', NULL, 'Lisa', 'A', 'Gray', NULL, 'Faculty', 'LAGray', 10, 'Inst.', 'none', '1985-06-21', NULL, 0),
+(47, '000312345', NULL, 'Lori', 'K', 'Shoffner', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1982-02-24', NULL, 0),
+(48, '123400039', NULL, 'New', 'Sample', 'User', NULL, 'Faculty', 'NSUser', 13, 'Inst.', 'none', '2014-11-02', NULL, 0),
+(49, '000412345', NULL, 'George', 'Lee', 'Sanchez', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0);
 
 --
 -- Indexes for dumped tables
@@ -1088,7 +1088,7 @@ ALTER TABLE `opcr_outputtbl`
 -- AUTO_INCREMENT for table `univ_collegetbl`
 --
 ALTER TABLE `univ_collegetbl`
-  MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `univ_departmenttbl`
 --
@@ -1098,7 +1098,7 @@ ALTER TABLE `univ_departmenttbl`
 -- AUTO_INCREMENT for table `univ_programtbl`
 --
 ALTER TABLE `univ_programtbl`
-  MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
+  MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `user_educationtbl`
 --
@@ -1108,7 +1108,7 @@ ALTER TABLE `user_educationtbl`
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- Constraints for dumped tables
 --

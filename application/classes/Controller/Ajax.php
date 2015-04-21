@@ -279,9 +279,11 @@ class Controller_Ajax extends Controller {
 		$arr = array();
 		$arr['user_ID'] = $user_ID;
 		$arr['empcode'] = $user_details['employee_code'];
+		$arr['title'] = $user_details['title'];
 		$arr['fname'] = $user_details['first_name'];
 		$arr['mname'] = $user_details['middle_name'];
 		$arr['lname'] = $user_details['last_name'];
+		$arr['suffix'] = $user_details['suffix'];
 		$arr['birthday'] = date('m/d/Y', strtotime($user_details['birthday']));
 
 		if ($user_details['user_type'] == 'Faculty')

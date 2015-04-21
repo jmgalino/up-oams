@@ -14,7 +14,7 @@
 <div class="form-group">
   <label for="title" class="col-sm-4 control-label">Title</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="title" name="title" placeholder="Assoc. Prof.">
+    <input type="text" class="form-control" id="title" name="title">
   </div>
 </div>
 
@@ -67,7 +67,13 @@
 <div class="form-group" style="display:none;">
   <label for="rank" class="col-sm-4 control-label">Rank</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control faculty_info" id="rank" name="rank">
+    <select class="form-control faculty_info" id="rank" name="rank">
+      <option value="">Select</option>
+      <option value="Prof.">Professor</option>
+      <option value="Assoc. Prof.">Associate Professor</option>
+      <option value="Asst. Prof.">Assistant Professor</option>
+      <option value="Inst.">Instructor</option>
+    </select>
   </div>
 </div>
 
