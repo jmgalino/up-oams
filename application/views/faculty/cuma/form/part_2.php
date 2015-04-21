@@ -14,7 +14,6 @@ foreach ($department_programs as $program) {
 	$program_IDs[] = $program['program_ID'];
 }
 
-
 ?>
 Table 1.1
 <table class="table table-bordered table-condensed cuma-table" width="100%">

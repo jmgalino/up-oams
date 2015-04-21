@@ -40,7 +40,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$cuma_details['user_ID'] = $this->session->get('user_ID');
 		$cuma_details['period_from'] = date('Y-m-d', strtotime($this->request->post('start').'-01-01'));
-		$cuma_details['period_to'] = date('Y-m-d', strtotime($this->request->post('end').'-01-01'));
+		$cuma_details['period_to'] = date('Y-m-d', strtotime($this->request->post('end').'-12-31'));
 		
 		$insert_success = $this->cuma->initialize($cuma_details);
 

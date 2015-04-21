@@ -34,8 +34,8 @@
           <div class="col-sm-7">
             <select class="form-control" id="research-nature" name="nature">
               <option>Basic</option>
+              <option>Applied</option>
               <option>Policy</option>
-              <option>Other</option>
             </select>
           </div>
         </div>

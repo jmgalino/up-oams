@@ -493,3 +493,11 @@ a.link-reverse:active
   text-align: center;
   vertical-align: middle;
 }
+.cuma-table tbody>tr>td
+{
+  text-align: center; 
+}
+.cuma-table tbody>tr>td:first-child
+{
+  text-align: left; 
+}

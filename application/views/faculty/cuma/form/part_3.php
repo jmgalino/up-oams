@@ -1,15 +1,20 @@
 <?php
+$accom = new Model_Accom;
 $univ = new Model_Univ;
+$user = new Model_User;
 $session = Session::instance();
 
+$cuma_details = $session->get('cuma_details');
 $department_details = $univ->get_department_details(NULL, $session->get('program_ID'));
 $department_programs = $univ->get_department_programIDs($department_details['department_ID']);
+$department_users = $user->get_user_group($department_programs, NULL);
 $programs = $univ->get_programs();
 
 $program_IDs = array();
 foreach ($department_programs as $program) {
 	$program_IDs[] = $program['program_ID'];
 }
+
 ?>
 
 Table 1.2
@@ -22,10 +27,10 @@ Table 1.2
 		</tr>
 		<tr>
 			<th rowspan="2">No.</th>
-			<th rowspan="2">Senior<br>(Associate &<br>Full Professors)</th>
+			<th rowspan="2">Senior (Associate &<br>Full Professors)</th>
 			<th rowspan="2">No.</th>
-			<th rowspan="2">Junior<br>(Instructor &<br>Assistant<br>Professors)</th>
-			<th colspan="2">Researches in the past 3 years</th>
+			<th rowspan="2">Junior (Instructor &<br>Assistant<br>Professors)</th>
+			<th colspan="2">Researches in the<br>past 3 years</th>
 			<th colspan="2">Publications</th>
 		</tr>
 		<tr>
@@ -41,16 +46,91 @@ Table 1.2
 	{
 		if (in_array($program['program_ID'], $program_IDs))
 		{
+			$senior = array();
+			$junior = array();
+			$research = 0;
+			$research_basic = array();
+			$research_applied = array();
+			$research_policy = array();
+			$publication = 0;
+			$publication_isi = array();
+			$publication_peer = array();
+
+			foreach ($department_users as $user)
+			{
+				if ($program['program_ID'] == $user['program_ID'])
+				{
+					// Age of Faculty
+					if (in_array($user['rank'], array('Prof.', 'Assoc. Prof.')))
+						$senior[] = date_diff(date_create(), date_create($user['birthday']))->y;
+					elseif (in_array($user['rank'], array('Asst. Prof.', 'Inst.')))
+						$junior[] = date_diff(date_create(), date_create($user['birthday']))->y;
+
+					$accom_IDs = $accom->get_faculty_accom($user['user_ID'], $cuma_details['period_from'], $cuma_details['period_to'], TRUE);
+					if ($accom_IDs)
+					{
+						$accom_rch = $accom->get_accoms($accom_IDs, 'rch');
+						$accom_pub = $accom->get_accoms($accom_IDs, 'pub');
+
+						// Research
+						if ($accom_rch)
+						{
+							$research += count($accom_rch);
+
+							foreach ($accom_rch as $rch)
+							{
+								switch ($rch['nature']) {
+									case 'Basic':
+										$research_basic[] = $rch['research_ID'];
+										break;
+								
+									case 'Applied':
+										$research_applied[] = $rch['research_ID'];
+										break;
+
+									case 'Policy':
+										$research_policy[] = $rch['research_ID'];
+										break;
+								}
+							}
+						}
+						
+						// Publication
+						if ($accom_pub)
+						{
+							$publication += count($accom_pub);
+
+							foreach ($accom_pub as $pub)
+							{
+								if ($pub['isi'] == 1)
+									$publication_isi[] = $pub['publication_ID'];
+
+								if ($pub['peer_reviewed'] == 1)
+									$publication_peer[] = $pub['publication_ID'];
+							}
+						}
+					}
+				}
+			}
+
+			$senior_ave = (count($senior)
+				? number_format(array_sum($senior)/count($senior))
+				: 'Not Available');
+
+			$junior_ave = (count($junior)
+				? number_format(array_sum($junior)/count($junior))
+				: 'Not Available');
+
 			echo '<tr>
 				<td>', $program['program_short'], '</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>', count($senior), '</td>
+				<td>', $senior_ave, '</td>
+				<td>', count($junior), '</td>
+				<td>', $junior_ave, '</td>
+				<td>', $research, '</td>
+				<td>', count($research_basic), ' Basic; ', count($research_applied), ' Applied; ', count($research_policy), ' Policy</td>
+				<td>', $publication, '</td>
+				<td>', count($publication_isi), ' ISI; ', count($publication_peer), ' Peer-reviewed</td>
 			</tr>';
 		}
 	}

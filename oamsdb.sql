@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 21, 2015 at 08:12 AM
+-- Generation Time: Apr 21, 2015 at 10:14 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -52,7 +52,7 @@ INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `s
 (11, 12, '2014-02-01', '2015-03-24', 'Saved', 'None', '1234000080215.pdf'),
 (12, 5, '2015-01-01', NULL, 'Draft', 'None', NULL),
 (13, 38, '2015-01-01', '2015-03-03', 'Approved', 'Approved by Thomas W. Seay (10 Apr 2015)<br>s - Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)<br>Rejected by Thomas W. Seay (10 Apr 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)', '1234000300115.pdf'),
-(14, 38, '2015-02-01', NULL, 'Draft', 'None', NULL),
+(14, 38, '2015-02-01', '2015-04-21', 'Approved', 'Approved by Thomas W. Seay (21 Apr 2015)<br>Rejected by Thomas W. Seay (21 Apr 2015)', '1234000300215.pdf'),
 (15, 12, '2015-04-01', NULL, 'Draft', 'None', NULL),
 (16, 5, '2014-04-01', NULL, 'Draft', 'None', NULL);
 
@@ -226,7 +226,7 @@ INSERT INTO `accom_pubtbl` (`publication_ID`, `author`, `year`, `title`, `type`,
 CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
   `research_ID` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `nature` enum('Basic','Applied','Policy','Other') NOT NULL,
+  `nature` enum('Basic','Applied','Policy') NOT NULL,
   `fund_external` varchar(255) DEFAULT NULL,
   `start` date NOT NULL,
   `end` date NOT NULL,
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
 --
 
 INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`, `current`) VALUES
-(2, 12, '2000-01-01', '2002-01-01', '2015-04-18', 'Draft', '12340000820002002.pdf', 3);
+(2, 12, '2013-01-01', '2015-12-31', '2015-04-18', 'Draft', '12340000820002002.pdf', 3);
 
 -- --------------------------------------------------------
 
