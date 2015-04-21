@@ -9,20 +9,24 @@
 	<table class="table table-striped table-condensed" id="education_table" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th>Year</th>
 				<th>Award</th>
-				<th>Location</th>
+				<th>Year</th>
+				<th>Institution</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
 			foreach ($education as $educ)
 			{
-				echo '<tr>';
-				echo '<td>', $educ['year'], '</td>';
-				echo '<td>', $educ['major'], '</td>';
-				echo '<td>', $educ['city'], ', ', $educ['country'], '</td>';
-				echo '</tr>';
+				$date = ($educ['date_obtained']
+					? date('F Y', strtotime($educ['date_obtained']))
+					: 'N/A');
+				
+				echo '<tr>
+					<td>', $educ['major'], '</td>
+					<td>', $date, '</td>
+					<td>', $educ['institution'], '</td>
+				</tr>';
 			}
 			?>
 		</tbody>

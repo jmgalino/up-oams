@@ -29,6 +29,10 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		{
 			case 'pub':
 				$name_ID = 'publication_ID';
+				$details['isi'] = (isset($details['isi']) ? 'Yes' : 'No');
+				$details['peer_reviewed'] = (isset($details['peer_reviewed']) ? 'Yes' : 'No');
+				$details['refereed'] = (isset($details['refereed']) ? 'Yes' : 'No');
+				$details['popular'] = (isset($details['popular']) ? 'Yes' : 'No');
 				break;
 			
 			case 'awd':

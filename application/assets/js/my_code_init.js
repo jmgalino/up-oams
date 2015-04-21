@@ -565,8 +565,8 @@ $(document).ready(function () {
 
     /* Date pickers */
     $("#datepicker .input-group.date").datepicker({
-        // format: "MM dd, yyyy",
         todayHighlight: true,
+        endDate: '+0d',
         autoclose: true
     });
     $("#award-duration .input-daterange, #research-duration .input-daterange, #paper-dates .input-daterange, #creative-dates .input-daterange, #participation-dates .input-daterange, #other-dates .input-daterange").datepicker({
@@ -671,8 +671,20 @@ $(document).ready(function () {
         $("#accomplishments_toggle_show, #accomplishments_toggle_hide").toggle();
     });
 
+    $("#continuing").change(function () {
+        var continuing = $(this).val();
+
+        if (continuing == "Yes") {
+            $("#date_obtained").prop("required", false);
+            $("#date").hide();
+        } else {
+            $("#date_obtained").prop("required", true);
+            $("#date").show();
+        }
+    });
+
     $("#educationForm").submit(function (event) {
-        if ($("#major, #year, #institution, #city, #country"))
+        if ($("#major, #institution, #city, #country"))
             $("#educationForm").unbind("submit").submit();
         else
             event.preventDefault();

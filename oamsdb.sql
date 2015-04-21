@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 21, 2015 at 10:14 AM
+-- Generation Time: Apr 21, 2015 at 01:22 PM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -53,7 +53,7 @@ INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `s
 (12, 5, '2015-01-01', NULL, 'Draft', 'None', NULL),
 (13, 38, '2015-01-01', '2015-03-03', 'Approved', 'Approved by Thomas W. Seay (10 Apr 2015)<br>s - Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)<br>Rejected by Thomas W. Seay (10 Apr 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)', '1234000300115.pdf'),
 (14, 38, '2015-02-01', '2015-04-21', 'Approved', 'Approved by Thomas W. Seay (21 Apr 2015)<br>Rejected by Thomas W. Seay (21 Apr 2015)', '1234000300215.pdf'),
-(15, 12, '2015-04-01', NULL, 'Draft', 'None', NULL),
+(15, 12, '2015-04-01', '2015-04-21', 'Saved', 'None', '1234000080415.pdf'),
 (16, 5, '2014-04-01', NULL, 'Draft', 'None', NULL);
 
 -- --------------------------------------------------------
@@ -200,22 +200,23 @@ CREATE TABLE IF NOT EXISTS `accom_pubtbl` (
   `book_publisher` varchar(255) DEFAULT NULL,
   `book_place` varchar(255) DEFAULT NULL,
   `page` varchar(10) NOT NULL,
-  `isi` int(1) NOT NULL DEFAULT '0',
-  `peer_reviewed` int(1) NOT NULL DEFAULT '0',
-  `refereed` int(1) NOT NULL DEFAULT '0',
-  `popular` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `isi` enum('Yes','No') DEFAULT NULL,
+  `peer_reviewed` enum('Yes','No') DEFAULT NULL,
+  `refereed` enum('Yes','No') DEFAULT NULL,
+  `popular` enum('Yes','No') DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accom_pubtbl`
 --
 
 INSERT INTO `accom_pubtbl` (`publication_ID`, `author`, `year`, `title`, `type`, `journal_volume`, `journal_issue`, `book_publisher`, `book_place`, `page`, `isi`, `peer_reviewed`, `refereed`, `popular`) VALUES
-(1, NULL, 2015, 'q', 'Book', NULL, NULL, 'q', 'q', 'q', 0, 0, 0, 0),
-(2, NULL, 2016, 'w', 'Book', NULL, NULL, 'w', 'w', 'w', 0, 0, 0, 0),
-(3, NULL, 2010, 'w', 'Chapter in a Book', NULL, NULL, 'w', 'w', 'w', 0, 0, 0, 0),
-(4, NULL, 2015, 'w', 'Chapter in a Book', NULL, NULL, 'w', 'w', 'w', 0, 0, 0, 0),
-(5, NULL, 1111, 'q', 'Book', NULL, NULL, 'q', 'q', 'q', 0, 0, 0, 0);
+(1, NULL, 2015, 'q', 'Book', NULL, NULL, 'q', 'q', 'q', 'No', 'No', 'No', 'No'),
+(2, NULL, 2016, 'w', 'Book', NULL, NULL, 'w', 'w', 'w', 'No', 'No', 'No', 'No'),
+(3, NULL, 2010, 'w', 'Chapter in a Book', NULL, NULL, 'w', 'w', 'w', 'No', 'No', 'No', 'No'),
+(4, NULL, 2015, 'w', 'Chapter in a Book', NULL, NULL, 'w', 'w', 'w', 'No', 'No', 'No', 'No'),
+(5, NULL, 1111, 'q', 'Book', NULL, NULL, 'q', 'q', 'q', 'No', 'No', 'No', 'No'),
+(6, NULL, 2015, 'Test', 'Book', NULL, NULL, 'pub', 'pub', 'pub', 'Yes', 'No', 'No', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -243,7 +244,7 @@ INSERT INTO `accom_rchtbl` (`research_ID`, `title`, `nature`, `fund_external`, `
 (4, 'Title', 'Basic', NULL, '2015-03-01', '2015-03-11', NULL, NULL),
 (5, 'a', 'Basic', NULL, '2015-04-13', '2015-04-22', NULL, '20.00'),
 (6, 'a', 'Basic', NULL, '2015-05-05', '2015-05-05', NULL, '0.00'),
-(7, 'All I Want', 'Basic', NULL, '2015-04-18', '2015-04-18', NULL, '10.00');
+(7, 'All I Want', 'Applied', NULL, '2015-04-18', '2015-04-18', NULL, '10.00');
 
 -- --------------------------------------------------------
 
@@ -257,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
   `attachment` text
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -292,7 +293,8 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (55, 11, 26, 'mat', 'evbfykgrhvdsrhpkdv9y11mat1426823394.jpg'),
 (56, 15, 27, 'mat', NULL),
 (61, 15, 5, 'rch', NULL),
-(62, 15, 7, 'rch', NULL);
+(62, 15, 7, 'rch', NULL),
+(63, 15, 6, 'pub', NULL);
 
 -- --------------------------------------------------------
 
@@ -316,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
 --
 
 INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`, `current`) VALUES
-(2, 12, '2013-01-01', '2015-12-31', '2015-04-18', 'Draft', '12340000820002002.pdf', 3);
+(2, 12, '2013-01-01', '2015-12-31', '2015-04-18', 'Draft', '12340000820002002.pdf', 5);
 
 -- --------------------------------------------------------
 
@@ -661,25 +663,25 @@ CREATE TABLE IF NOT EXISTS `user_educationtbl` (
   `major` varchar(255) NOT NULL,
   `minor` varchar(255) DEFAULT NULL,
   `qualification` enum('certificate','bachelor','honours','master','postgraduate','graduate','doctorate') NOT NULL,
-  `year` int(4) NOT NULL DEFAULT '0',
+  `continuing` enum('Yes','No') NOT NULL,
+  `date_obtained` date DEFAULT NULL,
   `institution` varchar(255) NOT NULL,
   `thesis` varchar(255) DEFAULT NULL,
   `city` varchar(50) NOT NULL,
   `country` varchar(50) NOT NULL,
-  `notes` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `notes` varchar(255) DEFAULT NULL,
+  `value` int(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_educationtbl`
 --
 
-INSERT INTO `user_educationtbl` (`education_ID`, `user_ID`, `major`, `minor`, `qualification`, `year`, `institution`, `thesis`, `city`, `country`, `notes`) VALUES
-(1, 4, 'BA Communication Arts', '', 'bachelor', 2014, 'University of the Philippines', 'Thesis', 'Davao City', 'Philippines', 'notes'),
-(2, 4, 'Master of Distance Educationa', '', 'master', 2015, 'UP Open University', '', 'Los BaÃ±os', 'Philippines', ''),
-(3, 4, 'aza', '', 'certificate', 2016, 'b', '', 'c', 'd', ''),
-(4, 4, 'aa', '', 'certificate', 2010, 'b', '', 'c', 'a', ''),
-(5, 4, 'a', '', 'certificate', 2010, 'c', '', 'd', 'e', ''),
-(6, 4, 'abcd', '', 'certificate', 1111, 'a', '', 'a', 'a', '');
+INSERT INTO `user_educationtbl` (`education_ID`, `user_ID`, `major`, `minor`, `qualification`, `continuing`, `date_obtained`, `institution`, `thesis`, `city`, `country`, `notes`, `value`) VALUES
+(1, 4, 'BA Communication Arts', '', 'bachelor', 'No', NULL, 'University of the Philippines', 'Thesis', 'Davao City', 'Philippines', 'notes', 2),
+(2, 4, 'Master of Distance Educationa', '', 'master', 'No', NULL, 'UP Open University', '', 'Los BaÃ±os', 'Philippines', '', 3),
+(7, 12, 'Test', '', 'certificate', 'No', '2015-04-09', 'a', '', 'b', 'c', '', 1),
+(8, 12, 'Hey', '', 'master', 'No', '2015-03-10', 'q', '', 'w', 'e', '', 4);
 
 -- --------------------------------------------------------
 
@@ -1033,7 +1035,7 @@ ALTER TABLE `accom_pprtbl`
 -- AUTO_INCREMENT for table `accom_pubtbl`
 --
 ALTER TABLE `accom_pubtbl`
-  MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `publication_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `accom_rchtbl`
 --
@@ -1043,7 +1045,7 @@ ALTER TABLE `accom_rchtbl`
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
+  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -1103,7 +1105,7 @@ ALTER TABLE `univ_programtbl`
 -- AUTO_INCREMENT for table `user_educationtbl`
 --
 ALTER TABLE `user_educationtbl`
-  MODIFY `education_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `education_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `user_profiletbl`
 --

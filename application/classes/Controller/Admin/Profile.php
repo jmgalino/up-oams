@@ -73,7 +73,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 			if ($user_details['user_type'] == 'Faculty')
 			{
-				$education = $user->get_education($user_details['user_ID']);
+				$education = $user->get_education($user_details['user_ID'], NULL);
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 
@@ -184,6 +184,37 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$user_details = $user->get_details($user_ID, NULL);
 
 		$details['user_ID'] = $user_ID;
+		$details['date_obtained'] = ($details['continuing'] == '1' ? NULL : date('Y-m-d', strtotime($details['date_obtained'])));
+		switch ($details['qualification']) {
+			case 'certificate':
+				$details['value'] = 1;
+				break;
+				
+			case 'bachelor':
+				$details['value'] = 2;
+				break;
+				
+			case 'honours':
+				$details['value'] = 3;
+				break;
+				
+			case 'master':
+				$details['value'] = 4;
+				break;
+				
+			case 'postgraduate':
+				$details['value'] = 5;
+				break;
+				
+			case 'graduate':
+				$details['value'] = 6;
+				break;
+				
+			case 'doctorate':
+				$details['value'] = 7;
+				break;
+		}
+
         $add_success = $user->add_education($details);
 		$this->session->set('success', $add_success);
 		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
@@ -198,6 +229,37 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$details = $this->request->post();
 		$user_ID = $this->request->param('id');
 		$user_details = $user->get_details($user_ID, NULL);
+
+		$details['date_obtained'] = ($details['continuing'] == '1' ? NULL : date('Y-m-d', strtotime($details['date_obtained'])));
+		switch ($details['qualification']) {
+			case 'certificate':
+				$details['value'] = 1;
+				break;
+				
+			case 'bachelor':
+				$details['value'] = 2;
+				break;
+				
+			case 'honours':
+				$details['value'] = 3;
+				break;
+				
+			case 'master':
+				$details['value'] = 4;
+				break;
+				
+			case 'postgraduate':
+				$details['value'] = 5;
+				break;
+				
+			case 'graduate':
+				$details['value'] = 6;
+				break;
+				
+			case 'doctorate':
+				$details['value'] = 7;
+				break;
+		}
 
 		$update_success = $user->update_education($details);
 		if ($update_success) $this->session->set('success', $user_details['first_name'].'\'s educational background was successfully updated.');

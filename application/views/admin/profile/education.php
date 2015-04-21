@@ -10,9 +10,9 @@
 	<table class="table table-striped table-condensed" id="education_table" cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th>Year</th>
 				<th>Award</th>
-				<th>Location</th>
+				<th>Year</th>
+				<th>Institution</th>
 				<th width="10px"></th>
 			</tr>
 		</thead>
@@ -20,11 +20,14 @@
 			<?php
 			foreach ($education as $educ)
 			{
-				echo
-				'<tr>
-					<td>', $educ['year'], '</td>
+				$date = ($educ['date_obtained']
+					? date('F Y', strtotime($educ['date_obtained']))
+					: 'N/A');
+
+				echo '<tr>
 					<td>', $educ['major'], '</td>
-					<td>', $educ['city'], ', ', $educ['country'], '</td>
+					<td>', $date, '</td>
+					<td>', $educ['institution'], '</td>
 					<td>
 						<a class="btn btn-default" key="', $educ['education_ID'], '" id="updateEducation" data-toggle="modal" data-target="#modal_education" href="" url="', URL::site('admin/profile/update_education/'.$user['user_ID']), '" ajax-url="', URL::site('ajax/education_details'), '" style="font-size:11px">
 						<span class="glyphicon glyphicon-pencil"></span></a>

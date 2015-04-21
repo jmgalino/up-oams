@@ -171,16 +171,34 @@ class Model_User extends Model {
  	/**
 	 * Get user educational background
 	 */
-	public function get_education($user_ID)
+	public function get_education($user_ID, $limit)
  	{
- 		$education = DB::select()
- 			->from('user_educationtbl')
- 			->where('user_ID', '=', $user_ID)
- 			->order_by('year', 'DESC')
-			->execute()
-			->as_array();
-		
-		return $education;
+ 		if ($limit == 1)
+ 		{
+			$education = DB::select()
+	 			->from('user_educationtbl')
+	 			->where('user_ID', '=', $user_ID)
+	 			->order_by('value', 'DESC')
+	 			->order_by('date_obtained', 'DESC')
+	 			->limit($limit)
+				->execute()
+				->as_array();
+				
+			if ($education) return $education[0];
+			else return NULL;
+ 		}
+ 		else
+ 		{
+ 			$education = DB::select()
+	 			->from('user_educationtbl')
+	 			->where('user_ID', '=', $user_ID)
+	 			->order_by('value', 'DESC')
+	 			->order_by('date_obtained', 'DESC')
+				->execute()
+				->as_array();
+
+			return $education;
+ 		}
  	}
 
  	/**

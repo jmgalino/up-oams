@@ -57,7 +57,7 @@
             
             <div class="checkbox">
               <label>
-                <input type="checkbox" id="fund_source_up" name="form_up" value="up"> UP System Research Grant
+                <input type="checkbox" id="fund_source_up" name="form_up"> UP System Research Grant
               </label>
             </div>
             <div id="form_up" style="display:none;">
@@ -69,7 +69,7 @@
                 
             <div class="checkbox">
               <label>
-                <input type="checkbox" id="fund_source_external" name="form_external" value="external"> Other
+                <input type="checkbox" id="fund_source_external" name="form_external"> Other
               </label>
             </div>
             <div id="form_external" style="display:none;">

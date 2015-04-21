@@ -60,4 +60,31 @@
       <input type="text" class="form-control" id="publication-page" name="page" required>
     </div>
   </div>
+
+<!-- Extra -->
+  <div class="form-group">
+    <label for="publication-extras" class="col-sm-4 control-label" id="publication-extras">Extras</label>
+    <div class="col-sm-7">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="publication-isi" name="isi"> ISI
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="publication-peer" name="peer_reviewed"> Peer-reviewed
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="publication-refereed" name="refereed"> Refereed
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="publication-popular" name="popular"> Popular
+        </label>
+      </div>
+    </div>
+  </div>
 </div>

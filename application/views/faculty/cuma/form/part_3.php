@@ -49,24 +49,24 @@ Table 1.2
 			$senior = array();
 			$junior = array();
 			$research = 0;
-			$research_basic = array();
-			$research_applied = array();
-			$research_policy = array();
+			$research_basic = 0;
+			$research_applied = 0;
+			$research_policy = 0;
 			$publication = 0;
-			$publication_isi = array();
-			$publication_peer = array();
+			$publication_isi = 0;
+			$publication_peer = 0;
 
-			foreach ($department_users as $user)
+			foreach ($department_users as $department_user)
 			{
-				if ($program['program_ID'] == $user['program_ID'])
+				if ($program['program_ID'] == $department_user['program_ID'])
 				{
 					// Age of Faculty
-					if (in_array($user['rank'], array('Prof.', 'Assoc. Prof.')))
-						$senior[] = date_diff(date_create(), date_create($user['birthday']))->y;
-					elseif (in_array($user['rank'], array('Asst. Prof.', 'Inst.')))
-						$junior[] = date_diff(date_create(), date_create($user['birthday']))->y;
+					if (in_array($department_user['rank'], array('Prof.', 'Assoc. Prof.')))
+						$senior[] = date_diff(date_create(), date_create($department_user['birthday']))->y;
+					elseif (in_array($department_user['rank'], array('Asst. Prof.', 'Inst.')))
+						$junior[] = date_diff(date_create(), date_create($department_user['birthday']))->y;
 
-					$accom_IDs = $accom->get_faculty_accom($user['user_ID'], $cuma_details['period_from'], $cuma_details['period_to'], TRUE);
+					$accom_IDs = $accom->get_faculty_accom($department_user['user_ID'], $cuma_details['period_from'], $cuma_details['period_to'], TRUE);
 					if ($accom_IDs)
 					{
 						$accom_rch = $accom->get_accoms($accom_IDs, 'rch');
@@ -81,15 +81,15 @@ Table 1.2
 							{
 								switch ($rch['nature']) {
 									case 'Basic':
-										$research_basic[] = $rch['research_ID'];
+										$research_basic++;
 										break;
 								
 									case 'Applied':
-										$research_applied[] = $rch['research_ID'];
+										$research_applied++;
 										break;
 
 									case 'Policy':
-										$research_policy[] = $rch['research_ID'];
+										$research_policy++;
 										break;
 								}
 							}
@@ -102,11 +102,11 @@ Table 1.2
 
 							foreach ($accom_pub as $pub)
 							{
-								if ($pub['isi'] == 1)
-									$publication_isi[] = $pub['publication_ID'];
+								if ($pub['isi'] == 'Yes')
+									$publication_isi++;
 
-								if ($pub['peer_reviewed'] == 1)
-									$publication_peer[] = $pub['publication_ID'];
+								if ($pub['peer_reviewed'] == 'Yes')
+									$publication_peer++;
 							}
 						}
 					}
@@ -128,9 +128,9 @@ Table 1.2
 				<td>', count($junior), '</td>
 				<td>', $junior_ave, '</td>
 				<td>', $research, '</td>
-				<td>', count($research_basic), ' Basic; ', count($research_applied), ' Applied; ', count($research_policy), ' Policy</td>
+				<td>', $research_basic, ' Basic; ', $research_applied, ' Applied; ', $research_policy, ' Policy</td>
 				<td>', $publication, '</td>
-				<td>', count($publication_isi), ' ISI; ', count($publication_peer), ' Peer-reviewed</td>
+				<td>', $publication_isi, ' ISI; ', $publication_peer, ' Peer-reviewed</td>
 			</tr>';
 		}
 	}

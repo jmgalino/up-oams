@@ -41,9 +41,22 @@
         </div>
 
         <div class="form-group">
-          <label for="year" class="col-sm-3 control-label">Year Received</label>
+          <label for="continuing" class="col-sm-3 control-label">Continuing</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="year" name="year" pattern="([0-9]{4})" title="Format: YYYY" required>
+            <select class="form-control" id="continuing" name="continuing" required>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="date" style="display:none">
+          <label for="date_obtained" class="col-sm-3 control-label">Date Obtained</label>
+          <div class="col-sm-8" id="datepicker">
+            <div class="input-group date">
+              <input type="text" class="form-control" id="date_obtained" name="date_obtained">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
           </div>
         </div>
 
