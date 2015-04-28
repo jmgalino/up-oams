@@ -3,6 +3,32 @@
 class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 
 	/**
+	 * Department's OPCR Form
+	 */
+	public function action_dept()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+
+		$opcr_details = $opcr->get_department_opcr($this->session->get('program_ID'), 1);
+		$ipcr_details = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), $opcr_details['opcr_ID']);
+
+		$identifier = $this->session->get('identifier');
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+	
+		$this->view->content = View::factory('faculty/opcr/view/group')
+			->bind('identifier', $identifier)
+			->bind('opcr_details', $opcr_details)
+			->bind('ipcr_details', $ipcr_details)
+			->bind('period', $period);
+
+		$this->response->body($this->view->render());
+	}
+
+	/**
 	 * College's OPCR Form
 	 */
 	public function action_coll()
@@ -47,17 +73,17 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 		$user = new Model_User;
 
 		$success = $this->session->get_once('success');
-
+		
 		$opcr_ID = $this->request->param('id');
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$user_details = $user->get_details($opcr_details['user_ID'], NULL);
 		$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
-
+		
 		$faculty = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		$period_from = date('F Y', strtotime($opcr_details['period_from']));
 		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$period = $period_from.' - '.$period_to;
-
+		
 		$this->view->content = View::factory('faculty/opcr/view/group')
 			->bind('success', $success)
 			->bind('opcr_details', $opcr_details)

@@ -15,8 +15,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$identifier = $this->session->get('identifier');
-		$ipcr_forms = $ipcr->get_faculty_ipcr($this->session->get('user_ID'));
-		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'));
+		$ipcr_forms = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), NULL);
+		$opcr_forms = $opcr->get_department_opcr($this->session->get('program_ID'), NULL);
 
 		$this->view->content = View::factory('faculty/ipcr/list/faculty')
 			->bind('submit', $submit)

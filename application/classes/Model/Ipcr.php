@@ -5,15 +5,29 @@ class Model_Ipcr extends Model {
 	/**
 	 * Get forms (by faculty)
 	 */
-	public function get_faculty_ipcr($user_ID)
+	public function get_faculty_ipcr($user_ID, $opcr_ID)
 	{
-		$ipcr_forms = DB::select()
-			->from('ipcrtbl')
-			->where('user_ID', '=', $user_ID)
-			->execute()
-			->as_array();
+		if ($opcr_ID)
+		{
+			$ipcr_forms = DB::select()
+				->from('ipcrtbl')
+				->where('user_ID', '=', $user_ID)
+				->where('opcr_ID', '=', $opcr_ID)
+				->execute()
+				->as_array();
 
-		return $ipcr_forms;
+			return $ipcr_forms[0];
+		}
+		else
+		{
+			$ipcr_forms = DB::select()
+				->from('ipcrtbl')
+				->where('user_ID', '=', $user_ID)
+				->execute()
+				->as_array();
+
+			return $ipcr_forms;
+		}
 	}
 
 	/**

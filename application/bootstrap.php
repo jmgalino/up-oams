@@ -267,6 +267,16 @@ Route::set('opcr-functions', '<directory>/<controller>(/<action>(/<id>))',
 	    'action'     => 'index'
 	));
 
+// opcr_dept
+Route::set('ocpr_dept-functions', '<directory>/opcr_dept',
+	array(
+		'directory' => 'faculty',
+	))
+	->defaults(array(
+		'controller'=> 'opcrgroup',
+		'action'	=> 'dept'
+	));
+
 // opcr_coll
 Route::set('ocpr_coll-functions', '<directory>/opcr_coll(/<action>(/<id>))',
 	array(

@@ -180,7 +180,7 @@ class Model_User extends Model {
 	 			->where('user_ID', '=', $user_ID)
 	 			->order_by('value', 'DESC')
 	 			->order_by('date_obtained', 'DESC')
-	 			->limit($limit)
+	 			->limit(1)
 				->execute()
 				->as_array();
 				

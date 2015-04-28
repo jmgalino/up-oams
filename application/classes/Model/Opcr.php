@@ -7,17 +7,11 @@ class Model_Opcr extends Model {
 	 */
 	public function get_faculty_opcr($user_ID)
 	{
-		$result = DB::select()
+		$opcr_forms = DB::select()
 			->from('opcrtbl')
 			->where('user_ID', '=', $user_ID)
 			->execute()
 			->as_array();
-	
-		$opcr_forms = array();
-		foreach ($result as $form)
-		{
-			$opcr_forms[] = $form;
-		}
 
 		return $opcr_forms;
 	}
@@ -25,23 +19,40 @@ class Model_Opcr extends Model {
 	/**
 	 * Get forms (foreach department - as guide/parent for faculty IPCR)
 	 */
-	public function get_department_opcr($program_ID)
+	public function get_department_opcr($program_ID, $limit)
 	{
 		$user = new Model_User;
 		$univ = new Model_Univ;
 
 		$department = $univ->get_department_details(NULL, $program_ID);
 
-		$opcr_forms = DB::select()
-			->from('opcrtbl')
-			->where('user_ID', '=', $department['user_ID'])
-			->where('status', 'IN', array('Published', 'Pending', 'Accepted', 'Checked'))
-			->order_by('period_from', 'DESC')
-			->order_by('period_to', 'DESC')
-			->execute()
-			->as_array();
+		if ($limit == 1)
+		{
+			$opcr_forms = DB::select()
+				->from('opcrtbl')
+				->where('user_ID', '=', $department['user_ID'])
+				->where('status', 'IN', array('Published', 'Pending', 'Accepted', 'Checked'))
+				->order_by('period_from', 'DESC')
+				->order_by('period_to', 'DESC')
+				->limit(1)
+				->execute()
+				->as_array();
 
-		return $opcr_forms;
+			return $opcr_forms[0];
+		}
+		else
+		{
+			$opcr_forms = DB::select()
+				->from('opcrtbl')
+				->where('user_ID', '=', $department['user_ID'])
+				->where('status', 'IN', array('Published', 'Pending', 'Accepted', 'Checked'))
+				->order_by('period_from', 'DESC')
+				->order_by('period_to', 'DESC')
+				->execute()
+				->as_array();
+
+			return $opcr_forms;
+		}
 	}
 
 	/**

@@ -1,25 +1,11 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
-	<li><a href="<?php echo URL::site('faculty/opcr_coll'); ?>">OPCR Forms - College</a></li>
+	<?php if ($identifier == 'dean'): ?>
+	<li><a href="<?php echo URL::site('faculty/opct_coll'); ?>">OPCR Forms - College</a></li>
+	<?php endif; ?>
 	<li class="active">View OPCR Form</li>
 </ol>
-
-<?php if ($success): ?>
-<div class="alert alert-success alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		OPCR Form was successfully <?php echo $success; ?>.
-	</p>
-</div>
-<?php elseif ($success === FALSE): ?>
-<div class="alert alert-danger alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		Something went wrong, please try again.
-	</p>
-</div>
-<?php endif; ?>
 
 <div class="row">
 	<div class="col-md-9">
@@ -28,6 +14,7 @@
 
 	<div class="col-md-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
+			<?php if ($identifier == 'dean'): ?>
 			<li> 
 				<a href="<?php echo URL::site().'faculty/opcr_coll/mark_checked/'.$opcr_details['opcr_ID']; ?>">Mark as Checked</a>
 			</li>
@@ -54,6 +41,27 @@
 					<dd><?php echo $opcr_details['remarks']; ?></dd>
 				</dl>
 			</li>
+			<?php else: ?>
+			<li>
+				<?php if (!$ipcr_details): ?>
+				<a href="<?php echo URL::site('faculty/ipcr/new'); ?>">Generate IPCR Form</a>
+
+				<?php elseif (in_array($ipcr_details['status'], array('Draft', 'Saved', 'Rejected'))): ?>
+				<a href="<?php echo URL::site('faculty/ipcr/update/'.$ipcr_details['ipcr_ID']);  ?>">
+				<?php else: ?>
+				<a href="<?php echo URL::site('faculty/ipcr/preview/'.$ipcr_details['ipcr_ID']); ?>">
+
+				<?php endif; ?>
+				Open IPCR Form</a>
+			</li>
+			<hr style="border-top: dotted 1px;">
+			<li style="padding:10px 15px">
+				<dl>
+					<dt>Period</dt>
+					<dd><?php echo $period; ?></dd>
+				</dl>
+			</li>
+			<?php endif; ?>
 		</ul>
 	</div>
 </div>
