@@ -34,6 +34,9 @@
 		<td class="active" width="20">A<sup>4</sup></td>
 	</tr>
 	<?php
+	$counter = 0;
+	$attachment = "";
+	$attachments = array();
 
 	foreach ($categories as $category)
 	{
@@ -62,6 +65,14 @@
 								$target['r_average'] = ($target['r_quantity'] OR $target['r_efficiency'] OR $target['r_timeliness'] ? 'Inc' : '');
 							}
 
+							if ($target['attachment'])
+							{
+								$attachments[$counter++] = $target['attachment'];
+								$attachment = '<a class="glyphicon glyphicon-paperclip" href="#attachment_'.$counter.'" target="_blank">
+												<sup style="padding-left:1px;">['.$counter.']</sup>
+											</a>';
+							}
+
 							echo '<tr>
 								<td class="form-rows">', $target['target'], '</td>
 								<td class="form-rows">', $target['indicators'], '</td>
@@ -70,7 +81,7 @@
 								<td class="form-rows">', $target['r_efficiency'], '</td>
 								<td class="form-rows">', $target['r_timeliness'], '</td>
 								<td class="form-rows">', $target['r_average'], '</td>
-								<td class="form-rows">', $target['rermarks'], '</td>
+								<td class="form-rows">', $target['rermarks'],' ', $attachment ,'</td>
 								</tr>';
 						}
 					}
@@ -78,6 +89,8 @@
 			}
 		}
 	}
+
+	$session->set('attachments', $attachments)
 	?>
 </table>
 

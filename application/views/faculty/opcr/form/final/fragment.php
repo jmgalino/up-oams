@@ -8,7 +8,7 @@
     <col width="40px">
     <col width="40px">
     <col>
-	<thead>
+    <thead>
 		<tr>
 			<th class="template-header" rowspan="2">MFO/PAP</th>
 			<th class="template-header" rowspan="2" style="font-size:10px">Success Indicators<br>(Targets + Measures)</th>

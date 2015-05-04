@@ -7,12 +7,12 @@
         <h4 class="modal-title" id="myModalLabel">Rate Target</h4>
       </div>
 
-      <?php print Form::open('faculty/ipcr/save/'.$ipcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/ipcr/save/'.$ipcr_ID, array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="category" class="col-sm-3 control-label">Category</label>
           <div class="col-sm-8">
-            <select class="form-control" id="categoryTargetId" ipcr-id="<?php echo $ipcr_ID ?>" ajax-url="<?php echo URL::site('ajax/category_targets'); ?>">
+            <select class="form-control" id="categoryTargetId" ipcr-id="<?php echo $ipcr_ID ?>" ajax-url="<?php echo URL::site('ajax/category_targets'); ?>" required>
               <option value="">Select</option>
               <?php
               foreach ($categories as $category)
@@ -74,11 +74,19 @@
             <input type="text" class="form-control" id="remarks" name="remarks" required>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
+          <div class="col-sm-8" id="add-attachment">
+            <input type="file" id="ipcr-attachment" name="attachment[]" accept="image/*" multiple="true" required>
+            <span class="help-block">You can add up to 5 attachments.</span>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Save', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'targetSubmit', 'disabled'=>'true')); ?>
+        <?php print Form::submit(NULL, 'Save', array('type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'targetSubmit')); ?>
       </div>
 
       <?php print Form::close();?>

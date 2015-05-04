@@ -60,7 +60,7 @@ echo View::factory('faculty/ipcr/form/modals/rate')
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li>
-				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Target</a>
+				<a id="rateTarget" data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Target</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
 			<li>

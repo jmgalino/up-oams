@@ -597,7 +597,7 @@ $(document).ready(function () {
 		showRemove: false,
 		showUpload: false
 	});
-    $("input#accom-attachment").fileinput({
+    $("input#accom-attachment, input#ipcr-attachment").fileinput({
         previewFileType: "image",
         browseClass: "btn btn-primary",
         browseLabel: " Browse",

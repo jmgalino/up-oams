@@ -10,7 +10,6 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
 
-		// $this->action_delete_session();
 		$error = $this->session->get_once('error');
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
@@ -199,7 +198,43 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		$update_success = $ipcr->update_target($this->request->post());// add alert (?)
+		$new_details = $this->request->post();
+
+		// Delete old attachments
+		// Unless can be checked if pristine
+    	$current_details = $ipcr->get_target_details($new_details['target_ID']);
+    	if ($current_details['attachment'])
+    	{
+    		$attachments = explode('; ', $current_details['attachment']);
+    		foreach ($attachments as $attachment)
+			{
+				$tmp = explode(' => ', $attachment);
+				unlink(DOCROOT.'files/upload_attachments/'.$tmp[1]);
+			}	
+    	}
+
+		if ($_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
+        {
+        	// Upload new attachments
+        	$attachment = Request::factory('extras/upload/attachment')
+        		->post(array(
+        			'id' => $ipcr_ID,
+        			'attachments' => $_FILES['attachment']))
+        		->execute()
+        		->body;
+
+        	$attachments = explode(' ', $attachment);
+        	$target_attachments = array(); $counter = 0;
+        	foreach ($attachments as $attachment)
+        	{
+        		$target_attachments[] = $_FILES['attachment']['name'][$counter++].' => '.$attachment;
+        	}
+        	
+        	$new_details['attachment'] = implode('; ', $target_attachments);
+        }
+
+        // add alert (?)
+		$ipcr->update_target($new_details);
 		$this->redirect('faculty/ipcr/rate/'.$ipcr_ID);
 	}
 

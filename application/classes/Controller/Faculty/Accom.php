@@ -9,7 +9,6 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	{
 		$accom = new Model_Accom;
 
-		// $this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
@@ -40,7 +39,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$accom_IDs = array();
 			foreach ($accom_reports as $report)
 			{
-				if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending') OR ($report['status'] == 'Saved'))
+				if (in_array($report['status'], array('Approved', 'Pending', 'Saved')))
 				{
 					$reports[] = $report;
 					$accom_IDs[] = $report['accom_ID'];
@@ -91,14 +90,14 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 			if (is_numeric($insert_success))
 			{
-				$details['accom_ID'] = $insert_success;
-				$this->session->set('accom_details', $details);
+				$accom_details = $accom->get_details($insert_success);
+				$this->session->set('accom_details', $accom_details);
 				$this->show_draft();
 			}
 			elseif (is_array($insert_success))
 			{
-				$details['accom_ID'] = $insert_success['accom_ID'];
-				$this->session->set('accom_details', $details);
+				$accom_details = $accom->get_details($insert_success['accom_ID']);
+				$this->session->set('accom_details', $accom_details);
 				$this->session->set('warning', $insert_success['message']);
 				$this->show_draft();
 			}

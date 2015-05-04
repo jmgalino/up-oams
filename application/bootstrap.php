@@ -313,7 +313,7 @@ Route::set('cuma-functions', '<directory>/<controller>(/<action>(/<id>))',
 
 Route::set('default', '(<directory>/)(<controller>(/<action>(/<id>)))',
 	array(
-		'directory' => 'faculty',
+		'directory' => '(extras|faculty)',
 	))
 	->defaults(array(
 		'controller'=> 'site',

@@ -361,9 +361,13 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			->bind('title', $title)
 			->bind('categories', $categories)
 			->bind('targets', $targets)
-			->bind('outputs', $outputs);
+			->bind('outputs', $outputs)
+			->bind('session', $this->session);
 
 		echo View::factory('mpdf/ipcr/legend');
+
+		echo View::factory('mpdf/ipcr/attachments')
+			->bind('session', $this->session);
 
 		$template = ob_get_contents();
 		ob_get_clean();	

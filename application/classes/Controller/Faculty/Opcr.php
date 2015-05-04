@@ -12,7 +12,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 		
-		// $this->action_delete_session();
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');

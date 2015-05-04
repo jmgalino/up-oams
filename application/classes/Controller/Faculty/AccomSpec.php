@@ -8,7 +8,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 	public function action_add()
 	{
 		$accom = new Model_Accom;
-		
+
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
 		$details = $this->request->post();
 		$type = $this->request->param('key');
@@ -16,7 +16,14 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		
 		// Accom. attachment except for pub
 		if ($type !== 'pub' AND $_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
-        	$attachment = $this->set_attachment($_FILES['attachment'], $accom_ID, $type);
+        {
+        	$attachment = Request::factory('extras/upload/attachment')
+        		->post(array(
+        			'id' => $accom_ID,
+        			'attachments' => $_FILES['attachment']))
+        		->execute()
+        		->body;
+        }
         
         if (($type !== 'pub') AND ($type !== 'mat'))
 		{
@@ -221,86 +228,5 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		else
 			return $string;
 	}
-	
-
-	/**
-     * Upload attachment
-     */
-    private function set_attachment($attachments, $accom_ID, $type)
-    {
-    	$attachment = '';
-    	$filenames = array();
-    	$date = strtotime("now");
-    	$file_array = $this->rearray_files($attachments);
-
-	    foreach ($file_array as $file)
-	    {
-	        $filename = $this->save_image($file, $accom_ID.$type.$date);
- 
-	        if (!$filename)
-	        {
-	            $this->session->set('error', 'There was a problem while uploading the attachment(s).');
-	        }
-	        else
-	        {
-	            $filenames[] = $filename;
-	        }
-	    }
-
-	    $attachment = implode(' ', $filenames);
-	    return $attachment;
-    }
-
-    /**
-     * Rearrange multiple file array
-     */
-    private function rearray_files(&$file_post)
-    {
-
-	    $file_array = array();
-	    $file_count = count($file_post['name']);
-	    $file_keys = array_keys($file_post);
-
-	    for ($i = 0; $i < $file_count; $i++)
-	    {
-	        foreach ($file_keys as $key)
-	        {
-	            $file_array[$i][$key] = $file_post[$key][$i];
-	        }
-	    }
-
-	    return $file_array;
-	}
- 
-    /**
-     * Save attachment(s) in local disk
-     */
-    private function save_image($image, $postfix)
-    {
-        if (
-            ! Upload::valid($image) OR
-            ! Upload::not_empty($image) OR
-            ! Upload::type($image, array('jpg', 'jpeg', 'png', 'gif')))
-        {
-            return FALSE;
-        }
- 
-        $directory = DOCROOT.'files/upload_attachments/';
- 
-        if ($file = Upload::save($image, NULL, $directory))
-        {
-            $filename = strtolower(Text::random('alnum', 20)).$postfix.'.jpg';
- 
-            Image::factory($file)
-                ->save($directory.$filename);
-
-            // Delete the temporarray file
-            unlink($file);
- 
-            return $filename;
-        }
- 
-        return FALSE;
-    }
 
 } // End AccomSpec

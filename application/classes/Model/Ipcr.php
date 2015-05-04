@@ -253,7 +253,7 @@ class Model_Ipcr extends Model {
 			->execute()
 			->as_array();
 
- 		return $target_details[0];
+		return $target_details[0];
 	}
 
 	/**
@@ -294,8 +294,8 @@ class Model_Ipcr extends Model {
  			->where('target_ID', '=', $details['target_ID'])
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+ 		// if ($rows_updated == 1) return TRUE;
+ 		// else return FALSE; //do something
 	}
 
 	/**

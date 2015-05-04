@@ -442,6 +442,24 @@ class Controller_Ajax extends Controller {
 		$target_ID = $this->request->post('target_ID');
 		$target_details = $ipcr->get_target_details($target_ID);
 		$target_details['actual_accom'] .= '';
+
+		if ($target_details['attachment'])
+		{
+			$attachments = explode('; ', $target_details['attachment']);
+
+			$attachment_details = array();
+			foreach ($attachments as $attachment)
+			{
+				$tmp1 = explode(' => ', $attachment);
+				$tmp2['directory'] = URL::base().'files/upload_attachments/'.$tmp1[1];
+				$tmp2['file'] = $tmp1[0];
+
+				$attachment_details[] = $tmp2;				
+			}
+
+			$target_details['attachment'] = $attachment_details;
+		}
+
 		echo json_encode($target_details);
 		exit();
 	}

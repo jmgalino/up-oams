@@ -140,7 +140,7 @@ class Controller_User extends Controller {
 				$accom_IDs = array();
 				foreach ($accom_reports as $report)
 				{
-					if (($report['status'] == 'Approved') OR ($report['status'] == 'Pending') OR ($report['status'] == 'Saved'))
+					if (in_array($report['status'], array('Approved', 'Pending', 'Saved')))
 					{
 						$reports[] = $report;
 						$accom_IDs[] = $report['accom_ID'];
@@ -231,27 +231,6 @@ class Controller_User extends Controller {
 		// Open PDF in new tab
 		$this->view->content = View::factory('profile/manual');
 		$this->response->body($this->view->render());
-	}
-
-	/**
-	 * Delete previously set details
-	 */
-	protected function action_delete_session()
-	{
-		$this->session->delete('accom_pub');
-		$this->session->delete('accom_awd');
-		$this->session->delete('accom_rch');
-		$this->session->delete('accom_ppr');
-		$this->session->delete('accom_ctv');
-		$this->session->delete('accom_par');
-		$this->session->delete('accom_mat');
-		$this->session->delete('accom_oth');
-		$this->session->delete('attachment');
-		$this->session->delete('accom_details');
-		$this->session->delete('ipcr_details');
-		$this->session->delete('department');
-		$this->session->delete('title');
-		$this->session->delete('opcr_details');
 	}
 
 	/**

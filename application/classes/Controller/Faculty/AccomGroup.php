@@ -10,7 +10,6 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		// $this->action_delete_session();
 		$users = $this->get_group_users($this->session->get('identifier'));
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$consolidate_url = 'faculty/accom_dept/consolidate';
@@ -26,7 +25,6 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
-		// $this->action_delete_session();
 		$users = $this->get_group_users($this->session->get('identifier'));
 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$consolidate_url = 'faculty/accom_coll/consolidate';

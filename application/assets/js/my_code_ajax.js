@@ -1240,6 +1240,16 @@ $(document).ready(function () {
 		tooltip		: 'Double click to edit',
 	});
 	
+	/* IPCR-RATE FORM -- Reset form */
+    $("#rateTarget").click(function () {
+    	$("#categoryTargetId").val("");
+    	$("#targetId").html("<option>Select</option>").prop("disabled", true);
+    	$("#indicators, #actual_accom").text("").prop("disabled", true);
+    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
+    	$("#remarks").val("").prop("disabled", true);
+    	$("#ipcr-attachment").fileinput('clear').fileinput("disable");
+    });
+
 	/* IPCR-RATE FORM -- List of targets depends on selected category */
 	$("#categoryTargetId").change(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -1282,11 +1292,32 @@ $(document).ready(function () {
 		    dataType: "json",
             success:function (data) {
             	$("#indicators").text(data['indicators']);
-            	$("#actual_accom").text(data['actual_accom']);
-            	$("input#r_quantity").rating('update', data['r_quantity']);
-            	$("input#r_efficiency").rating('update', data['r_efficiency']);
-            	$("input#r_timeliness").rating('update', data['r_timeliness']);
-            	$("#remarks").val(data['remarks']);
+            	$("#actual_accom").text(data['actual_accom']).prop("disabled", false);
+            	$("input#r_quantity").rating('update', data['r_quantity']).rating("refresh", {disabled: false});
+            	$("input#r_efficiency").rating('update', data['r_efficiency']).rating("refresh", {disabled: false});
+            	$("input#r_timeliness").rating('update', data['r_timeliness']).rating("refresh", {disabled: false});
+            	$("#remarks").val(data['remarks']).prop("disabled", false);
+		    	$("#ipcr-attachment").fileinput("enable");
+
+				if (data['attachment']) {
+	        		var display = new Array();
+
+					for (var i = 0; i < data['attachment'].length; i++) {
+						display.push("<img src=\"" + data['attachment'][i]['directory'] + "\" class=\"file-preview-image\" title=\"" + data['attachment'][i]['file'] + "\">");
+					}
+
+	            	$("#ipcr-attachment").fileinput('refresh', {
+						initialPreview: display,
+						overwriteInitial: true,
+					});
+				}      	
+            },
+            error: function () {
+            	$("#targetId").html("<option>Select</option>").prop("disabled", true);
+		    	$("#indicators, #actual_accom").text("").prop("disabled", true);
+		    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
+		    	$("#remarks").val("").prop("disabled", true);
+		    	$("#ipcr-attachment").fileinput('clear').fileinput("disable");
             }
         });
 	});

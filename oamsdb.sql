@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 21, 2015 at 01:22 PM
+-- Generation Time: May 04, 2015 at 02:15 PM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -31,10 +31,10 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
   `user_ID` int(11) NOT NULL,
   `yearmonth` date NOT NULL,
   `date_submitted` date DEFAULT NULL,
-  `status` enum('Approved','Pending','Rejected','Saved','Draft') NOT NULL DEFAULT 'Draft',
+  `status` enum('Approved','Rejected','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accomtbl`
@@ -42,19 +42,20 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
 
 INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `status`, `remarks`, `document`) VALUES
 (1, 4, '2014-01-01', '2015-03-05', 'Saved', 'None', '1234000000114.pdf'),
-(3, 39, '2015-02-01', '2015-03-02', 'Rejected', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Thomas W. Seay (05 Feb 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000310215.pdf'),
-(4, 39, '2014-12-01', '2015-02-04', 'Rejected', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000311215.pdf'),
-(5, 40, '2015-03-01', '2015-02-04', 'Rejected', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000320315.pdf'),
+(3, 39, '2015-02-01', '2015-03-02', 'Pending', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Thomas W. Seay (05 Feb 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000310215.pdf'),
+(4, 39, '2014-12-01', '2015-02-04', 'Pending', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000311215.pdf'),
+(5, 40, '2015-03-01', '2015-02-04', 'Pending', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000320315.pdf'),
 (6, 39, '2015-03-01', '2015-02-04', 'Draft', 'None', '1234000310315.pdf'),
 (7, 12, '2015-03-01', '2015-04-01', 'Saved', 'w - Troy E. Keller (05 Mar 2015)<br>q - Troy E. Keller (05 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000080315.pdf'),
 (8, 5, '2015-04-01', '2015-03-11', 'Saved', 'None', '1234000010415.pdf'),
 (9, 4, '2015-02-01', NULL, 'Draft', 'None', NULL),
 (11, 12, '2014-02-01', '2015-03-24', 'Saved', 'None', '1234000080215.pdf'),
 (12, 5, '2015-01-01', NULL, 'Draft', 'None', NULL),
-(13, 38, '2015-01-01', '2015-03-03', 'Approved', 'Approved by Thomas W. Seay (10 Apr 2015)<br>s - Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)<br>Rejected by Thomas W. Seay (10 Apr 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)', '1234000300115.pdf'),
-(14, 38, '2015-02-01', '2015-04-21', 'Approved', 'Approved by Thomas W. Seay (21 Apr 2015)<br>Rejected by Thomas W. Seay (21 Apr 2015)', '1234000300215.pdf'),
+(13, 38, '2015-01-01', '2015-03-03', 'Pending', 'Approved by Thomas W. Seay (10 Apr 2015)<br>s - Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)<br>Rejected by Thomas W. Seay (10 Apr 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)', '1234000300115.pdf'),
+(14, 38, '2015-02-01', '2015-04-21', 'Pending', 'Approved by Thomas W. Seay (21 Apr 2015)<br>Rejected by Thomas W. Seay (21 Apr 2015)', '1234000300215.pdf'),
 (15, 12, '2015-04-01', '2015-04-21', 'Saved', 'None', '1234000080415.pdf'),
-(16, 5, '2014-04-01', NULL, 'Draft', 'None', NULL);
+(16, 5, '2014-04-01', NULL, 'Draft', 'None', NULL),
+(17, 38, '2015-03-01', NULL, 'Draft', 'None', NULL);
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
   `author` varchar(255) DEFAULT NULL,
   `year` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accom_mattbl`
@@ -128,7 +129,8 @@ INSERT INTO `accom_mattbl` (`material_ID`, `author`, `year`, `title`) VALUES
 (24, NULL, '2222', 'q'),
 (25, NULL, '2222', 'w'),
 (26, '', '1992', 'Toad the Wet Sprocket'),
-(27, NULL, '2010', 'Family Guy');
+(27, NULL, '2010', 'Family Guy'),
+(28, NULL, '1234', 'q');
 
 -- --------------------------------------------------------
 
@@ -242,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
 INSERT INTO `accom_rchtbl` (`research_ID`, `title`, `nature`, `fund_external`, `start`, `end`, `fund_amount`, `fund_up`) VALUES
 (3, 'Test', 'Basic', 'try', '2014-12-10', '2014-12-12', '213.00', NULL),
 (4, 'Title', 'Basic', NULL, '2015-03-01', '2015-03-11', NULL, NULL),
-(5, 'a', 'Basic', NULL, '2015-04-13', '2015-04-22', NULL, '20.00'),
+(5, 'a', 'Basic', 'test', '2015-04-13', '2015-04-22', '102', '20.00'),
 (6, 'a', 'Basic', NULL, '2015-05-05', '2015-05-05', NULL, '0.00'),
 (7, 'All I Want', 'Applied', NULL, '2015-04-18', '2015-04-18', NULL, '10.00');
 
@@ -258,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
   `attachment` text
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -294,7 +296,8 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (56, 15, 27, 'mat', NULL),
 (61, 15, 5, 'rch', NULL),
 (62, 15, 7, 'rch', NULL),
-(63, 15, 6, 'pub', NULL);
+(63, 15, 6, 'pub', NULL),
+(64, 17, 28, 'mat', 'wdaghutzjq4kwv83ifdm171430736457.jpg rntknp3kqrkpgomm53za171430736457.jpg lzbhfmbrvkgc3kexi0lk171430736457.jpg');
 
 -- --------------------------------------------------------
 
@@ -318,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
 --
 
 INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`, `current`) VALUES
-(2, 12, '2013-01-01', '2015-12-31', '2015-04-18', 'Draft', '12340000820002002.pdf', 5);
+(2, 12, '2013-01-01', '2015-12-31', '2015-04-22', 'Published', '12340000820132015.pdf', 8);
 
 -- --------------------------------------------------------
 
@@ -336,7 +339,7 @@ CREATE TABLE IF NOT EXISTS `ipcrtbl` (
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL,
   `version` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ipcrtbl`
@@ -344,13 +347,14 @@ CREATE TABLE IF NOT EXISTS `ipcrtbl` (
 
 INSERT INTO `ipcrtbl` (`ipcr_ID`, `opcr_ID`, `user_ID`, `date_submitted`, `status`, `comments`, `remarks`, `document`, `version`) VALUES
 (3, 2, 12, '2015-04-02', 'Saved', NULL, 'None', '12340000801150415.pdf', 0),
-(4, 2, 38, '2015-04-04', 'Pending', NULL, 'Accepted by Thomas W. Seay (27 Mar 2015)<br><br>Checked by Thomas W. Seay (25 Mar 2015)', '12340003002150415.pdf', 2),
+(4, 2, 38, '2015-04-04', 'Checked', NULL, 'Checked by Thomas W. Seay (04 May 2015)<br>Accepted by Thomas W. Seay (27 Mar 2015)<br><br>Checked by Thomas W. Seay (25 Mar 2015)', '12340003002150415.pdf', 3),
 (5, 3, 12, '2015-03-27', 'Saved', NULL, 'None', '05150815.pdf', 0),
 (6, 4, 10, '2015-03-30', 'Saved', NULL, 'None', NULL, 0),
-(7, 4, 25, '2015-03-31', 'Checked', NULL, 'Checked by Sharon D. Call (31 Mar 2015)', '12340002101150415.pdf', 1),
+(7, 4, 25, '2015-03-31', 'Pending', NULL, 'Checked by Sharon D. Call (31 Mar 2015)', '12340002101150415.pdf', 1),
 (8, 3, 38, NULL, 'Draft', NULL, 'None', NULL, 0),
 (9, 5, 12, '2015-04-06', 'Saved', NULL, 'None', '12340000801140414.pdf', 0),
-(10, 4, 5, '2015-04-06', 'Saved', NULL, 'None', '12340000101150415.pdf', 0);
+(10, 4, 5, '2015-04-06', 'Saved', NULL, 'None', '12340000101150415.pdf', 0),
+(11, 5, 38, '2015-04-22', 'Pending', NULL, 'Checked by Thomas W. Seay (22 Apr 2015)', '12340003009141214.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -368,22 +372,24 @@ CREATE TABLE IF NOT EXISTS `ipcr_targettbl` (
   `r_quantity` int(1) DEFAULT '0',
   `r_efficiency` int(1) DEFAULT '0',
   `r_timeliness` int(1) DEFAULT '0',
-  `remarks` varchar(255) NOT NULL DEFAULT 'None'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  `remarks` varchar(255) NOT NULL DEFAULT 'None',
+  `attachment` text
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ipcr_targettbl`
 --
 
-INSERT INTO `ipcr_targettbl` (`target_ID`, `output_ID`, `ipcr_ID`, `target`, `indicators`, `actual_accom`, `r_quantity`, `r_efficiency`, `r_timeliness`, `remarks`) VALUES
-(3, 4, 4, 'Hello', 'World', 'a', 4, 3, 4, 'None'),
-(5, 7, 5, 'Double click to edit.', 'Double click to edit. a', 'yes', 2, 0, 0, 'None'),
-(6, 9, 6, 'Yellow Bus', 'Double click to edit.', 'Hello', 3, 3, 3, 'None'),
-(7, 8, 7, 'Holiday', 'Digos', NULL, 0, 0, 0, 'None'),
-(8, 5, 8, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None'),
-(9, 4, 3, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None'),
-(10, 10, 9, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None'),
-(11, 9, 10, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None');
+INSERT INTO `ipcr_targettbl` (`target_ID`, `output_ID`, `ipcr_ID`, `target`, `indicators`, `actual_accom`, `r_quantity`, `r_efficiency`, `r_timeliness`, `remarks`, `attachment`) VALUES
+(3, 4, 4, 'Hello', 'World', 'a', 4, 3, 4, 'None', 'Screen Shot 2015-05-04 at 10.09.37 AM.png => 1wg1cp3thuj7uqfgpgdq41430742947.jpg'),
+(5, 7, 5, 'Double click to edit.', 'Double click to edit. a', 'yes', 2, 0, 0, 'None', NULL),
+(6, 9, 6, 'Yellow Bus', 'Double click to edit.', 'Hello', 3, 3, 3, 'None', NULL),
+(7, 8, 7, 'Holiday', 'Digos', NULL, 0, 0, 0, 'None', NULL),
+(8, 5, 8, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None', NULL),
+(9, 4, 3, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None', NULL),
+(10, 10, 9, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None', NULL),
+(11, 9, 10, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None', NULL),
+(12, 10, 11, 'p', 'Double click to edit.', NULL, 0, 0, 0, 'None', NULL);
 
 -- --------------------------------------------------------
 
@@ -419,7 +425,14 @@ CREATE TABLE IF NOT EXISTS `oams_announcementtbl` (
   `content` text NOT NULL,
   `attachment` text,
   `edited` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oams_announcementtbl`
+--
+
+INSERT INTO `oams_announcementtbl` (`announcement_ID`, `subject`, `date`, `content`, `attachment`, `edited`) VALUES
+(1, '1', '2015-04-22 12:05:21', 'a', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -462,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
   `period_to` date NOT NULL,
   `date_published` date DEFAULT NULL,
   `date_submitted` date DEFAULT NULL,
-  `status` enum('Checked','Accepted','Pending','Published','Saved','Draft') NOT NULL DEFAULT 'Draft',
+  `status` enum('Checked','Accepted','Rejected','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -475,8 +488,8 @@ INSERT INTO `opcrtbl` (`opcr_ID`, `user_ID`, `period_from`, `period_to`, `date_p
 (1, 5, '2015-01-01', '2015-04-01', NULL, NULL, 'Draft', 'None', NULL),
 (2, 12, '2015-02-01', '2015-04-01', '2015-03-14', '2015-04-06', 'Pending', 'Checked by Troy E. Keller (02 Apr 2015)', '12340000802150415.pdf'),
 (3, 12, '2015-05-01', '2015-08-01', '2015-04-01', '2015-04-06', 'Pending', 'None', '12340000805150815.pdf'),
-(4, 10, '2015-01-01', '2015-04-01', '2015-03-30', '2015-03-31', 'Checked', 'Checked by Troy E. Keller (02 Apr 2015)', '12340000601150415.pdf'),
-(5, 12, '2014-09-01', '2014-12-01', '2015-04-06', NULL, 'Draft', 'None', '12340000809141214.pdf');
+(4, 10, '2015-01-01', '2015-04-01', '2015-03-30', '2015-03-31', 'Pending', 'Checked by Troy E. Keller (02 Apr 2015)', '12340000601150415.pdf'),
+(5, 12, '2014-09-01', '2014-12-01', '2015-04-22', '2015-04-22', 'Pending', 'None', '12340000809141214.pdf');
 
 -- --------------------------------------------------------
 
@@ -532,7 +545,7 @@ INSERT INTO `opcr_outputtbl` (`output_ID`, `category_ID`, `opcr_ID`, `output`, `
 (7, 2, 3, 'kitty', 'world', 'TWSeay', 'a', 5, 5, 5, 'None'),
 (8, 2, 4, 'Upgrading of laboratories for research, extension and instruction', 'Creation of a committee that will look into the requirements to upgrade the laboratories of the department and recommendation was made = 3; 10% of the recommendation was met = 4; 20% of the recommendation was met = 5', 'CCBrown', 'a', 3, 3, 3, 'None'),
 (9, 2, 4, 'Research Projects and Outputs', '1 research project conducted = 3; 2 research projects conducted = 4; and 3 research projects conducted = 5;', 'SDCall', 'a', 1, 2, 3, 'None'),
-(10, 3, 5, 'a', 'a', NULL, NULL, 0, 0, 0, 'None');
+(10, 3, 5, 'a', 'a', 'p', 'p', 3, 3, 3, 'None');
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1013,7 @@ ALTER TABLE `user_profiletbl`
 -- AUTO_INCREMENT for table `accomtbl`
 --
 ALTER TABLE `accomtbl`
-  MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `accom_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `accom_awdtbl`
 --
@@ -1015,7 +1028,7 @@ ALTER TABLE `accom_ctvtbl`
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
@@ -1045,7 +1058,7 @@ ALTER TABLE `accom_rchtbl`
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
+  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=65;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
@@ -1055,17 +1068,17 @@ ALTER TABLE `cumatbl`
 -- AUTO_INCREMENT for table `ipcrtbl`
 --
 ALTER TABLE `ipcrtbl`
-  MODIFY `ipcr_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `ipcr_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `ipcr_targettbl`
 --
 ALTER TABLE `ipcr_targettbl`
-  MODIFY `target_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `target_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `oams_announcementtbl`
 --
 ALTER TABLE `oams_announcementtbl`
-  MODIFY `announcement_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `announcement_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `oams_messagetbl`
 --
