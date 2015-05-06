@@ -45,15 +45,17 @@ $(document).ready(function () {
     *   5. Announcement Table (Admin)       *
     *   6. Message Table (Admin)            *
     *   7. Education Table                  *
-    *   8. Accomplishment Table (Faculty)   *
-    *   9. Accomplishment Group Table       *
+    *   8. Faculty Table                    *
     *       (Department/College)            *
-    *   10. IPCR Table (Faculty)            *
-    *   11. IPCR Group Table                *
+    *   9. Accomplishment Table (Faculty)   *
+    *   10. Accomplishment Group Table      *
     *       (Department/College)            *
-    *   12. OPCR Table (Faculty-Chair)      *
-    *   13. OPCR Group Table (College)      *
-    *   14. CUMA Table (Faculty-Chair)      *
+    *   11. IPCR Table (Faculty)            *
+    *   12. IPCR Group Table                *
+    *       (Department/College)            *
+    *   13. OPCR Table (Faculty-Chair)      *
+    *   14. OPCR Group Table (College)      *
+    *   15. CUMA Table (Faculty-Chair)      *
     *                                       *
     * * * * * * * * * * * * * * * * * * * * */
     
@@ -314,7 +316,20 @@ $(document).ready(function () {
         "order": [[0, "desc"]],
     })
 
-	/* 8. Accomplishment Table  */
+    /* 8. Faculty Table */
+    $("#faculty_table").DataTable({
+        "columns": [
+            { "searchable": false, "orderable": false },
+            null,
+            { "searchable": false, "orderable": false }
+        ],
+        // Order table by name (column 1), descending
+        "order": [[ 1, "asc" ]],
+        "lengthMenu": [10, 15, 20, 30, 50],
+        "pageLength": 5
+    })
+
+	/* 9. Accomplishment Table  */
 	$('#accom_table').DataTable({
         "columns": [
             null,
@@ -329,7 +344,7 @@ $(document).ready(function () {
         "order": [[ 0, "desc" ]]
     });
 	
-    /* 9. Accomplishment Group Table */
+    /* 10. Accomplishment Group Table */
 	var accom_group_table = $('#accom_group_table').DataTable({
         "columns": [
             // Period column is searchable but hidden; used as group header
@@ -381,7 +396,7 @@ $(document).ready(function () {
         all_table.search($(this).val()).draw();
     });
     
-    /* 10. IPCR Table */
+    /* 11. IPCR Table */
     $('#ipcr_table').DataTable({
         "order": [[ 1, "desc" ]],
         "columns": [
@@ -394,7 +409,7 @@ $(document).ready(function () {
 		]
     });
     
-    /* 11. IPCR Group Table */
+    /* 12. IPCR Group Table */
 	var ipcr_group_table = $('#ipcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -430,7 +445,7 @@ $(document).ready(function () {
 		}
     });
 
-    /* 12. OPCR Table */
+    /* 13. OPCR Table */
     $('#opcr_table').DataTable({
         "order": [[ 1, "desc" ]],
         "columns": [
@@ -444,7 +459,7 @@ $(document).ready(function () {
 		]
     });
 
-    /* 13. OPCR Group Table */
+    /* 14. OPCR Group Table */
     var opcr_group_table = $('#opcr_group_table').DataTable({
         "order": [[ 0, "desc" ]],
         "columns": [
@@ -480,7 +495,7 @@ $(document).ready(function () {
         }
     });
 
-    /* 14. CUMA Table  */
+    /* 15. CUMA Table  */
     $('#cuma_table').DataTable({
         "columns": [
             null,

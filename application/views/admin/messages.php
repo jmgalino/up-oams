@@ -57,7 +57,7 @@ echo View::factory('admin/oams/message');
 
 		echo ($message['seen'] ? '<td>'.$message['name'].'</td>' : '<td><strong>'.$message['name'].'</strong></td>');
 		
-		echo '<td class="message" key="', $message['message_ID'], '" data-toggle="modal" data-target="#modal_message" style="cursor:pointer;" ajax-url="', URL::site('ajax/message_details').'">';
+		echo '<td class="message" key="', $message['message_ID'], '" data-toggle="modal" data-target="#modal_message" style="cursor:pointer;" ajax-url="', URL::site('extras/ajax/message_details').'">';
 		echo ($message['seen'] ? $message['subject'] : '<strong>'.$message['subject'].'</strong>');
 		echo '<span style="color:#7a7a7a"> - ', $message['message'], '</span></td>
 			<td>', date('d M', strtotime($message['date'])), '</td>

@@ -24,7 +24,7 @@ if ($session->get('accom_pub'))
 		echo $pub['page'], '.';
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		echo '<a class="btn btn-default" id="updatePublication" publication-id="', $pub['publication_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_publication" role="button" href="" action-url="', URL::site('faculty/accom/edit/pub/'.$pub['publication_ID']), '" ajax-url="', URL::site('ajax/accom_details/pub'), '">
+		echo '<a class="btn btn-default" id="updatePublication" publication-id="', $pub['publication_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_publication" role="button" href="" action-url="', URL::site('faculty/accom/edit/pub/'.$pub['publication_ID']), '" ajax-url="', URL::site('extras/ajax/accom_details/pub'), '">
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/pub/'.$pub['publication_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';

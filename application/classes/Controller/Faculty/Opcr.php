@@ -18,7 +18,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_department_programIDs($department['department_ID']);
-		$users = $user->get_user_group($programIDs, 'dean');
+		$users = $user->get_user_group($programIDs);
 		
 		$userIDs = array();
 		foreach ($users as $user)

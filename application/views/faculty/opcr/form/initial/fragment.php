@@ -21,7 +21,7 @@
 					echo '<tr>
 						<td>', $output['output'], '</td>
 						<td>', $output['indicators'] , '</td>
-						<td><a class="btn btn-default" id="updateOutput" output-id="', $output['output_ID'], '" data-toggle="modal" data-target="#modal_output" role="button" href="" action-url="', URL::site('faculty/opcr/edit/'.$output['output_ID']), '" ajax-url="', URL::site('ajax/output_details'), '" validate-url="', URL::site('ajax/unique/edit_output'), '">
+						<td><a class="btn btn-default" id="updateOutput" output-id="', $output['output_ID'], '" data-toggle="modal" data-target="#modal_output" role="button" href="" action-url="', URL::site('faculty/opcr/edit/'.$output['output_ID']), '" ajax-url="', URL::site('extras/ajax/output_details'), '" validate-url="', URL::site('extras/ajax/unique/edit_output'), '">
 							<span class="glyphicon glyphicon-pencil"></span></a></td>
 						</tr>';
 				}

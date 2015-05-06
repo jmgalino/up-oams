@@ -7,7 +7,7 @@ $session = Session::instance();
 $cuma_details = $session->get('cuma_details');
 $department_details = $univ->get_department_details(NULL, $session->get('program_ID'));
 $department_programs = $univ->get_department_programIDs($department_details['department_ID']);
-$department_users = $user->get_user_group($department_programs, NULL);
+$department_users = $user->get_user_group($department_programs);
 $programs = $univ->get_programs();
 
 $program_IDs = array();

@@ -12,7 +12,7 @@
         <div class="form-group">
           <label for="category" class="col-sm-3 control-label">Category</label>
           <div class="col-sm-8">
-            <select class="form-control" id="categoryTargetId" ipcr-id="<?php echo $ipcr_ID ?>" ajax-url="<?php echo URL::site('ajax/category_targets'); ?>" required>
+            <select class="form-control" id="categoryTargetId" ipcr-id="<?php echo $ipcr_ID ?>" ajax-url="<?php echo URL::site('extras/ajax/category_targets'); ?>" required>
               <option value="">Select</option>
               <?php
               foreach ($categories as $category)
@@ -27,7 +27,7 @@
         <div class="form-group">
           <label for="target" class="col-sm-3 control-label">Target</label>
           <div class="col-sm-8">
-            <select class="form-control" id="targetId" name="target_ID" ajax-url="<?php echo URL::site('ajax/target_details'); ?>" disabled required>
+            <select class="form-control" id="targetId" name="target_ID" ajax-url="<?php echo URL::site('extras/ajax/target_details'); ?>" disabled required>
               <option value="">Select</option>
             </select>
           </div>

@@ -50,7 +50,7 @@
 				</div>
 			</li>
 			<li>
-				<input id="inputData" cuma-id="<?php echo $cuma_details['cuma_ID']; ?>" current="<?php echo $cuma_details['current']; ?>" ajax-url="<?php echo URL::site('ajax/update_current') ?>" hidden>
+				<input id="inputData" cuma-id="<?php echo $cuma_details['cuma_ID']; ?>" current="<?php echo $cuma_details['current']; ?>" ajax-url="<?php echo URL::site('extras/ajax/update_current') ?>" hidden>
 				<nav>
 				  <ul class="pager">
 				    <li class="<?php echo ($cuma_details['current'] == 1 ? 'previous disabled' : 'previous'); ?>">

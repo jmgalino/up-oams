@@ -33,7 +33,7 @@ if ($session->get('accom_ppr'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		echo '<a class="btn btn-default" id="updatePaper" paper-id="', $ppr['paper_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_paper" role="button" href="" action-url="', URL::site('faculty/accom/edit/ppr/'.$ppr['paper_ID']), '" ajax-url="', URL::site('ajax/accom_details/ppr'), '">
+		echo '<a class="btn btn-default" id="updatePaper" paper-id="', $ppr['paper_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_paper" role="button" href="" action-url="', URL::site('faculty/accom/edit/ppr/'.$ppr['paper_ID']), '" ajax-url="', URL::site('extras/ajax/accom_details/ppr'), '">
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/ppr/'.$ppr['paper_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';

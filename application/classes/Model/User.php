@@ -24,7 +24,7 @@ class Model_User extends Model {
 	 */
 	public function get_details($user_ID, $employee_code)
  	{
- 		if ($user_ID)
+ 		if ($user_ID != NULL)
  		{
  			$details = DB::select()
 				->from('user_profiletbl')
@@ -32,7 +32,7 @@ class Model_User extends Model {
 		 		->execute()
 		 		->as_array();
 		 }
- 		elseif ($employee_code)
+ 		elseif ($employee_code != NULL)
  		{
  			$details = DB::select()
 				->from('user_profiletbl')
@@ -68,35 +68,15 @@ class Model_User extends Model {
  	/**
 	 * Get users (by department/college)
 	 */
-	public function get_user_group($programIDs, $exclude)
+	public function get_user_group($programIDs)
  	{
-    	if ($exclude)
-    	{
-			$result = DB::select()
-			->from('user_profiletbl')
-			->where('program_ID', 'IN', $programIDs)
-			->where('position', '!=', $exclude)
-			->where('deleted', '=', '0')
-			->order_by('first_name')
-	 		->execute()
-	 		->as_array();
-    	}
-		else
-		{
-			$result = DB::select()
+    	$users = DB::select()
 			->from('user_profiletbl')
 			->where('program_ID', 'IN', $programIDs)
 			->where('deleted', '=', '0')
 			->order_by('first_name')
 	 		->execute()
 	 		->as_array();
-	 	}
-
- 		$users = array();
-		foreach ($result as $user)
-		{
-			$users[] = $user;
-		}
 
  		return $users;
  	}

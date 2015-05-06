@@ -430,7 +430,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		// $ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
 		// $targets = $ipcr->get_output_targets(NULL, $outputs);
 		// $programIDs = $univ->get_department_programIDs($department_details['department_ID']);
-		// $users = $user->get_user_group($programIDs, 'dean');
+		// $users = $user->get_user_group($programIDs);
 
 		$fullname = $this->session->get('fullname');
 		// $title = ($this->session->get('identifier') == 'dean'
@@ -534,7 +534,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$department_programs = $univ->get_department_programIDs($department_details['department_ID']);
-		$department_users = $user->get_user_group($department_programs, NULL);
+		$department_users = $user->get_user_group($department_programs);
 		$programs = $univ->get_programs();
 
 		$program_IDs = array();

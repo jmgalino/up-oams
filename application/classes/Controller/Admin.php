@@ -3,6 +3,22 @@
 class Controller_Admin extends Controller_User {
 
 	/**
+	 * Show profile
+	 */
+	public function action_myprofile()
+	{
+		$accom = new Model_Accom;
+		$univ = new Model_Univ;
+		$user = new Model_User;
+
+		$user_details = $user->get_details($this->session->get('user_ID'), NULL);
+		
+		$this->view->content = View::factory('profile/myprofile/admin')
+			->bind('user', $user_details);
+		$this->response->body($this->view->render());
+	}
+
+	/**
 	 * List messages
 	 */
 	protected function action_messages()

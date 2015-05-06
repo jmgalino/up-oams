@@ -87,4 +87,4 @@ class Controller_Extras_Upload extends Controller {
         return FALSE;
     }
 
-} // End Uploader
+} // End Upload

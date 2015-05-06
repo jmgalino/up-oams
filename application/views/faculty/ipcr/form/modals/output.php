@@ -12,7 +12,7 @@
         <div class="form-group">
           <label for="category" class="col-sm-4 control-label">Category</label>
           <div class="col-sm-7">
-            <select class="form-control" id="categoryOutputId" name="category_ID" opcr-id="<?php echo $ipcr_details['opcr_ID']; ?>" ajax-url="<?php echo URL::site('ajax/category_outputs');?>" required>
+            <select class="form-control" id="categoryOutputId" name="category_ID" opcr-id="<?php echo $ipcr_details['opcr_ID']; ?>" ajax-url="<?php echo URL::site('extras/ajax/category_outputs');?>" required>
               <option value="">Select</option>
               <?php
               foreach ($categories as $category)

@@ -168,7 +168,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
-		$college_users['users'] = $user->get_user_group($programIDs, NULL);
+		$college_users['users'] = $user->get_user_group($programIDs);
 		
 		$user_IDs = array();
 		foreach ($college_users['users'] as $user)

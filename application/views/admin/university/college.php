@@ -54,7 +54,7 @@ echo View::factory('admin/university/form/college')
 			<td>', $college['short'], '</td>
 			<td>', ($college['first_name'] ? $college['first_name'].' '.$college['middle_name'][0].'. '.$college['last_name'] : '<em>None</em>'), '</td>
 			<td>
-				<a class="btn btn-default" key="', $college['college_ID'], '" id="updateCollege" data-toggle="modal" data-target="#modal_college" href="" url="', URL::site('admin/university/update/college'), '" ajax-url="', URL::site('ajax/college_details'), '" validate-url="', URL::site('ajax/unique/edit_college'), '">
+				<a class="btn btn-default" key="', $college['college_ID'], '" id="updateCollege" data-toggle="modal" data-target="#modal_college" href="" url="', URL::site('admin/university/update/college'), '" ajax-url="', URL::site('extras/ajax/college_details'), '" validate-url="', URL::site('extras/ajax/unique/edit_college'), '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
 		</tr>';

@@ -1,6 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Ajax extends Controller {
+class Controller_Extras_Ajax extends Controller {
+
+	public function action_aaa()
+	{echo 'Hey';}
 
 	public function action_abc()
 	{
@@ -148,7 +151,7 @@ class Controller_Ajax extends Controller {
 
 		$college_ID = $this->request->post('college_ID');
 		$programIDs = $univ->get_college_programIDs($college_ID);
-		$users = ($programIDs ? $user->get_user_group($programIDs, NULL) : NULL);
+		$users = ($programIDs ? $user->get_user_group($programIDs) : NULL);
 		$college_details = $univ->get_college_details($college_ID, NULL);
 
 		$arr = array();
@@ -190,7 +193,7 @@ class Controller_Ajax extends Controller {
 
 		$department_ID = $this->request->post('department_ID');
 		$programIDs = $univ->get_department_programIDs($department_ID);
-		$users = ($programIDs ? $user->get_user_group($programIDs, NULL) : NULL);
+		$users = ($programIDs ? $user->get_user_group($programIDs) : NULL);
 		$department_details = $univ->get_department_details($department_ID, NULL);
 
 		$arr = array();
@@ -231,7 +234,7 @@ class Controller_Ajax extends Controller {
 			$tmp['type'] = $program['type'];
 			$tmp['vision'] = $program['vision'];
 			$tmp['goals'] = $program['goals'];
-			$tmp['update'] = '<a class="btn btn-default" id="updateProgram" key="'.$program['program_ID'].'" data-toggle="modal" data-target="#modal_program" href="" url="'.URL::site('admin/university/update/program').'" ajax-url="'.URL::site('ajax/program_details').'" validate-url="'.URL::site('ajax/unique/edit_program').'">
+			$tmp['update'] = '<a class="btn btn-default" id="updateProgram" key="'.$program['program_ID'].'" data-toggle="modal" data-target="#modal_program" href="" url="'.URL::site('admin/university/update/program').'" ajax-url="'.URL::site('extras/ajax/program_details').'" validate-url="'.URL::site('extras/ajax/unique/edit_program').'">
 					<span class="glyphicon glyphicon-pencil"></span> Update</a>';
 			$arr[] = $tmp;
 		}

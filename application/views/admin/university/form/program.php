@@ -7,7 +7,7 @@
        <h4 class="modal-title" id="myModalLabel">New Degree Program</h4>
       </div>
 
-      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'programForm', 'role'=>'form', 'ajax-url'=>URL::site('ajax/unique/new_program'))); ?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'programForm', 'role'=>'form', 'ajax-url'=>URL::site('extras/ajax/unique/new_program'))); ?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="invalidMessage"></p>
@@ -18,7 +18,7 @@
         <div class="form-group">
           <label for="program-college" class="col-sm-3 control-label">College</label>
           <div class="col-sm-8">
-            <select class="form-control" id="program-college" name="college_ID" ajax-url="<?php echo URL::site('ajax/college_departments');?>" required>
+            <select class="form-control" id="program-college" name="college_ID" ajax-url="<?php echo URL::site('extras/ajax/college_departments');?>" required>
               <option value="">Select</option>
               <?php
               foreach ($colleges as $college)

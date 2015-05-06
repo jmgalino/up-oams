@@ -12,7 +12,7 @@
         <div class="form-group">
           <label for="category" class="col-sm-3 control-label">Category</label>
           <div class="col-sm-8">
-            <select class="form-control" id="categoryOutputId" opcr-id="<?php echo $opcr_ID ?>" ajax-url="<?php echo URL::site('ajax/category_outputs'); ?>">
+            <select class="form-control" id="categoryOutputId" opcr-id="<?php echo $opcr_ID ?>" ajax-url="<?php echo URL::site('extras/ajax/category_outputs'); ?>">
               <option value="">Select</option>
               <?php
               foreach ($categories as $category)
@@ -27,7 +27,7 @@
         <div class="form-group">
           <label for="target" class="col-sm-3 control-label">MFO/PAP</label>
           <div class="col-sm-8">
-            <select class="form-control rateOutputId" id="outputId" name="output_ID" ajax-url="<?php echo URL::site('ajax/output_details'); ?>" disabled required>
+            <select class="form-control rateOutputId" id="outputId" name="output_ID" ajax-url="<?php echo URL::site('extras/ajax/output_details'); ?>" disabled required>
               <option value="">Select</option>
             </select>
           </div>

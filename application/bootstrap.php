@@ -170,10 +170,18 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<docume
 /**
  * Routes for Faculty Users
  */
+Route::set('dean-functions', 'faculty/coll/<action>(/<id>)')
+	->defaults(array(
+		'controller'=> 'dean'
+	));
+Route::set('chair-functions', 'faculty/dept/<action>(/<id>)')
+	->defaults(array(
+		'controller'=> 'chair'
+	));
 Route::set('faculty-functions', '<controller>/<action>(/<id>)',
 	array(
 		'controller'=> 'faculty',
-		'action'	=> '(index|contact)'
+		'action'	=> '(before|myprofile|contact)'
 	))
 	->defaults(array(
 		'action'	=> 'index'

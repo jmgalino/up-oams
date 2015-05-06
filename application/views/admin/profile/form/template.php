@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="modalProfileLabel">New Profile</h4>
       </div>
 
-      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'profileForm', 'role'=>'form', 'ajax-url'=>URL::site('ajax/unique/new_user'))); ?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'profileForm', 'role'=>'form', 'ajax-url'=>URL::site('extras/ajax/unique/new_user'))); ?>
       <div class="modal-body">
         <div class="radio">
           <label>

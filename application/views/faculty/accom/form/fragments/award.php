@@ -29,7 +29,7 @@ if ($session->get('accom_awd'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		echo '<a class="btn btn-default" id="updateAward" award-id="', $awd['award_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_award" role="button" href="" action-url="', URL::site('faculty/accom/edit/awd/'.$awd['award_ID']), '" ajax-url="', URL::site('ajax/accom_details/awd'), '">
+		echo '<a class="btn btn-default" id="updateAward" award-id="', $awd['award_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_award" role="button" href="" action-url="', URL::site('faculty/accom/edit/awd/'.$awd['award_ID']), '" ajax-url="', URL::site('extras/ajax/accom_details/awd'), '">
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/awd/'.$awd['award_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';

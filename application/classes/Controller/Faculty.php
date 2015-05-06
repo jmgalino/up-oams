@@ -3,38 +3,82 @@
 class Controller_Faculty extends Controller_User {
 
 	/**
-	 * Check ownership
+	 * Check authorization
 	 */
-	protected function action_check($user_ID)
+	public function before()
 	{
-		if ($this->session->get('user_ID') !== $user_ID)
-		{
-			$this->session->set('error', 'Error 401: Unauthorized access.');
-			$this->redirect('faculty/error');
-		}
+		// do checks
+		parent::before();
 	}
 
 	/**
-	 * Preview documents from profile
+	 * Show profile
 	 */
-	// protected function action_preview()
-	// {
-		// $accom = new Model_Accom;
+	public function action_myprofile()
+	{
+		$accom = new Model_Accom;
+		$univ = new Model_Univ;
+		$user = new Model_User;
 
-		// $accom_ID = $this->request->param('id');
-		// $accom_details = $accom->get_details($accom_ID);
-		// $label = 'Accomplishment Report - '.date('F \'y', strtotime($accom_details['yearmonth']));
+		$reset = $this->session->get_once('reset');
+		$update = $this->session->get_once('update');
+		$fullname = $this->session->get('fullname2');
 
-		// $this->view->content = View::factory('profile/myprofile/pdfviewer')
-		// 	->bind('label', $label)
-		// 	->bind('filename', $accom_details['document']);
-		// $this->response->body($this->view->render());
-	// }
+		$user_details = $user->get_details($this->session->get('user_ID'), NULL);		
+		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, TRUE);
+		
+		$education = $user->get_education($user_details['user_ID'], NULL);
+		$program_details = $univ->get_program_details($user_details['program_ID']);
+		$user_details['program_short'] = $program_details['program_short'];
+
+		if ($accom_reports)
+		{
+			$reports = array();
+			$accom_IDs = array();
+			foreach ($accom_reports as $report)
+			{
+				if (in_array($report['status'], array('Approved', 'Pending', 'Saved')))
+				{
+					$reports[] = $report;
+					$accom_IDs[] = $report['accom_ID'];
+				}
+			}
+
+			if ($accom_IDs)
+			{
+				$pub = $accom->get_accoms($accom_IDs, 'pub');
+				$awd = $accom->get_accoms($accom_IDs, 'awd');
+				$rch = $accom->get_accoms($accom_IDs, 'rch');
+				$ppr = $accom->get_accoms($accom_IDs, 'ppr');
+				$ctv = $accom->get_accoms($accom_IDs, 'ctv');
+				$par = $accom->get_accoms($accom_IDs, 'par');
+				$mat = $accom->get_accoms($accom_IDs, 'mat');
+				$oth = $accom->get_accoms($accom_IDs, 'oth');
+			}
+		}
+		
+		$this->view->content = View::factory('profile/myprofile/faculty')
+			->bind('user', $user_details)
+			->bind('education', $education)
+			->bind('accom_reports', $reports)
+			->bind('fullname', $fullname)
+			->bind('accom_pub', $pub)
+			->bind('accom_awd', $awd)
+			->bind('accom_rch', $rch)
+			->bind('accom_ppr', $ppr)
+			->bind('accom_ctv', $ctv)
+			->bind('accom_par', $par)
+			->bind('accom_mat', $mat)
+			->bind('accom_oth', $oth)
+			->bind('reset', $reset)
+			->bind('update', $update);
+		$this->response->body($this->view->render());
+	}
 
 	/**
 	 * Contact admin form
 	 */
-	protected function action_contact()
+	public function action_contact()
 	{
 		if ($this->request->post())
 			$this->send_message($this->request->post());
@@ -51,6 +95,18 @@ class Controller_Faculty extends Controller_User {
 				->bind('fullname', $fullname)
 				->bind('details', $details);
 			$this->response->body($this->view->render());
+		}
+	}
+
+	/**
+	 * Check ownership
+	 */
+	protected function action_check($user_ID)
+	{
+		if ($this->session->get('user_ID') !== $user_ID)
+		{
+			$this->session->set('error', 'Error 401: Unauthorized access.');
+			$this->redirect('faculty/error');
 		}
 	}
 

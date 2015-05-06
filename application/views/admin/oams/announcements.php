@@ -57,7 +57,7 @@ echo View::factory('admin/oams/form/announcement');
 
 		echo '<td>', date('d M', strtotime($announcement['date'])), '</td>
 			<td>
-				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('ajax/announcement_details'), '">
+				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
 			</tr>';
@@ -67,7 +67,7 @@ echo View::factory('admin/oams/form/announcement');
 		// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 		// 		<ul class="dropdown-menu">
 		// 			<li>
-		// 				<a key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('ajax/announcement_details'), '">
+		// 				<a key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
 		// 				<span class="glyphicon glyphicon-pencil"></span> Edit Post</a>
 		// 			</li>
 		// 			<li>

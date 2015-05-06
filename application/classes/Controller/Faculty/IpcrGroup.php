@@ -12,7 +12,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_department_programIDs($department_details['department_ID']);
-		$users = $user->get_user_group($programIDs, 'dean');
+		$users = $user->get_user_group($programIDs);
 		$consolidate_url = 'faculty/ipcr_dept/consolidate';
 
 		$this->view_group($department_details['department'], $users, $consolidate_url);
@@ -28,7 +28,7 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$programIDs = $univ->get_college_programIDs($college_details['college_ID']);
-		$users = $user->get_user_group($programIDs, NULL);
+		$users = $user->get_user_group($programIDs);
 		$consolidate_url = NULL;//'faculty/ipcr_coll/consolidate';
 
 		$this->view_group($college_details['college'], $users, $consolidate_url);
@@ -184,13 +184,13 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 		{
 			$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 			$programIDs = $univ->get_department_programIDs($department['department_ID']);
-			$users = $user->get_user_group($programIDs, 'dean');
+			$users = $user->get_user_group($programIDs);
 		}
 		// elseif ($identifier == 'dean')
 		// {
 		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		// 	$programIDs = $univ->get_college_programIDs($college['college_ID']);
-		// 	$users = $user->get_user_group($programIDs, NULL);
+		// 	$users = $user->get_user_group($programIDs);
 		// }
 
 		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);

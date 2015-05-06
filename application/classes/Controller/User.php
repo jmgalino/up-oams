@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_User extends Controller {
+abstract class Controller_User extends Controller {
 
 	protected $oams;
 	protected $session;
@@ -115,82 +115,7 @@ class Controller_User extends Controller {
 	/**
 	 * Show profile
 	 */
-	protected function action_myprofile()
-	{
-		$accom = new Model_Accom;
-		$univ = new Model_Univ;
-		$user = new Model_User;
-
-		$reset = $this->session->get_once('reset');
-		$update = $this->session->get_once('update');
-		$name = $this->session->get('fullname2');
-
-		$user_details = $user->get_details($this->session->get('user_ID'), NULL);		
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, TRUE);
-		
-		if ($user_details['user_type'] == 'Faculty')
-		{
-			$education = $user->get_education($user_details['user_ID'], NULL);
-			$program_details = $univ->get_program_details($user_details['program_ID']);
-			$user_details['program_short'] = $program_details['program_short'];
-
-			if ($accom_reports)
-			{
-				$reports = array();
-				$accom_IDs = array();
-				foreach ($accom_reports as $report)
-				{
-					if (in_array($report['status'], array('Approved', 'Pending', 'Saved')))
-					{
-						$reports[] = $report;
-						$accom_IDs[] = $report['accom_ID'];
-					}
-				}
-
-				if ($accom_IDs)
-				{
-					$pub = $accom->get_accoms($accom_IDs, 'pub');
-					$awd = $accom->get_accoms($accom_IDs, 'awd');
-					$rch = $accom->get_accoms($accom_IDs, 'rch');
-					$ppr = $accom->get_accoms($accom_IDs, 'ppr');
-					$ctv = $accom->get_accoms($accom_IDs, 'ctv');
-					$par = $accom->get_accoms($accom_IDs, 'par');
-					$mat = $accom->get_accoms($accom_IDs, 'mat');
-					$oth = $accom->get_accoms($accom_IDs, 'oth');
-				}
-			}
-		}
-			else
-			{
-				$education = NULL;
-				$reports = NULL;
-				$pub = NULL;
-				$awd = NULL;
-				$rch = NULL;
-				$ppr = NULL;
-				$ctv = NULL;
-				$par = NULL;
-				$mat = NULL;
-				$oth = NULL;
-			}
-		
-		$this->view->content = View::factory('profile/myprofile/template')
-			->bind('user', $user_details)
-			->bind('education', $education)
-			->bind('accom_reports', $reports)
-			->bind('name', $name)
-			->bind('accom_pub', $pub)
-			->bind('accom_awd', $awd)
-			->bind('accom_rch', $rch)
-			->bind('accom_ppr', $ppr)
-			->bind('accom_ctv', $ctv)
-			->bind('accom_par', $par)
-			->bind('accom_mat', $mat)
-			->bind('accom_oth', $oth)
-			->bind('reset', $reset)
-			->bind('update', $update);
-		$this->response->body($this->view->render());
-	}
+	abstract function action_myprofile();
 
 	/**
 	 * Change password

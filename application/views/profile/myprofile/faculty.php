@@ -7,14 +7,7 @@
 <h3>My Profile</h3>
 <br>
 
-<?php if ($reset): ?>
-<div class="alert alert-success alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		Password was successfully reset.
-	</p>
-</div>
-<?php elseif ($update): ?>
+<?php if ($update): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -33,7 +26,8 @@
 		<div class="row details">
 			<div class="col-xs-6"><strong>Employee Code</strong></div>
 			<div class="col-xs-6"><?php echo $user['employee_code']; ?></div>
-		</div><br>
+		</div>
+		<br>
 		
 		<div class="row details">
 			<div class="col-xs-6"><strong>Title</strong></div>
@@ -61,7 +55,6 @@
 		</div>
 		<br>
 
-		<?php if ($user['user_type'] == 'Faculty'): ?>
 		<div class="row details">
 			<div class="col-xs-6"><strong>Average SET Scores</strong></div>
 			<div class="col-xs-6">
@@ -96,11 +89,9 @@
 			else echo '<div class="col-xs-6">College Dean</div>';
 			?>
 		</div>
-		<?php endif; ?>
 	</div>
 </div>
 
-<?php if ($user['user_type'] == 'Faculty'): ?>
 <hr>
 <div>
 	<?php
@@ -110,11 +101,13 @@
 	?>
 </div>
 
+<hr>
+<div>
 <!-- List of all accomplishments -->
 <?php 
 echo View::factory('profile/myprofile/accomplishments')
 	->bind('accom_reports', $accom_reports)
-	->bind('name', $name)
+	->bind('fullname', $fullname)
 	->bind('accom_pub', $accom_pub)
 	->bind('accom_awd', $accom_awd)
 	->bind('accom_rch', $accom_rch)
@@ -125,5 +118,4 @@ echo View::factory('profile/myprofile/accomplishments')
 	->bind('accom_oth', $accom_oth)
 	->bind('user', $user);
 ?>
-
-<?php endif; ?>
+</div>

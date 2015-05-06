@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">New Accomplishment Report</h4>
       </div>
 
-      <?php print Form::open('', array('class'=>'form-horizontal', 'id' => 'newReport', 'role'=>'form', 'action-url' => URL::site('faculty/accom/new'), 'ajax-url' => URL::site('ajax/check_date')));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id' => 'newReport', 'role'=>'form', 'action-url' => URL::site('faculty/accom/new'), 'ajax-url' => URL::site('extras/ajax/check_date')));?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="invalidMessage"></p>

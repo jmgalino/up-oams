@@ -30,7 +30,7 @@ if ($session->get('accom_par'))
 
 		echo '&nbsp;&nbsp;&nbsp;';
 		
-		echo '<a class="btn btn-default" id="updateParticipation" participation-id="', $par['participation_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_participation" role="button" href="" action-url="', URL::site('faculty/accom/edit/par/'.$par['participation_ID']), '" ajax-url="', URL::site('ajax/accom_details/par'), '">
+		echo '<a class="btn btn-default" id="updateParticipation" participation-id="', $par['participation_ID'], '" accom-id="', $session->get('accom_details')['accom_ID'], '" data-toggle="modal" data-target="#modal_participation" role="button" href="" action-url="', URL::site('faculty/accom/edit/par/'.$par['participation_ID']), '" ajax-url="', URL::site('extras/ajax/accom_details/par'), '">
 			<span class="glyphicon glyphicon-pencil"></span></a>', '  ';
 		echo '<a class="btn btn-default" id="deleteAccom" role="button" href="'.URL::site('faculty/accom/remove/par/'.$par['participation_ID']).'">',
 			'<span class="glyphicon glyphicon-remove-circle"></span></a>';

@@ -51,7 +51,7 @@ echo View::factory('faculty/opcr/form/modals/output')->bind('categories', $categ
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li>
-				<a id="addOutput" data-toggle="modal" data-target="#modal_output" role="button" role="button" href="" action-url="<?php echo URL::site('faculty/opcr/add'); ?>" validate-url="<?php echo URL::site('ajax/unique/new_output'); ?>">Add Output</a>
+				<a id="addOutput" data-toggle="modal" data-target="#modal_output" role="button" role="button" href="" action-url="<?php echo URL::site('faculty/opcr/add'); ?>" validate-url="<?php echo URL::site('extras/ajax/unique/new_output'); ?>">Add Output</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
 			<li>
