@@ -18,7 +18,7 @@
 
 <p>Constituent Unit: <?php echo $department_details['department']; ?> </p>
 
-<p>Date of Assessment: <?php echo date('F d, Y'); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Period: <?php echo $period; ?> </p>
+<p>Date of Submission: <?php echo date('F d, Y'); ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Assessment Period: <?php echo $period; ?> </p>
 
 <p><strong>Mission/Vision of the CU:</strong></p>
 <p style="margin:-25px 0 0 15px"> <?php echo $university['mission']; ?> </p>

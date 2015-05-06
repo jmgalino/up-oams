@@ -18,7 +18,7 @@ Table 1.1
 	{
 		if (in_array($program['program_ID'], $program_IDs))
 		{
-			$program['accreditation'] = ($program['accreditation'] ? $program['accreditation'] : 'None');
+			$program['accreditation'] = ($program['accreditation'] ? $program['accreditation'] : '-');
 
 			echo '<tr>
 				<td>', $program['program_short'], '</td>

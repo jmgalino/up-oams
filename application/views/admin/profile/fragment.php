@@ -42,6 +42,14 @@
 
 		<?php if ($user['user_type'] == 'Faculty'): ?>
 		<div class="row details">
+			<div class="col-xs-6"><strong>Average SET Scores</strong></div>
+			<div class="col-xs-6"><?php echo ($user['average_set'] ? $user['average_set'] : 'Not Available'); ?></div>
+		</div>
+		<div class="row details">
+			<div class="col-xs-6"><strong>No. of students mentored</strong></div>
+			<div class="col-xs-6"><?php echo ($user['students_mentored'] ? $user['students_mentored'] : 'Not Available'); ?></div>
+		</div>
+		<div class="row details">
 			<div class="col-xs-6"><strong>Faculty Code</strong></div>
 			<div class="col-xs-6"><?php echo $user['faculty_code']; ?></div>
 		</div>

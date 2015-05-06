@@ -63,10 +63,10 @@ foreach ($programs as $program)
 				}
 				else
 				{
-					$education['major'] = 'N/A';
-					$date = 'N/A';
-					$education['institution'] = 'N/A';
-					$education['continuing'] = 'N/A';
+					$education['major'] = '-';
+					$date = '-';
+					$education['institution'] = '-';
+					$education['continuing'] = '-';
 				}
 
 				// Publication
@@ -97,10 +97,10 @@ foreach ($programs as $program)
 					<td>', $date, '</td>
 					<td>', $education['institution'], '</td>
 					<td>', $education['continuing'], '</td>
-					<td></td>
-					<td>', $publication_isi, '</td>
-					<td>', $publication_refereed, '</td>
-					<td>', $publication_popular, '</td>
+					<td>', ($department_user['average_set'] ? $department_user['average_set'] : 'Not Available'), '</td>
+					<td>', ($publication_isi ? $publication_isi : 'None'), '</td>
+					<td>', ($publication_refereed ? $publication_refereed : 'None'), '</td>
+					<td>', ($publication_popular ? $publication_popular : 'None'), '</td>
 				</tr>';
 			}
 		}

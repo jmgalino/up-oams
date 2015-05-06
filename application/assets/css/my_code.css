@@ -175,6 +175,19 @@ td.dropdown ul.dropdown-menu > li > a:focus
   padding: 2px;
 }
 
+/* HIDDEN LINK -- hide edit link */
+.show-hover
+{
+  font-size: 16px;
+  color: transparent;
+}
+/* HIDDEN LINK -- show edit link on hover */
+.show-hover:hover
+{
+  color: #7b1113;
+  text-decoration: none;
+}
+
 /* FOOTER -- styles */
 html,
 body {
@@ -240,19 +253,6 @@ border-bottom: 1px solid #eee;
 .col-md-11 input /* ? */
 {
   display: inline;
-}
-/* PAGE HEADERS -- hide edit link */
-.page-header .show-hover
-{
-  font-size: 16px;
-  color: transparent;
-}
-
-/* PAGE HEADERS -- show edit link on hover */
-.page-header .show-hover:hover
-{
-  color: #7b1113;
-  text-decoration: none;
 }
 
 /* INFORMATION -- title */

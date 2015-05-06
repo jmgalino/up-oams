@@ -54,6 +54,10 @@ foreach ($programs as $program)
 				$research_external = '';
 				$fund_external = 0.00;
 
+				$awd_acad = 0;
+				$awd_natl = 0;
+				$awd_intl = 0;
+
 				// Research
 				$accom_IDs = $accom->get_faculty_accom($department_user['user_ID'], $cuma_details['period_from'], $cuma_details['period_to'], TRUE);
 				if ($accom_IDs)
@@ -75,21 +79,57 @@ foreach ($programs as $program)
 							}
 						}
 					}
+
+					$accom_awd = $accom->get_accoms($accom_IDs, 'awd');
+
+					if ($accom_awd)
+					{
+						foreach ($accom_awd as $awd)
+						{
+							switch ($awd['type']) {
+								case 'Academe':
+									$awd_acad++;
+									break;
+								
+								case 'National':
+									$awd_natl++;
+									break;
+								
+								case 'International':
+									$awd_intl++;
+									break;
+							}
+						}
+					}
 				}
 
-				$research_up = ($fund_up ? 'Php '.number_format($fund_up, 2) : '');
-				$research_total = (($fund_up OR $fund_external) ?'Php '.number_format(floatval(str_replace(',', '', $fund_up)) + floatval(str_replace(',', '', $fund_external)), 2) : '');
+				$research_up = ($fund_up ? 'Php '.number_format($fund_up, 2) : '-');
+				$research_total = (($fund_up OR $fund_external) ?'Php '.number_format(floatval(str_replace(',', '', $fund_up)) + floatval(str_replace(',', '', $fund_external)), 2) : '-');
+
+				switch ($department_user['students_mentored']) {
+					case 0:
+						$students_mentored = 'None';
+						break;
+
+					case null:
+						$students_mentored = 'Not Available';
+						break;
+
+					default:
+						$students_mentored = '-';
+						break;
+				}
 
 				echo '<tr>
 					<td>', $department_user['last_name'], ', ', $department_user['first_name'], ' ', $department_user['middle_name'][0], '.', '</td>
-					<td>', $research, '</td>
+					<td>', ($research ? $research : 'None'), '</td>
 					<td>', $research_up, '</td>
-					<td>', $research_external, '</td>
+					<td>', ($research_external == '' ? '-' : $research_external), '</td>
 					<td>', $research_total, '</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>', $students_mentored, '</td>
+					<td>', ($awd_acad ? $awd_acad : 'None'), '</td>
+					<td>', ($awd_natl ? $awd_natl : 'None'), '</td>
+					<td>', ($awd_intl ? $awd_intl : 'None'), '</td>
 				</tr>';
 			}
 		}

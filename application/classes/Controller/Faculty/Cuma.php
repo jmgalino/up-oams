@@ -154,7 +154,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	/**
 	 * View CUMA Form (Draft)
 	 */
-	protected function action_draft()
+	public function action_draft()
 	{
 		$univ = new Model_Univ;
 

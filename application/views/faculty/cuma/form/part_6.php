@@ -18,16 +18,18 @@ Table 1.5
 		<tr>
 			<th rowspan="2">Academic Programs</th>
 			<th rowspan="2">No. of freshmen<br>students</th>
-			<th rowspan="2">No. of<br>graduates<br>with honors</th>
-			<th rowspan="2">Ave. GWA of<br>honor<br>graduates</th>
-			<th rowspan="2">% honor grads<br>(graduating<br>class)</th>
-			<th rowspan="2">No. of student<br>leaders</th>
-			<th colspan="2">No. of thesis<br>published</th>
+			<th rowspan="2">No. of graduates</th>
+			<th rowspan="2">No. of graduates<br>with honors</th>
+			<th rowspan="2">No. of graduates<br>on time</th>
+			<th rowspan="2">Ave. GWA of<br>honor graduates</th>
+			<th rowspan="2">% honor grads<br>(graduating class)</th>
+			<!-- <th rowspan="2">No. of student<br>leaders</th>
+			<th colspan="2">No. of thesis<br>published</th> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<th>ISI</th>
 			<th>Refereed</th>
-		</tr>
+		</tr> -->
 	</thead>
 	<tbody>
 	<?php
@@ -37,7 +39,6 @@ Table 1.5
 		{
 			echo '<tr>
 				<td>', $program['program_short'], '</td>
-				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>

@@ -95,24 +95,34 @@ Table 1.2
 				}
 			}
 
-			$senior_ave = (count($senior)
+			$senior_count = count($senior);
+			$junior_count = count($junior);
+			
+			$senior_ave = ($senior_count
 				? number_format(array_sum($senior)/count($senior))
-				: 'Not Available');
-
-			$junior_ave = (count($junior)
+				: '-');
+			$junior_ave = ($junior_count
 				? number_format(array_sum($junior)/count($junior))
-				: 'Not Available');
+				: '-');
+
+			$nature = ($research
+				? $research_basic.' Basic; '.$research_applied.' Applied; '.$research_policy.' Policy'
+				: '-');
+			
+			$recognition = ($publication
+				? $publication_isi.' ISI; '.$publication_peer.' Peer-reviewed'
+				: '-');
 
 			echo '<tr>
 				<td>', $program['program_short'], '</td>
-				<td>', count($senior), '</td>
+				<td>', ($senior_count ? $senior_count : 'None'), '</td>
 				<td>', $senior_ave, '</td>
-				<td>', count($junior), '</td>
+				<td>', ($junior_count ? $junior_count : 'None'), '</td>
 				<td>', $junior_ave, '</td>
 				<td>', $research, '</td>
-				<td>', $research_basic, ' Basic; ', $research_applied, ' Applied; ', $research_policy, ' Policy</td>
+				<td>', $nature,'</td>
 				<td>', $publication, '</td>
-				<td>', $publication_isi, ' ISI; ', $publication_peer, ' Peer-reviewed</td>
+				<td>', $recognition, '</td>
 			</tr>';
 		}
 	}

@@ -21,7 +21,7 @@ echo '<p class="text-center"><strong>OFFICE OF THE VICE PRESIDENT FOR ACADEMIC A
 	</tr>
 </table>
 <p>Constituent Unit: ', $department_details['department'], '</p>
-<p>Date of Assessment: ', date('F d, Y'), '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Period: ', $session->get('period'), '</p>
+<p>Date of Submission: ', date('F d, Y'), '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Assessment Period: ', $session->get('period'), '</p>
 <p><strong>Mission/Vision of the CU:</strong></p>
 <p style="margin:-25px 0 0 15px">', $university['mission'], '</p>
 <p><strong>Vision:</strong></p>

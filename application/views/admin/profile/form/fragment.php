@@ -58,6 +58,20 @@
 <br>
 
 <div class="form-group" style="display:none;">
+  <label for="fcode" class="col-sm-4 control-label">Average<br>SET Scores</label>
+  <div class="col-sm-7">
+    <input type="text" class="form-control faculty_info" id="average_set" name="average_set" disabled>
+  </div>
+</div>
+
+<div class="form-group" style="display:none;">
+  <label for="fcode" class="col-sm-4 control-label">No. of students mentored</label>
+  <div class="col-sm-7">
+    <input type="text" class="form-control faculty_info" id="students_mentored" name="students_mentored" disabled>
+  </div>
+</div>
+
+<div class="form-group" style="display:none;">
   <label for="fcode" class="col-sm-4 control-label">Faculty Code</label>
   <div class="col-sm-7">
     <input type="text" class="form-control faculty_info" id="fcode" name="faculty_code">
