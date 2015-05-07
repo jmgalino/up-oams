@@ -84,12 +84,14 @@
 </div>
 
 <!-- List of all accomplishments -->
+<hr>
+<div>
 <?php
-$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
+$fullname = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'].'.';
 
 echo View::factory('admin/profile/accomplishments')
 	->bind('accom_reports', $accom_reports)
-	->bind('name', $name)
+	->bind('fullname', $fullname)
 	->bind('accom_pub', $accom_pub)
 	->bind('accom_awd', $accom_awd)
 	->bind('accom_rch', $accom_rch)
@@ -99,6 +101,7 @@ echo View::factory('admin/profile/accomplishments')
 	->bind('accom_mat', $accom_mat)
 	->bind('accom_oth', $accom_oth);
 ?>
+</div>
 
 <?php endif; ?>
 

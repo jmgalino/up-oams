@@ -3,6 +3,9 @@
   <li class="active">Announcements - <?php echo date('F Y'); ?></li>
 </ol>
 
+<h2>Announcements</h2>
+<br>
+
 <?php
 $counter = 0;
 

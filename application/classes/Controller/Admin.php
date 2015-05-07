@@ -3,6 +3,33 @@
 class Controller_Admin extends Controller_User {
 
 	/**
+	 * Check authorization
+	 */
+	public function before()
+	{
+		parent::before();
+
+		if ($this->session->get('identifier') != 'dean')
+		{
+			$this->session->set('error', 'Unauthorized access.');
+			$this->redirect('faculty/error');
+		}
+
+		$this->univ = new Model_Univ;
+		$this->user = new Model_User;
+
+		$this->college_details = $this->univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$programIDs = $this->univ->get_college_programIDs($this->college_details['college_ID']);
+		$this->college_users = $this->user->get_user_group($programIDs);
+
+		$this->college_userIDs = array();
+		foreach ($this->college_users as $college_user)
+		{
+			$this->college_userIDs[] = $college_user['user_ID'];
+		}
+	}
+
+	/**
 	 * Show profile
 	 */
 	public function action_myprofile()
@@ -86,12 +113,12 @@ class Controller_Admin extends Controller_User {
 	/**
 	 * Delete message
 	 */
-	public function action_delete()
-	{
-		$message_ID = $this->request->param('id');
-		$delete_success = $this->oams->delete_message($message_ID);
-		$this->session->set('success', $delete_success);
-		$this->redirect('admin/messages', 303);
-	}
+	// public function action_delete()
+	// {
+	// 	$message_ID = $this->request->param('id');
+	// 	$delete_success = $this->oams->delete_message($message_ID);
+	// 	$this->session->set('success', $delete_success);
+	// 	$this->redirect('admin/messages', 303);
+	// }
 
 } // End Admin

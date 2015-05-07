@@ -29,7 +29,7 @@ class Controller_Site extends Controller {
     }
 
 	/**
-	 * Home Page
+	 * Show UP-OAMS homepage
 	 */
 	public function action_index()
 	{
@@ -42,7 +42,7 @@ class Controller_Site extends Controller {
 	}
 
 	/**
-	 * About Page
+	 * Show about
 	 */
 	public function action_about()
 	{
@@ -55,7 +55,7 @@ class Controller_Site extends Controller {
 	}
 
 	/**
-	 * Contact Page
+	 * Show contact form
 	 */
 	public function action_contact()
 	{
@@ -154,7 +154,7 @@ class Controller_Site extends Controller {
 	}
 
 	/**
-	 * Error login
+	 * Show login error
 	 */
 	private function show_error()
 	{
@@ -169,7 +169,7 @@ class Controller_Site extends Controller {
 	}
 
 	/**
-	 * Successful login
+	 * Start session (logged in)
 	 */
 	private function start_session($employee_code)
 	{

@@ -8,14 +8,14 @@ abstract class Controller_User extends Controller {
 	
 	/**
 	 * Check if logged in
-	 * Sets appropriate navigation
+	 * Set template
 	 */
 	public function before()
     {
 		$this->oams = new Model_Oams;
     	$this->session = Session::instance();
 
-    	$identifier = Session::instance()->get('identifier');
+    	$identifier = $this->session->get('identifier');
     	$page_title = $this->oams->get_page_title();
 		$label = $this->oams->get_initials();
 
@@ -34,50 +34,32 @@ abstract class Controller_User extends Controller {
 			{
 				$fname = $this->session->get('fname');
 				$messages = $this->oams->get_messages_count();
+
 				$this->view->navbar = View::factory('templates/fragments/admin')
 					->bind('label', $label)
 					->bind('messages', $messages['messages'])
 					->bind('fname', $fname);
 			}
+			// Faculty
 			else
 			{
 				$fcode = $this->session->get('fcode');
 
-				switch ($identifier)
-				{
-					// Faculty
-					case 'faculty':
-						$this->view->navbar = View::factory('templates/fragments/faculty')
-							->bind('label', $label)
-							->bind('fcode', $fcode);
-						break;
-					
-					// Dept. Chair
-					case 'chair':
-						$this->view->navbar = View::factory('templates/fragments/chair')
-							->bind('label', $label)
-							->bind('fcode', $fcode);
-						break;
-					
-					// Dean
-					case 'dean':
-						$this->view->navbar = View::factory('templates/fragments/dean')
-							->bind('label', $label)
-							->bind('fcode', $fcode);
-						break;
-				}
+				$this->view->navbar = View::factory('templates/fragments/'.$identifier)
+					->bind('label', $label)
+					->bind('fcode', $fcode);
 			}
 		}		
     }
 
 	/**
-	 * Homepage
+	 * Show homepage
 	 */
 	protected function action_index()
 	{
 		$title = $this->oams->get_title();
 		$announcements = $this->oams->get_announcements();
-		$identifier = Session::instance()->get('identifier');
+		$identifier = $this->session->get('identifier');
 		$general = ($identifier == 'admin' ? $identifier : 'faculty');
 
 		$this->view->content = View::factory('profile/index')
@@ -88,7 +70,7 @@ abstract class Controller_User extends Controller {
 	}
 
 	/**
-	 * Error Page
+	 * Show error
 	 */
 	protected function action_error()
 	{
@@ -101,7 +83,7 @@ abstract class Controller_User extends Controller {
 	}
 
 	/**
-	 * Announcement Page
+	 * Show announcements
 	 */
 	protected function action_announcements()
 	{
@@ -118,7 +100,7 @@ abstract class Controller_User extends Controller {
 	abstract function action_myprofile();
 
 	/**
-	 * Change password
+	 * Show change password form
 	 */
 	protected function action_password()
 	{
@@ -137,7 +119,7 @@ abstract class Controller_User extends Controller {
 	}
 
 	/**
-	 * Show "About"
+	 * Show about
 	 */
 	protected function action_about()
 	{
@@ -149,7 +131,7 @@ abstract class Controller_User extends Controller {
 	}
 
 	/**
-	 * Show OAMS Manual
+	 * Show UP-OAMS Manual
 	 */
 	protected function action_manual()
 	{

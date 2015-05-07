@@ -2,17 +2,25 @@
 
 class Controller_Faculty_Accom extends Controller_Faculty {
 
+	private $accom;
+
+	public function before()
+	{
+		parent::before();
+
+		$this->accom = new Model_Accom;
+	}
+
 	/**
-	 * Faculty's Accomplishment Reports
+	 * List faculty reports
 	 */
 	public function action_index()
 	{
-		$accom = new Model_Accom;
-
 		$submit = $this->session->get_once('submit');
 		$delete = $this->session->get_once('delete');
 		$error = $this->session->get_once('error');
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, FALSE);
+		
+		$accom_reports = $this->accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, FALSE);
 
 		$this->view->content = View::factory('faculty/accom/list/faculty')
 			->bind('submit', $submit)
@@ -23,23 +31,21 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * Faculty's Accomplishments
+	 * List faculty accomplishments
 	 */
 	public function action_all()
 	{
-		$accom = new Model_Accom;
-
-		$name = $this->session->get('fullname2');
+		$fullname = $this->session->get('fullname2');
 		$identifier = $this->session->get('identifier');
-		$accom_reports = $accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, TRUE);
+		$accom_reports = $this->accom->get_faculty_accom($this->session->get('user_ID'), NULL, NULL, TRUE);
 
+		$reports = array();
 		if ($accom_reports)
 		{
-			$reports = array();
 			$accom_IDs = array();
 			foreach ($accom_reports as $report)
 			{
-				if (in_array($report['status'], array('Accepted', 'Pending', 'Saved')))
+				if (in_array($report['status'], array('Saved', 'Pending', 'Accepted')))
 				{
 					$reports[] = $report;
 					$accom_IDs[] = $report['accom_ID'];
@@ -48,20 +54,20 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 			if ($accom_IDs)
 			{
-				$pub = $accom->get_accoms($accom_IDs, 'pub');
-				$awd = $accom->get_accoms($accom_IDs, 'awd');
-				$rch = $accom->get_accoms($accom_IDs, 'rch');
-				$ppr = $accom->get_accoms($accom_IDs, 'ppr');
-				$ctv = $accom->get_accoms($accom_IDs, 'ctv');
-				$par = $accom->get_accoms($accom_IDs, 'par');
-				$mat = $accom->get_accoms($accom_IDs, 'mat');
-				$oth = $accom->get_accoms($accom_IDs, 'oth');
+				$pub = $this->accom->get_accoms($accom_IDs, 'pub');
+				$awd = $this->accom->get_accoms($accom_IDs, 'awd');
+				$rch = $this->accom->get_accoms($accom_IDs, 'rch');
+				$ppr = $this->accom->get_accoms($accom_IDs, 'ppr');
+				$ctv = $this->accom->get_accoms($accom_IDs, 'ctv');
+				$par = $this->accom->get_accoms($accom_IDs, 'par');
+				$mat = $this->accom->get_accoms($accom_IDs, 'mat');
+				$oth = $this->accom->get_accoms($accom_IDs, 'oth');
 			}
 		}
 
 		$this->view->content = View::factory('faculty/accom/list/faculty_all')
 			->bind('accom_reports', $reports)
-			->bind('name', $name)
+			->bind('fullname', $fullname)
 			->bind('accom_pub', $pub)
 			->bind('accom_awd', $awd)
 			->bind('accom_rch', $rch)
@@ -75,28 +81,26 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * New Accomplishment Report
+	 * New report
 	 */
 	public function action_new()
 	{
-		$accom = new Model_Accom;
-
 		if (($this->request->post('report_type') == 'new') AND ($this->request->post('yearmonth')))
 		{
 			$details['user_ID'] = $this->session->get('user_ID');
 			$details['yearmonth'] = date('Y-m-d', strtotime('01 '.$this->request->post('yearmonth')));
 			
-			$insert_success = $accom->initialize($details);
+			$insert_success = $this->accom->initialize($details);
 
 			if (is_numeric($insert_success))
 			{
-				$accom_details = $accom->get_details($insert_success);
+				$accom_details = $this->accom->get_details($insert_success);
 				$this->session->set('accom_details', $accom_details);
 				$this->show_draft();
 			}
 			elseif (is_array($insert_success))
 			{
-				$accom_details = $accom->get_details($insert_success['accom_ID']);
+				$accom_details = $this->accom->get_details($insert_success['accom_ID']);
 				$this->session->set('accom_details', $accom_details);
 				$this->session->set('warning', $insert_success['message']);
 				$this->show_draft();
@@ -114,121 +118,106 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * View Accomplishment Report (PDF)
+	 * Preview report
 	 */
 	public function action_preview()
 	{
-		$accom = new Model_Accom;
-
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID);
-		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
+		$accom_details = $this->accom->get_details($accom_ID);
 
-		if (!$accom_details['document'] OR $accom_details['status'] == 'Returned')
-		{
-			$draft = $this->session->get_once('pdf_draft');
-
-			if ($draft)
-			{
-				$accom_details['draft'] = $draft;
-				$this->view->content = View::factory('faculty/accom/view/faculty')
-					->bind('accom_details', $accom_details);
-				$this->response->body($this->view->render());
-			}
-			else
-				$this->redirect('extras/mpdf/preview/accom/'.$accom_details['accom_ID']);
-
-			$accom_details['draft'] = $draft;
-		}
-		else
-			$accom_details['draft'] = NULL;
-
+		$accom_details['draft'] = ($this->is_mutable($accom_ID)
+			? Request::factory('extras/mpdf/preview/accom/'.$accom_details['accom_ID'])
+				->execute()
+				->body
+			: NULL);
+		
 		$this->view->content = View::factory('faculty/accom/view/faculty')
 			->bind('accom_details', $accom_details);
 		$this->response->body($this->view->render());
 	}
 
 	/**
-	 * Edit Accomplishment Report
+	 * Edit report
 	 */
 	public function action_update()
 	{
-		$accom = new Model_Accom;
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID);
-		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
-		if (($accom_details['status'] == 'Accepted') OR ($accom_details['status'] == 'Pending'))
+		if ($this->is_mutable($accom_ID))
 		{
-			$this->session->set('error', 'Accomplishment Report is locked for editing.');
-			$this->redirect('faculty/accom'); //401
-		}
-		else
-		{
+			$accom_details = $this->accom->get_details($accom_ID);
 			$this->session->set('accom_details', $accom_details);
 			$this->show_draft();
 		}
+		else
+		{
+			$this->session->set('error', 'Accomplishment Report is locked for editing.');
+			$this->redirect('faculty/accom');
+		}
 	}
 
 	/**
-	 * Delete Accomplishment Report
+	 * Delete report
 	 */
 	public function action_delete()
 	{
-		$accom = new Model_Accom;
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID);
-		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
-		
-		if (($accom_details['status'] == 'Accepted') OR ($accom_details['status'] == 'Pending'))
+
+		if ($this->is_mutable($accom_ID))
 		{
-			$this->session->set('error', 'Accomplishment Report is locked for editing.');
-			$this->redirect('faculty/accom'); //401
-		}
-		else
-		{
-			$delete_success = $accom->delete($accom_ID);
+			$delete_success = $this->accom->delete($accom_ID);
 			$this->session->set('delete', $delete_success);
 			$this->redirect('faculty/accom', 303);
 		}
+		else
+		{
+			$this->session->set('error', 'Accomplishment Report is locked for editing.');
+			$this->redirect('faculty/accom');
+		}
 	}
 
 	/**
-	 * Submit Accomplishment Report
+	 * Submit report
 	 */
 	public function action_submit()
 	{
-		$accom = new Model_Accom;
-
 		$accom_ID = $this->request->param('id');
-		$accom_details = $accom->get_details($accom_ID);
+		
+		$accom_details = $this->accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
+		
 		$this->session->set('accom_type', 'faculty');
-		$this->redirect('extras/mpdf/submit/accom/'.$accom_ID);
+		$details['document'] = Request::factory('extras/mpdf/submit/accom/'.$accom_ID)->execute()->body;
+		$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
+		$details['date_submitted'] = date('Y-m-d');
+		
+		$submit_success = $this->accom->update($accom_ID, $details);
+		$this->session->set('submit', $submit_success);
+		$this->redirect('faculty/accom', 303);
 	}
 
 	/**
-	 * View Accomplishment Report (Draft)
+	 * Show report draft
 	 */
 	private function show_draft()
 	{
-		$accom = new Model_Accom;
 		$univ = new Model_Univ;
 
-		$label = date('F Y', strtotime($this->session->get('accom_details')['yearmonth']));
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
+		
 		$accom_ID = $this->session->get('accom_details')['accom_ID'];
-
-		$pub = $accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
-		$awd = $accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
-		$rch = $accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
-		$ppr = $accom->get_accoms($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
-		$ctv = $accom->get_accoms($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
-		$par = $accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
-		$mat = $accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
-		$oth = $accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
+		$label = date('F Y', strtotime($this->session->get('accom_details')['yearmonth']));
+		
+		$pub = $this->accom->get_accoms($accom_ID, 'pub'); $this->session->set('accom_pub', $pub);
+		$awd = $this->accom->get_accoms($accom_ID, 'awd'); $this->session->set('accom_awd', $awd);
+		$rch = $this->accom->get_accoms($accom_ID, 'rch'); $this->session->set('accom_rch', $rch);
+		$ppr = $this->accom->get_accoms($accom_ID, 'ppr'); $this->session->set('accom_ppr', $ppr);
+		$ctv = $this->accom->get_accoms($accom_ID, 'ctv'); $this->session->set('accom_ctv', $ctv);
+		$par = $this->accom->get_accoms($accom_ID, 'par'); $this->session->set('accom_par', $par);
+		$mat = $this->accom->get_accoms($accom_ID, 'mat'); $this->session->set('accom_mat', $mat);
+		$oth = $this->accom->get_accoms($accom_ID, 'oth'); $this->session->set('accom_oth', $oth);
 		$accoms = array_merge($pub, $awd, $rch, $ctv, $par, $mat, $oth);
 
 		// $university = $univ->get_university();
@@ -249,44 +238,53 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 	}
 
 	/**
-	 * Consolidate Accomplishment Reports
+	 * Consolidate reports
 	 */
 	private function consolidate_accoms()
 	{
-		$accom = new Model_Accom;
-
 		$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
-		$accom_ID = $accom->get_faculty_accom($this->session->get('user_ID'), $start, $end, TRUE);
+		$accom_ID = $this->accom->get_faculty_accom($this->session->get('user_ID'), $start, $end, TRUE);
 
 		if ($accom_ID)
 		{
-			$consolidate_data['accoms']['pub'] = $accom->get_accoms($accom_ID, 'pub');
-			$consolidate_data['accoms']['awd'] = $accom->get_accoms($accom_ID, 'awd');
-			$consolidate_data['accoms']['rch'] = $accom->get_accoms($accom_ID, 'rch');
-			$consolidate_data['accoms']['ppr'] = $accom->get_accoms($accom_ID, 'ppr');
-			$consolidate_data['accoms']['ctv'] = $accom->get_accoms($accom_ID, 'ctv');
-			$consolidate_data['accoms']['par'] = $accom->get_accoms($accom_ID, 'par');
-			$consolidate_data['accoms']['mat'] = $accom->get_accoms($accom_ID, 'mat');
-			$consolidate_data['accoms']['oth'] = $accom->get_accoms($accom_ID, 'oth');
+			$consolidate_data['accoms']['pub'] = $this->accom->get_accoms($accom_ID, 'pub');
+			$consolidate_data['accoms']['awd'] = $this->accom->get_accoms($accom_ID, 'awd');
+			$consolidate_data['accoms']['rch'] = $this->accom->get_accoms($accom_ID, 'rch');
+			$consolidate_data['accoms']['ppr'] = $this->accom->get_accoms($accom_ID, 'ppr');
+			$consolidate_data['accoms']['ctv'] = $this->accom->get_accoms($accom_ID, 'ctv');
+			$consolidate_data['accoms']['par'] = $this->accom->get_accoms($accom_ID, 'par');
+			$consolidate_data['accoms']['mat'] = $this->accom->get_accoms($accom_ID, 'mat');
+			$consolidate_data['accoms']['oth'] = $this->accom->get_accoms($accom_ID, 'oth');
 
 			$consolidate_data['start'] = $start;
 			$consolidate_data['end'] = $end;
 			$this->session->set('consolidate_data', $consolidate_data);
 			$this->session->set('accom_type', 'faculty');
-			$this->redirect('extras/mpdf/consolidate/accom-consolidated');
+			Request::factory('extras/mpdf/accom-consolidated/')->execute();
 		}
 		else
 		{
 			$period = $this->request->post('start').' - '.$this->request->post('end');
 
 			if ($this->session->get('identifier') == 'faculty')
-				$this->session->set('error', 'There are no approved reports to consolidate in the period '.$period.'.');
+				$this->session->set('error', 'There are no accepted reports to consolidate in the period '.$period.'.');
 			else
 				$this->session->set('error', 'There are no saved reports to consolidate in the period '.$period.'.');
 
 			$this->redirect('faculty/accom', 303);
 		}
+	}
+
+	/**
+	 * Check if report is mutabable
+	 */
+	private function is_mutable($accom_ID)
+	{
+		$accom_details = $this->accom->get_details($accom_ID);
+		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
+		
+		return in_array($accom_details['status'], array('Draft', 'Saved', 'Returned'));
 	}
 
 } // End Accom

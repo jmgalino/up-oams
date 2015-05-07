@@ -48,7 +48,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 		{
 			// Post 'cuma_ID'
 			$this->response = Request::factory('faculty/cuma/draft')
-				->post($insert_success)
+				->post(array('cuma_ID' => $insert_success))
 				->execute();
 		}
 		elseif (is_array($insert_success))
@@ -74,8 +74,11 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$cuma_ID = $this->request->param('id');
 		$cuma_details = $this->cuma->get_details($cuma_ID);
-		$cuma_details['draft'] = ($this->can_be_modified($cuma_ID)
-			? Request::factory('extras/mpdf/preview/cuma/'.$cuma_ID)->execute()->body
+
+		$cuma_details['draft'] = ($this->is_mutable($cuma_ID)
+			? Request::factory('extras/mpdf/preview/cuma/'.$cuma_ID)
+				->execute()
+				->body
 			: NULL);
 		
 		$this->view->content = View::factory('faculty/cuma/view/faculty')
@@ -90,7 +93,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$cuma_ID = $this->request->param('id');
 		
-		if ($this->can_be_modified($cuma_ID))
+		if ($this->is_mutable($cuma_ID))
 		{
 			$this->response = Request::factory('faculty/cuma/draft')
 				->post(array('cuma_ID' => $cuma_ID))
@@ -111,7 +114,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$cuma_ID = $this->request->param('id');
 		
-		if ($this->can_be_modified($cuma_ID))
+		if ($this->is_mutable($cuma_ID))
 		{
 			$delete_success = $this->cuma->delete($cuma_ID);
 			$this->response = Request::factory('faculty/cuma')
@@ -133,7 +136,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$cuma_ID = $this->request->param('id');
 		
-		if ($this->can_be_modified($cuma_ID))
+		if ($this->is_mutable($cuma_ID))
 		{
 			$publish_success = $this->cuma->update(array(
 				'cuma_ID' => $cuma_ID,
@@ -191,7 +194,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	/**
 	 * Checks if CUMA is modifiable i.e. status is 'Draft'
 	 */
-	private function can_be_modified($cuma_ID)
+	private function is_mutable($cuma_ID)
 	{
 		$cuma_details = $this->cuma->get_details($cuma_ID);
 		$this->action_check($cuma_details['user_ID']); // Redirects if not the owner

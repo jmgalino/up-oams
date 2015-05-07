@@ -1,36 +1,3 @@
-<?php
-function redate($start, $end)
-{
-	$date = '';
-
-	$stime = strtotime($start);
-	$sdate = date('d', $stime);
-	$smonth = date('F', $stime);
-	$syear = date('Y', $stime);
-
-	$etime = strtotime($end);
-	$edate = date('d', $etime);
-	$emonth = date('F', $etime);
-	$eyear = date('Y', $etime);
-
-	if (($smonth == $emonth) AND ($syear == $eyear))
-	{
-		if ($sdate == $edate)
-		{
-			$date = date('F d, Y', strtotime($start));
-		}
-		else
-		{
-			$date = $smonth.' '.$sdate.'-'.$edate.', '.$syear;
-		}
-	}
-	else
-		$date = date('F d, Y', strtotime($start)).' - '.date('F d, Y', strtotime($end));
-
-	return $date;
-}
-?>
-
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
@@ -70,23 +37,23 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_pub as $pub)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $name;
+		$author = $fullname;
 
-		if ($pub['author']) echo ' and ', $pub['author'];
+		if ($pub['author'])
+			$author .= ' and '.$pub['author'];
 
-		echo '</td>';
-		echo '<td>', $pub['year'], '</td>';
-		echo '<td>', $pub['title'], '</td>';
-		echo '<td>', $pub['type'], '</td>';
-		echo '<td>';
-
-		echo ($pub['type'] === 'Journal'
+		$details = ($pub['type'] === 'Journal'
 			? $pub['journal_volume'].'('.$pub['journal_issue'].'): '
 			: $pub['book_publisher'].'. '.$pub['book_place'].'. ');
 
-		echo $pub['year'], '</td>';
-		echo '</tr>';
+		echo
+		'<tr>
+			<td class="first">', $author, '</td>
+			<td>', $pub['year'], '</td>
+			<td>', $pub['title'], '</td>
+			<td>', $pub['type'], '</td>
+			<td>', $details, $pub['page'], '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -109,11 +76,19 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_awd as $awd)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $awd['award'], '</td>';
-		echo '<td>', redate($awd['start'], $awd['end']), '</td>';
-		echo '<td>', $awd['source'], '</td>';
-		echo '</tr>';
+		$duration = Request::factory('extras/reconstructor/redate')
+			->post(array(
+				'start' => $awd['start'],
+				'end' => $awd['end']))
+			->execute()
+			->body;
+
+		echo 
+		'<tr>
+			<td class="first">', $awd['award'], '</td>
+			<td>', $duration, '</td>
+			<td>', $awd['source'], '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -141,21 +116,27 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_rch as $rch)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $rch['title'], '</td>';
-		echo '<td>';
-
-		echo ($rch['fund_external'] 
+		$fund_source = ($rch['fund_external']
 			? $rch['fund_up']
 				? 'UP System Research Grant and '.$rch['fund_external']
 				: $rch['fund_external']
 			: 'UP System Research Grant');
 
-		echo '</td>';
-		echo '<td>', redate($rch['start'], $rch['end']), '</td>';
-		echo '<td>Php ', number_format($rch['fund_amount'], 2), '</td>';
-		echo '<td>Php ', number_format($rch['fund_up'], 2), '</td>';
-		echo '</tr>';
+		$duration = Request::factory('extras/reconstructor/redate')
+			->post(array(
+				'start' => $rch['start'],
+				'end' => $rch['end']))
+			->execute()
+			->body;
+
+		echo
+		'<tr>
+			<td class="first">', $rch['title'], '</td>
+			<td>', $fund_source, '</td>
+			<td>', $duration, '</td>
+			<td>Php ', number_format($rch['fund_amount'], 2), '</td>
+			<td>Php ', number_format($rch['fund_up'], 2), '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -180,17 +161,26 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_ppr as $ppr)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $name;
+		$author = $fullname;
 
-		if ($ppr['author']) echo ' and ', $ppr['author'];
+		if ($ppr['author'])
+			$author .= ' and '.$ppr['author'];
 
-		echo '</td>';
-		echo '<td>', $ppr['title'], '</td>';
-		echo '<td>', $ppr['activity'], '</td>';
-		echo '<td>', $ppr['venue'], '</td>';
-		echo '<td>', redate($ppr['start'], $ppr['end']), '</td>';
-		echo '</tr>';
+		$dates = Request::factory('extras/reconstructor/redate')
+			->post(array(
+				'start' => $ppr['start'],
+				'end' => $ppr['end']))
+			->execute()
+			->body;
+
+		echo
+		'<tr>
+			<td class="first">', $author, '</td>
+			<td>', $ppr['title'], '</td>
+			<td>', $ppr['activity'], '</td>
+			<td>', $ppr['venue'], '</td>
+			<td>', $dates, '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -214,16 +204,25 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_ctv as $ctv)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $name;
+		$author = $fullname;
 
-		if ($ctv['author']) echo ' and ', $ctv['author'];
+		if ($ctv['author'])
+			$author .= ' and '.$ctv['author'];
 
-		echo '</td>';
-		echo '<td>', $ctv['title'], '</td>';
-		echo '<td>', $ctv['venue'], '</td>';
-		echo '<td>', redate($ctv['start'], $ctv['end']), '</td>';
-		echo '</tr>';
+		$dates = Request::factory('extras/reconstructor/redate')
+			->post(array(
+				'start' => $ctv['start'],
+				'end' => $ctv['end']))
+			->execute()
+			->body;
+
+		echo
+		'<tr>
+			<td class="first">', $faculty, '</td>
+			<td>', $ctv['title'], '</td>
+			<td>', $ctv['venue'], '</td>
+			<td>', $dates, '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -247,12 +246,20 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_par as $par)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $par['participation'], '</td>';
-		echo '<td>', $par['title'], '</td>';
-		echo '<td>', $par['venue'], '</td>';
-		echo '<td>', redate($par['start'], $par['end']), '</td>';
-		echo '</tr>';
+		$dates = Request::factory('extras/reconstructor/redate')
+			->post(array(
+				'start' => $par['start'],
+				'end' => $par['end']))
+			->execute()
+			->body;
+
+		echo
+		'<tr>
+			<td class="first">', $par['participation'], '</td>
+			<td>', $par['title'], '</td>
+			<td>', $par['venue'], '</td>
+			<td>', $dates, '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -275,15 +282,17 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_mat as $mat)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $name;
+		$author = $fullname;
 
-		if ($mat['author']) echo ' and ', $mat['author'];
+		if ($mat['author'])
+			$author .= ' and '.$mat['author'];
 
-		echo '</td>';
-		echo '<td>', $mat['year'], '</td>';
-		echo '<td>', $mat['title'], '</td>';
-		echo '</tr>';
+		echo
+		'<tr>
+			<td class="first">', $author, '</td>
+			<td>', $mat['year'], '</td>
+			<td>', $mat['title'], '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -307,12 +316,20 @@ function redate($start, $end)
 	<?php
 	foreach ($accom_oth as $oth)
 	{
-		echo '<tr>';
-		echo '<td class="first">', $oth['participation'], '</td>';
-		echo '<td>', $oth['activity'], '</td>';
-		echo '<td>', $oth['venue'], '</td>';
-		echo '<td>', redate($oth['start'], $oth['end']), '</td>';
-		echo '</tr>';
+		$dates = Request::factory('extras/reconstructor/redate')
+			->post(array(
+				'start' => $oth['start'],
+				'end' => $oth['end']))
+			->execute()
+			->body;
+
+		echo
+		'<tr>
+			<td class="first">', $oth['participation'], '</td>
+			<td>', $oth['activity'], '</td>
+			<td>', $oth['venue'], '</td>
+			<td>', $dates, '</td>
+		</tr>';
 	}
 	?>
 	</tbody>
@@ -332,4 +349,4 @@ function redate($start, $end)
 </div>
 <?php endif; ?>
 
-<span class="help-block">Note: Only accomplishments from <?php echo ($identifier == 'faculty' ? 'approved' : 'saved')?> reports will be included.</span>
+<span class="help-block">Note: Only accomplishments from <?php echo ($identifier == 'faculty' ? 'accepted' : 'saved')?> reports will be included.</span>

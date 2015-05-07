@@ -93,6 +93,8 @@
 </div>
 
 <!-- List of all accomplishments -->
+<hr>
+<div>
 <?php 
 echo View::factory('faculty/profile/accomplishments')
 	->bind('accom_reports', $accom_reports)
@@ -107,5 +109,6 @@ echo View::factory('faculty/profile/accomplishments')
 	->bind('accom_oth', $accom_oth)
 	->bind('user', $user);
 ?>
+</div>
 
 <?php endif; ?>

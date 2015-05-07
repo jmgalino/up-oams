@@ -23,23 +23,23 @@
 		<?php
 		foreach ($accom_pub as $pub)
 		{
-			echo '<tr>';
-			echo '<td class="first">', $fullname;
+			$author = $fullname;
 
-			if ($pub['author']) echo ' and ', $pub['author'];
+			if ($pub['author'])
+				$author .= ' and '.$pub['author'];
 
-			echo '</td>';
-			echo '<td>', $pub['year'], '</td>';
-			echo '<td>', $pub['title'], '</td>';
-			echo '<td>', $pub['type'], '</td>';
-			echo '<td>';
-
-			echo ($pub['type'] === 'Journal'
+			$details = ($pub['type'] === 'Journal'
 				? $pub['journal_volume'].'('.$pub['journal_issue'].'): '
 				: $pub['book_publisher'].'. '.$pub['book_place'].'. ');
 
-			echo $pub['year'], '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $author, '</td>
+				<td>', $pub['year'], '</td>
+				<td>', $pub['title'], '</td>
+				<td>', $pub['type'], '</td>
+				<td>', $details, $pub['page'], '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -69,11 +69,12 @@
 				->execute()
 				->body;
 
-			echo '<tr>';
-			echo '<td class="first">', $awd['award'], '</td>';
-			echo '<td>', $duration, '</td>';
-			echo '<td>', $awd['source'], '</td>';
-			echo '</tr>';
+			echo 
+			'<tr>
+				<td class="first">', $awd['award'], '</td>
+				<td>', $duration, '</td>
+				<td>', $awd['source'], '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -101,6 +102,12 @@
 		<?php
 		foreach ($accom_rch as $rch)
 		{
+			$fund_source = ($rch['fund_external']
+			? $rch['fund_up']
+				? 'UP System Research Grant and '.$rch['fund_external']
+				: $rch['fund_external']
+			: 'UP System Research Grant');
+
 			$duration = Request::factory('extras/reconstructor/redate')
 				->post(array(
 					'start' => $rch['start'],
@@ -108,21 +115,14 @@
 				->execute()
 				->body;
 
-			echo '<tr>';
-			echo '<td class="first">', $rch['title'], '</td>';
-			echo '<td>';
-
-			echo ($rch['fund_external'] 
-				? $rch['fund_up']
-					? 'UP System Research Grant and '.$rch['fund_external']
-					: $rch['fund_external']
-				: 'UP System Research Grant');
-
-			echo '</td>';
-			echo '<td>', $duration, '</td>';
-			echo '<td>Php ', number_format($rch['fund_amount'], 2), '</td>';
-			echo '<td>Php ', number_format($rch['fund_up'], 2), '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $rch['title'], '</td>
+				<td>', $fund_source, '</td>
+				<td>', $duration, '</td>
+				<td>Php ', number_format($rch['fund_amount'], 2), '</td>
+				<td>Php ', number_format($rch['fund_up'], 2), '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -147,6 +147,11 @@
 		<?php
 		foreach ($accom_ppr as $ppr)
 		{
+			$author = $fullname;
+
+			if ($ppr['author'])
+				$author .= ' and '.$ppr['author'];
+
 			$dates = Request::factory('extras/reconstructor/redate')
 				->post(array(
 					'start' => $ppr['start'],
@@ -154,17 +159,14 @@
 				->execute()
 				->body;
 
-			echo '<tr>';
-			echo '<td class="first">', $fullname;
-
-			if ($ppr['author']) echo ' and ', $ppr['author'];
-
-			echo '</td>';
-			echo '<td>', $ppr['title'], '</td>';
-			echo '<td>', $ppr['activity'], '</td>';
-			echo '<td>', $ppr['venue'], '</td>';
-			echo '<td>', $dates, '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $author, '</td>
+				<td>', $ppr['title'], '</td>
+				<td>', $ppr['activity'], '</td>
+				<td>', $ppr['venue'], '</td>
+				<td>', $dates, '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -188,6 +190,11 @@
 		<?php
 		foreach ($accom_ctv as $ctv)
 		{
+			$author = $fullname;
+
+			if ($ctv['author'])
+				$author .= ' and '.$ctv['author'];
+
 			$dates = Request::factory('extras/reconstructor/redate')
 				->post(array(
 					'start' => $ctv['start'],
@@ -195,16 +202,13 @@
 				->execute()
 				->body;
 
-			echo '<tr>';
-			echo '<td class="first">', $fullname;
-
-			if ($ctv['author']) echo ' and ', $ctv['author'];
-
-			echo '</td>';
-			echo '<td>', $ctv['title'], '</td>';
-			echo '<td>', $ctv['venue'], '</td>';
-			echo '<td>', $dates, '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $faculty, '</td>
+				<td>', $ctv['title'], '</td>
+				<td>', $ctv['venue'], '</td>
+				<td>', $dates, '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -235,12 +239,13 @@
 				->execute()
 				->body;
 
-			echo '<tr>';
-			echo '<td class="first">', $par['participation'], '</td>';
-			echo '<td>', $par['title'], '</td>';
-			echo '<td>', $par['venue'], '</td>';
-			echo '<td>', $dates, '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $par['participation'], '</td>
+				<td>', $par['title'], '</td>
+				<td>', $par['venue'], '</td>
+				<td>', $dates, '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -263,15 +268,17 @@
 		<?php
 		foreach ($accom_mat as $mat)
 		{
-			echo '<tr>';
-			echo '<td class="first">', $fullname;
+			$author = $fullname;
 
-			if ($mat['author']) echo ' and ', $mat['author'];
+			if ($mat['author'])
+				$author .= ' and '.$mat['author'];
 
-			echo '</td>';
-			echo '<td>', $mat['year'], '</td>';
-			echo '<td>', $mat['title'], '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $author, '</td>
+				<td>', $mat['year'], '</td>
+				<td>', $mat['title'], '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -302,12 +309,13 @@
 				->execute()
 				->body;
 
-			echo '<tr>';
-			echo '<td class="first">', $oth['participation'], '</td>';
-			echo '<td>', $oth['activity'], '</td>';
-			echo '<td>', $oth['venue'], '</td>';
-			echo '<td>', $dates, '</td>';
-			echo '</tr>';
+			echo
+			'<tr>
+				<td class="first">', $oth['participation'], '</td>
+				<td>', $oth['activity'], '</td>
+				<td>', $oth['venue'], '</td>
+				<td>', $dates, '</td>
+			</tr>';
 		}
 		?>
 		</tbody>
@@ -321,5 +329,5 @@
 	</div>
 	<?php endif; ?>
 
-	<span class="help-block">Note: Only accomplishments from <?php echo ($user['position'] == 'dean' ? 'saved' : 'approved')?> reports will be included.</span>
+	<span class="help-block">Note: Only accomplishments from <?php echo ($user['position'] == 'dean' ? 'saved' : 'accepted')?> reports will be included.</span>
 </div>

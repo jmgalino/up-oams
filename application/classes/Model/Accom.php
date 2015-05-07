@@ -189,7 +189,7 @@ class Model_Accom extends Model {
 	/**
 	 * Submit report
 	 */
-	public function submit($accom_ID, $details)
+	public function update($accom_ID, $details)
 	{
 		$rows_updated = DB::update('accomtbl')
  			->set($details)

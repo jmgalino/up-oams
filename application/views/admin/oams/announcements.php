@@ -62,7 +62,6 @@ echo View::factory('admin/oams/form/announcement');
 			</td>
 			</tr>';
 
-
 		// echo '<td class="dropdown">
 		// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 		// 		<ul class="dropdown-menu">

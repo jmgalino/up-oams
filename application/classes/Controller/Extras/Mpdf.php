@@ -160,8 +160,7 @@ class Controller_Extras_Mpdf extends Controller {
 			$filepath = DOCROOT.'files/tmp/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4', 55, $header);
 
-			$this->session->set('pdf_draft', $filename);
-			$this->redirect('faculty/accom/preview/'.$accom_ID);
+			$this->response->body = $filename;
 		}
 		
 		// Generate PDF to submit
@@ -170,13 +169,7 @@ class Controller_Extras_Mpdf extends Controller {
 			$filepath = DOCROOT.'files/document_accom/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4', 55, $header);
 
-			$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
-			$details['document'] = $filename;
-			$details['date_submitted'] = date('Y-m-d');
-
-			$submit_success = $accom->submit($accom_ID, $details);
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/accom', 303);
+			$this->response->body = $filename;
 		}
 	}
 

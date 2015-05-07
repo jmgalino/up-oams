@@ -2,8 +2,8 @@
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
 	<li><a href=<?php echo ($identifier == 'chair'
-		? URL::site('faculty/accom_dept').'>Accomplishment Reports - Department'
-		: URL::site('faculty/accom_coll').'>Accomplishment Reports - College'); ?></a></li>
+		? URL::site('faculty/dept/accom').'>Accomplishment Reports - Department'
+		: URL::site('faculty/coll/accom').'>Accomplishment Reports - College'); ?></a></li>
 	<li class="active">View Accomplishment Report</li>
 </ol>
 
@@ -36,10 +36,12 @@ echo View::factory('faculty/accom/form/evaluate')
 			<hr style="border-top: dotted 1px;">
 			<?php endif; ?>
 			<li style="padding:10 15">
+				<?php if (!$user_flag): ?>
 				<dl>
 					<dt>Faculty</dt>
 					<dd><?php echo $faculty; ?></dd>
 				</dl>
+				<?php endif; ?>
 				<dl>
 					<dt>Period</dt>
 					<dd><?php echo date('F Y', strtotime($accom_details['yearmonth'])); ?></dd>

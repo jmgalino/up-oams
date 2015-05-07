@@ -128,7 +128,7 @@ class Model_Oams extends Model {
 			->order_by('date', 'DESC')
 			->execute()
 			->as_array();
-			
+
 		return $announcements;
 	}
 

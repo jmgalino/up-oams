@@ -147,7 +147,7 @@ Route::set('session', '<action>',
  */
 Route::set('user-functions', '<controller>/<action>',
 	array(
-		'controller'=> '(user|admin|faculty)',
+		'controller'=> '(admin|faculty)',
 		'action'	=> '(index|error|announcements|myprofile|password|about|manual|)'
 	))
 	->defaults(array(
@@ -170,21 +170,27 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<docume
 /**
  * Routes for Faculty Users
  */
-Route::set('dean-functions', 'faculty/coll/<action>(/<id>)')
-	->defaults(array(
-		'controller'=> 'dean'
-	));
-Route::set('chair-functions', 'faculty/dept/<action>(/<id>)')
-	->defaults(array(
-		'controller'=> 'chair'
-	));
 Route::set('faculty-functions', '<controller>/<action>(/<id>)',
 	array(
 		'controller'=> 'faculty',
-		'action'	=> '(before|myprofile|contact)'
+		'action'	=> '(myprofile|contact|check)'
 	))
 	->defaults(array(
 		'action'	=> 'index'
+	));
+Route::set('chair-functions', 'faculty/dept/<action>(/<type>)(/<id>)',
+	array(
+		'type'		=>	'(all|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'chair'
+	));
+Route::set('dean-functions', 'faculty/coll/<action>(/<type>)(/<id>)',
+	array(
+		'type'		=>	'(all|view|evaluate|consolidate)'
+	))
+	->defaults(array(
+		'controller'=> 'dean'
 	));
 
 // accom_spec
@@ -207,28 +213,6 @@ Route::set('accom-functions', '<directory>/<controller>(/<action>(/<id>))',
 	))
 	->defaults(array(
 	    'action'     => 'index'
-	));
-
-// accom_dept
-Route::set('accom_dept-functions', '<directory>/accom_dept(/<action>(/<id>))',
-	array(
-		'directory' => 'faculty',
-		'action'	=> '(dept|all|view|evaluate|consolidate)'
-	))
-	->defaults(array(
-		'controller'=> 'accomgroup',
-		'action'	=> 'dept'
-	));
-
-// accom_coll
-Route::set('accom_coll-functions', '<directory>/accom_coll(/<action>(/<id>))',
-	array(
-		'directory' => 'faculty',
-		'action'	=> '(coll|all|view|evaluate|consolidate)'
-	))
-	->defaults(array(
-		'controller'=> 'accomgroup',
-		'action'	=> 'coll'
 	));
 
 // ipcr
@@ -297,7 +281,7 @@ Route::set('ocpr_coll-functions', '<directory>/opcr_coll(/<action>(/<id>))',
 	));
 
 // mpdf
-Route::set('mpdf', '<directory>/<controller>/<purpose>/<type>(/<id>)',
+Route::set('mpdf', '<directory>/<controller>(/<purpose>)/<type>(/<id>)',
 	array(
 		'directory' => 'extras',
 		'controller'=> 'mpdf',

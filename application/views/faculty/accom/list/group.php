@@ -17,8 +17,8 @@
 		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
 		        <ul class="dropdown-menu">
 					<li><a href="<?php echo ($identifier == 'chair'
-						? URL::site('faculty/accom_dept/all')
-						: URL::site('faculty/accom_coll/all')); ?>">View All Accomplishments</a></li>
+						? URL::site('faculty/dept/accom/all')
+						: URL::site('faculty/coll/accom/all')); ?>">View All Accomplishments</a></li>
 		        </ul>
 			</div>
 		</div>
@@ -88,7 +88,7 @@ echo View::factory('faculty/accom/form/consolidate')
 								<span class="glyphicon glyphicon-download"></span> Download Report</a>
 							</li>
 							<li>
-				 				<a href='.URL::site('faculty/accom_dept/view/'.$accom['accom_ID']).'>
+				 				<a href='.URL::site('faculty/dept/accom/view/'.$accom['accom_ID']).'>
 								<span class="glyphicon glyphicon-file"></span> View Report</a>
 							</li>
 						</ul>

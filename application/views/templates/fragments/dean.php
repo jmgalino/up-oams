@@ -16,7 +16,7 @@
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">Accomplishment Report <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="<?php echo URL::site('faculty/accom'); ?>">View Own</a></li>
-						<li><a href="<?php echo URL::site('faculty/accom_coll'); ?>">View College</a></li>
+						<li><a href="<?php echo URL::site('faculty/coll/accom'); ?>">View College</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
