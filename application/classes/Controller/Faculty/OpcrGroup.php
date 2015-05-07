@@ -73,24 +73,50 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 		$user = new Model_User;
 
 		$success = $this->session->get_once('success');
+		$identifier = $this->session->get('identifier');
 		
 		$opcr_ID = $this->request->param('id');
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$user_details = $user->get_details($opcr_details['user_ID'], NULL);
 		$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
 		
-		$faculty = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		$period_from = date('F Y', strtotime($opcr_details['period_from']));
 		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$period = $period_from.' - '.$period_to;
-		
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$evaluate_url = 'faculty/opcr_coll/evaluate/'.$opcr_ID;
+
 		$this->view->content = View::factory('faculty/opcr/view/group')
+			->bind('identifier', $identifier)
 			->bind('success', $success)
+			->bind('evaluate_url', $evaluate_url)
 			->bind('opcr_details', $opcr_details)
-			->bind('faculty', $faculty)
+			->bind('faculty', $fullname)
 			->bind('unit', $college_details['short'])
 			->bind('period', $period);
 		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Evaluate OPCR Form
+	 */
+	public function action_evaluate()
+	{
+		$opcr = new Model_Opcr;
+
+		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
+		
+		$opcr_ID = $this->request->param('id');
+		$details = $this->request->post();
+		
+		$details['remarks'] = ($details['remarks']
+			? $details['remarks'].' - '.$assessor
+			: $details['status'].' by '.$assessor);
+		
+		$evaluate_success = $opcr->evaluate($opcr_ID, $details);
+		$this->session->set('evaluate', $evaluate_success);
+
+		$this->redirect('faculty/opcr_coll/view/'.$opcr_ID, 303);
 	}
 
 	/**

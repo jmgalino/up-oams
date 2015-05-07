@@ -88,12 +88,12 @@ echo View::factory('faculty/accom/form/initialize')
 						<span class="glyphicon glyphicon-file"></span> Preview Report</a>
 					</li>';
 
-		if ($accom['status'] == 'Rejected')
+		if ($accom['status'] == 'Returned')
 		{
 			// Download PDF
 			echo '<li>
 					<a href='.URL::base().'files/document_accom/'.$accom['document'].' download="', $yearmonth, '">
-					<span class="glyphicon glyphicon-download"></span> Download Report (Rejected)</a>
+					<span class="glyphicon glyphicon-download"></span> Download Report (Returned)</a>
 				</li>';
 			// Download draft
 			echo '<li>
@@ -121,7 +121,7 @@ echo View::factory('faculty/accom/form/initialize')
 			}
 		}
 
-		if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Saved') OR ($accom['status'] == 'Rejected'))
+		if (($accom['status'] == 'Draft') OR ($accom['status'] == 'Saved') OR ($accom['status'] == 'Returned'))
 		{
 			echo 	'<li>
 						<a href='.URL::site('faculty/accom/update/'.$accom['accom_ID']).'>

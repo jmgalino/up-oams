@@ -79,77 +79,29 @@ class Controller_Faculty_IpcrGroup extends Controller_Faculty {
 	}
 
 	/**
-	 * Mark IPCR Form as Checked
-	 */
-	public function action_mark_checked()
-	{
-		$ipcr = new Model_Ipcr;
-
-		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID);
-		$ipcr_details['status'] = 'Checked';
-		$ipcr_details['remarks'] = 'Checked by '.$this->session->get('fullname').' '.date('(d M Y)');
-		$ipcr_details['version']++;
-		$check_success = $ipcr->update($ipcr_ID, $ipcr_details);
-		
-		if ($check_success)
-			$this->session->set('success', 'marked as \'Checked\'');
-		else
-			$this->session->set('success', FALSE);
-
-		if ($this->session->get('identifier') == 'chair') 
-			$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
-		else
-			$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
-	}
-
-	/**
-	 * Mark IPCR Form as Accepted
-	 */
-	public function action_mark_accepted()
-	{
-		$ipcr = new Model_Ipcr;
-
-		$ipcr_ID = $this->request->param('id');
-		$ipcr_details = $ipcr->get_details($ipcr_ID);
-		$ipcr_details['status'] = 'Accepted';
-		$ipcr_details['remarks'] = 'Accepted by '.$this->session->get('fullname').' '.date('(d M Y)');
-		$ipcr_details['version']++;
-		$check_success = $ipcr->update($ipcr_ID, $ipcr_details);
-		
-		if ($check_success)
-			$this->session->set('success', 'marked as \'Accepted\'');
-		else
-			$this->session->set('success', FALSE);
-
-		if ($this->session->get('identifier') == 'chair') 
-			$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
-		else
-			$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
-	}
-
-	/**
 	 * Evaluate IPCR Form
 	 */
-	// public function action_evaluate()
-	// {
-	// 	$ipcr = new Model_Ipcr;
+	public function action_evaluate()
+	{
+		$ipcr = new Model_Ipcr;
 
-	// 	$assessor = $this->session->get('fullname').' '.date('(d M Y)');
-	// 	$ipcr_ID = $this->request->param('id');
-	// 	$details = $this->request->post();
-	// 	$details['remarks'] = ($details['remarks']
-	// 		? $details['remarks'].' - '.$assessor
-	// 		: 'Checked by '.$assessor);
+		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
 		
-	// 	$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
-	// 	$this->session->set('evaluate', $evaluate_success);
+		$ipcr_ID = $this->request->param('id');
+		$details = $this->request->post();
+		
+		$details['remarks'] = ($details['remarks']
+			? $details['remarks'].' - '.$assessor
+			: $details['status'].' by '.$assessor);
+		
+		$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
+		$this->session->set('evaluate', $evaluate_success);
 
-	// 	if ($this->session->get('identifier') == 'chair') 
-	// 		$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
-	// 	else
-	// 		$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
-	// }
+		if ($this->session->get('identifier') == 'chair') 
+			$this->redirect('faculty/ipcr_dept/view/'.$ipcr_ID, 303);
+		else
+			$this->redirect('faculty/ipcr_coll/view/'.$ipcr_ID, 303);
+	}
 
 	/**
 	 * Consolidate IPCR Forms

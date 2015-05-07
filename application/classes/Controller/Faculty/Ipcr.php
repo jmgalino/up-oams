@@ -70,7 +70,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		if (!$ipcr_details['document'] OR in_array($ipcr_details['status'], array('Draft', 'Rejected', 'Accepted')) OR (($ipcr_details['status'] == 'Saved') AND $this->session->get('identifier') != 'faculty'))
+		if (!$ipcr_details['document'] OR in_array($ipcr_details['status'], array('Draft', 'Returned', 'Accepted')) OR (($ipcr_details['status'] == 'Saved') AND $this->session->get('identifier') != 'faculty'))
 		{
 			$draft = $this->session->get_once('pdf_draft');
 			

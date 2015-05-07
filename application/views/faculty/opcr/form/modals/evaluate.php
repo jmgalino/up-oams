@@ -4,7 +4,7 @@
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Evaluate Report</h4>
+        <h4 class="modal-title" id="myModalLabel">Evaluate Form</h4>
       </div>
 
       <?php print Form::open($evaluate_url, array('class'=>'form-horizontal', 'role'=>'form'));?>

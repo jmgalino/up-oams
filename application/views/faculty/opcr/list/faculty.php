@@ -86,12 +86,12 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 						<span class="glyphicon glyphicon-file"></span> Preview Report</a>
 					</li>';
 
-		if ($opcr['status'] == 'Rejected')
+		if ($opcr['status'] == 'Returned')
 		{
 			// Download PDF
 			echo '<li>
 					<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $department, ' [', $period, ']">
-					<span class="glyphicon glyphicon-download"></span> Download Form (Rejected)</a>
+					<span class="glyphicon glyphicon-download"></span> Download Form (Returned)</a>
 				</li>';
 			// Download draft
 			echo '<li>

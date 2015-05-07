@@ -47,7 +47,7 @@ class Controller_Dean extends Controller_Faculty {
 		{
 			foreach ($accom_reports as $report)
 			{
-				if (in_array($report['status'], array('Approved', 'Pending', 'Saved')))
+				if (in_array($report['status'], array('Accepted', 'Pending', 'Saved')))
 				{
 					$reports[] = $report;
 					$accom_IDs[] = $report['accom_ID'];

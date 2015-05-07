@@ -14,7 +14,7 @@ class Model_Accom extends Model {
 				$accom_IDs = DB::select('accom_ID')
 					->from('accomtbl')
 					->where('user_ID', '=', $user_ID)
-					->where('status', 'IN', array('Approved', 'Saved'))
+					->where('status', 'IN', array('Accepted', 'Saved'))
 					->where('yearmonth', '>=', $start)
 					->where('yearmonth', '<=', $end)
 					->order_by('yearmonth', 'DESC')
@@ -46,7 +46,7 @@ class Model_Accom extends Model {
 				$accom_reports = DB::select()
 					->from('accomtbl')
 					->where('user_ID', '=', $user_ID)
-					->where('status', 'IN', array('Approved', 'Saved'))
+					->where('status', 'IN', array('Accepted', 'Saved'))
 					->execute()
 					->as_array();
 			}
@@ -79,7 +79,7 @@ class Model_Accom extends Model {
 				$accom_IDs = DB::select('accom_ID')
 					->from('accomtbl')
 					->where('user_ID', 'IN', $userIDs)
-					->where('status', 'IN', array('Approved', 'Saved'))
+					->where('status', 'IN', array('Accepted', 'Saved'))
 					->where('yearmonth', '>=', $start)
 					->where('yearmonth', '<=', $end)
 					->order_by('yearmonth', 'DESC')
@@ -91,7 +91,7 @@ class Model_Accom extends Model {
 				$accom_IDs = DB::select('accom_ID')
 					->from('accomtbl')
 					->where('user_ID', 'IN', $userIDs)
-					->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
+					->where('status', 'IN', array('Accepted', 'Pending', 'Saved'))
 					->where('yearmonth', '>=', $start)
 					->where('yearmonth', '<=', $end)
 					->order_by('yearmonth', 'DESC')
@@ -118,7 +118,7 @@ class Model_Accom extends Model {
 				$accom_reports = DB::select()
 					->from('accomtbl')
 					->where('user_ID', 'IN', $userIDs)
-					->where('status', 'IN', array('Approved', 'Saved'))
+					->where('status', 'IN', array('Accepted', 'Saved'))
 			 		->execute()
 			 		->as_array();
 			}
@@ -127,7 +127,7 @@ class Model_Accom extends Model {
 				$accom_reports = DB::select()
 					->from('accomtbl')
 					->where('user_ID', 'IN', $userIDs)
-					->where('status', 'IN', array('Approved', 'Pending', 'Saved'))
+					->where('status', 'IN', array('Accepted', 'Pending', 'Saved'))
 			 		->execute()
 			 		->as_array();
 			}
@@ -166,7 +166,7 @@ class Model_Accom extends Model {
 		// Existing
 		if ($check)
  		{
- 			if (($check[0]['status'] == 'Approved') OR ($check[0]['status'] == 'Pending'))
+ 			if (($check[0]['status'] == 'Accepted') OR ($check[0]['status'] == 'Pending'))
  			{
  				return 'Accomplishment Report is locked for editing.';
  			}

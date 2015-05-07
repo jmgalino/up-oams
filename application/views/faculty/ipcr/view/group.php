@@ -25,8 +25,8 @@
 
 <?php
 // Evaluate Form
-// echo View::factory('faculty/ipcr/form/modals/evaluate')
-// 	->bind('evaluate_url', $evaluate_url);
+echo View::factory('faculty/ipcr/form/modals/evaluate')
+	->bind('evaluate_url', $evaluate_url);
 ?>
 
 <div class="row">
@@ -36,20 +36,12 @@
 
 	<div class="col-md-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
-			<?php
-			if (!$user_flag AND $ipcr_details['status'] == 'Pending')
-			{
-				echo '<li>';
-
-				if ($ipcr_details['version'] == '1')
-					echo '<a href="'.URL::site().'faculty/ipcrgroup/mark_accepted/'.$ipcr_details['ipcr_ID'].'">Mark as Accepted</a>';
-				else
-					echo '<a href="'.URL::site().'faculty/ipcrgroup/mark_checked/'.$ipcr_details['ipcr_ID'].'">Mark as Checked</a>';
-
-				echo '</li>
-				<hr style="border-top: dotted 1px;">';
-			}
-			?>
+			<?php if (!$user_flag): ?>
+			<li> 
+				<a data-toggle="modal" data-target="#modal_evaluate" role="button" href="">Evaluate Form</a>
+			</li>
+			<hr style="border-top: dotted 1px;">
+			<?php endif; ?>
 			<li style="padding:10px 15px">
 				<dl>
 					<dt>Faculty</dt>

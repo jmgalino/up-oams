@@ -39,7 +39,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$accom_IDs = array();
 			foreach ($accom_reports as $report)
 			{
-				if (in_array($report['status'], array('Approved', 'Pending', 'Saved')))
+				if (in_array($report['status'], array('Accepted', 'Pending', 'Saved')))
 				{
 					$reports[] = $report;
 					$accom_IDs[] = $report['accom_ID'];
@@ -124,7 +124,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 
-		if (!$accom_details['document'] OR $accom_details['status'] == 'Rejected')
+		if (!$accom_details['document'] OR $accom_details['status'] == 'Returned')
 		{
 			$draft = $this->session->get_once('pdf_draft');
 
@@ -158,7 +158,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
-		if (($accom_details['status'] == 'Approved') OR ($accom_details['status'] == 'Pending'))
+		if (($accom_details['status'] == 'Accepted') OR ($accom_details['status'] == 'Pending'))
 		{
 			$this->session->set('error', 'Accomplishment Report is locked for editing.');
 			$this->redirect('faculty/accom'); //401
@@ -180,7 +180,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		
-		if (($accom_details['status'] == 'Approved') OR ($accom_details['status'] == 'Pending'))
+		if (($accom_details['status'] == 'Accepted') OR ($accom_details['status'] == 'Pending'))
 		{
 			$this->session->set('error', 'Accomplishment Report is locked for editing.');
 			$this->redirect('faculty/accom'); //401

@@ -64,13 +64,14 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 		$accom = new Model_Accom;
 		$user = new Model_User;
 
+		$evaluation = $this->session->get_once('evaluation');
+		$identifier = $this->session->get('identifier');
+		
 		$accom_ID = $this->request->param('id');
 		$accom_details = $accom->get_details($accom_ID);
 		$user_details = $user->get_details($accom_details['user_ID'], NULL);
-		$user_flag = ($accom_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
 		
-		$evaluation = $this->session->get_once('evaluation');
-		$identifier = $this->session->get('identifier');
+		$user_flag = ($accom_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
 		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
 		$evaluate_url = ($identifier == 'chair' ? 'faculty/accom_dept/evaluate/'.$accom_ID : 'faculty/accom_coll/evaluate/'.$accom_ID);
 

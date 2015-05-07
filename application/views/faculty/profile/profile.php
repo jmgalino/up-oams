@@ -94,9 +94,9 @@
 
 <!-- List of all accomplishments -->
 <?php 
-echo View::factory('profile/myprofile/accomplishments')
+echo View::factory('faculty/profile/accomplishments')
 	->bind('accom_reports', $accom_reports)
-	->bind('name', $name)
+	->bind('fullname', $fullname)
 	->bind('accom_pub', $accom_pub)
 	->bind('accom_awd', $accom_awd)
 	->bind('accom_rch', $accom_rch)

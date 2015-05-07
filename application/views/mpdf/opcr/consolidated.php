@@ -11,7 +11,7 @@ function adjectival_rating($value)
 <table class="table table-bordered">
 	<tbody>
 		<tr>
-			<td class="active" style="text-align:left">Approved by:</td>
+			<td class="active" style="text-align:left">Accepted by:</td>
 			<td class="active" width="75">Date</td>
 		</tr>
 		<tr>

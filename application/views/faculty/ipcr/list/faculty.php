@@ -86,12 +86,12 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 								<span class="glyphicon glyphicon-file"></span> Preview Form</a>
 							</li>';
 
-				if ($ipcr['status'] == 'Rejected')
+				if ($ipcr['status'] == 'Returned')
 				{
 					// Download PDF
 					echo '<li>
 							<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $period, '">
-							<span class="glyphicon glyphicon-download"></span> Download Form (Rejected)</a>
+							<span class="glyphicon glyphicon-download"></span> Download Form (Returned)</a>
 						</li>';
 					// Download draft
 					echo '<li>
@@ -119,7 +119,7 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 					}
 				}
 
-				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Rejected'))
+				if (($ipcr['status'] == 'Draft') OR ($ipcr['status'] == 'Saved') OR ($ipcr['status'] == 'Returned'))
 				{
 					echo	'<li>
 								<a href='.URL::site('faculty/ipcr/update/'.$ipcr['ipcr_ID']).'>

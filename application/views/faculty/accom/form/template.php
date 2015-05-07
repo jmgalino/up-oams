@@ -112,7 +112,7 @@ echo View::factory('faculty/accom/form/modals/accom_type')->bind('session', $ses
 				?>
 			</li>
 			<?php endif; ?>
-			<?php if ($session->get('accom_details')['status'] == 'Rejected'): ?>
+			<?php if ($session->get('accom_details')['status'] == 'Returned'): ?>
 			<br><br><br>
 			<li style="padding:10px 15px; border: 1px dashed #003619"><br>
 				<dl style="padding:15px;">

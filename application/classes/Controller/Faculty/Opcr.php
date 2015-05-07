@@ -90,7 +90,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 
-		if (in_array($opcr_details['status'], array('Published', 'Rejected')))
+		if (in_array($opcr_details['status'], array('Published', 'Returned')))
 		{
 			$opcr_details['draft'] = Request::factory('extras/mpdf/preview/ipcr-consolidated/'.$opcr_ID)
 				->execute()

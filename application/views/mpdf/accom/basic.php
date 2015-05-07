@@ -106,7 +106,7 @@ echo '<br><br><br>
 		<td>
 			<table width="200">
 				<tbody>
-					<tr><td>Approved by:</td></tr>
+					<tr><td>Accepted by:</td></tr>
 					<tr><td height="50"></td></tr>
 					<tr><td style="border-bottom:1px solid #000;"></td></tr>
 					<tr><td class="text-center">', $college_details['title'], ' ', $college_details['first_name'], ' ', $college_details['middle_name'][0], '. ', $college_details['last_name'], ' ', $college_details['suffix'], '</td></tr>

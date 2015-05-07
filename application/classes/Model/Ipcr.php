@@ -131,21 +131,30 @@ class Model_Ipcr extends Model {
 	/**
 	 * Evaluate report
 	 */
-	// public function evaluate($ipcr_ID, $details)
-	// {
-	// 	$ipcr = $this->get_details($ipcr_ID);
+	public function evaluate($ipcr_ID, $details)
+	{
+		$ipcr = $this->get_details($ipcr_ID);
 
-	// 	if($ipcr['remarks'] != 'None')
-	// 		$details['remarks'] = $details['remarks'].'<br>'.$ipcr['remarks'];
+		if($ipcr['remarks'] != 'None')
+		{
+			$details['remarks'] .= '<br>'.$ipcr['remarks'];
+
+			// Check if remarks is not over 255 chars
+			while(strlen($details['remarks']) > 255)
+			{
+				$last_remark = strrpos($details['remarks'], '<br>');
+				$details['remarks'] = substr($details['remarks'], 0, $last_remark);
+			}
+		}
 		
-	// 	$rows_updated = DB::update('ipcrtbl')
- // 			->set($details)
- // 			->where('ipcr_ID', '=', $ipcr_ID)
- // 			->execute();
+		$rows_updated = DB::update('ipcrtbl')
+ 			->set($details)
+ 			->where('ipcr_ID', '=', $ipcr_ID)
+ 			->execute();
 
- // 		if ($rows_updated == 1) return TRUE;
- // 		else return FALSE; //do something
-	// }
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+	}
 
 	/**
 	 * Delete form

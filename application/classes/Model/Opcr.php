@@ -200,8 +200,30 @@ class Model_Opcr extends Model {
 	/**
 	 * Evaluate report
 	 */
-	// public function evaluate($opcr_ID, $details)
-	// {}
+	public function evaluate($opcr_ID, $details)
+	{
+		$opcr = $this->get_details($opcr_ID);
+
+		if($opcr['remarks'] != 'None')
+		{
+			$details['remarks'] .= '<br>'.$opcr['remarks'];
+
+			// Check if remarks is not over 255 chars
+			while(strlen($details['remarks']) > 255)
+			{
+				$last_remark = strrpos($details['remarks'], '<br>');
+				$details['remarks'] = substr($details['remarks'], 0, $last_remark);
+			}
+		}
+		
+		$rows_updated = DB::update('opcrtbl')
+ 			->set($details)
+ 			->where('opcr_ID', '=', $opcr_ID)
+ 			->execute();
+
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE; //do something
+	}
 
 	/**
 	 * Delete form
