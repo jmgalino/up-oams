@@ -2,9 +2,6 @@
 
 class Controller_Extras_Ajax extends Controller {
 
-	public function action_aaa()
-	{echo 'Hey';}
-
 	public function action_abc()
 	{
 		$user = new Model_User;
@@ -467,6 +464,25 @@ class Controller_Extras_Ajax extends Controller {
 		exit();
 	}
 
+	public function action_check_rating()
+	{
+		$post = $this->request->post();
+		// var_dump($post);
+		$message = '';
+
+		if ($post['r_quantity'] == '0')
+			$message .= 'Please input the rating for quantity.<br>';
+		if ($post['r_efficiency'] == '0')
+			$message .= 'Please input the rating for efficiency.<br>';
+		if ($post['r_timeliness'] == '0')
+			$message .= 'Please input the rating for timeliness.';
+
+		if ($message == '')
+			$message = TRUE;
+
+		echo $message;
+	}
+
 	/**
 	 * Get output details
 	 */
@@ -505,7 +521,7 @@ class Controller_Extras_Ajax extends Controller {
 		}
 		else if ($post['current'] == 9)
 		{
-			$response = Request::factory('faculty/mpdf/preview/cuma/'.$post['cuma_ID'])->execute();
+			$response = Request::factory('extras/mpdf/preview/cuma/'.$post['cuma_ID'])->execute();
 			echo $response->body;
 		}
 	}

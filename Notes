@@ -4,7 +4,6 @@ TO DO:
 - Add faculty function to edit set scores, # of students mentored
 - ar/ipcr/opcr>reject
 - ipcr consolidate dean: ipcrs + attachments
-- ipcr consolidate chair: attachments
 - cuma get data and include
 
 >> ACCOM
@@ -32,5 +31,3 @@ ASSUMPTION:
 
 FURTHER ENHANCEMENT:
 - Uploaded pictures to be cropped user (Facebook style)
-
-When you cry ayt

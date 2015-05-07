@@ -90,7 +90,7 @@
 		}
 	}
 
-	$session->set('attachments', $attachments)
+	$session->set('attachments', $attachments);
 	?>
 </table>
 

@@ -79,7 +79,7 @@ echo View::factory('faculty/cuma/form/initialize')
 		{
 			// Download draft
 			echo '<li>
-					<a href="'.URL::site('faculty/mpdf/download/cuma/'.$cuma['cuma_ID']).'">
+					<a href="'.URL::site('extras/mpdf/download/cuma/'.$cuma['cuma_ID']).'">
 					<span class="glyphicon glyphicon-download"></span> Download Form</a>
 				</li>
 				<li>

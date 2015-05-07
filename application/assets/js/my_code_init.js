@@ -612,7 +612,7 @@ $(document).ready(function () {
 		showRemove: false,
 		showUpload: false
 	});
-    $("input#accom-attachment, input#ipcr-attachment").fileinput({
+    $("input#accom-attachment, input#ipcrAttachment").fileinput({
         previewFileType: "image",
         browseClass: "btn btn-primary",
         browseLabel: " Browse",

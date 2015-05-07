@@ -55,7 +55,7 @@ echo View::factory('faculty/opcr/form/modals/rate')
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
 			<li>
-				<a data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Output</a>
+				<a id="rateOutput" data-toggle="modal" data-target="#modal_rate" role="button" href="">Rate Output</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
 			<li>

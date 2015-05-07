@@ -143,7 +143,7 @@ class Controller_Faculty_AccomGroup extends Controller_Faculty {
 			$this->session->set('accom_type', 'group');
 			$this->session->set('users', $user_details['users']);
 			$this->session->set('consolidate_data', $consolidate_data);
-			$this->redirect('faculty/mpdf/consolidate/accom-consolidated');
+			$this->redirect('extras/mpdf/consolidate/accom-consolidated');
 		}
 		else
 		{

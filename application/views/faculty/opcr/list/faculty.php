@@ -95,7 +95,7 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 				</li>';
 			// Download draft
 			echo '<li>
-					<a href='.URL::site('faculty/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
+					<a href='.URL::site('extras/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
 					<span class="glyphicon glyphicon-download"></span> Download Form (Current)</a>
 				</li>';
 
@@ -114,7 +114,7 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 			{
 				// Download draft
 				echo '<li>
-						<a href='.URL::site('faculty/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
+						<a href='.URL::site('extras/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
 						<span class="glyphicon glyphicon-download"></span> Download Form</a>
 					</li>';
 			}

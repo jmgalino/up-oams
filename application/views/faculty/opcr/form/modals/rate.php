@@ -7,8 +7,12 @@
         <h4 class="modal-title" id="myModalLabel">Rate Output</h4>
       </div>
 
-      <?php print Form::open('faculty/opcr/save/'.$opcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'rateOpcrForm', 'role'=>'form', 'ajax-url' => URL::site('extras/ajax/check_rating'), 'action-url' => URL::site('faculty/opcr/save/'.$opcr_ID)));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="invalidMessage"></p>
+        </div>
+
         <div class="form-group">
           <label for="category" class="col-sm-3 control-label">Category</label>
           <div class="col-sm-8">

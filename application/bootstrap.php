@@ -299,7 +299,7 @@ Route::set('ocpr_coll-functions', '<directory>/opcr_coll(/<action>(/<id>))',
 // mpdf
 Route::set('mpdf', '<directory>/<controller>/<purpose>/<type>(/<id>)',
 	array(
-		'directory' => 'faculty',
+		'directory' => 'extras',
 		'controller'=> 'mpdf',
 		'purpose'	=> '(preview|download|consolidate|submit)'
 		// 'action'	=> '(new|preview|update|delete|submit|download|consolidate|pdf|draft|check)'

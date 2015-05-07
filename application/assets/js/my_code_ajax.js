@@ -1155,7 +1155,7 @@ $(document).ready(function () {
     });
 
 	/* OUTPUT FORM (IPCR/OPCR) -- List of output depends on selected category */
-	$("select#categoryOutputId").change(function () {
+	$("#categoryOutputId").change(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
 		var categoryId = $(this).val();
         var opcrId = $(this).attr("opcr-id");
@@ -1183,8 +1183,17 @@ $(document).ready(function () {
             }
         });
 	});
+	
+	/* OPCR-RATE FORM -- Reset form */
+    $("#rateOutput").click(function () {
+    	$("#categoryOutputId").val("");
+    	$("#outputId").html("<option>Select</option>").prop("disabled", true);
+    	$("#indicators, #accountable, #actual_accom").text("").prop("disabled", true);
+    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
+    	$("#remarks").val("").prop("disabled", true);
+    });
 
-	/* OUTPUT-RATE FORM -- Set form for rating/editing */
+	/* OPCR-RATE FORM -- Set form for rating/editing */
 	$(".rateOutputId").change(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
         var outputId = $(this).val();
@@ -1195,13 +1204,39 @@ $(document).ready(function () {
             data: 'output_ID=' + outputId,
 		    dataType: "json",
             success:function (data) {
-            	$("#indicators").text(data['indicators']);
-            	$("#accountable").text(data['accountable']);
-            	$("#actual_accom").text(data['actual_accom']);
-            	$("input#r_quantity").rating('update', data['r_quantity']);
-            	$("input#r_efficiency").rating('update', data['r_efficiency']);
-            	$("input#r_timeliness").rating('update', data['r_timeliness']);
-            	$("#remarks").val(data['remarks']);
+            	$("#indicators").text(data['indicators']).prop("disabled", false);
+            	$("#accountable").text(data['accountable']).prop("disabled", false);
+            	$("#actual_accom").text(data['actual_accom']).prop("disabled", false);
+            	$("input#r_quantity").rating('update', data['r_quantity']).rating("refresh", {disabled: false});
+            	$("input#r_efficiency").rating('update', data['r_efficiency']).rating("refresh", {disabled: false});
+            	$("input#r_timeliness").rating('update', data['r_timeliness']).rating("refresh", {disabled: false});
+            	$("#remarks").val(data['remarks']).prop("disabled", false);
+            },
+            error: function () {
+            	$("#outputId").html("<option>Select</option>").prop("disabled", true);
+		    	$("#indicators, #accountable, #actual_accom").text("").prop("disabled", true);
+		    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
+		    	$("#remarks").val("").prop("disabled", true);
+		    	// $("#ipcrAttachment").fileinput('clear').fileinput("disable");
+            }
+        });
+	});
+
+	/* OPCR-RATE FORM -- Check if form is complete */
+	$("#rateOpcrForm").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#rateOpcrForm").serialize(),
+            success: function (valid) {
+            	if (valid == 1)
+            		$("#rateOpcrForm").attr("action", actionUrl).unbind("submit").trigger("submit");
+            	else
+            		$("#invalidMessage").html(valid).parent().show();
             }
         });
 	});
@@ -1239,16 +1274,6 @@ $(document).ready(function () {
 		cssclass	: 'edit_output',
 		tooltip		: 'Double click to edit',
 	});
-	
-	/* IPCR-RATE FORM -- Reset form */
-    $("#rateTarget").click(function () {
-    	$("#categoryTargetId").val("");
-    	$("#targetId").html("<option>Select</option>").prop("disabled", true);
-    	$("#indicators, #actual_accom").text("").prop("disabled", true);
-    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
-    	$("#remarks").val("").prop("disabled", true);
-    	$("#ipcr-attachment").fileinput('clear').fileinput("disable");
-    });
 
 	/* IPCR-RATE FORM -- List of targets depends on selected category */
 	$("#categoryTargetId").change(function () {
@@ -1279,6 +1304,20 @@ $(document).ready(function () {
             }
         });
     });
+	
+	/* IPCR-RATE FORM -- Reset form */
+    $("#rateTarget").click(function () {
+    	$("#categoryTargetId").val("");
+    	$("#targetId").html("<option>Select</option>").prop("disabled", true);
+    	$("#indicators, #actual_accom").text("").prop("disabled", true);
+    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
+    	$("#remarks").val("").prop("disabled", true);
+    	$("#ipcrAttachment").fileinput("refresh", {
+		    overwriteInitial: true,
+		});
+    	$("#ipcrAttachment").fileinput("clear");
+    	$("#ipcrAttachment").fileinput("disable");
+    });
 
 	/* IPCR-RATE FORM -- Set form for rating/editing */
 	$("#targetId").change(function () {
@@ -1297,7 +1336,7 @@ $(document).ready(function () {
             	$("input#r_efficiency").rating('update', data['r_efficiency']).rating("refresh", {disabled: false});
             	$("input#r_timeliness").rating('update', data['r_timeliness']).rating("refresh", {disabled: false});
             	$("#remarks").val(data['remarks']).prop("disabled", false);
-		    	$("#ipcr-attachment").fileinput("enable");
+		    	$("#ipcrAttachment").fileinput("enable");
 
 				if (data['attachment']) {
 	        		var display = new Array();
@@ -1306,10 +1345,12 @@ $(document).ready(function () {
 						display.push("<img src=\"" + data['attachment'][i]['directory'] + "\" class=\"file-preview-image\" title=\"" + data['attachment'][i]['file'] + "\">");
 					}
 
-	            	$("#ipcr-attachment").fileinput('refresh', {
+	            	$("#ipcrAttachment").fileinput('refresh', {
 						initialPreview: display,
-						overwriteInitial: true,
+					    overwriteInitial: false,
 					});
+					$("#ipcrAttachment").prop("required", false).attr("readonly", "true");
+					$("#ipcrAttachmentNote").text("Previous attachment(s) can't be removed.");
 				}      	
             },
             error: function () {
@@ -1317,7 +1358,27 @@ $(document).ready(function () {
 		    	$("#indicators, #actual_accom").text("").prop("disabled", true);
 		    	$("input#r_quantity, input#r_efficiency, input#r_timeliness").rating('update', 0).rating("refresh", {disabled: true});
 		    	$("#remarks").val("").prop("disabled", true);
-		    	$("#ipcr-attachment").fileinput('clear').fileinput("disable");
+		    	$("#ipcrAttachment").fileinput('clear').fileinput("disable");
+            }
+        });
+	});
+
+	/* IPCR-RATE FORM -- Check if form is complete */
+	$("#rateIpcrForm").on("submit", function (event) {
+		event.preventDefault();
+		var actionUrl = $(this).attr("action-url");
+		var ajaxUrl = $(this).attr("ajax-url");
+		
+		$.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: $("#rateIpcrForm").serialize(),
+            success: function (valid) {
+            	// alert(valid);
+            	if (valid == 1)
+            		$("#rateIpcrForm").attr("action", actionUrl).unbind("submit").trigger("submit");
+            	else
+            		$("#invalidMessage").html(valid).parent().show();
             }
         });
 	});

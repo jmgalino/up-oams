@@ -7,8 +7,12 @@
         <h4 class="modal-title" id="myModalLabel">Rate Target</h4>
       </div>
 
-      <?php print Form::open('faculty/ipcr/save/'.$ipcr_ID, array('class'=>'form-horizontal', 'enctype'=>'multipart/form-data', 'role'=>'form'));?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'rateIpcrForm', 'enctype'=>'multipart/form-data', 'role'=>'form', 'ajax-url' => URL::site('extras/ajax/check_rating'), 'action-url' => URL::site('faculty/ipcr/save/'.$ipcr_ID)));?>
       <div class="modal-body">
+        <div class="alert alert-danger" style="display:none">
+          <p class="text-center" id="invalidMessage"></p>
+        </div>
+
         <div class="form-group">
           <label for="category" class="col-sm-3 control-label">Category</label>
           <div class="col-sm-8">
@@ -50,21 +54,21 @@
         <div class="form-group">
           <label for="r_quantity" class="col-sm-3 control-label">Quantity</label>
           <div class="col-sm-8">
-            <input type="number" class="form-control" id="r_quantity" name="r_quantity" required>
+            <input type="number" class="form-control" id="r_quantity" name="r_quantity">
           </div>
         </div>
 
         <div class="form-group">
           <label for="r_efficiency" class="col-sm-3 control-label">Efficiency</label>
           <div class="col-sm-8">
-            <input type="number" class="form-control" id="r_efficiency" name="r_efficiency" required>
+            <input type="number" class="form-control" id="r_efficiency" name="r_efficiency">
           </div>
         </div>
 
         <div class="form-group">
           <label for="r_timeliness" class="col-sm-3 control-label">Timeliness</label>
           <div class="col-sm-8">
-            <input type="number" class="form-control" id="r_timeliness" name="r_timeliness" required>
+            <input type="number" class="form-control" id="r_timeliness" name="r_timeliness">
           </div>
         </div>
 
@@ -78,8 +82,8 @@
         <div class="form-group">
           <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
           <div class="col-sm-8" id="add-attachment">
-            <input type="file" id="ipcr-attachment" name="attachment[]" accept="image/*" multiple="true" required>
-            <span class="help-block">You can add up to 5 attachments.</span>
+            <input type="file" id="ipcrAttachment" name="attachment[]" accept="image/*" multiple="true" required>
+            <span class="help-block" id="ipcrAttachmentNote">You can add up to 5 attachments.</span>
           </div>
         </div>
       </div>

@@ -75,7 +75,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 		$cuma_ID = $this->request->param('id');
 		$cuma_details = $this->cuma->get_details($cuma_ID);
 		$cuma_details['draft'] = ($this->can_be_modified($cuma_ID)
-			? Request::factory('faculty/mpdf/preview/cuma/'.$cuma_ID)->execute()->body
+			? Request::factory('extras/mpdf/preview/cuma/'.$cuma_ID)->execute()->body
 			: NULL);
 		
 		$this->view->content = View::factory('faculty/cuma/view/faculty')

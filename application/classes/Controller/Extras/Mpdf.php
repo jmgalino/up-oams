@@ -1,9 +1,15 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 include_once APPPATH.'assets/lib/mpdf/mpdf.php';
 
-class Controller_Faculty_Mpdf extends Controller_User {
+class Controller_Extras_Mpdf extends Controller {
 
 	private $mpdf_css;
+	private $session;
+
+	public function before()
+	{
+    	$this->session = Session::instance();
+    }
 
 	/**
 	 * Reroute
@@ -37,7 +43,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				$this->mpdf_css = file_get_contents(APPPATH.'assets/css/my_code_mpdf-ipcr_opcr.css');
 				
 				if ($type == 'ipcr') $this->ipcr_pdf($id, $purpose);
-				elseif ($type == 'ipcr-consolidated') $this->ipcr_consolidated_pdf($id);
+				elseif ($type == 'ipcr-consolidated') $this->ipcr_consolidated_pdf($id, $purpose);
 				elseif ($type == 'opcr') $this->opcr_pdf($id, $purpose);
 				else $this->opcr_consolidated_pdf();
 				break;
@@ -48,30 +54,6 @@ class Controller_Faculty_Mpdf extends Controller_User {
 				break;
 		}
 	}
-
-	/**
-	 * Show PDF
-	 */
-	// private function pdf_preview($template, $filename, $format, $top, $header_contents)
-	// {
-	// 	$fullname = $this->session->get('fullname');
-	// 	$bootstrap_css = file_get_contents(APPPATH.'assets/css/bootstrap.min.css');
-
-	// 	ob_start();
-	// 	echo View::factory('mpdf/defaults/header')->bind('header_contents', $header_contents);
-	// 	$header = ob_get_contents();
-	// 	ob_get_clean();
-
-	// 	$mpdf = new mPDF($format,'', 0, '', 25, 25, $top, 25, 6.5, 6.5);
-	// 	$mpdf->SetAuthor($fullname);
-	// 	$mpdf->SetCreator('UP Mindanao OAMS');
-	// 	$mpdf->WriteHTML($bootstrap_css, 1);
-	// 	$mpdf->WriteHTML($this->mpdf_css, 1);
-	// 	$mpdf->SetHTMLHeader($header);
-	// 	$mpdf->WriteHTML($template);
-	// 	$mpdf->Output($filename, 'I');
-	// 	exit;
-	// }
 
 	/**
 	 * Download PDF
@@ -256,6 +238,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
+		$oams = new Model_Oams;
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
@@ -266,7 +249,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$date = ($opcr_details['status'] == 'Published' ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
 		
 		$fullname = $this->session->get('fullname');
-		$categories = $this->oams->get_categories();
+		$categories = $oams->get_categories();
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$unit['fullname'] = $department_details['department'];
 		$unit['short'] = $department_details['short'];
@@ -306,8 +289,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 			$filepath = DOCROOT.'files/tmp/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
-			$this->session->set('pdf_draft', $filename);
-			$this->redirect('faculty/opcr/preview/'.$opcr_ID);
+			$this->response->body = $filename;
 		}
 
 		// Generate PDF to publish
@@ -412,9 +394,9 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	/**
 	 * OPCR Form - Consolidated IPCR forms for department
 	 */
-	private function ipcr_consolidated_pdf($opcr_ID)
+	private function ipcr_consolidated_pdf($opcr_ID, $purpose)
 	{
-		// $ipcr = new Model_Ipcr;
+		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
 		$oams = new Model_Oams;
 		$univ = new Model_Univ;
@@ -427,8 +409,8 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$unit['fullname'] = $department_details['department'];
 		$unit['short'] = $department_details['short'];
-		// $ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
-		// $targets = $ipcr->get_output_targets(NULL, $outputs);
+		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
+		$targets = $ipcr->get_output_targets(NULL, $outputs);
 		// $programIDs = $univ->get_department_programIDs($department_details['department_ID']);
 		// $users = $user->get_user_group($programIDs);
 
@@ -451,29 +433,46 @@ class Controller_Faculty_Mpdf extends Controller_User {
 
 		echo View::factory('mpdf/ipcr/consolidated')
 			->bind('categories', $categories)
-			->bind('outputs', $outputs);
-			// ->bind('ipcr_forms', $ipcr_forms)
-			// ->bind('targets', $targets)
+			->bind('outputs', $outputs)
+			->bind('ipcr_forms', $ipcr_forms)
+			->bind('targets', $targets)
+			->bind('session', $this->session);
 			// ->bind('users', $users);
 
 		echo View::factory('mpdf/ipcr/legend');
+
+		echo View::factory('mpdf/ipcr/attachments')
+			->bind('session', $this->session);
 
 		$template = ob_get_contents();
 		ob_get_clean();	
 		
 		$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
 		$filename = $this->session->get('employee_code').$period.'.pdf';
+		
+		// Generate PDF for preview
+		if ($purpose == 'preview')
+		{
+			$filepath = DOCROOT.'files/tmp/'.$filename;
+			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
+
+			$this->response->body = $filename;
+		}
+
 		// $filename = $department_details['short'].' ('.$period.').pdf';
-		$filepath = DOCROOT.'files/document_opcr/'.$filename;
-		$this->pdf_save($template, $filepath, 'A4', 25, NULL);
+		else
+		{
+			$filepath = DOCROOT.'files/document_opcr/'.$filename;
+			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
-		$details['status'] = 'Pending';
-		$details['document'] = $filename;
-		$details['date_submitted'] = date('Y-m-d');
-		$submit_success = $opcr->update($opcr_ID, $details);
+			$details['status'] = 'Pending';
+			$details['document'] = $filename;
+			$details['date_submitted'] = date('Y-m-d');
+			$submit_success = $opcr->update($opcr_ID, $details);
 
-		$this->session->set('submit', 'The OPCR was successfully submitted.');
-		$this->redirect('faculty/opcr', 303);
+			$this->session->set('submit', 'The OPCR was successfully submitted.');
+			$this->redirect('faculty/opcr', 303);
+		}
 	}
 
 	/**
@@ -481,6 +480,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 	 */
 	private function opcr_consolidated_pdf()
 	{
+		$oams = new Model_Oams;
 		$univ = new Model_Univ;
 		
 		$consolidate_data = $this->session->get('consolidate_data');
@@ -488,7 +488,7 @@ class Controller_Faculty_Mpdf extends Controller_User {
 		$end = date('F Y', strtotime($consolidate_data['end']));
 		$period = $start.' - '.$end;
 
-		$categories = $this->oams->get_categories();
+		$categories = $oams->get_categories();
 		$fullname = $this->session->get('fullname');
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$unit['fullname'] = $college_details['college'];

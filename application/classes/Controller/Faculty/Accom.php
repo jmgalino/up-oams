@@ -136,7 +136,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 				$this->response->body($this->view->render());
 			}
 			else
-				$this->redirect('faculty/mpdf/preview/accom/'.$accom_details['accom_ID']);
+				$this->redirect('extras/mpdf/preview/accom/'.$accom_details['accom_ID']);
 
 			$accom_details['draft'] = $draft;
 		}
@@ -204,7 +204,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$this->action_check($accom_details['user_ID']); // Redirects if not the owner
 		$this->session->set('accom_type', 'faculty');
-		$this->redirect('faculty/mpdf/submit/accom/'.$accom_ID);
+		$this->redirect('extras/mpdf/submit/accom/'.$accom_ID);
 	}
 
 	/**
@@ -274,7 +274,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$consolidate_data['end'] = $end;
 			$this->session->set('consolidate_data', $consolidate_data);
 			$this->session->set('accom_type', 'faculty');
-			$this->redirect('faculty/mpdf/consolidate/accom-consolidated');
+			$this->redirect('extras/mpdf/consolidate/accom-consolidated');
 		}
 		else
 		{

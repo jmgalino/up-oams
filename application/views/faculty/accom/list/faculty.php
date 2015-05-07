@@ -97,7 +97,7 @@ echo View::factory('faculty/accom/form/initialize')
 				</li>';
 			// Download draft
 			echo '<li>
-					<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
+					<a href='.URL::site('extras/mpdf/download/accom/'.$accom['accom_ID']).'>
 					<span class="glyphicon glyphicon-download"></span> Download Report (Current)</a>
 				</li>';
 		}
@@ -115,7 +115,7 @@ echo View::factory('faculty/accom/form/initialize')
 			{
 				// Download draft
 				echo '<li>
-						<a href='.URL::site('faculty/mpdf/download/accom/'.$accom['accom_ID']).'>
+						<a href='.URL::site('extras/mpdf/download/accom/'.$accom['accom_ID']).'>
 						<span class="glyphicon glyphicon-download"></span> Download Report</a>
 					</li>';
 			}

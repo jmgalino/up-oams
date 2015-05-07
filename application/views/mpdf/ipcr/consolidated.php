@@ -41,6 +41,8 @@ function adjectival_rating($value)
 		<td class="active" width="20">A<sup>4</sup></td>
 	</tr>
 	<?php
+	$counter = 0;
+	$attachments = array();
 	$r_quantity = array();
 	$r_efficiency = array();
 	$r_timeliness = array();
@@ -82,25 +84,21 @@ function adjectival_rating($value)
 					$output['r_average'] = ($output['r_quantity'] OR $output['r_efficiency'] OR $output['r_timeliness'] ? 'Inc' : '');
 				}
 
-				echo '<tr>
-					<td class="form-rows">', $output['output'], '</td>
-					<td class="form-rows">', $output['indicators'], '</td>
-					<td class="form-rows">', $output['accountable'], '</td>
-					<td class="form-rows">', $output['actual_accom'], '</td>
-					<td class="form-rows">', $output['r_quantity'], '</td>
-					<td class="form-rows">', $output['r_efficiency'], '</td>
-					<td class="form-rows">', $output['r_timeliness'], '</td>
-					<td class="form-rows">', $output['r_average'], '</td>
-					<td class="form-rows">', $output['remarks'], '</td>
-				</tr>';
+				$attachment = "";
+				foreach ($ipcr_forms as $ipcr)
+				{
+					foreach ($targets as $target)
+					{
+						if (($ipcr['ipcr_ID'] == $target['ipcr_ID']) AND ($output['output_ID'] == $target['output_ID']))
+						{
 
-				// foreach ($ipcr_forms as $ipcr)
-				// {
-				// 	foreach ($targets as $target)
-				// 	{
-				// 		if (($ipcr['ipcr_ID'] == $target['ipcr_ID']) AND ($output['output_ID'] == $target['output_ID']))
-				// 		{
-
+							if ($target['attachment'])
+							{
+								$attachments[$counter++] = $target['attachment'];
+								$attachment .= '<a class="glyphicon glyphicon-paperclip" href="#attachment_'.$counter.'" target="_blank">
+												<sup style="padding-left:1px;">['.$counter.']</sup>
+											</a> ';
+							}
 				// 			foreach ($users as $user)
 				// 			{
 				// 				if ($ipcr['user_ID'] == $user['user_ID'])
@@ -132,13 +130,27 @@ function adjectival_rating($value)
 				// 				<td class="form-rows">', $target['r_timeliness'], '</td>
 				// 			</tr>';
 
-				// 		} // if target in under output and ipcr
-				// 	} // foreach targets
-				// } // foreach ipcrs
+						} // if target in under output and ipcr
+					} // foreach targets
+				} // foreach ipcrs
+
+				echo '<tr>
+					<td class="form-rows">', $output['output'], '</td>
+					<td class="form-rows">', $output['indicators'], '</td>
+					<td class="form-rows">', $output['accountable'], '</td>
+					<td class="form-rows">', $output['actual_accom'], '</td>
+					<td class="form-rows">', $output['r_quantity'], '</td>
+					<td class="form-rows">', $output['r_efficiency'], '</td>
+					<td class="form-rows">', $output['r_timeliness'], '</td>
+					<td class="form-rows">', $output['r_average'], '</td>
+					<td class="form-rows">', $output['remarks'],' ', $attachment ,'</td>
+				</tr>';
 
 			} // if output is under categories
 		} // foreach outputs
 	} // foreach categories
+
+	$session->set('attachments', $attachments);
 	?>
 </table>
 
@@ -150,62 +162,65 @@ $final_average = number_format(array_sum($r_average)/count($r_average), 1);
 ?>
 
 Average Rating
-
 <table class="table table-bordered">
-  <tbody>
-    <tr>
-      <td>Total Rating</td>
-      <?php echo
-      '<td width="20">', array_sum($r_quantity), '</td>
-      <td width="20">', array_sum($r_efficiency), '</td>
-      <td width="20">', array_sum($r_timeliness), '</td>
-      <td width="20">', array_sum($r_average), '</td>';
-      ?>
-      <td width="55"></td>
-    </tr>
-    <tr>
-      <td>Final Average Rating</td>
-      <?php echo
-      '<td width="20">', $final_quantity, '</td>
-      <td width="20">', $final_efficiency, '</td>
-      <td width="20">', $final_timeliness, '</td>
-      <td width="20">', $final_average, '</td>';
-      ?>
-      <td width="55"></td>
-    </tr>
-    <tr>
-      <td>Adjectival Rating</td>
-      <?php echo 
-      '<td width="20">', adjectival_rating($final_quantity), '</td>
-      <td width="20">', adjectival_rating($final_efficiency), '</td>
-      <td width="20">', adjectival_rating($final_timeliness), '</td>
-      <td width="20">', adjectival_rating($final_average), '</td>';
-      ?>
-      <td width="55"></td>
-    </tr>
-  </tbody>
+	<thead>
+		<tr>
+			<th></th>
+			<th class="text-center">Q<sup>1</sup></th>
+			<th class="text-center">E<sup>2</sup></th>
+			<th class="text-center">T<sup>3</sup></th>
+			<th class="text-center">A<sup>4</sup></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Total Rating</td>
+			<?php echo
+			'<td class="text-center" width="20">', array_sum($r_quantity), '</td>
+			<td class="text-center" width="20">', array_sum($r_efficiency), '</td>
+			<td class="text-center" width="20">', array_sum($r_timeliness), '</td>
+			<td class="text-center" width="20">', array_sum($r_average), '</td>';
+			?>
+		</tr>
+		<tr>
+			<td>Final Average Rating</td>
+			<?php echo
+			'<td class="text-center" width="20">', $final_quantity, '</td>
+			<td class="text-center" width="20">', $final_efficiency, '</td>
+			<td class="text-center" width="20">', $final_timeliness, '</td>
+			<td class="text-center" width="20">', $final_average, '</td>';
+			?>
+		</tr>
+		<tr>
+			<td>Adjectival Rating</td>
+			<?php echo 
+			'<td class="text-center" width="20">', adjectival_rating($final_quantity), '</td>
+			<td class="text-center" width="20">', adjectival_rating($final_efficiency), '</td>
+			<td class="text-center" width="20">', adjectival_rating($final_timeliness), '</td>
+			<td class="text-center" width="20">', adjectival_rating($final_average), '</td>';
+			?>
+		</tr>
+	</tbody>
 </table>
 
 <table class="table table-bordered">
 	<tbody>
 		<tr>
-			<td class="text-center" width="150">Assessed by:</td>
-			<td class="text-center" width="75">Date</td>
-			<td class="text-center" width="150">Final Rating by:</td>
-			<td class="text-center" width="75">Date</td>
+			<td colspan="4">Assessed by:</td>
+			<td colspan="2">Final Rating by:</td>
 		</tr>
 		<tr>
+			<td><br></td>
+			<td class="text-center" width="75" rowspan="2" style="vertical-align:top">Date</td>
 			<td></td>
-			<td rowspan="2"></td>
+			<td class="text-center" width="75" rowspan="2" style="vertical-align:top">Date</td>
 			<td></td>
-			<td rowspan="2"></td>
-			<td></td>
-			<td rowspan="2"></td>
+			<td class="text-center" width="75" rowspan="2" style="vertical-align:top">Date</td>
 		</tr>
 		<tr>
-			<td class="text-center">Planning Office</td>
-			<td class="text-center">PMT</td>
-			<td class="text-center">Head of Agency</td>
+			<td class="text-center" width="150">Planning Office</td>
+			<td class="text-center" width="150">PMT</td>
+			<td class="text-center" width="150">Head of Agency</td>
 		</tr>
 	</tbody>
 </table>

@@ -147,7 +147,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 			$consolidate_data['opcr_outputs'] = $opcr_outputs;
 			$this->session->set('consolidate_data', $consolidate_data);
 
-			$this->redirect('faculty/mpdf/download/opcr-consolidated/', 303);
+			$this->redirect('extras/mpdf/download/opcr-consolidated/', 303);
 		}
 		else
 		{

@@ -77,7 +77,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			if ($draft)
 				$ipcr_details['draft'] = $draft;
 			else
-				$this->redirect('faculty/mpdf/preview/ipcr/'.$ipcr_ID, 303);
+				$this->redirect('extras/mpdf/preview/ipcr/'.$ipcr_ID, 303);
 		}
 		else
 			$ipcr_details['draft'] = NULL;
@@ -139,7 +139,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_ID = $this->request->param('id');
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
-		$this->redirect('faculty/mpdf/submit/ipcr/'.$ipcr_ID);
+		$this->redirect('extras/mpdf/submit/ipcr/'.$ipcr_ID);
 	}
 
 	/**
@@ -199,43 +199,38 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
 		$new_details = $this->request->post();
-
-		// Delete old attachments
-		// Unless can be checked if pristine
     	$current_details = $ipcr->get_target_details($new_details['target_ID']);
-    	if ($current_details['attachment'])
-    	{
-    		$attachments = explode('; ', $current_details['attachment']);
-    		foreach ($attachments as $attachment)
-			{
-				$tmp = explode(' => ', $attachment);
-				unlink(DOCROOT.'files/upload_attachments/'.$tmp[1]);
-			}	
-    	}
 
-		if ($_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
-        {
-        	// Upload new attachments
-        	$attachment = Request::factory('extras/upload/attachment')
-        		->post(array(
-        			'id' => $ipcr_ID,
-        			'attachments' => $_FILES['attachment']))
-        		->execute()
-        		->body;
-
-        	$attachments = explode(' ', $attachment);
-        	$target_attachments = array(); $counter = 0;
-        	foreach ($attachments as $attachment)
-        	{
-        		$target_attachments[] = $_FILES['attachment']['name'][$counter++].' => '.$attachment;
-        	}
-        	
-        	$new_details['attachment'] = implode('; ', $target_attachments);
-        }
-
+    	// Target has new attachments
+		if(file_exists($_FILES['attachment']['tmp_name'][0]) AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
+			$new_details['attachment'] = $current_details['attachment'].'; '.$this->add_attachment($ipcr_ID, $_FILES['attachment']);
+        
         // add alert (?)
 		$ipcr->update_target($new_details);
 		$this->redirect('faculty/ipcr/rate/'.$ipcr_ID);
+	}
+
+	/**
+	 * Upload new attachments
+	 */
+	private function add_attachment($ipcr_ID, $new_attachment)
+	{
+		$attachment = Request::factory('extras/upload/attachment')
+			->post(array(
+				'id' => $ipcr_ID,
+				'attachments' => $new_attachment))
+			->execute()
+			->body;
+
+		$attachments = explode(' ', $attachment);
+		$target_attachments = array(); $counter = 0;
+		foreach ($attachments as $attachment)
+		{
+			$target_attachments[] = $_FILES['attachment']['name'][$counter++].' => '.$attachment;
+		}
+		
+		$attachment = implode('; ', $target_attachments);
+		return $attachment;
 	}
 
 	/**

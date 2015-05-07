@@ -106,38 +106,43 @@ $final_average = ($r_average ? number_format(array_sum($r_average)/count($r_aver
 ?>
 
 Average Rating
-
 <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th class="text-center">Q<sup>1</sup></th>
+      <th class="text-center">E<sup>2</sup></th>
+      <th class="text-center">T<sup>3</sup></th>
+      <th class="text-center">A<sup>4</sup></th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td>Total Rating</td>
       <?php echo
-      '<td width="20">', ($r_quantity ? array_sum($r_quantity) : ''), '</td>
-      <td width="20">', ($r_efficiency ? array_sum($r_efficiency) : ''), '</td>
-      <td width="20">', ($r_timeliness ? array_sum($r_timeliness) : ''), '</td>
-      <td width="20">', ($r_average ? array_sum($r_average) : ''), '</td>';
+      '<td class="text-center" width="20">', ($r_quantity ? array_sum($r_quantity) : ''), '</td>
+      <td class="text-center" width="20">', ($r_efficiency ? array_sum($r_efficiency) : ''), '</td>
+      <td class="text-center" width="20">', ($r_timeliness ? array_sum($r_timeliness) : ''), '</td>
+      <td class="text-center" width="20">', ($r_average ? array_sum($r_average) : ''), '</td>';
       ?>
-      <td width="55"></td>
     </tr>
     <tr>
       <td>Final Average Rating</td>
       <?php echo
-      '<td width="20">', ($final_quantity ? $final_quantity : ''), '</td>
-      <td width="20">', ($final_efficiency ? $final_efficiency : ''), '</td>
-      <td width="20">', ($final_timeliness ? $final_timeliness : ''), '</td>
-      <td width="20">', ($final_average ? $final_average : ''), '</td>';
+      '<td class="text-center" width="20">', ($final_quantity ? $final_quantity : ''), '</td>
+      <td class="text-center" width="20">', ($final_efficiency ? $final_efficiency : ''), '</td>
+      <td class="text-center" width="20">', ($final_timeliness ? $final_timeliness : ''), '</td>
+      <td class="text-center" width="20">', ($final_average ? $final_average : ''), '</td>';
       ?>
-      <td width="55"></td>
     </tr>
     <tr>
       <td>Adjectival Rating</td>
       <?php echo 
-      '<td width="20">', ($final_quantity ? adjectival_rating($final_quantity) : ''), '</td>
-      <td width="20">', ($final_efficiency ? adjectival_rating($final_efficiency) : ''), '</td>
-      <td width="20">', ($final_timeliness ? adjectival_rating($final_timeliness) : ''), '</td>
-      <td width="20">', ($final_average ? adjectival_rating($final_average) : ''), '</td>';
+      '<td class="text-center" width="20">', ($final_quantity ? adjectival_rating($final_quantity) : ''), '</td>
+      <td class="text-center" width="20">', ($final_efficiency ? adjectival_rating($final_efficiency) : ''), '</td>
+      <td class="text-center" width="20">', ($final_timeliness ? adjectival_rating($final_timeliness) : ''), '</td>
+      <td class="text-center" width="20">', ($final_average ? adjectival_rating($final_average) : ''), '</td>';
       ?>
-      <td width="55"></td>
     </tr>
   </tbody>
 </table>

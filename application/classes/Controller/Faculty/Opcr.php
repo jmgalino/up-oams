@@ -90,14 +90,17 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 
-		if (!$opcr_details['document'] OR in_array($opcr_details['status'], array('Draft', 'Published', 'Rejected', 'Saved')))
+		if (in_array($opcr_details['status'], array('Published', 'Rejected')))
 		{
-			$draft = $this->session->get_once('pdf_draft');
-			
-			if ($draft)
-				$opcr_details['draft'] = $draft;
-			else
-				$this->redirect('faculty/mpdf/preview/opcr/'.$opcr_ID, 303);
+			$opcr_details['draft'] = Request::factory('extras/mpdf/preview/ipcr-consolidated/'.$opcr_ID)
+				->execute()
+				->body;
+		}
+		elseif (!$opcr_details['document'] OR $opcr_details['status'] == 'Draft')
+		{
+			$draft = Request::factory('extras/mpdf/preview/opcr/'.$opcr_ID, 303)
+				->execute()
+				->body;
 		}
 		else
 			$opcr_details['draft'] = NULL;
@@ -161,7 +164,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_ID = $this->request->param('id');
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
-		$this->redirect('faculty/mpdf/submit/opcr/'.$opcr_ID, 303);
+		$this->redirect('extras/mpdf/submit/opcr/'.$opcr_ID, 303);
 	}
 
 	/**
@@ -174,7 +177,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_ID = $this->request->param('id');
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
-		$this->redirect('faculty/mpdf/submit/ipcr-consolidated/'.$opcr_ID, 303);
+		$this->redirect('extras/mpdf/submit/ipcr-consolidated/'.$opcr_ID, 303);
 	}
 
 	/**
