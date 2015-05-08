@@ -1,7 +1,4 @@
 <?php
-echo '<p><strong>QUANTITATIVE</strong></p>';
-echo '<p><strong>1. Quality of programs</strong></p>';
-
 $univ = new Model_Univ;
 $session = Session::instance();
 
@@ -9,12 +6,15 @@ $department_details = $univ->get_department_details(NULL, $session->get('program
 $department_programs = $univ->get_department_programIDs($department_details['department_ID']);
 $programs = $univ->get_programs();
 
-$program_IDs = array();
+$department_programIDs = array();
 foreach ($department_programs as $program) {
-	$program_IDs[] = $program['program_ID'];
+	$department_programIDs[] = $program['program_ID'];
 }
-
 ?>
+
+<p><strong>QUANTITATIVE</strong></p>
+<p><strong>1. Quality of programs</strong></p>
+
 Table 1.1
 <table class="table table-bordered table-condensed cuma-table" width="100%">
 	<thead>
@@ -30,7 +30,7 @@ Table 1.1
 	<?php
 	foreach ($programs as $program)
 	{
-		if (in_array($program['program_ID'], $program_IDs))
+		if (in_array($program['program_ID'], $department_programIDs))
 		{
 			$program['accreditation'] = ($program['accreditation'] ? $program['accreditation'] : '-');
 

@@ -43,12 +43,13 @@ echo View::factory('faculty/cuma/form/initialize')
 ?>
 
 <?php if ($cuma_forms): ?>
+
 <!-- Table -->
 <table class="table table-hover" id="cuma_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
 			<th>Period</th>
-			<th>Date of Assessment</th>
+			<th>Date of Submission</th>
 			<th>Status</th>
 			<th>Action</th>
 		</tr>
@@ -59,13 +60,13 @@ echo View::factory('faculty/cuma/form/initialize')
 		$start = date('Y', strtotime($cuma['period_from']));
 		$end = date('Y', strtotime($cuma['period_to']));
 		
-		$cuma['date_assessed'] = ($cuma['date_assessed']
-			? date('F d, Y', strtotime($cuma['date_assessed']))
+		$cuma['date_submitted'] = ($cuma['date_submitted']
+			? date('F d, Y', strtotime($cuma['date_submitted']))
 			: 'Not submitted');
 
 		echo '<tr>
 			<td>AY ', $start, ' - ', $end, '</td>
-			<td>', $cuma['date_assessed'], '</td>
+			<td>', $cuma['date_submitted'], '</td>
 			<td>', $cuma['status'], '</td>
 			<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>

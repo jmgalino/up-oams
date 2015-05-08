@@ -530,9 +530,9 @@ class Controller_Extras_Mpdf extends Controller {
 		$department_users = $user->get_user_group($department_programs);
 		$programs = $univ->get_programs();
 
-		$program_IDs = array();
+		$department_programIDs = array();
 		foreach ($department_programs as $program) {
-			$program_IDs[] = $program['program_ID'];
+			$department_programIDs[] = $program['program_ID'];
 		}
 		
 		$university['mission'] = $univ->get_mission();
@@ -545,7 +545,7 @@ class Controller_Extras_Mpdf extends Controller {
 			->bind('period', $period)
 			->bind('university', $university)
 			->bind('programs', $programs)
-			->bind('program_IDs', $program_IDs)
+			->bind('department_programIDs', $department_programIDs)
 			->bind('department_users', $department_users)
 			->bind('accom', $accom)
 			->bind('cuma_details', $cuma_details)

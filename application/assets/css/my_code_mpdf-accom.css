@@ -38,16 +38,20 @@ table.table-bordered tr td.active{
 	background-color:#c0c0c0;
 }
 
-table.cuma-table thead>tr>th
+table.cuma-table thead tr th,
+table.cuma-table tbody tr td
 {
-  vertical-align: middle;
+	vertical-align: middle;
+	
 }
 table.cuma-table tr th,
 table.cuma-table tr td
 {
-  text-align: center; 
+  text-align: center;
 }
-table.cuma-table tbody>tr>td:first-child
+
+table.cuma-table tr th.first,
+table.cuma-table tr td.first
 {
   text-align: left; 
 }

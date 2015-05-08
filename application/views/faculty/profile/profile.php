@@ -1,13 +1,13 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
   <li><a href="<?php echo URL::site(); ?>">Home</a></li>
-  <li><a href="<?php echo $url?>">Faculty Members</a></li>
+  <li><a href="<?php echo $faculty_url?>">Faculty Members</a></li>
   <li class="active">Profile</li>
 </ol>
 
 <h3>
 	<?php echo $user['first_name']; ?>'s Profile
-	<a class="btn btn-default pull-right" href="<?php echo $url; ?>"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+	<a class="btn btn-default pull-right" href="<?php echo $faculty_url; ?>"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 </h3>
 <br><br>
 

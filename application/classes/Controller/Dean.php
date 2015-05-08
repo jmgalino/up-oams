@@ -40,12 +40,14 @@ class Controller_Dean extends Controller_Faculty {
 	 */
 	public function action_profiles()
 	{
-		$programs = $univ->get_programs();
+		$profile_url = URL::site('faculty/coll/profile').'/';
+		$programs = $this->univ->get_programs();
 		
 		$this->view->content = View::factory('faculty/profile/faculty')
 			->bind('group', $this->college_details['college'])
 			->bind('users', $this->college_users)
-			->bind('programs', $programs);
+			->bind('programs', $programs)
+			->bind('profile_url', $profile_url);
 		$this->response->body($this->view->render());
 	}
 
@@ -63,7 +65,7 @@ class Controller_Dean extends Controller_Faculty {
 		$program_details = $this->univ->get_program_details($user_details['program_ID']);
 		$user_details['program_short'] = $program_details['program_short'];
 		$fullname = $user_details['last_name'].', '.$user_details['first_name'].' '.$user_details['middle_name'][0].'.';
-		$url = URL::site('faculty/coll/profiles');
+		$faculty_url = URL::site('faculty/coll/profiles');
 
 		$reports = array();
 		$accom_IDs = array();
@@ -92,7 +94,7 @@ class Controller_Dean extends Controller_Faculty {
 		}
 		
 		$this->view->content = View::factory('faculty/profile/profile')
-			->bind('url', $url)
+			->bind('faculty_url', $faculty_url)
 			->bind('user', $user_details)
 			->bind('education', $education)
 			->bind('accom_reports', $reports)
@@ -215,8 +217,6 @@ class Controller_Dean extends Controller_Faculty {
 	 */
 	public function accom_evaluate($accom)
 	{
-		$accom = new Model_Accom;
-
 		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
 		
 		$accom_ID = $this->request->param('id');
@@ -261,6 +261,65 @@ class Controller_Dean extends Controller_Faculty {
 
 			$this->redirect('faculty/coll/accom', 303);
 		}
+	}
+
+	/* ==================================== *
+    *                                       *
+    *     Controller_Faculty_CumaGroup      *
+    *                                       *
+    * ===================================== */
+
+    /**
+	 * List forms
+	 */
+	public function action_cuma()
+	{
+		$cuma = new Model_Cuma;
+
+		switch ($this->request->param('type'))
+		{
+			case 'view':
+				$this->cuma_view($cuma);
+				break;
+			
+			default:
+				$error = $this->session->get_once('error');
+				// $employee_code = $this->session->get('employee_code');
+
+				$programs = $this->univ->get_programs();
+				$cuma_forms = $cuma->get_group_cuma($this->college_userIDs);
+				$consolidate_url = 'faculty/coll/cuma/consolidate';
+
+				$this->view->content = View::factory('faculty/cuma/list/group')
+					->bind('identifier', $identifier)
+					->bind('group', $this->college_details['college'])
+					->bind('cuma_forms', $cuma_forms)
+					->bind('consolidate_url', $consolidate_url)
+					->bind('error', $error)
+					->bind('users', $this->college_users)
+					->bind('programs', $programs);
+				$this->response->body($this->view->render());
+				break;
+		}
+	}	
+
+	/**
+	 * Show faculty form
+	 */
+	public function cuma_view($cuma)
+	{
+		$cuma_ID = $this->request->param('id');
+		$cuma_details = $cuma->get_details($cuma_ID);
+		$user_details = $this->user->get_details($cuma_details['user_ID'], NULL);
+		
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$department_details = $this->univ->get_department_details(NULL, $user_details['program_ID']);
+
+		$this->view->content = View::factory('faculty/cuma/view/group')
+			->bind('cuma_details', $cuma_details)
+			->bind('faculty', $fullname)
+			->bind('unit', $department_details['short']);
+		$this->response->body($this->view->render());
 	}
 
 } // End Dean

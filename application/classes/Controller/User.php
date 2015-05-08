@@ -75,7 +75,9 @@ abstract class Controller_User extends Controller {
 	protected function action_error()
 	{
 		$error = $this->session->get_once('error');
-		if (is_null($error)) $error = 'Error.';
+		
+		if (is_null($error))
+			$this->redirect();
 
 		$this->view->content = View::factory('profile/error')
 			->bind('error', $error);

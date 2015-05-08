@@ -1,4 +1,5 @@
-<pagebreak />
+<pagebreak>
+
 Table 1.2
 <table class="table table-bordered table-condensed cuma-table" width="100%">
 	<thead>
@@ -8,17 +9,17 @@ Table 1.2
 			<th colspan="4">Research Activities</th>
 		</tr>
 		<tr>
-			<th rowspan="2">No.</th>
+			<th width="50" rowspan="2">No.</th>
 			<th rowspan="2">Senior (Associate &<br>Full Professors)</th>
-			<th rowspan="2">No.</th>
+			<th width="50" rowspan="2">No.</th>
 			<th rowspan="2">Junior (Instructor &<br>Assistant Professors)</th>
-			<th colspan="2">Researches in the past 3 years</th>
+			<th colspan="2">Researches<br>in the past 3 years</th>
 			<th colspan="2">Publications</th>
 		</tr>
 		<tr>
-			<th>No.</th>
+			<th width="50">No.</th>
 			<th>Nature</th>
-			<th>No.</th>
+			<th width="50">No.</th>
 			<th>ISI/<br>Peer-reviewed</th>
 		</tr>
 	</thead>
@@ -26,7 +27,7 @@ Table 1.2
 	<?php
 	foreach ($programs as $program)
 	{
-		if (in_array($program['program_ID'], $program_IDs))
+		if (in_array($program['program_ID'], $department_programIDs))
 		{
 			$senior = array();
 			$junior = array();
@@ -114,7 +115,7 @@ Table 1.2
 				: '-');
 
 			echo '<tr>
-				<td>', $program['program_short'], '</td>
+				<td class="first">', $program['program_short'], '</td>
 				<td>', ($senior_count ? $senior_count : 'None'), '</td>
 				<td>', $senior_ave, '</td>
 				<td>', ($junior_count ? $junior_count : 'None'), '</td>

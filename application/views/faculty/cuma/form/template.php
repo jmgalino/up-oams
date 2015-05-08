@@ -24,7 +24,7 @@
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong>publish</strong>.
+		Don't forget to <strong>submit</strong>.
 	</p>
 </div>
 <?php endif; ?>
@@ -32,13 +32,13 @@
 <!-- Diplay Row -->
 <div class="row">
 	<div class="col-sm-9 form">
-		<pre class="center-block pre-scrollable form">
+		<pre class="center-block pre-scrollable form" style="font-size:80%; white-space:normal; word-break:normal">
 			<?php
 				echo View::factory('faculty/cuma/form/part_'.$cuma_details['current']);
 			?>
 		</pre>
 	</div>
-	<div class="col-sm-9 publish" style="display:none"></div>
+	<div class="col-sm-9 submit" style="display:none"></div>
 
 	<div class="col-sm-3" role="complementary">
 		<ul class="nav nav-pills nav-stacked">
@@ -54,21 +54,21 @@
 				<nav>
 				  <ul class="pager">
 				    <li class="<?php echo ($cuma_details['current'] == 1 ? 'previous disabled' : 'previous'); ?>">
-				    	<a id="prev" href="#">
+				    	<a id="prevPage" href="#">
 				    		<span aria-hidden="true">&larr;</span> Previous
 				    	</a>
 				    </li>
 				    <li class="next">
-				    	<a id="next" final="<?php echo URL::base().'files/document_cuma/'; ?>" href="#">
+				    	<a id="nextPage" final="<?php echo URL::base().'files/document_cuma/'; ?>" href="#">
 				    		Next <span aria-hidden="true">&rarr;</span>
 				    	</a>
 				    </li>
 				  </ul>
 				</nav>
 			</li>
-			<hr class="publish" style="border-top: dotted 1px; display:none">
-			<li class="publish" style="display:none">
-				<a href="<?php echo URL::site('faculty/cuma/publish/'.$cuma_details['cuma_ID']); ?>">Publish</a>
+			<hr class="submit" style="border-top: dotted 1px; display:none">
+			<li class="submit" style="display:none">
+				<a href="<?php echo URL::site('faculty/cuma/submit/'.$cuma_details['cuma_ID']); ?>">Submit</a>
 			</li>
 		</ul>
 	</div>

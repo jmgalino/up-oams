@@ -40,12 +40,14 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 	 */
 	public function action_profiles()
 	{	
+		$profile_url = URL::site('faculty/dept/profile').'/';
 		$programs = $this->univ->get_programs();
 		
 		$this->view->content = View::factory('faculty/profile/faculty')
 			->bind('group', $this->department_details['department'])
 			->bind('users', $this->department_users)
-			->bind('programs', $programs);
+			->bind('programs', $programs)
+			->bind('profile_url', $profile_url);
 		$this->response->body($this->view->render());
 	}
 
@@ -63,7 +65,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$program_details = $this->univ->get_program_details($user_details['program_ID']);
 		$user_details['program_short'] = $program_details['program_short'];
 		$fullname = $user_details['last_name'].', '.$user_details['first_name'].' '.$user_details['middle_name'][0].'.';
-		$url = URL::site('faculty/dept/profiles');
+		$faculty_url = URL::site('faculty/dept/profiles');
 
 		$reports = array();
 		$accom_IDs = array();
@@ -92,7 +94,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		}
 		
 		$this->view->content = View::factory('faculty/profile/profile')
-			->bind('url', $url)
+			->bind('faculty_url', $faculty_url)
 			->bind('user', $user_details)
 			->bind('education', $education)
 			->bind('accom_reports', $reports)

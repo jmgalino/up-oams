@@ -6,9 +6,9 @@ $department_details = $univ->get_department_details(NULL, $session->get('program
 $department_programs = $univ->get_department_programIDs($department_details['department_ID']);
 $programs = $univ->get_programs();
 
-$program_IDs = array();
+$department_programIDs = array();
 foreach ($department_programs as $program) {
-	$program_IDs[] = $program['program_ID'];
+	$department_programIDs[] = $program['program_ID'];
 }
 
 echo '<p><strong>2. Relevance and flexibility of programs to respond to new developments</strong></p>';
@@ -21,21 +21,21 @@ echo 'Table 2.1';
 			<th rowspan="2">Academic Programs</th>
 			<th rowspan="2">Date<br>Instituted</th>
 			<th rowspan="2">Date last<br>reviewed</th>
-			<th rowspan="2">No. of times<br>reviewed</th>
+			<th rowspan="2" min-width="50">No. of times<br>reviewed</th>
 			<th colspan="3">% passing<br>(Licensure<br>exams,<br>if applicable)</th>
 			<th rowspan="2">Describe revisions made and why</th>
 		</tr>
 		<tr>
-			<th>Y1</th>
-			<th>Y2</th>
-			<th>Y3</th>
+			<th width="50">Y1</th>
+			<th width="50">Y2</th>
+			<th width="50">Y3</th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php
 	foreach ($programs as $program)
 	{
-		if (in_array($program['program_ID'], $program_IDs))
+		if (in_array($program['program_ID'], $department_programIDs))
 		{
 			echo '<tr>
 				<td>', $program['program_short'], '</td>
@@ -63,20 +63,20 @@ Table 2.2
 			<th rowspan="2">Describe institutions where<br>graduates are employed</th>
 		</tr>
 		<tr>
-			<th>No. in<br>Phil. Univ.</th>
-			<th>No. in<br>Foregin. Univ.</th>
-			<th>Academe</th>
-			<th>Industry</th>
-			<th>Research<br>Institutions</th>
-			<th>KPO</th>
-			<th>Contact<br>Centers</th>
+			<th min-width="50">No. in<br>Philippine Univ.</th>
+			<th min-width="50">No. in<br>Foreign Univ.</th>
+			<th width="50">Academe</th>
+			<th width="50">Industry</th>
+			<th width="50">Research<br>Institutions</th>
+			<th width="50">KPO</th>
+			<th width="50">Contact<br>Centers</th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php
 	foreach ($programs as $program)
 	{
-		if (in_array($program['program_ID'], $program_IDs))
+		if (in_array($program['program_ID'], $department_programIDs))
 		{
 			echo '<tr>
 				<td>', $program['program_short'], '</td>

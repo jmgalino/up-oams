@@ -155,19 +155,6 @@ Route::set('user-functions', '<controller>/<action>',
 	));
 
 /**
- * Routes for Admin Users
- */
-Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<document>/<document_ID>)))',
-	array(
-		'directory' => 'admin',
-		'controller'=> '(profile|university|oams)',
-		// 'action'	=> '(new|view|update|reset|delete)'
-	))
-	->defaults(array(
-		'action'	=> 'index'
-	));
-
-/**
  * Routes for Faculty Users
  */
 Route::set('faculty-functions', '<controller>/<action>(/<id>)',
@@ -296,10 +283,23 @@ Route::set('mpdf', '<directory>/<controller>(/<purpose>)/<type>(/<id>)',
 Route::set('cuma-functions', '<directory>/<controller>(/<action>(/<id>))',
 	array(
 		'directory' => 'faculty',
-		// 'action'	=> '(coll|view|evaluate|consolidate)'
+		'action'	=> '(new|preview|update|delete|submit|draft|view)'
 	))
 	->defaults(array(
 		'controller'=> 'cuma',
+		'action'	=> 'index'
+	));
+
+/**
+ * Routes for Admin Users
+ */
+Route::set('admin-functions', '<directory>/<controller>/<action>(/<id>(/<document>/<document_ID>))',
+	array(
+		'directory' => 'admin',
+		'controller'=> '(profile|university|oams)',
+		// 'action'	=> '(new|view|update|reset|delete)'
+	))
+	->defaults(array(
 		'action'	=> 'index'
 	));
 

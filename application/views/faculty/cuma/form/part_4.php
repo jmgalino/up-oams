@@ -10,9 +10,9 @@ $department_programs = $univ->get_department_programIDs($department_details['dep
 $department_users = $user->get_user_group($department_programs, NULL);
 $programs = $univ->get_programs();
 
-$program_IDs = array();
+$department_programIDs = array();
 foreach ($department_programs as $program) {
-	$program_IDs[] = $program['program_ID'];
+	$department_programIDs[] = $program['program_ID'];
 }
 ?>
 
@@ -20,7 +20,7 @@ Table 1.3
 <?php
 foreach ($programs as $program)
 {
-	if (in_array($program['program_ID'], $program_IDs))
+	if (in_array($program['program_ID'], $department_programIDs))
 	{
 		echo '<table class="table table-bordered table-condensed cuma-table" width="100%">
 			<thead>
@@ -30,7 +30,7 @@ foreach ($programs as $program)
 				<tr>
 					<th rowspan="2">Name of Faculty<br>', $session->get('period'), '</th>
 					<th colspan="4">Educational Qualifications</th>
-					<th rowspan="2">Average<br>SET<br>Scores</th>
+					<th rowspan="2" width="50">Average SATE Scores</th>
 					<th colspan="3">Publications</th>
 				</tr>
 				<tr>
@@ -38,9 +38,9 @@ foreach ($programs as $program)
 					<th>Date<br>Obtained</th>
 					<th>Where<br>Obtained</th>
 					<th>Training/<br>Continuing<br>Education</th>
-					<th>No. of ISI<br>publications</th>
-					<th>No. of<br>refereed<br>publications</th>
-					<th>No. of<br>popular<br>publications</th>
+					<th width="50">No. of ISI<br>publications</th>
+					<th width="50">No. of refereed<br>publications</th>
+					<th width="50">No. of popular<br>publications</th>
 				</tr>
 			</thead>
 			<tbody>';

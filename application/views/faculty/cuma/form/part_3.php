@@ -10,11 +10,10 @@ $department_programs = $univ->get_department_programIDs($department_details['dep
 $department_users = $user->get_user_group($department_programs);
 $programs = $univ->get_programs();
 
-$program_IDs = array();
+$department_programIDs = array();
 foreach ($department_programs as $program) {
-	$program_IDs[] = $program['program_ID'];
+	$department_programIDs[] = $program['program_ID'];
 }
-
 ?>
 
 Table 1.2
@@ -26,17 +25,17 @@ Table 1.2
 			<th colspan="4">Research Activities</th>
 		</tr>
 		<tr>
-			<th rowspan="2">No.</th>
+			<th width="50" rowspan="2">No.</th>
 			<th rowspan="2">Senior (Associate &<br>Full Professors)</th>
-			<th rowspan="2">No.</th>
-			<th rowspan="2">Junior (Instructor &<br>Assistant<br>Professors)</th>
-			<th colspan="2">Researches in the<br>past 3 years</th>
+			<th width="50" rowspan="2">No.</th>
+			<th rowspan="2">Junior (Instructor &<br>Assistant Professors)</th>
+			<th colspan="2">Researches<br>in the past 3 years</th>
 			<th colspan="2">Publications</th>
 		</tr>
 		<tr>
-			<th>No.</th>
+			<th width="50">No.</th>
 			<th>Nature</th>
-			<th>No.</th>
+			<th width="50">No.</th>
 			<th>ISI/<br>Peer-reviewed</th>
 		</tr>
 	</thead>
@@ -44,7 +43,7 @@ Table 1.2
 	<?php
 	foreach ($programs as $program)
 	{
-		if (in_array($program['program_ID'], $program_IDs))
+		if (in_array($program['program_ID'], $department_programIDs))
 		{
 			$senior = array();
 			$junior = array();

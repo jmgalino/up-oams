@@ -19,6 +19,23 @@ class Model_Cuma extends Model {
 	}
 
 	/**
+	 * Get forms (by college)
+	 */
+	public function get_group_cuma($userIDs)
+	{
+		$cuma_forms = DB::select()
+			->from('cumatbl')
+			->where('user_ID', 'IN', $userIDs)
+			->where('status', '=', 'Submitted')
+			->order_by('period_from', 'DESC')
+			->order_by('period_to', 'DESC')
+	 		->execute()
+	 		->as_array();
+		
+	 	return $cuma_forms;
+	}
+
+	/**
 	 * Get cuma details
 	 */
 	public function get_details($cuma_ID)

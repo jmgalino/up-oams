@@ -539,3 +539,21 @@ a.link-reverse:active
   background-color: #4e0b0c;
   border-color: #2f0607;
 }
+
+/* CUMA GROUP TABLE */
+#faculty_table > tbody > tr > td,
+#cuma_group_table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+table.cuma-table {
+  border: 1px solid #000000;
+}
+
+table.cuma-table thead > tr > th,
+table.cuma-table tbody > tr > td {
+  border: 1px solid #000000;
+  padding: 5px;
+  vertical-align: middle;
+}
+

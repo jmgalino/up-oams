@@ -6,9 +6,15 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 
 	public function before()
 	{
-		$this->cuma = new Model_Cuma;
-
 		parent::before();
+
+		if ($this->session->get('identifier') != 'chair')
+		{
+			$this->session->set('error', 'Unauthorized access.');
+			$this->redirect('faculty/error');
+		}
+
+		$this->cuma = new Model_Cuma;
 	}
 
 	/**
@@ -18,7 +24,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$univ = new Model_Univ;
 
-		$publish = $this->session->get_once('publish');
+		$submit = $this->session->get_once('submit');
 		$delete = $this->request->post('delete');
 		$error = $this->request->post('error');
 		$cuma_forms = $this->cuma->get_faculty_cuma($this->session->get('user_ID'));
@@ -102,7 +108,7 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 		else
 		{
 			$this->response = Request::factory('faculty/cuma')
-				->post(array('error' => 'Accomplishment Report is locked for editing.'))
+				->post(array('error' => 'CUMA Form is locked for editing.'))
 				->execute();
 		}
 	}
@@ -132,24 +138,24 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	/**
 	 * Publish CUMA Form
 	 */
-	public function action_publish()
+	public function action_submit()
 	{
 		$cuma_ID = $this->request->param('id');
 		
 		if ($this->is_mutable($cuma_ID))
 		{
-			$publish_success = $this->cuma->update(array(
+			$submit_success = $this->cuma->update(array(
 				'cuma_ID' => $cuma_ID,
-				'date_assessed' => date('Y-m-d'),
-				'status' => 'Published'));
+				'date_submitted' => date('Y-m-d'),
+				'status' => 'Submitted'));
 			
-			$this->session->set('publish', $publish_success);
+			$this->session->set('submit', $submit_success);
 			$this->redirect('faculty/cuma');
 		}
 		else
 		{
 			$this->response = Request::factory('faculty/cuma')
-				->post(array('error' => 'Accomplishment Report is locked for editing.'))
+				->post(array('error' => 'CUMA Form is locked for editing.'))
 				->execute();
 		}
 	}

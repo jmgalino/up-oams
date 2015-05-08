@@ -78,7 +78,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 		$opcr_ID = $this->request->param('id');
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$user_details = $user->get_details($opcr_details['user_ID'], NULL);
-		$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
+		$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
 		
 		$period_from = date('F Y', strtotime($opcr_details['period_from']));
 		$period_to = date('F Y', strtotime($opcr_details['period_to']));
@@ -92,7 +92,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 			->bind('evaluate_url', $evaluate_url)
 			->bind('opcr_details', $opcr_details)
 			->bind('faculty', $fullname)
-			->bind('unit', $college_details['short'])
+			->bind('unit', $department_details['short'])
 			->bind('period', $period);
 		$this->response->body($this->view->render());
 	}

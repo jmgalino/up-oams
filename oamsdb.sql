@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 04, 2015 at 02:15 PM
+-- Generation Time: May 08, 2015 at 08:00 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
   `user_ID` int(11) NOT NULL,
   `yearmonth` date NOT NULL,
   `date_submitted` date DEFAULT NULL,
-  `status` enum('Approved','Rejected','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
+  `status` enum('Accepted','Returned','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
@@ -42,16 +42,16 @@ CREATE TABLE IF NOT EXISTS `accomtbl` (
 
 INSERT INTO `accomtbl` (`accom_ID`, `user_ID`, `yearmonth`, `date_submitted`, `status`, `remarks`, `document`) VALUES
 (1, 4, '2014-01-01', '2015-03-05', 'Saved', 'None', '1234000000114.pdf'),
-(3, 39, '2015-02-01', '2015-03-02', 'Pending', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Thomas W. Seay (05 Feb 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000310215.pdf'),
-(4, 39, '2014-12-01', '2015-02-04', 'Pending', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000311215.pdf'),
-(5, 40, '2015-03-01', '2015-02-04', 'Pending', 'Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000320315.pdf'),
+(3, 39, '2015-02-01', '2015-03-02', 'Accepted', 'Accepted by Thomas W. Seay (07 May 2015)<br>Accepted by Thomas W. Seay (07 May 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Thomas W. Seay (05 Feb 2015)', '1234000310215.pdf'),
+(4, 39, '2014-12-01', '2015-02-04', 'Returned', 'Please review your publications. - Thomas W. Seay (07 May 2015)<br>Accepted by Thomas W. Seay (07 May 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000311215.pdf'),
+(5, 40, '2015-03-01', '2015-02-04', 'Accepted', 'Accepted by Troy E. Keller (07 May 2015)<br>Checked by Troy E. Keller (02 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000320315.pdf'),
 (6, 39, '2015-03-01', '2015-02-04', 'Draft', 'None', '1234000310315.pdf'),
-(7, 12, '2015-03-01', '2015-04-01', 'Saved', 'w - Troy E. Keller (05 Mar 2015)<br>q - Troy E. Keller (05 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000080315.pdf'),
+(7, 12, '2015-03-01', '2015-05-07', 'Saved', 'w - Troy E. Keller (05 Mar 2015)<br>q - Troy E. Keller (05 Mar 2015)<br>Checked by Troy E. Keller (05 Feb 2015)', '1234000080315.pdf'),
 (8, 5, '2015-04-01', '2015-03-11', 'Saved', 'None', '1234000010415.pdf'),
 (9, 4, '2015-02-01', NULL, 'Draft', 'None', NULL),
 (11, 12, '2014-02-01', '2015-03-24', 'Saved', 'None', '1234000080215.pdf'),
 (12, 5, '2015-01-01', NULL, 'Draft', 'None', NULL),
-(13, 38, '2015-01-01', '2015-03-03', 'Pending', 'Approved by Thomas W. Seay (10 Apr 2015)<br>s - Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)<br>Rejected by Thomas W. Seay (10 Apr 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)', '1234000300115.pdf'),
+(13, 38, '2015-01-01', '2015-03-03', 'Returned', 'Returned by Troy E. Keller (07 May 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)<br>s - Thomas W. Seay (10 Apr 2015)<br>a - Thomas W. Seay (10 Apr 2015)<br>Rejected by Thomas W. Seay (10 Apr 2015)<br>Approved by Thomas W. Seay (10 Apr 2015)', '1234000300115.pdf'),
 (14, 38, '2015-02-01', '2015-04-21', 'Pending', 'Approved by Thomas W. Seay (21 Apr 2015)<br>Rejected by Thomas W. Seay (21 Apr 2015)', '1234000300215.pdf'),
 (15, 12, '2015-04-01', '2015-04-21', 'Saved', 'None', '1234000080415.pdf'),
 (16, 5, '2014-04-01', NULL, 'Draft', 'None', NULL),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `accom_mattbl` (
   `author` varchar(255) DEFAULT NULL,
   `year` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accom_mattbl`
@@ -130,7 +130,8 @@ INSERT INTO `accom_mattbl` (`material_ID`, `author`, `year`, `title`) VALUES
 (25, NULL, '2222', 'w'),
 (26, '', '1992', 'Toad the Wet Sprocket'),
 (27, NULL, '2010', 'Family Guy'),
-(28, NULL, '1234', 'q');
+(28, NULL, '1234', 'q'),
+(29, NULL, '2012', 'Until');
 
 -- --------------------------------------------------------
 
@@ -260,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `connect_accomtbl` (
   `accom_specID` int(11) NOT NULL,
   `type` enum('pub','awd','rch','ppr','ctv','par','mat','oth') NOT NULL,
   `attachment` text
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `connect_accomtbl`
@@ -297,7 +298,8 @@ INSERT INTO `connect_accomtbl` (`connect_ID`, `accom_ID`, `accom_specID`, `type`
 (61, 15, 5, 'rch', NULL),
 (62, 15, 7, 'rch', NULL),
 (63, 15, 6, 'pub', NULL),
-(64, 17, 28, 'mat', 'wdaghutzjq4kwv83ifdm171430736457.jpg rntknp3kqrkpgomm53za171430736457.jpg lzbhfmbrvkgc3kexi0lk171430736457.jpg');
+(64, 17, 28, 'mat', 'wdaghutzjq4kwv83ifdm171430736457.jpg rntknp3kqrkpgomm53za171430736457.jpg lzbhfmbrvkgc3kexi0lk171430736457.jpg'),
+(65, 15, 29, 'mat', 'mzu7omkqyazcjlbovpqa151430885278.jpg');
 
 -- --------------------------------------------------------
 
@@ -310,18 +312,19 @@ CREATE TABLE IF NOT EXISTS `cumatbl` (
   `user_ID` int(11) NOT NULL,
   `period_from` date NOT NULL,
   `period_to` date NOT NULL,
-  `date_assessed` date DEFAULT NULL,
-  `status` enum('Published','Draft') NOT NULL DEFAULT 'Draft',
+  `date_submitted` date DEFAULT NULL,
+  `status` enum('Submitted','Draft') NOT NULL DEFAULT 'Draft',
   `document` varchar(255) DEFAULT NULL,
   `current` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cumatbl`
 --
 
-INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_assessed`, `status`, `document`, `current`) VALUES
-(2, 12, '2013-01-01', '2015-12-31', '2015-04-22', 'Published', '12340000820132015.pdf', 8);
+INSERT INTO `cumatbl` (`cuma_ID`, `user_ID`, `period_from`, `period_to`, `date_submitted`, `status`, `document`, `current`) VALUES
+(2, 12, '2013-01-01', '2015-12-31', '2015-05-08', 'Submitted', '12340000820132015.pdf', 8),
+(6, 12, '2010-01-01', '2012-12-31', NULL, 'Draft', '12340000820102012.pdf', 8);
 
 -- --------------------------------------------------------
 
@@ -334,8 +337,7 @@ CREATE TABLE IF NOT EXISTS `ipcrtbl` (
   `opcr_ID` int(11) NOT NULL,
   `user_ID` int(11) NOT NULL,
   `date_submitted` date DEFAULT NULL,
-  `status` enum('Checked','Accepted','Rejected','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
-  `comments` varchar(255) DEFAULT NULL,
+  `status` enum('Accepted','Returned','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL,
   `version` int(11) NOT NULL DEFAULT '0'
@@ -345,16 +347,16 @@ CREATE TABLE IF NOT EXISTS `ipcrtbl` (
 -- Dumping data for table `ipcrtbl`
 --
 
-INSERT INTO `ipcrtbl` (`ipcr_ID`, `opcr_ID`, `user_ID`, `date_submitted`, `status`, `comments`, `remarks`, `document`, `version`) VALUES
-(3, 2, 12, '2015-04-02', 'Saved', NULL, 'None', '12340000801150415.pdf', 0),
-(4, 2, 38, '2015-04-04', 'Checked', NULL, 'Checked by Thomas W. Seay (04 May 2015)<br>Accepted by Thomas W. Seay (27 Mar 2015)<br><br>Checked by Thomas W. Seay (25 Mar 2015)', '12340003002150415.pdf', 3),
-(5, 3, 12, '2015-03-27', 'Saved', NULL, 'None', '05150815.pdf', 0),
-(6, 4, 10, '2015-03-30', 'Saved', NULL, 'None', NULL, 0),
-(7, 4, 25, '2015-03-31', 'Pending', NULL, 'Checked by Sharon D. Call (31 Mar 2015)', '12340002101150415.pdf', 1),
-(8, 3, 38, NULL, 'Draft', NULL, 'None', NULL, 0),
-(9, 5, 12, '2015-04-06', 'Saved', NULL, 'None', '12340000801140414.pdf', 0),
-(10, 4, 5, '2015-04-06', 'Saved', NULL, 'None', '12340000101150415.pdf', 0),
-(11, 5, 38, '2015-04-22', 'Pending', NULL, 'Checked by Thomas W. Seay (22 Apr 2015)', '12340003009141214.pdf', 1);
+INSERT INTO `ipcrtbl` (`ipcr_ID`, `opcr_ID`, `user_ID`, `date_submitted`, `status`, `remarks`, `document`, `version`) VALUES
+(3, 2, 12, '2015-04-02', 'Saved', 'None', '12340000801150415.pdf', 0),
+(4, 2, 38, '2015-04-04', 'Pending', 'Checked by Thomas W. Seay (04 May 2015)<br>Accepted by Thomas W. Seay (27 Mar 2015)<br><br>Checked by Thomas W. Seay (25 Mar 2015)', '12340003002150415.pdf', 3),
+(5, 3, 12, '2015-03-27', 'Saved', 'None', '05150815.pdf', 0),
+(6, 4, 10, '2015-03-30', 'Saved', 'None', NULL, 0),
+(7, 4, 25, '2015-03-31', 'Pending', 'Checked by Sharon D. Call (31 Mar 2015)', '12340002101150415.pdf', 1),
+(8, 3, 38, '2015-05-04', 'Returned', 'Returned by Thomas W. Seay (07 May 2015)<br>Accepted by Thomas W. Seay (07 May 2015)<br>Checked by Thomas W. Seay (07 May 2015)<br>Checked by Thomas W. Seay (07 May 2015)<br>Checked by Thomas W. Seay (07 May 2015)', '12340003005150815.pdf', 0),
+(9, 5, 12, '2015-04-06', 'Saved', 'None', '12340000801140414.pdf', 0),
+(10, 4, 5, '2015-04-06', 'Saved', 'None', '12340000101150415.pdf', 0),
+(11, 5, 38, '2015-04-22', 'Pending', 'Checked by Thomas W. Seay (22 Apr 2015)', '12340003009141214.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -381,8 +383,8 @@ CREATE TABLE IF NOT EXISTS `ipcr_targettbl` (
 --
 
 INSERT INTO `ipcr_targettbl` (`target_ID`, `output_ID`, `ipcr_ID`, `target`, `indicators`, `actual_accom`, `r_quantity`, `r_efficiency`, `r_timeliness`, `remarks`, `attachment`) VALUES
-(3, 4, 4, 'Hello', 'World', 'a', 4, 3, 4, 'None', 'Screen Shot 2015-05-04 at 10.09.37 AM.png => 1wg1cp3thuj7uqfgpgdq41430742947.jpg'),
-(5, 7, 5, 'Double click to edit.', 'Double click to edit. a', 'yes', 2, 0, 0, 'None', NULL),
+(3, 4, 4, 'Hello', 'World', 'a', 4, 3, 4, 'None', 'Screen Shot 2015-05-04 at 10.28.06 AM.png => d9qh0olttb4akdxcqrhs41430749254.jpg'),
+(5, 7, 5, 'Double click to edit.', 'Double click to edit. a', 'yes', 2, 3, 3, 'None', 'Screen Shot 2015-05-02 at 9.19.08 PM.png => xhywmij6rmr6wjuozylq51430929830.jpg; Screen Shot 2015-05-04 at 10.28.06 AM.png => p4mhcxau9fhnmywaduzx51430937226.jpg'),
 (6, 9, 6, 'Yellow Bus', 'Double click to edit.', 'Hello', 3, 3, 3, 'None', NULL),
 (7, 8, 7, 'Holiday', 'Digos', NULL, 0, 0, 0, 'None', NULL),
 (8, 5, 8, 'Double click to edit.', 'Double click to edit.', NULL, 0, 0, 0, 'None', NULL),
@@ -420,19 +422,22 @@ INSERT INTO `oamstbl` (`name`, `value`) VALUES
 
 CREATE TABLE IF NOT EXISTS `oams_announcementtbl` (
   `announcement_ID` int(11) NOT NULL,
+  `user_ID` int(11) DEFAULT NULL,
+  `type` enum('univ','coll','dept') NOT NULL,
   `subject` varchar(255) NOT NULL,
   `date` datetime NOT NULL,
   `content` text NOT NULL,
   `attachment` text,
   `edited` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oams_announcementtbl`
 --
 
-INSERT INTO `oams_announcementtbl` (`announcement_ID`, `subject`, `date`, `content`, `attachment`, `edited`) VALUES
-(1, '1', '2015-04-22 12:05:21', 'a', NULL, 0);
+INSERT INTO `oams_announcementtbl` (`announcement_ID`, `user_ID`, `type`, `subject`, `date`, `content`, `attachment`, `edited`) VALUES
+(1, NULL, 'univ', 'test', '2015-05-07 14:18:32', '1', NULL, 0),
+(2, 12, 'dept', 'test', '2015-05-07 14:32:11', '2ab', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -457,8 +462,8 @@ CREATE TABLE IF NOT EXISTS `oams_messagetbl` (
 --
 
 INSERT INTO `oams_messagetbl` (`message_ID`, `name`, `contact`, `subject`, `message`, `date`, `seen`, `star`, `deleted`) VALUES
-(2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21 06:17:00', 0, 0, 0),
-(3, 'Kiyoko B. Blanton', '123400000', 'testing', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', '2014-09-21 15:47:00', 1, 1, 0),
+(2, 'Jamaica', 'jam@a.c', 'test uleit', 'message', '2014-09-21 06:17:00', 1, 0, 0),
+(3, 'Kiyoko B. Blanton', '123400000', 'testing', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', '2014-09-21 15:47:00', 1, 0, 0),
 (4, 'Kiyoko B. Blanton', '123400000', 'testing', 'uleeet2', '2014-09-22 00:00:00', 1, 0, 1),
 (5, 'Gloria V. Hubbard', '123400013', 'hello', 'phoesz', '2014-09-21 00:00:00', 1, 0, 0);
 
@@ -475,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
   `period_to` date NOT NULL,
   `date_published` date DEFAULT NULL,
   `date_submitted` date DEFAULT NULL,
-  `status` enum('Checked','Accepted','Rejected','Pending','Saved','Draft') NOT NULL DEFAULT 'Draft',
+  `status` enum('Accepted','Returned','Pending','Published','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -486,8 +491,8 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
 
 INSERT INTO `opcrtbl` (`opcr_ID`, `user_ID`, `period_from`, `period_to`, `date_published`, `date_submitted`, `status`, `remarks`, `document`) VALUES
 (1, 5, '2015-01-01', '2015-04-01', NULL, NULL, 'Draft', 'None', NULL),
-(2, 12, '2015-02-01', '2015-04-01', '2015-03-14', '2015-04-06', 'Pending', 'Checked by Troy E. Keller (02 Apr 2015)', '12340000802150415.pdf'),
-(3, 12, '2015-05-01', '2015-08-01', '2015-04-01', '2015-04-06', 'Pending', 'None', '12340000805150815.pdf'),
+(2, 12, '2015-02-01', '2015-04-01', '2015-03-14', '2015-04-06', 'Returned', 'Returned by Troy E. Keller (07 May 2015)<br>Accepted by Troy E. Keller (07 May 2015)<br>Checked by Troy E. Keller (02 Apr 2015)', '12340000802150415.pdf'),
+(3, 12, '2015-05-01', '2015-08-01', '2015-04-01', '2015-05-07', 'Published', 'None', '12340000805150815.pdf'),
 (4, 10, '2015-01-01', '2015-04-01', '2015-03-30', '2015-03-31', 'Pending', 'Checked by Troy E. Keller (02 Apr 2015)', '12340000601150415.pdf'),
 (5, 12, '2014-09-01', '2014-12-01', '2015-04-22', '2015-04-22', 'Pending', 'None', '12340000809141214.pdf');
 
@@ -541,7 +546,7 @@ INSERT INTO `opcr_outputtbl` (`output_ID`, `category_ID`, `opcr_ID`, `output`, `
 (2, 2, 1, 'Organise   Teaching           Pedagogy Workshop on student-centered teaching for the DMPCS faculty', '100% faculty participation = 5; 90% faculty participation = 4; 80% faculty participation = 3', NULL, NULL, NULL, NULL, NULL, 'None'),
 (3, 3, 1, 'Online administration of SATE and automated generation of SATE report', '10% done = 3; 20% done = 4;  and 30% done = 5', NULL, NULL, NULL, NULL, NULL, 'None'),
 (4, 1, 2, 'BSCS Curricular revision to address the requirements of the industry, K-12 and ASEAN integration.', 'Targets: (1) Acquired list of courses that will be transferred to K-12; (2) reviewed the old revision proposal; (3) identified gap between existing curriculum and industry needs. Measures: only (1) is acquired=3; (1) and (2) were obtained = 4; (1) and (2) and (3) were obtained = 5', 'TWSeay & RTFerrell', 'TEST', 2, 4, 3, 'None'),
-(5, 2, 3, 'hello', 'test', 'RTFerrell', 'a', 1, 3, 5, 'None'),
+(5, 2, 3, 'hello', 'test', 'a', 'a', 4, 4, 4, 'a'),
 (7, 2, 3, 'kitty', 'world', 'TWSeay', 'a', 5, 5, 5, 'None'),
 (8, 2, 4, 'Upgrading of laboratories for research, extension and instruction', 'Creation of a committee that will look into the requirements to upgrade the laboratories of the department and recommendation was made = 3; 10% of the recommendation was met = 4; 20% of the recommendation was met = 5', 'CCBrown', 'a', 3, 3, 3, 'None'),
 (9, 2, 4, 'Research Projects and Outputs', '1 research project conducted = 3; 2 research projects conducted = 4; and 3 research projects conducted = 5;', 'SDCall', 'a', 1, 2, 3, 'None'),
@@ -778,6 +783,8 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `last_name` varchar(50) NOT NULL,
   `suffix` varchar(50) DEFAULT NULL,
   `user_type` enum('Faculty','Admin') NOT NULL,
+  `average_set` float DEFAULT NULL,
+  `students_mentored` int(11) DEFAULT NULL,
   `faculty_code` varchar(30) DEFAULT NULL,
   `program_ID` int(11) DEFAULT NULL,
   `rank` enum('Prof.','Assoc. Prof.','Asst. Prof.','Inst.') NOT NULL,
@@ -791,53 +798,53 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 -- Dumping data for table `user_profiletbl`
 --
 
-INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
-(1, '000012345', NULL, 'Jenny', 'M', 'Galino', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1994-07-08', NULL, 0),
-(2, '000112345', NULL, 'Catherine', 'Kay', 'Gastone', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1963-12-14', NULL, 0),
-(3, '000212345', NULL, 'John', 'E', 'Parsons', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1968-02-18', NULL, 0),
-(4, '123400000', NULL, 'Kiyoko', 'B', 'Blantons', NULL, 'Faculty', 'KBBlanton', 2, 'Inst.', 'dean', '1982-01-06', NULL, 0),
-(5, '123400001', 'Assoc. Prof.', 'Troy', 'E', 'Keller', NULL, 'Faculty', 'TEKeller', 5, 'Inst.', 'dean', '1962-02-24', NULL, 0),
-(6, '123400002', NULL, 'Martha', 'K', 'Stutts', NULL, 'Faculty', 'MKStutts', 9, 'Inst.', 'dean', '1991-02-01', NULL, 0),
-(7, '123400003', NULL, 'Evan', 'L', 'Woodrow', NULL, 'Faculty', 'ELWoodrow', 1, 'Inst.', 'chair', '1964-02-18', NULL, 0),
-(8, '123400004', NULL, 'Karen', 'T', 'Brickey', NULL, 'Faculty', 'KTBrickey', 2, 'Inst.', 'chair', '1967-08-10', NULL, 0),
-(9, '123400005', NULL, 'Jacqueline', 'A', 'Morales', NULL, 'Faculty', 'JAMorales', 4, 'Inst.', 'chair', '1987-03-22', NULL, 0),
-(10, '123400006', NULL, 'Sharon', 'D', 'Call', NULL, 'Faculty', 'SDCall', 5, 'Inst.', 'chair', '1970-12-07', NULL, 0),
-(11, '123400007', NULL, 'Pedro', 'R', 'Morales', NULL, 'Faculty', 'PRMorales', 6, 'Inst.', 'none', '1971-01-01', NULL, 0),
-(12, '123400008', '', 'Thomas', 'W', 'Seay', '', 'Faculty', 'TWSeay', 8, 'Prof.', 'chair', '1974-03-03', NULL, 0),
-(13, '123400009', NULL, 'Albert', 'A', 'Russell', NULL, 'Faculty', 'AARussell', 1, 'Inst.', 'none', '1977-08-10', NULL, 0),
-(14, '123400010', NULL, 'Dianne', 'A', 'Farias', NULL, 'Faculty', 'DAFarias', 1, 'Inst.', 'none', '1993-04-15', NULL, 0),
-(15, '123400011', NULL, 'Daniel', 'C', 'Daly', NULL, 'Faculty', 'DCDaly', 1, 'Inst.', 'none', '1975-12-31', NULL, 0),
-(16, '123400012', NULL, 'Kristin', 'B', 'Morford', NULL, 'Faculty', 'KBMorford', 2, 'Inst.', 'none', '1983-10-16', NULL, 0),
-(17, '123400013', NULL, 'Gloria', 'V', 'Hubbard', NULL, 'Faculty', 'GVHubbard', 2, 'Inst.', 'none', '1991-03-04', NULL, 0),
-(18, '123400014', NULL, 'Anthony', 'C', 'Whitehill', NULL, 'Faculty', 'ACWhitehill', 2, 'Inst.', 'none', '1967-02-11', NULL, 0),
-(19, '123400015', NULL, 'Richard', 'A', 'Savage', NULL, 'Faculty', 'RASavage', 3, 'Inst.', 'none', '1994-07-26', NULL, 0),
-(20, '123400016', NULL, 'Dominic', 'R', 'Martinez', NULL, 'Faculty', 'DRMartinez', 3, 'Inst.', 'none', '1982-01-31', NULL, 0),
-(21, '123400017', NULL, 'Lillian', 'R', 'Laberge', NULL, 'Faculty', 'LRLaberge', 3, 'Inst.', 'none', '1968-07-03', NULL, 0),
-(22, '123400018', NULL, 'Jack', 'A', 'Hansen', NULL, 'Faculty', 'JAHansen', 4, 'Inst.', 'none', '1984-01-29', NULL, 0),
-(23, '123400019', NULL, 'Peggy', 'L', 'Benedetto', NULL, 'Faculty', 'PLBenedetto', 4, 'Inst.', 'none', '2014-07-22', NULL, 0),
-(24, '123400020', NULL, 'Jeffrey', 'K', 'Barraza', NULL, 'Faculty', 'JKBarraza', 4, 'Inst.', 'none', '1992-10-29', NULL, 0),
-(25, '123400021', NULL, 'Carole', 'C', 'Brown', NULL, 'Faculty', 'CCBrown', 5, 'Inst.', 'none', '1966-08-12', NULL, 0),
-(26, '123400023', NULL, 'Ben', 'P', 'Banks', NULL, 'Faculty', 'BPBanks', 5, 'Inst.', 'none', '1959-01-09', NULL, 0),
-(27, '123400024', NULL, 'Hilda', 'D', 'Jones', NULL, 'Faculty', 'HDJones', 6, 'Inst.', 'none', '1986-12-25', NULL, 0),
-(31, '143860113', NULL, 'Armacheska', 'River', 'Mesa', NULL, 'Faculty', 'Armesa', 8, 'Inst.', 'none', '2014-09-09', NULL, 1),
-(32, '123400026', NULL, 'Ryan', 'C', 'Clark', NULL, 'Faculty', 'RCClark', 6, 'Inst.', 'none', '1983-06-18', NULL, 0),
-(33, '123400028', '', 'Gwyn', 'J', 'Johnson', '', 'Faculty', 'GJJohnson', 7, 'Assoc. Prof.', 'none', '1985-02-18', NULL, 0),
-(34, '123400025', NULL, 'Ralph', 'J', 'Harris', NULL, 'Faculty', 'RJHarris', 6, 'Inst.', 'none', '1972-03-12', NULL, 0),
-(35, '123400027', '', 'Phyllis', 'K', 'May', '', 'Faculty', 'PKMay', 7, 'Inst.', 'none', '1990-04-03', NULL, 0),
-(36, '123400029', '', 'Susan', 'J', 'Anderson', '', 'Faculty', 'SJAnderson', 7, 'Assoc. Prof.', 'none', '1981-02-13', NULL, 0),
-(37, '123400022', NULL, 'Allen', 'D', 'Katz', NULL, 'Faculty', 'ADKatz', 5, 'Inst.', 'none', '1975-02-02', NULL, 0),
-(38, '123400030', '', 'Richard', 'T', 'Ferrell', '', 'Faculty', 'RTFerrell', 8, 'Prof.', 'none', '1975-12-20', NULL, 0),
-(39, '123400031', '', 'Allison', 'M', 'McLain', '', 'Faculty', 'AMMcLain', 8, 'Prof.', 'none', '1965-04-03', NULL, 0),
-(40, '123400032', '', 'Johnny', 'B', 'Mitchell', '', 'Faculty', 'JBMitchell', 8, 'Prof.', 'none', '1960-04-03', NULL, 0),
-(41, '123400034', NULL, 'Deborah', 'H', 'Jensen', NULL, 'Faculty', 'DHJensen', 9, 'Inst.', 'none', '1976-01-17', NULL, 0),
-(42, '123400035', NULL, 'Kathleen', 'M', 'Thomas', NULL, 'Faculty', 'KMThomas', 9, 'Inst.', 'none', '1985-04-01', NULL, 0),
-(43, '123400033', NULL, 'Hilda', 'K', 'Martinez', NULL, 'Faculty', 'HKMartinez', 9, 'Inst.', 'none', '1977-06-04', NULL, 0),
-(44, '123400036', NULL, 'Joyce', 'D', 'Carter', NULL, 'Faculty', 'JDCarter', 10, 'Inst.', 'none', '1992-04-12', NULL, 0),
-(45, '123400037', NULL, 'Joseph', 'L', 'Duke', NULL, 'Faculty', 'JLDuke', 10, 'Inst.', 'none', '1993-12-23', NULL, 0),
-(46, '123400038', NULL, 'Lisa', 'A', 'Gray', NULL, 'Faculty', 'LAGray', 10, 'Inst.', 'none', '1985-06-21', NULL, 0),
-(47, '000312345', NULL, 'Lori', 'K', 'Shoffner', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1982-02-24', NULL, 0),
-(48, '123400039', NULL, 'New', 'Sample', 'User', NULL, 'Faculty', 'NSUser', 13, 'Inst.', 'none', '2014-11-02', NULL, 0),
-(49, '000412345', NULL, 'George', 'Lee', 'Sanchez', NULL, 'Admin', NULL, NULL, 'Inst.', NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0);
+INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `average_set`, `students_mentored`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
+(1, '000012345', NULL, 'Jenny', 'M', 'Galino', NULL, 'Admin', NULL, NULL, NULL, NULL, 'Inst.', NULL, '1994-07-08', NULL, 0),
+(2, '000112345', NULL, 'Catherine', 'Kay', 'Gastone', NULL, 'Admin', NULL, NULL, NULL, NULL, 'Inst.', NULL, '1963-12-14', NULL, 0),
+(3, '000212345', NULL, 'John', 'E', 'Parsons', NULL, 'Admin', NULL, NULL, NULL, NULL, 'Inst.', NULL, '1968-02-18', NULL, 0),
+(4, '123400000', NULL, 'Kiyoko', 'B', 'Blantons', NULL, 'Faculty', NULL, NULL, 'KBBlanton', 2, 'Inst.', 'dean', '1982-01-06', NULL, 0),
+(5, '123400001', 'Assoc. Prof.', 'Troy', 'E', 'Keller', NULL, 'Faculty', NULL, NULL, 'TEKeller', 5, 'Inst.', 'dean', '1962-02-24', NULL, 0),
+(6, '123400002', NULL, 'Martha', 'K', 'Stutts', NULL, 'Faculty', NULL, NULL, 'MKStutts', 9, 'Inst.', 'dean', '1991-02-01', NULL, 0),
+(7, '123400003', NULL, 'Evan', 'L', 'Woodrow', NULL, 'Faculty', NULL, NULL, 'ELWoodrow', 1, 'Inst.', 'chair', '1964-02-18', NULL, 0),
+(8, '123400004', NULL, 'Karen', 'T', 'Brickey', NULL, 'Faculty', NULL, NULL, 'KTBrickey', 2, 'Inst.', 'chair', '1967-08-10', NULL, 0),
+(9, '123400005', NULL, 'Jacqueline', 'A', 'Morales', NULL, 'Faculty', NULL, NULL, 'JAMorales', 4, 'Inst.', 'chair', '1987-03-22', NULL, 0),
+(10, '123400006', NULL, 'Sharon', 'D', 'Call', NULL, 'Faculty', NULL, NULL, 'SDCall', 5, 'Inst.', 'chair', '1970-12-07', NULL, 0),
+(11, '123400007', NULL, 'Pedro', 'R', 'Morales', NULL, 'Faculty', NULL, NULL, 'PRMorales', 6, 'Inst.', 'none', '1971-01-01', NULL, 0),
+(12, '123400008', '', 'Thomas', 'W', 'Seay', '', 'Faculty', 1.11, 200, 'TWSeay', 8, 'Prof.', 'chair', '1974-03-03', NULL, 0),
+(13, '123400009', NULL, 'Albert', 'A', 'Russell', NULL, 'Faculty', NULL, NULL, 'AARussell', 1, 'Inst.', 'none', '1977-08-10', NULL, 0),
+(14, '123400010', NULL, 'Dianne', 'A', 'Farias', NULL, 'Faculty', NULL, NULL, 'DAFarias', 1, 'Inst.', 'none', '1993-04-15', NULL, 0),
+(15, '123400011', NULL, 'Daniel', 'C', 'Daly', NULL, 'Faculty', NULL, NULL, 'DCDaly', 1, 'Inst.', 'none', '1975-12-31', NULL, 0),
+(16, '123400012', NULL, 'Kristin', 'B', 'Morford', NULL, 'Faculty', NULL, NULL, 'KBMorford', 2, 'Inst.', 'none', '1983-10-16', NULL, 0),
+(17, '123400013', NULL, 'Gloria', 'V', 'Hubbard', NULL, 'Faculty', NULL, NULL, 'GVHubbard', 2, 'Inst.', 'none', '1991-03-04', NULL, 0),
+(18, '123400014', NULL, 'Anthony', 'C', 'Whitehill', NULL, 'Faculty', NULL, NULL, 'ACWhitehill', 2, 'Inst.', 'none', '1967-02-11', NULL, 0),
+(19, '123400015', NULL, 'Richard', 'A', 'Savage', NULL, 'Faculty', NULL, NULL, 'RASavage', 3, 'Inst.', 'none', '1994-07-26', NULL, 0),
+(20, '123400016', NULL, 'Dominic', 'R', 'Martinez', NULL, 'Faculty', NULL, NULL, 'DRMartinez', 3, 'Inst.', 'none', '1982-01-31', NULL, 0),
+(21, '123400017', NULL, 'Lillian', 'R', 'Laberge', NULL, 'Faculty', NULL, NULL, 'LRLaberge', 3, 'Inst.', 'none', '1968-07-03', NULL, 0),
+(22, '123400018', NULL, 'Jack', 'A', 'Hansen', NULL, 'Faculty', NULL, NULL, 'JAHansen', 4, 'Inst.', 'none', '1984-01-29', NULL, 0),
+(23, '123400019', NULL, 'Peggy', 'L', 'Benedetto', NULL, 'Faculty', NULL, NULL, 'PLBenedetto', 4, 'Inst.', 'none', '2014-07-22', NULL, 0),
+(24, '123400020', NULL, 'Jeffrey', 'K', 'Barraza', NULL, 'Faculty', NULL, NULL, 'JKBarraza', 4, 'Inst.', 'none', '1992-10-29', NULL, 0),
+(25, '123400021', NULL, 'Carole', 'C', 'Brown', NULL, 'Faculty', NULL, NULL, 'CCBrown', 5, 'Inst.', 'none', '1966-08-12', NULL, 0),
+(26, '123400023', NULL, 'Ben', 'P', 'Banks', NULL, 'Faculty', NULL, NULL, 'BPBanks', 5, 'Inst.', 'none', '1959-01-09', NULL, 0),
+(27, '123400024', NULL, 'Hilda', 'D', 'Jones', NULL, 'Faculty', NULL, NULL, 'HDJones', 6, 'Inst.', 'none', '1986-12-25', NULL, 0),
+(31, '143860113', NULL, 'Armacheska', 'River', 'Mesa', NULL, 'Faculty', NULL, NULL, 'Armesa', 8, 'Inst.', 'none', '2014-09-09', NULL, 1),
+(32, '123400026', NULL, 'Ryan', 'C', 'Clark', NULL, 'Faculty', NULL, NULL, 'RCClark', 6, 'Inst.', 'none', '1983-06-18', NULL, 0),
+(33, '123400028', '', 'Gwyn', 'J', 'Johnson', '', 'Faculty', NULL, NULL, 'GJJohnson', 7, 'Assoc. Prof.', 'none', '1985-02-18', NULL, 0),
+(34, '123400025', NULL, 'Ralph', 'J', 'Harris', NULL, 'Faculty', NULL, NULL, 'RJHarris', 6, 'Inst.', 'none', '1972-03-12', NULL, 0),
+(35, '123400027', '', 'Phyllis', 'K', 'May', '', 'Faculty', NULL, NULL, 'PKMay', 7, 'Inst.', 'none', '1990-04-03', NULL, 0),
+(36, '123400029', '', 'Susan', 'J', 'Anderson', '', 'Faculty', NULL, NULL, 'SJAnderson', 7, 'Assoc. Prof.', 'none', '1981-02-13', NULL, 0),
+(37, '123400022', NULL, 'Allen', 'D', 'Katz', NULL, 'Faculty', NULL, NULL, 'ADKatz', 5, 'Inst.', 'none', '1975-02-02', NULL, 0),
+(38, '123400030', '', 'Richard', 'T', 'Ferrell', '', 'Faculty', NULL, NULL, 'RTFerrell', 8, 'Prof.', 'none', '1975-12-20', NULL, 0),
+(39, '123400031', '', 'Allison', 'M', 'McLain', '', 'Faculty', NULL, NULL, 'AMMcLain', 8, 'Prof.', 'none', '1965-04-03', NULL, 0),
+(40, '123400032', '', 'Johnny', 'B', 'Mitchell', '', 'Faculty', NULL, NULL, 'JBMitchell', 8, 'Prof.', 'none', '1960-04-03', NULL, 0),
+(41, '123400034', NULL, 'Deborah', 'H', 'Jensen', NULL, 'Faculty', NULL, NULL, 'DHJensen', 9, 'Inst.', 'none', '1976-01-17', NULL, 0),
+(42, '123400035', NULL, 'Kathleen', 'M', 'Thomas', NULL, 'Faculty', NULL, NULL, 'KMThomas', 9, 'Inst.', 'none', '1985-04-01', NULL, 0),
+(43, '123400033', NULL, 'Hilda', 'K', 'Martinez', NULL, 'Faculty', NULL, NULL, 'HKMartinez', 9, 'Inst.', 'none', '1977-06-04', NULL, 0),
+(44, '123400036', NULL, 'Joyce', 'D', 'Carter', NULL, 'Faculty', NULL, NULL, 'JDCarter', 10, 'Inst.', 'none', '1992-04-12', NULL, 0),
+(45, '123400037', NULL, 'Joseph', 'L', 'Duke', NULL, 'Faculty', NULL, NULL, 'JLDuke', 10, 'Inst.', 'none', '1993-12-23', NULL, 0),
+(46, '123400038', NULL, 'Lisa', 'A', 'Gray', NULL, 'Faculty', NULL, NULL, 'LAGray', 10, 'Inst.', 'none', '1985-06-21', NULL, 0),
+(47, '000312345', NULL, 'Lori', 'K', 'Shoffner', NULL, 'Admin', NULL, NULL, NULL, NULL, 'Inst.', NULL, '1982-02-24', NULL, 0),
+(48, '123400039', NULL, 'New', 'Sample', 'User', NULL, 'Faculty', NULL, NULL, 'NSUser', 13, 'Inst.', 'none', '2014-11-02', NULL, 0),
+(49, '000412345', NULL, 'George', 'Lee', 'Sanchez', NULL, 'Admin', NULL, NULL, NULL, NULL, 'Inst.', NULL, '1972-10-16', 'mwopglycewf6nayciciuSanchez.jpg', 0);
 
 --
 -- Indexes for dumped tables
@@ -1028,7 +1035,7 @@ ALTER TABLE `accom_ctvtbl`
 -- AUTO_INCREMENT for table `accom_mattbl`
 --
 ALTER TABLE `accom_mattbl`
-  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+  MODIFY `material_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `accom_othtbl`
 --
@@ -1058,12 +1065,12 @@ ALTER TABLE `accom_rchtbl`
 -- AUTO_INCREMENT for table `connect_accomtbl`
 --
 ALTER TABLE `connect_accomtbl`
-  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=65;
+  MODIFY `connect_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `cumatbl`
 --
 ALTER TABLE `cumatbl`
-  MODIFY `cuma_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `cuma_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `ipcrtbl`
 --
@@ -1078,7 +1085,7 @@ ALTER TABLE `ipcr_targettbl`
 -- AUTO_INCREMENT for table `oams_announcementtbl`
 --
 ALTER TABLE `oams_announcementtbl`
-  MODIFY `announcement_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `announcement_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `oams_messagetbl`
 --

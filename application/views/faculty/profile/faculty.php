@@ -44,13 +44,13 @@
 
 		echo
 		'<tr>
-			<td width="100"><img class="img-responsive" src="', $photo, '" title="', $user['faculty_code'], '"></td>
+			<td width="125"><img class="img-responsive" src="', $photo, '" title="', $user['faculty_code'], '"></td>
 			<td>
 				<p>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</p>
 				<p style="font-size: 90%">', $education, '</p>
 				<p style="font-size: 90%">', $program, '</p>
 			</td>
-			<td width="100"><a class="btn btn-default" href="', URL::site('faculty/dept/profile/'.$user['employee_code']), '">View Profile</a></td>
+			<td width="125" style="vertical-align:top;"><a class="btn btn-default" href="', $profile_url, $user['employee_code'], '">View Profile</a></td>
 		</tr>';
 	}
 	?>

@@ -1,3 +1,66 @@
+function blockPreview() {
+	$(".form pre").block({
+		message: "<h4>Please wait</h4>",
+		css: { 
+		border: 'none', 
+		padding: '5px', 
+		backgroundColor: '#000', 
+		'-webkit-border-radius': '10px', 
+		'-moz-border-radius': '10px', 
+		opacity: .5, 
+		color: '#fff' 
+		}
+	});
+}
+
+function showPrev(next) {
+	var ajaxUrl = $("#inputData").attr("ajax-url");
+	var cumaId = $("#inputData").attr("cuma-id");
+	var percent = ((next - 1) / 8) * 100;
+
+	$.ajax({
+		type: "POST",
+		url: ajaxUrl,
+		data: "cuma_ID=" + cumaId + "&current=" + next,
+		dataType: "text",
+		success:function (data) {
+			$(".progress-bar").attr("aria-valuenow", percent).attr("style", "width:" + percent + "%").text(percent + "%");
+			$("#inputData").attr("current", next);
+			$("pre.form").load(data);
+			$(".form pre").unblock();
+		}
+	});
+}
+
+function showNext(next) {
+	var ajaxUrl = $("#inputData").attr("ajax-url");
+	var cumaId = $("#inputData").attr("cuma-id");
+	var percent = ((next - 1) / 8) * 100;
+
+	$.ajax({
+		type: "POST",
+		url: ajaxUrl,
+		data: "cuma_ID=" + cumaId + "&current=" + next,
+		dataType: "text",
+		success:function (data) {
+			if (next <= 8)
+				$("pre.form").load(data);
+			else
+			{
+				$(".form").hide();
+				$(".submit").show();
+
+				var pdf = $("#nextPage").attr("final") + data;
+				$("div.submit").html("<embed src=" + pdf + " style=\"width:100%; height:500px\">");
+			}
+
+			$(".progress-bar").attr("aria-valuenow", percent).attr("style", "width:" + percent + "%").text(percent + "%");
+			$("#inputData").attr("current", next);
+			$(".form pre").unblock();
+		}
+	});
+}
+
 $(document).ready(function () {
 
 	/* ==================================== *
@@ -1414,6 +1477,44 @@ $(document).ready(function () {
         });
 	})
 
+	/* CUMA FORM (DRAFT) -- Show previous page */
+	$("#prevPage").click(function () {
+		var element = $("#inputData").attr("current");
+		var current = parseInt(element, 10);
+		var next = current - 1;
+
+		if (current > 1) {
+			blockPreview();
+			showPrev(next);
+		}
+
+		if (current == 2)
+			$("#prevPage").parent().addClass("disabled");
+		else if (current == 9)
+		{
+			$(".submit").hide();
+			$(".form").show();
+			$("#nextPage").parent().removeClass("disabled");
+		}
+	});
+
+	/* CUMA FORM (DRAFT) -- Show next page */
+	$("#nextPage").click(function () {
+		var element = $("#inputData").attr("current");
+		var current = parseInt(element, 10);
+		var next = current + 1;
+		
+		if (current <= 8) {
+			blockPreview();
+			showNext(next);
+		}
+			
+		if (current == 1)
+			$("#prevPage").parent().removeClass("disabled");
+		else if (current == 8)
+			$("#nextPage").parent().addClass("disabled");
+	});
+
 	$(".editSet").editable("",
 	{
         name		: 'average_set',
@@ -1565,99 +1666,6 @@ $(document).ready(function () {
 	$("body").on("click", ".removeCategory", function () //user click on remove text
 	{
 		$(this).parent().parent().parent().remove(); //remove input field
-	});
-
-	$("#prev").click(function () {
-		var ajaxUrl = $("#inputData").attr("ajax-url");
-		var cumaId = $("#inputData").attr("cuma-id");
-		var current = $("#inputData").attr("current");
-		var next = parseInt(current, 10) - 1;
-		var percent = ((next-1) / 8) * 100;
-
-		$(".form pre").block({
-			message: "<h4>Please wait</h4>",
-			css: { 
-	            border: 'none', 
-	            padding: '5px', 
-	            backgroundColor: '#000', 
-	            '-webkit-border-radius': '10px', 
-	            '-moz-border-radius': '10px', 
-	            opacity: .5, 
-	            color: '#fff' 
-	        }
-    	});
-		
-		$.ajax({
-			type: "POST",
-			url: ajaxUrl,
-			data: "cuma_ID=" + cumaId + "&current=" + next,
-			dataType: "text",
-			success:function (data) {
-				if (next == 1)
-					$("#prev").parent().addClass("disabled");
-				if (next == 8)
-				{
-					$(".publish").hide();
-					$(".form").show();
-					$("#next").parent().removeClass("disabled");
-				}
-
-				$(".progress-bar").attr("aria-valuenow", percent).attr("style", "width:" + percent + "%").text(percent + "%");
-				$("#inputData").attr("current", next);
-				$("pre.form").load(data);
-				$(".form pre").unblock();
-			}
-		});
-	});
-
-	$("#next").click(function () {
-		var ajaxUrl = $("#inputData").attr("ajax-url");
-		var cumaId = $("#inputData").attr("cuma-id");
-		var current = $("#inputData").attr("current");
-		var next = parseInt(current, 10) + 1;
-		var percent = ((next-1) / 8) * 100;
-
-		$(".form pre").block({
-			message: "<h4>Please wait</h4>",
-			css: { 
-	            border: 'none', 
-	            padding: '5px', 
-	            backgroundColor: '#000', 
-	            '-webkit-border-radius': '10px', 
-	            '-moz-border-radius': '10px', 
-	            opacity: .5, 
-	            color: '#fff' 
-	        }
-    	});
-
-		$.ajax({
-			type: "POST",
-			url: ajaxUrl,
-			data: "cuma_ID=" + cumaId + "&current=" + next,
-			dataType: "text",
-			success:function (data) {
-				if (next == 2)
-					$("#prev").parent().removeClass("disabled");
-				else if (next > 8)
-					$("#next").parent().addClass("disabled");
-
-				$("#inputData").attr("current", next);
-				$(".progress-bar").attr("aria-valuenow", percent).attr("style", "width:" + percent + "%").text(percent + "%");
-				
-				if (next <= 8)
-					$("pre.form").load(data);
-				else
-				{
-					$(".form").hide();
-					$(".publish").show();
-
-					var pdf = $("#next").attr("final") + data;
-					$("div.publish").html("<embed src=" + pdf + " style=\"width:100%; height:500px\">");
-				}
-
-				$(".form pre").unblock();
-			}
-		});
 	});
 
 });

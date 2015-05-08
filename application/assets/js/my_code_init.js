@@ -56,6 +56,7 @@ $(document).ready(function () {
     *   13. OPCR Table (Faculty-Chair)      *
     *   14. OPCR Group Table (College)      *
     *   15. CUMA Table (Faculty-Chair)      *
+    *   16. CUMA Group Table (College)      *
     *                                       *
     * * * * * * * * * * * * * * * * * * * * */
     
@@ -498,6 +499,20 @@ $(document).ready(function () {
     /* 15. CUMA Table  */
     $('#cuma_table').DataTable({
         "columns": [
+            null,
+            null,
+            null,
+            // Action column is neither searchable nor orderable
+            { "searchable": false, "orderable": false }
+        ],
+        // Order table by period (column 0), descending
+        "order": [[ 0, "desc" ]]
+    });
+
+    /* 15. CUMA Table  */
+    $('#cuma_group_table').DataTable({
+        "columns": [
+            null,
             null,
             null,
             null,
