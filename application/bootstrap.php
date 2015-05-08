@@ -173,7 +173,7 @@ Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>(/<docume
 Route::set('faculty-functions', '<controller>/<action>(/<id>)',
 	array(
 		'controller'=> 'faculty',
-		'action'	=> '(myprofile|contact|check)'
+		'action'	=> '(myprofile|update_myprofile|contact|check)'
 	))
 	->defaults(array(
 		'action'	=> 'index'

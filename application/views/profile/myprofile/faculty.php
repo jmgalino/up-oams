@@ -57,16 +57,16 @@
 
 		<div class="row details">
 			<div class="col-xs-6"><strong>Average SET Scores</strong></div>
-			<div class="col-xs-6">
-				<?php echo ($user['average_set'] ? $user['average_set'] : 'Not Available'); ?>
-				<a class="show-hover" href="#">Edit</a>
+			<div class="col-xs-6" style="display:inline; vertical-align:bottom">
+				<span class="editSet" value="<?php echo ($user['average_set'] ? number_format($user['average_set'], 1) : 'Not Available'); ?>" ajax-url="<?php echo URL::site('faculty/update_myprofile/average_set'); ?>"></span>
+				<span class="show-hover" id="editButton">Edit</span>
 			</div>
 		</div>
 		<div class="row details">
 			<div class="col-xs-6"><strong>No. of students mentored</strong></div>
-			<div class="col-xs-6">
-				<?php echo ($user['students_mentored'] ? $user['students_mentored'] : 'Not Available'); ?>
-				<a class="show-hover" href="#">Edit</a>
+			<div class="col-xs-6" style="display:inline">
+				<span class="editStudents" value="<?php echo ($user['students_mentored'] ? number_format($user['students_mentored']) : 'Not Available'); ?>" ajax-url="<?php echo URL::site('faculty/update_myprofile/students_mentored'); ?>"></span>
+				<span class="show-hover" id="editButton">Edit</span>
 			</div>
 		</div>
 		<div class="row details">

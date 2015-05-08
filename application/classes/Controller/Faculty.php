@@ -80,6 +80,20 @@ class Controller_Faculty extends Controller_User {
 		$this->response->body($this->view->render());
 	}
 
+	public function action_update_myprofile()
+	{
+		$user = new Model_User;
+
+		$key = $this->request->param('id');
+		$value = $this->request->post($key);
+
+		$user->update_details(array(
+			'user_ID' => $this->session->get('user_ID'),
+			 $key => $value));
+
+		echo $value;
+	}
+
 	/**
 	 * Show contact admin form
 	 */

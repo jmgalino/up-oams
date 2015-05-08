@@ -60,7 +60,7 @@ $(document).ready(function () {
 	});
 
 	/* PROFILE FORM (VALIDATE) -- Check if employee code is unique: if unique, submit; else, show error message */
-	$("#profileForm").on("submit", function (event) {
+	$("#profileForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 
@@ -193,7 +193,7 @@ $(document).ready(function () {
 	});
 
 	/* COLLEGE FORM (VALIDATE) -- Check if everything is unique */
-	$("#collegeForm").on("submit", function (event) {
+	$("#collegeForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 
@@ -279,7 +279,7 @@ $(document).ready(function () {
 	});
 
 	/* DEPARTMENT FORM (VALIDATE) -- Check if everything but college_ID is unique */
-	$("#departmentForm").on("submit", function (event) {
+	$("#departmentForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 
@@ -316,7 +316,7 @@ $(document).ready(function () {
 	});
 
 	/* PROGRAM FORM (VALIDATE) -- Check if program names (complete, short, initials) are unique */
-	$("#programForm").on("submit", function (event) {
+	$("#programForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 
@@ -399,7 +399,7 @@ $(document).ready(function () {
     * ===================================== */
 
 	/* ACOMM REPORT FORM (VALIDATE) -- Check if date range is correct */
-	$("#newReport").on("submit", function (event) {
+	$("#newReport").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -422,7 +422,7 @@ $(document).ready(function () {
 		else
 			$("#newReport").attr("action", actionUrl).unbind("submit").trigger("submit");
 	})
-	$("#consolidateReport").on("submit", function (event) {
+	$("#consolidateReport").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -583,7 +583,7 @@ $(document).ready(function () {
 	});
 
 	/* PUBLICATION/MATERIAL FORM (SUBMIT) */
-	$("#publicationForm, #materialForm").on("submit", function (event) {
+	$("#publicationForm, #materialForm").submit(function (event) {
 		event.preventDefault();
 		$(this).attr("action", $(this).attr("url")).unbind("submit").trigger("submit");
 	});
@@ -622,7 +622,7 @@ $(document).ready(function () {
 	});
 	
 	/* AWARD FORM (VALIDATE) -- Check if date range is correct */
-	$("#awardForm").on("submit", function (event) {
+	$("#awardForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 		
@@ -685,7 +685,7 @@ $(document).ready(function () {
 	});
 	
 	/* RESEARCH FORM (VALIDATE) -- Check if fund source is entered and date range is correct */
-	$("#researchForm").on("submit", function (event) {
+	$("#researchForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 		var selected = $("input:checkbox:checked").length;
@@ -765,7 +765,7 @@ $(document).ready(function () {
 	});
 	
 	/* PAPER FORM (VALIDATE) -- Check if date range is correct */
-	$("#paperForm").on("submit", function (event) {
+	$("#paperForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 		
@@ -816,7 +816,7 @@ $(document).ready(function () {
 	});
 	
 	/* CREATIVE FORM (VALIDATE) -- Check if date range is correct */
-	$("#creativeForm").on("submit", function (event) {
+	$("#creativeForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 		
@@ -867,7 +867,7 @@ $(document).ready(function () {
 	});
 	
 	/* PARTICIPATION FORM (VALIDATE) -- Check if date range is correct */
-	$("#participationForm").on("submit", function (event) {
+	$("#participationForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 		
@@ -979,7 +979,7 @@ $(document).ready(function () {
 	});
 	
 	/* OTHER FORM (VALIDATE) -- Check if date range is correct */
-	$("#otherForm").on("submit", function (event) {
+	$("#otherForm").submit(function (event) {
 		event.preventDefault();
 		var ajaxUrl = $(this).attr("ajax-url");
 		
@@ -1010,7 +1010,7 @@ $(document).ready(function () {
     });
 
 	/* OPCR FORM (VALIDATE) -- Check if date range is correct */
-	$("#newForm").on("submit", function (event) {
+	$("#newForm").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -1120,7 +1120,7 @@ $(document).ready(function () {
 	});
 
 	/* OUTPUT FORM (VALIDATE) -- Check if unique */
-	$("#outputForm").on("submit", function (event) {
+	$("#outputForm").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -1223,7 +1223,7 @@ $(document).ready(function () {
 	});
 
 	/* OPCR-RATE FORM -- Check if form is complete */
-	$("#rateOpcrForm").on("submit", function (event) {
+	$("#rateOpcrForm").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -1364,7 +1364,7 @@ $(document).ready(function () {
 	});
 
 	/* IPCR-RATE FORM -- Check if form is complete */
-	$("#rateIpcrForm").on("submit", function (event) {
+	$("#rateIpcrForm").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -1396,7 +1396,7 @@ $(document).ready(function () {
     });
 
 	/* CUMA FORM (VALIDATE) -- Check if date range is correct */
-	$("#newCumaForm").on("submit", function (event) {
+	$("#newCumaForm").submit(function (event) {
 		event.preventDefault();
 		var actionUrl = $(this).attr("action-url");
 		var ajaxUrl = $(this).attr("ajax-url");
@@ -1413,6 +1413,60 @@ $(document).ready(function () {
             }
         });
 	})
+
+	$(".editSet").editable("",
+	{
+        name		: 'average_set',
+		type		: 'text',
+		submit		: 'Save',
+		event		: 'dblclick',
+		onblur		: 'cancel',
+		cssclass	: 'edit_number',
+		placeholder : $(".editSet").attr("value"),
+		onsubmit	: function (settings) {
+			settings.target = $(".editSet").attr("ajax-url");
+		},
+		callback	: function (value) {
+			$(this).attr("value", value);
+			$(this).next().show();
+		}
+	});
+
+	$(".editStudents").editable("",
+	{
+		name		: 'students_mentored',
+		type		: 'text',
+		submit		: 'Save',
+		event		: 'dblclick',
+		onblur		: 'cancel',
+		cssclass	: 'edit_number',
+		placeholder : $(".editStudents").attr("value"),
+		onsubmit	: function (settings) {
+			$(".editStudents").find("input").number(true);
+			settings.target = $(".editStudents").attr("ajax-url");
+		},
+		callback	: function (value) {
+			$(this).attr("value", value);
+			$(this).next().show();
+		}
+	});
+
+	$("span#editButton").click(function (event) {
+		var target = $(this).prev();
+		var value = target.attr("value");
+
+		if (value == 'Not Available')
+			value = 0;
+
+		target.trigger("dblclick");
+		
+		if (target.attr("class") == "editSet")
+			target.find("input").number(true, 2).val(value).prop("required", true);
+		else
+			target.find("input").number(true).val(value).prop("required", true);
+
+		$(this).hide();
+	});
 
 	// Character counter for message
 	$('#message').keyup(function () {

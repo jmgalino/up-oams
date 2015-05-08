@@ -501,3 +501,41 @@ a.link-reverse:active
 {
   text-align: left; 
 }
+
+/* PROFILE - edit numbers */
+.edit_number input
+{
+  border-radius: 5px;
+  min-height: 25px;
+  min-width: 95px;
+}
+.edit_number button
+{
+  margin-top: -1px;
+  margin-left: 5px;
+  display: inline;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 2px 5px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #ffffff;
+  background-color: #7b1113;
+  border-color: #650e10;
+}
+.edit_number button:hover,
+.edit_number button:focus {
+  color: #ffffff;
+  background-color: #4e0b0c;
+  border-color: #2f0607;
+}
