@@ -18,10 +18,10 @@
 			<th class="template-header" rowspan="2">Remarks</th>
 		</tr>
 	    <tr>
-			<th class="template-header" style="font-size:10px">Q<sup>1</sup></th>
-			<th class="template-header" style="font-size:10px">E<sup>2</sup></th>
-			<th class="template-header" style="font-size:10px">T<sup>3</sup></th>
-			<th class="template-header" style="font-size:10px">A<sup>4</sup></th>
+			<th class="template-header">Q<sup>1</sup></th>
+			<th class="template-header">E<sup>2</sup></th>
+			<th class="template-header">T<sup>3</sup></th>
+			<th class="template-header">A<sup>4</sup></th>
 	    </tr>
 	</thead>
 	<tbody style="font-size:10px">
@@ -112,5 +112,5 @@
 		} // foreach outputs
 	} // foreach categories
 	?>
-</tbody>
+	</tbody>
 </table>

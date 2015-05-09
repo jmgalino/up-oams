@@ -23,7 +23,7 @@
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">IPCR <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="<?php echo URL::site('faculty/ipcr'); ?>">View Own</a></li>
-						<li><a href="<?php echo URL::site('faculty/ipcr_dept'); ?>">View Department</a></li>
+						<li><a href="<?php echo URL::site('faculty/dept/ipcr'); ?>">View Department</a></li>
 					</ul>
 				</li>
 				<li><a href="<?php echo URL::site('faculty/opcr'); ?>">OPCR</a></li>

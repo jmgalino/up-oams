@@ -135,11 +135,18 @@ td.dropdown ul.dropdown-menu
 {
   background-color: #ffffff;
 }
-/* DROPDOWN - set font color to gray */
+/* DROPDOWN - set font color to black */
 div.btn-group ul.dropdown-menu > li > a,
 td.dropdown ul.dropdown-menu > li > a
 {
   color: #000000;
+}
+/* DROPDOWN - set disabled font color to gray */
+td.dropdown ul.dropdown-menu > li.disabled > a,
+td.dropdown ul.dropdown-menu > li.disabled > a:hover,
+td.dropdown ul.dropdown-menu > li.disabled > a:focus
+{
+  color: #777777;
 }
 /* DROPDOWN - set hover background color to gray-ish */
 div.btn-group ul.dropdown-menu > li > a:hover,

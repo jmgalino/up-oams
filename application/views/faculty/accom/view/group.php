@@ -1,9 +1,7 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
-	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href=<?php echo ($identifier == 'chair'
-		? URL::site('faculty/dept/accom').'>Accomplishment Reports - Department'
-		: URL::site('faculty/coll/accom').'>Accomplishment Reports - College'); ?></a></li>
+	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
+	<li><?php echo $accom_url; ?></li>
 	<li class="active">View Accomplishment Report</li>
 </ol>
 

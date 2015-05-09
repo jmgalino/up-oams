@@ -450,11 +450,14 @@ class Controller_Extras_Ajax extends Controller {
 			$attachment_details = array();
 			foreach ($attachments as $attachment)
 			{
-				$tmp1 = explode(' => ', $attachment);
-				$tmp2['directory'] = URL::base().'files/upload_attachments/'.$tmp1[1];
-				$tmp2['file'] = $tmp1[0];
+				if ($attachment)
+				{
+					$tmp1 = explode(' => ', $attachment);
+					$tmp2['directory'] = URL::base().'files/upload_attachments/'.$tmp1[1];
+					$tmp2['file'] = $tmp1[0];
 
-				$attachment_details[] = $tmp2;				
+					$attachment_details[] = $tmp2;
+				}
 			}
 
 			$target_details['attachment'] = $attachment_details;

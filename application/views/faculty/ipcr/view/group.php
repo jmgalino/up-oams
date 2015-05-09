@@ -1,9 +1,7 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
-	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li><a href=<?php echo ($identifier == 'chair'
-		? URL::site('faculty/ipcr_dept').'>IPCR Forms - Department'
-		: URL::site('faculty/ipcr_coll').'>IPCR Forms - College'); ?></a></li>
+	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
+	<li><?php echo $ipcr_url; ?></li>
 	<li class="active">View IPCR Form</li>
 </ol>
 
@@ -43,10 +41,12 @@ echo View::factory('faculty/ipcr/form/modals/evaluate')
 			<hr style="border-top: dotted 1px;">
 			<?php endif; ?>
 			<li style="padding:10px 15px">
+				<?php if (!$user_flag): ?>
 				<dl>
 					<dt>Faculty</dt>
 					<dd><?php echo $faculty; ?></dd>
 				</dl>
+				<?php endif; ?>
 				<dl>
 					<dt>Period</dt>
 					<dd><?php echo $period; ?></dd>

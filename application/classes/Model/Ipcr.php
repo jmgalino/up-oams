@@ -53,6 +53,7 @@ class Model_Ipcr extends Model {
 		$opcr_ipcrs = DB::select()
 			->from('ipcrtbl')
 			->where('opcr_ID', '=', $opcr_ID)
+			->where('status', 'IN', array('Accepted', 'Saved'))
 			->execute()
 			->as_array();
 
@@ -303,8 +304,8 @@ class Model_Ipcr extends Model {
  			->where('target_ID', '=', $details['target_ID'])
  			->execute();
 
- 		// if ($rows_updated == 1) return TRUE;
- 		// else return FALSE; //do something
+ 		if ($rows_updated == 1) return TRUE;
+ 		else return FALSE;
 	}
 
 	/**

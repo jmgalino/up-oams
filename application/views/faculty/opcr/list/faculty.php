@@ -100,25 +100,23 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 				</li>';
 
 		}
+		elseif ($opcr['document'])
+		{
+			// Download PDF
+			echo '<li>
+					<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $department, ' [', $period, ']">
+					<span class="glyphicon glyphicon-download"></span> Download Form</a>
+				</li>';
+		}
 		else
 		{
-			if ($opcr['document'])
-			{
-				// Download PDF
-				echo '<li>
-						<a href='.URL::base().'files/document_opcr/'.$opcr['document'].' download="', $department, ' [', $period, ']">
-						<span class="glyphicon glyphicon-download"></span> Download Form</a>
-					</li>';
-			}
-			else
-			{
-				// Download draft
-				echo '<li>
-						<a href='.URL::site('extras/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
-						<span class="glyphicon glyphicon-download"></span> Download Form</a>
-					</li>';
-			}
+			// Download draft
+			echo '<li>
+					<a href='.URL::site('extras/mpdf/download/opcr/'.$opcr['opcr_ID']).'>
+					<span class="glyphicon glyphicon-download"></span> Download Form</a>
+				</li>';
 		}
+
 		if ($opcr['status'] == 'Draft')
 		{
 			echo 	'<li>
@@ -130,22 +128,30 @@ echo View::factory('faculty/opcr/form/modals/initialize')
 						<span class="glyphicon glyphicon-trash"></span> Delete Form</a>
 					</li>';
 		}
-		elseif ($opcr['status'] == 'Published')
+		elseif (in_array($opcr['status'], array('Published', 'Returned')))
 		{
 			$ipcr_forms = $ipcr->get_opcr_ipcr($opcr['opcr_ID']);
 			
 			$accepted = array();
 			foreach ($ipcr_forms as $ipcr_form)
 			{
-				if ($ipcr_form['status'] == 'Accepted')
+				if (in_array($ipcr_form['status'], array('Saved', 'Accepted')))
 					$accepted[] = $ipcr_form;
 			}
 
-			if ($accepted && $opcr['status'] != 'Pending')
+			if ($accepted)
 			{
-				echo '<li>
-						<a href='.URL::site('faculty/ipcr_dept/consolidate/'.$opcr['opcr_ID']).'>
+				echo '<li style="color:red">
+						<a href='.URL::site('faculty/dept/ipcr/consolidate/'.$opcr['opcr_ID']).'>
 						<span class="glyphicon glyphicon-link"></span> Consolidate Form</a>
+					</li>';
+			}
+			else
+			{
+				echo '<li class="disabled">
+						<a href="#" title="No available IPCR Forms to consolidate.">
+							<span class="glyphicon glyphicon-link"></span> Consolidate Form
+						</a>
 					</li>';
 			}
 		}

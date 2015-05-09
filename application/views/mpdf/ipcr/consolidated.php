@@ -166,38 +166,38 @@ Average Rating
 	<thead>
 		<tr>
 			<th></th>
-			<th class="text-center">Q<sup>1</sup></th>
-			<th class="text-center">E<sup>2</sup></th>
-			<th class="text-center">T<sup>3</sup></th>
-			<th class="text-center">A<sup>4</sup></th>
+			<th class="text-center" width="75">Q<sup>1</sup></th>
+			<th class="text-center" width="75">E<sup>2</sup></th>
+			<th class="text-center" width="75">T<sup>3</sup></th>
+			<th class="text-center" width="75">A<sup>4</sup></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>Total Rating</td>
 			<?php echo
-			'<td class="text-center" width="20">', array_sum($r_quantity), '</td>
-			<td class="text-center" width="20">', array_sum($r_efficiency), '</td>
-			<td class="text-center" width="20">', array_sum($r_timeliness), '</td>
-			<td class="text-center" width="20">', array_sum($r_average), '</td>';
+			'<td class="text-center">', array_sum($r_quantity), '</td>
+			<td class="text-center">', array_sum($r_efficiency), '</td>
+			<td class="text-center">', array_sum($r_timeliness), '</td>
+			<td class="text-center">', array_sum($r_average), '</td>';
 			?>
 		</tr>
 		<tr>
 			<td>Final Average Rating</td>
 			<?php echo
-			'<td class="text-center" width="20">', $final_quantity, '</td>
-			<td class="text-center" width="20">', $final_efficiency, '</td>
-			<td class="text-center" width="20">', $final_timeliness, '</td>
-			<td class="text-center" width="20">', $final_average, '</td>';
+			'<td class="text-center">', $final_quantity, '</td>
+			<td class="text-center">', $final_efficiency, '</td>
+			<td class="text-center">', $final_timeliness, '</td>
+			<td class="text-center">', $final_average, '</td>';
 			?>
 		</tr>
 		<tr>
 			<td>Adjectival Rating</td>
 			<?php echo 
-			'<td class="text-center" width="20">', adjectival_rating($final_quantity), '</td>
-			<td class="text-center" width="20">', adjectival_rating($final_efficiency), '</td>
-			<td class="text-center" width="20">', adjectival_rating($final_timeliness), '</td>
-			<td class="text-center" width="20">', adjectival_rating($final_average), '</td>';
+			'<td class="text-center">', adjectival_rating($final_quantity), '</td>
+			<td class="text-center">', adjectival_rating($final_efficiency), '</td>
+			<td class="text-center">', adjectival_rating($final_timeliness), '</td>
+			<td class="text-center">', adjectival_rating($final_average), '</td>';
 			?>
 		</tr>
 	</tbody>

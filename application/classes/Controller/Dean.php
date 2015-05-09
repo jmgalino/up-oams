@@ -197,13 +197,13 @@ class Controller_Dean extends Controller_Faculty {
 		$accom_details = $accom->get_details($accom_ID);
 		$user_details = $this->user->get_details($accom_details['user_ID'], NULL);
 		
-		$identifier = 'dean';
 		$user_flag = ($accom_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
 		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$accom_url = '<a href="'.URL::site('faculty/coll/accom').'">Accomplishment Reports - Department</a>';
 		$evaluate_url = 'faculty/coll/accom/evaluate/'.$accom_ID;
 
 		$this->view->content = View::factory('faculty/accom/view/group')
-			->bind('identifier', $identifier)
+			->bind('accom_url', $accom_url)
 			->bind('evaluation', $evaluation)
 			->bind('evaluate_url', $evaluate_url)
 			->bind('accom_details', $accom_details)

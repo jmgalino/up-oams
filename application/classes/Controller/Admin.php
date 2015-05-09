@@ -9,23 +9,10 @@ class Controller_Admin extends Controller_User {
 	{
 		parent::before();
 
-		if ($this->session->get('identifier') != 'dean')
+		if ($this->session->get('identifier') != 'admin')
 		{
 			$this->session->set('error', 'Unauthorized access.');
-			$this->redirect('faculty/error');
-		}
-
-		$this->univ = new Model_Univ;
-		$this->user = new Model_User;
-
-		$this->college_details = $this->univ->get_college_details(NULL, $this->session->get('program_ID'));
-		$programIDs = $this->univ->get_college_programIDs($this->college_details['college_ID']);
-		$this->college_users = $this->user->get_user_group($programIDs);
-
-		$this->college_userIDs = array();
-		foreach ($this->college_users as $college_user)
-		{
-			$this->college_userIDs[] = $college_user['user_ID'];
+			$this->redirect($this->session->get('identifier').'/error');
 		}
 	}
 

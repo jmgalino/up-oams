@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Chair extends Controller_Faculty implements Controller_Faculty_AccomGroup  {
+class Controller_Chair extends Controller_Faculty implements Controller_Faculty_AccomGroup, Controller_Faculty_IpcrGroup {
 
 	private $univ;
 	private $user;
@@ -59,10 +59,12 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$accom = new Model_Accom;
 
 		$employee_code = $this->request->param('id');
+		
 		$user_details = $this->user->get_details(NULL, $employee_code);
 		$education = $this->user->get_education($user_details['user_ID'], NULL);
 		$accom_reports = $accom->get_faculty_accom($user_details['user_ID'], NULL, NULL, TRUE);
 		$program_details = $this->univ->get_program_details($user_details['program_ID']);
+		
 		$user_details['program_short'] = $program_details['program_short'];
 		$fullname = $user_details['last_name'].', '.$user_details['first_name'].' '.$user_details['middle_name'][0].'.';
 		$faculty_url = URL::site('faculty/dept/profiles');
@@ -111,10 +113,10 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 	}
 
 	/* ==================================== *
-    *                                       *
-    *     Controller_Faculty_AccomGroup     *
-    *                                       *
-    * ===================================== */
+	*										*
+	*	  Controller_Faculty_AccomGroup		*
+	*										*
+	* ===================================== */
 
 	/**
 	 * List department reports
@@ -142,7 +144,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 				break;
 
 			default:
-				$error = $this->session->get_once('error');
+				$error = $this->session->get_once('error'); // Consolidate period doesn't include any report
 				$employee_code = $this->session->get('employee_code');
 
 				$programs = $this->univ->get_programs();
@@ -197,13 +199,13 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$accom_details = $accom->get_details($accom_ID);
 		$user_details = $this->user->get_details($accom_details['user_ID'], NULL);
 		
-		$identifier = 'chair';
 		$user_flag = ($accom_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
 		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$accom_url = '<a href="'.URL::site('faculty/dept/accom').'">Accomplishment Reports - Department</a>';
 		$evaluate_url = 'faculty/dept/accom/evaluate/'.$accom_ID;
 
 		$this->view->content = View::factory('faculty/accom/view/group')
-			->bind('identifier', $identifier)
+			->bind('accom_url', $accom_url)
 			->bind('evaluation', $evaluation)
 			->bind('evaluate_url', $evaluate_url)
 			->bind('accom_details', $accom_details)
@@ -217,8 +219,6 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 	 */
 	public function accom_evaluate($accom)
 	{
-		$accom = new Model_Accom;
-
 		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
 		
 		$accom_ID = $this->request->param('id');
@@ -262,6 +262,172 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 
 			$this->redirect('faculty/dept/accom', 303);
 		}
+	}
+
+	/* ==================================== *
+	*										*
+	*	 Controller_Faculty_IpcrGroup		*
+	*										*
+	* ===================================== */
+
+	/**
+	 * List forms
+	 */
+	public function action_ipcr()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+
+		switch ($this->request->param('type'))
+		{
+			case 'view':
+				$this->ipcr_view($ipcr, $opcr);
+				break;
+			
+			case 'evaluate':
+				$this->ipcr_evaluate($ipcr);
+				break;
+			
+			case 'consolidate':
+				$this->ipcr_consolidate($ipcr, $opcr);
+				break;
+
+			default:
+				$error = $this->session->get_once('error'); // Consolidated report has been submitted
+				$employee_code = $this->session->get('employee_code');
+
+				$programs = $this->univ->get_programs();
+				$ipcr_forms = $ipcr->get_group_ipcr($this->department_userIDs);
+				$opcr_forms = $opcr->get_group_opcr($this->department_userIDs, NULL, NULL, FALSE);
+				$label = 'IPCR Forms - Department';
+				$consolidate_form = 'faculty/ipcr/form/modals/dept';
+				$consolidate_url = 'faculty/dept/ipcr/consolidate';
+
+				$this->view->content = View::factory('faculty/ipcr/list/group')
+					->bind('label', $label)
+					->bind('group', $this->department_details['department'])
+					->bind('opcr_forms', $opcr_forms)
+					->bind('ipcr_forms', $ipcr_forms)
+					->bind('error', $error)
+					->bind('consolidate_form', $consolidate_form)
+					->bind('consolidate_url', $consolidate_url)
+					->bind('users', $this->department_users)
+					->bind('programs', $programs);
+				$this->response->body($this->view->render());
+				break;
+		}
+	}	
+
+	/**
+	 * Show faculty form
+	 */
+	public function ipcr_view($ipcr, $opcr)
+	{
+		$success = $this->session->get_once('success');
+
+		$ipcr_ID = $this->request->param('id');
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		$user_details = $this->user->get_details($ipcr_details['user_ID'], NULL);
+
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+		$user_flag = ($ipcr_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$ipcr_url = '<a href="'.URL::site('faculty/dept/ipcr').'">IPCR Forms - Department</a>';
+		$evaluate_url = 'faculty/dept/ipcr/evaluate/'.$ipcr_ID;
+
+		$flag = 0;
+		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
+		foreach ($targets as $target)
+		{
+			if (!$target['r_quantity'] OR !$target['r_efficiency'] OR !$target['r_timeliness'])
+				$flag++;
+		}
+
+		$this->view->content = View::factory('faculty/ipcr/view/group')
+			->bind('ipcr_url', $ipcr_url)
+			->bind('success', $success)
+			->bind('evaluate_url', $evaluate_url)
+			->bind('ipcr_details', $ipcr_details)
+			->bind('user_flag', $user_flag)
+			->bind('flag', $flag)
+			->bind('faculty', $fullname)
+			->bind('period', $period);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Evaluate faculty form
+	 */
+	public function ipcr_evaluate($ipcr)
+	{
+		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
+		
+		$ipcr_ID = $this->request->param('id');
+		$details = $this->request->post();
+		
+		$details['remarks'] = ($details['remarks']
+			? $details['remarks'].' - '.$assessor
+			: $details['status'].' by '.$assessor);
+		
+		$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
+		$this->session->set('evaluate', $evaluate_success);
+
+		$this->redirect('faculty/dept/ipcr/view/'.$ipcr_ID, 303);
+	}
+
+	/**
+	 * Consolidate forms
+	 */
+	public function ipcr_consolidate($ipcr, $opcr)
+	{
+		$error = $this->session->get_once('error');
+		$warning = $this->session->get_once('warning');
+		
+		$opcr_ID = ($this->request->post('opcr_ID') ? $this->request->post('opcr_ID') : $this->request->param('id'));
+		$opcr_details = $opcr->get_details($opcr_ID);
+		
+		if (in_array($opcr_details['status'], array('Pending', 'Accepted')))
+		{
+			$this->session->set('error', 'OPCR Form is locked for editing.');
+			
+			$referrer = $this->request->referrer();
+			if (strpos($referrer, 'opcr') !== FALSE)
+				$this->redirect('faculty/opcr');
+			else
+				$this->redirect('faculty/dept/ipcr');
+		}
+
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$label = $period_from.' - '.$period_to;
+
+		$flag = 0;
+		$outputs = $opcr->get_outputs($opcr_ID);
+		foreach ($outputs as $output)
+		{
+			if (!$output['r_quantity'] OR !$output['r_efficiency'] OR !$output['r_timeliness'])
+				$flag++;
+		}
+
+		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
+		$targets = $ipcr->get_output_targets(NULL, $outputs);
+		$categories = $this->oams->get_categories();
+		
+		$this->view->content = View::factory('faculty/opcr/form/final/template')
+			->bind('label', $label)
+			->bind('error', $error)
+			->bind('warning', $warning)
+			->bind('flag', $flag)
+			->bind('opcr_ID', $opcr_ID)
+			->bind('categories', $categories)
+			->bind('outputs', $outputs)
+			->bind('ipcr_forms', $ipcr_forms)
+			->bind('targets', $targets)
+			->bind('users', $this->department_users);
+		$this->response->body($this->view->render());
 	}
 
 } // End Chair

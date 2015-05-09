@@ -12,7 +12,7 @@ class Controller_Faculty extends Controller_User {
 		if (!in_array($this->session->get('identifier'), array('faculty', 'chair', 'dean')))
 		{
 			$this->session->set('error', 'Unauthorized access.');
-			$this->redirect('faculty/error');
+			$this->redirect('admin/error');
 		}
 	}
 

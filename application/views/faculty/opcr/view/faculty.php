@@ -16,7 +16,7 @@
 		<ul class="nav nav-pills nav-stacked">
 			<?php if ($accepted && $opcr_details['status'] == 'Published'): ?>
 			<li>
-				<a href="<?php echo URL::site('faculty/ipcr_dept/consolidate/'.$opcr_details['opcr_ID']); ?>">Consolidate</a>
+				<a href="<?php echo URL::site('faculty/dept/ipcr/consolidate/'.$opcr_details['opcr_ID']); ?>">Consolidate</a>
 			</li>
 			<hr style="border-top: dotted 1px;">
 			<?php endif; ?>

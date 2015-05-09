@@ -1,26 +1,30 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li class="active"><?php echo ($identifier == 'chair'
-		? 'IPCR Forms - Department'
-		: 'IPCR Forms - College'); ?></li>
+	<li class="active"><?php echo $label; ?></li>
 </ol>
 
 <h3>
 	IPCR Forms <small><?php echo $group; ?></small>
-	<?php if ($identifier == 'chair'): ?>
-	<button type="button"
 	<?php echo (($opcr_forms AND $ipcr_forms)
-		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate"'
-		: 'class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available"');
-	?>>Consolidate Forms</button>
-	<?php endif; ?>
+		? '<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Forms</button>'
+		: '<button type="button" class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available">Consolidate Forms</button>');
+	?>
 </h3>
 <br>
 
+<?php if ($error): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		<?php echo $error; ?>
+	</p>
+</div>
+<?php endif; ?>
+
 <?php
 // Consolidate Form
-echo View::factory('faculty/ipcr/form/modals/consolidate')
+echo View::factory($consolidate_form)
 	->bind('consolidate_url', $consolidate_url)
 	->bind('opcr_forms', $opcr_forms);
 ?>
@@ -41,53 +45,56 @@ echo View::factory('faculty/ipcr/form/modals/consolidate')
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach ($ipcr_forms as $ipcr)
+	<?php foreach ($opcr_forms as $opcr)
 	{
-		foreach ($opcr_forms as $opcr)
+		foreach ($ipcr_forms as $ipcr)
 		{
-			if ($ipcr['opcr_ID'] == $opcr['opcr_ID'])
+			if ($opcr['opcr_ID'] == $ipcr['opcr_ID'])
 			{
 				$period_from = date('F Y', strtotime($opcr['period_from']));
 				$period_to = date('F Y', strtotime($opcr['period_to']));
 				$period = $period_from.' - '.$period_to;
 
-				echo '<tr>
-					<td>', $opcr['period_from'], '</td>
-					<td>', $period, '</td>';
-					
 				foreach ($users as $user)
 				{
 					if ($ipcr['user_ID'] == $user['user_ID'])
 					{
-						echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>';
-
 						foreach ($programs as $program)
 						{
 							if($user['program_ID'] == $program['program_ID'])
-								echo '<td>', $program['short'], '</td>';	
+							{
+								$degree = $program['short'];
+								break;
+							}
 						}
-
-						echo '<td>', date('F d, Y', strtotime($ipcr['date_submitted'])), '</td>';
-						echo '<td>', $ipcr['status'], '</td>';
-						echo '<td>', $ipcr['remarks'], '</td>';
-
-						echo '<td class="dropdown">
-								<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li>
-										<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $user['last_name'],' - [' , $period, ']">
-										<span class="glyphicon glyphicon-download"></span> Download Form</a>
-									</li>
-									<li>
-						 				<a href='.URL::site('faculty/ipcr_dept/view/'.$ipcr['ipcr_ID']).'>
-										<span class="glyphicon glyphicon-file"></span> View Form</a>
-									</li>
-								</ul>
-							</td>';
+						
+						$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.</td>';
+						break;
 					}
 				}
 
-				echo '</tr>';
+				echo '<tr>
+					<td>', $opcr['period_from'], '</td>
+					<td>', $period, '</td>
+					<td>', $name, '</td>
+					<td>', $degree, '</td>
+					<td>', date('F d, Y', strtotime($ipcr['date_submitted'])), '</td>
+					<td>', $ipcr['status'], '</td>
+					<td>', $ipcr['remarks'], '</td>
+					<td class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $user['last_name'],' - [' , $period, ']">
+								<span class="glyphicon glyphicon-download"></span> Download Form</a>
+							</li>
+							<li>
+				 				<a href='.URL::site('faculty/dept/ipcr/view/'.$ipcr['ipcr_ID']).'>
+								<span class="glyphicon glyphicon-file"></span> View Form</a>
+							</li>
+						</ul>
+					</td>
+				</tr>';
 			}
 		}
 	}?>

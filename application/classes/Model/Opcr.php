@@ -10,6 +10,8 @@ class Model_Opcr extends Model {
 		$opcr_forms = DB::select()
 			->from('opcrtbl')
 			->where('user_ID', '=', $user_ID)
+			->order_by('period_from', 'DESC')
+			->order_by('period_to', 'DESC')
 			->execute()
 			->as_array();
 
@@ -31,7 +33,7 @@ class Model_Opcr extends Model {
 			$opcr_forms = DB::select()
 				->from('opcrtbl')
 				->where('user_ID', '=', $department['user_ID'])
-				->where('status', 'IN', array('Published', 'Pending', 'Accepted', 'Checked'))
+				->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'))
 				->order_by('period_from', 'DESC')
 				->order_by('period_to', 'DESC')
 				->limit(1)
@@ -45,7 +47,7 @@ class Model_Opcr extends Model {
 			$opcr_forms = DB::select()
 				->from('opcrtbl')
 				->where('user_ID', '=', $department['user_ID'])
-				->where('status', 'IN', array('Published', 'Pending', 'Accepted', 'Checked'))
+				->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'))
 				->order_by('period_from', 'DESC')
 				->order_by('period_to', 'DESC')
 				->execute()
@@ -60,44 +62,24 @@ class Model_Opcr extends Model {
 	 */
 	public function get_group_opcr($userIDs, $start, $end, $strict)
 	{
-		if ($start AND $end)
-		{
-			$group_opcrs = DB::select()
+		$query = DB::select()
 				->from('opcrtbl')
-				->where('user_ID', 'IN', $userIDs)
-				->where('status', 'IN', array('Checked', 'Accepted', 'Pending'))
+				->where('user_ID', 'IN', $userIDs);
+
+		if ($strict)
+				$query
+				->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'));
+			
+		if ($start AND $end)
+				$query
 				->where('period_from', '>=', $start)
-				->where('period_to', '<=', $end)
+				->where('period_to', '<=', $end);
+			
+		$group_opcrs = $query
 				->order_by('period_from', 'DESC')
 				->order_by('period_to', 'DESC')
 		 		->execute()
 		 		->as_array();
-		}
-		else
-		{
-			if ($strict)
-			{
-				$group_opcrs = DB::select()
-					->from('opcrtbl')
-					->where('user_ID', 'IN', $userIDs)
-					->where('status', 'IN', array('Checked', 'Accepted', 'Pending'))
-					->order_by('period_from', 'DESC')
-					->order_by('period_to', 'DESC')
-			 		->execute()
-			 		->as_array();
-			}
-			else
-			{
-				$group_opcrs = DB::select()
-					->from('opcrtbl')
-					->where('user_ID', 'IN', $userIDs)
-					->where('status', 'IN', array('Checked', 'Accepted', 'Pending', 'Published'))
-					->order_by('period_from', 'DESC')
-					->order_by('period_to', 'DESC')
-			 		->execute()
-			 		->as_array();
-			}
-		}
 
 	 	return $group_opcrs;
 	}
@@ -122,26 +104,21 @@ class Model_Opcr extends Model {
 	public function initialize($details)
 	{
 		// Check
-		$result = DB::query(Database::SELECT, 'SELECT * FROM opcrtbl WHERE user_ID = :user_ID
-			AND DATE_FORMAT(period_from, \'%Y %m\') = DATE_FORMAT(:period_from, \'%Y %m\')
-			AND DATE_FORMAT(period_to, \'%Y %m\') = DATE_FORMAT(:period_to, \'%Y %m\')')
-			->bind(':user_ID', $details['user_ID'])
-		    ->bind(':period_from', $details['period_from'])
-		    ->bind(':period_to', $details['period_to'])
+		$result = DB::select()
+			->from('opcrtbl')
+			->where('user_ID', '=', $details['user_ID'])
+			->where('period_from', '=', $details['period_from'])
+			->where('period_to', '=', $details['period_to'])
 		    ->execute()
-			->as_array();
+	 		->as_array();
 
 		// Existing
 		if ($result)
  		{
- 			if (($result[0]['status'] == 'Checked') OR ($result[0]['status'] == 'Accepted') OR ($result[0]['status'] == 'Pending') OR ($result[0]['status'] == 'Published'))
- 			{
- 				return 'OPCR Form is locked for editing.';
- 			}
+ 			if (in_array($result[0]['status'], array('Published', 'Pending', 'Returned', 'Accepted')))
+	 			return 'OPCR Form is locked for editing.';
  			else
- 			{
- 				return array('opcr_ID' => $result[0]['opcr_ID'], 'message' => 'This form has been generated.');
- 			}
+	 			return array('opcr_ID' => $result[0]['opcr_ID'], 'message' => 'This form has been generated.');	
  		}
  		else
  		{

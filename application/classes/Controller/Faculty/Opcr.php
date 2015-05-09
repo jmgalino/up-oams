@@ -194,7 +194,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr->update_output($this->request->post());
 		
 		if ($this->session->get('identifier') == 'chair')
-			$this->redirect('faculty/ipcr_dept/consolidate/'.$opcr_ID);
+			$this->redirect('faculty/dept/ipcr/consolidate/'.$opcr_ID);
 		elseif ($this->session->get('identifier') == 'dean')
 		{}
 	}
@@ -205,7 +205,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	private function action_consolidate()
 	{
 		if ($this->session->get('identifier') == 'chair')
-			$this->redirect('faculty/ipcr_dept/consolidate/'.$this->request->post('opcr_ID'));
+			$this->redirect('faculty/dept/ipcr/consolidate/'.$this->request->post('opcr_ID'));
 		elseif ($this->session->get('identifier') == 'dean')
 		{}
 	}
