@@ -1,30 +1,21 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
-	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
-	<li class="active"><?php echo ($identifier == 'chair'
-		? 'Accomplishment Reports - Department'
-		: 'Accomplishment Reports - College'); ?></li>
+	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
+	<li class="active"><?php echo $label; ?></li>
 </ol>
 
 <h3>
-	<div class="row">
-		<div class="col-md-9">Accomplishment Reports <small><?php echo $group; ?></small></div>
+	Accomplishment Reports <small><?php echo $group; ?></small>
 
-		<?php if ($accom_reports): ?>
-		<div class="col-md-3">
-			<div class="btn-group pull-right">
-		        <button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate" id="consolidate-report">Consolidate Reports</button>
-		        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-		        <ul class="dropdown-menu">
-					<li><a href="<?php echo ($identifier == 'chair'
-						? URL::site('faculty/dept/accom/all')
-						: URL::site('faculty/coll/accom/all')); ?>">View All Accomplishments</a></li>
-		        </ul>
-			</div>
-		</div>
-		<?php endif; ?>
-
+	<?php if ($accom_reports): ?>
+	<div class="btn-group pull-right">
+		<button class="btn btn-default" data-toggle="modal" data-target="#modal_consolidate" id="consolidate-report">Consolidate Reports</button>
+		<button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li><a href="<?php echo $accom_all_url; ?>">View All Accomplishments</a></li>
+		</ul>
 	</div>
+	<?php endif; ?>
 </h3>
 <br>
 
@@ -43,8 +34,9 @@ echo View::factory('faculty/accom/form/consolidate')
 	</p>
 </div>
 <?php endif; ?>
+
 <!-- Table -->
-<table class="table table-hover" id="accom_group_table">
+<table class="table table-hover" id="accom_group_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
 			<th>Period</th>
@@ -59,28 +51,30 @@ echo View::factory('faculty/accom/form/consolidate')
 	<tbody>
 	<?php foreach ($accom_reports as $accom)
 	{
-		$yearmonth = date('F Y', strtotime($accom['yearmonth']));
-
-		echo '<tr>
-			<td>', $yearmonth, '</td>';
-		
 		foreach ($users as $user)
 		{
 			if ($accom['user_ID'] == $user['user_ID'])
 			{
-				echo '<td>', $user['last_name'], ', ', $user['first_name'], ' ', $user['middle_name'][0], '.</td>';
-
+				$yearmonth = date('F Y', strtotime($accom['yearmonth']));
+				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
+				
 				foreach ($programs as $program)
 				{
 					if($user['program_ID'] == $program['program_ID'])
-						echo '<td>', $program['short'], '</td>';	
+					{
+						$degree = $program['short'];
+						break;
+					}
 				}
 
-				echo '<td>', date('F d, Y', strtotime($accom['date_submitted'])), '</td>';
-				echo '<td>', $accom['status'], '</td>';
-				echo '<td>', $accom['remarks'], '</td>';
-
-				echo '<td class="dropdown">
+				echo '<tr>
+					<td>', $yearmonth, '</td>
+					<td>', $name, '</td>
+					<td>', $degree, '</td>
+					<td>', date('F d, Y', strtotime($accom['date_submitted'])), '</td>
+					<td>', $accom['status'], '</td>
+					<td>', $accom['remarks'], '</td>
+					<td class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
@@ -88,15 +82,14 @@ echo View::factory('faculty/accom/form/consolidate')
 								<span class="glyphicon glyphicon-download"></span> Download Report</a>
 							</li>
 							<li>
-				 				<a href='.URL::site('faculty/dept/accom/view/'.$accom['accom_ID']).'>
+				 				<a href="', $accom_url, '/', $accom['accom_ID'], '">
 								<span class="glyphicon glyphicon-file"></span> View Report</a>
 							</li>
 						</ul>
-					</td>';
+					</td>
+				</tr>';
 			}
 		}
-
-		echo '</tr>';
 	}?>
 	</tbody>
 </table>

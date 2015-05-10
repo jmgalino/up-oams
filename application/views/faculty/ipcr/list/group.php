@@ -1,18 +1,29 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
-	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
+	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
 	<li class="active"><?php echo $label; ?></li>
 </ol>
 
 <h3>
 	IPCR Forms <small><?php echo $group; ?></small>
-	<?php echo (($opcr_forms AND $ipcr_forms)
-		? '<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Forms</button>'
-		: '<button type="button" class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available">Consolidate Forms</button>');
-	?>
+
+	<?php if (TRUE): //($opcr_forms AND $ipcr_forms): ?>
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Forms</button>
+	<?php else: ?>
+	<button type="button" class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available">Consolidate Forms</button>
+	<?php endif; ?>
 </h3>
 <br>
 
+<?php
+// Consolidate Form
+echo View::factory($consolidate_form)
+	->bind('consolidate_url', $consolidate_url)
+	->bind('opcr_forms', $opcr_forms);
+?>
+
+
+<?php if ($ipcr_forms): ?>
 <?php if ($error): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -22,14 +33,6 @@
 </div>
 <?php endif; ?>
 
-<?php
-// Consolidate Form
-echo View::factory($consolidate_form)
-	->bind('consolidate_url', $consolidate_url)
-	->bind('opcr_forms', $opcr_forms);
-?>
-
-<?php if ($ipcr_forms): ?>
 <!-- Table -->
 <table class="table table-hover" id="ipcr_group_table" cellspacing="0" width="100%">
 	<thead>
@@ -68,7 +71,7 @@ echo View::factory($consolidate_form)
 							}
 						}
 						
-						$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.</td>';
+						$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
 						break;
 					}
 				}
@@ -85,11 +88,11 @@ echo View::factory($consolidate_form)
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href='.URL::base().'files/document_ipcr/'.$ipcr['document'].' download="', $user['last_name'],' - [' , $period, ']">
+								<a href="', URL::base(), 'files/document_ipcr/', $ipcr['document'], '" download="', $user['last_name'],' - [' , $period, ']">
 								<span class="glyphicon glyphicon-download"></span> Download Form</a>
 							</li>
 							<li>
-				 				<a href='.URL::site('faculty/dept/ipcr/view/'.$ipcr['ipcr_ID']).'>
+				 				<a href="', $ipcr_url, '/', $ipcr['ipcr_ID'], '">
 								<span class="glyphicon glyphicon-file"></span> View Form</a>
 							</li>
 						</ul>

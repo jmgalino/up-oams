@@ -33,14 +33,34 @@ class Model_Ipcr extends Model {
 	/**
 	 * Get forms (by department/college)
 	 */
-	public function get_group_ipcr($userIDs)
+	public function get_group_ipcr($userIDs, $start, $end, $strict)
 	{
-		$group_ipcrs = DB::select()
-			->from('ipcrtbl')
-			->where('user_ID', 'IN', $userIDs)
-			->where('status', 'IN', array('Checked', 'Accepted', 'Pending', 'Saved'))
-	 		->execute()
-	 		->as_array();
+		if ($start AND $end)
+		{
+			$query = DB::select('ipcrtbl.*, opcrtbl.period_from, opcrtbl.period_to')
+				->from('ipcrtbl')
+				->where('ipcrtbl.user_ID', 'IN', $userIDs)
+				->join('opcrtbl')
+				->on('ipcrtbl.opcr_ID', '=', 'opcrtbl.opcr_ID')
+				->where('opcrtbl.period_from', '>=', $start)
+				->where('opcrtbl.period_to', '<=', $end)
+				->order_by('opcrtbl.period_from', 'DESC')
+				->order_by('opcrtbl.period_to', 'DESC');
+		}
+		else
+		{
+			$query = DB::select()
+				->from('ipcrtbl')
+				->where('ipcrtbl.user_ID', 'IN', $userIDs);
+		}
+
+		if ($strict)
+				$query->where('ipcrtbl.status', 'IN', array('Saved', 'Accepted'));
+		else
+				$query->where('ipcrtbl.status', 'IN', array('Saved', 'Pending', 'Accepted'));
+
+		// echo Debug::vars($query->execute());
+	 	$group_ipcrs = $query->execute()->as_array();
 
 	 	return $group_ipcrs;
 	}

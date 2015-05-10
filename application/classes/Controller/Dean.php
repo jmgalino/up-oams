@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Dean extends Controller_Faculty {
+class Controller_Dean extends Controller_Faculty implements Controller_Faculty_AccomGroup, Controller_Faculty_IpcrGroup {
 
 	private $univ;
 	private $user;
@@ -142,22 +142,26 @@ class Controller_Dean extends Controller_Faculty {
 				break;
 
 			default:
-				$error = $this->session->get_once('error');
+				$error = $this->session->get_once('error'); // Consolidate period doesn't include any report
 				$employee_code = $this->session->get('employee_code');
 
 				$programs = $this->univ->get_programs();
 				$accom_reports = $accom->get_group_accom($this->college_userIDs, NULL, NULL, FALSE);
-				$identifier = 'dean';
+				$accom_all_url = URL::site('faculty/coll/accom/all');
+				$accom_url = URL::site('faculty/coll/accom/view');
+				$label = 'Accomplishment Reports - College';
 				$consolidate_url = 'faculty/coll/accom/consolidate';
 
 				$this->view->content = View::factory('faculty/accom/list/group')
-					->bind('identifier', $identifier)
+					->bind('label', $label)
 					->bind('group', $this->college_details['college'])
 					->bind('accom_reports', $accom_reports)
+					->bind('accom_all_url', $accom_all_url)
 					->bind('consolidate_url', $consolidate_url)
 					->bind('error', $error)
 					->bind('users', $this->college_users)
-					->bind('programs', $programs);
+					->bind('programs', $programs)
+					->bind('accom_url', $accom_url);
 				$this->response->body($this->view->render());
 				break;
 		}
@@ -199,7 +203,7 @@ class Controller_Dean extends Controller_Faculty {
 		
 		$user_flag = ($accom_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
 		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
-		$accom_url = '<a href="'.URL::site('faculty/coll/accom').'">Accomplishment Reports - Department</a>';
+		$accom_url = '<a href="'.URL::site('faculty/coll/accom').'">Accomplishment Reports - College</a>';
 		$evaluate_url = 'faculty/coll/accom/evaluate/'.$accom_ID;
 
 		$this->view->content = View::factory('faculty/accom/view/group')
@@ -260,6 +264,169 @@ class Controller_Dean extends Controller_Faculty {
 			$this->session->set('error', 'There are no accepted/saved reports to consolidate in the period '.$period.'.');
 
 			$this->redirect('faculty/coll/accom', 303);
+		}
+	}
+
+	/* ==================================== *
+	*										*
+	*	 Controller_Faculty_IpcrGroup		*
+	*										*
+	* ===================================== */
+
+	/**
+	 * List forms
+	 */
+	public function action_ipcr()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+
+		switch ($this->request->param('type'))
+		{
+			case 'view':
+				$this->ipcr_view($ipcr, $opcr);
+				break;
+			
+			case 'evaluate':
+				$this->ipcr_evaluate($ipcr);
+				break;
+			
+			case 'consolidate':
+				$this->ipcr_consolidate($ipcr, $opcr);
+				break;
+
+			default:
+				$error = $this->session->get_once('error'); // Consolidate period doesn't include any form
+				$employee_code = $this->session->get('employee_code');
+
+				$programs = $this->univ->get_programs();
+				$ipcr_forms = $ipcr->get_group_ipcr($this->college_userIDs, NULL, NULL, FALSE);
+				$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, NULL, NULL, FALSE);
+				$ipcr_url = URL::site('faculty/coll/ipcr/view');
+				$label = 'IPCR Forms - College';
+				$consolidate_form = 'faculty/ipcr/form/modals/coll';
+				$consolidate_url = 'faculty/coll/ipcr/consolidate';
+
+				$this->view->content = View::factory('faculty/ipcr/list/group')
+					->bind('label', $label)
+					->bind('group', $this->college_details['college'])
+					->bind('opcr_forms', $opcr_forms)
+					->bind('ipcr_forms', $ipcr_forms)
+					->bind('consolidate_form', $consolidate_form)
+					->bind('consolidate_url', $consolidate_url)
+					->bind('error', $error)
+					->bind('users', $this->college_users)
+					->bind('programs', $programs)
+					->bind('ipcr_url', $ipcr_url);
+				$this->response->body($this->view->render());
+				break;
+		}
+	}	
+
+	/**
+	 * Show faculty form
+	 */
+	public function ipcr_view($ipcr, $opcr)
+	{
+		$success = $this->session->get_once('success');
+
+		$ipcr_ID = $this->request->param('id');
+		$ipcr_details = $ipcr->get_details($ipcr_ID);
+		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+		$user_details = $this->user->get_details($ipcr_details['user_ID'], NULL);
+
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+		$user_flag = ($ipcr_details['user_ID'] == $this->session->get('user_ID') ? TRUE : FALSE);
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+		$ipcr_url = '<a href="'.URL::site('faculty/coll/ipcr').'">IPCR Forms - College</a>';
+		$evaluate_url = 'faculty/coll/ipcr/evaluate/'.$ipcr_ID;
+
+		$flag = 0;
+		$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
+		foreach ($targets as $target)
+		{
+			if (!$target['r_quantity'] OR !$target['r_efficiency'] OR !$target['r_timeliness'])
+				$flag++;
+		}
+
+		$this->view->content = View::factory('faculty/ipcr/view/group')
+			->bind('ipcr_url', $ipcr_url)
+			->bind('success', $success)
+			->bind('evaluate_url', $evaluate_url)
+			->bind('ipcr_details', $ipcr_details)
+			->bind('user_flag', $user_flag)
+			->bind('flag', $flag)
+			->bind('faculty', $fullname)
+			->bind('period', $period);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Evaluate faculty form
+	 */
+	public function ipcr_evaluate($ipcr)
+	{
+		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
+		
+		$ipcr_ID = $this->request->param('id');
+		$details = $this->request->post();
+		
+		$details['remarks'] = ($details['remarks']
+			? $details['remarks'].' - '.$assessor
+			: $details['status'].' by '.$assessor);
+		
+		$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
+		$this->session->set('evaluate', $evaluate_success);
+
+		$this->redirect('faculty/coll/ipcr/view/'.$ipcr_ID, 303);
+	}
+
+	/**
+	 * Consolidate forms
+	 */
+	public function ipcr_consolidate($ipcr, $opcr)
+	{
+		$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
+		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
+		
+		$ipcr_forms = $ipcr->get_group_ipcr($this->college_userIDs, $start, $end, TRUE);
+		
+		if ($ipcr_forms)
+		{
+			echo 'IPCR Forms:<br><ul>';
+
+			foreach ($ipcr_forms as $ipcr_details)
+			{
+				$period_from = date('F Y', strtotime($ipcr_details['period_from']));
+				$period_to = date('F Y', strtotime($ipcr_details['period_to']));
+				$period = $period_from.' - '.$period_to;
+
+				foreach ($this->college_users as $user)
+				{
+					if ($ipcr_details['user_ID'] == $user['user_ID'])
+					{
+						$name = $user['last_name'];
+						break;
+					}
+				}
+
+				echo '<li>
+						<a href="', URL::base(), 'files/document_ipcr/', $ipcr_details['document'], '" target="_blank">
+						', $name,' - [' , $period, ']
+						</a>
+					</li>';
+			}
+
+			echo '</ul>';
+		}
+		else
+		{
+			$period = $this->request->post('start').' - '.$this->request->post('end');
+			$this->session->set('error', 'There are no IPCR/OPCR Forms to consolidate in the period '.$period.'.');
+
+			$this->redirect('faculty/coll/ipcr', 303);
 		}
 	}
 

@@ -26,7 +26,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			$userIDs[] = $user['user_ID'];
 		}
 
-		$ipcr_forms = $ipcr->get_group_ipcr($userIDs);
+		$ipcr_forms = $ipcr->get_group_ipcr($userIDs, NULL, NULL, FALSE);
 		$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/opcr/list/faculty')

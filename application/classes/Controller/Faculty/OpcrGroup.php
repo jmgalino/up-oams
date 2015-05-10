@@ -40,7 +40,7 @@ class Controller_Faculty_OpcrGroup extends Controller_Faculty {
 
 		$departments = $univ->get_departments();
 		$users = $this->get_college_users();
-		$opcr_forms = $opcr->get_group_opcr($users['user_IDs'], NULL, NULL, TRUE);
+		$opcr_forms = $opcr->get_group_opcr($users['user_IDs'], NULL, NULL, FALSE);
 		
 		$periods = array();
 		foreach ($opcr_forms as $opcr_details)

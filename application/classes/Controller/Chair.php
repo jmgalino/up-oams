@@ -149,17 +149,21 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 
 				$programs = $this->univ->get_programs();
 				$accom_reports = $accom->get_group_accom($this->department_userIDs, NULL, NULL, FALSE);
-				$identifier = 'chair';
+				$accom_all_url = URL::site('faculty/dept/accom/all');
+				$accom_url = URL::site('faculty/dept/accom/view');
+				$label = 'Accomplishment Reports - Department';
 				$consolidate_url = 'faculty/dept/accom/consolidate';
 
 				$this->view->content = View::factory('faculty/accom/list/group')
-					->bind('identifier', $identifier)
+					->bind('label', $label)
 					->bind('group', $this->department_details['department'])
 					->bind('accom_reports', $accom_reports)
+					->bind('accom_all_url', $accom_all_url)
 					->bind('consolidate_url', $consolidate_url)
 					->bind('error', $error)
 					->bind('users', $this->department_users)
-					->bind('programs', $programs);
+					->bind('programs', $programs)
+					->bind('accom_url', $accom_url);
 				$this->response->body($this->view->render());
 				break;
 		}
@@ -297,8 +301,9 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 				$employee_code = $this->session->get('employee_code');
 
 				$programs = $this->univ->get_programs();
-				$ipcr_forms = $ipcr->get_group_ipcr($this->department_userIDs);
+				$ipcr_forms = $ipcr->get_group_ipcr($this->department_userIDs, NULL, NULL, FALSE);
 				$opcr_forms = $opcr->get_group_opcr($this->department_userIDs, NULL, NULL, FALSE);
+				$ipcr_url = URL::site('faculty/dept/ipcr/view');
 				$label = 'IPCR Forms - Department';
 				$consolidate_form = 'faculty/ipcr/form/modals/dept';
 				$consolidate_url = 'faculty/dept/ipcr/consolidate';
@@ -308,11 +313,12 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 					->bind('group', $this->department_details['department'])
 					->bind('opcr_forms', $opcr_forms)
 					->bind('ipcr_forms', $ipcr_forms)
-					->bind('error', $error)
 					->bind('consolidate_form', $consolidate_form)
 					->bind('consolidate_url', $consolidate_url)
+					->bind('error', $error)
 					->bind('users', $this->department_users)
-					->bind('programs', $programs);
+					->bind('programs', $programs)
+					->bind('ipcr_url', $ipcr_url);
 				$this->response->body($this->view->render());
 				break;
 		}
