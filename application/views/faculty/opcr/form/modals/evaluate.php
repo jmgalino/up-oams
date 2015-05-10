@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">Evaluate Form</h4>
       </div>
 
-      <?php print Form::open($evaluate_url, array('class'=>'form-horizontal', 'role'=>'form'));?>
+      <?php print Form::open('faculty/coll/opcr/evaluate/'.$opcr_ID, array('class'=>'form-horizontal', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="status" class="col-sm-3 control-label">Evaluation</label>

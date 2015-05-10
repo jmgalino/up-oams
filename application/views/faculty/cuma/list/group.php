@@ -5,35 +5,11 @@
 </ol>
 
 <h3>
-	<div class="row">
-		<div class="col-md-9">CUMA Forms <small><?php echo $group; ?></small></div>
-
-		<?php if (TRUE == FALSE)://($cuma_forms): ?>
-		<div class="col-md-3">
-			<button class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate" id="consolidate-form">Consolidate Forms</button>
-		</div>
-		<?php endif; ?>
-
-	</div>
+	CUMA Forms <small><?php echo $group; ?></small>
 </h3>
 <br>
 
-<?php
-// Consolidate Form
-echo View::factory('faculty/cuma/form/consolidate')
-	->bind('consolidate_url', $consolidate_url);
-?>
-
 <?php if ($cuma_forms): ?>
-<?php if ($error): ?>
-<div class="alert alert-danger alert-dismissable">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	<p class="text-center">
-		<?php echo $error; ?>
-	</p>
-</div>
-<?php endif; ?>
-
 <!-- Table -->
 <table class="table table-hover" id="cuma_group_table" cellspacing="0" width="100%">
 	<thead>

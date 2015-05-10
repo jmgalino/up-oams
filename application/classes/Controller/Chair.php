@@ -329,7 +329,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 	 */
 	public function ipcr_view($ipcr, $opcr)
 	{
-		$success = $this->session->get_once('success');
+		$evaluation = $this->session->get_once('evaluation');
 
 		$ipcr_ID = $this->request->param('id');
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
@@ -354,7 +354,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 
 		$this->view->content = View::factory('faculty/ipcr/view/group')
 			->bind('ipcr_url', $ipcr_url)
-			->bind('success', $success)
+			->bind('evaluation', $evaluation)
 			->bind('evaluate_url', $evaluate_url)
 			->bind('ipcr_details', $ipcr_details)
 			->bind('user_flag', $user_flag)
@@ -379,7 +379,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 			: $details['status'].' by '.$assessor);
 		
 		$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
-		$this->session->set('evaluate', $evaluate_success);
+		$this->session->set('evaluation', $evaluate_success);
 
 		$this->redirect('faculty/dept/ipcr/view/'.$ipcr_ID, 303);
 	}

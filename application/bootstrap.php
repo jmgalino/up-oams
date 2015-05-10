@@ -165,6 +165,11 @@ Route::set('faculty-functions', '<controller>/<action>(/<id>)',
 	->defaults(array(
 		'action'	=> 'index'
 	));
+Route::set('special-faculty-functions', '<controller>/<action>/latest',
+	array(
+		'controller'=> 'faculty',
+		'action'	=> 'opcr'
+	));
 Route::set('chair-functions', 'faculty/dept/<action>(/<type>)(/<id>)',
 	array(
 		'type'		=>	'(all|view|evaluate|consolidate)'

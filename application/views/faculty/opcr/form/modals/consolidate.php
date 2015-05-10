@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">Consolidate OPCR Forms</h4>
       </div>
 
-      <?php print Form::open('faculty/opcr_coll/consolidate', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
+      <?php print Form::open('faculty/coll/opcr/consolidate', array('class'=>'form-horizontal', 'id'=>'newForm', 'role'=>'form'));?>
       <div class="modal-body">
         <div class="form-group">
           <label for="opcr" class="col-sm-4 control-label">Period</label>

@@ -5,14 +5,14 @@
 	<li class="active">View IPCR Form</li>
 </ol>
 
-<?php if ($success): ?>
+<?php if ($evaluation): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		IPCR Form was successfully <?php echo $success; ?>.
+		IPCR Form was successfully <?php echo strtolower($evaluation); ?>.
 	</p>
 </div>
-<?php elseif ($success === FALSE): ?>
+<?php elseif ($evaluation === FALSE): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">

@@ -2,6 +2,21 @@
 
 class Controller_Faculty_Opcr extends Controller_Faculty {
 
+	private $opcr;
+
+	public function before()
+	{
+		parent::before();
+
+		if ($this->session->get('identifier') != 'chair')
+		{
+			$this->session->set('error', 'Unauthorized access.');
+			$this->redirect('faculty/error');
+		}
+
+		$this->opcr = new Model_Opcr;
+	}
+
 	/**
 	 * Faculty's OPCRs
 	 */

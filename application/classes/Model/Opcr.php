@@ -28,33 +28,24 @@ class Model_Opcr extends Model {
 
 		$department = $univ->get_department_details(NULL, $program_ID);
 
+		$query = DB::select()
+				->from('opcrtbl')
+				->where('user_ID', '=', $department['user_ID'])
+				->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'))
+				->order_by('period_from', 'DESC')
+				->order_by('period_to', 'DESC');
+
+		if ($limit)
+			$query->limit($limit);
+
+		$opcr_forms = $query
+				->execute()
+				->as_array();
+
 		if ($limit == 1)
-		{
-			$opcr_forms = DB::select()
-				->from('opcrtbl')
-				->where('user_ID', '=', $department['user_ID'])
-				->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'))
-				->order_by('period_from', 'DESC')
-				->order_by('period_to', 'DESC')
-				->limit(1)
-				->execute()
-				->as_array();
-
 			return $opcr_forms[0];
-		}
 		else
-		{
-			$opcr_forms = DB::select()
-				->from('opcrtbl')
-				->where('user_ID', '=', $department['user_ID'])
-				->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'))
-				->order_by('period_from', 'DESC')
-				->order_by('period_to', 'DESC')
-				->execute()
-				->as_array();
-
 			return $opcr_forms;
-		}
 	}
 
 	/**
@@ -197,8 +188,8 @@ class Model_Opcr extends Model {
  			->where('opcr_ID', '=', $opcr_ID)
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+ 		if ($rows_updated == 1) return $details['status'];
+ 		else return FALSE;
 	}
 
 	/**

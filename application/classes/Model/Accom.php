@@ -225,7 +225,7 @@ class Model_Accom extends Model {
  			->execute();
 
  		if ($rows_updated == 1) return $details['status'];
- 		else return FALSE; //do something
+ 		else return FALSE;
 	}
 
 	/**

@@ -16,6 +16,27 @@ class Controller_Faculty extends Controller_User {
 		}
 	}
 
+	public function action_opcr()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+
+		$opcr_details = $opcr->get_department_opcr($this->session->get('program_ID'), 1);
+		$ipcr_details = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), $opcr_details['opcr_ID']);
+
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+	
+		$this->view->content = View::factory('faculty/opcr/view/latest')
+			->bind('opcr_details', $opcr_details)
+			->bind('ipcr_details', $ipcr_details)
+			->bind('period', $period);
+
+		$this->response->body($this->view->render());
+	}
+
 	/**
 	 * Show profile
 	 */
@@ -80,6 +101,9 @@ class Controller_Faculty extends Controller_User {
 		$this->response->body($this->view->render());
 	}
 
+	/**
+	 * Update SATE scores or no. of students mentored
+	 */
 	public function action_update_myprofile()
 	{
 		$user = new Model_User;
@@ -127,23 +151,6 @@ class Controller_Faculty extends Controller_User {
 			$this->session->set('error', 'Unauthorized access.');
 			$this->redirect('faculty/error');
 		}
-	}
-
-	/**
-	 * Send message
-	 */
-	private function send_message($details)
-	{
-		$message_details['name'] = $this->session->get('fullname');
-	    $message_details['contact'] = $this->session->get('employee_code');
-		$message_details['subject'] = $details['subject'];
-		$message_details['message'] = $details['message'];
-		$message_details['date'] = date('Y-m-d', strtotime("now"));
-
-		$insert_success = $this->oams->new_message($message_details);
-		$this->session->set('success', $insert_success);
-			
-		$this->redirect('faculty/contact', 303);
 	}
 
 	/**
@@ -249,6 +256,23 @@ class Controller_Faculty extends Controller_User {
 		}
 		
 		return $rearray_accoms;
+	}
+
+	/**
+	 * Send message
+	 */
+	private function send_message($details)
+	{
+		$message_details['name'] = $this->session->get('fullname');
+	    $message_details['contact'] = $this->session->get('employee_code');
+		$message_details['subject'] = $details['subject'];
+		$message_details['message'] = $details['message'];
+		$message_details['date'] = date('Y-m-d', strtotime("now"));
+
+		$insert_success = $this->oams->new_message($message_details);
+		$this->session->set('success', $insert_success);
+			
+		$this->redirect('faculty/contact', 303);
 	}
 
 } // End Faculty

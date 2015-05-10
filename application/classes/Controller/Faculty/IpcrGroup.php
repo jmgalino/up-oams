@@ -18,7 +18,7 @@ interface Controller_Faculty_IpcrGroup {
 	public function ipcr_evaluate($ipcr);
 
 	/**
-	 * Consolidate forms
+	 * Consolidate faculty forms
 	 */
 	public function ipcr_consolidate($ipcr, $opcr);
 

@@ -26,7 +26,7 @@
 						<li><a href="<?php echo URL::site('faculty/coll/ipcr'); ?>">View College</a></li>
 					</ul>
 				</li>
-				<li><a href=<?php echo URL::site('faculty/opcr_coll'); ?>>OPCR</a></li>
+				<li><a href="<?php echo URL::site('faculty/coll/opcr'); ?>">OPCR</a></li>
 				<li><a href="<?php echo URL::site('faculty/coll/cuma'); ?>">CUMA</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

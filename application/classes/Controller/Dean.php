@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Dean extends Controller_Faculty implements Controller_Faculty_AccomGroup, Controller_Faculty_IpcrGroup {
+class Controller_Dean extends Controller_Faculty implements Controller_Faculty_AccomGroup, Controller_Faculty_IpcrGroup, Controller_Faculty_OpcrGroup, Controller_Faculty_CumaGroup {
 
 	private $univ;
 	private $user;
@@ -328,7 +328,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	 */
 	public function ipcr_view($ipcr, $opcr)
 	{
-		$success = $this->session->get_once('success');
+		$evaluation = $this->session->get_once('evaluation');
 
 		$ipcr_ID = $this->request->param('id');
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
@@ -353,7 +353,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 
 		$this->view->content = View::factory('faculty/ipcr/view/group')
 			->bind('ipcr_url', $ipcr_url)
-			->bind('success', $success)
+			->bind('evaluation', $evaluation)
 			->bind('evaluate_url', $evaluate_url)
 			->bind('ipcr_details', $ipcr_details)
 			->bind('user_flag', $user_flag)
@@ -378,7 +378,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 			: $details['status'].' by '.$assessor);
 		
 		$evaluate_success = $ipcr->evaluate($ipcr_ID, $details);
-		$this->session->set('evaluate', $evaluate_success);
+		$this->session->set('evaluation', $evaluate_success);
 
 		$this->redirect('faculty/coll/ipcr/view/'.$ipcr_ID, 303);
 	}
@@ -431,6 +431,140 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	}
 
 	/* ==================================== *
+	*										*
+	*	 Controller_Faculty_OpcrGroup		*
+	*										*
+	* ===================================== */
+
+	/**
+	 * List forms
+	 */
+	public function action_opcr()
+	{
+		$opcr = new Model_Opcr;
+
+		switch ($this->request->param('type'))
+		{
+			case 'view':
+				$this->opcr_view($opcr);
+				break;
+			
+			case 'evaluate':
+				$this->opcr_evaluate($opcr);
+				break;
+			
+			case 'consolidate':
+				$this->opcr_consolidate($opcr);
+				break;
+
+			default:
+				$error = $this->session->get_once('error'); // Consolidate period doesn't include any form
+				$employee_code = $this->session->get('employee_code');
+
+				$departments = $this->univ->get_departments();
+				$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, NULL, NULL, FALSE);
+				$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, NULL, NULL, FALSE);
+
+				$this->view->content = View::factory('faculty/opcr/list/group')
+					->bind('group', $this->college_details['college'])
+					->bind('opcr_forms', $opcr_forms)
+					->bind('error', $error)
+					->bind('users', $this->college_users)
+					->bind('departments', $departments);
+				$this->response->body($this->view->render());
+				break;
+		}
+	}
+
+	/**
+	 * Show department form
+	 */
+	public function opcr_view($opcr)
+	{
+		$evaluation = $this->session->get_once('evaluation');
+		
+		$opcr_ID = $this->request->param('id');
+		$opcr_details = $opcr->get_details($opcr_ID);
+		$user_details = $this->user->get_details($opcr_details['user_ID'], NULL);
+		$department_details = $this->univ->get_department_details(NULL, $user_details['program_ID']);
+		
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+		$fullname = $user_details['first_name'].' '.$user_details['middle_name'][0].'. '.$user_details['last_name'];
+
+		$this->view->content = View::factory('faculty/opcr/view/group')
+			->bind('evaluation', $evaluation)
+			->bind('opcr_details', $opcr_details)
+			->bind('faculty', $fullname)
+			->bind('unit', $department_details['short'])
+			->bind('period', $period);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Evaluate department form
+	 */
+	public function opcr_evaluate($opcr)
+	{
+		$assessor = $this->session->get('fullname').' '.date('(d M Y)');
+		
+		$opcr_ID = $this->request->param('id');
+		$details = $this->request->post();
+		
+		$details['remarks'] = ($details['remarks']
+			? $details['remarks'].' - '.$assessor
+			: $details['status'].' by '.$assessor);
+		
+		$evaluate_success = $opcr->evaluate($opcr_ID, $details);
+		$this->session->set('evaluation', $evaluate_success);
+
+		$this->redirect('faculty/coll/opcr/view/'.$opcr_ID, 303);
+	}
+
+	/**
+	 * Consolidate department forms
+	 */
+	public function opcr_consolidate($opcr)
+	{
+		$start = date('Y-m-d', strtotime('01'.$this->request->post('start')));
+		$end = date('Y-m-d', strtotime('01'.$this->request->post('end')));
+		
+		$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, $start, $end, TRUE);
+
+		if ($opcr_forms)
+		{
+			$opcr_outputs = array();
+			foreach ($opcr_forms as $opcr_details)
+			{
+				$outputs = $opcr->get_outputs($opcr_details['opcr_ID']);
+
+				if ($outputs)
+				{
+					foreach ($outputs as $output)
+					{
+						$opcr_outputs[] = $output;
+					}
+				}
+			}
+
+			$consolidate_data['start'] = $start;
+			$consolidate_data['end'] = $end;
+			$consolidate_data['opcr_outputs'] = $opcr_outputs;
+			$this->session->set('consolidate_data', $consolidate_data);
+
+			$this->redirect('extras/mpdf/download/opcr-consolidated/', 303);
+		}
+		else
+		{
+			$period = $this->request->post('start').' - '.$this->request->post('end');
+			$this->session->set('error', 'There are no OPCR Forms to consolidate in the period '.$period.'.');
+
+			$this->redirect('faculty/opcr_coll', 303);
+		}
+	}
+
+	/* ==================================== *
     *                                       *
     *     Controller_Faculty_CumaGroup      *
     *                                       *
@@ -450,19 +584,12 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 				break;
 			
 			default:
-				$error = $this->session->get_once('error');
-				// $employee_code = $this->session->get('employee_code');
-
 				$programs = $this->univ->get_programs();
 				$cuma_forms = $cuma->get_group_cuma($this->college_userIDs);
-				$consolidate_url = 'faculty/coll/cuma/consolidate';
 
 				$this->view->content = View::factory('faculty/cuma/list/group')
-					->bind('identifier', $identifier)
 					->bind('group', $this->college_details['college'])
 					->bind('cuma_forms', $cuma_forms)
-					->bind('consolidate_url', $consolidate_url)
-					->bind('error', $error)
 					->bind('users', $this->college_users)
 					->bind('programs', $programs);
 				$this->response->body($this->view->render());

@@ -23,7 +23,7 @@ interface Controller_Faculty_AccomGroup {
 	public function accom_evaluate($accom);
 
 	/**
-	 * Consolidate reports
+	 * Consolidate faculty reports
 	 */
 	public function accom_consolidate($accom);
 

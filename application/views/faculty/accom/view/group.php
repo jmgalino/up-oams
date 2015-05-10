@@ -12,6 +12,13 @@
 		Accomplishment Report was successfully <?php echo strtolower($evaluation); ?>.
 	</p>
 </div>
+<?php elseif ($evaluation === FALSE): ?>
+<div class="alert alert-danger alert-dismissable">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<p class="text-center">
+		Something went wrong, please try again.
+	</p>
+</div>
 <?php endif; ?>
 
 <?php

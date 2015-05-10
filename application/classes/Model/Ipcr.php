@@ -173,8 +173,8 @@ class Model_Ipcr extends Model {
  			->where('ipcr_ID', '=', $ipcr_ID)
  			->execute();
 
- 		if ($rows_updated == 1) return TRUE;
- 		else return FALSE; //do something
+ 		if ($rows_updated == 1) return $details['status'];
+ 		else return FALSE;
 	}
 
 	/**
