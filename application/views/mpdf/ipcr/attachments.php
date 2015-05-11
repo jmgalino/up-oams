@@ -3,7 +3,6 @@ $ipcr_attachments = $session->get_once('attachments');
 
 if ($ipcr_attachments)
 {
-	echo '<pagebreak />';
 	echo '<p>Attachments</p><br>';
 
 	$counter = 0;

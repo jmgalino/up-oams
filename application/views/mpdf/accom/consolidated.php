@@ -1,115 +1,26 @@
 <?php
-/**
- * Return names
- */
-function reuser($user_IDs, $users)
-{
-	$name = '';
-
-	if (count($user_IDs) == 1)
-	{
-		foreach ($users as $user)
-		{
-			if ($user_IDs == $user['user_ID'])
-			{
-				$name = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
-				break;
-			}
-		}
-	}
-	else
-	{
-		$names = array();
-		$names2 = array();
-		foreach ($user_IDs as $user_ID)
-		{
-			if (is_numeric($user_ID))
-			{
-				foreach ($users as $user)
-				{
-					if ($user_ID == $user['user_ID'])
-					{
-						$names[] = $user['last_name'].', '.$user['first_name'].' '.$user['middle_name'][0].'.';
-						break;
-					}
-				}
-			}
-			else
-			{
-				$names2[] = $user_ID; echo $user_ID, 'in';
-			}
-		}
-
-		$count = count($names);
-		for ($i = 0; $i < $count; $i++)
-		{
-			$name .= $names[$i];
-
-			if (($count == 2) AND ($i == $count-2) AND (!$names2))
-				$name .= ' and ';
-			else if (($count > 2) AND ($i == $count-2) AND (!$names2))
-				$name .= ', and ';
-			else if ($i == $count-1)
-				$name .= '';
-			else
-				$name .= ', ';
-		}
-		
-		if ($names2)
-		{
-			$count2 = count($names2);
-			for ($i = 0; $i < $count2; $i++)
-			{
-				$name .= $names2[$i];
-
-				if (($count2 == 2) AND ($i == $count2-2))
-					$name .= ' and ';
-				else if (($count2 > 2) AND ($i == $count2-2))
-					$name .= ', and ';
-				else if ($i == $count2-1)
-					$name .= '';
-				else
-					$name .= ', ';
-			}
-		}
-
-	}
-
-	return $name;
-}
-
-/**
- * Change and improve date format
- */
 function redate($start, $end)
 {
-	$date = '';
+	$duration = Request::factory('extras/reconstructor/redate')
+		->post(array(
+			'start' => $start,
+			'end' => $end))
+		->execute()
+		->body;
 
-	$stime = strtotime($start);
-	$sdate = date('d', $stime);
-	$smonth = date('F', $stime);
-	$syear = date('Y', $stime);
+	return $duration;
+}
 
-	$etime = strtotime($end);
-	$edate = date('d', $etime);
-	$emonth = date('F', $etime);
-	$eyear = date('Y', $etime);
+function reuser($user_IDs, $users)
+{
+	$author = Request::factory('extras/reconstructor/reuser')
+		->post(array(
+			'user_IDs' => $user_IDs,
+			'users' => $users))
+		->execute()
+		->body;
 
-	if (($smonth == $emonth) AND ($syear == $eyear))
-	{
-		if ($sdate == $edate)
-		{
-			$date = date('F d, Y', strtotime($start));
-		}
-		else
-		{
-			$date = $smonth.' '.$sdate.'-'.$edate.', '.$syear;
-		}
-	}
-	else
-		$date = date('F d, Y', strtotime($start)).' - '.date('F d, Y', strtotime($end));
-
-	return $date;
+	return $author;
 }
 
 $array = array();

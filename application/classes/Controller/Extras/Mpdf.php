@@ -341,6 +341,7 @@ class Controller_Extras_Mpdf extends Controller {
 
 		echo View::factory('mpdf/ipcr/legend');
 
+		echo '<pagebreak />';
 		echo View::factory('mpdf/ipcr/attachments')
 			->bind('session', $this->session);
 
@@ -393,66 +394,113 @@ class Controller_Extras_Mpdf extends Controller {
 		$opcr = new Model_Opcr;
 		$oams = new Model_Oams;
 		$univ = new Model_Univ;
-		// $user = new Model_User;
 
-		$opcr_details = $opcr->get_details($opcr_ID);
-		$outputs = $opcr->get_outputs($opcr_ID);
 		$categories = $oams->get_categories();
 		
-		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$unit['fullname'] = $department_details['department'];
-		$unit['short'] = $department_details['short'];
-		$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
-		$targets = $ipcr->get_output_targets(NULL, $outputs);
-		// $programIDs = $univ->get_department_programIDs($department_details['department_ID']);
-		// $users = $user->get_user_group($programIDs);
+		if ($this->session->get('identifier') == 'chair')
+		{
+			$opcr_details = $opcr->get_details($opcr_ID);
+			$outputs = $opcr->get_outputs($opcr_ID);
+			
+			$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+			$unit['fullname'] = $department_details['department'];
+			$unit['short'] = $department_details['short'];
+			$ipcr_forms = $ipcr->get_opcr_ipcr($opcr_ID);
+			$targets = $ipcr->get_output_targets(NULL, $outputs);
 
-		$fullname = $this->session->get('fullname');
-		// $title = ($this->session->get('identifier') == 'dean'
-		// 	? $college_details['short']
-		// 	: $department_details['short']);
-		$start = date('F Y', strtotime($opcr_details['period_from']));
-		$end = date('F Y', strtotime($opcr_details['period_to']));
-		$date = date('F d, Y');
-		
-		ob_start();
+			$fullname = $this->session->get('fullname');
+			$start = date('F Y', strtotime($opcr_details['period_from']));
+			$end = date('F Y', strtotime($opcr_details['period_to']));
+			$date = date('F d, Y');
 
-		echo View::factory('mpdf/opcr/header')
-			->bind('fullname', $fullname)
-			->bind('unit', $unit)
-			->bind('start', $start)
-			->bind('end', $end)
-			->bind('date', $date);
+			ob_start();
 
-		echo View::factory('mpdf/ipcr/consolidated')
-			->bind('categories', $categories)
-			->bind('outputs', $outputs)
-			->bind('ipcr_forms', $ipcr_forms)
-			->bind('targets', $targets)
-			->bind('session', $this->session);
-			// ->bind('users', $users);
+			echo View::factory('mpdf/opcr/header')
+				->bind('fullname', $fullname)
+				->bind('unit', $unit)
+				->bind('start', $start)
+				->bind('end', $end)
+				->bind('date', $date);
 
-		echo View::factory('mpdf/ipcr/legend');
+			echo View::factory('mpdf/ipcr/consolidated')
+				->bind('categories', $categories)
+				->bind('outputs', $outputs)
+				->bind('ipcr_forms', $ipcr_forms)
+				->bind('targets', $targets)
+				->bind('session', $this->session);
 
-		echo View::factory('mpdf/ipcr/attachments')
-			->bind('session', $this->session);
+			echo View::factory('mpdf/ipcr/legend');
 
-		$template = ob_get_contents();
-		ob_get_clean();	
-		
+			echo View::factory('mpdf/ipcr/attachments')
+				->bind('session', $this->session);
+
+			$template = ob_get_contents();
+			ob_get_clean();
+		}	
+		elseif ($this->session->get('identifier') == 'dean')
+		{
+			$ipcr_forms = $this->session->get_once('ipcr_forms');
+			
+			ob_start();
+			$template = '';
+			foreach ($ipcr_forms as $ipcr_details)
+			{
+				$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
+				$department_details = $univ->get_department_details(NULL, $ipcr_details['program_ID']);
+
+				$targets = $ipcr->get_targets($ipcr_details['ipcr_ID']);
+				$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
+
+				$fullname = $ipcr_details['first_name'].' '.$ipcr_details['middle_name'][0].'. '.$ipcr_details['last_name'];
+				$title = 'Faculty, '.$department_details['short'];
+					
+				echo View::factory('mpdf/ipcr/header')
+					->bind('fullname', $fullname)
+					->bind('department', $department_details['department'])
+					->bind('opcr_details', $opcr_details)
+					->bind('title', $title);
+
+				echo View::factory('mpdf/ipcr/basic')
+					->bind('fullname', $fullname)
+					->bind('department', $department_details['department'])
+					->bind('opcr_details', $opcr_details)
+					->bind('title', $title)
+					->bind('categories', $categories)
+					->bind('targets', $targets)
+					->bind('outputs', $outputs)
+					->bind('session', $this->session);
+
+				echo View::factory('mpdf/ipcr/legend');
+				echo '<pagebreak />';
+			}
+
+			echo View::factory('mpdf/ipcr/attachments')
+				->bind('session', $this->session);
+
+			$template = ob_get_contents();
+			ob_get_clean();
+		}
+
 		$period = date('my', strtotime($opcr_details['period_from'])).date('my', strtotime($opcr_details['period_to']));
 		$filename = $this->session->get('employee_code').$period.'.pdf';
 		
+		if ($purpose == 'download')
+		{
+			$period = $this->session->get_once('period');
+			$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+			$filename = $college_details['short'].' ('.$period.').pdf';
+			$this->pdf_download($template, $filename, 'A4', 25, NULL);
+		}
+
 		// Generate PDF for preview
-		if ($purpose == 'preview')
+		elseif ($purpose == 'preview')
 		{
 			$filepath = DOCROOT.'files/tmp/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
 			$this->response->body = $filename;
 		}
-
-		// $filename = $department_details['short'].' ('.$period.').pdf';
+		
 		else
 		{
 			$filepath = DOCROOT.'files/document_opcr/'.$filename;

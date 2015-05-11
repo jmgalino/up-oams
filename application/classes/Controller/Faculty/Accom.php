@@ -257,6 +257,7 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 			$consolidate_data['accoms']['mat'] = $this->accom->get_accoms($accom_ID, 'mat');
 			$consolidate_data['accoms']['oth'] = $this->accom->get_accoms($accom_ID, 'oth');
 
+			$consolidate_data['level'] = 'faculty';
 			$consolidate_data['start'] = $start;
 			$consolidate_data['end'] = $end;
 			$this->session->set('consolidate_data', $consolidate_data);

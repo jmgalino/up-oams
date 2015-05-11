@@ -37,9 +37,11 @@ class Model_Ipcr extends Model {
 	{
 		if ($start AND $end)
 		{
-			$query = DB::select('ipcrtbl.*, opcrtbl.period_from, opcrtbl.period_to')
+			$query = DB::select('ipcrtbl.*, user_profiletbl.*, opcrtbl.period_from, opcrtbl.period_to')
 				->from('ipcrtbl')
 				->where('ipcrtbl.user_ID', 'IN', $userIDs)
+				->join('user_profiletbl')
+				->on('ipcrtbl.user_ID', '=', 'user_profiletbl.user_ID')
 				->join('opcrtbl')
 				->on('ipcrtbl.opcr_ID', '=', 'opcrtbl.opcr_ID')
 				->where('opcrtbl.period_from', '>=', $start)

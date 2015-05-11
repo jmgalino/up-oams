@@ -250,6 +250,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		
 		if ($accoms)
 		{
+			$consolidate_data['level'] = 'department';
 			$consolidate_data['accoms'] = $accoms;
 			$consolidate_data['start'] = $start;
 			$consolidate_data['end'] = $end;

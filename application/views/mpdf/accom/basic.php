@@ -1,36 +1,26 @@
 <?php
-/**
- * Change and improve date format
- */
 function redate($start, $end)
 {
-	$date = '';
+	$duration = Request::factory('extras/reconstructor/redate')
+		->post(array(
+			'start' => $start,
+			'end' => $end))
+		->execute()
+		->body;
 
-	$stime = strtotime($start);
-	$sdate = date('d', $stime);
-	$smonth = date('F', $stime);
-	$syear = date('Y', $stime);
+	return $duration;
+}
 
-	$etime = strtotime($end);
-	$edate = date('d', $etime);
-	$emonth = date('F', $etime);
-	$eyear = date('Y', $etime);
+function reuser($user_IDs, $users)
+{
+	$author = Request::factory('extras/reconstructor/reuser')
+		->post(array(
+			'user_IDs' => $user_IDs,
+			'users' => $users))
+		->execute()
+		->body;
 
-	if (($smonth == $emonth) AND ($syear == $eyear))
-	{
-		if ($sdate == $edate)
-		{
-			$date = date('F d, Y', strtotime($start));
-		}
-		else
-		{
-			$date = $smonth.' '.$sdate.'-'.$edate.', '.$syear;
-		}
-	}
-	else
-		$date = date('F d, Y', strtotime($start)).' - '.date('F d, Y', strtotime($end));
-
-	return $date;
+	return $author;
 }
 
 $array = array();

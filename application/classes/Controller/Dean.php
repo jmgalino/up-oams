@@ -390,40 +390,18 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	{
 		$start = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 		$end = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
-		
+		$period = $this->request->post('start').' - '.$this->request->post('end');
+
 		$ipcr_forms = $ipcr->get_group_ipcr($this->college_userIDs, $start, $end, TRUE);
 		
 		if ($ipcr_forms)
 		{
-			echo 'IPCR Forms:<br><ul>';
-
-			foreach ($ipcr_forms as $ipcr_details)
-			{
-				$period_from = date('F Y', strtotime($ipcr_details['period_from']));
-				$period_to = date('F Y', strtotime($ipcr_details['period_to']));
-				$period = $period_from.' - '.$period_to;
-
-				foreach ($this->college_users as $user)
-				{
-					if ($ipcr_details['user_ID'] == $user['user_ID'])
-					{
-						$name = $user['last_name'];
-						break;
-					}
-				}
-
-				echo '<li>
-						<a href="', URL::base(), 'files/document_ipcr/', $ipcr_details['document'], '" target="_blank">
-						', $name,' - [' , $period, ']
-						</a>
-					</li>';
-			}
-
-			echo '</ul>';
+			$this->session->set('ipcr_forms', $ipcr_forms);
+			$this->session->set('period', $period);
+			$this->redirect('extras/mpdf/download/ipcr-consolidated/', 303);
 		}
 		else
 		{
-			$period = $this->request->post('start').' - '.$this->request->post('end');
 			$this->session->set('error', 'There are no IPCR/OPCR Forms to consolidate in the period '.$period.'.');
 
 			$this->redirect('faculty/coll/ipcr', 303);
