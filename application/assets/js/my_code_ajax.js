@@ -424,10 +424,10 @@ $(document).ready(function () {
 
 	/* ANNOUNCEMENT FORM (NEW) -- Reset form */
 	$("#newAnnouncement").click(function () {
-		var action = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 
 		$("#myModalLabel").text("New Announcement");
-		$("#announcementForm").attr("action", action);
+		$("#announcementForm").attr("action", actionUrl);
 		$("#announcementForm input, #announcement-content").val("");
 		$("#announcement-id").removeAttr("name");
         $("input[type=submit]").val("Post");
@@ -436,7 +436,7 @@ $(document).ready(function () {
 	/* ANNOUNCEMENT FORM (UPDATE) -- Set form for editing*/
 	$("a#updateAnnouncement").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
-		var action = $(this).attr("url");
+		var actionUrl = $(this).attr("action-url");
 		var announcement_ID = $(this).attr("key");
 
 		$.ajax({
@@ -446,7 +446,7 @@ $(document).ready(function () {
 			dataType: "json",
 			success:function (data) {
 				$("#myModalLabel").text("Update Announcement");
-				$("#announcementForm").attr("action", action);
+				$("#announcementForm").attr("action", actionUrl);
 				$("#announcement-id").attr("name", "announcement_ID").val(data["announcement_ID"]);
 				$("#announcement-subject").val(data["subject"]);
 				$("#announcement-content").val(data["content"]);

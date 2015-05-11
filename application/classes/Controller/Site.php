@@ -217,7 +217,7 @@ class Controller_Site extends Controller {
 	{
 		$oams = new Model_Oams;
 		$now = time();
-		$announcements = $oams->get_announcements();
+		$announcements = $oams->get_announcements(NULL, NULL);
 		
 		foreach ($announcements as $announcement)
 		{

@@ -1,13 +1,12 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
-  <li><a href=<?php echo URL::site(); ?>>Home</a></li>
-  <li><a href=<?php echo URL::site("admin/oams");?>><?php echo $initials; ?> Settings</a></li>
-  <li class="active">Announcements</li>
+	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
+	<li class="active">Announcements</li>
 </ol>
 
 <h3>
 	List of Announcements
-	<button type="button" class="btn btn-default pull-right" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site('admin/oams/new/announcement'); ?>>Create</button>
+	<button type="button" class="btn btn-default pull-right" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo $new_url; ?>>Create</button>
 </h3>
 <br>
 
@@ -18,7 +17,7 @@
 		<?php echo $success?>
 	</p>
 </div>
-<?php elseif (($error) OR ($success === FALSE)): ?>
+<?php elseif ($success === FALSE): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
@@ -29,7 +28,8 @@
 
 <?php
 // Add/Edit announcement form
-echo View::factory('admin/oams/form/announcement');
+echo View::factory('faculty/announcement/form')
+	->bind('form_url', $form_url);
 ?>
 
 <?php if ($announcements): ?>
@@ -57,26 +57,10 @@ echo View::factory('admin/oams/form/announcement');
 
 		echo '<td>', date('d M', strtotime($announcement['date'])), '</td>
 			<td>
-				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
+				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', $update_url, '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
-			</tr>';
-
-		// echo '<td class="dropdown">
-		// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-		// 		<ul class="dropdown-menu">
-		// 			<li>
-		// 				<a key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
-		// 				<span class="glyphicon glyphicon-pencil"></span> Edit Post</a>
-		// 			</li>
-		// 			<li>
-		// 				<a href="', URL::site('admin/oams/delete/'.$announcement['announcement_ID']), '">
-		// 				<span class="glyphicon glyphicon-trash"></span> Delete Post</a>
-		// 			</li>
-		// 		</ul>
-		// 	</td>
-		// 	</tr>';
-	}
+			</tr>';	}
 	?>
 	</tbody>
 </table>

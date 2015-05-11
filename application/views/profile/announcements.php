@@ -15,22 +15,26 @@ if ($announcements)
 	{
 		$id = str_replace (" ", "_", $announcement['subject']);
 		
-		echo '
-		<div class="announcement-header" id="', $id, '">
-			<h4>', $announcement['subject'], '</h4>
-			<p style="font-size:12px">', date('F d, Y \a\t h:i A', strtotime($announcement['date']));
+		$details = date('F d, Y \a\t h:i A', strtotime($announcement['date']));
 
 		if ($announcement['edited'])
-			echo ' · Edited';
+			$details .= ' · Edited';
 
-		echo '</div>
-			<p style="white-space:pre-wrap; padding-bottom:10px">', $announcement['content'], '</p>';
+		if ($identifier != 'admin')
+		{
+			if ($announcement['type'] == 'coll')
+				$details .= ' ('.$college_details['short'].')';
 
-		// Show attachment here
+			if ($announcement['type'] == 'dept')
+				$details .= ' ('.$department_details['short'].')';
+		}
 
-		// $counter++;
-		// if ($counter < count($announcements))
-		echo '<hr class="announcement-divider" style="border-top:2px dotted #7b1113; padding-bottom:10px">';
+		echo '<div class="announcement-header" id="', $id, '">
+			<h4>', $announcement['subject'], '</h4>
+			<p style="font-size:12px">', $details, '</p>
+			</div>
+			<p style="white-space:pre-wrap; padding-bottom:10px">', $announcement['content'], '</p>
+			<hr class="announcement-divider" style="border-top:2px dotted #7b1113; padding-bottom:10px">';
 	}
 }
 ?>

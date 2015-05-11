@@ -121,10 +121,18 @@ class Model_Oams extends Model {
 	/**
 	 * Get announcements
 	 */
-	public function get_announcements()
+	public function get_announcements($user_ID, $type)
 	{
-		$announcements = DB::select()
-			->from('oams_announcementtbl')
+		$query = DB::select()
+			->from('oams_announcementtbl');
+
+		if ($user_ID)
+			$query->where('user_ID', '=', $user_ID);
+
+		if ($type)
+			$query->where('type', '=', $type);
+		
+		$announcements = $query
 			->order_by('date', 'DESC')
 			->execute()
 			->as_array();

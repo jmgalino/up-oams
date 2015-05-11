@@ -55,19 +55,7 @@ abstract class Controller_User extends Controller {
 	/**
 	 * Show homepage
 	 */
-	protected function action_index()
-	{
-		$title = $this->oams->get_title();
-		$announcements = $this->oams->get_announcements();
-		$identifier = $this->session->get('identifier');
-		$general = ($identifier == 'admin' ? $identifier : 'faculty');
-
-		$this->view->content = View::factory('profile/index')
-			->bind('title', $title)
-			->bind('announcements', $announcements)
-			->bind('identifier', $general);
-		$this->response->body($this->view->render());
-	}
+	abstract function action_index();
 
 	/**
 	 * Show error
@@ -87,14 +75,7 @@ abstract class Controller_User extends Controller {
 	/**
 	 * Show announcements
 	 */
-	protected function action_announcements()
-	{
-		$announcements = $this->oams->get_announcements();
-
-		$this->view->content = View::factory('profile/announcements')
-			->bind('announcements', $announcements);
-		$this->response->body($this->view->render());
-	}
+	abstract function action_announcements();
 
 	/**
 	 * Show profile

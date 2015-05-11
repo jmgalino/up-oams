@@ -17,6 +17,44 @@ class Controller_Admin extends Controller_User {
 	}
 
 	/**
+	 * Show homepage
+	 */
+	public function action_index()
+	{
+		$univ = new Model_Univ;
+		
+		$identifier = $this->session->get('identifier');
+		
+		$title = $this->oams->get_title();
+		$announcements = $this->oams->get_announcements(NULL, 'univ');
+		
+		$general = 'admin';
+
+		$this->view->content = View::factory('profile/index')
+			->bind('title', $title)
+			->bind('announcements', $announcements)
+			->bind('identifier', $general);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Show announcements
+	 */
+	public function action_announcements()
+	{
+		$univ = new Model_Univ;
+
+		$identifier = $this->session->get('identifier');
+
+		$announcements = $this->oams->get_announcements(NULL, 'univ');
+
+		$this->view->content = View::factory('profile/announcements')
+			->bind('announcements', $announcements)
+			->bind('identifier', $identifier);
+		$this->response->body($this->view->render());
+	}
+
+	/**
 	 * Show profile
 	 */
 	public function action_myprofile()

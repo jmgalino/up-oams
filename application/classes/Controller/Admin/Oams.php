@@ -14,7 +14,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$titles['initials'] = $this->oams->get_initials();
 		$titles['page_title'] = $this->oams->get_page_title();
 		$about = $this->oams->get_about();
-		$announcements = $this->oams->get_announcements();
+		$announcements = $this->oams->get_announcements(NULL, 'univ');
 		$categories = $this->oams->get_categories();
 
 		$this->view->content = View::factory('admin/oams')
@@ -35,7 +35,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$initials = $this->oams->get_initials();
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
-		$announcements = $this->oams->get_announcements();
+		$announcements = $this->oams->get_announcements(NULL, 'univ');
 		
 		$this->view->content = View::factory('admin/oams/announcements')
 			->bind('initials', $initials)
@@ -64,6 +64,8 @@ class Controller_Admin_Oams extends Controller_Admin {
 	private function new_announcement()
 	{
 		$details = $this->request->post();
+		$details['user_ID'] = NULL;
+		$details['type'] = 'univ';
 		$details['date'] = date('Y-m-d H:i:s');
 		
 		$add_success = $this->oams->add_announcement($details);
@@ -123,6 +125,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	{
 		$details = $this->request->post();
 		$details['edited'] = 1;
+		
 		$update_success = $this->oams->update_announcement($details);
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/oams/announcements', 303);

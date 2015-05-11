@@ -110,6 +110,69 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$this->response->body($this->view->render());
 	}
 
+	/**
+	 * Announcements
+	 * List college announcements
+	 */
+	public function action_announcements()
+	{
+		switch ($this->request->param('id'))
+		{
+			case 'new':
+				$this->announcement_new();
+				break;
+
+			case 'update':
+				$this->announcement_update();
+				break;
+
+			default:
+				$success = $this->session->get_once('success');
+				$announcements = $this->oams->get_announcements($this->session->get('user_ID'), 'coll');
+
+				$new_url = URL::site('faculty/coll/announcements/new');
+				$update_url = URL::site('faculty/coll/announcements/update');
+				$form_url = 'faculty/coll/announcements/new';
+				
+				$this->view->content = View::factory('faculty/announcement/announcements')
+					->bind('new_url', $new_url)
+					->bind('success', $success)
+					->bind('form_url', $form_url)
+					->bind('announcements', $announcements)
+					->bind('update_url', $update_url);
+				$this->response->body($this->view->render());
+				break;
+		}
+	}
+
+	/**
+	 * Create announcement
+	 */
+	private function announcement_new()
+	{
+		$details = $this->request->post();
+		$details['user_ID'] = $this->session->get('user_ID');
+		$details['type'] = 'coll';
+		$details['date'] = date('Y-m-d H:i:s');
+		
+		$add_success = $this->oams->add_announcement($details);
+		$this->session->set('success', $add_success);
+		$this->redirect('faculty/coll/announcements', 303);
+	}
+
+	/**
+	 * Update Announcements
+	 */
+	private function announcement_update()
+	{
+		$details = $this->request->post();
+		$details['edited'] = 1;
+
+		$update_success = $this->oams->update_announcement($details);
+		$this->session->set('success', $update_success);
+		$this->redirect('faculty/coll/announcements', 303);
+	}
+
 	/* ==================================== *
     *                                       *
     *     Controller_Faculty_AccomGroup     *
@@ -117,6 +180,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
     * ===================================== */
 
 	/**
+	 * Accomplishment Report
 	 * List college reports
 	 */
 	public function action_accom()
@@ -274,6 +338,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	* ===================================== */
 
 	/**
+	 * IPCR Forms
 	 * List forms
 	 */
 	public function action_ipcr()
@@ -415,6 +480,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	* ===================================== */
 
 	/**
+	 * OPCR Forms
 	 * List forms
 	 */
 	public function action_opcr()
@@ -549,6 +615,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
     * ===================================== */
 
     /**
+	 * CUMA Forms
 	 * List forms
 	 */
 	public function action_cuma()

@@ -16,24 +16,45 @@ class Controller_Faculty extends Controller_User {
 		}
 	}
 
-	public function action_opcr()
+	/**
+	 * Show homepage
+	 */
+	public function action_index()
 	{
-		$ipcr = new Model_Ipcr;
-		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 
-		$opcr_details = $opcr->get_department_opcr($this->session->get('program_ID'), 1);
-		$ipcr_details = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), $opcr_details['opcr_ID']);
+		$identifier = $this->session->get('identifier');
+		
+		$title = $this->oams->get_title();
+		$announcements = $this->oams->get_announcements(NULL, NULL);
+		
+		$general = 'faculty';
 
-		$period_from = date('F Y', strtotime($opcr_details['period_from']));
-		$period_to = date('F Y', strtotime($opcr_details['period_to']));
-		$period = $period_from.' - '.$period_to;
-	
-		$this->view->content = View::factory('faculty/opcr/view/latest')
-			->bind('opcr_details', $opcr_details)
-			->bind('ipcr_details', $ipcr_details)
-			->bind('period', $period);
+		$this->view->content = View::factory('profile/index')
+			->bind('title', $title)
+			->bind('announcements', $announcements)
+			->bind('identifier', $general);
+		$this->response->body($this->view->render());
+	}
 
+	/**
+	 * Show announcements
+	 */
+	public function action_announcements()
+	{
+		$univ = new Model_Univ;
+
+		$identifier = $this->session->get('identifier');
+
+		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
+		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
+		$announcements = $this->oams->get_announcements(NULL, NULL);
+
+		$this->view->content = View::factory('profile/announcements')
+			->bind('announcements', $announcements)
+			->bind('identifier', $identifier)
+			->bind('college_details', $college_details)
+			->bind('department_details', $department_details);
 		$this->response->body($this->view->render());
 	}
 
@@ -139,6 +160,30 @@ class Controller_Faculty extends Controller_User {
 				->bind('details', $details);
 			$this->response->body($this->view->render());
 		}
+	}
+
+	/**
+	 * Show latest published OPCR
+	 */
+	public function action_opcr()
+	{
+		$ipcr = new Model_Ipcr;
+		$opcr = new Model_Opcr;
+		$univ = new Model_Univ;
+
+		$opcr_details = $opcr->get_department_opcr($this->session->get('program_ID'), 1);
+		$ipcr_details = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), $opcr_details['opcr_ID']);
+
+		$period_from = date('F Y', strtotime($opcr_details['period_from']));
+		$period_to = date('F Y', strtotime($opcr_details['period_to']));
+		$period = $period_from.' - '.$period_to;
+	
+		$this->view->content = View::factory('faculty/opcr/view/latest')
+			->bind('opcr_details', $opcr_details)
+			->bind('ipcr_details', $ipcr_details)
+			->bind('period', $period);
+
+		$this->response->body($this->view->render());
 	}
 
 	/**
