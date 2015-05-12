@@ -319,10 +319,4 @@ class Model_Opcr extends Model {
  		else return FALSE;
 	}
 
-	/**
-	 * Check if output is linked to other forms
-	 */
-	// private function check_output_users($output_ID)
-	// {}
-
 } // End Opcr

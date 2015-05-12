@@ -525,6 +525,10 @@ $(document).ready(function () {
 				$("#publicationForm").attr("url", url);
 				$("#publicationForm input[name=type]").prop("checked", false);
 				$("#publicationDetails input").val("");
+				$("#publication-isi").prop('checked', false);
+				$("#publication-peer").prop('checked', false);
+				$("#publication-refereed").prop('checked', false);
+				$("#publication-popular").prop('checked', false);
 				break;
 			
 			case "award":
@@ -618,6 +622,18 @@ $(document).ready(function () {
 					else
 						$("#chapterType").prop("checked", true).trigger("click");
 				}
+
+				if (details["isi"] == "Yes")
+					$("#publication-isi").prop('checked', true);
+
+				if (details["peer_reviewed"] == "Yes")
+					$("#publication-peer").prop('checked', true);
+				
+				if (details["refereed"] == "Yes")
+					$("#publication-refereed").prop('checked', true);
+				
+				if (details["popular"] == "Yes")
+					$("#publication-popular").prop('checked', true);
 			}
 		});
 	});
