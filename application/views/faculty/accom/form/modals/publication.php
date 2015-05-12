@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="accom-label"></h4>
       </div>
 
-      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'publicationForm', 'role'=>'form')); ?>
+      <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'publicationForm', 'enctype'=>'multipart/form-data', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="alert alert-danger" style="display:none">
           <p class="text-center" id="accom-alert"></p>
@@ -32,6 +32,15 @@
           </label>
         </div>
         <?php echo View::factory('faculty/accom/form/modals/publication_fragment')->bind('session', $session); ?>
+
+        <div class="form-group">
+          <label for="attachment" class="col-sm-4 control-label">Attachment(s)</label>
+          <div class="col-sm-7" id="add-attachment">
+            <input type="file" id="accom-attachment" name="attachment[]" accept="image/*" multiple="true">
+            <span class="help-block">You can add up to 5 attachments.</span>
+          </div>
+          <div class="col-sm-7" id="view-attachment"></div>
+        </div>
       </div>
 
       <div class="modal-footer">

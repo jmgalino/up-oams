@@ -14,8 +14,8 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$type = $this->request->param('key');
 		$attachment = NULL;
 		
-		// Accom. attachment except for pub
-		if ($type !== 'pub' AND $_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
+		// Accom. attachment
+		if ($_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
         {
         	$attachment = Request::factory('extras/upload/attachment')
         		->post(array(
@@ -71,7 +71,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 				$name_ID = 'other_ID';
 				break;
 		}
-		
+
 		$add_success = $accom->add_accom($accom_ID, $name_ID, $type, $details, $attachment);
 		$this->session->set('success', $add_success);
 		$this->redirect('faculty/accom/update/'.$this->session->get('accom_details')['accom_ID'], 303);

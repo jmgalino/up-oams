@@ -525,10 +525,10 @@ $(document).ready(function () {
 				$("#publicationForm").attr("url", url);
 				$("#publicationForm input[name=type]").prop("checked", false);
 				$("#publicationDetails input").val("");
-				$("#publication-isi").prop('checked', false);
-				$("#publication-peer").prop('checked', false);
-				$("#publication-refereed").prop('checked', false);
-				$("#publication-popular").prop('checked', false);
+				$("#publication-isi").prop("checked", false);
+				$("#publication-peer").prop("checked", false);
+				$("#publication-refereed").prop("checked", false);
+				$("#publication-popular").prop("checked", false);
 				break;
 			
 			case "award":
@@ -634,6 +634,10 @@ $(document).ready(function () {
 				
 				if (details["popular"] == "Yes")
 					$("#publication-popular").prop('checked', true);
+
+				$("input#accom-attachment").removeAttr("name");
+				$("div#add-attachment").hide();
+				$("div#view-attachment").html("<p class=\"form-control-static\">Attachments cannot be modified</p>" + details["attachment"]).show();
 			}
 		});
 	});
@@ -1022,7 +1026,7 @@ $(document).ready(function () {
 				// }
 			}
 		});
-	})
+	});
 
 	/* OTHER FORM (UPDATE) -- Set form for editing */
 	$("a#updateOther").click(function () {
