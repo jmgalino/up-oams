@@ -25,21 +25,23 @@ function adjectival_rating($value)
 </table>
 
 <table class="table table-bordered">
-  <tr>
-    <td class="active" rowspan="2" width="150">MFO/PAP</td>
-    <td class="active" rowspan="2" width="150">Success Indicators<br>(Targets + Measures)</td>
-    <td class="active" rowspan="2" width="80">Divisions/<br>Individuals<br>Accountable</td>
-    <td class="active" rowspan="2" width="80">Actual Accomplishments</td>
-    <td class="active" colspan="4">Rating</td>
-    <td class="active" rowspan="2" width="55">Remarks</td>
-  </tr>
-  <tr>
-    <td class="active" width="20">Q<sup>1</sup></td>
-    <td class="active" width="20">E<sup>2</sup></td>
-    <td class="active" width="20">T<sup>3</sup></td>
-    <td class="active" width="20">A<sup>4</sup></td>
-  </tr>
+	<tr>
+		<td class="active" rowspan="2" width="150">MFO/PAP</td>
+		<td class="active" rowspan="2" width="150">Success Indicators<br>(Targets + Measures)</td>
+		<td class="active" rowspan="2" width="80">Divisions/<br>Individuals<br>Accountable</td>
+		<td class="active" rowspan="2" width="80">Actual Accomplishments</td>
+		<td class="active" colspan="4">Rating</td>
+		<td class="active" rowspan="2" width="55">Remarks</td>
+	</tr>
+	<tr>
+		<td class="active" width="20">Q<sup>1</sup></td>
+		<td class="active" width="20">E<sup>2</sup></td>
+		<td class="active" width="20">T<sup>3</sup></td>
+		<td class="active" width="20">A<sup>4</sup></td>
+	</tr>
 	<?php
+	$counter = 0;
+	$attachments = array();
 	$r_quantity = array();
 	$r_efficiency = array();
 	$r_timeliness = array();
@@ -49,56 +51,72 @@ function adjectival_rating($value)
 	{
 		echo '<tr><th class="category" colspan="9">', $category['category'], '</th></tr>';
 
-		// foreach ($opcr_forms as $opcr_form)
-		// {
-			foreach ($outputs as $output)
+		foreach ($outputs as $output)
+		{
+			if ($category['category_ID'] == $output['category_ID'])
 			{
-				if ($category['category_ID'] == $output['category_ID'])
+				// Set indicators
+				$style1 = strpos($output['indicators'], 'Targets:');
+				if ($style1 !== FALSE)
 				{
-					// Set indicators
-					$style1 = strpos($output['indicators'], 'Targets:');
-					if ($style1 !== FALSE)
-					{
-						list($indicator, $imeasures) = explode('Measures:', $output['indicators']);
-						list($nothingness, $itargets) = explode('Targets:', $indicator);
-						$output['indicators'] = '<strong>Targets</strong>:'.$itargets.'<strong>Measures</strong>: '.$imeasures;
-					}
+					list($indicator, $imeasures) = explode('Measures:', $output['indicators']);
+					list($nothingness, $itargets) = explode('Targets:', $indicator);
+					$output['indicators'] = '<strong>Targets</strong>:'.$itargets.'<strong>Measures</strong>: '.$imeasures;
+				}
 
-					// Set ratings
-					if ($output['r_quantity'] AND $output['r_efficiency'] AND $output['r_timeliness'])
-					{
-						$r_quantity[] = $output['r_quantity'];
-						$r_efficiency[] = $output['r_efficiency'];
-						$r_timeliness[] = $output['r_timeliness'];
-						
-						$rating = array($output['r_quantity'], $output['r_efficiency'], $output['r_timeliness']);
-						$output['r_average'] = number_format(array_sum($rating)/3, 1);
-						$r_average[] = $output['r_average'];
-					}
-					else
-					{
-						$output['r_quantity'] = ($output['r_quantity'] ? $output['r_quantity'] : '');
-						$output['r_efficiency'] = ($output['r_efficiency'] ? $output['r_efficiency'] : '');
-						$output['r_timeliness'] = ($output['r_timeliness'] ? $output['r_timeliness'] : '');
-						$output['r_average'] = ($output['r_quantity'] OR $output['r_efficiency'] OR $output['r_timeliness'] ? 'Inc' : '');
-					}
+				// Set ratings
+				if ($output['r_quantity'] AND $output['r_efficiency'] AND $output['r_timeliness'])
+				{
+					$r_quantity[] = $output['r_quantity'];
+					$r_efficiency[] = $output['r_efficiency'];
+					$r_timeliness[] = $output['r_timeliness'];
+					
+					$rating = array($output['r_quantity'], $output['r_efficiency'], $output['r_timeliness']);
+					$output['r_average'] = number_format(array_sum($rating)/3, 1);
+					$r_average[] = $output['r_average'];
+				}
+				else
+				{
+					$output['r_quantity'] = ($output['r_quantity'] ? $output['r_quantity'] : '');
+					$output['r_efficiency'] = ($output['r_efficiency'] ? $output['r_efficiency'] : '');
+					$output['r_timeliness'] = ($output['r_timeliness'] ? $output['r_timeliness'] : '');
+					$output['r_average'] = ($output['r_quantity'] OR $output['r_efficiency'] OR $output['r_timeliness'] ? 'Inc' : '');
+				}
 
-					echo '<tr>
-						<td class="form-rows">', $output['output'], '</td>
-						<td class="form-rows">', $output['indicators'], '</td>
-						<td class="form-rows">', $output['accountable'], '</td>
-						<td class="form-rows">', $output['actual_accom'], '</td>
-						<td class="form-rows">', $output['r_quantity'], '</td>
-						<td class="form-rows">', $output['r_efficiency'], '</td>
-						<td class="form-rows">', $output['r_timeliness'], '</td>
-						<td class="form-rows">', $output['r_average'], '</td>
-						<td class="form-rows">', $output['remarks'], '</td>
-					</tr>';
+				$attachment = "";
+				$ipcr = new Model_Ipcr;
+				$targets = $ipcr->get_output_targets(NULL, $outputs);
+				foreach ($targets as $target)
+				{
+					if ($output['output_ID'] == $target['output_ID'])
+					{
+						if ($target['attachment'])
+						{
+							$attachments[$counter++] = $target['attachment'];
+							$attachment .= '<a class="glyphicon glyphicon-paperclip" href="#attachment_'.$counter.'" target="_blank">
+											<sup style="padding-left:1px;">['.$counter.']</sup>
+										</a> ';
+						}
+					} // if target in under output and ipcr
+				} // foreach targets
 
-				} // if output is under categories
-			} // foreach outputs
-		// } // foreach opcr
+				echo '<tr>
+					<td class="form-rows">', $output['output'], '</td>
+					<td class="form-rows">', $output['indicators'], '</td>
+					<td class="form-rows">', $output['accountable'], '</td>
+					<td class="form-rows">', $output['actual_accom'], '</td>
+					<td class="form-rows">', $output['r_quantity'], '</td>
+					<td class="form-rows">', $output['r_efficiency'], '</td>
+					<td class="form-rows">', $output['r_timeliness'], '</td>
+					<td class="form-rows">', $output['r_average'], '</td>
+					<td class="form-rows">', $output['remarks'], '</td>
+				</tr>';
+
+			} // if output is under categories
+		} // foreach outputs
 	} // foreach categories
+
+	$session->set('attachments', $attachments);
 	?>
 </table>
 
@@ -110,7 +128,6 @@ $final_average = number_format(array_sum($r_average)/count($r_average), 1);
 ?>
 
 Average Rating
-
 <table class="table table-bordered">
   <tbody>
     <tr>

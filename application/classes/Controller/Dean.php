@@ -503,10 +503,8 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 
 			default:
 				$error = $this->session->get_once('error'); // Consolidate period doesn't include any form
-				$employee_code = $this->session->get('employee_code');
 
 				$departments = $this->univ->get_departments();
-				$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, NULL, NULL, FALSE);
 				$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, NULL, NULL, FALSE);
 
 				$this->view->content = View::factory('faculty/opcr/list/group')
@@ -582,7 +580,6 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 			foreach ($opcr_forms as $opcr_details)
 			{
 				$outputs = $opcr->get_outputs($opcr_details['opcr_ID']);
-
 				if ($outputs)
 				{
 					foreach ($outputs as $output)

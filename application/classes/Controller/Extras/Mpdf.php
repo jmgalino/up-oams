@@ -547,9 +547,14 @@ class Controller_Extras_Mpdf extends Controller {
 
 		echo View::factory('mpdf/opcr/consolidated')
 			->bind('categories', $categories)
-			->bind('outputs', $consolidate_data['opcr_outputs']);
+			->bind('outputs', $consolidate_data['opcr_outputs'])
+			->bind('session', $this->session);
 
 		echo View::factory('mpdf/opcr/legend');
+
+		echo '<pagebreak />';
+		echo View::factory('mpdf/opcr/attachments')
+			->bind('session', $this->session);
 
 		$template = ob_get_contents();
 		ob_get_clean();
