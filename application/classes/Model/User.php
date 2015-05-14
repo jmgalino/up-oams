@@ -138,9 +138,9 @@ class Model_User extends Model {
  		}
 
  		// University update
-		if (array_key_exists('position', $user_details))
+		if (array_key_exists('position', $new_details))
 		{
-			$univ_updated = $this->update_univ($user_details);
+			$univ_updated = $this->update_univ($new_details);
 			$success = ($univ_updated ? $success : FALSE);
 		}
 
@@ -330,6 +330,19 @@ class Model_User extends Model {
 
 			return $univ_updated;
 		}
+		elseif ($user_details['position'] == 'chair')
+		{
+			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']); echo Debug::vars($department_details);
+			
+			if ($department_details['user_ID'] == $user_details['user_ID'])
+				return TRUE;
+			else
+			{
+				$user_updated = ($department_details['user_ID'] ? $user->update_details(array('user_ID' => $department_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
+				$department_updated = $univ->update_department(array('department_ID'=>$department_details['department_ID'], 'user_ID' => $user_details['user_ID']));
+				return ($user_updated AND $department_updated);
+			}
+		}
  		else if ($user_details['position'] == 'dean')
 		{
 			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
@@ -340,18 +353,6 @@ class Model_User extends Model {
 				$user_updated = ($college_details['user_ID'] ? $user->update_details(array('user_ID' => $college_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
 				$college_updated = $univ->update_college(array('college_ID'=>$college_details['college_ID'], 'user_ID' => $user_details['user_ID']));
 				return ($user_updated AND $college_updated);
-			}
-		}
-		elseif ($user_details['position'] == 'chair')
-		{
-			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
-			if ($department_details['user_ID'] == $user_details['user_ID'])
-				return TRUE;
-			else
-			{
-				$user_updated = ($department_details['user_ID'] ? $user->update_details(array('user_ID' => $department_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
-				$department_updated = $univ->update_department(array('department_ID'=>$department_details['department_ID'], 'user_ID' => $user_details['user_ID']));
-				return ($user_updated AND $department_updated);
 			}
 		}
  	}
