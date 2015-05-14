@@ -1611,7 +1611,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/up-oams/index.php/ajax/abc",
+            url: "/up-oams/index.php/ajax/check_password",
             data: 'password=' + password,
             success:function (correct){
                 if(correct)

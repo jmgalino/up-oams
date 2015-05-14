@@ -182,7 +182,7 @@ class Model_Univ extends Model {
  		if (is_null($department_ID))
  		{
  			$program = $this->get_program_details($program_ID);
- 			$department_ID = $program['department_ID'];
+ 			$department_ID = $program['department_ID']; echo $program['department_ID'];
  		}
 		
 		$details = DB::select('univ_departmenttbl.*', 'univ_collegetbl.college',
@@ -196,7 +196,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
- 		return $details[0];
+ 		return ($details ? $details[0] : FALSE); // To check for non-existing departments i.e. SOM
  	}
 
 	/**

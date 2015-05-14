@@ -4,6 +4,9 @@ class Controller_Faculty_Accom extends Controller_Faculty {
 
 	private $accom;
 
+	/**
+	 * Check authorization
+	 */
 	public function before()
 	{
 		parent::before();

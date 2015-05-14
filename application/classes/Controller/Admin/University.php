@@ -110,6 +110,44 @@ class Controller_Admin_University extends Controller_Admin {
 	}
 
 	/**
+	 * Add college
+	 */
+	private function new_college()
+	{
+		$univ = new Model_Univ;
+
+		$add_success = $univ->add_college($this->request->post());
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/university/colleges', 303);
+	}
+
+	/**
+	 * Add department
+	 */
+	private function new_department()
+	{
+		$univ = new Model_Univ;
+
+		$add_success = $univ->add_department($this->request->post());
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/university/departments', 303);
+	}
+
+	/**
+	 * Add program
+	 */
+	private function new_program()
+	{
+		$univ = new Model_Univ;
+
+		$post = $this->request->post();
+		$post['date_instituted'] = date('Y-m-d', strtotime($post['date_instituted']));
+		$add_success = $univ->add_program($post);
+		$this->session->set('success', $add_success);
+		$this->redirect('admin/university/programs', 303);
+	}
+
+	/**
 	 * Save changes in University Settings
 	 */
 	public function action_update()
@@ -161,19 +199,7 @@ class Controller_Admin_University extends Controller_Admin {
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/university', 303);
 	}
-
-	/**
-	 * Add college
-	 */
-	private function new_college()
-	{
-		$univ = new Model_Univ;
-
-		$add_success = $univ->add_college($this->request->post());
-		$this->session->set('success', $add_success);
-		$this->redirect('admin/university/colleges', 303);
-	}
-
+	
 	/**
 	 * Update college
 	 */
@@ -202,18 +228,6 @@ class Controller_Admin_University extends Controller_Admin {
 	}
 
 	/**
-	 * Add department
-	 */
-	private function new_department()
-	{
-		$univ = new Model_Univ;
-
-		$add_success = $univ->add_department($this->request->post());
-		$this->session->set('success', $add_success);
-		$this->redirect('admin/university/departments', 303);
-	}
-
-	/**
 	 * Update department
 	 */
 	private function update_department()
@@ -238,20 +252,6 @@ class Controller_Admin_University extends Controller_Admin {
 		$update_success = ($user_updated ? $univ->update_department($update_details) : FALSE);
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/university/departments', 303);
-	}
-
-	/**
-	 * Add program
-	 */
-	private function new_program()
-	{
-		$univ = new Model_Univ;
-
-		$post = $this->request->post();
-		$post['date_instituted'] = date('Y-m-d', strtotime($post['date_instituted']));
-		$add_success = $univ->add_program($post);
-		$this->session->set('success', $add_success);
-		$this->redirect('admin/university/programs', 303);
 	}
 
 	/**

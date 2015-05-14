@@ -4,6 +4,9 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 
 	private $opcr;
 
+	/**
+	 * Check authorization
+	 */
 	public function before()
 	{
 		parent::before();

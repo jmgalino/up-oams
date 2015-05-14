@@ -2,7 +2,10 @@
 
 class Controller_Extras_Ajax extends Controller {
 
-	public function action_abc()
+	/**
+	 * Check password
+	 */
+	public function action_check_password()
 	{
 		$user = new Model_User;
 		echo ($user->check_password($this->request->post('password')) ? TRUE : FALSE);
@@ -433,6 +436,30 @@ class Controller_Extras_Ajax extends Controller {
 	}
 
 	/**
+	 * Get output details
+	 */
+	public function action_output_details()
+	{
+		$opcr = new Model_Opcr;
+
+		$output_ID = $this->request->post('output_ID');
+		$output_details = $opcr->get_output_details($output_ID);
+
+		$style1 = strpos($output_details['indicators'], 'Targets:');
+		if ($style1 !== FALSE)
+		{
+			list($indicator, $imeasures) = explode('Measures:', $output_details['indicators']);
+			list($nothingness, $itargets) = explode('Targets:', $indicator);
+			$output_details['targets'] = $itargets;
+			$output_details['measures'] = $imeasures;
+			$output_details['indicators'] = NULL;
+		}
+
+		echo json_encode($output_details);
+		exit();
+	}
+
+	/**
 	 * Get target details
 	 */
 	public function action_target_details()
@@ -467,6 +494,9 @@ class Controller_Extras_Ajax extends Controller {
 		exit();
 	}
 
+	/**
+	 * Check if all the ratings are complete
+	 */
 	public function action_check_rating()
 	{
 		$post = $this->request->post();
@@ -487,29 +517,8 @@ class Controller_Extras_Ajax extends Controller {
 	}
 
 	/**
-	 * Get output details
+	 * Update current form view
 	 */
-	public function action_output_details()
-	{
-		$opcr = new Model_Opcr;
-
-		$output_ID = $this->request->post('output_ID');
-		$output_details = $opcr->get_output_details($output_ID);
-
-		$style1 = strpos($output_details['indicators'], 'Targets:');
-		if ($style1 !== FALSE)
-		{
-			list($indicator, $imeasures) = explode('Measures:', $output_details['indicators']);
-			list($nothingness, $itargets) = explode('Targets:', $indicator);
-			$output_details['targets'] = $itargets;
-			$output_details['measures'] = $imeasures;
-			$output_details['indicators'] = NULL;
-		}
-
-		echo json_encode($output_details);
-		exit();
-	}
-
 	public function action_update_current()
 	{
 		$cuma = new Model_Cuma;

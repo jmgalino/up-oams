@@ -6,6 +6,9 @@ class Controller_Extras_Mpdf extends Controller {
 	private $mpdf_css;
 	private $session;
 
+	/**
+	 * Set session instance
+	 */
 	public function before()
 	{
     	$this->session = Session::instance();

@@ -325,7 +325,7 @@ class Model_User extends Model {
 			if ($college_details['user_ID'] == $user_details['user_ID'])
 				$univ_updated = $univ->update_college(array('college_ID' => $college_details['college_ID'], 'user_ID' => NULL));
 			
-			elseif ($department_details['user_ID'] == $user_details['user_ID'])
+			elseif ($department_details AND $department_details['user_ID'] == $user_details['user_ID'])
 				$univ_updated = $univ->update_department(array('department_ID' => $department_details['department_ID'], 'user_ID' => NULL));
 
 			return $univ_updated;

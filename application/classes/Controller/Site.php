@@ -160,7 +160,7 @@ class Controller_Site extends Controller {
 	{
         $oams = new Model_Oams;
 		$title = $oams->get_title();
-		$error = 'Error. Please try again.';
+		$error = 'Invalid username/password combination. Please try again.';
 			
 		$this->view->content = View::factory('site/index')
 			->bind('title', $title)

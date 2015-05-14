@@ -4,6 +4,9 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 
 	private $cuma;
 
+	/**
+	 * Check authorization
+	 */
 	public function before()
 	{
 		parent::before();

@@ -135,15 +135,4 @@ class Controller_Admin extends Controller_User {
 		$this->redirect('admin/messages', 303);
 	}
 
-	/**
-	 * Delete message
-	 */
-	// public function action_delete()
-	// {
-	// 	$message_ID = $this->request->param('id');
-	// 	$delete_success = $this->oams->delete_message($message_ID);
-	// 	$this->session->set('success', $delete_success);
-	// 	$this->redirect('admin/messages', 303);
-	// }
-
 } // End Admin

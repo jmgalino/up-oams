@@ -30,6 +30,8 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_new()
 	{
+		$user = new Model_User;
+		
 		$details = $this->request->post();
 		$details['birthday'] = date('Y-m-d', strtotime($details['birthday']));
 
@@ -41,9 +43,10 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$details['position'] = NULL;
 		}
 
-		$user = new Model_User;
-		$success = $details['first_name'].'\'s profile was successfully created.';
-		if ($user->add_user($details)) $this->session->set('success', $success);
+		$success = $user->add_user($details);
+		$message = $details['first_name'].'\'s profile was successfully created.';
+		if ($success) $this->session->set('success', $message);
+		// else 
 		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 
@@ -340,7 +343,7 @@ class Controller_Admin_Profile extends Controller_Admin {
     /**
      * Save photo in local disk
      */
-    private function save_image($image, $surname)
+    private function save_image($image, $lastname)
     {
         if (
             ! Upload::valid($image) OR
@@ -354,7 +357,7 @@ class Controller_Admin_Profile extends Controller_Admin {
  
         if ($file = Upload::save($image, NULL, $directory))
         {
-            $filename = strtolower(Text::random('alnum', 20)).$surname.'.jpg';
+            $filename = strtolower(Text::random('alnum', 20)).$lastname.'.jpg';
  
             $img = Image::factory($file);
             $height = $img->height;
@@ -376,39 +379,5 @@ class Controller_Admin_Profile extends Controller_Admin {
  
         return FALSE;
     }
-
-	// private function action_pdfviewer()
-	// {
-	// 	$user = new Model_User;
-
-	// 	$document = $this->request->param('document');
-	// 	$document_ID = $this->request->param('document_ID');
-	// 	$user = $user->get_details(NULL, $this->request->param('id'));
-
-	// 	switch ($document)
-	// 	{
-	// 		case 'accom':
-	// 			# code...
-	// 			break;
-
-	// 		case 'ipcr':
-	// 			# code...
-	// 			break;
-
-	// 		case 'opcr':
-	// 			# code...
-	// 			break;
-
-	// 		case 'value':
-	// 			# code...
-	// 			break;
-	// 	}
-		
-	// 	$this->view->content = View::factory('admin/profile/pdfviewer')
-	// 		->bind('first_name', $user['first_name'])
-	// 		->bind('label', $label)
-	// 		->bind('filename', $filename);
-	// 	$this->response->body($this->view->render());
-	// }
 	
 } // End User

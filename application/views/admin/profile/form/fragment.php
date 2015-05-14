@@ -14,7 +14,7 @@
 <div class="form-group">
   <label for="title" class="col-sm-4 control-label">Title</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="title" name="title">
+    <input type="text" class="form-control" id="title" name="title" placeholder="(Optional)">
   </div>
 </div>
 
@@ -42,7 +42,7 @@
 <div class="form-group">
   <label for="suffix" class="col-sm-4 control-label">Suffix</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control" id="suffix" name="suffix">
+    <input type="text" class="form-control" id="suffix" name="suffix" placeholder="(Optional)">
   </div>
 </div>
 
