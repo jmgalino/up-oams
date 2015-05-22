@@ -112,7 +112,7 @@ class Model_Ipcr extends Model {
 		// Existing
 		if ($check)
  		{
- 			if (($check[0]['status'] == 'Checked') OR ($check[0]['status'] == 'Accepted') OR ($check[0]['status'] == 'Pending'))
+ 			if (in_array($check[0]['status'], array('Pending', 'Accepted')))
  			{
  				return 'IPCR Form is locked for editing.';
  			}

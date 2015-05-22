@@ -136,7 +136,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		
-		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
+		if (in_array($opcr_details['status'], array('Published', 'Pending')))
 		{
 			$this->session->set('error', 'OPCR Form is locked for editing.');
 			$this->redirect('faculty/opcr'); //401
@@ -159,7 +159,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$opcr_details = $opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']);
 
-		if (($opcr_details['status'] == 'Checked') OR ($opcr_details['status'] == 'Accepted') OR ($opcr_details['status'] == 'Pending') OR ($opcr_details['status'] == 'Published'))
+		if (in_array($opcr_details['status'], array('Published', 'Pending', 'Accepted')))
 		{
 			$this->session->set('error', 'OPCR Form is locked for editing.');
 			$this->redirect('faculty/opcr'); //401

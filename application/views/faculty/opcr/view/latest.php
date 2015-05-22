@@ -16,7 +16,7 @@
 				<a href="<?php echo URL::site('faculty/ipcr/new'); ?>">Generate IPCR Form</a>
 
 				<?php elseif (in_array($ipcr_details['status'], array('Draft', 'Saved', 'Returned'))): ?>
-				<a href="<?php echo URL::site('faculty/ipcr/update/'.$ipcr_details['ipcr_ID']);  ?>">
+				<a href="<?php echo URL::site('faculty/ipcr/update/'.$ipcr_details['ipcr_ID']); ?>">
 				<?php else: ?>
 				<a href="<?php echo URL::site('faculty/ipcr/preview/'.$ipcr_details['ipcr_ID']); ?>">
 

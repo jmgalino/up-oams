@@ -57,10 +57,12 @@ class Model_Opcr extends Model {
 				->from('opcrtbl')
 				->where('user_ID', 'IN', $userIDs);
 
-		if ($strict)
+		if ($strict == 'SEMI')
+			$query->where('status', 'IN', array('Pending', 'Accepted'));
+		elseif ($strict)
 			$query->where('status', '=', 'Accepted');
 		else
-			$query->where('status', 'IN', array('Pending', 'Accepted'));
+			$query->where('status', 'IN', array('Published', 'Pending', 'Accepted'));
 
 		if ($start AND $end)
 			$query->where('period_from', '>=', $start)->where('period_to', '<=', $end);

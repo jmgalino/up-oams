@@ -131,11 +131,17 @@ echo View::factory('faculty/ipcr/form/modals/initialize')
 							</li>';
 				}
 
-				if (($ipcr['status'] == 'Checked') OR (($ipcr['status'] == 'Saved') AND $identifier != 'faculty'))
+				if (($ipcr['status'] == 'Accepted') OR (($ipcr['status'] == 'Saved') AND $identifier != 'faculty'))
 				{
-					echo 	'<li>
-								<a href='.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'>
+					if ($ipcr['version'] == 1) // First accept - targets only
+						echo '<li>
+								<a href="'.URL::site('faculty/ipcr/rate/'.$ipcr['ipcr_ID']).'">
 								<span class="glyphicon glyphicon-star"></span> Rate Targets</a>
+							</li>';
+					else // Final accept - with rating
+						echo '<li class="disabled">
+								<a href="">
+								<span class="glyphicon glyphicon-star"></span> Done Rating</a>
 							</li>';
 				}
 

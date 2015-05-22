@@ -344,7 +344,6 @@ class Controller_Extras_Mpdf extends Controller {
 
 		echo View::factory('mpdf/ipcr/legend');
 
-		echo '<pagebreak />';
 		echo View::factory('mpdf/ipcr/attachments')
 			->bind('session', $this->session);
 
@@ -368,8 +367,7 @@ class Controller_Extras_Mpdf extends Controller {
 			$filepath = DOCROOT.'files/tmp/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
-			$this->session->set('pdf_draft', $filename);
-			$this->redirect('faculty/ipcr/preview/'.$ipcr_ID);
+			$this->response->body = $filename;
 		}
 
 		// Generate PDF to submit
@@ -378,13 +376,7 @@ class Controller_Extras_Mpdf extends Controller {
 			$filepath = DOCROOT.'files/document_ipcr/'.$filename;
 			$this->pdf_save($template, $filepath, 'A4', 25, NULL);
 
-			$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
-			$details['document'] = $filename;
-			$details['date_submitted'] = date('Y-m-d');
-			$submit_success = $ipcr->update($ipcr_ID, $details);
-
-			$this->session->set('submit', $submit_success);
-			$this->redirect('faculty/ipcr', 303);
+			$this->response->body = $filename;
 		}
 	}
 
@@ -474,7 +466,6 @@ class Controller_Extras_Mpdf extends Controller {
 					->bind('session', $this->session);
 
 				echo View::factory('mpdf/ipcr/legend');
-				echo '<pagebreak />';
 			}
 
 			echo View::factory('mpdf/ipcr/attachments')
@@ -555,7 +546,6 @@ class Controller_Extras_Mpdf extends Controller {
 
 		echo View::factory('mpdf/opcr/legend');
 
-		echo '<pagebreak />';
 		echo View::factory('mpdf/opcr/attachments')
 			->bind('session', $this->session);
 
