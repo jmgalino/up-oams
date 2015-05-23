@@ -59,6 +59,7 @@ echo View::factory('faculty/accom/form/initialize')
 <table class="table table-hover" id="accom_table" cellspacing="0" width="100%">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Period</th>
 			<th>Date Submitted</th>
 			<th>Status</th>
@@ -72,6 +73,7 @@ echo View::factory('faculty/accom/form/initialize')
 		$yearmonth = date('F Y', strtotime($accom['yearmonth']));
 
 		echo '<tr>
+			<td>', $accom['yearmonth'], '</td>
 			<td>', $yearmonth, '</td>';
 		
 		echo ($accom['date_submitted']

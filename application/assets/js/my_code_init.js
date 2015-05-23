@@ -344,17 +344,19 @@ $(document).ready(function () {
 
 	/* 9. Accomplishment Table  */
 	$('#accom_table').DataTable({
+        "order": [[ 1, "desc" ]],
         "columns": [
-            null,
+            // Unformatted yearmonth used for sorting but hidden
+            { "searchable": false, "visible": false },
+            { "iDataSort": 0 },
             null,
             null,
             // Remarks column is searchable but hidden
             { "visible": false },
             // Action column is neither searchable nor orderable
             { "searchable": false, "orderable": false }
-        ],
+        ]
         // Order table by period (column 0), descending
-        "order": [[ 0, "desc" ]]
     });
 	
     /* 10. Accomplishment Group Table */
