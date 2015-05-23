@@ -145,7 +145,19 @@ class Controller_Faculty extends Controller_User {
 	public function action_contact()
 	{
 		if ($this->request->post())
-			$this->send_message($this->request->post());
+		{
+			$details = $this->request->post();
+
+			if ($details['subject'] AND $details['message'])
+				$this->send_message($details);
+			else
+			{
+				$error = ($details['subject'] ? 'Please enter a message' : 'Please enter a subject');
+				$this->session->set('error', $error);
+				$this->session->set('details', $details);
+				$this->redirect('faculty/contact', 303);
+			}
+		}
 		else
 		{
 			$success = $this->session->get_once('success');

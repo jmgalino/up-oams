@@ -1,4 +1,5 @@
 TO DO:
+- fix jedit onblur/esc doesn't show edit
 - fix update univ/user thing
 - update kohana, bs, mpdf
 - cuma get data and include
@@ -19,7 +20,8 @@ ADDITIONAL:
 - Announcement attachments
 
 - (admin) profile table should allow double click to open or one button to open profile
-- (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon (angular?)
+- (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon ajax
+- contact admin ajax validation
 
 ASSUMPTION:
 - No repetitive accomplishments
