@@ -121,7 +121,7 @@ class Model_Oams extends Model {
 	/**
 	 * Get announcements
 	 */
-	public function get_announcements($user_ID, $type)
+	public function get_announcements($user_ID, $type, $deleted)
 	{
 		$query = DB::select()
 			->from('oams_announcementtbl');
@@ -131,9 +131,14 @@ class Model_Oams extends Model {
 
 		if ($type)
 			$query->where('type', '=', $type);
+
+		if ($deleted)
+			$query->where('deleted', '=', 1);
+		elseif (!$deleted)
+			$query->where('deleted', '=', 0);
 		
 		$announcements = $query
-			->order_by('date', 'DESC')
+			->order_by('date_created', 'DESC')
 			->execute()
 			->as_array();
 
@@ -184,7 +189,7 @@ class Model_Oams extends Model {
 			->where('announcement_ID', '=', $details['announcement_ID'])
  			->execute();
 
- 		if ($rows_updated == 1) return 'The announcement <i>'.$details['subject'].'</i> was successfully updated.';
+ 		if ($rows_updated == 1) return (array_key_exists('subject', $details) ? 'The announcement <i>'.$details['subject'].'</i> was successfully updated.' : 'The announcement was successfully updated.');
  		else return FALSE;
 	}
 
@@ -197,7 +202,7 @@ class Model_Oams extends Model {
  			->where('announcement_ID', '=', $announcement_ID)
  			->execute();
 
- 		if ($rows_deleted == 1) return TRUE;
+ 		if ($rows_deleted == 1) return 'The announcement was successfully deleted.';
  		else return FALSE;
 	}
 

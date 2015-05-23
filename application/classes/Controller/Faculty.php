@@ -26,7 +26,7 @@ class Controller_Faculty extends Controller_User {
 		$identifier = $this->session->get('identifier');
 		
 		$title = $this->oams->get_title();
-		$announcements = $this->oams->get_announcements(NULL, NULL);
+		$announcements = $this->oams->get_announcements(NULL, NULL, FALSE);
 		
 		$general = 'faculty';
 
@@ -48,7 +48,7 @@ class Controller_Faculty extends Controller_User {
 
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$announcements = $this->oams->get_announcements(NULL, NULL);
+		$announcements = $this->oams->get_announcements(NULL, NULL, FALSE);
 
 		$this->view->content = View::factory('profile/announcements')
 			->bind('announcements', $announcements)

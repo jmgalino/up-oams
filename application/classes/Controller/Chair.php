@@ -112,13 +112,21 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$this->response->body($this->view->render());
 	}
 
+	/* ==================================== *
+    *                                       *
+    *   		  Announcements		  		*
+    *                                       *
+    * ===================================== */
+
 	/**
 	 * Announcements
 	 * List department announcements
 	 */
 	public function action_announcements()
 	{
-		switch ($this->request->param('id'))
+		$announcement_ID = $this->request->param('id');
+
+		switch ($this->request->param('type'))
 		{
 			case 'new':
 				$this->announcement_new();
@@ -128,23 +136,61 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 				$this->announcement_update();
 				break;
 
+			case 'archive':
+				$this->announcement_archive($announcement_ID);
+				break;
+
+			case 'restore':
+				$this->announcement_restore($announcement_ID);
+				break;
+
+			case 'delete':
+				$this->announcement_delete($announcement_ID);
+				break;
+
 			default:
 				$success = $this->session->get_once('success');
-				$announcements = $this->oams->get_announcements($this->session->get('user_ID'), 'dept');
+				$announcements = $this->oams->get_announcements($this->session->get('user_ID'), 'dept', FALSE);
 
+				$archive_url = URL::site('faculty/dept/archive');
 				$new_url = URL::site('faculty/dept/announcements/new');
 				$update_url = URL::site('faculty/dept/announcements/update');
+				$delete_url = URL::site('faculty/dept/announcements/archive');
 				$form_url = 'faculty/dept/announcements/new';
 				
 				$this->view->content = View::factory('faculty/announcement/announcements')
 					->bind('new_url', $new_url)
+					->bind('archive_url', $archive_url)
 					->bind('success', $success)
 					->bind('form_url', $form_url)
 					->bind('announcements', $announcements)
-					->bind('update_url', $update_url);
+					->bind('update_url', $update_url)
+					->bind('delete_url', $delete_url);
 				$this->response->body($this->view->render());
 				break;
 		}
+	}
+
+	/**
+	 * Archived Announcements
+	 * List department announcements
+	 */
+	public function action_archive()
+	{
+		$success = $this->session->get_once('success');
+		$announcements = $this->oams->get_announcements($this->session->get('user_ID'), 'dept', TRUE);
+
+		$announcement_url = URL::site('faculty/dept/announcements');
+		$restore_url = URL::site('faculty/dept/announcements/restore');
+		$delete_url = URL::site('faculty/dept/announcements/delete');
+		
+		$this->view->content = View::factory('faculty/announcement/archive')
+			->bind('announcement_url', $announcement_url)
+			->bind('success', $success)
+			->bind('announcements', $announcements)
+			->bind('restore_url', $restore_url)
+			->bind('delete_url', $delete_url);
+		$this->response->body($this->view->render());
 	}
 
 	/**
@@ -155,7 +201,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$details = $this->request->post();
 		$details['user_ID'] = $this->session->get('user_ID');
 		$details['type'] = 'dept';
-		$details['date'] = date('Y-m-d H:i:s');
+		$details['date_created'] = date('Y-m-d H:i:s');
 		
 		$add_success = $this->oams->add_announcement($details);
 		$this->session->set('success', $add_success);
@@ -163,7 +209,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 	}
 
 	/**
-	 * Update Announcements
+	 * Update Announcement
 	 */
 	private function announcement_update()
 	{
@@ -173,6 +219,44 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$update_success = $this->oams->update_announcement($details);
 		$this->session->set('success', $update_success);
 		$this->redirect('faculty/dept/announcements', 303);
+	}
+
+	/**
+	 * Archive Announcement
+	 */
+	public function announcement_archive($announcement_ID)
+	{
+		$details['announcement_ID'] = $announcement_ID;
+		$details['date_deleted'] = date('Y-m-d H:i:s');
+		$details['deleted'] = 1;
+
+		$archive_success = $this->oams->update_announcement($details);
+		$this->session->set('success', $archive_success);
+		$this->redirect('faculty/dept/announcements', 303);
+	}
+	/**
+	 * Restore Announcement
+	 */
+	private function announcement_restore($announcement_ID)
+	{
+		$details['announcement_ID'] = $announcement_ID;
+		$details['deleted'] = 0;
+
+		$restore_success = $this->oams->update_announcement($details);
+		$this->session->set('success', $restore_success);
+		$this->redirect('faculty/dept/archive', 303);
+	}
+
+	/**
+	 * Delete Announcement
+	 */
+	private function announcement_delete($announcement_ID)
+	{
+		$details['announcement_ID'] = $announcement_ID;
+		
+		$deleted_success = $this->oams->delete_announcement($announcement_ID);
+		$this->session->set('success', $deleted_success);
+		$this->redirect('faculty/dept/archive', 303);
 	}
 
 	/* ==================================== *

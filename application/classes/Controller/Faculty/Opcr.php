@@ -26,7 +26,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	public function action_index()
 	{
 		$ipcr = new Model_Ipcr;
-		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 		$user = new Model_User;
 		
@@ -45,7 +44,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		}
 
 		$ipcr_forms = $ipcr->get_group_ipcr($userIDs, NULL, NULL, FALSE);
-		$opcr_forms = $opcr->get_faculty_opcr($this->session->get('user_ID'));
+		$opcr_forms = $this->opcr->get_faculty_opcr($this->session->get('user_ID'));
 
 		$this->view->content = View::factory('faculty/opcr/list/faculty')
 			->bind('submit', $submit)
@@ -64,13 +63,11 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	{
 		if (($this->request->post('form_type') == 'new') AND ($this->request->post('start')))
 		{
-			$opcr = new Model_Opcr;
-
 			$details['user_ID'] = $this->session->get('user_ID');
 			$details['period_from'] = date('Y-m-d', strtotime('01 '.$this->request->post('start')));
 			$details['period_to'] = date('Y-m-d', strtotime('01 '.$this->request->post('end')));
 
-			$insert_success = $opcr->initialize($details);
+			$insert_success = $this->opcr->initialize($details);
 
 			if (is_numeric($insert_success))
 			{
@@ -80,7 +77,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			}
 			elseif (is_array($insert_success))
 			{
-				$opcr_details = $opcr->get_details($insert_success['opcr_ID']);
+				$opcr_details = $this->opcr->get_details($insert_success['opcr_ID']);
 				$this->session->set('opcr_details', $opcr_details);
 				$this->session->set('warning', $insert_success['message']);
 				$this->show_draft();
@@ -102,10 +99,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_preview()
 	{
-		$opcr = new Model_Opcr;
-
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details = $this->opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 
 		if (in_array($opcr_details['status'], array('Published', 'Returned')))
@@ -116,7 +111,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		}
 		elseif (!$opcr_details['document'] OR $opcr_details['status'] == 'Draft')
 		{
-			$draft = Request::factory('extras/mpdf/preview/opcr/'.$opcr_ID, 303)
+			$opcr_details['draft'] = Request::factory('extras/mpdf/preview/opcr/'.$opcr_ID)
 				->execute()
 				->body;
 		}
@@ -131,9 +126,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_update()
 	{
-		$opcr = new Model_Opcr;
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details = $this->opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		
 		if (in_array($opcr_details['status'], array('Published', 'Pending')))
@@ -153,10 +147,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_delete()
 	{
-		$opcr = new Model_Opcr;
-		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details = $this->opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']);
 
 		if (in_array($opcr_details['status'], array('Published', 'Pending', 'Accepted')))
@@ -166,7 +158,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		}
 		else
 		{
-			$delete = $opcr->delete($opcr_ID);
+			$delete = $this->opcr->delete($opcr_ID);
 			$this->session->set('delete', $delete);
 			$this->redirect('faculty/opcr', 303);
 		}
@@ -177,10 +169,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_publish()
 	{
-		$opcr = new Model_Opcr;
-		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details = $this->opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		$this->redirect('extras/mpdf/submit/opcr/'.$opcr_ID, 303);
 	}
@@ -190,10 +180,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_submit()
 	{
-		$opcr = new Model_Opcr;
-		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details = $this->opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		$this->redirect('extras/mpdf/submit/ipcr-consolidated/'.$opcr_ID, 303);
 	}
@@ -203,13 +191,11 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_save()
 	{
-		$opcr = new Model_Opcr;
-		
 		$opcr_ID = $this->request->param('id');
-		$opcr_details = $opcr->get_details($opcr_ID);
+		$opcr_details = $this->opcr->get_details($opcr_ID);
 		$this->action_check($opcr_details['user_ID']); // Redirects if not the owner
 		
-		$opcr->update_output($this->request->post());
+		$this->opcr->update_output($this->request->post());
 		
 		if ($this->session->get('identifier') == 'chair')
 			$this->redirect('faculty/dept/ipcr/consolidate/'.$opcr_ID);
@@ -233,8 +219,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_add()
 	{
-		$opcr = new Model_Opcr;
-
 		$post = $this->request->post();
 		$details['category_ID'] = $post['category_ID'];
 		$details['opcr_ID'] = $this->session->get('opcr_details')['opcr_ID'];
@@ -243,7 +227,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			? $post['indicators']
 			: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
 		
-		$opcr->add_output($details);
+		$this->opcr->add_output($details);
 		$this->redirect('faculty/opcr/update/'.$details['opcr_ID'], 303);
 	}
 
@@ -252,10 +236,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_edit()
 	{
-		$opcr = new Model_Opcr;
-
 		$post = $this->request->post();
-		$output_details = $opcr->get_output_details($post['output_ID']);
+		$output_details = $this->opcr->get_output_details($post['output_ID']);
 		$this->action_check($output_details['user_ID']); // Redirects if not the owner
 		
 		$post['indicators'] = ($post['indicators'] != ''
@@ -263,7 +245,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
 		
 		unset($post['targets'], $post['measures']);
-		$edit_success = $opcr->update_output($post);
+		$edit_success = $this->opcr->update_output($post);
 
 		$this->redirect('faculty/opcr/update/'.$output_details['opcr_ID'], 303);
 	}
@@ -273,9 +255,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	public function action_remove()
 	{
-		$opcr = new Model_Opcr;
 		$output_ID = $this->request->param('id');
-		$delete_success = $opcr->delete_output($output_ID);
+		$delete_success = $this->opcr->delete_output($output_ID);
 		
 		if (!$delete_success) $this->session->set('error', 'Something went wrong. Please try again.');
 		$this->redirect('faculty/opcr/update/'.$this->session->get('opcr_details')['opcr_ID'], 303);
@@ -313,7 +294,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	private function show_draft()
 	{
-		$opcr = new Model_Opcr;
 		$univ = new Model_Univ;
 		
 		$error = $this->session->get_once('error');
@@ -322,7 +302,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$period_to = date('F Y', strtotime($this->session->get('opcr_details')['period_to']));
 		$label = $period_from.' - '.$period_to;
 		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
-		$outputs = $opcr->get_outputs($opcr_ID);
+		$outputs = $this->opcr->get_outputs($opcr_ID);
 		$categories = $this->oams->get_categories();
 		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 

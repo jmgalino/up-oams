@@ -433,16 +433,17 @@ $(document).ready(function () {
         $("input[type=submit]").val("Post");
 	});
 
-	/* ANNOUNCEMENT FORM (UPDATE) -- Set form for editing*/
+	/* ANNOUNCEMENT FORM (UPDATE) -- Set form for editing */
 	$("a#updateAnnouncement").click(function () {
 		var ajaxUrl = $(this).attr("ajax-url");
 		var actionUrl = $(this).attr("action-url");
-		var announcement_ID = $(this).attr("key");
+		var archiveUrl = $(this).attr("archive-url");
+		var announcementId = $(this).attr("key");
 
 		$.ajax({
 			type: "POST",
 			url: ajaxUrl,
-			data: "announcement_ID=" + announcement_ID,
+			data: "announcement_ID=" + announcementId,
 			dataType: "json",
 			success:function (data) {
 				$("#myModalLabel").text("Update Announcement");
@@ -450,7 +451,29 @@ $(document).ready(function () {
 				$("#announcement-id").attr("name", "announcement_ID").val(data["announcement_ID"]);
 				$("#announcement-subject").val(data["subject"]);
 				$("#announcement-content").val(data["content"]);
+				$("#archiveAnnouncement").attr("href", archiveUrl);
 		        $("input[type=submit]").val("Save");
+			}
+		});
+	});
+
+	/* ANNOUNCEMENT FORM (VIEW) -- */
+	$("a#openAnnouncement").click(function () {
+		var ajaxUrl = $(this).attr("ajax-url");
+		var restoreUrl = $(this).attr("restore-url");
+		var deleteUrl = $(this).attr("delete-url");
+		var announcementId = $(this).attr("key");
+
+		$.ajax({
+			type: "POST",
+			url: ajaxUrl,
+			data: "announcement_ID=" + announcementId,
+			dataType: "json",
+			success:function (data) {
+				$("#announcement-subject").text(data["subject"]);
+				$("#announcement-content").text(data["content"]);
+	        	$("#deleteAnnouncement").attr("href", deleteUrl);
+				$("#restoreAnnouncement").attr("href", restoreUrl);
 			}
 		});
 	});

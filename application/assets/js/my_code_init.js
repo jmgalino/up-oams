@@ -42,8 +42,8 @@ $(document).ready(function () {
     *   2. College Table (Admin)            *
     *   3. Department Table (Admin)         *
     *   4. Program Table (Admin)            *
-    *   5. Announcement Table (Admin)       *
-    *   6. Message Table (Admin)            *
+    *   5. Message Table (Admin)            *
+    *   6. Announcement Table (Universal)   *
     *   7. Education Table                  *
     *   8. Faculty Table                    *
     *       (Department/College)            *
@@ -238,35 +238,7 @@ $(document).ready(function () {
         });
     });
 
-    /* 5. Announcement Table */
-    $('#announcement_table').DataTable({
-        "columnDefs": [{
-            "orderable": false,
-            "targets": "subject"
-        },{
-            "searchable": false,
-            "orderable": false,
-            "targets": "action"
-        }],
-        // Order table by date (column 2), descending
-        "order": [[ 2, "desc" ]]
-    });
-    // Compressed version for all
-    $('#announcement_summary_table').DataTable({
-        "columnDefs": [{
-            "orderable": false,
-            "targets": "subject"
-        },{
-            "searchable": false,
-            "orderable": false,
-            "targets": "action"
-        }],
-        "dom": 'tr'
-        // Order table by date (column 2), descending
-        // "order": [[ 2, "desc" ]]
-    });
-
-	/* 6. Message Table */
+	/* 5. Message Table */
 	$('#message_table').DataTable({
         "columnDefs": [{
             "visible": false,
@@ -306,6 +278,46 @@ $(document).ready(function () {
                 $("#message-message").text(data["message"]);
             }
         });
+    });
+
+    /* 6. Announcement Table */
+    $('#announcement_table').DataTable({
+        "columnDefs": [{
+            "orderable": false,
+            "targets": "subject"
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        // Order table by date (column 2), descending
+        "order": [[ 2, "desc" ]]
+    });
+    $('#archive_announcement_table').DataTable({
+        "columnDefs": [{
+            "orderable": false,
+            "targets": "subject"
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        // Order table by date (column 2), descending
+        "order": [[ 2, "desc" ]]
+    });
+    // Compressed version for all
+    $('#announcement_summary_table').DataTable({
+        "columnDefs": [{
+            "orderable": false,
+            "targets": "subject"
+        },{
+            "searchable": false,
+            "orderable": false,
+            "targets": "action"
+        }],
+        "dom": 'tr'
+        // Order table by date (column 2), descending
+        // "order": [[ 2, "desc" ]]
     });
 
     /* 7. Education Table */
@@ -688,6 +700,9 @@ $(document).ready(function () {
     $("a#deleteMessage").click(function () {
         return confirm('Are you sure you want to delete this message?');
     });
+    $("#deleteAnnouncement").click(function () {
+       return confirm('Are you sure you want to delete this announcement?'); 
+    })
     
     /* PROFILE - Toggle views */
     $("#education_toggle_show, #education_toggle_hide").click(function()

@@ -26,7 +26,7 @@ class Controller_Admin extends Controller_User {
 		$identifier = $this->session->get('identifier');
 		
 		$title = $this->oams->get_title();
-		$announcements = $this->oams->get_announcements(NULL, 'univ');
+		$announcements = $this->oams->get_announcements(NULL, 'univ', FALSE);
 		
 		$general = 'admin';
 
@@ -46,7 +46,7 @@ class Controller_Admin extends Controller_User {
 
 		$identifier = $this->session->get('identifier');
 
-		$announcements = $this->oams->get_announcements(NULL, 'univ');
+		$announcements = $this->oams->get_announcements(NULL, 'univ', FALSE);
 
 		$this->view->content = View::factory('profile/announcements')
 			->bind('announcements', $announcements)

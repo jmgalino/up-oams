@@ -1,38 +1,36 @@
-<!-- Create/Update Announcement Form -->
+<!-- View Announcement -->
 <div class="modal fade" id="modal_announcement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-       <h4 class="modal-title" id="myModalLabel">New Announcement</h4>
+        <h4 class="modal-title" id="myModalLabel">View Announcement</h4>
       </div>
 
-      <?php print Form::open($form_url, array('class'=>'form-horizontal', 'id'=>'deptAnnouncementForm', 'role'=>'form')); ?>
+      <form class="form-horizontal">
       <div class="modal-body">
-        <input type="text" id="announcement-id" name="announcement_ID" hidden>
-
         <div class="form-group">
           <label for="announcement-subject" class="col-sm-3 control-label">Subject</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="announcement-subject" name="subject" required>
+            <p class="form-control-static" id="announcement-subject">H</p>
           </div>
         </div>
         
         <div class="form-group">
           <label for="announcement-content" class="col-sm-3 control-label">Content</label>
           <div class="col-sm-8">
-            <textarea class="form-control" id="announcement-content" name="content" rows="10" required></textarea>
+            <p class="form-control-static" id="announcement-content">H</p>
           </div>
         </div>
       </div>
+      </form>
 
       <div class="modal-footer">
-        <a class="btn btn-default pull-left" id="archiveAnnouncement" href="">Archive</a>
+        <a class="btn btn-default pull-left" id="deleteAnnouncement" href="">Delete</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <?php print Form::submit(NULL, 'Post', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+        <a class="btn btn-primary" id="restoreAnnouncement" href="">Restore</a>
       </div>
       
-      </form>
     </div>
   </div>
 </div>

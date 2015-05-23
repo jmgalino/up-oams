@@ -55,7 +55,7 @@ echo View::factory('admin/oams/form/announcement');
 			? '<td style="width:5%"><span class="glyphicon glyphicon-paperclip aria-hidden="true""></span></td>'
 			: '<td style="width:5%"></td>');
 
-		echo '<td>', date('d M', strtotime($announcement['date'])), '</td>
+		echo '<td>', date('d M', strtotime($announcement['date_created'])), '</td>
 			<td>
 				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>

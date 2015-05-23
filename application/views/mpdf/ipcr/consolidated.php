@@ -155,10 +155,10 @@ function adjectival_rating($value)
 </table>
 
 <?php
-$final_quantity = number_format(array_sum($r_quantity)/count($r_quantity), 1);
-$final_efficiency = number_format(array_sum($r_efficiency)/count($r_efficiency), 1);
-$final_timeliness = number_format(array_sum($r_timeliness)/count($r_timeliness), 1);
-$final_average = number_format(array_sum($r_average)/count($r_average), 1);
+$final_quantity = (count($r_quantity) ? number_format(array_sum($r_quantity)/count($r_quantity), 1) : 0);
+$final_efficiency = (count($r_efficiency) ? number_format(array_sum($r_efficiency)/count($r_efficiency), 1) : 0);
+$final_timeliness = (count($r_timeliness) ? number_format(array_sum($r_timeliness)/count($r_timeliness), 1) : 0);
+$final_average = (count($r_average) ? number_format(array_sum($r_average)/count($r_average), 1) : 0);
 ?>
 
 Average Rating

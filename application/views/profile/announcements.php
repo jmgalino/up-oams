@@ -15,7 +15,7 @@ if ($announcements)
 	{
 		$id = str_replace (" ", "_", $announcement['subject']);
 		
-		$details = date('F d, Y \a\t h:i A', strtotime($announcement['date']));
+		$details = date('F d, Y \a\t h:i A', strtotime($announcement['date_created']));
 
 		if ($announcement['edited'])
 			$details .= ' · Edited';

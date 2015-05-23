@@ -172,14 +172,14 @@ Route::set('special-faculty-functions', '<controller>/<action>/latest',
 	));
 Route::set('chair-functions', 'faculty/dept/<action>(/<type>)(/<id>)',
 	array(
-		'type'		=>	'(all|view|evaluate|consolidate)'
+		'type'		=>	'(all|view|evaluate|consolidate|new|update|archive|restore|delete)'
 	))
 	->defaults(array(
 		'controller'=> 'chair'
 	));
 Route::set('dean-functions', 'faculty/coll/<action>(/<type>)(/<id>)',
 	array(
-		'type'		=>	'(all|view|evaluate|consolidate)'
+		'type'		=>	'(all|view|evaluate|consolidate|new|update|archive|restore|delete)'
 	))
 	->defaults(array(
 		'controller'=> 'dean'
