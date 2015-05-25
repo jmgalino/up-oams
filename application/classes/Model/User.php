@@ -272,8 +272,7 @@ class Model_User extends Model {
  	{
  		$user_details = $this->get_details($user_ID, NULL);
 
- 		$positions = array('dean', 'chair');
-		if (in_array($user_details['position'], $positions))
+ 		if (in_array($user_details['position'], array('dean', 'chair')))
 		{
 			$user_details['position'] = 'none';	
 			$update = $this->update_univ($user_details);

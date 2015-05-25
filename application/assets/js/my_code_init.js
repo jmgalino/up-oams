@@ -253,8 +253,8 @@ $(document).ready(function () {
             "targets": "star"
         }],
         // Custom table tools: (f)ilter, (t)able, (i)nformation, (p)agination, p(r)ocessing
-        // Order table by date (column 2), descending
-        "order": [[ 2, "desc" ]]
+        // Order table by date, descending
+        "order": [[ 3, "desc" ]]
     });
       /* MODAL -- Add event listener */
     // Add event listener for viewing

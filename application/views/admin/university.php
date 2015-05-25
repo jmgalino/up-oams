@@ -88,7 +88,7 @@ echo View::factory('admin/university/form/vision')
    ?>
 
     <div class="page-header" id="programs">
-      <h2>Degree Programs</h2>&nbsp
+      <h2>Academic Programs</h2>&nbsp
       <a class="show-hover" href="<?php echo URL::site('admin/university/programs'); ?>">Edit</a>
     </div>
     <?php
@@ -130,7 +130,7 @@ echo View::factory('admin/university/form/vision')
         <li><a href="#vision">Vision</a></li>
         <li><a href="#colleges">Colleges</a></li>
         <li><a href="#departments">Departments</a></li>
-        <li><a href="#programs">Degree Programs</a></li>
+        <li><a href="#programs">Academic Programs</a></li>
       </ul>
     </div>
   </div>

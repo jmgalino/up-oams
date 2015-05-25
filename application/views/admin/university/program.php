@@ -2,11 +2,11 @@
 <ol class="breadcrumb">
   <li><a href=<?php echo URL::site(); ?>>Home</a></li>
   <li><a href=<?php echo URL::site('admin/university'); ?>>University Settings</a></li>
-  <li class="active">Degree Programs</li>
+  <li class="active">Academic Programs</li>
 </ol>
 
 <h3>
-  List of Degree Programs
+  List of Academic Programs
   <button type="button" class="btn btn-default pull-right" id="newProgram" data-toggle="modal" data-target="#modal_program" url="<?php echo URL::site('admin/university/new/program'); ?>">Create</button>
 </h3>
 <br>
@@ -40,7 +40,7 @@ echo View::factory('admin/university/form/program')
 		<tr>
       <th></th>
 			<th>College</th>
-			<th>Degree Program</th>
+			<th>Academic Program</th>
 			<th>Initials</th>
       <th>Type</th>
 			<th class="action"></th>

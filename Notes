@@ -29,6 +29,7 @@ ASSUMPTION:
 - Fund amount on research accom will be limited to 2 decimal places
 
 FURTHER ENHANCEMENT:
+- Add JS for form validation on Safari
 - Uploaded pictures to be cropped user (Facebook style)
 
 Rewrite:

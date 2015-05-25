@@ -18,7 +18,7 @@
 					<ul class="dropdown-menu">
 						<li><a href=<?php echo URL::site('admin/university/colleges'); ?>>Colleges</a></li>
 						<li><a href=<?php echo URL::site('admin/university/departments'); ?>>Departments</a></li>
-						<li><a href=<?php echo URL::site('admin/university/programs'); ?>>Degree Programs</a></li>
+						<li><a href=<?php echo URL::site('admin/university/programs'); ?>>Academic Programs</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

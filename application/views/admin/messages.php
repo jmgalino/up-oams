@@ -65,17 +65,6 @@ echo View::factory('admin/oams/message');
 			<td class="dropdown">
 				<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 				<ul class="dropdown-menu">';
-
-		if ($message['star'])
-			echo 	'<li>
-						<a href="', URL::site('admin/remove_star/'.$message['message_ID']), '">
-						<span class="glyphicon glyphicon-star-empty"></span> Remove Star</a>
-					</li>';
-		else
-			echo 	'<li>
-						<a href="', URL::site('admin/star/'.$message['message_ID']), '">
-						<span class="glyphicon glyphicon-star"></span> Add Star</a>
-					</li>';
 					
 		if ($message['seen'] == 0)
 			echo 	'<li>
@@ -86,6 +75,17 @@ echo View::factory('admin/oams/message');
 			echo 	'<li>
 						<a href="', URL::site('admin/unread/'.$message['message_ID']), '">
 						<span class="glyphicon glyphicon-eye-close"></span> Mark as Unread</a>
+					</li>';
+
+		if ($message['star'])
+			echo 	'<li>
+						<a href="', URL::site('admin/remove_star/'.$message['message_ID']), '">
+						<span class="glyphicon glyphicon-star-empty"></span> Remove Star</a>
+					</li>';
+		else
+			echo 	'<li>
+						<a href="', URL::site('admin/star/'.$message['message_ID']), '">
+						<span class="glyphicon glyphicon-star"></span> Add Star</a>
 					</li>';
 
 		echo 		'<li>

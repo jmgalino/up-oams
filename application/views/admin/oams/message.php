@@ -15,7 +15,7 @@
         <strong id="message-subject"></strong> &nbsp <!-- <span class="glyphicon glyphicon-star"></span> -->
         <p id="message-date" style="font-size:12px"></p>
         <hr style="border-top:1px solid #b3b3b3; margin-top:15px; margin-bottom:10px;">
-        <p id="message-message"></p>
+        <p id="message-message" style="word-break:break-all;"></p>
       </div>
       
     </div>

@@ -69,7 +69,7 @@ echo View::factory('admin/oams/form/categories')
 					? '<td style="border-top: none; width:5%"><span class="glyphicon glyphicon-paperclip aria-hidden="true""></span></td>'
 					: '<td style="border-top: none; width:5%"></td>');
 
-				echo '<td style="border-top: none; width:10%">', date('d M', strtotime($announcement['date'])), '</td>';
+				echo '<td style="border-top: none; width:10%">', date('d M', strtotime($announcement['date_created'])), '</td>';
 				echo '</tr>';
 			}
 			?>
