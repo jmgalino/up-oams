@@ -126,28 +126,17 @@ class Controller_Site extends Controller {
 		$oams = new Model_Oams;
 		$session = Session::instance();
 
-		require_once(APPPATH.'assets/lib/recaptchalib.php');
-		$privatekey = '6Lc2pPYSAAAAAGH3Y2jaZt_QBBHVFt0buIL2FEZ8';
-		$resp = recaptcha_check_answer ($privatekey,
-			$_SERVER['REMOTE_ADDR'],
-			$details['recaptcha_challenge_field'],
-			$details['recaptcha_response_field']);
-
-		$message_details['name'] = $details['name'];
-	    $message_details['contact'] = $details['email'];
-		$message_details['subject'] = $details['subject'];
-		$message_details['message'] = $details['message'];
-
-		if (!$resp->is_valid)
+		if (array_key_exists('g-recaptcha-response', $details) AND $details['g-recaptcha-response'] != NULL)
 		{
-		    $session->set('error', 'The verification code wasn\'t entered correctly. Please try again.');
-		    $session->set('details', $details);
+			unset($details['g-recaptcha-response']);
+			$details['date'] = date('Y-m-d', strtotime("now"));
+			$insert_success = $oams->new_message($details);
+			$session->set('success', $insert_success);
 		}
 		else
 		{
-			$message_details['date'] = date('Y-m-d', strtotime("now"));
-			$insert_success = $oams->new_message($message_details);
-			$session->set('success', $insert_success);
+		    $session->set('error', 'The system thinks you\'re a bot. Please try again.');
+		    $session->set('details', $details);
 		}
 
 		$this->redirect('site/contact', 303);

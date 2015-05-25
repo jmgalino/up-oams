@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo URL::base(); ?>vendor/kartik-v/bootstrap-star-rating/css/star-rating.min.css" rel="stylesheet">
 
 	<title><?php echo $page_title;?></title>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body>

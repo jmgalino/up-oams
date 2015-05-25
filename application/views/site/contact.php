@@ -34,7 +34,7 @@ var RecaptchaOptions = {
 <div class="form-group">
 	<label for="email" class="col-md-1 control-label">Email</label>
 	<div class="col-md-4">
-		<input type="email" class="form-control" id="email" name="email" value="<?php echo $details['email']?>" required>
+		<input type="email" class="form-control" id="email" name="contact" value="<?php echo $details['contact']?>" required>
 	</div>
 </div>
 
@@ -55,11 +55,7 @@ var RecaptchaOptions = {
 
 <div class="form-group">
 	<div class="col-md-4 col-md-offset-1">
-	<?php
-		require_once('application/assets/lib/recaptchalib.php');
-		$publickey = "6Lc2pPYSAAAAAOmXjjKt3zcGjH88OeGSy90-T5xe";
-		echo recaptcha_get_html($publickey);
-	?>
+		<div class="g-recaptcha" data-sitekey="6Leq1wYTAAAAAFDtf9dbsvc0_srPWpGy31tGYhWU"></div>
 	</div>
 </div>
 
