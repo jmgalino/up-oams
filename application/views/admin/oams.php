@@ -79,7 +79,6 @@ echo View::factory('admin/oams/form/categories')
 		<div class="alert alert-danger text-center">
 			<p>The list is empty.</p>
 		</div>
-		<span class="help-block">Note: Announcements reset on the first day of the month. [SOON]</span>
 		<?php endif; ?>
 
 		<div class="page-header" id="categories">

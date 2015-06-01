@@ -184,11 +184,20 @@ class Controller_Faculty extends Controller_User {
 		$univ = new Model_Univ;
 
 		$opcr_details = $opcr->get_department_opcr($this->session->get('program_ID'), 1);
-		$ipcr_details = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), $opcr_details['opcr_ID']);
+		
+		if ($opcr_details)
+		{
+			$ipcr_details = $ipcr->get_faculty_ipcr($this->session->get('user_ID'), $opcr_details['opcr_ID']);
 
-		$period_from = date('F Y', strtotime($opcr_details['period_from']));
-		$period_to = date('F Y', strtotime($opcr_details['period_to']));
-		$period = $period_from.' - '.$period_to;
+			$period_from = date('F Y', strtotime($opcr_details['period_from']));
+			$period_to = date('F Y', strtotime($opcr_details['period_to']));
+			$period = $period_from.' - '.$period_to;
+		}
+		else
+		{
+			$ipcr_details = NULL;
+			$period = NULL;
+		}
 	
 		$this->view->content = View::factory('faculty/opcr/view/latest')
 			->bind('opcr_details', $opcr_details)

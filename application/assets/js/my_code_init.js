@@ -605,7 +605,7 @@ $(document).ready(function () {
     });
 
 	// Tooltip for author field
-    $("input[data-toggle='tooltip']").tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
 
     /* Date pickers */
     $("#datepicker .input-group.date").datepicker({

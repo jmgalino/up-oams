@@ -294,7 +294,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 				$employee_code = $this->session->get('employee_code');
 
 				$programs = $this->univ->get_programs();
-				$accom_reports = $accom->get_group_accom($this->college_userIDs, NULL, NULL, FALSE);
+				$accom_reports = $accom->get_group_accom($this->college_userIDs, NULL, NULL, TRUE);
 				$accom_all_url = URL::site('faculty/coll/accom/all');
 				$accom_url = URL::site('faculty/coll/accom/view');
 				$label = 'Accomplishment Reports - College';
@@ -449,7 +449,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 				$employee_code = $this->session->get('employee_code');
 
 				$programs = $this->univ->get_programs();
-				$ipcr_forms = $ipcr->get_group_ipcr($this->college_userIDs, NULL, NULL, FALSE);
+				$ipcr_forms = $ipcr->get_group_ipcr($this->college_userIDs, NULL, NULL, TRUE);
 				$opcr_forms = $opcr->get_group_opcr($this->college_userIDs, NULL, NULL, FALSE);
 				$ipcr_url = URL::site('faculty/coll/ipcr/view');
 				$label = 'IPCR Forms - College';

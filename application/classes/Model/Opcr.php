@@ -43,7 +43,7 @@ class Model_Opcr extends Model {
 				->as_array();
 
 		if ($limit == 1)
-			return $opcr_forms[0];
+			return ($opcr_forms ? $opcr_forms[0] : NULL);
 		else
 			return $opcr_forms;
 	}

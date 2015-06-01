@@ -19,7 +19,7 @@
 <body>
 	<!-- NOT FOOTER -->
 	<div id="wrap">
-		<div class="container">
+		<div class="container" style="padding-left:0px">
 			<!-- MASTER NAVIGATION -->
 			<?php echo $navbar; ?>
 

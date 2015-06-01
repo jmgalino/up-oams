@@ -16,7 +16,7 @@ class Model_Ipcr extends Model {
 				->execute()
 				->as_array();
 
-			return $ipcr_forms[0];
+			return ($ipcr_forms ? $ipcr_forms[0] : NULL);
 		}
 		else
 		{

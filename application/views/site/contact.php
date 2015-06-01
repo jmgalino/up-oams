@@ -1,9 +1,3 @@
-<script type="text/javascript">
-var RecaptchaOptions = {
-	theme : 'white'
-};
- </script>
-
 <h2>Contact Us</h2>
 <p>Fill out this form and send us your inquiries, comments and suggestions. Thank you.</p><br>
 

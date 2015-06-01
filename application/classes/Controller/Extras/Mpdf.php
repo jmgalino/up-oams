@@ -1,5 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-include_once APPPATH.'assets/lib/mpdf/mpdf.php';
+include_once 'vendor/mpdf/mpdf.php';
 
 class Controller_Extras_Mpdf extends Controller {
 
