@@ -27,33 +27,66 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$this->response->body($this->view->render());
 	}
 
+	/* ==================================== *
+    *                                       *
+    *   		  Announcements				*
+    *                                       *
+    * ===================================== */
+
 	/**
 	 * List announcements
 	 */
 	public function action_announcements()
 	{
-		$initials = $this->oams->get_initials();
-		$success = $this->session->get_once('success');
-		$error = $this->session->get_once('error');
-		$announcements = $this->oams->get_announcements(NULL, 'univ', FALSE);
-		
-		$this->view->content = View::factory('admin/oams/announcements')
-			->bind('initials', $initials)
-			->bind('success', $success)
-			->bind('error', $error)
-			->bind('announcements', $announcements);
-		$this->response->body($this->view->render());
-	}
+		$announcement_ID = $this->request->param('id');
 
-	/**
-	 * Something new
-	 */
-	public function action_new()
-	{
-		switch ($this->request->param('id'))
+		switch ($this->request->param('type'))
 		{
-			case 'announcement':
-				$this->new_announcement();
+			case 'new':
+				$this->announcement_new();
+				break;
+
+			case 'update':
+				$this->announcement_update();
+				break;
+
+			case 'archived':
+				$this->announcement_archived();
+				break;
+
+			case 'archive':
+				$this->announcement_archive($announcement_ID);
+				break;
+
+			case 'restore':
+				$this->announcement_restore($announcement_ID);
+				break;
+
+			case 'delete':
+				$this->announcement_delete($announcement_ID);
+				break;
+
+			default:
+				$initials = $this->oams->get_initials();
+				$success = $this->session->get_once('success');
+				$announcements = $this->oams->get_announcements(NULL, 'univ', FALSE);
+
+				$new_url = 'admin/oams/announcements/new';
+				$archive_url = URL::site('admin/oams/announcements/archived');
+				$ajax_url = URL::site('extras/ajax/announcement_details');
+				$update_url = URL::site('admin/oams/announcements/update');
+				$delete_url = URL::site('admin/oams/announcements/archive');
+				
+				$this->view->content = View::factory('admin/oams/announcements')
+					->bind('initials', $initials)
+					->bind('new_url', $new_url)
+					->bind('archive_url', $archive_url)
+					->bind('success', $success)
+					->bind('announcements', $announcements)
+					->bind('ajax_url', $ajax_url)
+					->bind('update_url', $update_url)
+					->bind('delete_url', $delete_url);
+				$this->response->body($this->view->render());
 				break;
 		}
 	}
@@ -61,7 +94,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 	/**
 	 * Create announcement
 	 */
-	private function new_announcement()
+	private function announcement_new()
 	{
 		$details = $this->request->post();
 		$details['user_ID'] = NULL;
@@ -71,6 +104,83 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$add_success = $this->oams->add_announcement($details);
 		$this->session->set('success', $add_success);
 		$this->redirect('admin/oams/announcements', 303);	
+	}
+
+	/**
+	 * Update announcements
+	 */
+	private function announcement_update()
+	{
+		$details = $this->request->post();
+		$details['edited'] = 1;
+		
+		$update_success = $this->oams->update_announcement($details);
+		$this->session->set('success', $update_success);
+		$this->redirect('admin/oams/announcements', 303);
+	}
+
+	/**
+	 * List archived announcements
+	 */
+	private function announcement_archived()
+	{
+		$initials = $this->oams->get_initials();
+		$success = $this->session->get_once('success');
+		$announcements = $this->oams->get_announcements(NULL, 'univ', TRUE);
+
+		$announcement_url = URL::site('admin/oams/announcements');
+		$ajax_url = URL::site('extras/ajax/announcement_details');
+		$restore_url = URL::site('admin/oams/announcements/restore');
+		$delete_url = URL::site('admin/oams/announcements/delete');
+		
+		$this->view->content = View::factory('admin/oams/archive')
+			->bind('initials', $initials)
+			->bind('announcement_url', $announcement_url)
+			->bind('success', $success)
+			->bind('announcements', $announcements)
+			->bind('ajax_url', $ajax_url)
+			->bind('restore_url', $restore_url)
+			->bind('delete_url', $delete_url);
+		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Archive Announcement
+	 */
+	public function announcement_archive($announcement_ID)
+	{
+		$details['announcement_ID'] = $announcement_ID;
+		$details['date_deleted'] = date('Y-m-d H:i:s');
+		$details['deleted'] = 1;
+
+		$archive_success = ($this->oams->update_announcement($details) ? 'The announcement was successfully archived.' : $archive_success);
+		$this->session->set('success', $archive_success);
+		$this->redirect('admin/oams/announcements', 303);
+	}
+	
+	/**
+	 * Restore Announcement
+	 */
+	private function announcement_restore($announcement_ID)
+	{
+		$details['announcement_ID'] = $announcement_ID;
+		$details['deleted'] = 0;
+
+		$restore_success = ($this->oams->update_announcement($details) ? 'The announcement was successfully restored.' : $restore_success);
+		$this->session->set('success', $restore_success);
+		$this->redirect('admin/oams/announcements/archived', 303);
+	}
+
+	/**
+	 * Delete Announcement
+	 */
+	private function announcement_delete($announcement_ID)
+	{
+		$details['announcement_ID'] = $announcement_ID;
+		
+		$delete_success = ($this->oams->delete_announcement($details) ? 'The announcement was successfully deleted.' : $delete_success);
+		$this->session->set('success', $delete_success);
+		$this->redirect('admin/oams/announcements/archived', 303);
 	}
 
 	/**
@@ -116,19 +226,6 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$update_success = $this->oams->update_about($this->request->post('about'));
 		$this->session->set('success', $update_success);
 		$this->redirect('admin/oams', 303);
-	}
-
-	/**
-	 * Update Announcements
-	 */
-	private function update_announcement()
-	{
-		$details = $this->request->post();
-		$details['edited'] = 1;
-		
-		$update_success = $this->oams->update_announcement($details);
-		$this->session->set('success', $update_success);
-		$this->redirect('admin/oams/announcements', 303);
 	}
 
 	/**

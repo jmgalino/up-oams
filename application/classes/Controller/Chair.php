@@ -234,6 +234,7 @@ class Controller_Chair extends Controller_Faculty implements Controller_Faculty_
 		$this->session->set('success', $archive_success);
 		$this->redirect('faculty/dept/announcements', 303);
 	}
+	
 	/**
 	 * Restore Announcement
 	 */

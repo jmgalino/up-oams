@@ -7,7 +7,7 @@
        <h4 class="modal-title" id="myModalLabel">New Announcement</h4>
       </div>
 
-      <?php print Form::open('admin/oams/new/announcement', array('class'=>'form-horizontal', 'id'=>'announcementForm', 'role'=>'form')); ?>
+      <?php print Form::open($new_url, array('class'=>'form-horizontal', 'id'=>'announcementForm', 'role'=>'form')); ?>
       <div class="modal-body">
         <input type="text" id="announcement-id" name="announcement_ID" hidden>
 
@@ -36,6 +36,7 @@
       </div>
 
       <div class="modal-footer">
+        <a class="btn btn-default pull-left" id="archiveAnnouncement" href="">Archive</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php print Form::submit(NULL, 'Post', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>

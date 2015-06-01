@@ -311,7 +311,7 @@ Route::set('cuma-functions', '<directory>/<controller>(/<action>(/<id>))',
 /**
  * Routes for Admin Users
  */
-Route::set('admin-functions', '<directory>/<controller>(/<action>(/<id>))',
+Route::set('admin-functions', '<directory>/<controller>(/<action>(/<type>)(/<id>))',
 	array(
 		'directory' => 'admin',
 		'controller'=> '(profile|university|oams)',

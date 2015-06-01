@@ -232,6 +232,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$this->session->set('success', $archive_success);
 		$this->redirect('faculty/coll/announcements', 303);
 	}
+	
 	/**
 	 * Restore Announcement
 	 */

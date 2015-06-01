@@ -1,13 +1,20 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
-  <li><a href=<?php echo URL::site(); ?>>Home</a></li>
-  <li><a href=<?php echo URL::site("admin/oams");?>><?php echo $initials; ?> Settings</a></li>
+  <li><a href="<?php echo URL::site(); ?>">Home</a></li>
+  <li><a href="<?php echo URL::site("admin/oams");?>"><?php echo $initials; ?> Settings</a></li>
   <li class="active">Announcements</li>
 </ol>
 
 <h3>
-	List of Announcements
-	<button type="button" class="btn btn-default pull-right" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site('admin/oams/new/announcement'); ?>>Create</button>
+	<div class="row">
+		<div class="col-md-6">List of Announcements</div>
+		<div class="col-md-6">
+			<div class="pull-right">
+				<button type="button" class="btn btn-default" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site($new_url); ?>>Create</button>
+				<a class="btn btn-default" href="<?php echo $archive_url; ?>">Open Archive</a>
+			</div>
+		</div>
+	</div>
 </h3>
 <br>
 
@@ -18,18 +25,19 @@
 		<?php echo $success?>
 	</p>
 </div>
-<?php elseif (($error) OR ($success === FALSE)): ?>
+<?php elseif ($success === FALSE): ?>
 <div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		<?php echo ($error ? $error : 'Something went wrong. Please try again.'); ?>
+		Something went wrong. Please try again.
 	</p>
 </div>
 <?php endif; ?>
 
 <?php
 // Add/Edit announcement form
-echo View::factory('admin/oams/form/announcement');
+echo View::factory('admin/oams/form/announcement')
+	->bind('new_url', $new_url);
 ?>
 
 <?php if ($announcements): ?>
@@ -39,7 +47,7 @@ echo View::factory('admin/oams/form/announcement');
 		<tr>
 			<th class="subject" style="width:25%">Subject</th>
 			<th style="width:55%" colspan="2">Content</th>
-			<th style="width:10%">Date</th>
+			<th style="width:10%">Date Posted</th>
 			<th class="action">Action</th>
 		</tr>
 	</thead>
@@ -57,7 +65,7 @@ echo View::factory('admin/oams/form/announcement');
 
 		echo '<td>', date('d M', strtotime($announcement['date_created'])), '</td>
 			<td>
-				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
+				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" ajax-url="', $ajax_url, '" action-url="', $update_url, '" archive-url="', $delete_url, '/', $announcement['announcement_ID'], '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
 			</tr>';
