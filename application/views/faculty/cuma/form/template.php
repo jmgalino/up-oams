@@ -68,7 +68,7 @@
 			</li>
 			<hr class="submit" style="border-top: dotted 1px; display:none">
 			<li class="submit" style="display:none">
-				<a href="<?php echo URL::site('faculty/cuma/submit/'.$cuma_details['cuma_ID']); ?>">Submit</a>
+				<a href="<?php echo URL::site('faculty/cuma/publish/'.$cuma_details['cuma_ID']); ?>">Publish</a>
 			</li>
 		</ul>
 	</div>

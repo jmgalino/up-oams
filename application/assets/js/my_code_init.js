@@ -283,9 +283,6 @@ $(document).ready(function () {
     /* 6. Announcement Table */
     $('#announcement_table').DataTable({
         "columnDefs": [{
-            "orderable": false,
-            "targets": "subject"
-        },{
             "searchable": false,
             "orderable": false,
             "targets": "action"

@@ -9,7 +9,7 @@
 		<div class="col-md-6">List of Announcements</div>
 		<div class="col-md-6">
 			<div class="pull-right">
-				<button type="button" class="btn btn-default" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo $new_url; ?>>Create</button>
+				<button type="button" class="btn btn-default" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site($new_url); ?>>Create</button>
 				<a class="btn btn-default" href="<?php echo $archive_url; ?>">Open Archive</a>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 <?php
 // Add/Edit announcement form
 echo View::factory('faculty/announcement/form')
-	->bind('form_url', $form_url);
+	->bind('new_url', $new_url);
 ?>
 
 <?php if ($announcements): ?>
@@ -64,7 +64,7 @@ echo View::factory('faculty/announcement/form')
 
 		echo '<td>', date('d M', strtotime($announcement['date_created'])), '</td>
 			<td>
-				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', $update_url, '" ajax-url="', URL::site('extras/ajax/announcement_details'), '"archive-url="', $delete_url, '/', $announcement['announcement_ID'], '">
+				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', $update_url, '" ajax-url="', $ajax_url, '"archive-url="', $delete_url, '/', $announcement['announcement_ID'], '">
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
 			</tr>';	}

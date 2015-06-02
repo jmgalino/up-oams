@@ -29,7 +29,7 @@ class Controller_Admin_Oams extends Controller_Admin {
 
 	/* ==================================== *
     *                                       *
-    *   		  Announcements				*
+    *			  Announcements				*
     *                                       *
     * ===================================== */
 
@@ -183,12 +183,18 @@ class Controller_Admin_Oams extends Controller_Admin {
 		$this->redirect('admin/oams/announcements/archived', 303);
 	}
 
+	/* ==================================== *
+    *                                       *
+    *			  App Settings				*
+    *                                       *
+    * ===================================== */
+
 	/**
 	 * Save changes in OAMS Settings
 	 */
 	public function action_update()
 	{
-		switch ($this->request->param('id'))
+		switch ($this->request->param('type'))
 		{
 			case 'title':
 				$this->update_title();

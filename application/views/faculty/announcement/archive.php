@@ -61,7 +61,7 @@ echo View::factory('faculty/announcement/modal');
 			<td>', date('d M Y', strtotime($announcement['date_created'])), '</td>
 			<td>', date('d M Y', strtotime($announcement['date_deleted'])), '</td>
 			<td>
-				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="openAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" ajax-url="', URL::site('extras/ajax/announcement_details'), '" restore-url="', $restore_url, '/', $announcement['announcement_ID'],'" delete-url="', $delete_url, '/', $announcement['announcement_ID'],'">
+				<a class="btn btn-default" key="', $announcement['announcement_ID'],'" id="openAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" ajax-url="', $ajax_url, '" restore-url="', $restore_url, '/', $announcement['announcement_ID'],'" delete-url="', $delete_url, '/', $announcement['announcement_ID'],'">
 				Open</a>
 			</td>
 			</tr>';	}

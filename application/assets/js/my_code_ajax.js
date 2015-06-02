@@ -430,6 +430,7 @@ $(document).ready(function () {
 		$("#announcementForm").attr("action", actionUrl);
 		$("#announcementForm input, #announcement-content").val("");
 		$("#announcement-id").removeAttr("name");
+		$("#archiveAnnouncement").hide();
         $("input[type=submit]").val("Post");
 	});
 
@@ -451,7 +452,7 @@ $(document).ready(function () {
 				$("#announcement-id").attr("name", "announcement_ID").val(data["announcement_ID"]);
 				$("#announcement-subject").val(data["subject"]);
 				$("#announcement-content").val(data["content"]);
-				$("#archiveAnnouncement").attr("href", archiveUrl);
+				$("#archiveAnnouncement").attr("href", archiveUrl).show();
 		        $("input[type=submit]").val("Save");
 			}
 		});

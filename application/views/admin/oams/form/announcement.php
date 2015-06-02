@@ -36,7 +36,7 @@
       </div>
 
       <div class="modal-footer">
-        <a class="btn btn-default pull-left" id="archiveAnnouncement" href="">Archive</a>
+        <a class="btn btn-default pull-left" id="archiveAnnouncement" href="" hidden>Archive</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <?php print Form::submit(NULL, 'Post', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
       </div>

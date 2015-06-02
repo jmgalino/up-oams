@@ -27,14 +27,14 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	{
 		$univ = new Model_Univ;
 
-		$submit = $this->session->get_once('submit');
+		$publish = $this->session->get_once('publish');
 		$delete = $this->request->post('delete');
 		$error = $this->request->post('error');
 		$cuma_forms = $this->cuma->get_faculty_cuma($this->session->get('user_ID'));
 		$department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		
 		$this->view->content = View::factory('faculty/cuma/list/faculty')
-			->bind('submit', $submit)
+			->bind('publish', $publish)
 			->bind('delete', $delete)
 			->bind('error', $error)
 			->bind('cuma_forms', $cuma_forms)
@@ -141,18 +141,18 @@ class Controller_Faculty_Cuma extends Controller_Faculty {
 	/**
 	 * Publish CUMA Form
 	 */
-	public function action_submit()
+	public function action_publish()
 	{
 		$cuma_ID = $this->request->param('id');
 		
 		if ($this->is_mutable($cuma_ID))
 		{
-			$submit_success = $this->cuma->update(array(
+			$publish_success = $this->cuma->update(array(
 				'cuma_ID' => $cuma_ID,
 				'date_submitted' => date('Y-m-d'),
-				'status' => 'Submitted'));
+				'status' => 'Published'));
 			
-			$this->session->set('submit', $submit_success);
+			$this->session->set('publish', $publish_success);
 			$this->redirect('faculty/cuma');
 		}
 		else

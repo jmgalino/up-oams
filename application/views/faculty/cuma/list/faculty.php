@@ -12,11 +12,11 @@
 <br>
 
 <!-- Alerts -->
-<?php if ($submit): ?>
+<?php if ($publish): ?>
 <div class="alert alert-success alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		CUMA Form was successfully submitted.
+		CUMA Form was successfully published.
 	</p>
 </div>
 <?php elseif ($delete): ?>
