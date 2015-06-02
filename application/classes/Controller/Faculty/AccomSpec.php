@@ -15,7 +15,7 @@ class Controller_Faculty_AccomSpec extends Controller_Faculty {
 		$attachment = NULL;
 		
 		// Accom. attachment
-		if ($_FILES['attachment'] AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
+		if(file_exists($_FILES['attachment']['tmp_name'][0]) AND is_uploaded_file($_FILES['attachment']['tmp_name'][0]))
         {
         	$attachment = Request::factory('extras/upload/attachment')
         		->post(array(

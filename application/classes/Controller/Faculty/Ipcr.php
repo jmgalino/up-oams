@@ -219,29 +219,6 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	}
 
 	/**
-	 * Upload new attachments
-	 */
-	private function add_attachment($ipcr_ID, $new_attachment)
-	{
-		$attachment = Request::factory('extras/upload/attachment')
-			->post(array(
-				'id' => $ipcr_ID,
-				'attachments' => $new_attachment))
-			->execute()
-			->body;
-
-		$attachments = explode(' ', $attachment);
-		$target_attachments = array(); $counter = 0;
-		foreach ($attachments as $attachment)
-		{
-			$target_attachments[] = $_FILES['attachment']['name'][$counter++].' => '.$attachment;
-		}
-		
-		$attachment = implode('; ', $target_attachments);
-		return $attachment;
-	}
-
-	/**
 	 * Add output (Link)
 	 */
 	public function action_add()
@@ -343,6 +320,29 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 			// ->bind('title', $title)
 			->bind('targets', $targets);
 		$this->response->body($this->view->render());
+	}
+
+	/**
+	 * Upload new attachments
+	 */
+	private function add_attachment($ipcr_ID, $new_attachment)
+	{
+		$attachment = Request::factory('extras/upload/attachment')
+			->post(array(
+				'id' => $ipcr_ID,
+				'attachments' => $new_attachment))
+			->execute()
+			->body;
+
+		$attachments = explode(' ', $attachment);
+		$target_attachments = array(); $counter = 0;
+		foreach ($attachments as $attachment)
+		{
+			$target_attachments[] = $_FILES['attachment']['name'][$counter++].' => '.$attachment;
+		}
+		
+		$attachment = implode('; ', $target_attachments);
+		return $attachment;
 	}
 
 	/**

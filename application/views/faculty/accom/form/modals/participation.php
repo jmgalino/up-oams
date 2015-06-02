@@ -57,7 +57,7 @@
         <div class="form-group">
           <label for="attachment" class="col-sm-3 control-label">Attachment(s)</label>
           <div class="col-sm-8" id="add-attachment">
-            <input type="file" id="accom-attachment" name="attachment[]" accept="image/*" multiple="true">
+            <input type="file" id="accom-attachment" name="attachment[]" accept="image/*" multiple="true" required>
             <span class="help-block">You can add up to 5 attachments.</span>
           </div>
           <div class="col-sm-8" id="view-attachment"></div>

@@ -204,17 +204,6 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	}
 
 	/**
-	 * Consolidate OPCR Forms
-	 */
-	private function action_consolidate()
-	{
-		if ($this->session->get('identifier') == 'chair')
-			$this->redirect('faculty/dept/ipcr/consolidate/'.$this->request->post('opcr_ID'));
-		elseif ($this->session->get('identifier') == 'dean')
-		{}
-	}
-
-	/**
 	 * New output
 	 */
 	public function action_add()
