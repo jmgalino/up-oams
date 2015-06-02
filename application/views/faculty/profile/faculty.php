@@ -4,10 +4,10 @@
   <li class="active">Faculty Members</li>
 </ol>
 
-<h2>
+<h3>
 	Faculty Members
 	<small><?php echo $group; ?></small>
-</h2>
+</h3>
 <br>
 
 <!-- Table -->

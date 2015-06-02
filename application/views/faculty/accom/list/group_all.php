@@ -1,3 +1,29 @@
+<?php
+function redate($start, $end)
+{
+	$duration = Request::factory('extras/reconstructor/redate')
+		->post(array(
+			'start' => $start,
+			'end' => $end))
+		->execute()
+		->body;
+
+	return $duration;
+}
+
+function reuser($user_IDs, $users)
+{
+	$author = Request::factory('extras/reconstructor/reuser')
+		->post(array(
+			'user_IDs' => $user_IDs,
+			'users' => $users))
+		->execute()
+		->body;
+
+	return $author;
+}
+?>
+
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href=<?php echo URL::site(); ?>>Home</a></li>
@@ -41,12 +67,7 @@
 	<?php
 	foreach ($accom_pub as $pub)
 	{
-		$author = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $pub['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
+		$author = reuser($pub['user_ID'], $users);
 
 		if ($pub['author'])
 			$author .= ' and '.$pub['author'];
@@ -86,25 +107,11 @@
 	<?php
 	foreach ($accom_awd as $awd)
 	{
-		$faculty = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $awd['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
-
-		$duration = Request::factory('extras/reconstructor/redate')
-			->post(array(
-				'start' => $awd['start'],
-				'end' => $awd['end']))
-			->execute()
-			->body;
-
 		echo 
 		'<tr>
-			<td class="first">', $faculty, '</td>
+			<td class="first">', reuser($awd['user_ID'], $users), '</td>
 			<td>', $awd['award'], '</td>
-			<td>', $duration, '</td>
+			<td>', redate($awd['start'], $awd['end']), '</td>
 			<td>', $awd['source'], '</td>
 		</tr>';
 	}
@@ -135,32 +142,18 @@
 	<?php
 	foreach ($accom_rch as $rch)
 	{
-		$faculty = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $rch['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
-
 		$fund_source = ($rch['fund_external']
 			? $rch['fund_up']
 				? 'UP System Research Grant and '.$rch['fund_external']
 				: $rch['fund_external']
 			: 'UP System Research Grant');
 
-		$duration = Request::factory('extras/reconstructor/redate')
-			->post(array(
-				'start' => $rch['start'],
-				'end' => $rch['end']))
-			->execute()
-			->body;
-
 		echo
 		'<tr>
-			<td class="first">', $faculty, '</td>
+			<td class="first">', reuser($rch['user_ID'], $users), '</td>
 			<td>', $rch['title'], '</td>
 			<td>', $fund_source, '</td>
-			<td>', $duration, '</td>
+			<td>', redate($rch['start'], $rch['end']), '</td>
 			<td>Php ', number_format($rch['fund_amount'], 2), '</td>
 			<td>Php ', number_format($rch['fund_up'], 2), '</td>
 		</tr>';
@@ -188,22 +181,10 @@
 	<?php
 	foreach ($accom_ppr as $ppr)
 	{
-		$author = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $ppr['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
+		$author = reuser($ppr['user_ID'], $users);
 
 		if ($ppr['author'])
 		 $author .= ' and '.$ppr['author'];
-
-		$dates = Request::factory('extras/reconstructor/redate')
-			->post(array(
-				'start' => $ppr['start'],
-				'end' => $ppr['end']))
-			->execute()
-			->body;
 
 		echo
 		'<tr>
@@ -211,7 +192,7 @@
 			<td>', $ppr['title'], '</td>
 			<td>', $ppr['activity'], '</td>
 			<td>', $ppr['venue'], '</td>
-			<td>', $dates, '</td>
+			<td>', redate($ppr['start'], $ppr['end']), '</td>
 		</tr>';
 	}
 	?>
@@ -236,29 +217,17 @@
 	<?php
 	foreach ($accom_ctv as $ctv)
 	{
-		$author = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $ctv['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
+		$author = reuser($ctv['user_ID'], $users);
 
 		if ($ctv['author'])
 		 $author .= ' and '.$ctv['author'];
-
-		$dates = Request::factory('extras/reconstructor/redate')
-			->post(array(
-				'start' => $ctv['start'],
-				'end' => $ctv['end']))
-			->execute()
-			->body;
 
 		echo
 		'<tr>
 			<td class="first">', $author, '</td>
 			<td>', $ctv['title'], '</td>
 			<td>', $ctv['venue'], '</td>
-			<td>', $dates, '</td>
+			<td>', redate($ctv['start'], $ctv['end']), '</td>
 		</tr>';
 	}
 	?>
@@ -284,27 +253,13 @@
 	<?php
 	foreach ($accom_par as $par)
 	{
-		$faculty = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $par['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
-
-		$dates = Request::factory('extras/reconstructor/redate')
-			->post(array(
-				'start' => $par['start'],
-				'end' => $par['end']))
-			->execute()
-			->body;
-
 		echo
 		'<tr>
-			<td class="first">', $faculty, '</td>
+			<td class="first">', reuser($par['user_ID'], $users), '</td>
 			<td>', $par['participation'], '</td>
 			<td>', $par['title'], '</td>
 			<td>', $par['venue'], '</td>
-			<td>', $dates, '</td>
+			<td>', redate($par['start'], $par['end']), '</td>
 		</tr>';
 	}
 	?>
@@ -328,12 +283,7 @@
 	<?php
 	foreach ($accom_mat as $mat)
 	{
-		$author = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $mat['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
+		$author = reuser($mat['user_ID'], $users);
 
 		if ($mat['author'])
 		 $author .= ' and '.$mat['author'];
@@ -368,27 +318,13 @@
 	<?php
 	foreach ($accom_oth as $oth)
 	{
-		$faculty = Request::factory('extras/reconstructor/reuser')
-			->post(array(
-				'user_IDs' => $oth['user_ID'],
-				'users' => $users))
-			->execute()
-			->body;
-
-		$dates = Request::factory('extras/reconstructor/redate')
-			->post(array(
-				'start' => $oth['start'],
-				'end' => $oth['end']))
-			->execute()
-			->body;
-
 		echo
 		'<tr>
-			<td class="first">', $faculty, '</td>
+			<td class="first">', reuser($oth['user_ID'], $users), '</td>
 			<td>', $oth['participation'], '</td>
 			<td>', $oth['activity'], '</td>
 			<td>', $oth['venue'], '</td>
-			<td>', $dates, '</td>
+			<td>', redate($oth['start'], $oth['end']), '</td>
 		</tr>';
 	}
 	?>

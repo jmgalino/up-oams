@@ -16,7 +16,7 @@
 		$id = str_replace (" ", "_", $announcement['subject']);
 
 		echo '<div class="col-xs-6">
-			<h2>', $announcement['subject'], '</h2>
+			<h3>', $announcement['subject'], '</h3>
 			<p id="headlines" style="white-space:pre-wrap;">', $announcement['content'], '</p>
 			<p><a class="btn btn-default" href="', URL::site($identifier.'/announcements#'.$id),'" role="button">View details »</a></p>
 		</div>';

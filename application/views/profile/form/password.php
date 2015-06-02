@@ -4,7 +4,7 @@
   <li class="active">Change Password</li>
 </ol>
 
-<h2>Change Password</h2>
+<h3>Change Password</h3>
 <br>
 
 <?php if ($success): ?>

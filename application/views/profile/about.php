@@ -4,5 +4,5 @@
   <li class="active">About</li>
 </ol>
 
-<h2>About</h2>
+<h3>About</h3>
 <p><?php echo $about; ?></p>

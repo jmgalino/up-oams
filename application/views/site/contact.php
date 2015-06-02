@@ -1,4 +1,4 @@
-<h2>Contact Us</h2>
+<h3>Contact Us</h3>
 <p>Fill out this form and send us your inquiries, comments and suggestions. Thank you.</p><br>
 
 <?php if ($success): ?>

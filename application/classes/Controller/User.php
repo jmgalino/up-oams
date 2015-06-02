@@ -118,7 +118,6 @@ abstract class Controller_User extends Controller {
 	 */
 	protected function action_manual()
 	{
-		// Open PDF in new tab
 		$this->view->content = View::factory('profile/manual');
 		$this->response->body($this->view->render());
 	}

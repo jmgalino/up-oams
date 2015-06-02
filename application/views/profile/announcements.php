@@ -3,7 +3,7 @@
   <li class="active">Announcements - <?php echo date('F Y'); ?></li>
 </ol>
 
-<h2>Announcements</h2>
+<h3>Announcements</h3>
 <br>
 
 <?php

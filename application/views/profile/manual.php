@@ -4,5 +4,5 @@
   <li class="active">Manual</li>
 </ol>
 
-<h2>User's Manual</h2>
-<div class="alert alert-warning"><p class="text-center">Coming soon.</p></div>
+<h3>User's Manual</h3>
+<embed src="<?php echo URL::base().'application/assets/files/manual.pdf'; ?>" style="width:100%; height: 500px">

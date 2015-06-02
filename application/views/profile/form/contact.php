@@ -4,7 +4,7 @@
 	<li class="active">Contact Admin</li>
 </ol>
 
-<h2>Contact Admin</h2>
+<h3>Contact Admin</h3>
 <br>
 
 <?php if ($success): ?>

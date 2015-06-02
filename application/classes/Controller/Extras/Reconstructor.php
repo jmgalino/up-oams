@@ -21,11 +21,14 @@ class Controller_Extras_Reconstructor extends Controller {
 		$emonth = date('F', $etime);
 		$eyear = date('Y', $etime);
 
-		$date = ($smonth == $emonth AND $syear == $eyear
-			? $sdate == $edate
-				? date('F d, Y', strtotime($start))
-				: $smonth.' '.$sdate.'-'.$edate.', '.$syear
-			: date('F d, Y', strtotime($start)).' - '.date('F d, Y', strtotime($end)));
+		if ($smonth == $emonth AND $syear == $eyear) {
+			if ($sdate == $edate)
+				$date = date('F d, Y', strtotime($start));
+			else
+				$date = $smonth.' '.$sdate.'-'.$edate.', '.$syear;
+		}
+		else
+			$date = date('F d, Y', strtotime($start)).' - '.date('F d, Y', strtotime($end));
 		
 		$this->response->body = $date;
 	}
