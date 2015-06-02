@@ -198,6 +198,10 @@ class Model_Ipcr extends Model {
 			}
 		}
 
+		// Check for generated file
+		$ipcr_details = $this->get_details($ipcr_ID);
+		$delete = ($ipcr_details['document'] ? unlink(DOCROOT.'files/document_ipcr/'.$ipcr_details['document']) : 1);
+
 		$rows_deleted = DB::delete('ipcrtbl')
 			->where('ipcr_ID', '=', $ipcr_ID)
 	 		->execute();

@@ -260,8 +260,9 @@ class Model_Accom extends Model {
 			}
 		}
 
+		// Check for generated file
 		$accom_details = $this->get_details($accom_ID);
-		$delete = unlink(DOCROOT.'files/document_accom/'.$accom_details['document']);
+		$delete = ($accom_details['document'] ? unlink(DOCROOT.'files/document_accom/'.$accom_details['document']) : 1);
 
 		$rows_deleted = DB::delete('accomtbl')
 			->where('accom_ID', '=', $accom_ID)

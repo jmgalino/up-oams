@@ -209,7 +209,7 @@ class Model_Opcr extends Model {
 		if ($ipcr) return "One or more IPCR is using this OPCR.";
 		else
 		{
-			// Check for linked IPCR
+			// Check for linked output
 			$output = DB::select()
 				->from('opcr_outputtbl')
 				->where('opcr_ID', '=', $opcr_ID)
@@ -224,6 +224,10 @@ class Model_Opcr extends Model {
 
 				$this->delete($opcr_ID);
 			}
+
+			// Check for generated file
+			$opcr_details = $this->get_details($opcr_ID);
+			$delete = ($opcr_details['document'] ? unlink(DOCROOT.'files/document_opcr/'.$opcr_details['document']) : 1);
 
 			$rows_deleted = DB::delete('opcrtbl')
 				->where('opcr_ID', '=', $opcr_ID)
