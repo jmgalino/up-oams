@@ -58,9 +58,9 @@
 <br>
 
 <div class="form-group" style="display:none;">
-  <label for="fcode" class="col-sm-4 control-label">Average<br>SET Scores</label>
+  <label for="fcode" class="col-sm-4 control-label">Average<br>SATE Scores</label>
   <div class="col-sm-7">
-    <input type="text" class="form-control faculty_info" id="average_set" name="average_set" disabled>
+    <input type="text" class="form-control faculty_info" id="average_sate" name="average_sate" disabled>
   </div>
 </div>
 

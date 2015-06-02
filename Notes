@@ -1,5 +1,5 @@
 TO DO:
-- fix jedit onblur/esc doesn't show edit
+- fix jedit cancel handler
 - fix update univ/user thing
 - cuma get data and include
 
@@ -11,14 +11,12 @@ TO DO:
   > /admin/profile/accom/publication*
 - disable faculty_view_all if no approved
 - shorten long filenames for upload files (goes beyond modal)
-- remove extra period on consolidated accom group "e.g. Galino, Jenny M.." (or not?)
 
 ADDITIONAL:
 - Notify submit/approve/reject/check
 - Flag announcements (keep on top)
 - Announcement attachments
 
-- (admin) profile table should allow double click to open or one button to open profile
 - (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon ajax
 - contact admin ajax validation
 

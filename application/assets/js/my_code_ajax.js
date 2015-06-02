@@ -1559,17 +1559,24 @@ $(document).ready(function () {
 			$("#nextPage").parent().addClass("disabled");
 	});
 
-	$(".editSet").editable("",
+	/* ==================================== *
+    *                                       *
+    *			FACULTY PROFILE				*
+    *                                       *
+    * ===================================== */
+
+	/* Show Ave. SATE scores Form Field */
+	$(".editSate").editable("",
 	{
-        name		: 'average_set',
+        name		: 'average_sate',
 		type		: 'text',
 		submit		: 'Save',
-		event		: 'dblclick',
+		event		: 'focusin',
 		onblur		: 'cancel',
 		cssclass	: 'edit_number',
-		placeholder : $(".editSet").attr("value"),
+		placeholder : $(".editSate").attr("value"),
 		onsubmit	: function (settings) {
-			settings.target = $(".editSet").attr("ajax-url");
+			settings.target = $(".editSate").attr("ajax-url");
 		},
 		callback	: function (value) {
 			$(this).attr("value", value);
@@ -1577,12 +1584,13 @@ $(document).ready(function () {
 		}
 	});
 
+	/* Show No. of Students Mentored Form Field */
 	$(".editStudents").editable("",
 	{
 		name		: 'students_mentored',
 		type		: 'text',
 		submit		: 'Save',
-		event		: 'dblclick',
+		event		: 'focusin',
 		onblur		: 'cancel',
 		cssclass	: 'edit_number',
 		placeholder : $(".editStudents").attr("value"),
@@ -1596,6 +1604,7 @@ $(document).ready(function () {
 		}
 	});
 
+	/* Trigger form and show save button */
 	$("span#editButton").click(function (event) {
 		var target = $(this).prev();
 		var value = target.attr("value");
@@ -1603,9 +1612,9 @@ $(document).ready(function () {
 		if (value == 'Not Available')
 			value = 0;
 
-		target.trigger("dblclick");
+		target.trigger("focusin");
 		
-		if (target.attr("class") == "editSet")
+		if (target.attr("class") == "editSate")
 			target.find("input").number(true, 2).val(value).prop("required", true);
 		else
 			target.find("input").number(true).val(value).prop("required", true);

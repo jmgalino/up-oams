@@ -97,7 +97,7 @@ foreach ($programs as $program)
 					<td>', $date, '</td>
 					<td>', $education['institution'], '</td>
 					<td>', $education['continuing'], '</td>
-					<td>', ($department_user['average_set'] ? $department_user['average_set'] : 'Not Available'), '</td>
+					<td>', ($department_user['average_sate'] ? $department_user['average_sate'] : 'Not Available'), '</td>
 					<td>', ($publication_isi ? $publication_isi : 'None'), '</td>
 					<td>', ($publication_refereed ? $publication_refereed : 'None'), '</td>
 					<td>', ($publication_popular ? $publication_popular : 'None'), '</td>

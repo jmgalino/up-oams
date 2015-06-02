@@ -56,9 +56,9 @@
 		<br>
 
 		<div class="row details">
-			<div class="col-xs-6"><strong>Average SET Scores</strong></div>
+			<div class="col-xs-6"><strong>Average SATE Scores</strong></div>
 			<div class="col-xs-6" style="display:inline; vertical-align:bottom">
-				<span class="editSet" value="<?php echo ($user['average_set'] ? number_format($user['average_set'], 1) : 'Not Available'); ?>" ajax-url="<?php echo URL::site('faculty/update_myprofile/average_set'); ?>"></span>
+				<span class="editSate" value="<?php echo ($user['average_sate'] ? number_format($user['average_sate'], 1) : 'Not Available'); ?>" ajax-url="<?php echo URL::site('faculty/update_myprofile/average_sate'); ?>"></span>
 				<span class="show-hover" id="editButton">Edit</span>
 			</div>
 		</div>
