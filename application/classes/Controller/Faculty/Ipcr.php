@@ -229,8 +229,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 
 		$details['output_ID'] = $this->request->post('output_ID');
 		$details['ipcr_ID'] = $ipcr_ID;
-		$this->ipcr->add_target($details);
-		
+		$add_success = $this->ipcr->add_target($details);
+		$this->session->set('success', $add_success);
 		$this->redirect('faculty/ipcr/update/'.$ipcr_ID, 303);
 	}
 
@@ -270,7 +270,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$ipcr_details = $this->ipcr->get_details($target_details['ipcr_ID']);
 		$this->action_check($ipcr_details['user_ID']); // Redirects if not the owner
 		
-		$this->ipcr->delete_target($target_ID);
+		$delete_success = $this->ipcr->delete_target($target_ID);
+		$this->session->set('success', $delete_success);
 		$this->redirect('faculty/ipcr/update/'.$this->session->get('ipcr_details')['ipcr_ID'], 303);
 	}
 
@@ -280,8 +281,8 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 	private function show_draft($ipcr_details)
 	{
 		$opcr = new Model_Opcr;
-		$univ = new Model_Univ;
 
+		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
 		$this->session->set('ipcr_details', $ipcr_details); // used for checking 
@@ -296,28 +297,15 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		
 		$categories = $this->app->get_categories();
 
-		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-
-		// if ($this->session->get('identifier') == 'dean')
-		// {
-		// 		$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		// 		$title = 'Unit Head, '.$college['short'];
-		// }
-		// elseif ($this->session->get('identifier') == 'chair')
-		// 	$title = 'Unit Head, '.$department['short'];
-		// else
-		// 	$title = 'Faculty, '.$department['short'];
-
 		$this->view->content = View::factory('faculty/ipcr/form/initial/template')
 			->bind('label', $label)
+			->bind('success', $success)
 			->bind('error', $error)
 			->bind('warning', $warning)
 			->bind('session', $this->session)
 			->bind('ipcr_details', $ipcr_details)
 			->bind('categories', $categories)
 			->bind('outputs', $outputs)
-			// ->bind('department', $department['short'])
-			// ->bind('title', $title)
 			->bind('targets', $targets);
 		$this->response->body($this->view->render());
 	}

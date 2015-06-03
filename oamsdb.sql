@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 03, 2015 at 10:04 AM
+-- Generation Time: Jun 03, 2015 at 10:21 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -307,7 +307,14 @@ CREATE TABLE IF NOT EXISTS `opcrtbl` (
   `status` enum('Accepted','Returned','Withdrawn','Pending','Published','Draft') NOT NULL DEFAULT 'Draft',
   `remarks` varchar(255) NOT NULL DEFAULT 'None',
   `document` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `opcrtbl`
+--
+
+INSERT INTO `opcrtbl` (`opcr_ID`, `user_ID`, `period_from`, `period_to`, `date_published`, `date_submitted`, `status`, `remarks`, `document`) VALUES
+(1, 12, '2015-01-01', '2015-06-01', '2015-06-03', NULL, 'Published', 'None', '12340000801150615.pdf');
 
 -- --------------------------------------------------------
 
@@ -348,7 +355,14 @@ CREATE TABLE IF NOT EXISTS `opcr_outputtbl` (
   `r_efficiency` int(1) DEFAULT '0',
   `r_timeliness` int(1) DEFAULT '0',
   `remarks` varchar(255) NOT NULL DEFAULT 'None'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `opcr_outputtbl`
+--
+
+INSERT INTO `opcr_outputtbl` (`output_ID`, `category_ID`, `opcr_ID`, `output`, `indicators`, `accountable`, `actual_accom`, `r_quantity`, `r_efficiency`, `r_timeliness`, `remarks`) VALUES
+(1, 1, 1, 'BSCS Curricular revision to address the requirements of the industry, K-12 and ASEAN integration', 'Targets: (1) Acquired list of courses that will be transferred to K-12; (2) reviewed the old revision proposal; (3) identified gap between existing curriculum and industry needs. Measures: only (1) is acquired = 3; (1) and (2) were obtained = 4; (1) and (2) and (3) are obtained = 5', NULL, NULL, 0, 0, 0, 'None');
 
 -- --------------------------------------------------------
 
@@ -557,7 +571,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `last_name` varchar(50) NOT NULL,
   `suffix` varchar(50) DEFAULT NULL,
   `user_type` enum('Faculty','Admin') NOT NULL,
-  `average_set` float DEFAULT NULL,
+  `average_sate` float DEFAULT NULL,
   `students_mentored` int(11) DEFAULT NULL,
   `faculty_code` varchar(30) DEFAULT NULL,
   `program_ID` int(11) DEFAULT NULL,
@@ -572,7 +586,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 -- Dumping data for table `user_profiletbl`
 --
 
-INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `average_set`, `students_mentored`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
+INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `average_sate`, `students_mentored`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
 (1, '000012345', NULL, 'Jenny', 'M', 'Galino', NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
 (2, '000112345', NULL, 'Catherine', 'Kay', 'Gastone', NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, '1963-12-14', NULL, 0),
 (3, '000212345', NULL, 'John', 'E', 'Parsons', NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),
@@ -862,7 +876,7 @@ ALTER TABLE `ipcr_targettbl`
 -- AUTO_INCREMENT for table `opcrtbl`
 --
 ALTER TABLE `opcrtbl`
-  MODIFY `opcr_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `opcr_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `opcr_categorytbl`
 --
@@ -872,7 +886,7 @@ ALTER TABLE `opcr_categorytbl`
 -- AUTO_INCREMENT for table `opcr_outputtbl`
 --
 ALTER TABLE `opcr_outputtbl`
-  MODIFY `output_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `output_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `univ_collegetbl`
 --

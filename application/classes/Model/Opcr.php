@@ -290,12 +290,12 @@ class Model_Opcr extends Model {
 	 */
 	public function add_output($details)
 	{
-		$insert_output = DB::insert('opcr_outputtbl')
+		$add_success = DB::insert('opcr_outputtbl')
 			->columns(array_keys($details))
 			->values($details)
 			->execute();
 
-		// return $insert_output[0]; -- output_ID
+		return ($add_success ? 'Output was successfully added' : NULL);
 	}
 
 	/**
@@ -321,7 +321,7 @@ class Model_Opcr extends Model {
 			->where('output_ID', '=', $output_ID)
 	 		->execute();
 
- 		if ($rows_deleted == 1) return TRUE;
+ 		if ($rows_deleted == 1) return 'Output was successfully deleted';
  		else return FALSE;
 	}
 

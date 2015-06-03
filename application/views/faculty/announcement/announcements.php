@@ -6,8 +6,8 @@
 
 <h3>
 	<div class="row">
-		<div class="col-md-6">Announcements</div>
-		<div class="col-md-6">
+		<div class="col-md-9">Announcements <small><?php echo $group; ?></small></div>
+		<div class="col-md-3">
 			<div class="pull-right">
 				<button type="button" class="btn btn-default" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site($new_url); ?>>Create</button>
 				<a class="btn btn-default" href="<?php echo $archive_url; ?>">Open Archive</a>

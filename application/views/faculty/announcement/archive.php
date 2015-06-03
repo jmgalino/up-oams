@@ -7,8 +7,8 @@
 
 <h3>
 	<div class="row">
-		<div class="col-md-6">Announcements Archive</div>
-		<div class="col-md-6">
+		<div class="col-md-9">Announcements Archive</div>
+		<div class="col-md-3">
 			<a class="btn btn-default pull-right" href="<?php echo $announcement_url; ?>" role="button">
 		<span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 		</div>

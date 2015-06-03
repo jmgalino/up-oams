@@ -216,7 +216,8 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 			? $post['indicators']
 			: 'Targets: '.$post['targets'].' Measures: '.$post['measures']);
 		
-		$this->opcr->add_output($details);
+		$add_success = $this->opcr->add_output($details);
+		$this->session->set('success', $add_success);
 		$this->redirect('faculty/opcr/update/'.$details['opcr_ID'], 303);
 	}
 
@@ -247,7 +248,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$output_ID = $this->request->param('id');
 		$delete_success = $this->opcr->delete_output($output_ID);
 		
-		if (!$delete_success) $this->session->set('error', 'Something went wrong. Please try again.');
+		$this->session->set('success', $delete_success);
 		$this->redirect('faculty/opcr/update/'.$this->session->get('opcr_details')['opcr_ID'], 303);
 	}
 
@@ -283,36 +284,25 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 	 */
 	private function show_draft()
 	{
-		$univ = new Model_Univ;
-		
+		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
+
 		$period_from = date('F Y', strtotime($this->session->get('opcr_details')['period_from']));
 		$period_to = date('F Y', strtotime($this->session->get('opcr_details')['period_to']));
 		$label = $period_from.' - '.$period_to;
 		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
+
 		$outputs = $this->opcr->get_outputs($opcr_ID);
 		$categories = $this->app->get_categories();
-		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-
-		// if ($this->session->get('identifier') == 'chair')
-		// {
-		// 	$title = $department['short'];
-		// }
-		// elseif ($this->session->get('identifier') == 'dean')
-		// {
-		// 	$college = $univ->get_college_details(NULL, $this->session->get('program_ID'));
-		// 	$title = $college['short'];
-		// }
 
 		$this->view->content = View::factory('faculty/opcr/form/initial/template')
 			->bind('label', $label)
+			->bind('success', $success)
 			->bind('error', $error)
 			->bind('warning', $warning)
 			->bind('session', $this->session)
 			->bind('categories', $categories)
-			// ->bind('department', $department['short'])
-			// ->bind('title', $title)
 			->bind('outputs', $outputs);
 		$this->response->body($this->view->render());
 	}

@@ -25,7 +25,7 @@
 							echo '<tr>
 								<td class="template-output" style="color: #909090">', $output['output'], '</td>
 								<td class="template-output" style="color: #909090">', $output['indicators'] ,'</td>
-								<td rowspan="2"><a  class="btn" id="deleteOutput" href='.URL::site('faculty/ipcr/remove/'.$target['target_ID']).'>
+								<td rowspan="2"><a  class="btn" id="deleteTarget" href='.URL::site('faculty/ipcr/remove/'.$target['target_ID']).'>
 									<span class="glyphicon glyphicon-remove-circle"></span></a></td>
 								</tr>
 								<tr>

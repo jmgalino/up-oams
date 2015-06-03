@@ -690,6 +690,18 @@ $(document).ready(function () {
             return false;
         }
     });
+    $("#deleteTarget").click(function () {
+        if (confirm('Are you sure you want to remove this target?')) {
+            var outputId = $(this).attr("output-id");
+            var href = $(this).attr("action-url") + "/" + outputId;
+
+            $("#outputForm").removeAttr("action");
+            window.location.href = href;
+        }
+        else {
+            return false;
+        }
+    });
     $("a#resetPassword").click(function () {
         return confirm('Are you sure you want to reset the password?');
     });

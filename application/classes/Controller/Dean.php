@@ -161,6 +161,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 				$delete_url = URL::site('faculty/coll/announcements/archive');
 				
 				$this->view->content = View::factory('faculty/announcement/announcements')
+					->bind('group', $this->college_details['college'])
 					->bind('new_url', $new_url)
 					->bind('archive_url', $archive_url)
 					->bind('success', $success)
@@ -216,6 +217,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$delete_url = URL::site('faculty/coll/announcements/delete');
 		
 		$this->view->content = View::factory('faculty/announcement/archive')
+			->bind('group', $this->college_details['college'])
 			->bind('announcement_url', $announcement_url)
 			->bind('success', $success)
 			->bind('announcements', $announcements)

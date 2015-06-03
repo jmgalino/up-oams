@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 03, 2015 at 10:04 AM
+-- Generation Time: Jun 03, 2015 at 10:22 AM
 -- Server version: 5.6.22
 -- PHP Version: 5.6.6
 
@@ -465,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `last_name` varchar(50) NOT NULL,
   `suffix` varchar(50) DEFAULT NULL,
   `user_type` enum('Faculty','Admin') NOT NULL,
-  `average_set` float DEFAULT NULL,
+  `average_sate` float DEFAULT NULL,
   `students_mentored` int(11) DEFAULT NULL,
   `faculty_code` varchar(30) DEFAULT NULL,
   `program_ID` int(11) DEFAULT NULL,
@@ -480,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
 -- Dumping data for table `user_profiletbl`
 --
 
-INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `average_set`, `students_mentored`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
+INSERT INTO `user_profiletbl` (`user_ID`, `employee_code`, `title`, `first_name`, `middle_name`, `last_name`, `suffix`, `user_type`, `average_sate`, `students_mentored`, `faculty_code`, `program_ID`, `rank`, `position`, `birthday`, `pic`, `deleted`) VALUES
 (1, '000012345', NULL, 'Jenny', 'M', 'Galino', NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, '1994-07-08', NULL, 0),
 (2, '000112345', NULL, 'Catherine', 'Kay', 'Gastone', NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, '1963-12-14', NULL, 0),
 (3, '000212345', NULL, 'John', 'E', 'Parsons', NULL, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, '1968-02-18', NULL, 0),

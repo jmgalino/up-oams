@@ -307,7 +307,7 @@ class Model_Ipcr extends Model {
 
 		if(!$target)
 		{
-			$insert_target = DB::insert('ipcr_targettbl')
+			$add_success = DB::insert('ipcr_targettbl')
 				->columns(array_keys($details))
 				->values($details)
 				->execute();
@@ -317,7 +317,7 @@ class Model_Ipcr extends Model {
 			$session = Session::instance();
 			$session->set('warning', 'Warning: Output is already included.');
 		}
-		// return $insert_target[0]; -- target_ID
+		return ($add_success ? 'Output was successfully added' : NULL);
 	}
 
 	/**
@@ -343,8 +343,8 @@ class Model_Ipcr extends Model {
 			->where('target_ID', '=', $target_ID)
 	 		->execute();
 
- 		if ($rows_deleted == 1) return TRUE;
- 		else return FALSE; //do something
+ 		if ($rows_deleted == 1) return 'Target was successfully removed';
+ 		else return FALSE;
 	}
 
 } // End Ipcr
