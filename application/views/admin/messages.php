@@ -24,7 +24,7 @@
 
 <?php
 // View message
-echo View::factory('admin/oams/message');
+echo View::factory('admin/app/message');
 ?>
 
 <?php if ($messages): ?>

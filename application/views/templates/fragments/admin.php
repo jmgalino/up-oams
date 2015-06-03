@@ -22,9 +22,9 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a href=<?php echo URL::site('admin/oams'); ?> class="dropdown-toggle disabled" data-toggle="dropdown">OAMS Settings</a>
+					<a href=<?php echo URL::site('admin/app'); ?> class="dropdown-toggle disabled" data-toggle="dropdown">App Settings</a>
 					<ul class="dropdown-menu">
-						<li><a href=<?php echo URL::site('admin/oams/announcements'); ?>>Announcements</a></li>
+						<li><a href=<?php echo URL::site('admin/app/announcements'); ?>>Announcements</a></li>
 					</ul>
 				</li>
 			</ul>

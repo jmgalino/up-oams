@@ -152,7 +152,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 
 			default:
 				$success = $this->session->get_once('success');
-				$announcements = $this->oams->get_announcements($this->session->get('user_ID'), 'coll', FALSE);
+				$announcements = $this->app->get_announcements($this->session->get('user_ID'), 'coll', FALSE);
 
 				$new_url = URL::site('faculty/coll/announcements/new');
 				$archive_url = URL::site('faculty/coll/announcements/archived');
@@ -183,7 +183,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$details['type'] = 'coll';
 		$details['date_created'] = date('Y-m-d H:i:s');
 		
-		$add_success = $this->oams->add_announcement($details);
+		$add_success = $this->app->add_announcement($details);
 		$this->session->set('success', $add_success);
 		$this->redirect('faculty/coll/announcements', 303);
 	}
@@ -196,7 +196,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$details = $this->request->post();
 		$details['edited'] = 1;
 
-		$update_success = $this->oams->update_announcement($details);
+		$update_success = $this->app->update_announcement($details);
 		$this->session->set('success', $update_success);
 		$this->redirect('faculty/coll/announcements', 303);
 	}
@@ -208,7 +208,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	public function announcement_archived()
 	{
 		$success = $this->session->get_once('success');
-		$announcements = $this->oams->get_announcements($this->session->get('user_ID'), 'coll', TRUE);
+		$announcements = $this->app->get_announcements($this->session->get('user_ID'), 'coll', TRUE);
 
 		$announcement_url = URL::site('faculty/coll/announcements');
 		$ajax_url = URL::site('extras/ajax/announcement_details');
@@ -234,7 +234,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$details['date_deleted'] = date('Y-m-d H:i:s');
 		$details['deleted'] = 1;
 
-		$archive_success = ($this->oams->update_announcement($details) ? 'The announcement was successfully archived.' : $archive_success);
+		$archive_success = ($this->app->update_announcement($details) ? 'The announcement was successfully archived.' : $archive_success);
 		$this->session->set('success', $archive_success);
 		$this->redirect('faculty/coll/announcements', 303);
 	}
@@ -247,7 +247,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 		$details['announcement_ID'] = $announcement_ID;
 		$details['deleted'] = 0;
 
-		$restore_success = ($this->oams->update_announcement($details) ? 'The announcement was successfully restored.' : $restore_success);
+		$restore_success = ($this->app->update_announcement($details) ? 'The announcement was successfully restored.' : $restore_success);
 		$this->session->set('success', $restore_success);
 		$this->redirect('faculty/coll/announcements/archived', 303);
 	}
@@ -259,7 +259,7 @@ class Controller_Dean extends Controller_Faculty implements Controller_Faculty_A
 	{
 		$details['announcement_ID'] = $announcement_ID;
 		
-		$delete_success = ($this->oams->delete_announcement($details) ? 'The announcement was successfully deleted.' : $delete_success);
+		$delete_success = ($this->app->delete_announcement($details) ? 'The announcement was successfully deleted.' : $delete_success);
 		$this->session->set('success', $delete_success);
 		$this->redirect('faculty/coll/announcements/archived', 303);
 	}

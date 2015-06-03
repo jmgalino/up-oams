@@ -67,7 +67,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 
-		$user_details = $user->get_details(NULL, $this->request->param('id'));
+		$user_details = $user->get_details(NULL, $this->request->param('type'));
 		$accom_reports = $accom->get_faculty_accom($user_details['user_ID'], NULL, NULL, TRUE);
 		
 		if ($user_details)
@@ -183,7 +183,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 		$details = $this->request->post();
-		$user_ID = $this->request->param('id');
+		$user_ID = $this->request->param('type');
 		$user_details = $user->get_details($user_ID, NULL);
 
 		$details['user_ID'] = $user_ID;
@@ -230,7 +230,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 		$details = $this->request->post();
-		$user_ID = $this->request->param('id');
+		$user_ID = $this->request->param('type');
 		$user_details = $user->get_details($user_ID, NULL);
 
 		$details['date_obtained'] = ($details['continuing'] == '1' ? NULL : date('Y-m-d', strtotime($details['date_obtained'])));
@@ -277,7 +277,7 @@ class Controller_Admin_Profile extends Controller_Admin {
     {
         $user = new Model_User;
         
-        $user_ID = $this->request->param('id');
+        $user_ID = $this->request->param('type');
         $user_details = $user->get_details($user_ID, NULL);
         $filename = NULL;
  
@@ -312,7 +312,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 
-		$user_ID = $this->request->param('id');
+		$user_ID = $this->request->param('type');
 		$reset_success = $user->reset_password($user_ID);
 		$this->session->set('success', $reset_success);
 
@@ -334,7 +334,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 	{
 		$user = new Model_User;
 		
-		$delete_success = $user->delete_profile($this->request->param('id'));
+		$delete_success = $user->delete_profile($this->request->param('type'));
 		$this->session->set('success', $delete_success);
 
 		$this->redirect('admin/profile', 303);

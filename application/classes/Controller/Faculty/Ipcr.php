@@ -168,7 +168,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$error = $this->session->get_once('error');
 		$warning = $this->session->get_once('warning');
 		$identifier = $this->session->get('identifier');
-		$categories = $this->oams->get_categories();
+		$categories = $this->app->get_categories();
 
 		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
@@ -294,7 +294,7 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$period_to = date('F Y', strtotime($opcr_details['period_to']));
 		$label = $period_from.' - '.$period_to;
 		
-		$categories = $this->oams->get_categories();
+		$categories = $this->app->get_categories();
 
 		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 

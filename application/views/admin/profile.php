@@ -5,7 +5,7 @@
 </ol>
 
 <h3>
-	List of User Profiles
+	User Profiles
 	<button type="button" class="btn btn-default pull-right" id="newProfile" data-toggle="modal" data-target="#modal_profile" url="<?php echo URL::site('admin/profile/new'); ?>">Create</button>
 </h3>
 <br>

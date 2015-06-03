@@ -6,7 +6,7 @@
 </ol>
 
 <h3>
-	List of Colleges
+	Colleges
 	<button type="button" class="btn btn-default pull-right" id="newCollege" data-toggle="modal" data-target="#modal_college" url="<?php echo URL::site('admin/university/new/college'); ?>">Create</button>
 </h3>
 <br>
@@ -34,6 +34,7 @@ echo View::factory('admin/university/form/college')
   ->bind('users', $users);
 ?>
 
+<?php if ($colleges): ?>
 <!-- Table -->
 <table class="table table-hover" id="college_table" width="100%">
 	<thead>
@@ -58,20 +59,12 @@ echo View::factory('admin/university/form/college')
 				<span class="glyphicon glyphicon-pencil"></span> Update</a>
 			</td>
 		</tr>';
-
-		// echo '<td class="dropdown">
-		// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
-		// 		<ul class="dropdown-menu">
-		// 			<li>
-		// 				<a id="updateCollege" href='.URL::site('admin/college/update/'.$college['college_ID']).'>
-		// 				<span class="glyphicon glyphicon-pencil"></span> Update College</a>
-		// 			</li>
-		// 			<li>
-		// 				<a id="deleteCollege" href='.URL::site('admin/college/delete/'.$college['college_ID']).'>
-		// 				<span class="glyphicon glyphicon-trash"></span> Delete College</a>
-		// 			</li>
-		// 		</ul>
-		// 	</td>'; href='.URL::site('admin/college/update/'.$college['college_ID']).'
 	}?>
 	</tbody>
 </table>
+
+<?php else: ?>
+<div class="alert alert-danger text-center">
+  <p>The list is empty.</p>
+</div>
+<?php endif; ?>

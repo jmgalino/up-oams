@@ -7,7 +7,7 @@
        <h4 class="modal-title" id="myModalLabel">Update Title</h4>
       </div>
 
-      <?php print Form::open('admin/oams/update/title', array('class'=>'form-horizontal', 'role'=>'form')); ?>
+      <?php print Form::open('admin/app/update/title', array('class'=>'form-horizontal', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="form-group">
           <label for="title" class="col-sm-3 control-label">Title</label>

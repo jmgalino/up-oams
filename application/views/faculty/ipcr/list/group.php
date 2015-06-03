@@ -10,7 +10,7 @@
 	<?php if ($opcr_forms AND $ipcr_forms): ?>
 	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_consolidate">Consolidate Forms</button>
 	<?php else: ?>
-	<button type="button" class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available">Consolidate Forms</button>
+	<button type="button" class="btn btn-default pull-right" data-toggle="tooltip" data-placement="bottom" title="No OPCR/IPCR Form available">Consolidate Forms</button>
 	<?php endif; ?>
 </h3>
 <br>

@@ -6,8 +6,12 @@
 </ol>
 
 <h3>
-  List of Academic Programs
+  Academic Programs
+  <?php if ($colleges AND $departments): ?>
   <button type="button" class="btn btn-default pull-right" id="newProgram" data-toggle="modal" data-target="#modal_program" url="<?php echo URL::site('admin/university/new/program'); ?>">Create</button>
+  <?php else: ?>
+  <button type="button" class="btn btn-default pull-right" data-toggle="tooltip" data-placement="bottom" title="Requires college and department">Create</button>
+  <?php endif; ?>
 </h3>
 <br>
 
@@ -29,11 +33,14 @@
 
 <?php
 // Add/Edit program form
-echo View::factory('admin/university/form/program')
-  ->bind('colleges', $colleges)
-  ->bind('departments', $departments);
+if ($colleges AND $departments) {
+  echo View::factory('admin/university/form/program')
+    ->bind('colleges', $colleges)
+    ->bind('departments', $departments);
+}
 ?>
 
+<?php if ($programs): ?>
 <!-- Table -->
 <table class="table table-hover" id="program_table" width="100%" ajax-url="<?php echo URL::site('extras/ajax/get_programs'); ?>">
 	<thead>
@@ -52,3 +59,9 @@ echo View::factory('admin/university/form/program')
 		</tr>
 	</thead>
 </table>
+
+<?php else: ?>
+<div class="alert alert-danger text-center">
+  <p>The list is empty.</p>
+</div>
+<?php endif; ?>

@@ -1,13 +1,13 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
   <li><a href="<?php echo URL::site(); ?>">Home</a></li>
-  <li><a href="<?php echo URL::site("admin/oams");?>"><?php echo $initials; ?> Settings</a></li>
+  <li><a href="<?php echo URL::site("admin/app");?>">App Settings</a></li>
   <li class="active">Announcements</li>
 </ol>
 
 <h3>
 	<div class="row">
-		<div class="col-md-6">List of Announcements</div>
+		<div class="col-md-6">Announcements</div>
 		<div class="col-md-6">
 			<div class="pull-right">
 				<button type="button" class="btn btn-default" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site($new_url); ?>>Create</button>
@@ -36,7 +36,7 @@
 
 <?php
 // Add/Edit announcement form
-echo View::factory('admin/oams/form/announcement')
+echo View::factory('admin/app/form/announcement')
 	->bind('new_url', $new_url);
 ?>
 
@@ -74,11 +74,11 @@ echo View::factory('admin/oams/form/announcement')
 		// 		<a href="" class="dropdown-toggle" data-toggle="dropdown">Select <b class="caret"></b></a>
 		// 		<ul class="dropdown-menu">
 		// 			<li>
-		// 				<a key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', URL::site('admin/oams/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
+		// 				<a key="', $announcement['announcement_ID'],'" id="updateAnnouncement" data-toggle="modal" data-target="#modal_announcement" href="" action-url="', URL::site('admin/app/update/announcement'), '" ajax-url="', URL::site('extras/ajax/announcement_details'), '">
 		// 				<span class="glyphicon glyphicon-pencil"></span> Edit Post</a>
 		// 			</li>
 		// 			<li>
-		// 				<a href="', URL::site('admin/oams/delete/'.$announcement['announcement_ID']), '">
+		// 				<a href="', URL::site('admin/app/delete/'.$announcement['announcement_ID']), '">
 		// 				<span class="glyphicon glyphicon-trash"></span> Delete Post</a>
 		// 			</li>
 		// 		</ul>

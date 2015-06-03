@@ -7,7 +7,7 @@
        <h4 class="modal-title" id="myModalLabel">Update IPCR/OPCR Categories</h4>
       </div>
 
-      <?php print Form::open('admin/oams/update/categories', array('class'=>'form-horizontal', 'role'=>'form')); ?>
+      <?php print Form::open('admin/app/update/categories', array('class'=>'form-horizontal', 'role'=>'form')); ?>
       <div class="modal-body">
         <?php
         foreach ($categories as $category)

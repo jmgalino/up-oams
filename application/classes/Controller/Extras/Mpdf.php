@@ -234,7 +234,7 @@ class Controller_Extras_Mpdf extends Controller {
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
-		$oams = new Model_Oams;
+		$app = new Model_App;
 		$univ = new Model_Univ;
 		$user = new Model_User;
 
@@ -245,7 +245,7 @@ class Controller_Extras_Mpdf extends Controller {
 		$date = ($opcr_details['status'] == 'Published' ? date('F d, Y', strtotime($opcr_details['date_published'])) : date('F d, Y'));
 		
 		$fullname = $this->session->get('fullname');
-		$categories = $oams->get_categories();
+		$categories = $app->get_categories();
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 		$unit['fullname'] = $department_details['department'];
 		$unit['short'] = $department_details['short'];
@@ -310,14 +310,14 @@ class Controller_Extras_Mpdf extends Controller {
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
-		$oams = new Model_Oams;
+		$app = new Model_App;
 		$univ = new Model_Univ;
 
 		$ipcr_details = $ipcr->get_details($ipcr_ID);
 		$opcr_details = $opcr->get_details($ipcr_details['opcr_ID']);
 		
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$categories = $oams->get_categories();
+		$categories = $app->get_categories();
 		$targets = $ipcr->get_targets($ipcr_ID);
 		$outputs = $opcr->get_outputs($ipcr_details['opcr_ID']);
 
@@ -387,10 +387,10 @@ class Controller_Extras_Mpdf extends Controller {
 	{
 		$ipcr = new Model_Ipcr;
 		$opcr = new Model_Opcr;
-		$oams = new Model_Oams;
+		$app = new Model_App;
 		$univ = new Model_Univ;
 
-		$categories = $oams->get_categories();
+		$categories = $app->get_categories();
 		
 		if ($this->session->get('identifier') == 'chair')
 		{
@@ -515,7 +515,7 @@ class Controller_Extras_Mpdf extends Controller {
 	 */
 	private function opcr_consolidated_pdf()
 	{
-		$oams = new Model_Oams;
+		$app = new Model_App;
 		$univ = new Model_Univ;
 		
 		$consolidate_data = $this->session->get('consolidate_data');
@@ -523,7 +523,7 @@ class Controller_Extras_Mpdf extends Controller {
 		$end = date('F Y', strtotime($consolidate_data['end']));
 		$period = $start.' - '.$end;
 
-		$categories = $oams->get_categories();
+		$categories = $app->get_categories();
 		$fullname = $this->session->get('fullname');
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$unit['fullname'] = $college_details['college'];

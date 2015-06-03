@@ -25,8 +25,8 @@ class Controller_Faculty extends Controller_User {
 
 		$identifier = $this->session->get('identifier');
 		
-		$title = $this->oams->get_title();
-		$announcements = $this->oams->get_announcements(NULL, NULL, FALSE);
+		$title = $this->app->get_title();
+		$announcements = $this->app->get_announcements(NULL, NULL, FALSE);
 		
 		$general = 'faculty';
 
@@ -48,7 +48,7 @@ class Controller_Faculty extends Controller_User {
 
 		$college_details = $univ->get_college_details(NULL, $this->session->get('program_ID'));
 		$department_details = $univ->get_department_details(NULL, $this->session->get('program_ID'));
-		$announcements = $this->oams->get_announcements(NULL, NULL, FALSE);
+		$announcements = $this->app->get_announcements(NULL, NULL, FALSE);
 
 		$this->view->content = View::factory('profile/announcements')
 			->bind('announcements', $announcements)
@@ -335,7 +335,7 @@ class Controller_Faculty extends Controller_User {
 		$message_details['message'] = $details['message'];
 		$message_details['date'] = date('Y-m-d', strtotime("now"));
 
-		$insert_success = $this->oams->new_message($message_details);
+		$insert_success = $this->app->new_message($message_details);
 		$this->session->set('success', $insert_success);
 			
 		$this->redirect('faculty/contact', 303);

@@ -9,9 +9,9 @@ class Controller_Site extends Controller {
 	 */
 	public function before()
     {
-    	$oams = new Model_Oams;
-    	$page_title = $oams->get_page_title();
-    	$label = $oams->get_initials();
+    	$app = new Model_App;
+    	$page_title = $app->get_page_title();
+    	$label = $app->get_initials();
     	$identifier = Session::instance()->get('identifier');
 
     	if ((isset($identifier)) AND $this->request->action() !== 'logout')
@@ -33,8 +33,8 @@ class Controller_Site extends Controller {
 	 */
 	public function action_index()
 	{
-        $oams = new Model_Oams;
-		$title = $oams->get_title();
+        $app = new Model_App;
+		$title = $app->get_title();
 
 		$this->view->content = View::factory('site/index')
 			->bind('title', $title);
@@ -46,8 +46,8 @@ class Controller_Site extends Controller {
 	 */
 	public function action_about()
 	{
-        $oams = new Model_Oams;
-		$about = $oams->get_about();
+        $app = new Model_App;
+		$about = $app->get_about();
 
 		$this->view->content = View::factory('site/about')
 			->bind('about', $about);
@@ -123,14 +123,14 @@ class Controller_Site extends Controller {
 	 */
 	private function send_message($details)
 	{
-		$oams = new Model_Oams;
+		$app = new Model_App;
 		$session = Session::instance();
 
 		if (array_key_exists('g-recaptcha-response', $details) AND $details['g-recaptcha-response'] != NULL)
 		{
 			unset($details['g-recaptcha-response']);
 			$details['date'] = date('Y-m-d', strtotime("now"));
-			$insert_success = $oams->new_message($details);
+			$insert_success = $app->new_message($details);
 			$session->set('success', $insert_success);
 		}
 		else
@@ -147,8 +147,8 @@ class Controller_Site extends Controller {
 	 */
 	private function show_error()
 	{
-        $oams = new Model_Oams;
-		$title = $oams->get_title();
+        $app = new Model_App;
+		$title = $app->get_title();
 		$error = 'Invalid username/password combination. Please try again.';
 			
 		$this->view->content = View::factory('site/index')

@@ -1,18 +1,18 @@
-<!-- Update Vision Form -->
-<div class="modal fade" id="modal_vision" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Update University Form -->
+<div class="modal fade" id="modal_univ" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-       <h4 class="modal-title" id="myModalLabel">Update Vision</h4>
+       <h4 class="modal-title" id="myModalLabel">Update University</h4>
       </div>
 
-      <?php print Form::open('admin/university/update/vision', array('class'=>'form-horizontal', 'role'=>'form')); ?>
+      <?php print Form::open('admin/university/update/univ', array('class'=>'form-horizontal', 'role'=>'form')); ?>
       <div class="modal-body">
         <div class="form-group">
-          <label for="vision-field" class="col-sm-2 control-label">Vision</label>
+          <label for="univ-field" class="col-sm-2 control-label">University</label>
           <div class="col-sm-9">
-            <textarea class="form-control" id="vision-field" name="vision" rows="10" placeholder="Enter vision" required><?php echo $vision; ?></textarea>
+            <textarea class="form-control" id="univ-field" name="university" rows="10" placeholder="Enter university" required><?php echo $university; ?></textarea>
           </div>
         </div>
       </div>

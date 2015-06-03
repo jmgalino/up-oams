@@ -12,6 +12,7 @@ class Controller_Admin_University extends Controller_Admin {
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 		
+		$university = $univ->get_university();
 		$mission = $univ->get_mission();
 		$vision = $univ->get_vision();
 		$colleges = $univ->get_colleges();
@@ -21,6 +22,7 @@ class Controller_Admin_University extends Controller_Admin {
 		$this->view->content = View::factory('admin/university')
 			->bind('success', $success)
 			->bind('error', $error)
+			->bind('university', $university)
 			->bind('mission', $mission)
 			->bind('vision', $vision)
 			->bind('colleges', $colleges)
@@ -80,11 +82,13 @@ class Controller_Admin_University extends Controller_Admin {
 		$success = $this->session->get_once('success');
 		$colleges = $univ->get_colleges();
 		$departments = $univ->get_departments();
+		$programs = $univ->get_programs();
 
 		$this->view->content = View::factory('admin/university/program')
 			->bind('success', $success)
 			->bind('colleges', $colleges)
-			->bind('departments', $departments);
+			->bind('departments', $departments)
+			->bind('programs', $programs);
 		$this->response->body($this->view->render());
 	}
 
@@ -93,7 +97,7 @@ class Controller_Admin_University extends Controller_Admin {
 	 */
 	public function action_new()
 	{
-		switch ($this->request->param('id'))
+		switch ($this->request->param('type'))
 		{
 			case 'college':
 				$this->new_college();
@@ -152,8 +156,12 @@ class Controller_Admin_University extends Controller_Admin {
 	 */
 	public function action_update()
 	{
-		switch ($this->request->param('id'))
+		switch ($this->request->param('type'))
 		{
+			case 'univ':
+				$this->update_univ();
+				break;
+
 			case 'mission':
 				$this->update_mission();
 				break;
@@ -174,6 +182,18 @@ class Controller_Admin_University extends Controller_Admin {
 				$this->update_program();
 				break;
 		}
+	}
+
+	/**
+	 * Update university name
+	 */
+	private function update_univ()
+	{
+		$univ = new Model_Univ;
+
+		$update_success = $univ->update_university($this->request->post());
+		$this->session->set('success', $update_success);
+		$this->redirect('admin/university', 303);
 	}
 
 	/**

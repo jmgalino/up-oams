@@ -12,7 +12,7 @@
         <div class="form-group">
           <label for="mission-field" class="col-sm-2 control-label">Mission</label>
           <div class="col-sm-9">
-            <textarea class="form-control" id="mission-field" name="mission" rows="10" required><?php echo $mission; ?></textarea>
+            <textarea class="form-control" id="mission-field" name="mission" rows="10" placeholder="Enter mission" required><?php echo $mission; ?></textarea>
           </div>
         </div>
       </div>

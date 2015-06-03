@@ -6,11 +6,11 @@
 
 <h3>
 	My IPCR Forms
-	<button type="button"
-	<?php echo ($opcr_forms
-		? 'class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_ipcr"'
-		: 'class="btn btn-default pull-right disabled" data-toggle="tooltip" data-placement="bottom" title="No OPCR Form available"');
-	?>>New Form</button>
+	<?php if ($opcr_forms): ?>
+	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal_ipcr">New Form</button>
+	<?php else: ?>
+	<button type="button" class="btn btn-default pull-right" data-toggle="tooltip" data-placement="bottom" title="No OPCR Form available">New Form</button>
+	<?php endif; ?>
 </h3>
 <br>
 

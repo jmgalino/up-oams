@@ -13,7 +13,21 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $result[0]['value'];
+		return ($result ? $result[0]['value'] : NULL);
+	}
+
+	/**
+	 * Update university
+	 */
+	public function update_university($university)
+	{
+		$rows_updated = DB::update('univtbl')
+ 			->set(array('value' => $university))
+			->where('name', '=', 'university')
+ 			->execute();
+
+ 		if ($rows_updated == 1) return 'University was successfully updated.';
+ 		else return FALSE;
 	}
 
 	/**
@@ -27,7 +41,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $result[0]['value'];
+		return ($result ? $result[0]['value'] : NULL);
 	}
 
 	/**
@@ -55,7 +69,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $result[0]['value'];
+		return ($result ? $result[0]['value'] : NULL);
 	}
 
 	/**
@@ -86,7 +100,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $colleges;
+		return ($colleges ? $colleges : NULL);
 	}
 
 	/**
@@ -109,7 +123,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
- 		return $details[0];
+ 		return ($details ? $details[0] : NULL);
  	}
 
 	/**
@@ -152,7 +166,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $departments;
+		return ($departments ? $departments : NULL);
 	}
 
 	/**
@@ -171,7 +185,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $departments;
+		return ($departments ? $departments : NULL);
 	}
 
 	/**
@@ -196,7 +210,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
- 		return ($details ? $details[0] : FALSE); // To check for non-existing departments i.e. SOM
+ 		return ($details ? $details[0] : NULL);
  	}
 
 	/**
@@ -239,7 +253,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $programIDs;
+		return ($programIDs ? $programIDs : NULL);
 	}
 
 	/**
@@ -253,7 +267,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $programIDs;
+		return ($programIDs ? $programIDs : NULL);
 	}
  	
 	/**
@@ -274,7 +288,7 @@ class Model_Univ extends Model {
 			->execute()
 			->as_array();
 
-		return $programs;
+		return ($programs ? $programs : NULL);
 	}
 
 	/**
@@ -300,7 +314,7 @@ class Model_Univ extends Model {
 				->execute()
 				->as_array();
 
-		return $details[0];
+		return ($details ? $details[0] : NULL);
  	}
 
 	/**

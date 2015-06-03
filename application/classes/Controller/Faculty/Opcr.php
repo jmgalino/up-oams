@@ -292,7 +292,7 @@ class Controller_Faculty_Opcr extends Controller_Faculty {
 		$label = $period_from.' - '.$period_to;
 		$opcr_ID = $this->session->get('opcr_details')['opcr_ID'];
 		$outputs = $this->opcr->get_outputs($opcr_ID);
-		$categories = $this->oams->get_categories();
+		$categories = $this->app->get_categories();
 		// $department = $univ->get_department_details(NULL, $this->session->get('program_ID'));
 
 		// if ($this->session->get('identifier') == 'chair')

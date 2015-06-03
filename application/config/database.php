@@ -14,7 +14,7 @@ return array
 			 * string   password    database password
 			 * boolean  persistent  use persistent connections?
 			 */
-			'dsn'        => 'mysql:host=localhost;dbname=oamsdb',
+			'dsn'        => 'mysql:host=localhost;dbname=oamsdb__empty',
 			'username'   => 'root',
 			'password'   => 'upmin123',
 			'persistent' => FALSE,

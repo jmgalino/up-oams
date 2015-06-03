@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `oamsdb`
+-- Database: `oamsdb__empty`
 --
 
 -- --------------------------------------------------------
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `accom_rchtbl` (
 
 CREATE TABLE IF NOT EXISTS `apptbl` (
   `name` varchar(255) NOT NULL,
-  `value` text NOT NULL
+  `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `apptbl` (
 --
 
 INSERT INTO `apptbl` (`name`, `value`) VALUES
-('about', 'UP Mindanao Online Accomplishment Management System (OAMS) is an online document management system that will facilitate automated report generation, submission and evaluation. At the moment, OAMS can generate Accomplishment Reports, Individual Performance Commitment and Review (IPCR), and Office Performance Commitment and Review (OPCR) Forms.'),
+('about', NULL),
 ('initials', 'OAMS'),
 ('page_title', 'UP Mindanao OAMS'),
 ('title', 'Online Accomplishment Management System');
@@ -319,16 +319,7 @@ CREATE TABLE IF NOT EXISTS `opcr_categorytbl` (
   `category_ID` int(11) NOT NULL,
   `category` varchar(50) NOT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `opcr_categorytbl`
---
-
-INSERT INTO `opcr_categorytbl` (`category_ID`, `category`, `deleted`) VALUES
-(1, 'Strategic Priority', 0),
-(2, 'Core Functions', 0),
-(3, 'Support Functions', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -358,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `opcr_outputtbl` (
 
 CREATE TABLE IF NOT EXISTS `univtbl` (
   `name` varchar(255) NOT NULL,
-  `value` text NOT NULL
+  `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -366,9 +357,9 @@ CREATE TABLE IF NOT EXISTS `univtbl` (
 --
 
 INSERT INTO `univtbl` (`name`, `value`) VALUES
-('mission', 'The University of the Philippines Mindanao is committed to lead in providing affordable quality education, scholarly research, and responsive and relevant extension services to diverse, marginalized, and deserving sectors in Mindanao and neighboring regions through its programs in the sciences and the arts, inculcating a passion for excellence, creative thinking, and nationalism in the context of cultural diversity in a global community.'),
-('university', 'University of the Philippines Mindanao'),
-('vision', 'The vision of UP Mindanao is expressed in the word EXCELLENCE, an acronym that means,\n"EXCEL in\nL-eadership,\nE-ducation,\nN-ationalism,\nC-ultural sensitivity, and \nE-nvironmental nurturance".\n');
+('mission', NULL),
+('university', ''),
+('vision', NULL);
 
 -- --------------------------------------------------------
 
@@ -381,16 +372,7 @@ CREATE TABLE IF NOT EXISTS `univ_collegetbl` (
   `user_ID` int(11) DEFAULT NULL,
   `college` varchar(100) NOT NULL,
   `short` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `univ_collegetbl`
---
-
-INSERT INTO `univ_collegetbl` (`college_ID`, `user_ID`, `college`, `short`) VALUES
-(1, 4, ' College of Humanities and Social Sciences', 'CHSS'),
-(2, 5, 'College of Science and Mathematics', 'CSM'),
-(3, 6, 'School of Management', 'SOM');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -404,20 +386,7 @@ CREATE TABLE IF NOT EXISTS `univ_departmenttbl` (
   `user_ID` int(11) DEFAULT NULL,
   `department` varchar(100) NOT NULL,
   `short` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `univ_departmenttbl`
---
-
-INSERT INTO `univ_departmenttbl` (`department_ID`, `college_ID`, `user_ID`, `department`, `short`) VALUES
-(1, 1, 60, 'Department of Architecture', 'DA'),
-(2, 1, 8, 'Department of Humanities', 'DH'),
-(3, 1, NULL, 'Department of Human Kinetics', 'DHK'),
-(4, 1, 9, 'Department of Social Sciences', 'DSS'),
-(5, 2, 10, 'Department of Biological Sciences and Environmental Studies', 'DBSES'),
-(6, 2, 67, 'Department of Food Science and Chemistry', 'DFSC'),
-(7, 2, 12, 'Department of Mathematics, Physics and Computer Science', 'DMPCS');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -437,23 +406,7 @@ CREATE TABLE IF NOT EXISTS `univ_programtbl` (
   `vision` text NOT NULL,
   `goals` text NOT NULL,
   `accreditation` text
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `univ_programtbl`
---
-
-INSERT INTO `univ_programtbl` (`program_ID`, `college_ID`, `department_ID`, `program`, `program_short`, `short`, `date_instituted`, `type`, `vision`, `goals`, `accreditation`) VALUES
-(1, 1, 1, 'Bachelor of Science in Architecture', 'BS Architecture', 'BSA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(2, 1, 2, 'Bachelor of Arts in Communication Arts', 'BA Communication Arts', 'BACA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(3, 1, 2, 'Bachelor of Arts in English', 'BA English', 'BAE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(4, 1, 1, 'Bachelor of Arts in Anthropology', 'BA Anthropology', 'BAA', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(5, 2, 5, 'Bachelor of Science in Biology', 'BS Biology', 'BSB', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(6, 2, 6, 'Bachelor of Science in Food Technology', 'BS Food Technology', 'BSFT', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(7, 2, 7, 'Bachelor of Science in Applied Mathematics', 'BS Applied Mathematics', 'BSAM', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(8, 2, 7, 'Bachelor of Science in Computer Science', 'BS Computer Science', 'BSCS', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(9, 3, NULL, 'Bachelor of Science in Agribusiness Economics', 'BS Agribusiness Economics', 'BSABE', '1995-02-20', 'Undergraduate', 'Sample vision', 'Sample goals', ''),
-(10, 3, NULL, 'Master in Management', 'Master in Management', 'MM', '1995-02-20', 'Graduate', 'Sample vision', 'Sample goals', '');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -495,52 +448,7 @@ CREATE TABLE IF NOT EXISTS `user_logintbl` (
 --
 
 INSERT INTO `user_logintbl` (`user_ID`, `employee_code`, `password`, `deleted`) VALUES
-(1, '000012345', '$2y$10$ulKxuSpkoORgumOjtA4aae/GvGNziNdksnodjrMb7Ka8tEsoJZU2.', 0),
-(2, '000112345', '$2y$10$6Lsd9xt5tEmDb8OdalYiG.8wycTJ0DSH07lgYgGlNkRl1/CHUCd/O', 0),
-(3, '000212345', '$2y$10$AytJ2Shdqb3xDRHTQ/Qty.nw3o3zhxCdT2MLNq6tZ87ROg3KOsbiS', 0),
-(4, '123400000', '$2y$10$B7erv/a9j5OHPli8T7ESle7WpF9pm12NrgHXHJEijO/jfz7ZYf4ym', 0),
-(5, '123400001', '$2y$10$w95iTC2Il6aXytapnKqf0OjrphH2jtl.owySAXBOwPhs6ty8ZIU/6', 0),
-(6, '123400002', '$2y$10$TBODwFR1rFW/RFnSGyAtduqks7xjnyP8oEWNrCfkYVLwHZjgJvSFm', 0),
-(7, '123400003', '$2y$10$cSza7WOFYdzf8OvJv/w39O.1EeTfaJELWq0A7GUS2GF9szSMPHqnm', 0),
-(8, '123400004', '$2y$10$Sz2CN29qxnNFuDMabvnxn.E2oogdLJMzB43LizMJcIxdwyHZtAomi', 0),
-(9, '123400005', '$2y$10$lCo2R46aJLWK.UpuouyBvOLSC2tUqRn0qG3fHAVPwJ5AcZZ80h.r6', 0),
-(10, '123400006', '$2y$10$FFKYIUjtiaYCG6aUL3WLyuIODWeYvQeSriXfVBZLjAPycUY4QVJYS', 0),
-(11, '123400007', '$2y$10$EkQJPig07h41Q3xewEjhmeO8x80MbFfLbTri71WO1AszIM7j2qr9C', 0),
-(12, '123400008', '$2y$10$dzFnMXjJ8PZrW4eFbuEVMOhqNyZNb9N.BzExgzq/4c5QYLhsmzAbe', 0),
-(13, '123400009', '$2y$10$Gt4MxWmHI5nkFy05q6lmlOiMsq/yVHoKgGR8E5VheCw081BDVEr7O', 0),
-(14, '123400010', '$2y$10$oIfulC3H9QiS5dtl2enK8uLeq6tN8CpG03rcrszYgKkPgMnsNB6ZG', 0),
-(15, '123400011', '$2y$10$fMKYyeNVEwi1/aqH/A1aDue9zUkV17kIrNk2cUjHNvTNymxapZVwW', 0),
-(16, '123400012', '$2y$10$CqkB.3gBGerb35z4WKUIKu7nIrhPmOCoBrH7HUNLnCHzuboaKzHYW', 0),
-(17, '123400013', '$2y$10$Wk4Y8SsMc/339N2jmrvV..q1px1i9e2jS9b8vr5SkwcecGnH2i4EO', 0),
-(18, '123400014', '$2y$10$vUjPjShw8jdxXMfZ4YCTGOEdYvFLyC19ZuP7LL/BInqfg6GSTEJ6C', 0),
-(19, '123400015', '$2y$10$3MIU2k4Y6fuRLUffY/AERuv731/iEOW4YtAdFhy7U/YxCF1uyCgsa', 0),
-(20, '123400016', '$2y$10$wQTgK7gc30Xqc7Xj1PLRWOcl4h2OXAXLzLSI43Nq/NyIHDWZyV72.', 0),
-(21, '123400017', '$2y$10$4k.9FCCLDcGiDlMrOFbl/OT5fH4kVWKvRJ5FHsqxwIsOrucrDLp6y', 0),
-(22, '123400018', '$2y$10$e5T6ftx48M4AKV70diKSF.dIWH0zmT4n13hrxdpO0fLRpgEvIVt/2', 0),
-(23, '123400019', '$2y$10$d6biN.hWZHYGvOOCIebxr.CfuVuvk2CWppM7dBQunLo4j5Ieinl9m', 0),
-(24, '123400020', '$2y$10$IAIVW3Gg2F56aNIGbiiTN.mdO/EnI9iOnxnInF88KIrTFZZQ6EtYK', 0),
-(25, '123400021', '$2y$10$.IlTLUYiaGNMorpsL/jnAuhdvylfVl1c.T8k.kMvW.JZ5SffiLf.q', 0),
-(26, '123400023', '$2y$10$BqqpOcGzWTNiRj8q7w2oQOEuZPrnqYxIIHjmLi6mnDAYYYIH1JCWi', 0),
-(27, '123400024', '$2y$10$9Ib2RPOYUFzsH5Q/Q3O/uuwgvC02JGiFbKFkiiOUc45Q2TY.8AYRS', 0),
-(31, '143860113', '$2y$10$ofuLNO/ICgQe7BY5KwJazO3c/MlOeREnhSgCrTJLjAEz92dWG/WjS', 1),
-(32, '123400026', '$2y$10$2fEmUz3.7JkrdHc.1LfQGusGNza08VDxoQJtMJCLjxMl4xk7TMmyS', 0),
-(33, '123400028', '$2y$10$X6rBZiWOq8Z83GbGO273T.OLJev4C4L2eiCmcBwuwG3YNb8sq0q.6', 0),
-(34, '123400025', '$2y$10$LqqdYG21psJNw5kTbJr3oemX4VvVQ4.Iarw3y1K05VQGM9TN/wMpS', 0),
-(35, '123400027', '$2y$10$J5zsDNeqGaqGoBxjaLQtaeset6ExUeVtH9SXW7ggn.jKMSQ1Vovbu', 0),
-(36, '123400029', '$2y$10$iDIrxjQAHZQstRETIpRtGurm6Ez3Dq9ev7ZPBfIbJZUX7n52n86uC', 0),
-(37, '123400022', '$2y$10$ZlAIISWW9OidGoAo8UMEu.KgQx2tAZktrg.0xEyia7DJePnGk1K0y', 0),
-(38, '123400030', '$2y$10$dZrNFhEd1O0dxlwWLeq32eQTm7krIBo9zJAqi5nKrBzCl7LYuXDnO', 0),
-(39, '123400031', '$2y$10$qWNmvXmTKnwKWskOdW8AB.j7HFb3hUieFYIXAt.KPq.FylnlUMOg.', 0),
-(40, '123400032', '$2y$10$LpkQaik9xX/H8YvThFkeLuhE4yC8DIkYBZ/lIBpJdxz6ddJGCIAdq', 0),
-(41, '123400034', '$2y$10$CabRuEiqb7aj5gsGM9VyJOqyx19.IJH5ZsczM1hQimhZQip9.q2VG', 0),
-(42, '123400035', '$2y$10$4jj72Ld40Sv21/SFhTg8WerhnSj7ixdfug.PJ0idLFzQQGjMtUJ76', 0),
-(43, '123400033', '$2y$10$Vy7fEwVrccG/tnp21p0dyupoFgey6D9iZpHknMYcckyQ5qEpr5mhq', 0),
-(44, '123400036', '$2y$10$w6r36LhVqV..Tv7WXfVqQum36oMX/fAVTFzu.aHIpX9O06eCyfw6i', 0),
-(45, '123400037', '$2y$10$Ddvwhf1N6X5gxxFdc5Uy3edcknjW7ofczEU0.xacqiO9m05Fsy8Gq', 0),
-(46, '123400038', '$2y$10$fT4.Lnj2N3HRmtfwuJBJiOhla.B2XXzPOR4xZkd.MHXRxXwjDT8z.', 0),
-(47, '000312345', '$2y$10$oDHtdmfjTuGStFHo7LlV/.B44z6YgzH0pW.GrnkwJGm11EdMSUeri', 0),
-(48, '123400039', '$2y$10$HJrraHBRmkFjaSXFOVVgWuzCSMt4xF9p4CfQpCBMwGXVTYEiBtw22', 0),
-(49, '000412345', '$2y$10$OQCgO85dKRLExX2hHNA65eBIKFv7ADL2pyUTMp7Xqjk6Uon4by7Fa', 0);
+(1, '000012345', '$2y$10$ulKxuSpkoORgumOjtA4aae/GvGNziNdksnodjrMb7Ka8tEsoJZU2.', 0);
 
 -- --------------------------------------------------------
 
@@ -566,7 +474,7 @@ CREATE TABLE IF NOT EXISTS `user_profiletbl` (
   `birthday` date NOT NULL,
   `pic` varchar(255) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_profiletbl`
@@ -867,7 +775,7 @@ ALTER TABLE `opcrtbl`
 -- AUTO_INCREMENT for table `opcr_categorytbl`
 --
 ALTER TABLE `opcr_categorytbl`
-  MODIFY `category_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `category_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `opcr_outputtbl`
 --
@@ -877,17 +785,17 @@ ALTER TABLE `opcr_outputtbl`
 -- AUTO_INCREMENT for table `univ_collegetbl`
 --
 ALTER TABLE `univ_collegetbl`
-  MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `college_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `univ_departmenttbl`
 --
 ALTER TABLE `univ_departmenttbl`
-  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `univ_programtbl`
 --
 ALTER TABLE `univ_programtbl`
-  MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `program_ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user_educationtbl`
 --
@@ -897,7 +805,7 @@ ALTER TABLE `user_educationtbl`
 -- AUTO_INCREMENT for table `user_profiletbl`
 --
 ALTER TABLE `user_profiletbl`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

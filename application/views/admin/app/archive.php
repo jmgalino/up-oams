@@ -1,7 +1,7 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
 	<li><a href="<?php echo URL::site(); ?>">Home</a></li>
-	<li><a href="<?php echo URL::site("admin/oams");?>"><?php echo $initials; ?> Settings</a></li>
+	<li><a href="<?php echo URL::site("admin/app");?>">App Settings</a></li>
 	<li><a href="<?php echo $announcement_url; ?>">Announcements</a></li>
 	<li class="active">Archive</li>
 </ol>

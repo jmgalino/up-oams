@@ -16,7 +16,7 @@ class Controller_Extras_Ajax extends Controller {
 	 */
 	public function action_unique()
 	{
-		$oams = new Model_Oams;
+		$app = new Model_App;
 		
 		$post = $this->request->post();
 		$key = $this->request->param('id');
@@ -72,7 +72,7 @@ class Controller_Extras_Ajax extends Controller {
 				break;
 		}
 
-		$record = $oams->unique_record($post, $table, $exclude, $strict);
+		$record = $app->unique_record($post, $table, $exclude, $strict);
 
 		if (count($record) > $max)
 			$unique = FALSE;
@@ -306,10 +306,10 @@ class Controller_Extras_Ajax extends Controller {
 	 */
 	public function action_announcement_details()
 	{
-		$oams = new Model_Oams;
+		$app = new Model_App;
 
 		$announcement_ID = $this->request->post('announcement_ID');
-		$announcement_details = $oams->get_announcement_details($announcement_ID);
+		$announcement_details = $app->get_announcement_details($announcement_ID);
 		echo json_encode($announcement_details);
 		exit();
 	}	
@@ -319,11 +319,11 @@ class Controller_Extras_Ajax extends Controller {
 	 */
 	public function action_message_details()
 	{
-		$oams = new Model_Oams;
+		$app = new Model_App;
 
 		$message_ID = $this->request->post('message_ID');
-		$message_details = $oams->get_message_details($message_ID);
-		$oams->update_message(array('message_ID'=>$message_ID, 'seen'=>'1'));
+		$message_details = $app->get_message_details($message_ID);
+		$app->update_message(array('message_ID'=>$message_ID, 'seen'=>'1'));
 
 		$arr = array();
 		$arr['sender'] = $message_details['name'].' ('.$message_details['contact'].')';

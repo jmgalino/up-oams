@@ -1,7 +1,7 @@
 <!-- Site Navigation -->
 <ol class="breadcrumb">
   <li><a href=<?php echo URL::site(); ?>>Home</a></li>
-  <li class="active"><?php echo $titles['initials']; ?> Settings</li>
+  <li class="active">App Settings</li>
 </ol>
 
 <?php if ($success): ?>
@@ -22,13 +22,13 @@
 
 <?php
 // Edit title form
-echo View::factory('admin/oams/form/title')
+echo View::factory('admin/app/form/title')
 	->bind('titles', $titles);
 // Edit about form
-echo View::factory('admin/oams/form/about')
+echo View::factory('admin/app/form/about')
 	->bind('about', $about);
 // Edit categories form
-echo View::factory('admin/oams/form/categories')
+echo View::factory('admin/app/form/categories')
 	->bind('categories', $categories);
 ?>
 
@@ -40,7 +40,7 @@ echo View::factory('admin/oams/form/categories')
 			<a class="show-hover" data-toggle="modal" data-target="#modal_title" href="#">Edit</a>
 		</div>
 		<?php
-			echo '<p>', $titles['title'], '</p>';
+			echo '<p>', ($titles['title'] ? $titles['title'] : '<em>Not set</em>'), '</p>';
 		?>
 
 		<div class="page-header" id="about">
@@ -48,12 +48,12 @@ echo View::factory('admin/oams/form/categories')
 			<a class="show-hover" data-toggle="modal" data-target="#modal_about" href="#">Edit</a>
 		</div>
 		<?php
-			echo '<p>', $about, '</p>';
+			echo '<p>', ($about ? $about : '<em>Not set</em>'), '</p>';
 		?>
 
 		<div class="page-header" id="announcements">
 			<h2>Announcements</h2>&nbsp
-			<a class="show-hover" href=<?php echo URL::site('admin/oams/announcements'); ?>>Edit</a>
+			<a class="show-hover" href=<?php echo URL::site('admin/app/announcements'); ?>>Edit</a>
 		</div>
 
 		<?php if ($announcements): ?>
@@ -85,6 +85,8 @@ echo View::factory('admin/oams/form/categories')
 			<h2 data-toggle="modal" data-target="#modal_categories">IPCR/OPCR Categories</h2>&nbsp
 			<a class="show-hover" data-toggle="modal" data-target="#modal_categories" href="#">Edit</a>
 		</div>
+		
+		<?php if ($categories): ?>
 		<ul class="list-unstyled">
 		<?php
 			foreach ($categories as $category) {
@@ -92,6 +94,12 @@ echo View::factory('admin/oams/form/categories')
 			}
 		?>
 		</ul>
+
+		<?php else: ?>
+		<div class="alert alert-danger text-center">
+			<p>The list is empty.</p>
+		</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="col-md-3" role="complementary">

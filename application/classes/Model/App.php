@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Model_Oams extends Model {
+class Model_App extends Model {
 
 	/**
 	 * Check for duplicates/uniquess
@@ -36,7 +36,7 @@ class Model_Oams extends Model {
 	public function get_title()
 	{
 		$result = DB::select('value')
-			->from('oamstbl')
+			->from('apptbl')
 			->where('name', '=', 'title')
 			->execute();
 
@@ -49,7 +49,7 @@ class Model_Oams extends Model {
 	public function get_initials()
 	{
 		$result = DB::select('value')
-			->from('oamstbl')
+			->from('apptbl')
 			->where('name', '=', 'initials')
 			->execute();
 
@@ -62,7 +62,7 @@ class Model_Oams extends Model {
 	public function get_page_title()
 	{
 		$result = DB::select('value')
-			->from('oamstbl')
+			->from('apptbl')
 			->where('name', '=', 'page_title')
 			->execute();
 
@@ -76,7 +76,7 @@ class Model_Oams extends Model {
 	{
 		$rows_updated = 0;
 
-		$query = DB::query(Database::UPDATE, 'UPDATE oamstbl SET value = :value WHERE name = :name')
+		$query = DB::query(Database::UPDATE, 'UPDATE apptbl SET value = :value WHERE name = :name')
 		    ->bind(':name', $name)
 		    ->bind(':value', $value);
 		 
@@ -97,7 +97,7 @@ class Model_Oams extends Model {
 	public function get_about()
 	{
 		$result = DB::select('value')
-			->from('oamstbl')
+			->from('apptbl')
 			->where('name', '=', 'about')
 			->execute();
 			
@@ -109,7 +109,7 @@ class Model_Oams extends Model {
 	 */
 	public function update_about($about)
 	{
-		$rows_updated = DB::update('oamstbl')
+		$rows_updated = DB::update('apptbl')
  			->set(array('value' => $about))
 			->where('name', '=', 'about')
  			->execute();
@@ -124,7 +124,7 @@ class Model_Oams extends Model {
 	public function get_announcements($user_ID, $type, $deleted)
 	{
 		$query = DB::select()
-			->from('oams_announcementtbl');
+			->from('app_announcementtbl');
 
 		if ($user_ID)
 			$query->where('user_ID', '=', $user_ID);
@@ -151,7 +151,7 @@ class Model_Oams extends Model {
 	public function get_announcement_details($announcement_ID)
 	{
 		$announcement_details = DB::select()
-			->from('oams_announcementtbl')
+			->from('app_announcementtbl')
 			->where('announcement_ID', '=', $announcement_ID)
 			->execute()
 			->as_array();
@@ -164,7 +164,7 @@ class Model_Oams extends Model {
 	 */
 	public function add_announcement($details)
 	{
-		$insert_row = DB::insert('oams_announcementtbl')
+		$insert_row = DB::insert('app_announcementtbl')
 			->columns(array_keys($details))
 			->values($details)
 			->execute();
@@ -184,7 +184,7 @@ class Model_Oams extends Model {
 	 */
 	public function update_announcement($details)
 	{
-		$rows_updated = DB::update('oams_announcementtbl')
+		$rows_updated = DB::update('app_announcementtbl')
  			->set($details)
 			->where('announcement_ID', '=', $details['announcement_ID'])
  			->execute();
@@ -198,7 +198,7 @@ class Model_Oams extends Model {
 	 */
 	public function delete_announcement($announcement_ID)
 	{
-		$rows_deleted = DB::delete('oams_announcementtbl')
+		$rows_deleted = DB::delete('app_announcementtbl')
  			->where('announcement_ID', '=', $announcement_ID)
  			->execute();
 
@@ -301,7 +301,7 @@ class Model_Oams extends Model {
 	public function get_messages()
 	{
 		$messages = DB::select()
-			->from('oams_messagetbl')
+			->from('app_messagetbl')
 			->where('deleted', '=', '0')
 			->execute()
 			->as_array();
@@ -315,7 +315,7 @@ class Model_Oams extends Model {
 	public function get_messages_count()
 	{
 		$messages = DB::select(array(DB::expr('COUNT(`message_ID`)'), 'messages'))
-			->from('oams_messagetbl')
+			->from('app_messagetbl')
 			->where('seen', '=', '0')
 			->where('deleted', '=', '0')
 			->execute()
@@ -330,7 +330,7 @@ class Model_Oams extends Model {
 	public function get_message_details($message_ID)
 	{
 		$details = DB::select()
-			->from('oams_messagetbl')
+			->from('app_messagetbl')
 			->where('message_ID', '=', $message_ID)
 			->execute()
 			->as_array();
@@ -344,7 +344,7 @@ class Model_Oams extends Model {
 	public function new_message($details)
 	{
 		$result = DB::select()
-			->from('oams_messagetbl')
+			->from('app_messagetbl')
 			->where('name', '=', $details['name'])
 			->where('contact', '=', $details['contact'])
 			->where('subject', '=', $details['subject'])
@@ -355,7 +355,7 @@ class Model_Oams extends Model {
 		// No similar entry in the database
 		if (!$result)
  		{
-			$insert_row = DB::insert('oams_messagetbl')
+			$insert_row = DB::insert('app_messagetbl')
 				->columns(array_keys($details))
 				->values($details)
 				->execute();
@@ -381,7 +381,7 @@ class Model_Oams extends Model {
 	 */
 	public function update_message($details)
 	{
-		$rows_updated = DB::update('oams_messagetbl')
+		$rows_updated = DB::update('app_messagetbl')
  			->set($details)
 			->where('message_ID', '=', $details['message_ID'])
  			->execute();
@@ -395,7 +395,7 @@ class Model_Oams extends Model {
 	 */
 	public function archive_message($message_ID)
 	{
-		$rows_deleted = DB::update('oams_messagetbl')
+		$rows_deleted = DB::update('app_messagetbl')
  			->set(array('deleted' => '1'))
 			->where('message_ID', '=', $message_ID)
  			->execute();
@@ -409,7 +409,7 @@ class Model_Oams extends Model {
 	 */
 	public function delete_message($message_ID)
 	{
-		$rows_deleted = DB::delete('oams_messagetbl')
+		$rows_deleted = DB::delete('app_messagetbl')
  			->where('message_ID', '=', $message_ID)
  			->execute();
 
@@ -417,4 +417,4 @@ class Model_Oams extends Model {
  		else return FALSE;
 	}
 	
-} // End Oams
+} // End App

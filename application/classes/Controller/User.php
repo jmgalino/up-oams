@@ -2,7 +2,7 @@
 
 abstract class Controller_User extends Controller {
 
-	protected $oams;
+	protected $app;
 	protected $session;
 	protected $view;
 	
@@ -12,12 +12,12 @@ abstract class Controller_User extends Controller {
 	 */
 	public function before()
     {
-		$this->oams = new Model_Oams;
+		$this->app = new Model_App;
     	$this->session = Session::instance();
 
     	$identifier = $this->session->get('identifier');
-    	$page_title = $this->oams->get_page_title();
-		$label = $this->oams->get_initials();
+    	$page_title = $this->app->get_page_title();
+		$label = $this->app->get_initials();
 
         // Not logged in
         if ((is_null($identifier)) AND ($this->request->action() !== 'login'))
@@ -33,7 +33,7 @@ abstract class Controller_User extends Controller {
 			if ($identifier == 'admin')
 			{
 				$fname = $this->session->get('fname');
-				$messages = $this->oams->get_messages_count();
+				$messages = $this->app->get_messages_count();
 
 				$this->view->navbar = View::factory('templates/fragments/admin')
 					->bind('label', $label)
@@ -106,7 +106,7 @@ abstract class Controller_User extends Controller {
 	 */
 	protected function action_about()
 	{
-		$about = $this->oams->get_about();
+		$about = $this->app->get_about();
 
 		$this->view->content = View::factory('profile/about')
 			->bind('about', $about);

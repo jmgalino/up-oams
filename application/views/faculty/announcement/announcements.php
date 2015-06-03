@@ -6,7 +6,7 @@
 
 <h3>
 	<div class="row">
-		<div class="col-md-6">List of Announcements</div>
+		<div class="col-md-6">Announcements</div>
 		<div class="col-md-6">
 			<div class="pull-right">
 				<button type="button" class="btn btn-default" id="newAnnouncement" data-toggle="modal" data-target="#modal_announcement" action-url=<?php echo URL::site($new_url); ?>>Create</button>

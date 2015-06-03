@@ -314,7 +314,7 @@ Route::set('cuma-functions', '<directory>/<controller>(/<action>(/<id>))',
 Route::set('admin-functions', '<directory>/<controller>(/<action>(/<type>)(/<id>))',
 	array(
 		'directory' => 'admin',
-		'controller'=> '(profile|university|oams)',
+		'controller'=> '(profile|university|app)',
 		// 'action'	=> '(new|view|update|reset|delete)'
 	))
 	->defaults(array(
