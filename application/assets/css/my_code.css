@@ -37,8 +37,8 @@
 
 /* NAVBAR DROPDOWN -- show dropdown menu on hover */
 .dropdown:hover .dropdown-menu {
-    display: block;
- }
+  display: block;
+}
 
 /* NAVBAR DROPDOWN -- set background and hover background color for dropdown at collapse to a lighter green */
 .navbar-nav .open .dropdown-menu {
@@ -72,12 +72,6 @@
   background-color: #001c0d;
   border-color: #000000;
 }
-
-/*
-???
-.navbar .wform {
-  max-height: 50px;
-}*/
 
 /* BODY -- lighter bacgkround and offset to prevent overlap with navbar */
 body {

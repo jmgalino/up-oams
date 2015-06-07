@@ -7,10 +7,10 @@
 
 <h3>
   Academic Programs
-  <?php if ($colleges AND $departments): ?>
+  <?php if ($colleges): ?>
   <button type="button" class="btn btn-default pull-right" id="newProgram" data-toggle="modal" data-target="#modal_program" url="<?php echo URL::site('admin/university/new/program'); ?>">Create</button>
   <?php else: ?>
-  <button type="button" class="btn btn-default pull-right" data-toggle="tooltip" data-placement="bottom" title="Requires college and department">Create</button>
+  <button type="button" class="btn btn-default pull-right" data-toggle="tooltip" data-placement="bottom" title="Requires college">Create</button>
   <?php endif; ?>
 </h3>
 <br>
@@ -33,7 +33,7 @@
 
 <?php
 // Add/Edit program form
-if ($colleges AND $departments) {
+if ($colleges) {
   echo View::factory('admin/university/form/program')
     ->bind('colleges', $colleges)
     ->bind('departments', $departments);

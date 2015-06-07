@@ -24,7 +24,7 @@
 <div class="alert alert-reminder alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
-		Don't forget to <strong>submit</strong>.
+		Don't forget to <strong>publish</strong>.
 	</p>
 </div>
 <?php endif; ?>

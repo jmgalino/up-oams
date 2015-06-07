@@ -8,7 +8,7 @@
 
 <h3>
 	<div class="row">
-		<div class="col-md-6">Announcements Archive</div>
+		<div class="col-md-6">Archived Announcements</div>
 		<div class="col-md-6">
 			<a class="btn btn-default pull-right" href="<?php echo $announcement_url; ?>" role="button">
 			<span class="glyphicon glyphicon-arrow-left"></span> Back</a>

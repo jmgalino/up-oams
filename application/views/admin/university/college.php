@@ -42,7 +42,7 @@ echo View::factory('admin/university/form/college')
 			<th>College</th>
 			<th>Initials</th>
 			<th>Dean</th>
-			<th class="action"></th>
+			<th class="action" width="25"></th>
 		</tr>
 	</thead>
 	<tbody>

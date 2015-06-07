@@ -3,27 +3,27 @@ function programDetails (d) {
     // `d` is the original data object for the row
     return '<table class="padded" style="font-size: 100%; margin-left:50px;">'+
         '<tr>'+
-            '<td>Department:</td>'+
+            '<td>Department</td>'+
             '<td>'+d.department+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Complete Name:</td>'+
+            '<td>Complete Name</td>'+
             '<td>'+d.program+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Initials:</td>'+
+            '<td>Initials</td>'+
             '<td>'+d.short+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Data Instituted:</td>'+
+            '<td>Data Instituted</td>'+
             '<td>'+d.date_instituted+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Vision:</td>'+
+            '<td>Vision</td>'+
             '<td>'+d.vision+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Goals:</td>'+
+            '<td>Goals</td>'+
             '<td>'+d.goals+'</td>'+
         '</tr>'+
     '</table>';

@@ -62,11 +62,11 @@ class Model_Opcr extends Model {
 		elseif ($strict)
 			$query->where('status', '=', 'Accepted');
 		else
-			$query->where('status', 'IN', array('Published', 'Pending', 'Accepted'));
+			$query->where('status', 'IN', array('Published', 'Pending', 'Returned', 'Accepted'));
 
 		if ($start AND $end)
 			$query->where('period_from', '>=', $start)->where('period_to', '<=', $end);
-			
+
 		$group_opcrs = $query
 				->order_by('period_from', 'DESC')
 				->order_by('period_to', 'DESC')

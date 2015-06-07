@@ -85,7 +85,7 @@ echo View::factory('faculty/cuma/form/initialize')
 				</li>
 				<li>
 					<a href="'.URL::site('faculty/cuma/update/'.$cuma['cuma_ID']).'">
-					<span class="glyphicon glyphicon-pencil"></span> Review Form</a>
+					<span class="glyphicon glyphicon-search"></span> Review Form</a>
 				</li>
 				<li>
 					<a id="deleteForm" href="'.URL::site('faculty/cuma/delete/'.$cuma['cuma_ID']).'">

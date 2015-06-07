@@ -2,18 +2,29 @@
 
 class Controller_Admin_Profile extends Controller_Admin {
 
+	private $user;
+
+	/**
+	 * Initialization of User_Model;
+	 */
+	public function before()
+	{
+		parent::before();
+
+		 $this->user = new Model_User;
+	}
+
 	/**
 	 * User Profiles
 	 */
 	public function action_index()
 	{
 		$univ = new Model_Univ;
-		$user = new Model_User;
 
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 		$employee_code = $this->session->get('employee_code');
-		$users = $user->get_users();
+		$users = $this->user->get_users();
 		$programs = $univ->get_programs();
 
 		$this->view->content = View::factory('admin/profile')
@@ -30,8 +41,6 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_new()
 	{
-		$user = new Model_User;
-		
 		$details = $this->request->post();
 		$details['birthday'] = date('Y-m-d', strtotime($details['birthday']));
 
@@ -43,10 +52,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 			$details['position'] = NULL;
 		}
 
-		$success = $user->add_user($details);
+		$success = $this->user->add_user($details);
 		$message = $details['first_name'].'\'s profile was successfully created.';
 		if ($success) $this->session->set('success', $message);
-		// else 
 		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
 	}
 
@@ -55,19 +63,15 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_view()
 	{
-		// if ($this->request->param('document'))
-		// 	$this->action_pdfviewer();
-
 		$accom = new Model_Accom;
 		$univ = new Model_Univ;
-		$user = new Model_User;
 
 		$upload = $this->session->get_once('upload');
 		$update = $this->session->get_once('update');
 		$success = $this->session->get_once('success');
 		$error = $this->session->get_once('error');
 
-		$user_details = $user->get_details(NULL, $this->request->param('type'));
+		$user_details = $this->user->get_details(NULL, $this->request->param('type'));
 		$accom_reports = $accom->get_faculty_accom($user_details['user_ID'], NULL, NULL, TRUE);
 		
 		if ($user_details)
@@ -76,7 +80,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 
 			if ($user_details['user_type'] == 'Faculty')
 			{
-				$education = $user->get_education($user_details['user_ID'], NULL);
+				$education = $this->user->get_education($user_details['user_ID'], NULL);
 				$program = $univ->get_program_details($user_details['program_ID']);
 				$user_details['program_short'] = $program['program_short'];
 
@@ -156,24 +160,28 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_update()
 	{
-		$user = new Model_User;
 		$univ_updated = TRUE;
 
-		$details = $this->request->post();
-		$details['birthday'] = date('Y-m-d', strtotime($details['birthday']));
+		$new_details = $this->request->post();
+		$old_details = $this->user->get_details(NULL, $new_details['employee_code']);
+ 		$new_details['birthday'] = date('Y-m-d', strtotime($new_details['birthday']));
 
-		if ($details['user_type'] == 'Admin')
+		if ($new_details['user_type'] == 'Admin')
 		{
-			$details['faculty_code'] = NULL;
-			$details['rank'] = NULL;
-			$details['program_ID'] = NULL;
-			$details['position'] = NULL;
+			$new_details['faculty_code'] = NULL;
+			$new_details['rank'] = NULL;
+			$new_details['program_ID'] = NULL;
+			$new_details['position'] = NULL;
 		}
+
+		// University update
+		elseif ($old_details['position'] != $new_details['position'])
+			$univ_updated = $this->update_univ($new_details);
  
-		$update_success = ($univ_updated ? $user->update_details($details) : FALSE);
+		$update_success = ($univ_updated == TRUE ? $this->user->update_details($new_details) : FALSE);
 		$this->session->set('success', $update_success);
 
-		$this->redirect('admin/profile/view/'.$details['employee_code'], 303);
+		$this->redirect('admin/profile/view/'.$new_details['employee_code'], 303);
 	}
 
 	/**
@@ -181,10 +189,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_new_education()
 	{
-		$user = new Model_User;
 		$details = $this->request->post();
 		$user_ID = $this->request->param('type');
-		$user_details = $user->get_details($user_ID, NULL);
+		$user_details = $this->user->get_details($user_ID, NULL);
 
 		$details['user_ID'] = $user_ID;
 		$details['date_obtained'] = ($details['continuing'] == '1' ? NULL : date('Y-m-d', strtotime($details['date_obtained'])));
@@ -218,7 +225,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 				break;
 		}
 
-        $add_success = $user->add_education($details);
+        $add_success = $this->user->add_education($details);
 		$this->session->set('success', $add_success);
 		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 	}
@@ -228,10 +235,9 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_update_education()
 	{
-		$user = new Model_User;
 		$details = $this->request->post();
 		$user_ID = $this->request->param('type');
-		$user_details = $user->get_details($user_ID, NULL);
+		$user_details = $this->user->get_details($user_ID, NULL);
 
 		$details['date_obtained'] = ($details['continuing'] == '1' ? NULL : date('Y-m-d', strtotime($details['date_obtained'])));
 		switch ($details['qualification']) {
@@ -264,7 +270,7 @@ class Controller_Admin_Profile extends Controller_Admin {
 				break;
 		}
 
-		$update_success = $user->update_education($details);
+		$update_success = $this->user->update_education($details);
 		if ($update_success) $this->session->set('success', $user_details['first_name'].'\'s educational background was successfully updated.');
 		else $this->session->set('success', $update_success);
 		$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
@@ -275,11 +281,9 @@ class Controller_Admin_Profile extends Controller_Admin {
      */
     public function action_upload()
     {
-        $user = new Model_User;
-        
-        $user_ID = $this->request->param('type');
-        $user_details = $user->get_details($user_ID, NULL);
-        $filename = NULL;
+		$user_ID = $this->request->param('type');
+		$user_details = $this->user->get_details($user_ID, NULL);
+		$filename = NULL;
  
         if ($this->request->method() == Request::POST)
         {
@@ -298,7 +302,7 @@ class Controller_Admin_Profile extends Controller_Admin {
             if($user_details['pic'])
                 unlink(DOCROOT.'files/upload_photos/'.$user_details['pic']);
 
-            $update_success = $user->update_details(array('user_ID'=>$user_ID, 'pic'=>$filename));
+            $update_success = $this->user->update_details(array('user_ID'=>$user_ID, 'pic'=>$filename));
             $success = ($update_success ? $user_details['first_name'].'\'s photo was successfully uploaded.' : FALSE);
             $this->session->set('success', $success);
             $this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
@@ -310,17 +314,15 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_reset()
 	{
-		$user = new Model_User;
-
 		$user_ID = $this->request->param('type');
-		$reset_success = $user->reset_password($user_ID);
+		$reset_success = $this->user->reset_password($user_ID);
 		$this->session->set('success', $reset_success);
 
 		$referrer = $this->request->referrer();
 		$view = strpos($referrer, 'view');
 		if ($view)
 		{
-			$user_details = $user->get_details($user_ID, NULL);
+			$user_details = $this->user->get_details($user_ID, NULL);
 			$this->redirect('admin/profile/view/'.$user_details['employee_code'], 303);
 		}
 		else
@@ -332,14 +334,68 @@ class Controller_Admin_Profile extends Controller_Admin {
 	 */
 	public function action_delete()
 	{
-		$user = new Model_User;
-		
-		$delete_success = $user->delete_profile($this->request->param('type'));
+		$delete_success = $this->user->delete_profile($this->request->param('type'));
 		$this->session->set('success', $delete_success);
 
 		$this->redirect('admin/profile', 303);
 	}
- 
+
+ 	/**
+	 * Update univ users
+	 */
+	private function update_univ(&$user_details)
+ 	{
+ 		$univ = new Model_Univ;
+
+		if ($user_details['position'] == 'none')
+		{
+			$univ_updated = TRUE;
+			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
+			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
+
+			if ($college_details AND $college_details['user_ID'] == $user_details['user_ID'])
+				$univ_updated = $univ->update_college(array('college_ID' => $college_details['college_ID'], 'user_ID' => NULL));
+			
+			elseif ($department_details AND $department_details['user_ID'] == $user_details['user_ID'])
+				$univ_updated = $univ->update_department(array('department_ID' => $department_details['department_ID'], 'user_ID' => NULL));
+
+			return $univ_updated;
+		}
+		elseif ($user_details['position'] == 'chair')
+		{
+			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
+			
+			// User's program doesn't belong to any department
+			// Thus, position can't be set to chair
+			if (!$department_details)
+			{
+				$user_details['position'] = 'none';
+				return FALSE;
+			}
+			elseif ($department_details['user_ID'] == $user_details['user_ID'])
+				return TRUE;
+			else
+			{
+				$user_updated = ($department_details['user_ID'] ? $this->user->update_details(array('user_ID' => $department_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
+				$department_updated = $univ->update_department(array('department_ID' => $department_details['department_ID'], 'user_ID' => $user_details['user_ID']));
+				return ($user_updated AND $department_updated);
+			}
+		}
+ 		elseif ($user_details['position'] == 'dean')
+		{
+			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
+
+			if ($college_details['user_ID'] == $user_details['user_ID'])
+				return TRUE;
+			else
+			{
+				$user_updated = ($college_details['user_ID'] ? $this->user->update_details(array('user_ID' => $college_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
+				$college_updated = $univ->update_college(array('college_ID' => $college_details['college_ID'], 'user_ID' => $user_details['user_ID']));
+				return ($user_updated AND $college_updated);
+			}
+		}
+ 	}
+
     /**
      * Save photo in local disk
      */

@@ -38,7 +38,7 @@
 	</p>
 </div>
 <?php elseif ($error OR $success === FALSE): ?>
-<div class="alert alert-success alert-dismissable">
+<div class="alert alert-danger alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<p class="text-center">
 		Something went wrong. Please try again.

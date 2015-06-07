@@ -124,7 +124,12 @@ class Model_User extends Model {
  			->execute();
 
 		// Profile update
- 		$success = ($profile_updated == 1 ? TRUE : ($profile_updated == 0 ? 'No changes were made.' : FALSE));
+ 		if ($profile_updated == 1)
+ 			$success = TRUE;
+ 		elseif ($profile_updated == 0)
+ 			$success = 'No changes were made.';
+ 		else
+ 			$success = FALSE;
 
  		// Login update
  		if (array_key_exists('employee_code', $new_details) AND $new_details['employee_code'] != $user_details['employee_code'])
@@ -136,13 +141,6 @@ class Model_User extends Model {
 
 	 		$success = ($login_updated ? $success : FALSE);
  		}
-
- 		// University update
-		if (array_key_exists('position', $new_details))
-		{
-			$univ_updated = $this->update_univ($new_details);
-			$success = ($univ_updated ? $success : FALSE);
-		}
 
  		if ($success === TRUE) return (array_key_exists('first_name', $new_details) ? $new_details['first_name'] : $user_details['first_name']).'\'s profile was successfully updated.';
  		else return $success;
@@ -305,55 +303,6 @@ class Model_User extends Model {
 
  		if ($profile_deleted == 1 AND $login_deleted == 1) return 'Profile was successfully deleted.';
  		else return FALSE;
- 	}
-
- 	/**
-	 * Update univ details
-	 */
-	private function update_univ($user_details)
- 	{
- 		$univ = new Model_Univ;
- 		$user = new Model_User;
-
-		if ($user_details['position'] == 'none')
-		{
-			$univ_updated = TRUE;
-			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
-			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']);
-
-			if ($college_details['user_ID'] == $user_details['user_ID'])
-				$univ_updated = $univ->update_college(array('college_ID' => $college_details['college_ID'], 'user_ID' => NULL));
-			
-			elseif ($department_details AND $department_details['user_ID'] == $user_details['user_ID'])
-				$univ_updated = $univ->update_department(array('department_ID' => $department_details['department_ID'], 'user_ID' => NULL));
-
-			return $univ_updated;
-		}
-		elseif ($user_details['position'] == 'chair')
-		{
-			$department_details = $univ->get_department_details(NULL, $user_details['program_ID']); echo Debug::vars($department_details);
-			
-			if ($department_details['user_ID'] == $user_details['user_ID'])
-				return TRUE;
-			else
-			{
-				$user_updated = ($department_details['user_ID'] ? $user->update_details(array('user_ID' => $department_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
-				$department_updated = $univ->update_department(array('department_ID'=>$department_details['department_ID'], 'user_ID' => $user_details['user_ID']));
-				return ($user_updated AND $department_updated);
-			}
-		}
- 		else if ($user_details['position'] == 'dean')
-		{
-			$college_details = $univ->get_college_details(NULL, $user_details['program_ID']);
-			if ($college_details['user_ID'] == $user_details['user_ID'])
-				return TRUE;
-			else
-			{
-				$user_updated = ($college_details['user_ID'] ? $user->update_details(array('user_ID' => $college_details['user_ID'], 'program_ID' => $user_details['program_ID'], 'position' => 'none')) : TRUE);
-				$college_updated = $univ->update_college(array('college_ID'=>$college_details['college_ID'], 'user_ID' => $user_details['user_ID']));
-				return ($user_updated AND $college_updated);
-			}
-		}
  	}
 	
 } // End User

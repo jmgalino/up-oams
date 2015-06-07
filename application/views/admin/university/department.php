@@ -8,7 +8,7 @@
 <h3>
 	Departments
 	<?php if ($colleges): ?>
-	<button type="button" class="btn btn-default pull-right" id="newDepartment" data-toggle="modal" data-target="#modal_department" url="'<?php echo URL::site('admin/university/new/department'); ?>'">Create</button>
+	<button type="button" class="btn btn-default pull-right" id="newDepartment" data-toggle="modal" data-target="#modal_department" url="<?php echo URL::site('admin/university/new/department'); ?>">Create</button>
 	<?php else: ?>
 	<button type="button" class="btn btn-default pull-right" data-toggle="tooltip" data-placement="bottom" title="Requires college">Create</button>
 	<?php endif; ?>
@@ -50,7 +50,7 @@ if ($colleges) {
 			<th>Department</th>
 			<th>Initials</th>
 			<th>Department Chair</th>
-			<th class="action"></th>
+			<th class="action" width="25"></th>
 		</tr>
 	</thead>
 	<tbody>

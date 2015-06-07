@@ -146,6 +146,9 @@ class Controller_Faculty_Ipcr extends Controller_Faculty {
 		$details['document'] = Request::factory('extras/mpdf/submit/ipcr/'.$ipcr_ID)->execute()->body;
 		$details['status'] = ($this->session->get('identifier') == 'faculty' ? 'Pending' : 'Saved');
 		$details['date_submitted'] = date('Y-m-d');
+
+		// Design better scheme: What if returned after rating?
+		// Current: If returned after rating, reverts back to "unrated" (but keeps the rating) and must be submitted twice
 		$details['version'] = ($ipcr_details['status'] == 'Accepted' ? 2 : 1);
 		
 		$submit_success = $this->ipcr->update($ipcr_ID, $details);

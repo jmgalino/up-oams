@@ -418,6 +418,9 @@ $(document).ready(function () {
 				}
 
 				$("#program-department").html(newOptions).prop("disabled", false);
+            },
+            error:function (options) {
+				$("#program-department").html("<option value=\"\">Not Applicable</option>").prop("disabled", true);
             }
         });
 	});

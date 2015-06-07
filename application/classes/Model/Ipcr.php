@@ -75,7 +75,7 @@ class Model_Ipcr extends Model {
 		$opcr_ipcrs = DB::select()
 			->from('ipcrtbl')
 			->where('opcr_ID', '=', $opcr_ID)
-			->where('status', 'IN', array('Accepted', 'Saved'))
+			->where('status', 'IN', array('Saved', 'Accepted'))
 			->execute()
 			->as_array();
 
