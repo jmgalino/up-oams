@@ -12,8 +12,8 @@
 
 		<div class="navbar-collapse collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li <?php if (Request::current()->controller() == 'Accom') echo 'class="active"'; ?>><a href=<?php echo URL::site('faculty/accom'); ?>>Accomplishment Report</a></li>
-				<li <?php if (Request::current()->controller() == 'Ipcr') echo 'class="active"'; ?>><a href=<?php echo URL::site('faculty/ipcr'); ?>>IPCR</a></li>
+				<li><a href=<?php echo URL::site('faculty/accom'); ?>>Accomplishment Report</a></li>
+				<li><a href=<?php echo URL::site('faculty/ipcr'); ?>>IPCR</a></li>
 				<li><a href="<?php echo URL::site('faculty/opcr/latest'); ?>">OPCR</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

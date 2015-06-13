@@ -1,3 +1,3 @@
 <h2>About</h2>
 
-<p><?php echo $about; ?></p>
+<p class="text-justify"><?php echo $about; ?></p>

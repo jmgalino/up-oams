@@ -1,6 +1,5 @@
 TO DO:
 - fix jedit cancel handler
-- fix update univ/user thing
 - cuma get data and include
 
 >> ACCOM
@@ -12,14 +11,6 @@ TO DO:
 - disable faculty_view_all if no approved
 - shorten long filenames for upload files (goes beyond modal)
 
-ADDITIONAL:
-- Notify submit/approve/reject/check
-- Flag announcements (keep on top)
-- Announcement attachments
-
-- (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon ajax
-- contact admin ajax validation
-
 ASSUMPTION:
 - No repetitive accomplishments
 - No program under DHK; No need for faculty & dept chair
@@ -28,6 +19,11 @@ ASSUMPTION:
 FURTHER ENHANCEMENT:
 - Add JS for form validation on Safari
 - Uploaded pictures to be cropped user (Facebook style)
+- Flag announcements (keep on top)
+- Notify submit/approve/reject/check
+- Announcement attachments
+- (admin) message pop up & read/star link on message pop up should not refresh the page but update table and/or icon ajax
+- contact admin ajax validation
 
 Rewrite:
 Accom

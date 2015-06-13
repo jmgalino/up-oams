@@ -9,6 +9,8 @@
 
       <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'profileForm', 'role'=>'form', 'ajax-url'=>URL::site('extras/ajax/unique/new_user'))); ?>
       <div class="modal-body">
+
+        <?php if ($programs): ?>
         <div class="radio">
           <label>
             <input type="radio" name="user_type" id="adminType" value="Admin" required>
@@ -21,6 +23,22 @@
             Faculty
           </label>
         </div>
+
+        <?php else: ?>
+        <div class="radio">
+          <label>
+            <input type="radio" name="user_type" value="Admin" checked required>
+            Administrator
+          </label>
+        </div>
+        <div class="radio disabled">
+          <label data-toggle="tooltip" data-placement="right" title="Requires academic program">
+            <input type="radio" name="user_type" id="facultyType" value="Faculty" disabled>
+            Faculty
+          </label>
+        </div>
+
+        <?php endif; ?>
         <hr>
         <?php echo View::factory('admin/profile/form/fragment')->bind('programs', $programs); ?>
       </div>

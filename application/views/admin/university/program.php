@@ -50,7 +50,7 @@ if ($colleges) {
 			<th>Academic Program</th>
 			<th>Initials</th>
       <th>Type</th>
-			<th class="action"></th>
+			<th class="action" width="25"></th>
       <th><!-- department --></th>
       <th><!-- program --></th>
       <th><!-- date_instituted --></th>

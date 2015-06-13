@@ -5,4 +5,6 @@
 </ol>
 
 <h3>About</h3>
-<p><?php echo $about; ?></p>
+<br>
+
+<p class="text-justify"><?php echo $about; ?></p>

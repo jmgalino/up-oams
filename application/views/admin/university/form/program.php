@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-       <h4 class="modal-title" id="myModalLabel">New Degree Program</h4>
+       <h4 class="modal-title" id="myModalLabel">New Academic Program</h4>
       </div>
 
       <?php print Form::open('', array('class'=>'form-horizontal', 'id'=>'programForm', 'role'=>'form', 'ajax-url'=>URL::site('extras/ajax/unique/new_program'))); ?>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group">
-          <label for="program-program-short" class="col-sm-3 control-label">Degree Program</label>
+          <label for="program-program-short" class="col-sm-3 control-label">Academic Program</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="program-program-short" name="program_short" required>
             <span class="help-block">Example: BS Computer Science</span>

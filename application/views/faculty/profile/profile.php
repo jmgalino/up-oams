@@ -67,7 +67,7 @@
 			<div class="col-xs-6"><?php echo $user['rank']; ?></div>
 		</div>
 		<div class="row details">
-			<div class="col-xs-6"><strong>Degree Program</strong></div>
+			<div class="col-xs-6"><strong>Academic Program</strong></div>
 			<div class="col-xs-6"><?php echo $user['program_short']; ?></div>
 		</div>
 		<div class="row details">

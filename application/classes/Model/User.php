@@ -100,14 +100,6 @@ class Model_User extends Model {
 		// User profile and login insert
 		$success = ($insert_profile[1] == 1 AND $insert_login[1] == 1 ? TRUE : FALSE);
 
-		// University update
-		if (array_key_exists('position', $user_details))
-		{
-			$user_details['user_ID'] = $insert_profile[0];
-			$univ_updated = $this->update_univ($user_details);
-			$success = ($univ_updated ? $success : FALSE);
-		}
-
 		return $success;
  	}
 

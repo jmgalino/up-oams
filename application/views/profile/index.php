@@ -1,6 +1,6 @@
 <div class="jumbotron">
 	<h1><?php echo $title; ?></h1>
-	<a class="btn btn-primary btn-lg" role="button" href=<?php echo URL::site('site/about'); ?>>Learn more</a>
+	<a class="btn btn-primary btn-lg" role="button" href="<?php echo URL::site($identifier.'/about'); ?>">Learn more</a>
 </div>
 
 <?php if ($announcements): ?>

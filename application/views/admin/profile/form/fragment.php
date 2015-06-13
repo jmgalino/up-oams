@@ -57,6 +57,7 @@
 </div>
 <br>
 
+<?php if ($programs): ?>
 <div class="form-group" style="display:none;">
   <label for="fcode" class="col-sm-4 control-label">Average<br>SATE Scores</label>
   <div class="col-sm-7">
@@ -115,5 +116,6 @@
       <option value="chair">Department Chair</option>
       <option value="none">Not Applicable</option>
     </select>
+  </div>
 </div>
-</div>
+<?php endif; ?>

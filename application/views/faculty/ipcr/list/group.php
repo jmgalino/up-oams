@@ -40,7 +40,7 @@ echo View::factory($consolidate_form)
 			<th></th>
 			<th>Period</th>
 			<th>Faculty</th>
-			<th>Degree Program</th>
+			<th>Academic Program</th>
 			<th>Date Submitted</td>
 			<th>Status</th>
 			<th>Remarks</th>

@@ -41,7 +41,7 @@ echo View::factory('faculty/accom/form/consolidate')
 		<tr>
 			<th>Period</th>
 			<th>Faculty</th>
-			<th>Degree Program</th>
+			<th>Academic Program</th>
 			<th>Date Submitted</th>
 			<th>Status</th>
 			<th>Remarks</th>
